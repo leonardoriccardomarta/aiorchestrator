@@ -121,8 +121,27 @@ const authenticateToken = async (req, res, next) => {
 
 // Security middleware
 app.use(helmet());
+
+// CORS configuration - allow frontend URLs
+const allowedOrigins = [
+  'http://localhost:5176',
+  'http://localhost:5173', 
+  'http://localhost:5177',
+  process.env.FRONTEND_URL, // Production frontend URL
+].filter(Boolean); // Remove undefined values
+
 app.use(cors({
-  origin: ['http://localhost:5176', 'http://localhost:5173', 'http://localhost:5177'],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.warn(`⚠️  CORS blocked origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
