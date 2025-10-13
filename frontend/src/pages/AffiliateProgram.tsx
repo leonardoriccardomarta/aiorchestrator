@@ -187,7 +187,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
 
   const loadAffiliateStats = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/affiliate/stats', {
+      const response = await fetch(`${API_URL}/api/affiliate/stats`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
@@ -223,7 +223,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/affiliate/register', {
+      const response = await fetch(`${API_URL}/api/affiliate/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

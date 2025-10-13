@@ -60,7 +60,7 @@ const ChatbotManagement: React.FC = () => {
   const fetchChatbots = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_URL}/api/chatbots', {
+      const response = await fetch(`${API_URL}/api/chatbots`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
