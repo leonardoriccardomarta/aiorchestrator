@@ -44,6 +44,20 @@ class RealDataService {
       take: 100
     });
   }
+
+  async getUserStats(userId) {
+    // Return mock stats for now
+    return {
+      monthlyConversations: 0,
+      totalChatbots: 0,
+      totalConnections: 0
+    };
+  }
+
+  getConnections(userId) {
+    // Return empty array for now (synchronous mock)
+    return [];
+  }
 }
 
 module.exports = RealDataService;
