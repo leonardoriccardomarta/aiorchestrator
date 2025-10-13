@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config/constants';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { useChatbot } from '../contexts/ChatbotContext';
@@ -120,8 +121,8 @@ const Dashboard: React.FC = () => {
       
       // Fetch real dashboard data from API (filtered by selected chatbot)
       const url = selectedChatbotId 
-        ? `http://localhost:4000/api/dashboard/stats?chatbotId=${selectedChatbotId}`
-        : 'http://localhost:4000/api/dashboard/stats';
+        ? `${API_URL}/api/dashboard/stats?chatbotId=${selectedChatbotId}`
+        : `${API_URL}/api/dashboard/stats`;
       
       const response = await fetch(url, {
         headers: {
@@ -168,7 +169,7 @@ const Dashboard: React.FC = () => {
       }
 
       // Fetch real recent activity from API
-      const activityResponse = await fetch('http://localhost:4000/api/dashboard/activity', {
+      const activityResponse = await fetch(`${API_URL}/api/dashboard/activity`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }

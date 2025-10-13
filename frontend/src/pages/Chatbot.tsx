@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config/constants';
 import { 
   Bot, 
   MessageSquare, 
@@ -60,7 +61,7 @@ const Chatbot: React.FC = () => {
 
   const createDefaultChatbot = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/chatbots', {
+      const response = await fetch(`${API_URL}/api/chatbots`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -185,7 +186,7 @@ const Chatbot: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:4000/api/chat', {
+      const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -527,7 +528,7 @@ const Chatbot: React.FC = () => {
                         <button onClick={async () => { 
                           if(!currentChatbotId) { alert('No chatbot to delete'); return; }
                           try {
-                            const res = await fetch(`http://localhost:4000/api/chatbots/${currentChatbotId}`, {
+                            const res = await fetch(`${API_URL}/api/chatbots/${currentChatbotId}`, {
                               method: 'DELETE',
                               headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
                             });
@@ -797,7 +798,7 @@ const Chatbot: React.FC = () => {
 <script 
   src="https://yourdomain.com/chatbot-widget.js"
   data-chatbot-id="${currentChatbotId}"
-  data-api-url="http://localhost:4000"
+  data-api-url="${API_URL}"
 ></script>` : 'Loading chatbot...'}
                   </code>
                 </div>
@@ -807,7 +808,7 @@ const Chatbot: React.FC = () => {
 <script 
   src="https://yourdomain.com/chatbot-widget.js"
   data-chatbot-id="${currentChatbotId}"
-  data-api-url="http://localhost:4000"
+  data-api-url="${API_URL}"
 ></script>` : 'No chatbot available';
                     navigator.clipboard.writeText(code).then(() => alert('Copied to clipboard!')).catch(() => alert('Copy failed'));
                   }} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
@@ -874,7 +875,7 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      src={`http://localhost:4000/public/embed/${currentChatbotId}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}`}
                       className="w-full h-[500px] border-0"
                       title="Live Chatbot Preview"
                     />

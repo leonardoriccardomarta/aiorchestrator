@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { API_URL } from '../config/constants';
 import { 
   MessageCircle, 
   X, 
@@ -161,7 +162,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
     setIsTyping(true);
 
     try {
-      const response = await fetch('http://localhost:4000/api/chat', {
+      const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -516,7 +517,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
     setIsTyping(true);
 
     try {
-      const response = await fetch('http://localhost:4000/api/chat', {
+      const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

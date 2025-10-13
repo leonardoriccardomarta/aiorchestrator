@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config/constants';
 import { 
   BarChart3, 
   TrendingUp, 
@@ -78,8 +79,8 @@ const Analytics: React.FC = () => {
       
       // REAL API call - filtered by chatbot
       const url = selectedChatbotId 
-        ? `http://localhost:4000/api/analytics?range=${timeRange}&chatbotId=${selectedChatbotId}`
-        : `http://localhost:4000/api/analytics?range=${timeRange}`;
+        ? `${API_URL}/api/analytics?range=${timeRange}&chatbotId=${selectedChatbotId}`
+        : `${API_URL}/api/analytics?range=${timeRange}`;
       
       const response = await fetch(url, {
         headers: {

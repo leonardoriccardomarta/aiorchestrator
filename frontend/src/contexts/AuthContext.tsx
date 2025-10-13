@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import { API_URL } from '../config/constants';
 
 interface User {
   id: string;
@@ -119,7 +120,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       // Try to connect to backend first
       try {
-        const response = await fetch('http://localhost:4000/api/auth/login', {
+        const response = await fetch(`${API_URL}/api/auth/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -167,7 +168,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       // Try to connect to backend first
       try {
-        const response = await fetch('http://localhost:4000/api/auth/register', {
+        const response = await fetch(`${API_URL}/api/auth/register`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -215,7 +216,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const token = localStorage.getItem('authToken');
       if (!token) return;
 
-      const response = await fetch('http://localhost:4000/api/dashboard/stats', {
+      const response = await fetch(`${API_URL}/api/dashboard/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

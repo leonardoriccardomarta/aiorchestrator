@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL, FRONTEND_URL } from '../config/constants';
 import { useNavigate } from 'react-router-dom';
 import {
   DollarSign,
@@ -55,7 +56,7 @@ const AffiliateDashboard: React.FC = () => {
 
   const loadAffiliateStats = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/affiliate/stats', {
+      const response = await fetch(`${API_URL}/api/affiliate/stats`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
@@ -78,7 +79,7 @@ const AffiliateDashboard: React.FC = () => {
 
   const registerAsAffiliate = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/affiliate/register', {
+      const response = await fetch(`${API_URL}/api/affiliate/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -105,7 +106,7 @@ const AffiliateDashboard: React.FC = () => {
   };
 
   const copyReferralLink = () => {
-    const link = `http://localhost:5176/?ref=${stats?.affiliateCode}`;
+    const link = `${FRONTEND_URL}/?ref=${stats?.affiliateCode}`;
     navigator.clipboard.writeText(link);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -115,7 +116,7 @@ const AffiliateDashboard: React.FC = () => {
     if (!stats?.canRequestPayout) return;
 
     try {
-      const response = await fetch('http://localhost:4000/api/affiliate/payout', {
+      const response = await fetch(`${API_URL}/api/affiliate/payout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -221,7 +222,7 @@ const AffiliateDashboard: React.FC = () => {
     ? ((stats.convertedReferrals / stats.totalReferrals) * 100).toFixed(1)
     : '0';
 
-  const referralLink = `http://localhost:5176/?ref=${stats.affiliateCode}`;
+  const referralLink = `${FRONTEND_URL}/?ref=${stats.affiliateCode}`;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">

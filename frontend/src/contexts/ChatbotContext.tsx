@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { API_URL } from '../config/constants';
 
 interface Chatbot {
   id: string;
@@ -54,7 +55,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
         return;
       }
 
-      const response = await fetch('http://localhost:4000/api/chatbots', {
+      const response = await fetch(`${API_URL}/api/chatbots`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -92,7 +93,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
   const createChatbot = async (data: Partial<Chatbot>): Promise<Chatbot | null> => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch('http://localhost:4000/api/chatbots', {
+      const response = await fetch(`${API_URL}/api/chatbots`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -125,7 +126,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
   const updateChatbot = async (chatbotId: string, data: Partial<Chatbot>): Promise<boolean> => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch(`http://localhost:4000/api/chatbots/${chatbotId}`, {
+      const response = await fetch(`${API_URL}/api/chatbots/${chatbotId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -149,7 +150,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
   const deleteChatbot = async (chatbotId: string): Promise<boolean> => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch(`http://localhost:4000/api/chatbots/${chatbotId}`, {
+      const response = await fetch(`${API_URL}/api/chatbots/${chatbotId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

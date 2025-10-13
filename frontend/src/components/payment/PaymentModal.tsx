@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_URL } from '../../config/constants';
 import { X, CreditCard, CheckCircle, Loader2 } from 'lucide-react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
@@ -53,7 +54,7 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
 
     try {
       // Subscribe to plan
-      const response = await fetch('http://localhost:4000/api/payments/subscribe', {
+      const response = await fetch(`${API_URL}/api/payments/subscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -323,7 +324,7 @@ const PayPalPaymentButton: React.FC<{ plan: PaymentModalProps['plan']; onSuccess
       style={{ layout: 'vertical', label: 'subscribe' }}
       createSubscription={async (data, actions) => {
         try {
-          const response = await fetch('http://localhost:4000/api/payments/paypal/create-subscription', {
+          const response = await fetch(`${API_URL}/api/payments/paypal/create-subscription`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -348,7 +349,7 @@ const PayPalPaymentButton: React.FC<{ plan: PaymentModalProps['plan']; onSuccess
       }}
       onApprove={async (data, actions) => {
         try {
-          const response = await fetch('http://localhost:4000/api/payments/paypal/confirm-subscription', {
+          const response = await fetch(`${API_URL}/api/payments/paypal/confirm-subscription`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

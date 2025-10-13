@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { API_URL } from '../config/constants';
 
 interface UserState {
   id: string;
@@ -71,7 +72,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const token = localStorage.getItem('authToken');
       if (!token) return;
 
-      const response = await fetch('http://localhost:4000/api/user/profile', {
+      const response = await fetch(`${API_URL}/api/user/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

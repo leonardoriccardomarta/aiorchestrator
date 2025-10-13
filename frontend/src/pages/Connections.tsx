@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config/constants';
 import { 
   ShoppingCart, 
   Globe, 
@@ -76,8 +77,8 @@ const Connections: React.FC = () => {
       setLoading(true);
       // Filter by selected chatbot
       const url = selectedChatbotId 
-        ? `http://localhost:4000/api/connections?chatbotId=${selectedChatbotId}`
-        : 'http://localhost:4000/api/connections';
+        ? `${API_URL}/api/connections?chatbotId=${selectedChatbotId}`
+        : `${API_URL}/api/connections`;
       
       const response = await fetch(url, {
         headers: {
@@ -102,7 +103,7 @@ const Connections: React.FC = () => {
 
   const connectStore = async (type: string, credentials: any) => {
     try {
-      const response = await fetch('http://localhost:4000/api/connections/connect', {
+      const response = await fetch(`${API_URL}/api/connections/connect`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -126,7 +127,7 @@ const Connections: React.FC = () => {
 
   const syncConnection = async (connectionId: string) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/connections/${connectionId}/sync`, {
+      const response = await fetch(`${API_URL}/api/connections/${connectionId}/sync`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
@@ -143,7 +144,7 @@ const Connections: React.FC = () => {
 
   const disconnectStore = async (connectionId: string) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/connections/${connectionId}`, {
+      const response = await fetch(`${API_URL}/api/connections/${connectionId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
