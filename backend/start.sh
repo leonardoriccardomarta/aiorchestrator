@@ -2,13 +2,13 @@
 # Startup script for Digital Ocean App Platform
 # This runs AFTER build, when environment variables are available
 
-echo "🔄 Running database migrations..."
-npx prisma migrate deploy
+echo "🔄 Pushing database schema..."
+npx prisma db push --accept-data-loss --skip-generate
 
 if [ $? -eq 0 ]; then
-  echo "✅ Migrations completed successfully"
+  echo "✅ Database schema applied successfully"
 else
-  echo "❌ Migrations failed"
+  echo "❌ Database schema push failed"
   exit 1
 fi
 
