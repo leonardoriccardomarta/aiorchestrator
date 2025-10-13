@@ -63,12 +63,19 @@ const {
 } = require('./middleware/errorHandler');
 const AuthService = require('./real-auth-system');
 const RealDataService = require('./real-data-service');
+const PlanService = require('./src/services/planService');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+// Trust proxy - required for Digital Ocean App Platform
+app.set('trust proxy', true);
+
 // Initialize AI Service
 const aiService = new HybridAIService();
+
+// Initialize Plan Service
+const planService = new PlanService();
 
 // Initialize ML Service (Full Machine Learning Suite)
 const mlService = new MLService();
