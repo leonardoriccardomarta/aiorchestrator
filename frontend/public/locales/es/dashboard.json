@@ -1,0 +1,61 @@
+{
+  "title": "Panel de Control",
+  "overview": "Resumen",
+  "welcome": "Bienvenido de vuelta",
+  "quickActions": "Acciones Rápidas",
+  "recentActivity": "Actividad Reciente",
+  "stats": {
+    "totalChatbots": "Total de Chatbots",
+    "activeChatbots": "Chatbots Activos",
+    "totalMessages": "Total de Mensajes",
+    "totalUsers": "Total de Usuarios",
+    "totalProjects": "Total de Proyectos",
+    "totalWorkflows": "Total de Flujos de Trabajo",
+    "responseTime": "Tiempo de Respuesta Promedio",
+    "satisfaction": "Tasa de Satisfacción",
+    "conversations": "Conversaciones",
+    "resolved": "Resueltas",
+    "pending": "Pendientes",
+    "failed": "Fallidas"
+  },
+  "charts": {
+    "messagesOverTime": "Mensajes a lo Largo del Tiempo",
+    "userActivity": "Actividad de Usuarios",
+    "performance": "Métricas de Rendimiento",
+    "usage": "Estadísticas de Uso",
+    "trends": "Tendencias",
+    "comparison": "Comparación"
+  },
+  "widgets": {
+    "chatbotStatus": "Estado del Chatbot",
+    "messageQueue": "Cola de Mensajes",
+    "systemHealth": "Salud del Sistema",
+    "alerts": "Alertas Recientes",
+    "notifications": "Notificaciones",
+    "updates": "Actualizaciones del Sistema"
+  },
+  "actions": {
+    "createChatbot": "Crear Chatbot",
+    "viewAnalytics": "Ver Analíticas",
+    "manageUsers": "Gestionar Usuarios",
+    "configureSettings": "Configurar Ajustes",
+    "exportData": "Exportar Datos",
+    "importData": "Importar Datos"
+  },
+  "status": {
+    "online": "En Línea",
+    "offline": "Desconectado",
+    "maintenance": "Mantenimiento",
+    "error": "Error",
+    "warning": "Advertencia",
+    "healthy": "Saludable"
+  },
+  "metrics": {
+    "messagesPerHour": "Mensajes/Hora",
+    "activeUsers": "Usuarios Activos",
+    "responseRate": "Tasa de Respuesta",
+    "accuracy": "Precisión",
+    "efficiency": "Eficiencia",
+    "uptime": "Tiempo de Actividad"
+  }
+}

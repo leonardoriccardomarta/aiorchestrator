@@ -1,0 +1,212 @@
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+
+interface Chatbot {
+  id: string;
+  name: string;
+  description?: string;
+  welcomeMessage?: string;
+  language?: string;
+  settings?: any;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface ChatbotContextType {
+  chatbots: Chatbot[];
+  selectedChatbot: Chatbot | null;
+  selectedChatbotId: string | null;
+  loading: boolean;
+  selectChatbot: (chatbotId: string) => void;
+  loadChatbots: () => Promise<void>;
+  createChatbot: (data: Partial<Chatbot>) => Promise<Chatbot | null>;
+  updateChatbot: (chatbotId: string, data: Partial<Chatbot>) => Promise<boolean>;
+  deleteChatbot: (chatbotId: string) => Promise<boolean>;
+}
+
+const ChatbotContext = createContext<ChatbotContextType | undefined>(undefined);
+
+export const useChatbot = () => {
+  const context = useContext(ChatbotContext);
+  if (!context) {
+    throw new Error('useChatbot must be used within ChatbotProvider');
+  }
+  return context;
+};
+
+interface ChatbotProviderProps {
+  children: ReactNode;
+}
+
+export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) => {
+  const [chatbots, setChatbots] = useState<Chatbot[]>([]);
+  const [selectedChatbotId, setSelectedChatbotId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const selectedChatbot = chatbots.find(c => c.id === selectedChatbotId) || null;
+
+  const loadChatbots = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        console.log('No auth token, skipping chatbot load');
+        setLoading(false);
+        return;
+      }
+
+      const response = await fetch('http://localhost:4000/api/chatbots', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (!response.ok) {
+        console.error('Failed to load chatbots:', response.status);
+        setChatbots([]);
+        setLoading(false);
+        return;
+      }
+
+      const data = await response.json();
+      const loadedChatbots = data?.data || [];
+      setChatbots(loadedChatbots);
+
+      // Auto-select first chatbot if none selected
+      if (loadedChatbots.length > 0 && !selectedChatbotId) {
+        setSelectedChatbotId(loadedChatbots[0].id);
+      } else if (loadedChatbots.length === 0) {
+        setSelectedChatbotId(null);
+      }
+
+      setLoading(false);
+    } catch (error) {
+      console.error('Error loading chatbots:', error);
+      setChatbots([]);
+      setLoading(false);
+    }
+  };
+
+  const selectChatbot = (chatbotId: string) => {
+    setSelectedChatbotId(chatbotId);
+    localStorage.setItem('selectedChatbotId', chatbotId);
+  };
+
+  const createChatbot = async (data: Partial<Chatbot>): Promise<Chatbot | null> => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch('http://localhost:4000/api/chatbots', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name: data.name || 'My AI Assistant',
+          description: data.description || 'Your personal AI assistant',
+          settings: data.settings || {
+            language: 'auto',
+            personality: 'professional',
+            welcomeMessage: data.welcomeMessage || "Hello! I'm your AI assistant. How can I help you today?"
+          }
+        })
+      });
+
+      const result = await response.json();
+      if (result.success && result.data) {
+        await loadChatbots(); // Reload to get updated list
+        setSelectedChatbotId(result.data.id); // Auto-select new chatbot
+        return result.data;
+      }
+      return null;
+    } catch (error) {
+      console.error('Error creating chatbot:', error);
+      return null;
+    }
+  };
+
+  const updateChatbot = async (chatbotId: string, data: Partial<Chatbot>): Promise<boolean> => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`http://localhost:4000/api/chatbots/${chatbotId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        await loadChatbots(); // Reload to get updated data
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Error updating chatbot:', error);
+      return false;
+    }
+  };
+
+  const deleteChatbot = async (chatbotId: string): Promise<boolean> => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`http://localhost:4000/api/chatbots/${chatbotId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        await loadChatbots(); // Reload to get updated list
+        // If deleted chatbot was selected, select first available or null
+        if (selectedChatbotId === chatbotId) {
+          const remaining = chatbots.filter(c => c.id !== chatbotId);
+          setSelectedChatbotId(remaining.length > 0 ? remaining[0].id : null);
+        }
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Error deleting chatbot:', error);
+      return false;
+    }
+  };
+
+  // Load chatbots on mount
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      loadChatbots();
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  // Restore selected chatbot from localStorage
+  useEffect(() => {
+    const savedChatbotId = localStorage.getItem('selectedChatbotId');
+    if (savedChatbotId && chatbots.find(c => c.id === savedChatbotId)) {
+      setSelectedChatbotId(savedChatbotId);
+    }
+  }, [chatbots]);
+
+  const value: ChatbotContextType = {
+    chatbots,
+    selectedChatbot,
+    selectedChatbotId,
+    loading,
+    selectChatbot,
+    loadChatbots,
+    createChatbot,
+    updateChatbot,
+    deleteChatbot
+  };
+
+  return (
+    <ChatbotContext.Provider value={value}>
+      {children}
+    </ChatbotContext.Provider>
+  );
+};
+
+export default ChatbotContext;
+

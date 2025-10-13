@@ -1,0 +1,8 @@
+{
+  "title": "AI Chatbot",
+  "placeholder": "Type your message...",
+  "send": "Send",
+  "clear": "Clear",
+  "loading": "Thinking...",
+  "error": "An error occurred. Please try again."
+} 

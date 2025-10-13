@@ -1,0 +1,124 @@
+{
+  "title": "Chatbot",
+  "chatbots": "Chatbots",
+  "create": "Create Chatbot",
+  "edit": "Edit Chatbot",
+  "delete": "Delete Chatbot",
+  "duplicate": "Duplicate Chatbot",
+  "configure": "Configure",
+  "train": "Train",
+  "test": "Test",
+  "deploy": "Deploy",
+  "publish": "Publish",
+  "unpublish": "Unpublish",
+  "archive": "Archive",
+  "restore": "Restore",
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "draft": "Draft",
+    "training": "Training",
+    "deployed": "Deployed",
+    "archived": "Archived",
+    "error": "Error"
+  },
+  "settings": {
+    "general": "General Settings",
+    "appearance": "Appearance",
+    "behavior": "Behavior",
+    "responses": "Responses",
+    "integrations": "Integrations",
+    "analytics": "Analytics",
+    "security": "Security"
+  },
+  "appearance": {
+    "theme": "Theme",
+    "colors": "Colors",
+    "logo": "Logo",
+    "avatar": "Avatar",
+    "font": "Font",
+    "size": "Size",
+    "position": "Position",
+    "customCSS": "Custom CSS"
+  },
+  "behavior": {
+    "greeting": "Greeting Message",
+    "farewell": "Farewell Message",
+    "typingIndicator": "Typing Indicator",
+    "autoResponse": "Auto Response",
+    "delay": "Response Delay",
+    "retry": "Retry Attempts",
+    "timeout": "Timeout"
+  },
+  "responses": {
+    "quickReplies": "Quick Replies",
+    "buttons": "Buttons",
+    "cards": "Cards",
+    "images": "Images",
+    "videos": "Videos",
+    "files": "Files",
+    "templates": "Templates"
+  },
+  "integrations": {
+    "api": "API Integration",
+    "webhook": "Webhook",
+    "database": "Database",
+    "crm": "CRM",
+    "email": "Email",
+    "sms": "SMS",
+    "social": "Social Media"
+  },
+  "analytics": {
+    "conversations": "Conversations",
+    "messages": "Messages",
+    "users": "Users",
+    "satisfaction": "Satisfaction",
+    "responseTime": "Response Time",
+    "popularTopics": "Popular Topics",
+    "fallbacks": "Fallbacks"
+  },
+  "training": {
+    "intents": "Intents",
+    "entities": "Entities",
+    "utterances": "Utterances",
+    "responses": "Responses",
+    "contexts": "Contexts",
+    "trainingData": "Training Data",
+    "model": "Model"
+  },
+  "testing": {
+    "testChat": "Test Chat",
+    "simulate": "Simulate User",
+    "scenarios": "Test Scenarios",
+    "accuracy": "Accuracy Test",
+    "performance": "Performance Test",
+    "loadTest": "Load Test"
+  },
+  "deployment": {
+    "environment": "Environment",
+    "production": "Production",
+    "staging": "Staging",
+    "development": "Development",
+    "version": "Version",
+    "rollback": "Rollback",
+    "monitoring": "Monitoring"
+  },
+  "messages": {
+    "welcome": "Welcome! How can I help you today?",
+    "goodbye": "Thank you for chatting with us!",
+    "typing": "Typing...",
+    "offline": "Sorry, I'm currently offline",
+    "error": "Sorry, I encountered an error",
+    "notUnderstood": "I didn't understand that. Could you rephrase?",
+    "fallback": "I'm not sure how to help with that. Let me connect you to a human agent."
+  },
+  "actions": {
+    "startConversation": "Start Conversation",
+    "endConversation": "End Conversation",
+    "transferToHuman": "Transfer to Human",
+    "sendMessage": "Send Message",
+    "uploadFile": "Upload File",
+    "shareLocation": "Share Location",
+    "bookAppointment": "Book Appointment"
+  }
+}

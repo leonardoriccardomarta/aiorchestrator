@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "complete-api-server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "complete-api-server.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}

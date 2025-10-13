@@ -1,0 +1,130 @@
+{
+  "app": {
+    "name": "AI Orchestrator",
+    "tagline": "Intelligent Chatbot Platform",
+    "version": "1.0.0"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "chatbots": "Chatbots",
+    "analytics": "Analytics",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout",
+    "help": "Help",
+    "support": "Support"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "update": "Update",
+    "submit": "Submit",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "open": "Open",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "refresh": "Refresh",
+    "export": "Export",
+    "import": "Import",
+    "download": "Download",
+    "upload": "Upload"
+  },
+  "status": {
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Information",
+    "pending": "Pending",
+    "active": "Active",
+    "inactive": "Inactive",
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "messages": {
+    "welcome": "Welcome to AI Orchestrator",
+    "noData": "No data available",
+    "noResults": "No results found",
+    "tryAgain": "Please try again",
+    "connectionError": "Connection error. Please check your internet connection.",
+    "serverError": "Server error. Please try again later.",
+    "unauthorized": "You are not authorized to perform this action.",
+    "forbidden": "Access denied.",
+    "notFound": "Page not found.",
+    "timeout": "Request timeout. Please try again."
+  },
+  "time": {
+    "now": "Now",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
+    "thisWeek": "This Week",
+    "lastWeek": "Last Week",
+    "thisMonth": "This Month",
+    "lastMonth": "Last Month",
+    "thisYear": "This Year",
+    "lastYear": "Last Year"
+  },
+  "units": {
+    "items": "items",
+    "item": "item",
+    "messages": "messages",
+    "message": "message",
+    "users": "users",
+    "user": "user",
+    "sessions": "sessions",
+    "session": "session",
+    "minutes": "minutes",
+    "minute": "minute",
+    "hours": "hours",
+    "hour": "hour",
+    "days": "days",
+    "day": "day"
+  },
+  "form": {
+    "required": "This field is required",
+    "invalid": "Invalid input",
+    "email": "Please enter a valid email address",
+    "password": "Password must be at least 8 characters",
+    "confirmPassword": "Passwords do not match",
+    "minLength": "Minimum {{count}} characters required",
+    "maxLength": "Maximum {{count}} characters allowed",
+    "minValue": "Minimum value is {{value}}",
+    "maxValue": "Maximum value is {{value}}"
+  },
+  "pagination": {
+    "page": "Page",
+    "of": "of",
+    "showing": "Showing",
+    "to": "to",
+    "entries": "entries",
+    "perPage": "per page",
+    "first": "First",
+    "last": "Last",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "filters": {
+    "all": "All",
+    "none": "None",
+    "selectAll": "Select All",
+    "clearAll": "Clear All",
+    "apply": "Apply Filters",
+    "reset": "Reset Filters"
+  },
+  "modals": {
+    "confirmDelete": "Are you sure you want to delete this item?",
+    "confirmAction": "Are you sure you want to perform this action?",
+    "unsavedChanges": "You have unsaved changes. Are you sure you want to leave?",
+    "deleteWarning": "This action cannot be undone.",
+    "cancelWarning": "All unsaved changes will be lost."
+  }
+}

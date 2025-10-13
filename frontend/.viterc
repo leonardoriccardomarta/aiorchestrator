@@ -1,0 +1,18 @@
+# Vite configuration to prevent file corruption
+# Disable hot module replacement
+HMR=false
+
+# Disable fast refresh
+FAST_REFRESH=false
+
+# Disable automatic formatting
+FORMAT_ON_SAVE=false
+
+# Disable file watching for certain patterns
+WATCH_IGNORE=node_modules,dist,.git,coverage,cypress,.vscode,.idea
+
+# Use polling for file watching (more stable on Windows)
+USE_POLLING=false
+
+# Disable source maps in development
+DEV_SOURCEMAP=false

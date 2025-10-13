@@ -1,0 +1,61 @@
+{
+  "title": "Dashboard",
+  "overview": "Overview",
+  "welcome": "Welcome back",
+  "quickActions": "Quick Actions",
+  "recentActivity": "Recent Activity",
+  "stats": {
+    "totalChatbots": "Total Chatbots",
+    "activeChatbots": "Active Chatbots",
+    "totalMessages": "Total Messages",
+    "totalUsers": "Total Users",
+    "totalProjects": "Total Projects",
+    "totalWorkflows": "Total Workflows",
+    "responseTime": "Avg Response Time",
+    "satisfaction": "Satisfaction Rate",
+    "conversations": "Conversations",
+    "resolved": "Resolved",
+    "pending": "Pending",
+    "failed": "Failed"
+  },
+  "charts": {
+    "messagesOverTime": "Messages Over Time",
+    "userActivity": "User Activity",
+    "performance": "Performance Metrics",
+    "usage": "Usage Statistics",
+    "trends": "Trends",
+    "comparison": "Comparison"
+  },
+  "widgets": {
+    "chatbotStatus": "Chatbot Status",
+    "messageQueue": "Message Queue",
+    "systemHealth": "System Health",
+    "alerts": "Recent Alerts",
+    "notifications": "Notifications",
+    "updates": "System Updates"
+  },
+  "actions": {
+    "createChatbot": "Create Chatbot",
+    "viewAnalytics": "View Analytics",
+    "manageUsers": "Manage Users",
+    "configureSettings": "Configure Settings",
+    "exportData": "Export Data",
+    "importData": "Import Data"
+  },
+  "status": {
+    "online": "Online",
+    "offline": "Offline",
+    "maintenance": "Maintenance",
+    "error": "Error",
+    "warning": "Warning",
+    "healthy": "Healthy"
+  },
+  "metrics": {
+    "messagesPerHour": "Messages/Hour",
+    "activeUsers": "Active Users",
+    "responseRate": "Response Rate",
+    "accuracy": "Accuracy",
+    "efficiency": "Efficiency",
+    "uptime": "Uptime"
+  }
+}

@@ -1,0 +1,596 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Uncomment for SQLite (local development only):
+// datasource db {
+//   provider = "sqlite"
+//   url      = env("DATABASE_URL")
+// }
+
+// Multi-tenant support
+model Tenant {
+  id          String   @id @default(cuid())
+  name        String
+  domain      String?  @unique
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  users       User[]
+  chatbots    Chatbot[]
+  subscriptions Subscription[]
+  faqs        FAQ[]
+  analytics   Analytics[]
+  webhooks    Webhook[]
+  payments    Payment[]
+  invoices    Invoice[]
+  connections Connection[]
+  orders      Order[]
+  agents      Agent[]
+
+  @@map("tenants")
+}
+
+// User management with multi-tenancy
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  firstName         String
+  lastName          String
+  password          String
+  isActive          Boolean  @default(true)
+  isVerified        Boolean  @default(false)
+  emailVerifiedAt   DateTime?
+  lastLoginAt       DateTime?
+  tenantId          String
+  role              String   @default("USER") // Changed from enum to String
+  mfaEnabled        Boolean  @default(false)
+  mfaSecret         String?
+  
+  // Follow-up email tracking
+  lastFollowUpSent  DateTime?
+  followUpCount     Int      @default(0)
+  
+  // Trial management
+  trialEndDate      DateTime?
+  planId            String   @default("starter")
+  isTrialActive     Boolean  @default(true)
+  isPaid            Boolean  @default(false)
+  
+  stripeCustomerId  String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  tenant            Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  chatbots          Chatbot[]
+  faqs              FAQ[]
+  subscriptions     Subscription[]
+  analytics         Analytics[]
+  auditLogs         AuditLog[]
+  notifications     Notification[]
+  apiKeys           ApiKey[]
+  payments          Payment[]
+  invoices          Invoice[]
+  connections       Connection[]
+  affiliate         Affiliate?
+  referredBy        Referral?
+  agentProfile      Agent?
+
+  @@map("users")
+}
+
+// Chatbot management
+model Chatbot {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  language      String   @default("auto")
+  welcomeMessage String  @default("Hello! How can I help you today?")
+  settings      String   @default("{}")
+  status        String   @default("draft") // draft, active, inactive
+  userId        String
+  tenantId      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant        Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  legacyConversations LegacyConversation[] @relation("LegacyConversations")
+  liveConversations Conversation[]
+  analytics     Analytics[]
+
+  @@map("chatbots")
+}
+
+// Store connections
+model Connection {
+  id                    String   @id @default(cuid())
+  type                  String   // shopify, woocommerce, custom
+  name                  String
+  url                   String
+  apiKey                String
+  secretKey             String?
+  webhookUrl            String?
+  status                String   @default("connected") // connected, disconnected, error
+  productsCount         Int      @default(0)
+  syncedProductsCount   Int      @default(0)
+  ordersCount           Int      @default(0)
+  syncedOrdersCount     Int      @default(0)
+  userId                String
+  tenantId              String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relations
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant                Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  syncLogs              SyncLog[]
+
+  @@map("connections")
+}
+
+// Sync logs for connections
+model SyncLog {
+  id            String   @id @default(cuid())
+  connectionId  String
+  status        String   // success, error, pending
+  syncedProducts Int     @default(0)
+  syncedOrders  Int      @default(0)
+  error         String?
+  createdAt     DateTime @default(now())
+
+  // Relations
+  connection    Connection @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+
+  @@map("sync_logs")
+}
+
+
+// Legacy Conversation tracking (OLD - for backwards compatibility)
+model LegacyConversation {
+  id          String   @id @default(cuid())
+  chatbotId   String
+  sessionId   String
+  userId      String?
+  messages    String   // Changed from Json to String for SQLite
+  status      String   @default("ACTIVE") // Changed from enum to String
+  metadata    String?  // Changed from Json to String for SQLite
+  startedAt   DateTime @default(now())
+  endedAt     DateTime?
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  chatbot     Chatbot  @relation("LegacyConversations", fields: [chatbotId], references: [id], onDelete: Cascade)
+
+  @@map("legacy_conversations")
+}
+
+// FAQ Management
+model FAQ {
+  id          String   @id @default(cuid())
+  question    String
+  answer      String
+  category    String
+  tags        String   // Changed from String[] to String for SQLite
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  ownerId     String
+  tenantId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("faqs")
+}
+
+// Subscription and billing
+model Subscription {
+  id                String             @id @default(cuid())
+  userId            String
+  tenantId          String
+  planId            String
+  status            String             @default("ACTIVE") // Changed from enum to String
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  cancelAtPeriodEnd Boolean            @default(false)
+  canceledAt        DateTime?
+  stripeCustomerId  String?
+  stripeSubscriptionId String?
+  stripePriceId     String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  // Relations
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant            Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  payments          Payment[]
+  invoices          Invoice[]
+
+  @@map("subscriptions")
+}
+
+// Subscription plans
+model Plan {
+  id                String   @id @default(cuid())
+  name              String
+  description       String?
+  price             Int      // Price in cents
+  currency          String   @default("usd")
+  interval          String   @default("MONTHLY") // Changed from enum to String
+  intervalCount     Int      @default(1)
+  isActive          Boolean  @default(true)
+  
+  // Limits
+  apiCallsLimit     Int?
+  storageLimit      Int?     // in GB
+  usersLimit        Int?
+  chatbotsLimit     Int?
+  
+  // Features
+  features          String   // Changed from String[] to String for SQLite
+  
+  stripePriceId     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("plans")
+}
+
+// Analytics and metrics
+model Analytics {
+  id          String   @id @default(cuid())
+  type        String   // Changed from enum to String
+  entityId    String?  // Chatbot ID, User ID, etc.
+  entityType  String?  // chatbot, user, etc.
+  tenantId    String
+  userId      String?
+  data        String   // Changed from Json to String for SQLite
+  timestamp   DateTime @default(now())
+
+  // Relations
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  chatbot     Chatbot? @relation(fields: [entityId], references: [id], onDelete: SetNull)
+
+  @@map("analytics")
+}
+
+// API Key management
+model ApiKey {
+  id          String   @id @default(cuid())
+  name        String
+  key         String   @unique
+  userId      String
+  permissions String   // Changed from String[] to String for SQLite
+  isActive    Boolean  @default(true)
+  lastUsedAt  DateTime?
+  expiresAt   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("api_keys")
+}
+
+// Webhook management
+model Webhook {
+  id          String   @id @default(cuid())
+  url         String
+  events      String   // Changed from String[] to String for SQLite
+  secret      String
+  isActive    Boolean  @default(true)
+  tenantId    String
+  lastTriggeredAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("webhooks")
+}
+
+// Audit logging
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  action      String
+  resource    String
+  resourceId  String?
+  details     String?  // Changed from Json to String for SQLite
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  // Relations
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("audit_logs")
+}
+
+// Notifications
+model Notification {
+  id          String   @id @default(cuid())
+  userId      String
+  type        String   // Changed from enum to String
+  title       String
+  message     String
+  data        String?  // Changed from Json to String for SQLite
+  isRead      Boolean  @default(false)
+  readAt      DateTime?
+  createdAt   DateTime @default(now())
+
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+// File uploads
+model FileUpload {
+  id          String   @id @default(cuid())
+  filename    String
+  originalName String
+  mimeType    String
+  size        Int
+  path        String
+  userId      String?
+  tenantId    String?
+  createdAt   DateTime @default(now())
+
+  @@map("file_uploads")
+}
+
+// Payment records
+model Payment {
+  id          String   @id @default(cuid())
+  amount      Int      // Amount in cents
+  currency    String   @default("usd")
+  method      String   // credit_card, paypal, bank_transfer
+  status      String   @default("PENDING") // PENDING, COMPLETED, FAILED, REFUNDED
+  description String?
+  stripePaymentIntentId String?
+  userId      String
+  tenantId    String
+  subscriptionId String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id])
+  invoices    Invoice[]
+
+  @@map("payments")
+}
+
+// Invoice management
+model Invoice {
+  id            String   @id @default(cuid())
+  invoiceNumber String   @unique
+  amount        Float
+  currency      String   @default("EUR")
+  status        String   @default("pending") // pending, paid, failed, refunded
+  dueDate       DateTime
+  paidAt        DateTime?
+  tenantId      String
+  userId        String
+  subscriptionId String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  tenant        Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscription  Subscription? @relation(fields: [subscriptionId], references: [id])
+  payment       Payment?      @relation(fields: [id], references: [id])
+
+  @@map("invoices")
+}
+
+// Affiliate Program
+model Affiliate {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  affiliateCode     String   @unique
+  commissionRate    Float    @default(0.50) // 50% commission
+  totalEarnings     Float    @default(0)
+  pendingEarnings   Float    @default(0)
+  paidEarnings      Float    @default(0)
+  status            String   @default("active") // active, suspended, inactive
+  paypalEmail       String?
+  bankAccount       String?
+  minimumPayout     Float    @default(50) // €50 minimum
+  lastPayoutDate    DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  referrals         Referral[]
+  payouts           Payout[]
+
+  @@map("affiliates")
+}
+
+// Referral tracking
+model Referral {
+  id                String   @id @default(cuid())
+  affiliateId       String
+  referredUserId    String   @unique
+  referredEmail     String
+  status            String   @default("pending") // pending, converted, cancelled
+  commissionAmount  Float    @default(0)
+  commissionPaid    Boolean  @default(false)
+  conversionDate    DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  affiliate         Affiliate @relation(fields: [affiliateId], references: [id], onDelete: Cascade)
+  referredUser      User      @relation(fields: [referredUserId], references: [id], onDelete: Cascade)
+
+  @@map("referrals")
+}
+
+// Payout tracking
+model Payout {
+  id                String   @id @default(cuid())
+  affiliateId       String
+  amount            Float
+  currency          String   @default("EUR")
+  status            String   @default("pending") // pending, processing, paid, failed
+  method            String   @default("paypal") // paypal, bank_transfer
+  transactionId     String?
+  paidAt            DateTime?
+  notes             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  affiliate         Affiliate @relation(fields: [affiliateId], references: [id], onDelete: Cascade)
+
+  @@map("payouts")
+}
+
+// ================================================
+// LIVE AGENT HANDOFF SYSTEM
+// ================================================
+
+// Agent (Support Team Members)
+model Agent {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  tenantId        String   // MULTI-TENANT: Each merchant has their own agents
+  displayName     String
+  email           String
+  status          String   @default("offline") // offline, online, busy, away
+  maxConcurrent   Int      @default(3) // Max concurrent chats
+  skills          String?  // JSON array of skills
+  rating          Float?   @default(5.0)
+  totalChats      Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant          Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  conversations   Conversation[]
+  transfersFrom   ConversationTransfer[] @relation("TransferFrom")
+  transfersTo     ConversationTransfer[] @relation("TransferTo")
+
+  @@map("agents")
+}
+
+// Conversation (Chat Session)
+model Conversation {
+  id              String   @id @default(cuid())
+  chatbotId       String
+  visitorId       String   // Anonymous visitor or customer ID
+  visitorName     String?
+  visitorEmail    String?
+  status          String   @default("bot") // bot, waiting, assigned, active, resolved, closed
+  priority        String   @default("normal") // low, normal, high, urgent
+  agentId         String?  // Current assigned agent
+  startedAt       DateTime @default(now())
+  assignedAt      DateTime?
+  closedAt        DateTime?
+  rating          Int?     // 1-5 customer satisfaction
+  metadata        String?  // JSON with order info, etc.
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  chatbot         Chatbot  @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+  agent           Agent?   @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  messages        ConversationMessage[]
+  transfers       ConversationTransfer[]
+
+  @@map("conversations")
+}
+
+// Conversation Messages
+model ConversationMessage {
+  id              String   @id @default(cuid())
+  conversationId  String
+  sender          String   // bot, visitor, agent
+  senderName      String?
+  message         String
+  metadata        String?  // JSON with attachments, etc.
+  isInternal      Boolean  @default(false) // Internal notes only agents see
+  createdAt       DateTime @default(now())
+
+  // Relations
+  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@map("conversation_messages")
+}
+
+// Conversation Transfers (Bot → Agent, Agent → Agent)
+model ConversationTransfer {
+  id              String   @id @default(cuid())
+  conversationId  String
+  fromType        String   // bot, agent
+  fromAgentId     String?
+  toAgentId       String
+  reason          String?
+  status          String   @default("pending") // pending, accepted, rejected
+  transferredAt   DateTime @default(now())
+  acceptedAt      DateTime?
+
+  // Relations
+  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  fromAgent       Agent?   @relation("TransferFrom", fields: [fromAgentId], references: [id], onDelete: SetNull)
+  toAgent         Agent    @relation("TransferTo", fields: [toAgentId], references: [id], onDelete: Cascade)
+
+  @@map("conversation_transfers")
+}
+
+// ================================================
+// ORDER TRACKING SYSTEM
+// ================================================
+
+// Order (from Shopify/WooCommerce)
+model Order {
+  id              String   @id @default(cuid())
+  tenantId        String
+  platform        String   // shopify, woocommerce
+  platformOrderId String   // Order ID from platform
+  orderNumber     String   // Human-readable order number
+  customerEmail   String
+  customerName    String?
+  status          String   // pending, processing, shipped, delivered, cancelled
+  total           Float
+  currency        String   @default("USD")
+  trackingNumber  String?
+  trackingUrl     String?
+  shippedAt       DateTime?
+  deliveredAt     DateTime?
+  metadata        String?  // JSON with full order details
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  tenant          Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, platformOrderId])
+  @@map("orders")
+}

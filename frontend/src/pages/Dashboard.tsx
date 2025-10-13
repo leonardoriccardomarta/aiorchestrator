@@ -1,0 +1,689 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
+import { useChatbot } from '../contexts/ChatbotContext';
+import ChatbotSelector from '../components/ChatbotSelector';
+import TrialCountdown from '../components/TrialCountdown';
+import { 
+  MessageSquare, 
+  Users, 
+  TrendingUp,
+  ShoppingCart,
+  Globe,
+  Settings,
+  BarChart3,
+  Bot,
+  Zap,
+  Shield,
+  ArrowRight,
+  Play,
+  Pause,
+  RefreshCw,
+  CheckCircle,
+  AlertCircle,
+  Clock,
+  Star,
+  Plus,
+  ExternalLink,
+  Activity,
+  DollarSign,
+  Target,
+  Sparkles,
+  Eye,
+  MessageCircle,
+  Database,
+  Cpu,
+  Layers
+} from 'lucide-react';
+import OnboardingWizard from '../components/OnboardingWizard';
+import { EmptyChatbots, EmptyConnections, EmptyAnalytics, EmptyMessages } from '../components/EmptyState';
+import TrialEnforcement from '../components/TrialEnforcement';
+import ChatbotManagement from '../components/ChatbotManagement';
+import PlanLimitations from '../components/PlanLimitations';
+import TourButton from '../components/TourButton';
+
+interface DashboardStats {
+  totalChatbots: number;
+  totalMessages: number;
+  activeConnections: number;
+  totalRevenue: number;
+  responseRate: number;
+  customerSatisfaction: number;
+  monthlyGrowth: number;
+  activeUsers: number;
+  conversionRate: number;
+  avgResponseTime: number;
+  languagesSupported: number;
+  uptime: number;
+}
+
+interface UserData {
+  id: string;
+  email: string;
+  name: string;
+  planId: string;
+  isTrialActive: boolean;
+  trialEndDate: string;
+  isPaid: boolean;
+  hasCompletedOnboarding: boolean;
+  isNewUser: boolean;
+}
+
+interface RecentActivity {
+  id: string;
+  type: 'message' | 'order' | 'connection' | 'chatbot' | 'analytics' | 'integration';
+  message: string;
+  timestamp: string;
+  status: 'success' | 'warning' | 'error' | 'info';
+  value?: number;
+}
+
+const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
+  const { user } = useUser();
+  const { chatbots, selectedChatbotId, selectedChatbot } = useChatbot();
+  const [userPlan, setUserPlan] = useState<string>('starter');
+  const [stats, setStats] = useState<DashboardStats>({
+    totalChatbots: chatbots.length,
+    totalMessages: 0,
+    activeConnections: 0,
+    totalRevenue: 0,
+    responseRate: 0,
+    customerSatisfaction: 0,
+    monthlyGrowth: 0,
+    activeUsers: 0,
+    conversionRate: 0,
+    avgResponseTime: 0,
+    languagesSupported: 0,
+    uptime: 0
+  });
+  const [loading, setLoading] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showTour, setShowTour] = useState(false);
+  const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
+
+  useEffect(() => {
+    fetchDashboardData();
+    checkFirstTimeUser();
+  }, [selectedChatbotId]); // Ricarica quando cambia chatbot
+
+  const checkFirstTimeUser = () => {
+    const isFirstTime = !localStorage.getItem('hasSeenOnboarding');
+    if (isFirstTime) {
+      setShowOnboarding(true);
+    }
+  };
+
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+      
+      // Fetch real dashboard data from API (filtered by selected chatbot)
+      const url = selectedChatbotId 
+        ? `http://localhost:4000/api/dashboard/stats?chatbotId=${selectedChatbotId}`
+        : 'http://localhost:4000/api/dashboard/stats';
+      
+      const response = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setStats({
+            totalChatbots: chatbots.length, // Use actual chatbots count from context
+            totalMessages: data.data.totalMessages || 0,
+            activeConnections: data.data.activeConnections || 0,
+            totalRevenue: data.data.totalRevenue || 0,
+            responseRate: data.data.responseRate || 0,
+            customerSatisfaction: data.data.customerSatisfaction || 0,
+            monthlyGrowth: data.data.monthlyGrowth || 0,
+            activeUsers: data.data.activeUsers || 0,
+            conversionRate: data.data.conversionRate || 0,
+            avgResponseTime: data.data.avgResponseTime || 0,
+            languagesSupported: data.data.languagesSupported || 0,
+            uptime: data.data.uptime || 0
+          });
+          
+          setUserPlan(data.data.planInfo?.planId || 'starter');
+        }
+      } else {
+        // Fallback to realistic data
+        setStats({
+          totalChatbots: 0,
+          totalMessages: 0,
+          activeConnections: 0,
+          totalRevenue: 0,
+          responseRate: 0,
+          customerSatisfaction: 0,
+          monthlyGrowth: 0,
+          activeUsers: 0,
+          conversionRate: 0,
+          avgResponseTime: 0,
+          languagesSupported: 0,
+          uptime: 0
+        });
+      }
+
+      // Fetch real recent activity from API
+      const activityResponse = await fetch('http://localhost:4000/api/dashboard/activity', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+      });
+      
+      if (activityResponse.ok) {
+        const activityData = await activityResponse.json();
+        setRecentActivity(activityData.activities || []);
+      } else {
+        // If no real activity, show empty state
+        setRecentActivity([]);
+      }
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const StatCard = ({ title, value, change, icon: Icon, color, subtitle, trend, prefix = '', suffix = '' }: {
+    title: string;
+    value: string | number;
+    change?: number;
+    icon: React.ElementType;
+    color: string;
+    subtitle?: string;
+    trend?: 'up' | 'down' | 'neutral';
+    prefix?: string;
+    suffix?: string;
+  }) => (
+    <div className="group bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-xl hover:border-gray-300 transition-all duration-300">
+      <div className="flex items-center justify-between mb-4">
+        <div className={`p-3 rounded-xl ${color} group-hover:scale-110 transition-transform duration-300`}>
+          <Icon className="w-6 h-6 text-white" />
+        </div>
+        {change !== undefined && (
+          <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${
+            trend === 'up' ? 'bg-green-100 text-green-700' : 
+            trend === 'down' ? 'bg-red-100 text-red-700' : 
+            'bg-gray-100 text-gray-700'
+          }`}>
+            {trend === 'up' && <TrendingUp className="w-3 h-3" />}
+            {trend === 'down' && <TrendingUp className="w-3 h-3 rotate-180" />}
+            <span>{trend === 'up' ? '+' : ''}{change}%</span>
+          </div>
+        )}
+      </div>
+      <div>
+        <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
+        <p className="text-3xl font-bold text-gray-900 mb-1">
+          {prefix}{typeof value === 'number' ? value.toLocaleString() : value}{suffix}
+        </p>
+        {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
+      </div>
+    </div>
+  );
+
+  const QuickAction = ({ title, description, icon: Icon, onClick, color, status, badge }: {
+    title: string;
+    description: string;
+    icon: React.ElementType;
+    onClick: () => void;
+    color: string;
+    status?: 'active' | 'inactive' | 'pending' | 'new';
+    badge?: string;
+  }) => (
+    <button
+      onClick={onClick}
+      className="group p-6 text-left bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-xl hover:border-gray-300 transition-all duration-300 hover:scale-105"
+    >
+      <div className="flex items-start space-x-4">
+        <div className={`w-12 h-12 ${color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 relative`}>
+          <Icon className="w-6 h-6 text-white" />
+          {badge && (
+            <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+              {badge}
+            </div>
+          )}
+        </div>
+        <div className="flex-1">
+          <div className="flex items-center space-x-2 mb-2">
+            <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">{title}</h3>
+            {status === 'active' && <div className="w-2 h-2 bg-green-500 rounded-full"></div>}
+            {status === 'pending' && <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>}
+            {status === 'new' && <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>}
+          </div>
+          <p className="text-gray-600 group-hover:text-gray-700 transition-colors mb-3">{description}</p>
+          <div className="flex items-center text-blue-600 text-sm font-medium group-hover:text-blue-700">
+            <span>Get started</span>
+            <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+          </div>
+        </div>
+      </div>
+    </button>
+  );
+
+  const ActivityItem = ({ activity }: { activity: RecentActivity }) => {
+    const getIcon = () => {
+      switch (activity.type) {
+        case 'message': return MessageSquare;
+        case 'order': return ShoppingCart;
+        case 'connection': return Settings;
+        case 'chatbot': return Bot;
+        case 'analytics': return BarChart3;
+        case 'integration': return Globe;
+        default: return MessageSquare;
+      }
+    };
+
+    const getStatusColor = () => {
+      switch (activity.status) {
+        case 'success': return 'text-green-500 bg-green-100';
+        case 'warning': return 'text-yellow-500 bg-yellow-100';
+        case 'error': return 'text-red-500 bg-red-100';
+        case 'info': return 'text-blue-500 bg-blue-100';
+        default: return 'text-gray-500 bg-gray-100';
+      }
+    };
+
+    const Icon = getIcon();
+
+    return (
+      <div className="flex items-start space-x-3 p-4 hover:bg-gray-50 rounded-xl transition-colors">
+        <div className={`w-10 h-10 ${getStatusColor()} rounded-xl flex items-center justify-center flex-shrink-0`}>
+          <Icon className="w-5 h-5" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm text-gray-900 font-medium">{activity.message}</p>
+          <div className="flex items-center justify-between mt-1">
+            <p className="text-xs text-gray-500">{activity.timestamp}</p>
+            {activity.value && (
+              <span className="text-xs font-medium text-gray-700">
+                {typeof activity.value === 'number' && activity.value > 0 ? '+' : ''}
+                {typeof activity.value === 'number' ? activity.value.toLocaleString() : activity.value}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="relative">
+            <div className="animate-spin rounded-full h-20 w-20 border-4 border-blue-600 border-t-transparent mx-auto"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Bot className="w-8 h-8 text-blue-600 animate-pulse" />
+            </div>
+          </div>
+          <p className="mt-6 text-gray-600 text-xl font-medium">Loading your dashboard...</p>
+          <p className="mt-2 text-gray-500">Preparing your AI insights</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      {/* Header */}
+      <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-6">
+            <div>
+              <h1 className="text-4xl font-bold text-gray-900 mb-2">
+                Welcome back!
+              </h1>
+              <p className="text-gray-600 text-lg">
+                Here's what's happening with your AI chatbots today.
+              </p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <ChatbotSelector />
+              <TourButton onClick={() => setShowTour(true)} />
+              <button
+                onClick={() => navigate('/analytics')}
+                className="flex items-center px-6 py-3 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
+              >
+                <BarChart3 className="w-5 h-5 mr-2" />
+                View Analytics
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <StatCard
+            title="Active Chatbots"
+            value={stats.totalChatbots}
+            icon={Bot}
+            color="bg-gradient-to-r from-blue-500 to-blue-600"
+            subtitle="Running smoothly"
+          />
+          <StatCard
+            title="Messages Today"
+            value={stats.totalMessages}
+            icon={MessageSquare}
+            color="bg-gradient-to-r from-green-500 to-green-600"
+            subtitle="Total conversations"
+          />
+          <StatCard
+            title="Response Rate"
+            value={stats.responseRate}
+            icon={TrendingUp}
+            color="bg-gradient-to-r from-purple-500 to-purple-600"
+            subtitle={`Avg response: ${stats.avgResponseTime}`}
+            suffix="%"
+          />
+          <StatCard
+            title="Revenue Impact"
+            value={stats.totalRevenue}
+            icon={DollarSign}
+            color="bg-gradient-to-r from-orange-500 to-orange-600"
+            subtitle="Total generated"
+            prefix="$"
+          />
+        </div>
+
+        {/* Trial Countdown */}
+        <TrialCountdown 
+          onUpgrade={() => navigate('/pricing')}
+        />
+
+        {/* Quick Actions */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-3xl font-bold text-gray-900">Quick Actions</h2>
+            <div className="flex items-center space-x-2 text-sm text-gray-500">
+              <Sparkles className="w-4 h-4" />
+              <span>AI-Powered Features</span>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <QuickAction
+              title="Create New Chatbot"
+              description="Set up a new AI assistant for your store with 50+ languages"
+              icon={Bot}
+              onClick={() => navigate('/chatbot')}
+              color="bg-gradient-to-r from-blue-500 to-blue-600"
+              status="active"
+              badge="NEW"
+            />
+            <QuickAction
+              title="Connect Shopify"
+              description="Integrate with your Shopify store in one click"
+              icon={ShoppingCart}
+              onClick={() => navigate('/connections')}
+              color="bg-gradient-to-r from-green-500 to-green-600"
+              status="active"
+            />
+            <QuickAction
+              title="View Analytics"
+              description="See detailed performance insights and analytics"
+              icon={BarChart3}
+              onClick={() => navigate('/analytics')}
+              color="bg-gradient-to-r from-purple-500 to-purple-600"
+              status="active"
+            />
+            <PlanLimitations feature="WooCommerce Setup" requiredPlan="professional">
+              <QuickAction
+                title="WooCommerce Setup"
+                description="Connect your WooCommerce store for seamless integration"
+                icon={Database}
+                onClick={() => navigate('/connections')}
+                color="bg-gradient-to-r from-orange-500 to-orange-600"
+                status="pending"
+              />
+            </PlanLimitations>
+            <PlanLimitations feature="AI Insights" requiredPlan="professional">
+              <QuickAction
+                title="AI Insights"
+                description="Advanced sentiment analysis and customer insights"
+                icon={Cpu}
+                onClick={() => navigate('/analytics')}
+                color="bg-gradient-to-r from-indigo-500 to-indigo-600"
+                status="new"
+              />
+            </PlanLimitations>
+            <QuickAction
+              title="Multi-Language"
+              description="Configure 50+ languages for global reach"
+              icon={Globe}
+              onClick={() => navigate('/settings')}
+              color="bg-gradient-to-r from-teal-500 to-teal-600"
+              status="active"
+            />
+          </div>
+        </div>
+
+        {/* Chatbot Management */}
+        <div className="mb-8">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                    <Bot className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900">Chatbot Management</h3>
+                    <p className="text-sm text-gray-600">Manage your AI assistants</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => navigate('/chatbot')}
+                  className="flex items-center px-4 py-2 text-blue-600 hover:text-blue-700 text-sm font-medium hover:bg-blue-50 rounded-lg transition-colors"
+                >
+                  <span>View All</span>
+                  <ExternalLink className="w-4 h-4 ml-1" />
+                </button>
+              </div>
+            </div>
+            <div className="p-6">
+              <ChatbotManagement />
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Activity & Performance */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Recent Activity */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-green-50">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                    <Activity className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900">Recent Activity</h3>
+                    <p className="text-sm text-gray-600">Live updates from your AI</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => navigate('/analytics')}
+                  className="text-green-600 hover:text-green-700 text-sm font-medium"
+                >
+                  View All
+                </button>
+              </div>
+            </div>
+            <div className="p-6">
+              {recentActivity.length > 0 ? (
+                <div className="space-y-1">
+                  {recentActivity.map((activity) => (
+                    <ActivityItem key={activity.id} activity={activity} />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Activity className="w-8 h-8 text-gray-400" />
+                  </div>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-2">No Recent Activity</h4>
+                  <p className="text-gray-600 mb-4">Start using your chatbot to see activity here</p>
+                  <button
+                    onClick={() => navigate('/chatbot')}
+                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    <Bot className="w-4 h-4 mr-2" />
+                    Create Your First Chatbot
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Performance Overview */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-purple-50">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                  <Target className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900">Performance Overview</h3>
+                  <p className="text-sm text-gray-600">System health & metrics</p>
+                </div>
+              </div>
+            </div>
+            <div className="p-6">
+              {stats.totalMessages > 0 ? (
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between p-4 bg-green-50 rounded-xl">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                        <CheckCircle className="w-6 h-6 text-green-600" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900">System Health</p>
+                        <p className="text-sm text-gray-600">All systems operational</p>
+                      </div>
+                    </div>
+                    <span className="text-green-600 font-bold text-xl">100%</span>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-4 bg-blue-50 rounded-xl">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                        <Clock className="w-6 h-6 text-blue-600" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900">Uptime</p>
+                        <p className="text-sm text-gray-600">Last 30 days</p>
+                      </div>
+                    </div>
+                    <span className="text-blue-600 font-bold text-xl">{stats.uptime}%</span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-4 bg-purple-50 rounded-xl">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                        <Star className="w-6 h-6 text-purple-600" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900">Customer Satisfaction</p>
+                        <p className="text-sm text-gray-600">Based on {stats.totalMessages} conversations</p>
+                      </div>
+                    </div>
+                    <span className="text-purple-600 font-bold text-xl">
+                      {stats.customerSatisfaction > 0 ? `${stats.customerSatisfaction.toFixed(1)}/5` : 'N/A'}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-4 bg-orange-50 rounded-xl">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                        <Globe className="w-6 h-6 text-orange-600" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900">Languages Active</p>
+                        <p className="text-sm text-gray-600">Multilingual support</p>
+                      </div>
+                    </div>
+                    <span className="text-orange-600 font-bold text-xl">
+                      {stats.languagesSupported > 0 ? stats.languagesSupported : '0'}
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Target className="w-8 h-8 text-gray-400" />
+                  </div>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-2">No Performance Data Yet</h4>
+                  <p className="text-gray-600 mb-4">Start using your chatbot to see performance metrics</p>
+                  <button
+                    onClick={() => navigate('/chatbot')}
+                    className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                  >
+                    <Bot className="w-4 h-4 mr-2" />
+                    Get Started
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Onboarding Wizard */}
+      <OnboardingWizard
+        isOpen={showOnboarding}
+        onComplete={() => {
+          setShowOnboarding(false);
+          localStorage.setItem('hasSeenOnboarding', 'true');
+        }}
+        onSkip={() => {
+          setShowOnboarding(false);
+          localStorage.setItem('hasSeenOnboarding', 'true');
+        }}
+      />
+      
+      {/* Dashboard Tour */}
+      {showTour && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl p-6 max-w-md mx-4">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">Dashboard Tour</h3>
+            <p className="text-gray-600 mb-6">
+              Welcome to your AI Orchestrator dashboard! Here you can manage your chatbots, 
+              view analytics, and access quick actions to get started.
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => setShowTour(false)}
+                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+              >
+                Skip
+              </button>
+              <button
+                onClick={() => setShowTour(false)}
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              >
+                Got it!
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Dashboard;
+
+
+
+
+
+
+
+

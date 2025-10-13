@@ -1,0 +1,11 @@
+{
+  "title": "Settings",
+  "general": "General",
+  "security": "Security",
+  "notifications": "Notifications",
+  "privacy": "Privacy",
+  "language": "Language",
+  "theme": "Theme",
+  "save": "Save",
+  "cancel": "Cancel"
+} 

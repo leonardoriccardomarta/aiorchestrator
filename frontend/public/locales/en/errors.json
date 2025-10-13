@@ -1,0 +1,163 @@
+{
+  "general": {
+    "title": "Error",
+    "subtitle": "Something went wrong",
+    "description": "An unexpected error occurred. Please try again.",
+    "retry": "Try Again",
+    "goBack": "Go Back",
+    "goHome": "Go Home",
+    "contactSupport": "Contact Support"
+  },
+  "http": {
+    "400": {
+      "title": "Bad Request",
+      "message": "The request could not be understood by the server."
+    },
+    "401": {
+      "title": "Unauthorized",
+      "message": "You need to be authenticated to access this resource."
+    },
+    "403": {
+      "title": "Forbidden",
+      "message": "You don't have permission to access this resource."
+    },
+    "404": {
+      "title": "Not Found",
+      "message": "The requested resource was not found."
+    },
+    "405": {
+      "title": "Method Not Allowed",
+      "message": "The HTTP method is not allowed for this resource."
+    },
+    "408": {
+      "title": "Request Timeout",
+      "message": "The request timed out. Please try again."
+    },
+    "409": {
+      "title": "Conflict",
+      "message": "The request conflicts with the current state of the resource."
+    },
+    "422": {
+      "title": "Unprocessable Entity",
+      "message": "The request was well-formed but contains invalid parameters."
+    },
+    "429": {
+      "title": "Too Many Requests",
+      "message": "You've made too many requests. Please wait before trying again."
+    },
+    "500": {
+      "title": "Internal Server Error",
+      "message": "An internal server error occurred. Please try again later."
+    },
+    "502": {
+      "title": "Bad Gateway",
+      "message": "The server received an invalid response from an upstream server."
+    },
+    "503": {
+      "title": "Service Unavailable",
+      "message": "The service is temporarily unavailable. Please try again later."
+    },
+    "504": {
+      "title": "Gateway Timeout",
+      "message": "The server took too long to respond. Please try again."
+    }
+  },
+  "network": {
+    "connection": "Network connection error",
+    "timeout": "Request timeout",
+    "offline": "You are offline. Please check your internet connection.",
+    "slow": "Slow network connection detected",
+    "unstable": "Unstable network connection"
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Please enter a valid email address",
+    "url": "Please enter a valid URL",
+    "phone": "Please enter a valid phone number",
+    "minLength": "Minimum length is {{min}} characters",
+    "maxLength": "Maximum length is {{max}} characters",
+    "minValue": "Minimum value is {{min}}",
+    "maxValue": "Maximum value is {{max}}",
+    "pattern": "Invalid format",
+    "unique": "This value must be unique",
+    "exists": "This value already exists",
+    "notFound": "Value not found",
+    "invalid": "Invalid value",
+    "password": {
+      "weak": "Password is too weak",
+      "mismatch": "Passwords do not match",
+      "requirements": "Password must contain at least 8 characters, including letters, numbers, and symbols"
+    }
+  },
+  "auth": {
+    "loginFailed": "Login failed. Please check your credentials.",
+    "sessionExpired": "Your session has expired. Please log in again.",
+    "unauthorized": "You are not authorized to perform this action.",
+    "accountLocked": "Your account has been locked. Please contact support.",
+    "tooManyAttempts": "Too many login attempts. Please try again later.",
+    "invalidToken": "Invalid or expired token.",
+    "permissionDenied": "Permission denied for this action."
+  },
+  "file": {
+    "uploadFailed": "File upload failed",
+    "tooLarge": "File is too large",
+    "invalidType": "Invalid file type",
+    "corrupted": "File appears to be corrupted",
+    "notFound": "File not found",
+    "accessDenied": "Access to file denied"
+  },
+  "database": {
+    "connectionFailed": "Database connection failed",
+    "queryFailed": "Database query failed",
+    "constraintViolation": "Database constraint violation",
+    "deadlock": "Database deadlock detected",
+    "timeout": "Database operation timed out"
+  },
+  "api": {
+    "rateLimitExceeded": "API rate limit exceeded",
+    "invalidResponse": "Invalid API response",
+    "serviceUnavailable": "API service unavailable",
+    "authenticationFailed": "API authentication failed",
+    "authorizationFailed": "API authorization failed"
+  },
+  "chatbot": {
+    "trainingFailed": "Chatbot training failed",
+    "deploymentFailed": "Chatbot deployment failed",
+    "responseError": "Error generating response",
+    "modelNotFound": "AI model not found",
+    "insufficientData": "Insufficient training data",
+    "configurationError": "Configuration error"
+  },
+  "workflow": {
+    "executionFailed": "Workflow execution failed",
+    "stepError": "Workflow step error",
+    "invalidConfiguration": "Invalid workflow configuration",
+    "dependencyError": "Workflow dependency error",
+    "timeout": "Workflow execution timeout"
+  },
+  "user": {
+    "profileUpdateFailed": "Profile update failed",
+    "preferencesSaveFailed": "Preferences save failed",
+    "avatarUploadFailed": "Avatar upload failed",
+    "passwordChangeFailed": "Password change failed"
+  },
+  "notification": {
+    "sendFailed": "Failed to send notification",
+    "deliveryFailed": "Notification delivery failed",
+    "templateNotFound": "Notification template not found",
+    "invalidRecipient": "Invalid recipient"
+  },
+  "analytics": {
+    "dataLoadFailed": "Failed to load analytics data",
+    "reportGenerationFailed": "Report generation failed",
+    "exportFailed": "Data export failed",
+    "insufficientPermissions": "Insufficient permissions for analytics"
+  },
+  "integration": {
+    "connectionFailed": "Integration connection failed",
+    "syncFailed": "Data synchronization failed",
+    "webhookFailed": "Webhook delivery failed",
+    "apiKeyInvalid": "Invalid API key",
+    "serviceUnavailable": "External service unavailable"
+  }
+} 
