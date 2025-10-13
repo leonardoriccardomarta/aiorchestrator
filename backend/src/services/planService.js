@@ -87,6 +87,47 @@ class PlanService {
 
     return limits[planId] || limits.starter;
   }
+
+  // Get user plan (mock implementation - returns default starter plan)
+  getUserPlan(userId) {
+    console.log(`Getting plan for user ${userId}`);
+    // In a real implementation, this would query the database
+    // For now, return a default starter plan
+    return {
+      planId: 'starter',
+      limits: this.getPlanLimits('starter')
+    };
+  }
+
+  // Get usage stats (mock implementation)
+  getUsageStats(userId) {
+    console.log(`Getting usage stats for user ${userId}`);
+    // In a real implementation, this would query the database
+    return {
+      chatbots: 0,
+      messages: 0,
+      websites: 0
+    };
+  }
+
+  // Validate action (mock implementation)
+  validateAction(userId, action, count = 1) {
+    const userPlan = this.getUserPlan(userId);
+    const limits = userPlan.limits;
+    
+    // Always allow for now (mock)
+    return {
+      allowed: true,
+      remaining: limits.messages - count
+    };
+  }
+
+  // Record usage (mock implementation)
+  recordUsage(userId, action, count = 1) {
+    console.log(`Recording usage for user ${userId}: ${action} x${count}`);
+    // In a real implementation, this would update the database
+    return true;
+  }
 }
 
 module.exports = PlanService;

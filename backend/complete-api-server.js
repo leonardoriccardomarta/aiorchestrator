@@ -158,7 +158,15 @@ app.use(cors({
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 1000, // limit each IP to 1000 requests per windowMs
-  message: 'Too many requests from this IP'
+  message: 'Too many requests from this IP',
+  standardHeaders: true,
+  legacyHeaders: false,
+  // Trust the rightmost proxy in the chain (Digital Ocean)
+  trustProxy: true,
+  validate: {
+    trustProxy: false, // Disable the trust proxy warning
+    xForwardedForHeader: false
+  }
 });
 app.use(limiter);
 
