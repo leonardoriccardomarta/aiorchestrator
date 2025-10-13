@@ -1,9 +1,10 @@
 import { ApolloClient, InMemoryCache, createHttpLink, from } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
+import { API_URL } from '../config/constants';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: `${API_URL}/graphql`,
   credentials: 'include',
   fetchOptions: {
     mode: 'cors'

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config/constants';
 import { 
   Bot, 
   Play, 
@@ -59,7 +60,7 @@ const ChatbotManagement: React.FC = () => {
   const fetchChatbots = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:4000/api/chatbots', {
+      const response = await fetch(`${API_URL}/api/chatbots', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }

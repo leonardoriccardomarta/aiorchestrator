@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config/constants';
 import { UserCheck, Clock, MessageCircle, Star, TrendingUp, CheckCircle, AlertCircle } from 'lucide-react';
 import axios from 'axios';
 
@@ -31,7 +32,7 @@ const AgentDashboard: React.FC = () => {
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
   const [messageInput, setMessageInput] = useState('');
   
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+  // API_URL imported from constants
 
   useEffect(() => {
     fetchAgentData();

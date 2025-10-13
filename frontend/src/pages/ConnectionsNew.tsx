@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config/constants';
 import { useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft,
@@ -122,7 +123,7 @@ const Connections: React.FC = () => {
       }
 
       // Fetch connections from backend API
-      const response = await fetch('http://localhost:4000/api/connections', {
+      const response = await fetch(`${API_URL}/api/connections', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -164,7 +165,7 @@ const Connections: React.FC = () => {
       const token = localStorage.getItem('authToken');
       if (!token) return;
 
-      const response = await fetch('http://localhost:4000/api/chatbots', {
+      const response = await fetch(`${API_URL}/api/chatbots', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -330,7 +331,7 @@ const Connections: React.FC = () => {
       await updateStepStatus('sync', 'current', 'Syncing products, orders, and customers...');
       
       // Make real API call to connect
-      const response = await fetch('http://localhost:4000/api/woocommerce/connect', {
+      const response = await fetch(`${API_URL}/api/woocommerce/connect', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -428,7 +429,7 @@ const Connections: React.FC = () => {
       
       // Make real API call to connect
       const token = localStorage.getItem('authToken');
-      const response = await fetch('http://localhost:4000/api/shopify/connect', {
+      const response = await fetch(`${API_URL}/api/shopify/connect', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1327,7 +1328,7 @@ const Connections: React.FC = () => {
       }
 
       // Fetch connections from backend API
-      const response = await fetch('http://localhost:4000/api/connections', {
+      const response = await fetch(`${API_URL}/api/connections', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -1369,7 +1370,7 @@ const Connections: React.FC = () => {
       const token = localStorage.getItem('authToken');
       if (!token) return;
 
-      const response = await fetch('http://localhost:4000/api/chatbots', {
+      const response = await fetch(`${API_URL}/api/chatbots', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -1535,7 +1536,7 @@ const Connections: React.FC = () => {
       await updateStepStatus('sync', 'current', 'Syncing products, orders, and customers...');
       
       // Make real API call to connect
-      const response = await fetch('http://localhost:4000/api/woocommerce/connect', {
+      const response = await fetch(`${API_URL}/api/woocommerce/connect', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1633,7 +1634,7 @@ const Connections: React.FC = () => {
       
       // Make real API call to connect
       const token = localStorage.getItem('authToken');
-      const response = await fetch('http://localhost:4000/api/shopify/connect', {
+      const response = await fetch(`${API_URL}/api/shopify/connect', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

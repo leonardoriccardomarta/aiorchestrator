@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config/constants';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { CheckCircle, XCircle, Loader2, Mail, ArrowRight } from 'lucide-react';
 
@@ -21,7 +22,7 @@ const EmailVerification: React.FC = () => {
 
   const verifyEmail = async (token: string) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/auth/verify?token=${token}`);
+      const response = await fetch(`${API_URL}/api/auth/verify?token=${token}`);
       const data = await response.json();
 
       if (data.success) {

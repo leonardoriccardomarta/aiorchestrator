@@ -1,5 +1,7 @@
+import { API_URL } from './constants';
+
 export const config = {
-  apiUrl: import.meta.env.VITE_API_URL || 'http://localhost:4000/api',
+  apiUrl: `${API_URL}/api`,
   nodeEnv: import.meta.env.VITE_NODE_ENV || 'development',
   chatbotApiUrl: import.meta.env.VITE_CHATBOT_API_URL || 'https://api.chatbot.com',
 };

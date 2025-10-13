@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { API_URL } from '../config/constants';
 import { MessageCircle, X, Send, Minimize2 } from 'lucide-react';
 
 interface Message {
@@ -46,7 +47,7 @@ const LiveChatWidget: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:4000/api/chat', {
+      const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

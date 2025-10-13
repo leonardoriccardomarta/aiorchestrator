@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../../config/constants';
 import { ArrowRight, Loader2, MessageCircle, Sparkles, Globe } from 'lucide-react';
 
 interface Message {
@@ -57,7 +58,7 @@ const InteractiveDemo: React.FC = () => {
 
     // Use real AI API like the chatbot preview
     try {
-      const response = await fetch('http://localhost:4000/api/chat', {
+      const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

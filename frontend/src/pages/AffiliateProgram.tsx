@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL, FRONTEND_URL } from '../config/constants';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContextHooks';
 import LiveChatWidget from '../components/LiveChatWidget';
@@ -186,7 +187,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
 
   const loadAffiliateStats = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/affiliate/stats', {
+      const response = await fetch(`${API_URL}/api/affiliate/stats', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
@@ -222,7 +223,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
     }
 
     try {
-      const response = await fetch('http://localhost:4000/api/affiliate/register', {
+      const response = await fetch(`${API_URL}/api/affiliate/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -261,7 +262,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
     // Replace placeholder with actual referral link
     const referralLink = stats?.affiliateCode 
       ? `http://localhost:5176/?ref=${stats.affiliateCode}`
-      : 'http://localhost:5176/ (Register to get your unique link)';
+      : `${FRONTEND_URL}/ (Register to get your unique link)';
     const finalText = text.replace(/\[YOUR_REFERRAL_LINK\]/g, referralLink);
     
     navigator.clipboard.writeText(finalText);

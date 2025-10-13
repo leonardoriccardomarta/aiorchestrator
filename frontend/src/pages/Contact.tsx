@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_URL } from '../config/constants';
 import { Mail, Phone, MapPin, Send, MessageCircle, Clock, CheckCircle } from 'lucide-react';
 import LiveChatWidget from '../components/LiveChatWidget';
 
@@ -27,7 +28,7 @@ const Contact: React.FC = () => {
     
     try {
       // Send real email via backend
-      const response = await fetch('http://localhost:4000/api/contact/send', {
+      const response = await fetch(`${API_URL}/api/contact/send`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -1,7 +1,9 @@
 // API Configuration for Y Combinator Demo
+import { API_URL } from './constants';
+
 export const API_CONFIG = {
   // Backend URL
-  BASE_URL: import.meta.env.VITE_API_URL || 'http://localhost:4000',
+  BASE_URL: API_URL,
   
   // API Endpoints
   ENDPOINTS: {

@@ -1,3 +1,5 @@
+import { API_URL } from '../config/constants';
+
 interface OnboardingData {
   storeConnected?: boolean;
   platform?: 'shopify' | 'woocommerce';
@@ -12,7 +14,7 @@ export const completeOnboarding = async (data: OnboardingData): Promise<void> =>
       throw new Error('No authentication token found');
     }
 
-    const response = await fetch('http://localhost:4000/api/onboarding/complete', {
+    const response = await fetch(`${API_URL}/api/onboarding/complete`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

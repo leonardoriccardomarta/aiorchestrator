@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { API_URL } from '../../config/constants';
 import { MessageCircle, Send, User, Bot, UserCheck, X } from 'lucide-react';
 import axios from 'axios';
 
@@ -32,7 +33,7 @@ const LiveAgentChat: React.FC<LiveAgentChatProps> = ({
   const [agentName, setAgentName] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+  // API_URL imported from constants
 
   // Scroll to bottom when new messages arrive
   useEffect(() => {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config/constants';
 import { loadStripe } from '@stripe/stripe-js';
 import {
   Elements,
@@ -64,7 +65,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ planId, amount, onSuccess, on
       }
 
       // Create subscription
-      const response = await fetch('http://localhost:4000/api/payments/create-subscription', {
+      const response = await fetch(`${API_URL}/api/payments/create-subscription`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
