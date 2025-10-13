@@ -247,7 +247,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
   };
 
   const copyReferralLink = () => {
-    const link = `http://localhost:5176/?ref=${stats?.affiliateCode}`;
+    const link = `${FRONTEND_URL}/?ref=${stats?.affiliateCode}`;
     navigator.clipboard.writeText(link);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -261,8 +261,8 @@ Highly recommended for any e-commerce business looking to scale support efficien
   const copyMaterial = (text: string) => {
     // Replace placeholder with actual referral link
     const referralLink = stats?.affiliateCode 
-      ? `http://localhost:5176/?ref=${stats.affiliateCode}`
-      : `${FRONTEND_URL}/ (Register to get your unique link)';
+      ? `${FRONTEND_URL}/?ref=${stats.affiliateCode}`
+      : `${FRONTEND_URL}/ (Register to get your unique link)`;
     const finalText = text.replace(/\[YOUR_REFERRAL_LINK\]/g, referralLink);
     
     navigator.clipboard.writeText(finalText);
@@ -290,7 +290,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
         const dashElement = document.getElementById('dashboard');
         if (dashElement) {
           dashElement.scrollIntoView({ behavior: 'smooth' });
-    } else {
+        } else {
           window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
       } else if (showRegisterForm) {
