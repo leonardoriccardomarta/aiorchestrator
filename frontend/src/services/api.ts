@@ -3,7 +3,7 @@ class ApiService {
   private baseURL: string;
 
   constructor() {
-    this.baseURL = 'http://localhost:4000/api';
+    this.baseURL = 'https://aiorchestrator-vtihz.ondigitalocean.app/api';
   }
 
   private async request<T>(

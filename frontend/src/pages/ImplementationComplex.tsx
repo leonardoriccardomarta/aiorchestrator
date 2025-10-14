@@ -84,12 +84,12 @@ const Implementation: React.FC = () => {
     try {
       // Load chatbot-specific data
       const [faqsResponse, analyticsResponse] = await Promise.all([
-        fetch(`http://localhost:4000/api/faqs?chatbotId=${chatbotId}`, {
+        fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/faqs?chatbotId=${chatbotId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
           },
         }),
-        fetch(`http://localhost:4000/api/analytics?chatbotId=${chatbotId}`, {
+        fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/analytics?chatbotId=${chatbotId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
           },

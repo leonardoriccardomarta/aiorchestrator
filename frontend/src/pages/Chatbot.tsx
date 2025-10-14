@@ -110,7 +110,7 @@ const Chatbot: React.FC = () => {
       const token = localStorage.getItem('authToken');
       console.log('🔑 Token:', token ? 'exists' : 'missing');
       
-      const res = await fetch('http://localhost:4000/api/chatbots', {
+      const res = await fetch('https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       
@@ -715,7 +715,7 @@ const Chatbot: React.FC = () => {
                     return;
                   }
                   try{
-                    const res = await fetch(`http://localhost:4000/api/chatbots/${currentChatbotId}` ,{
+                    const res = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${currentChatbotId}` ,{
                       method:'PUT',
                       headers:{ 'Content-Type':'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
                       body: JSON.stringify({ name: chatbotName, welcomeMessage, language: primaryLanguage })

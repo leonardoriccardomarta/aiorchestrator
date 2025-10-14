@@ -6,7 +6,7 @@ export const STRIPE_CONFIG = {
   publishableKey: import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_your_publishable_key_here',
   
   // API Configuration
-  apiUrl: import.meta.env.VITE_API_URL || 'http://localhost:4000',
+  apiUrl: import.meta.env.VITE_API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app',
 };
 
 // For development - you can temporarily use these test keys

@@ -5,7 +5,7 @@ interface Config {
 }
 
 export const config: Config = {
-  apiUrl: import.meta.env.VITE_API_URL || 'http://localhost:4000',
-  wsUrl: import.meta.env.VITE_WS_URL || 'ws://localhost:4000',
+  apiUrl: import.meta.env.VITE_API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app',
+  wsUrl: import.meta.env.VITE_WS_URL || 'wss://aiorchestrator-vtihz.ondigitalocean.app',
   environment: (import.meta.env.MODE as Config['environment']) || 'development',
 }; 

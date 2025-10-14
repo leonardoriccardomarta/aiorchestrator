@@ -84,7 +84,7 @@ const ChatbotManagement: React.FC = () => {
   const toggleChatbotStatus = async (chatbotId: string, currentStatus: string) => {
     try {
       const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
-      const response = await fetch(`http://localhost:4000/api/chatbots/${chatbotId}/status`, {
+      const response = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${chatbotId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
