@@ -569,24 +569,30 @@ app.post('/api/shopify/oauth/install', authenticateToken, async (req, res) => {
 // Step 2: Shopify OAuth callback (receives authorization code)
 app.get('/api/shopify/oauth/callback', async (req, res) => {
   try {
+    console.log('🔄 Shopify OAuth callback received:', req.query);
     const { code, hmac, shop, state } = req.query;
 
     // Verify HMAC signature
     if (!shopifyOAuthService.verifyHmac(req.query)) {
+      console.error('❌ HMAC verification failed');
       return res.status(400).send('HMAC verification failed');
     }
 
     // Validate state and get user info
     const stateData = shopifyOAuthService.validateState(state);
+    console.log('✅ State validated for user:', stateData.userId);
 
     // Exchange code for access token
     const accessToken = await shopifyOAuthService.exchangeCodeForToken(shop, code);
+    console.log('✅ Access token obtained');
 
     // Test connection
     const testResult = await shopifyOAuthService.testConnection(shop, accessToken);
     if (!testResult.success) {
+      console.error('❌ Connection test failed:', testResult.error);
       return res.status(400).send('Connection test failed');
     }
+    console.log('✅ Connection test passed:', testResult.shop.name);
 
     // Store connection
     const connection = realDataService.addConnection(stateData.userId, {
@@ -604,12 +610,14 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
       shopId: shop,
       currency: testResult.shop.currency || 'USD'
     });
+    console.log('✅ Connection stored:', connection.id);
 
     // Redirect back to frontend with success
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5176';
+    console.log('🔄 Redirecting to:', `${frontendUrl}/connections?success=true&platform=shopify&connectionId=${connection.id}`);
     res.redirect(`${frontendUrl}/connections?success=true&platform=shopify&connectionId=${connection.id}`);
   } catch (error) {
-    console.error('Shopify OAuth callback error:', error);
+    console.error('❌ Shopify OAuth callback error:', error);
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5176';
     res.redirect(`${frontendUrl}/connections?error=${encodeURIComponent(error.message)}`);
   }
