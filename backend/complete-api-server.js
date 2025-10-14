@@ -566,6 +566,38 @@ app.post('/api/shopify/oauth/install', authenticateToken, async (req, res) => {
   }
 });
 
+// Test endpoint to verify OAuth callback is working
+app.get('/api/shopify/oauth/test', (req, res) => {
+  res.json({
+    success: true,
+    message: 'OAuth callback endpoint is working',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Test endpoint to check connections
+app.get('/api/connections/test', (req, res) => {
+  try {
+    const allConnections = [];
+    for (const [userId, connections] of realDataService.connections.entries()) {
+      allConnections.push(...connections);
+    }
+    
+    res.json({
+      success: true,
+      message: 'Connections test endpoint',
+      totalConnections: allConnections.length,
+      connections: allConnections,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 // Step 2: Shopify OAuth callback (receives authorization code)
 app.get('/api/shopify/oauth/callback', async (req, res) => {
   try {
