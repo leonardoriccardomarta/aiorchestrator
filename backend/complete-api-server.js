@@ -954,7 +954,7 @@ app.post('/api/shopify/sync/:connectionId', authenticateToken, async (req, res) 
 });
 
 // Get single Shopify connection
-app.get('/api/shopify/connection/:connectionId', authenticateToken, (req, res) => {
+app.get('/api/shopify/connection/:connectionId', authenticateToken, async (req, res) => {
   try {
     const { connectionId } = req.params;
     const user = req.user;
