@@ -1808,7 +1808,7 @@ app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
         title: `New conversation in ${conv.chatbot?.name || 'Chatbot'}`,
         description: `User: ${conv.user?.name || 'Anonymous'}`,
         timestamp: conv.createdAt,
-        status: 'success' as const,
+        status: 'success',
         value: conv.messageCount || 0
       })),
       ...recentConnections.map(conn => ({
@@ -1817,7 +1817,7 @@ app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
         title: `${conn.type} store connected`,
         description: `Store: ${conn.name}`,
         timestamp: conn.createdAt,
-        status: 'success' as const,
+        status: 'success',
         value: conn.productsCount || 0
       }))
     ].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()).slice(0, 10);
@@ -3580,7 +3580,7 @@ process.on('SIGINT', () => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log('🚀 AI Orchestrator Complete API Server Started!');
+  console.log('🚀 AI Orchestrator Complete API Server Started! v2.1.1');
   console.log(`📍 Port: ${PORT}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🔗 Health: http://localhost:${PORT}/health`);
