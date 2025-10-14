@@ -2,17 +2,48 @@
 (function() {
   'use strict';
 
-  // Check if config exists
-  if (!window.AIChatbotConfig) {
-    console.error('AI Orchestrator: AIChatbotConfig not found');
+  // Get configuration from script tag data attributes
+  function getConfig() {
+    const script = document.currentScript;
+    const chatbotId = script.getAttribute('data-chatbot-id');
+    const apiKey = script.getAttribute('data-api-key');
+    
+    if (!chatbotId) {
+      console.error('AI Orchestrator: data-chatbot-id is required');
+      return null;
+    }
+    
+    return {
+      chatbotId,
+      apiKey: apiKey || 'demo-key',
+      apiUrl: 'https://aiorchestrator-vtihz.ondigitalocean.app/api'
+    };
+  }
+  
+  // Fallback to window.AIChatbotConfig for backward compatibility
+  function getLegacyConfig() {
+    if (window.AIChatbotConfig) {
+      return {
+        chatbotId: window.AIChatbotConfig.chatbotId,
+        apiKey: 'demo-key',
+        apiUrl: window.AIChatbotConfig.apiUrl || 'https://aiorchestrator-vtihz.ondigitalocean.app/api'
+      };
+    }
+    return null;
+  }
+  
+  // Get configuration
+  const config = getConfig() || getLegacyConfig();
+  
+  if (!config) {
+    console.error('AI Orchestrator: No valid configuration found');
     return;
   }
   
-  const config = window.AIChatbotConfig;
   console.log('AI Orchestrator: Initializing widget with config:', config);
   
   // Create widget container
-    const widget = document.createElement('div');
+  const widget = document.createElement('div');
   widget.id = 'ai-chatbot-widget';
   widget.style.cssText = `
         position: fixed;
@@ -88,8 +119,8 @@
         <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
           <strong>Configuration:</strong><br>
           <small>Chatbot ID: ${config.chatbotId}</small><br>
-          <small>Platform: ${config.platform}</small><br>
-          <small>Store ID: ${config.storeId}</small>
+          <small>API Key: ${config.apiKey}</small><br>
+          <small>API URL: ${config.apiUrl}</small>
         </div>
         <div style="display: flex; gap: 10px;">
           <button id="start-chat" style="flex: 1; padding: 10px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer;">Start Chat</button>
