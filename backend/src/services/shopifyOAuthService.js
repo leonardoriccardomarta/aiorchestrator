@@ -10,7 +10,7 @@ class ShopifyOAuthService {
     this.apiKey = process.env.SHOPIFY_API_KEY;
     this.apiSecret = process.env.SHOPIFY_API_SECRET;
     this.scopes = 'read_products,read_orders,read_customers,read_inventory';
-    this.redirectUri = `${process.env.FRONTEND_URL}/api/shopify/callback`;
+    this.redirectUri = `https://aiorchestrator-vtihz.ondigitalocean.app/api/shopify/oauth/callback`;
     
     // Store for pending OAuth states (in production, use Redis/database)
     this.pendingStates = new Map();
