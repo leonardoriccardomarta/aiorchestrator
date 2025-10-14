@@ -692,6 +692,7 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
 app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, res) => {
   try {
     const { connectionId } = req.params;
+    const { chatbotId: selectedChatbotId } = req.query;
     const userId = req.user.userId || req.user.id;
     
     const connection = realDataService.getConnection(userId, connectionId);
@@ -702,9 +703,14 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
       });
     }
 
-    // Get user's chatbots
+    // Get user's chatbots and use selected chatbot or first one
     const chatbots = await realDataService.getChatbots(userId);
-    const chatbotId = chatbots[0]?.id || 'default';
+    let chatbotId = selectedChatbotId || chatbots[0]?.id || 'default';
+    
+    // Verify the selected chatbot belongs to the user
+    if (selectedChatbotId && !chatbots.find(c => c.id === selectedChatbotId)) {
+      chatbotId = chatbots[0]?.id || 'default';
+    }
 
     // Generate widget code
     const widgetCode = `<!-- AI Orchestrator Chatbot Widget -->

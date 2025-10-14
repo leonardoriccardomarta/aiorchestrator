@@ -18,7 +18,12 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
   const fetchWidgetCode = async () => {
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch(`${API_URL}/api/connections/${connectionId}/widget`, {
+      const selectedChatbotId = localStorage.getItem('selectedChatbotId');
+      const url = selectedChatbotId 
+        ? `${API_URL}/api/connections/${connectionId}/widget?chatbotId=${selectedChatbotId}`
+        : `${API_URL}/api/connections/${connectionId}/widget`;
+      
+      const response = await fetch(url, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
