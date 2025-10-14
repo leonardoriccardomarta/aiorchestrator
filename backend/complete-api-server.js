@@ -352,7 +352,7 @@ app.post('/api/woocommerce/connect', authenticateToken, async (req, res) => {
     const connectionId = `wc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     // Store connection in real data service
-    const connection = realDataService.addConnection(user.id, {
+    const connection = await realDataService.addConnection(user.id, {
       id: connectionId,
       storeUrl,
       consumerKey,
@@ -871,7 +871,7 @@ app.post('/api/shopify/connect', authenticateToken, async (req, res) => {
     const connectionId = `shopify_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     // Store connection in real data service
-    const connection = realDataService.addConnection(user.id, {
+    const connection = await realDataService.addConnection(user.id, {
       id: connectionId,
       platform: 'shopify',
       storeName: storeName || shop.replace('.myshopify.com', ''),
@@ -916,7 +916,7 @@ app.post('/api/shopify/sync/:connectionId', authenticateToken, async (req, res) 
     const { connectionId } = req.params;
     const user = req.user;
     
-    const connection = realDataService.getConnection(user.id, connectionId);
+    const connection = await realDataService.getConnection(user.id, connectionId);
     if (!connection || connection.platform !== 'shopify') {
       return res.status(404).json({
         success: false,
@@ -928,7 +928,7 @@ app.post('/api/shopify/sync/:connectionId', authenticateToken, async (req, res) 
     await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call delay
 
     // Update connection with mock data for now
-    const updatedConnection = realDataService.updateConnection(user.id, connectionId, {
+    const updatedConnection = await realDataService.updateConnection(user.id, connectionId, {
       lastSync: new Date().toISOString(),
       productsCount: Math.floor(Math.random() * 1000),
       ordersCount: Math.floor(Math.random() * 500),
@@ -959,7 +959,7 @@ app.get('/api/shopify/connection/:connectionId', authenticateToken, (req, res) =
     const { connectionId } = req.params;
     const user = req.user;
     
-    const connection = realDataService.getConnection(user.id, connectionId);
+    const connection = await realDataService.getConnection(user.id, connectionId);
     if (!connection || connection.platform !== 'shopify') {
       return res.status(404).json({
         success: false,
@@ -1196,7 +1196,7 @@ app.post('/api/shopify/connect', authenticateToken, async (req, res) => {
     const connectionId = `shopify_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     // Store connection in real data service
-    const connection = realDataService.addConnection(user.id, {
+    const connection = await realDataService.addConnection(user.id, {
       id: connectionId,
       platform: 'shopify',
       storeName: storeName || shop.replace('.myshopify.com', ''),
@@ -1588,8 +1588,127 @@ app.post('/api/faqs', authenticateToken, (req, res) => {
   });
 });
 
+// ===== EMBED API =====
+app.get('/public/embed/:chatbotId', async (req, res) => {
+  try {
+    const { chatbotId } = req.params;
+    
+    // Get chatbot from database
+    const chatbot = await prisma.chatbot.findUnique({
+      where: { id: chatbotId }
+    });
+    
+    if (!chatbot) {
+      return res.status(404).send('Chatbot not found');
+    }
+    
+    // Return HTML page with chatbot widget
+    const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Preview</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f9fafb;
+        }
+        .preview-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .preview-header {
+            background: #3B82F6;
+            color: white;
+            padding: 16px;
+            text-align: center;
+        }
+        .preview-content {
+            padding: 20px;
+        }
+        .chat-message {
+            margin-bottom: 12px;
+            padding: 12px;
+            border-radius: 18px;
+            max-width: 80%;
+        }
+        .chat-bot {
+            background: #f3f4f6;
+            color: #1f2937;
+            margin-right: auto;
+        }
+        .chat-user {
+            background: #3B82F6;
+            color: white;
+            margin-left: auto;
+        }
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 12px;
+            background: #f3f4f6;
+            border-radius: 18px;
+            max-width: 80px;
+        }
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #6b7280;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <div class="preview-header">
+            <h3>${chatbot.name}</h3>
+            <p style="margin: 0; font-size: 14px; opacity: 0.9;">AI Assistant Preview</p>
+        </div>
+        <div class="preview-content">
+            <div class="chat-message chat-bot">
+                ${chatbot.welcomeMessage || 'Hello! How can I help you today?'}
+            </div>
+            <div class="chat-message chat-user">
+                Hi! Can you help me?
+            </div>
+            <div class="typing-indicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>`;
+    
+    res.setHeader('Content-Type', 'text/html');
+    res.setHeader('X-Frame-Options', 'ALLOWALL');
+    res.setHeader('Content-Security-Policy', "frame-ancestors *;");
+    res.send(html);
+  } catch (error) {
+    console.error('Embed error:', error);
+    res.status(500).send('Internal server error');
+  }
+});
+
 // ===== CONNECTIONS API =====
-app.get('/api/connections', authenticateToken, (req, res) => {
+app.get('/api/connections', authenticateToken, async (req, res) => {
   const { chatbotId } = req.query;
   
   // Note: In production, filter connections by chatbotId from database
@@ -1600,20 +1719,20 @@ app.get('/api/connections', authenticateToken, (req, res) => {
     console.log('🔍 Getting connections for user:', userId);
     
     // Get connections from real data service
-    const connections = realDataService.getConnections(userId);
+    const connections = await realDataService.getConnections(userId);
     console.log('📋 Found connections:', connections.length);
     
     // Transform connections to match expected format
     const formattedConnections = connections.map(conn => ({
       id: conn.id,
-      platform: conn.platform,
-      storeName: conn.storeName,
-      domain: conn.domain,
+      platform: conn.type,
+      storeName: conn.name,
+      domain: conn.url,
       status: conn.status,
       productsCount: conn.productsCount || 0,
       ordersCount: conn.ordersCount || 0,
-      lastSync: conn.lastSync,
-      connectedAt: conn.lastSync
+      lastSync: conn.updatedAt,
+      connectedAt: conn.createdAt
     }));
     
     console.log('✅ Returning connections:', formattedConnections);

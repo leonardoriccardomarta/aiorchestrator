@@ -82,37 +82,50 @@ class RealDataService {
     };
   }
 
-  getConnections(userId) {
-    const userConnections = this.connections.get(userId) || [];
-    return userConnections;
+  async getConnections(userId) {
+    return await prisma.connection.findMany({
+      where: { userId }
+    });
   }
 
-  addConnection(userId, connectionData) {
-    const userConnections = this.connections.get(userId) || [];
-    const newConnection = {
-      id: `conn_${Date.now()}`,
-      ...connectionData,
-      createdAt: new Date()
-    };
-    userConnections.push(newConnection);
-    this.connections.set(userId, userConnections);
-    return newConnection;
+  async addConnection(userId, connectionData) {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    return await prisma.connection.create({
+      data: {
+        type: connectionData.platform || connectionData.type || 'shopify',
+        name: connectionData.storeName || connectionData.name || 'Store',
+        url: connectionData.domain || connectionData.storeUrl || connectionData.url || '',
+        apiKey: connectionData.accessToken || connectionData.apiKey || '',
+        secretKey: connectionData.secretKey || '',
+        webhookUrl: connectionData.webhookUrl || '',
+        status: connectionData.status || 'connected',
+        productsCount: connectionData.productsCount || 0,
+        syncedProductsCount: connectionData.syncedProductsCount || 0,
+        ordersCount: connectionData.ordersCount || 0,
+        syncedOrdersCount: connectionData.syncedOrdersCount || 0,
+        userId,
+        tenantId: user.tenantId
+      }
+    });
   }
 
-  getConnection(userId, connectionId) {
-    const userConnections = this.connections.get(userId) || [];
-    return userConnections.find(c => c.id === connectionId);
+  async getConnection(userId, connectionId) {
+    return await prisma.connection.findFirst({
+      where: { 
+        id: connectionId,
+        userId 
+      }
+    });
   }
 
-  updateConnection(userId, connectionId, updates) {
-    const userConnections = this.connections.get(userId) || [];
-    const index = userConnections.findIndex(c => c.id === connectionId);
-    if (index !== -1) {
-      userConnections[index] = { ...userConnections[index], ...updates };
-      this.connections.set(userId, userConnections);
-      return userConnections[index];
-    }
-    return null;
+  async updateConnection(userId, connectionId, updates) {
+    return await prisma.connection.update({
+      where: { 
+        id: connectionId,
+        userId 
+      },
+      data: updates
+    });
   }
 
   addConversation(userId, conversationData) {
