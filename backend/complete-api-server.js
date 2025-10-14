@@ -604,6 +604,15 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
     console.log('🔄 Shopify OAuth callback received:', req.query);
     const { code, hmac, shop, state } = req.query;
 
+    // Debug parameters
+    console.log('🔍 Parsed parameters:', { code: !!code, hmac: !!hmac, shop, state: !!state });
+
+    // Check if shop parameter is valid
+    if (!shop) {
+      console.error('❌ Missing shop parameter');
+      return res.status(400).send('Missing shop parameter');
+    }
+
     // Verify HMAC signature (temporarily disabled for debugging)
     if (!shopifyOAuthService.verifyHmac(req.query)) {
       console.error('❌ HMAC verification failed - continuing anyway for debugging');
@@ -622,6 +631,7 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
     }
 
     // Exchange code for access token
+    console.log('🔄 Exchanging code for token with shop:', shop);
     const accessToken = await shopifyOAuthService.exchangeCodeForToken(shop, code);
     console.log('✅ Access token obtained');
 

@@ -82,7 +82,13 @@ class ShopifyOAuthService {
    * Exchange authorization code for access token
    */
   async exchangeCodeForToken(shop, code) {
-    const url = `https://${shop}/admin/oauth/access_token`;
+    console.log('🔄 Exchanging code for token:', { shop, code: !!code });
+    
+    // Clean shop URL
+    const cleanShop = shop.replace(/^https?:\/\//, '').replace(/\/+$/, '');
+    const url = `https://${cleanShop}/admin/oauth/access_token`;
+    
+    console.log('🔄 Making request to:', url);
     
     const response = await fetch(url, {
       method: 'POST',
@@ -97,10 +103,13 @@ class ShopifyOAuthService {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to exchange code for token');
+      const errorText = await response.text();
+      console.error('❌ Token exchange failed:', response.status, errorText);
+      throw new Error(`Failed to exchange code for token: ${response.status} ${errorText}`);
     }
 
     const data = await response.json();
+    console.log('✅ Token exchange successful');
     return data.access_token;
   }
 
