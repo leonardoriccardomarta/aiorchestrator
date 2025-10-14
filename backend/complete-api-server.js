@@ -632,46 +632,13 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5176';
     console.log('🔄 Redirecting to:', `${frontendUrl}/connections?success=true&platform=shopify&connectionId=${connection.id}`);
     
-    // Send HTML page with console logging before redirect
-    res.send(`
-      <html>
-        <body>
-          <h1>OAuth Success!</h1>
-          <p>Redirecting to your app...</p>
-          <script>
-            console.log('🔄 Shopify OAuth callback received:', ${JSON.stringify(req.query)});
-            console.log('✅ State validated for user:', '${stateData.userId}');
-            console.log('✅ Access token obtained');
-            console.log('✅ Connection test passed:', '${testResult.shop.name}');
-            console.log('✅ Connection stored:', '${connection.id}');
-            console.log('🔄 Redirecting to:', '${frontendUrl}/connections?success=true&platform=shopify&connectionId=${connection.id}');
-            
-            // Redirect after 2 seconds
-            setTimeout(() => {
-              window.location.href = '${frontendUrl}/connections?success=true&platform=shopify&connectionId=${connection.id}';
-            }, 2000);
-          </script>
-        </body>
-      </html>
-    `);
+    // Redirect directly to frontend with success
+    res.redirect(`${frontendUrl}/connections?success=true&platform=shopify&connectionId=${connection.id}`);
   } catch (error) {
     console.error('❌ Shopify OAuth callback error:', error);
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5176';
     
-    res.send(`
-      <html>
-        <body>
-          <h1>OAuth Error</h1>
-          <p>Error: ${error.message}</p>
-          <script>
-            console.error('❌ Shopify OAuth callback error:', '${error.message}');
-            setTimeout(() => {
-              window.location.href = '${frontendUrl}/connections?error=${encodeURIComponent(error.message)}';
-            }, 2000);
-          </script>
-        </body>
-      </html>
-    `);
+    res.redirect(`${frontendUrl}/connections?error=${encodeURIComponent(error.message)}`);
   }
 });
 

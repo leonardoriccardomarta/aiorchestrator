@@ -51,13 +51,17 @@ const ConnectionsNew: React.FC = () => {
     const error = searchParams.get('error');
     const connectionId = searchParams.get('connectionId');
 
+    console.log('🔍 OAuth callback params:', { success, error, connectionId });
+
     if (success === 'true' && connectionId) {
+      console.log('✅ OAuth success detected, connectionId:', connectionId);
       setSuccessConnectionId(connectionId);
       setShowWidgetModal(true);
       fetchConnections(); // Refresh list
     }
 
     if (error) {
+      console.error('❌ OAuth error:', error);
       alert(`Connection failed: ${error}`);
     }
   }, [searchParams, selectedChatbotId]);
@@ -66,6 +70,8 @@ const ConnectionsNew: React.FC = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('authToken');
+      console.log('🔄 Fetching connections...');
+      
       const response = await fetch(`${API_URL}/api/connections`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -76,9 +82,10 @@ const ConnectionsNew: React.FC = () => {
 
       const data = await response.json();
       const connectionsData = data.data?.connections || data.connections || [];
+      console.log('✅ Connections fetched:', connectionsData);
       setConnections(connectionsData);
     } catch (error) {
-      console.error('Failed to fetch connections:', error);
+      console.error('❌ Failed to fetch connections:', error);
     } finally {
       setLoading(false);
     }
