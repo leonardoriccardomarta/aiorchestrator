@@ -1880,6 +1880,7 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
       
       dailyData.push({
         date: date.toISOString().split('T')[0],
+        count: dayConversations.reduce((sum, conv) => sum + (conv.messageCount || 0), 0),
         messages: dayConversations.reduce((sum, conv) => sum + (conv.messageCount || 0), 0),
         conversations: dayConversations.length,
         users: new Set(dayConversations.map(conv => conv.userId)).size
@@ -1902,15 +1903,17 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
         byLanguage: [] // TODO: Implement language data
       },
       performance: {
-        responseTime: dailyData.map(d => ({ date: d.date, value: avgResponseTime })),
-        satisfaction: dailyData.map(d => ({ date: d.date, value: satisfactionScore })),
-        conversion: dailyData.map(d => ({ date: d.date, value: conversionRate }))
+        responseTime: dailyData.map(d => ({ date: d.date, avgTime: avgResponseTime })),
+        satisfaction: dailyData.map(d => ({ date: d.date, score: satisfactionScore })),
+        conversion: dailyData.map(d => ({ date: d.date, rate: conversionRate }))
       },
       insights: conversations.length > 0 ? [
         {
-          type: 'success',
+          id: 'engagement_insight',
+          type: 'positive',
           title: 'High engagement detected',
           description: `Your chatbot has processed ${totalMessages} messages in the last ${days} days`,
+          impact: 'Increased customer satisfaction and retention',
           recommendation: 'Consider expanding to more languages to reach more customers'
         }
       ] : []
