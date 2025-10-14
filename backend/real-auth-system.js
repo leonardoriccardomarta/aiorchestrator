@@ -78,7 +78,12 @@ class AuthService {
           id: user.id,
           email: user.email,
           name: `${user.firstName} ${user.lastName}`,
-          planId: user.planId
+          planId: user.planId,
+          isTrialActive: user.isTrialActive,
+          trialEndDate: user.trialEndDate,
+          isPaid: user.isPaid || false,
+          hasCompletedOnboarding: false,
+          isNewUser: true
         },
         token
       };
@@ -119,7 +124,10 @@ class AuthService {
           name: `${user.firstName} ${user.lastName}`,
           planId: user.planId,
           isTrialActive: user.isTrialActive,
-          trialEndDate: user.trialEndDate
+          trialEndDate: user.trialEndDate,
+          isPaid: user.isPaid || false,
+          hasCompletedOnboarding: user.hasCompletedOnboarding || false,
+          isNewUser: false
         },
         token
       };
