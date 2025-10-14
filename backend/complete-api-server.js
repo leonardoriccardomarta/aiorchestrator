@@ -708,15 +708,12 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
 
     // Generate widget code
     const widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
-<script>
-  window.AIChatbotConfig = {
-    chatbotId: '${chatbotId}',
-    apiUrl: '${process.env.FRONTEND_URL || 'https://www.aiorchestrator.dev'}',
-    platform: '${connection.platform}',
-    storeId: '${connectionId}'
-  };
-</script>
-<script src="${process.env.FRONTEND_URL || 'https://www.aiorchestrator.dev'}/chatbot-widget.js"></script>`;
+<script 
+  src="https://www.aiorchestrator.dev/chatbot-widget.js"
+  data-chatbot-id="${chatbotId}"
+  data-api-key="demo-key"
+  defer>
+</script>`;
 
     res.json({
       success: true,
