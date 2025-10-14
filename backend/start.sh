@@ -11,7 +11,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "🔄 Pushing database schema..."
-npx prisma db push --accept-data-loss
+npx prisma db push --skip-generate
 
 if [ $? -eq 0 ]; then
   echo "✅ Database schema applied successfully"
