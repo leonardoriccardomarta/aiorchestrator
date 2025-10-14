@@ -14,7 +14,7 @@
 
   // Configuration
   const CONFIG = {
-    apiBaseUrl: 'http://localhost:4000/api',
+    apiBaseUrl: 'https://aiorchestrator-vtihz.ondigitalocean.app/api',
     widgetVersion: '1.0.0',
     defaultTheme: {
       primaryColor: '#3B82F6',
