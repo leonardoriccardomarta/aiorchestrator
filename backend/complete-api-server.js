@@ -1592,6 +1592,7 @@ app.post('/api/faqs', authenticateToken, (req, res) => {
 app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
     const { chatbotId } = req.params;
+    const { position, theme, size, title, placeholder, showAvatar } = req.query;
     
     // Get chatbot from database
     const chatbot = await prisma.chatbot.findUnique({
@@ -1694,6 +1695,21 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             </div>
         </div>
     </div>
+    
+    <!-- Embedded widget with customizations -->
+    <script 
+      src="https://www.aiorchestrator.dev/chatbot-widget.js"
+      data-chatbot-id="${chatbotId}"
+      data-api-key="demo-key"
+      data-position="${position || 'bottom-right'}"
+      data-theme="${theme || 'blue'}"
+      data-size="${size || 'medium'}"
+      data-title="${title || 'AI Support'}"
+      data-placeholder="${placeholder || 'Type your message...'}"
+      data-show-avatar="${showAvatar !== 'false'}"
+      data-welcome-message="${chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}"
+      defer>
+    </script>
 </body>
 </html>`;
     

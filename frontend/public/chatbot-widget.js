@@ -1,113 +1,265 @@
-// AI Orchestrator Chatbot Widget - Original Working Version
+// AI Orchestrator Chatbot Widget - Beautiful Version
 (function() {
   'use strict';
-  
-  // Get configuration from script tag data attributes
+
+  // Get configuration from data attributes or legacy config
   function getConfig() {
-    const script = document.currentScript;
-    const chatbotId = script.getAttribute('data-chatbot-id');
-    const apiKey = script.getAttribute('data-api-key');
-    
-    if (!chatbotId) {
-      console.error('AI Orchestrator: data-chatbot-id is required');
-      return null;
-    }
-    
-    return {
-      chatbotId,
-      apiKey: apiKey || 'demo-key',
-      apiUrl: 'https://aiorchestrator-vtihz.ondigitalocean.app'
-    };
-  }
-  
-  // Fallback to window.AIChatbotConfig for backward compatibility
-  function getLegacyConfig() {
-    if (window.AIChatbotConfig) {
+    const script = document.querySelector('script[data-chatbot-id]');
+    if (script) {
       return {
-        chatbotId: window.AIChatbotConfig.chatbotId,
-        apiKey: 'demo-key',
-        apiUrl: window.AIChatbotConfig.apiUrl || 'https://aiorchestrator-vtihz.ondigitalocean.app'
+        chatbotId: script.dataset.chatbotId,
+        apiKey: script.dataset.apiKey || 'demo-key',
+        position: script.dataset.position || 'bottom-right',
+        theme: script.dataset.theme || 'blue',
+        title: script.dataset.title || 'AI Support',
+        welcomeMessage: script.dataset.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
+        placeholder: script.dataset.placeholder || 'Type your message...',
+        showAvatar: script.dataset.showAvatar !== 'false',
+        size: script.dataset.size || 'medium'
       };
     }
     return null;
   }
-  
-  // Get configuration
+
+  // Legacy config support
+  function getLegacyConfig() {
+    if (window.AIChatbotConfig) {
+      return {
+        chatbotId: window.AIChatbotConfig.chatbotId,
+        apiKey: window.AIChatbotConfig.apiKey || 'demo-key',
+        position: window.AIChatbotConfig.position || 'bottom-right',
+        theme: window.AIChatbotConfig.theme || 'blue',
+        title: window.AIChatbotConfig.title || 'AI Support',
+        welcomeMessage: window.AIChatbotConfig.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
+        placeholder: window.AIChatbotConfig.placeholder || 'Type your message...',
+        showAvatar: window.AIChatbotConfig.showAvatar !== false,
+        size: window.AIChatbotConfig.size || 'medium'
+      };
+    }
+    return null;
+  }
+
   const config = getConfig() || getLegacyConfig();
-  
   if (!config) {
     console.error('AI Orchestrator: No valid configuration found');
     return;
   }
-  
-  console.log('AI Orchestrator: Initializing original widget with config:', config);
-  
+
+  console.log('AI Orchestrator: Initializing beautiful widget with config:', config);
+
+  // Theme configurations
+  const themes = {
+    blue: {
+      primary: 'from-blue-600 to-blue-700',
+      secondary: 'from-blue-50 to-blue-100',
+      accent: 'bg-blue-600',
+      text: 'text-blue-900',
+      border: 'border-blue-200'
+    },
+    purple: {
+      primary: 'from-purple-600 to-purple-700',
+      secondary: 'from-purple-50 to-purple-100',
+      accent: 'bg-purple-600',
+      text: 'text-purple-900',
+      border: 'border-purple-200'
+    },
+    green: {
+      primary: 'from-green-600 to-green-700',
+      secondary: 'from-green-50 to-green-100',
+      accent: 'bg-green-600',
+      text: 'text-green-900',
+      border: 'border-green-200'
+    },
+    red: {
+      primary: 'from-red-600 to-red-700',
+      secondary: 'from-red-50 to-red-100',
+      accent: 'bg-red-600',
+      text: 'text-red-900',
+      border: 'border-red-200'
+    }
+  };
+
+  // Size configurations
+  const sizes = {
+    small: { width: 'w-80', height: 'h-80', buttonSize: 'w-12 h-12', iconSize: 'w-5 h-5' },
+    medium: { width: 'w-96', height: 'h-96', buttonSize: 'w-16 h-16', iconSize: 'w-7 h-7' },
+    large: { width: 'w-[28rem]', height: 'h-[28rem]', buttonSize: 'w-20 h-20', iconSize: 'w-8 h-8' }
+  };
+
+  const theme = themes[config.theme] || themes.blue;
+  const size = sizes[config.size] || sizes.medium;
+
+  // Position configurations
+  const positions = {
+    'bottom-right': 'bottom-6 right-6',
+    'bottom-left': 'bottom-6 left-6',
+    'top-right': 'top-6 right-6',
+    'top-left': 'top-6 left-6'
+  };
+
+  const position = positions[config.position] || positions['bottom-right'];
+
   // Create widget HTML
   const widgetHTML = `
-    <div id="ai-orchestrator-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 10000; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-      <div class="ai-widget-container">
-        <button class="ai-widget-button" id="ai-widget-toggle" style="width: 60px; height: 60px; background: #3B82F6; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); transition: all 0.3s ease; color: white; border: none;">
-          <span style="font-size: 24px;">🤖</span>
-        </button>
-        
-        <div class="ai-widget-chat" id="ai-widget-chat" style="position: absolute; bottom: 80px; right: 0; width: 350px; height: 500px; background: #FFFFFF; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12); display: none; flex-direction: column; overflow: hidden; border: 1px solid #E5E7EB;">
-          <div class="ai-widget-header" style="background: #3B82F6; color: white; padding: 16px; display: flex; justify-content: space-between; align-items: center;">
-            <div class="ai-widget-title" style="display: flex; align-items: center; gap: 12px;">
-              <div class="ai-widget-avatar" style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; font-size: 20px;">🤖</div>
+    <div id="ai-chatbot-widget" class="fixed ${position} z-50">
+      <!-- Toggle Button -->
+      <button id="ai-widget-toggle" class="${size.buttonSize} bg-gradient-to-br ${theme.primary} text-white rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group">
+        <svg class="${size.iconSize}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+        </svg>
+        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
+        <div class="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          ${config.title}
+        </div>
+      </button>
+
+      <!-- Chat Widget -->
+      <div id="ai-widget-chat" class="${size.width} ${size.height} bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-br ${theme.secondary} border-b-2 ${theme.border} p-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              ${config.showAvatar ? `
+                <div class="w-10 h-10 bg-gradient-to-br ${theme.primary} rounded-full flex items-center justify-center">
+                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+              ` : ''}
               <div>
-                <div class="ai-widget-name" style="font-weight: 600; font-size: 16px;">AI Assistant</div>
-                <div class="ai-widget-status" style="font-size: 12px; opacity: 0.8;">Online</div>
+                <div class="font-bold ${theme.text}">${config.title}</div>
+                <div class="text-xs text-gray-600 flex items-center gap-1">
+                  <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                  Online 24/7
+                </div>
               </div>
             </div>
-            <button class="ai-widget-close" id="ai-widget-close" style="background: none; border: none; color: white; font-size: 24px; cursor: pointer; padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">×</button>
-          </div>
-          
-          <div class="ai-widget-messages" id="ai-widget-messages" style="flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;">
-            <div class="ai-widget-message ai-widget-message-bot" style="display: flex; gap: 8px; align-items: flex-start;">
-              <div class="ai-widget-content" style="max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.4; background: #F3F4F6; color: #1F2937;">
-                <div class="ai-widget-text">Hello! I'm your AI assistant. How can I help you today?</div>
-                <div class="ai-widget-time" style="font-size: 11px; opacity: 0.7;">Just now</div>
+            <div class="flex items-center gap-2">
+              <button id="ai-widget-minimize" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                </svg>
+              </button>
+              <button id="ai-widget-close" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
               </div>
             </div>
           </div>
           
-          <div class="ai-widget-input-container" style="padding: 16px; border-top: 1px solid #E5E7EB; display: flex; gap: 8px;">
-            <input type="text" id="ai-widget-input" placeholder="Type a message..." style="flex: 1; padding: 12px 16px; border: 1px solid #D1D5DB; border-radius: 24px; outline: none; font-size: 14px;">
-            <button id="ai-widget-send" style="background: #3B82F6; color: white; border: none; border-radius: 24px; padding: 12px 20px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s ease;">Send</button>
+        <!-- Messages -->
+        <div id="ai-widget-messages" class="h-96 overflow-y-auto p-4 bg-gray-50">
+          <div class="mb-4 flex justify-start">
+            <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
+              <div class="text-sm">${config.welcomeMessage}</div>
+              <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+              </div>
+            </div>
+          </div>
+          
+        <!-- Input -->
+        <div class="p-4 bg-white border-t border-gray-200">
+          <div class="flex gap-2">
+            <input
+              id="ai-widget-input"
+              type="text"
+              placeholder="${config.placeholder}"
+              class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            <button id="ai-widget-send" class="${theme.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+              </svg>
+            </button>
+          </div>
           </div>
         </div>
       </div>
-    </div>
+    `;
+
+    // Add styles
+  const style = document.createElement('style');
+  style.textContent = `
+    #ai-chatbot-widget * {
+      box-sizing: border-box;
+    }
+    #ai-chatbot-widget {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+    #ai-widget-messages::-webkit-scrollbar {
+      width: 6px;
+    }
+    #ai-widget-messages::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+    #ai-widget-messages::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 3px;
+    }
+    #ai-widget-messages::-webkit-scrollbar-thumb:hover {
+      background: #a1a1a1;
+    }
   `;
-  
-  // Inject widget
+  document.head.appendChild(style);
+
+  // Add widget to page
   document.body.insertAdjacentHTML('beforeend', widgetHTML);
-  
+
   // Widget state
   let isOpen = false;
+  let isMinimized = false;
   let conversationHistory = [];
-  
-  // Widget functions
+
+  // Toggle widget
   window.toggleChatbot = function() {
     const chat = document.getElementById('ai-widget-chat');
-    isOpen = !isOpen;
-    chat.classList.toggle('open', isOpen);
-    if (isOpen) {
-      chat.style.display = 'flex';
+    const button = document.getElementById('ai-widget-toggle');
+    
+    if (!isOpen) {
+      chat.classList.remove('hidden');
+      button.style.display = 'none';
+      isOpen = true;
       document.getElementById('ai-widget-input').focus();
     } else {
-      chat.style.display = 'none';
+      chat.classList.add('hidden');
+      button.style.display = 'flex';
+      isOpen = false;
     }
   };
-  
+
+  // Close widget
   window.closeChatbot = function() {
+    const chat = document.getElementById('ai-widget-chat');
+    const button = document.getElementById('ai-widget-toggle');
+    
+    chat.classList.add('hidden');
+    button.style.display = 'flex';
     isOpen = false;
-    document.getElementById('ai-widget-chat').style.display = 'none';
+    isMinimized = false;
   };
-  
+
+  // Minimize widget
+  window.minimizeChatbot = function() {
+    const messages = document.getElementById('ai-widget-messages');
+    const input = document.querySelector('#ai-widget-chat .p-4');
+    
+    if (!isMinimized) {
+      messages.style.display = 'none';
+      input.style.display = 'none';
+      isMinimized = true;
+    } else {
+      messages.style.display = 'block';
+      input.style.display = 'block';
+      isMinimized = false;
+    }
+  };
+
+  // Send message
   window.sendChatbotMessage = async function() {
     const input = document.getElementById('ai-widget-input');
-    const sendButton = document.getElementById('ai-widget-send');
     const message = input.value.trim();
     
     if (!message) return;
@@ -115,91 +267,111 @@
     // Add user message
     addMessage(message, true);
     input.value = '';
-    sendButton.disabled = true;
-    sendButton.textContent = 'Sending...';
-    
-    // Add typing indicator
-    const typingDiv = document.createElement('div');
-    typingDiv.className = 'ai-widget-message ai-widget-message-bot';
-    typingDiv.innerHTML = `
-      <div class="ai-widget-content" style="max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.4; background: #F3F4F6; color: #1F2937;">
-        <div class="ai-widget-text">Typing...</div>
-      </div>
-    `;
-    document.getElementById('ai-widget-messages').appendChild(typingDiv);
-    
+
+    // Show typing indicator
+    showTypingIndicator();
+
     try {
-      // Send to API
-      const response = await fetch(`${config.apiUrl}/api/chat`, {
+      // Simulate API call (replace with real API)
+      const response = await fetch('https://aiorchestrator-vtihz.ondigitalocean.app/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${config.apiKey}`,
-          'X-Chatbot-ID': config.chatbotId
+          'Authorization': `Bearer ${config.apiKey}`
         },
         body: JSON.stringify({
           message: message,
           chatbotId: config.chatbotId,
-          userId: 'widget-user',
-          language: 'auto'
+          conversationHistory: conversationHistory
         })
       });
-      
-      const data = await response.json();
-      
-      // Remove typing indicator
-      typingDiv.remove();
-      
-      // Add bot response
-      const botMessage = data.response || data.message || 'Sorry, I could not process your request.';
-      addMessage(botMessage, false);
-      
-      // Store in conversation history
-      conversationHistory.push(
-        { role: 'user', content: message },
-        { role: 'assistant', content: botMessage }
-      );
-      
+
+      if (response.ok) {
+        const data = await response.json();
+        hideTypingIndicator();
+        addMessage(data.response || 'I understand your message. How can I help you further?', false);
+  } else {
+        hideTypingIndicator();
+        addMessage('Sorry, I\'m having trouble responding right now. Please try again.', false);
+      }
     } catch (error) {
-      typingDiv.remove();
-      addMessage('Sorry, I encountered an error. Please try again.', false);
-      console.error('AI Orchestrator Widget Error:', error);
-    } finally {
-      sendButton.disabled = false;
-      sendButton.textContent = 'Send';
+      console.error('Chat error:', error);
+      hideTypingIndicator();
+      addMessage('Sorry, I\'m having trouble responding right now. Please try again.', false);
     }
   };
-  
+
+  // Handle enter key
   window.handleChatbotKeypress = function(event) {
     if (event.key === 'Enter') {
+      event.preventDefault();
       sendChatbotMessage();
     }
   };
-  
+
+  // Add message to chat
   function addMessage(content, isUser = false) {
     const messagesContainer = document.getElementById('ai-widget-messages');
     const messageDiv = document.createElement('div');
-    messageDiv.className = `ai-widget-message ${isUser ? 'ai-widget-message-user' : 'ai-widget-message-bot'}`;
+    messageDiv.className = `mb-4 flex ${isUser ? 'justify-end' : 'justify-start'}`;
     
     const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     
     messageDiv.innerHTML = `
-      <div class="ai-widget-content" style="max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.4; ${isUser ? 'background: #3B82F6; color: white;' : 'background: #F3F4F6; color: #1F2937;'}">
-        <div class="ai-widget-text">${content}</div>
-        <div class="ai-widget-time" style="font-size: 11px; opacity: 0.7;">${time}</div>
+      <div class="max-w-[80%] rounded-2xl px-4 py-2 ${
+        isUser
+          ? 'bg-blue-600 text-white'
+          : 'bg-white text-gray-900 border border-gray-200'
+      }">
+        <div class="text-sm">${content}</div>
+        <div class="text-xs mt-1 ${isUser ? 'text-blue-100' : 'text-gray-500'}">${time}</div>
       </div>
     `;
     
     messagesContainer.appendChild(messageDiv);
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      
+      // Store in conversation history
+    conversationHistory.push({
+      role: isUser ? 'user' : 'assistant',
+      content: content,
+      timestamp: new Date()
+    });
   }
-  
-  // Event listeners
+
+  // Show typing indicator
+  function showTypingIndicator() {
+    const messagesContainer = document.getElementById('ai-widget-messages');
+    const typingDiv = document.createElement('div');
+    typingDiv.id = 'typing-indicator';
+    typingDiv.className = 'flex justify-start mb-4';
+    typingDiv.innerHTML = `
+      <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
+        <div class="flex gap-1">
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+        </div>
+      </div>
+    `;
+    messagesContainer.appendChild(typingDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  // Hide typing indicator
+  function hideTypingIndicator() {
+    const typing = document.getElementById('typing-indicator');
+    if (typing) {
+      typing.remove();
+      }
+    }
+    
+    // Event listeners
   document.getElementById('ai-widget-toggle').addEventListener('click', toggleChatbot);
   document.getElementById('ai-widget-close').addEventListener('click', closeChatbot);
+  document.getElementById('ai-widget-minimize').addEventListener('click', minimizeChatbot);
   document.getElementById('ai-widget-send').addEventListener('click', sendChatbotMessage);
   document.getElementById('ai-widget-input').addEventListener('keypress', handleChatbotKeypress);
-  
-  // Initialize chatbot
-  console.log('AI Orchestrator: Original widget loaded successfully!');
+
+  console.log('AI Orchestrator: Beautiful widget loaded successfully!');
 })();

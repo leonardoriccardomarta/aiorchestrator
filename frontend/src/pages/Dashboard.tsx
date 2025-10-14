@@ -106,7 +106,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     fetchDashboardData();
     checkFirstTimeUser();
-  }, [selectedChatbotId]); // Ricarica quando cambia chatbot
+  }, [selectedChatbotId, chatbots.length]); // Ricarica quando cambia chatbot o numero di chatbot
 
   const checkFirstTimeUser = () => {
     const isFirstTime = !localStorage.getItem('hasSeenOnboarding');

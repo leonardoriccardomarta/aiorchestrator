@@ -58,6 +58,14 @@ const Chatbot: React.FC = () => {
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
   const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
   const [chatbotDeleted, setChatbotDeleted] = useState(false);
+  
+  // Widget customization state
+  const [widgetPosition, setWidgetPosition] = useState<'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'>('bottom-right');
+  const [widgetTheme, setWidgetTheme] = useState<'blue' | 'purple' | 'green' | 'red'>('blue');
+  const [widgetSize, setWidgetSize] = useState<'small' | 'medium' | 'large'>('medium');
+  const [widgetTitle, setWidgetTitle] = useState<string>('AI Support');
+  const [widgetPlaceholder, setWidgetPlaceholder] = useState<string>('Type your message...');
+  const [showWidgetAvatar, setShowWidgetAvatar] = useState<boolean>(true);
 
   const createDefaultChatbot = async () => {
     try {
@@ -796,20 +804,36 @@ const Chatbot: React.FC = () => {
                   <code className="text-green-400 text-sm whitespace-pre-wrap">
                     {currentChatbotId ? `<!-- AI Orchestrator Chatbot Widget -->
 <script 
-  src="https://yourdomain.com/chatbot-widget.js"
+  src="https://www.aiorchestrator.dev/chatbot-widget.js"
   data-chatbot-id="${currentChatbotId}"
-  data-api-url="${API_URL}"
-></script>` : 'Loading chatbot...'}
+  data-api-key="demo-key"
+  data-position="${widgetPosition}"
+  data-theme="${widgetTheme}"
+  data-size="${widgetSize}"
+  data-title="${widgetTitle}"
+  data-placeholder="${widgetPlaceholder}"
+  data-show-avatar="${showWidgetAvatar}"
+  data-welcome-message="${welcomeMessage}"
+  defer>
+</script>` : 'Loading chatbot...'}
                   </code>
                 </div>
                 <div className="flex space-x-2 mt-3">
                   <button onClick={() => {
                     const code = currentChatbotId ? `<!-- AI Orchestrator Chatbot Widget -->
 <script 
-  src="https://yourdomain.com/chatbot-widget.js"
+  src="https://www.aiorchestrator.dev/chatbot-widget.js"
   data-chatbot-id="${currentChatbotId}"
-  data-api-url="${API_URL}"
-></script>` : 'No chatbot available';
+  data-api-key="demo-key"
+  data-position="${widgetPosition}"
+  data-theme="${widgetTheme}"
+  data-size="${widgetSize}"
+  data-title="${widgetTitle}"
+  data-placeholder="${widgetPlaceholder}"
+  data-show-avatar="${showWidgetAvatar}"
+  data-welcome-message="${welcomeMessage}"
+  defer>
+</script>` : 'No chatbot available';
                     navigator.clipboard.writeText(code).then(() => alert('Copied to clipboard!')).catch(() => alert('Copy failed'));
                   }} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
                     <Copy className="w-4 h-4 mr-2 inline" />
@@ -820,11 +844,15 @@ const Chatbot: React.FC = () => {
 
               {/* Customization Options */}
               <div className="mb-6">
-                <h4 className="font-medium text-gray-900 mb-4">Customization Options</h4>
+                <h4 className="font-medium text-gray-900 mb-4">Widget Customization</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Widget Position</label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select 
+                      value={widgetPosition}
+                      onChange={(e) => setWidgetPosition(e.target.value as any)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
                       <option value="bottom-right">Bottom Right</option>
                       <option value="bottom-left">Bottom Left</option>
                       <option value="top-right">Top Right</option>
@@ -832,13 +860,69 @@ const Chatbot: React.FC = () => {
                     </select>
                   </div>
                   <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Widget Size</label>
+                    <select 
+                      value={widgetSize}
+                      onChange={(e) => setWidgetSize(e.target.value as any)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="small">Small (280px)</option>
+                      <option value="medium">Medium (384px)</option>
+                      <option value="large">Large (448px)</option>
+                    </select>
+                  </div>
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Theme Color</label>
                     <div className="flex space-x-2">
-                      <div className="w-8 h-8 bg-blue-600 rounded-full cursor-pointer border-2 border-blue-800"></div>
-                      <div className="w-8 h-8 bg-purple-600 rounded-full cursor-pointer border-2 border-transparent hover:border-gray-300"></div>
-                      <div className="w-8 h-8 bg-green-600 rounded-full cursor-pointer border-2 border-transparent hover:border-gray-300"></div>
-                      <div className="w-8 h-8 bg-red-600 rounded-full cursor-pointer border-2 border-transparent hover:border-gray-300"></div>
+                      <div 
+                        className={`w-8 h-8 bg-blue-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'blue' ? 'border-blue-800' : 'border-transparent'} hover:border-gray-300`}
+                        onClick={() => setWidgetTheme('blue')}
+                      ></div>
+                      <div 
+                        className={`w-8 h-8 bg-purple-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'purple' ? 'border-purple-800' : 'border-transparent'} hover:border-gray-300`}
+                        onClick={() => setWidgetTheme('purple')}
+                      ></div>
+                      <div 
+                        className={`w-8 h-8 bg-green-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'green' ? 'border-green-800' : 'border-transparent'} hover:border-gray-300`}
+                        onClick={() => setWidgetTheme('green')}
+                      ></div>
+                      <div 
+                        className={`w-8 h-8 bg-red-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'red' ? 'border-red-800' : 'border-transparent'} hover:border-gray-300`}
+                        onClick={() => setWidgetTheme('red')}
+                      ></div>
                     </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Widget Title</label>
+                    <input
+                      type="text"
+                      value={widgetTitle}
+                      onChange={(e) => setWidgetTitle(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="AI Support"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Input Placeholder</label>
+                    <input
+                      type="text"
+                      value={widgetPlaceholder}
+                      onChange={(e) => setWidgetPlaceholder(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Type your message..."
+                    />
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="showAvatar"
+                      checked={showWidgetAvatar}
+                      onChange={(e) => setShowWidgetAvatar(e.target.checked)}
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    />
+                    <label htmlFor="showAvatar" className="ml-2 block text-sm text-gray-700">
+                      Show Avatar
+                    </label>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Widget Size</label>
@@ -875,7 +959,7 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      src={`${API_URL}/public/embed/${currentChatbotId}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?position=${widgetPosition}&theme=${widgetTheme}&size=${widgetSize}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&showAvatar=${showWidgetAvatar}`}
                       className="w-full h-[500px] border-0"
                       title="Live Chatbot Preview"
                     />
@@ -894,13 +978,6 @@ const Chatbot: React.FC = () => {
 
               {/* Advanced Options */}
               <div className="text-center">
-                <button
-                  onClick={() => setShowEmbedModal(true)}
-                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium"
-                >
-                  <Code className="w-4 h-4 mr-2 inline" />
-                  Advanced Embed Options
-                </button>
               </div>
             </div>
           </div>
