@@ -7,7 +7,7 @@ import WidgetInstructions from '../components/connections/WidgetInstructions';
 import { 
   ShoppingCart, 
   CheckCircle, 
-  AlertCircle,
+  AlertCircle, 
   Plus,
   Trash2,
   RefreshCw,
@@ -42,6 +42,7 @@ const ConnectionsNew: React.FC = () => {
   const [selectedPlatform, setSelectedPlatform] = useState<'shopify' | 'woocommerce' | null>(null);
   const [successConnectionId, setSuccessConnectionId] = useState<string | null>(null);
   const [showWidgetModal, setShowWidgetModal] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   useEffect(() => {
     fetchConnections();
@@ -58,15 +59,17 @@ const ConnectionsNew: React.FC = () => {
       console.log('✅ OAuth success detected, connectionId:', connectionId);
       setSuccessConnectionId(connectionId);
       setShowWidgetModal(true);
+      setShowSuccessMessage(true);
       
-      // Refresh connections list
+      // Refresh connections list immediately
+      fetchConnections();
+      
+      // Clean URL parameters after a delay
       setTimeout(() => {
-        fetchConnections();
-      }, 1000);
-      
-      // Clean URL parameters
-      const newUrl = window.location.pathname;
-      window.history.replaceState({}, document.title, newUrl);
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+        setShowSuccessMessage(false);
+      }, 5000);
     }
 
     if (error) {
@@ -74,8 +77,10 @@ const ConnectionsNew: React.FC = () => {
       alert(`Connection failed: ${error}`);
       
       // Clean URL parameters
-      const newUrl = window.location.pathname;
-      window.history.replaceState({}, document.title, newUrl);
+      setTimeout(() => {
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+      }, 2000);
     }
   }, [searchParams, selectedChatbotId]);
 
@@ -91,14 +96,21 @@ const ConnectionsNew: React.FC = () => {
         }
       });
 
-      if (!response.ok) throw new Error('Failed to fetch connections');
+      if (!response.ok) {
+        console.error('❌ Failed to fetch connections:', response.status, response.statusText);
+        throw new Error('Failed to fetch connections');
+      }
 
       const data = await response.json();
+      console.log('📊 Raw API response:', data);
+      
       const connectionsData = data.data?.connections || data.connections || [];
-      console.log('✅ Connections fetched:', connectionsData);
+      console.log('✅ Connections fetched:', connectionsData.length, 'connections');
+      console.log('📋 Connection details:', connectionsData);
       setConnections(connectionsData);
     } catch (error) {
       console.error('❌ Failed to fetch connections:', error);
+      setConnections([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
@@ -158,7 +170,7 @@ const ConnectionsNew: React.FC = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-20 w-20 border-4 border-blue-600 border-t-transparent mx-auto"></div>
+            <div className="animate-spin rounded-full h-20 w-20 border-4 border-blue-600 border-t-transparent mx-auto"></div>
           <p className="mt-6 text-gray-600 text-xl font-medium">Loading connections...</p>
         </div>
       </div>
@@ -173,17 +185,17 @@ const ConnectionsNew: React.FC = () => {
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Store Connections</h1>
             <p className="text-gray-600 mt-2">Connect your eCommerce stores with 1-click OAuth</p>
-          </div>
+            </div>
 
           <div className="flex items-center gap-4">
-            <ChatbotSelector />
-            <button
-              onClick={fetchConnections}
+              <ChatbotSelector />
+              <button
+                onClick={fetchConnections}
               className="flex items-center gap-2 px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
+              >
               <RefreshCw className="w-4 h-4" />
-              Refresh
-            </button>
+                Refresh
+              </button>
             {!showAddConnection && (
               <button
                 onClick={() => setShowAddConnection(true)}
@@ -198,6 +210,27 @@ const ConnectionsNew: React.FC = () => {
       </div>
 
       <div className="max-w-6xl mx-auto space-y-6">
+        {/* Success Message */}
+        {showSuccessMessage && (
+          <div className="mb-6 bg-green-50 border border-green-200 rounded-md p-4">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-green-800">
+                  Store Connected Successfully!
+                </h3>
+                <div className="mt-2 text-sm text-green-700">
+                  <p>Your store has been connected. You can now view the widget code and installation instructions.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Add Connection Section */}
         {showAddConnection && (
           <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
@@ -222,8 +255,8 @@ const ConnectionsNew: React.FC = () => {
                 >
                   <div className="flex items-center gap-4 mb-4">
                     <div className="p-3 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
-                      <ShoppingCart className="w-8 h-8 text-green-600" />
-                    </div>
+                  <ShoppingCart className="w-8 h-8 text-green-600" />
+                </div>
                     <div>
                       <h3 className="font-semibold text-lg text-gray-900">Shopify</h3>
                       <p className="text-sm text-gray-600">1-click OAuth connection</p>
@@ -267,9 +300,9 @@ const ConnectionsNew: React.FC = () => {
                     onError={(error) => alert(error)}
                   />
                 )}
-              </div>
+                  </div>
             )}
-          </div>
+                </div>
         )}
 
         {/* Existing Connections */}
@@ -281,14 +314,14 @@ const ConnectionsNew: React.FC = () => {
               <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-600 text-lg mb-2">No stores connected yet</p>
               <p className="text-gray-500 mb-6">Connect your first store to get started</p>
-              <button
+                  <button
                 onClick={() => setShowAddConnection(true)}
                 className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Connect Your First Store
-              </button>
-            </div>
-          ) : (
+                  </button>
+          </div>
+        ) : (
             <div className="grid gap-4">
               {connections.map((connection) => (
                 <div
@@ -327,7 +360,7 @@ const ConnectionsNew: React.FC = () => {
                     </div>
 
                     <div className="flex gap-2">
-                      <button
+                        <button
                         onClick={() => {
                           setSuccessConnectionId(connection.id);
                           setShowWidgetModal(true);
@@ -336,23 +369,23 @@ const ConnectionsNew: React.FC = () => {
                         title="View widget code"
                       >
                         <Eye className="w-5 h-5" />
-                      </button>
+                        </button>
                       
-                      <button
+                        <button
                         onClick={() => handleDeleteConnection(connection.id)}
                         className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
-                        title="Disconnect"
-                      >
+                          title="Disconnect"
+                        >
                         <Trash2 className="w-5 h-5" />
-                      </button>
+                        </button>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           )}
-        </div>
-      </div>
+            </div>
+          </div>
 
       {/* Widget Instructions Modal */}
       {showWidgetModal && successConnectionId && (
@@ -372,10 +405,10 @@ const ConnectionsNew: React.FC = () => {
                 </button>
               </div>
               <WidgetInstructions connectionId={successConnectionId} />
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   );
 };
