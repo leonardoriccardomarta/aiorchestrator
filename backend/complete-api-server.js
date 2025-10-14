@@ -600,6 +600,11 @@ app.get('/api/connections/test', (req, res) => {
 
 // Step 2: Shopify OAuth callback (receives authorization code)
 app.get('/api/shopify/oauth/callback', async (req, res) => {
+  console.log('🚨 OAUTH CALLBACK HIT!', new Date().toISOString());
+  console.log('🚨 Request URL:', req.url);
+  console.log('🚨 Request method:', req.method);
+  console.log('🚨 Request headers:', req.headers);
+  
   try {
     console.log('🔄 Shopify OAuth callback received:', req.query);
     const { code, hmac, shop, state } = req.query;
