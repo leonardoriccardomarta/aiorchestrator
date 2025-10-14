@@ -1577,51 +1577,40 @@ app.get('/api/connections', authenticateToken, (req, res) => {
   // Note: In production, filter connections by chatbotId from database
   // For now, return mock data (will be replaced with Prisma query)
   
-  const connections = [
-    {
-      id: '1',
-      name: 'Shopify Store',
-      type: 'shopify',
-      status: 'connected',
-      connectedAt: '2024-01-10T14:30:00Z',
-      lastSync: '2024-01-15T09:15:00Z',
-      data: {
-        storeUrl: 'mystore.myshopify.com',
-        products: 156,
-        orders: 89
-      }
-    },
-    {
-      id: '2',
-      name: 'WhatsApp Business',
-      type: 'whatsapp',
-      status: 'connected',
-      connectedAt: '2024-01-12T11:20:00Z',
-      lastSync: '2024-01-15T08:45:00Z',
-      data: {
-        phoneNumber: '+1234567890',
-        messages: 234,
-        customers: 67
-      }
-    },
-    {
-      id: '3',
-      name: 'Email Integration',
-      type: 'email',
-      status: 'pending',
-      connectedAt: null,
-      lastSync: null,
-      data: {
-        email: 'support@mystore.com',
-        pending: true
-      }
-    }
-  ];
+  try {
+    const userId = req.user.userId || req.user.id;
+    console.log('🔍 Getting connections for user:', userId);
+    
+    // Get connections from real data service
+    const connections = realDataService.getConnections(userId);
+    console.log('📋 Found connections:', connections.length);
+    
+    // Transform connections to match expected format
+    const formattedConnections = connections.map(conn => ({
+      id: conn.id,
+      platform: conn.platform,
+      storeName: conn.storeName,
+      domain: conn.domain,
+      status: conn.status,
+      productsCount: conn.productsCount || 0,
+      ordersCount: conn.ordersCount || 0,
+      lastSync: conn.lastSync,
+      connectedAt: conn.lastSync
+    }));
+    
+    console.log('✅ Returning connections:', formattedConnections);
   
   res.json({
     success: true,
-    data: connections
-  });
+      data: { connections: formattedConnections }
+    });
+  } catch (error) {
+    console.error('❌ Error getting connections:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
 });
 
 // ===== WORKFLOWS API =====

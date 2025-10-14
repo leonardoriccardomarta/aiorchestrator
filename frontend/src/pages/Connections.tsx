@@ -50,19 +50,32 @@ const ConnectionsNew: React.FC = () => {
     const success = searchParams.get('success');
     const error = searchParams.get('error');
     const connectionId = searchParams.get('connectionId');
+    const platform = searchParams.get('platform');
 
-    console.log('🔍 OAuth callback params:', { success, error, connectionId });
+    console.log('🔍 OAuth callback params:', { success, error, connectionId, platform });
 
     if (success === 'true' && connectionId) {
       console.log('✅ OAuth success detected, connectionId:', connectionId);
       setSuccessConnectionId(connectionId);
       setShowWidgetModal(true);
-      fetchConnections(); // Refresh list
+      
+      // Refresh connections list
+      setTimeout(() => {
+        fetchConnections();
+      }, 1000);
+      
+      // Clean URL parameters
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
     }
 
     if (error) {
       console.error('❌ OAuth error:', error);
       alert(`Connection failed: ${error}`);
+      
+      // Clean URL parameters
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
     }
   }, [searchParams, selectedChatbotId]);
 
