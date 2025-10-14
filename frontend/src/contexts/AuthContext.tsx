@@ -200,7 +200,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUser(userData);
         
         // Redirect based on user status
-        if (data.data.user.isNewUser) {
+        if (userData.isNewUser) {
           window.location.href = '/onboarding';
         } else {
           window.location.href = '/dashboard';
