@@ -27,6 +27,9 @@ class ShopifyOAuthService {
       shop = `${shop}.myshopify.com`;
     }
 
+    // Clean shop URL - remove any protocol or extra slashes
+    shop = shop.replace(/^https?:\/\//, '').replace(/\/+$/, '');
+
     // Generate state for CSRF protection
     const state = crypto.randomBytes(32).toString('hex');
     const nonce = crypto.randomBytes(32).toString('hex');
