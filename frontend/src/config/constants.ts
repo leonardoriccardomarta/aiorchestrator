@@ -4,8 +4,8 @@
  */
 
 // API Configuration
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
-export const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL || 'http://localhost:5176';
+export const API_URL = import.meta.env.VITE_API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app';
+export const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL || 'https://www.aiorchestrator.dev';
 
 // Payment Configuration
 export const STRIPE_PUBLIC_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '';
