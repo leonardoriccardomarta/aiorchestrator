@@ -186,11 +186,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
 
         const data = await response.json();
-        console.log('AuthContext: Registration successful, storing data...');
-        localStorage.setItem('authToken', data.data.token);
-        localStorage.setItem('refreshToken', data.data.refreshToken);
-        localStorage.setItem('userData', JSON.stringify(data.data.user));
-        setUser(data.data.user);
+        console.log('AuthContext: Registration successful, storing data...', data);
+        
+        // Handle both response formats
+        const userData = data.data?.user || data.user;
+        const token = data.data?.token || data.token;
+        
+        localStorage.setItem('authToken', token);
+        if (data.data?.refreshToken) {
+          localStorage.setItem('refreshToken', data.data.refreshToken);
+        }
+        localStorage.setItem('userData', JSON.stringify(userData));
+        setUser(userData);
         
         // Redirect based on user status
         if (data.data.user.isNewUser) {
