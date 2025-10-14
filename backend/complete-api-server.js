@@ -64,6 +64,8 @@ const {
 const AuthService = require('./real-auth-system');
 const RealDataService = require('./real-data-service');
 const PlanService = require('./src/services/planService');
+const ShopifyOAuthService = require('./src/services/shopifyOAuthService');
+const WooCommerceOAuthService = require('./src/services/woocommerceOAuthService');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -76,6 +78,10 @@ const aiService = new HybridAIService();
 
 // Initialize Plan Service
 const planService = new PlanService();
+
+// Initialize OAuth Services
+const shopifyOAuthService = new ShopifyOAuthService();
+const woocommerceOAuthService = new WooCommerceOAuthService();
 
 // Initialize ML Service (Full Machine Learning Suite)
 const mlService = new MLService();
@@ -526,7 +532,227 @@ app.post('/api/shopify/test-connection', authenticateToken, async (req, res) => 
   }
 });
 
-// Connect Shopify store
+// ===== SHOPIFY OAUTH FLOW =====
+
+// Step 1: Get Shopify OAuth install URL
+app.post('/api/shopify/oauth/install', authenticateToken, async (req, res) => {
+  try {
+    const { shop } = req.body;
+    const userId = req.user.userId || req.user.id;
+
+    if (!shop) {
+      return res.status(400).json({
+        success: false,
+        error: 'Shop URL is required'
+      });
+    }
+
+    // Generate install URL
+    const installUrl = shopifyOAuthService.getInstallUrl(shop, userId);
+
+    res.json({
+      success: true,
+      data: {
+        installUrl,
+        message: 'Redirect user to this URL to authorize'
+      }
+    });
+  } catch (error) {
+    console.error('Shopify OAuth install error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Step 2: Shopify OAuth callback (receives authorization code)
+app.get('/api/shopify/oauth/callback', async (req, res) => {
+  try {
+    const { code, hmac, shop, state } = req.query;
+
+    // Verify HMAC signature
+    if (!shopifyOAuthService.verifyHmac(req.query)) {
+      return res.status(400).send('HMAC verification failed');
+    }
+
+    // Validate state and get user info
+    const stateData = shopifyOAuthService.validateState(state);
+
+    // Exchange code for access token
+    const accessToken = await shopifyOAuthService.exchangeCodeForToken(shop, code);
+
+    // Test connection
+    const testResult = await shopifyOAuthService.testConnection(shop, accessToken);
+    if (!testResult.success) {
+      return res.status(400).send('Connection test failed');
+    }
+
+    // Store connection
+    const connection = realDataService.addConnection(stateData.userId, {
+      id: `shopify_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      platform: 'shopify',
+      storeName: testResult.shop.name,
+      domain: shop,
+      status: 'connected',
+      lastSync: new Date().toISOString(),
+      productsCount: 0,
+      ordersCount: 0,
+      customersCount: 0,
+      revenue: 0,
+      accessToken: accessToken,
+      shopId: shop,
+      currency: testResult.shop.currency || 'USD'
+    });
+
+    // Redirect back to frontend with success
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5176';
+    res.redirect(`${frontendUrl}/connections?success=true&platform=shopify&connectionId=${connection.id}`);
+  } catch (error) {
+    console.error('Shopify OAuth callback error:', error);
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5176';
+    res.redirect(`${frontendUrl}/connections?error=${encodeURIComponent(error.message)}`);
+  }
+});
+
+// Get connection details with widget code
+app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, res) => {
+  try {
+    const { connectionId } = req.params;
+    const userId = req.user.userId || req.user.id;
+    
+    const connection = realDataService.getConnection(userId, connectionId);
+    if (!connection) {
+      return res.status(404).json({
+        success: false,
+        error: 'Connection not found'
+      });
+    }
+
+    // Get user's chatbots
+    const chatbots = await realDataService.getChatbots(userId);
+    const chatbotId = chatbots[0]?.id || 'default';
+
+    // Generate widget code
+    const widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
+<script>
+  window.AIChatbotConfig = {
+    chatbotId: '${chatbotId}',
+    apiUrl: '${process.env.FRONTEND_URL || 'https://www.aiorchestrator.dev'}',
+    platform: '${connection.platform}',
+    storeId: '${connectionId}'
+  };
+</script>
+<script src="${process.env.FRONTEND_URL || 'https://www.aiorchestrator.dev'}/chatbot-widget.js"></script>`;
+
+    res.json({
+      success: true,
+      data: {
+        connection,
+        widgetCode,
+        chatbotId,
+        instructions: {
+          shopify: [
+            'Go to your Shopify Admin',
+            'Navigate to Online Store → Themes',
+            'Click Actions → Edit code',
+            'Open theme.liquid file',
+            'Paste the code above just before the closing </body> tag',
+            'Click Save',
+            'Your chatbot is now live on your store!'
+          ],
+          woocommerce: [
+            'Go to your WordPress Admin',
+            'Navigate to Appearance → Theme File Editor',
+            'Select your theme',
+            'Open footer.php or header.php',
+            'Paste the code above just before the closing </body> tag',
+            'Click Update File',
+            'Your chatbot is now live on your store!'
+          ]
+        }[connection.platform]
+      }
+    });
+  } catch (error) {
+    console.error('Get widget error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// ===== WOOCOMMERCE CONNECTION =====
+
+// WooCommerce connect (validates credentials)
+app.post('/api/woocommerce/oauth/connect', authenticateToken, async (req, res) => {
+  try {
+    const { storeUrl, consumerKey, consumerSecret } = req.body;
+    const userId = req.user.userId || req.user.id;
+
+    if (!storeUrl || !consumerKey || !consumerSecret) {
+      return res.status(400).json({
+        success: false,
+        error: 'Store URL, Consumer Key, and Consumer Secret are required'
+      });
+    }
+
+    // Validate credentials
+    const validation = await woocommerceOAuthService.validateCredentials(
+      storeUrl,
+      consumerKey,
+      consumerSecret
+    );
+
+    if (!validation.success) {
+      return res.status(400).json({
+        success: false,
+        error: validation.error
+      });
+    }
+
+    // Get store info
+    const storeInfo = await woocommerceOAuthService.getStoreInfo(
+      validation.storeUrl,
+      consumerKey,
+      consumerSecret
+    );
+
+    // Store connection
+    const connection = realDataService.addConnection(userId, {
+      id: `woo_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      platform: 'woocommerce',
+      storeName: storeInfo.name,
+      domain: validation.storeUrl,
+      status: 'connected',
+      lastSync: new Date().toISOString(),
+      productsCount: 0,
+      ordersCount: 0,
+      customersCount: 0,
+      revenue: 0,
+      consumerKey: consumerKey,
+      consumerSecret: consumerSecret,
+      currency: storeInfo.currency,
+      version: storeInfo.version
+    });
+
+    res.json({
+      success: true,
+      data: {
+        connection,
+        message: 'WooCommerce store connected successfully!'
+      }
+    });
+  } catch (error) {
+    console.error('WooCommerce connect error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Connect Shopify store (legacy manual method - keep for backwards compatibility)
 app.post('/api/shopify/connect', authenticateToken, async (req, res) => {
   try {
     const { shop, accessToken, storeName } = req.body;

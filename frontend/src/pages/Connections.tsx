@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from '../config/constants';
+import { useSearchParams } from 'react-router-dom';
+import ShopifyOAuthButton from '../components/connections/ShopifyOAuthButton';
+import WooCommerceConnectForm from '../components/connections/WooCommerceConnectForm';
+import WidgetInstructions from '../components/connections/WidgetInstructions';
 import { 
   ShoppingCart, 
   Globe, 
@@ -62,11 +66,14 @@ interface Connection {
 const Connections: React.FC = () => {
   const { user } = useUser();
   const { selectedChatbotId, chatbots } = useChatbot();
+  const [searchParams] = useSearchParams();
   const [connections, setConnections] = useState<Connection[]>([]);
   const [loading, setLoading] = useState(true);
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [selectedType, setSelectedType] = useState<'shopify' | 'woocommerce' | 'custom'>('shopify');
   const [showTour, setShowTour] = useState(false);
+  const [selectedConnectionForWidget, setSelectedConnectionForWidget] = useState<string | null>(null);
+  const [useOAuth, setUseOAuth] = useState(true);
 
   useEffect(() => {
     fetchConnections();
