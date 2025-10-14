@@ -138,15 +138,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           throw new Error(data.error || 'Login failed');
         }
 
-        console.log('AuthContext: Login successful, storing data...');
-        console.log('AuthContext: Response data:', data);
-        console.log('AuthContext: User data from API:', data.data.user);
+        console.log('AuthContext: Login successful, storing data...', data);
         
-        localStorage.setItem('authToken', data.data.token);
-        localStorage.setItem('refreshToken', data.data.refreshToken);
-        localStorage.setItem('userData', JSON.stringify(data.data.user));
+        // Handle both response formats
+        const userData = data.data?.user || data.user;
+        const token = data.data?.token || data.token;
         
-        setUser(data.data.user);
+        localStorage.setItem('authToken', token);
+        if (data.data?.refreshToken) {
+          localStorage.setItem('refreshToken', data.data.refreshToken);
+        }
+        localStorage.setItem('userData', JSON.stringify(userData));
+        
+        setUser(userData);
         
         // Redirect to dashboard after successful login
         window.location.href = '/dashboard';
