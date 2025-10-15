@@ -53,8 +53,30 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
     setError(null);
 
     try {
+      // Create payment method with Stripe
+      const { error: pmError, paymentMethod } = await stripe.createPaymentMethod({
+        type: 'card',
+        card: elements.getElement(CardElement)!,
+        billing_details: {
+          name: billingDetails.name,
+          email: billingDetails.email,
+          address: {
+            line1: billingDetails.address,
+            city: billingDetails.city,
+            country: billingDetails.country,
+            postal_code: billingDetails.postalCode
+          }
+        }
+      });
+
+      if (pmError) {
+        setError(pmError.message || 'Payment method creation failed');
+        setLoading(false);
+        return;
+      }
+
       // Subscribe to plan
-      const response = await fetch(`${API_URL}/api/payments/subscribe`, {
+      const response = await fetch(`${API_URL}/api/payments/create-subscription`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,38 +84,17 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
         },
         body: JSON.stringify({
           planId: plan.id,
-          paymentMethod: 'stripe',
-          billingDetails: billingDetails
+          paymentMethodId: paymentMethod.id,
+          customerEmail: billingDetails.email
         })
       });
 
       const data = await response.json();
 
-      if (data.requiresAction && data.clientSecret) {
-        // 3D Secure or other authentication required
-        const { error: stripeError } = await stripe.confirmCardPayment(data.clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement)!,
-            billing_details: {
-              name: billingDetails.name,
-              email: billingDetails.email,
-              address: {
-                line1: billingDetails.address,
-                city: billingDetails.city,
-                country: billingDetails.country,
-                postal_code: billingDetails.postalCode
-              }
-            }
-        }
-      });
-
-      if (stripeError) {
-        setError(stripeError.message || 'Payment failed');
-      } else {
+      if (data.success) {
+        console.log('✅ Payment successful:', data);
         onSuccess();
-        }
-      } else if (data.success) {
-        onSuccess();
+        onClose();
       } else {
         setError(data.error || 'Payment failed');
       }
