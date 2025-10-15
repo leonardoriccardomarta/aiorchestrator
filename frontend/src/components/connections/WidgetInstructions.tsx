@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from '../../config/constants';
 import { Code, Copy, Check, ExternalLink, BookOpen, ChevronDown } from 'lucide-react';
+import { useChatbot } from '../../contexts/ChatbotContext';
 
 interface WidgetInstructionsProps {
   connectionId: string;
 }
 
 const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId }) => {
+  const { selectedChatbotId: globalChatbotId, chatbots: globalChatbots } = useChatbot();
   const [widgetData, setWidgetData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -15,9 +17,23 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
   const [showChatbotSelector, setShowChatbotSelector] = useState(false);
 
   useEffect(() => {
-    fetchChatbots();
+    // Use global chatbots if available, otherwise fetch them
+    if (globalChatbots && globalChatbots.length > 0) {
+      setChatbots(globalChatbots);
+      // Set the global chatbot as selected
+      if (globalChatbotId) {
+        setSelectedChatbotId(globalChatbotId);
+      } else if (globalChatbots.length > 0) {
+        setSelectedChatbotId(globalChatbots[0].id);
+      }
+    } else {
+      fetchChatbots();
+    }
+  }, [globalChatbots, globalChatbotId]);
+
+  useEffect(() => {
     fetchWidgetCode();
-  }, [connectionId]);
+  }, [connectionId, selectedChatbotId]);
 
   useEffect(() => {
     if (selectedChatbotId) {
@@ -50,13 +66,16 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
   const fetchWidgetCode = async () => {
     try {
       const token = localStorage.getItem('authToken');
-      const chatbotId = selectedChatbotId || localStorage.getItem('selectedChatbotId');
+      const chatbotId = selectedChatbotId || globalChatbotId || localStorage.getItem('selectedChatbotId');
       console.log('🔍 Fetching widget code for connection:', connectionId, 'chatbot:', chatbotId);
       
-      const url = chatbotId 
-        ? `${API_URL}/api/connections/${connectionId}/widget?chatbotId=${chatbotId}`
-        : `${API_URL}/api/connections/${connectionId}/widget`;
+      if (!chatbotId) {
+        console.error('❌ No chatbot ID available');
+        setLoading(false);
+        return;
+      }
       
+      const url = `${API_URL}/api/connections/${connectionId}/widget?chatbotId=${chatbotId}`;
       console.log('📡 Widget API URL:', url);
       
       const response = await fetch(url, {
@@ -137,7 +156,7 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
         </div>
       </div>
 
-      {/* Chatbot Selection */}
+      {/* Chatbot Selection - Only show if multiple chatbots */}
       {chatbots.length > 1 && (
         <div className="space-y-3">
           <label className="text-sm font-medium text-gray-700">Select Chatbot</label>
