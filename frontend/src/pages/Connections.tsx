@@ -32,7 +32,7 @@ interface Connection {
   lastSync: string;
 }
 
-const ConnectionsNew: React.FC = () => {
+const Connections: React.FC = () => {
   const { user } = useUser();
   const { selectedChatbotId, chatbots } = useChatbot();
   const [searchParams] = useSearchParams();
@@ -104,7 +104,7 @@ const ConnectionsNew: React.FC = () => {
         throw new Error('Failed to fetch connections');
       }
 
-      const data = await response.json();
+        const data = await response.json();
       console.log('📊 Raw API response:', data);
       
       const connectionsData = data.data?.connections || data.connections || [];
@@ -486,4 +486,4 @@ const ConnectionsNew: React.FC = () => {
   );
 };
 
-export default ConnectionsNew;
+export default Connections;

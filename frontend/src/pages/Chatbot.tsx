@@ -81,8 +81,11 @@ const Chatbot: React.FC = () => {
     setIsSaving(true);
     setSaveStatus('idle');
     
-    console.log('💾 Saving widget customizations to backend...', {
+    console.log('💾 Saving all chatbot settings (main + widget customizations)...', {
       chatbotId: currentChatbotId,
+      name: widgetTitle, // widgetTitle is the chatbot name
+      welcomeMessage: widgetMessage, // widgetMessage is the welcome message
+      language: primaryLanguage,
       settings: {
         theme: widgetTheme,
         placeholder: widgetPlaceholder,
@@ -94,12 +97,15 @@ const Chatbot: React.FC = () => {
     
     try {
       const response = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${currentChatbotId}`, {
-        method: 'PATCH',
+        method: 'PUT',
         headers: { 
           'Content-Type': 'application/json', 
           'Authorization': `Bearer ${localStorage.getItem('authToken')}` 
         },
         body: JSON.stringify({
+          name: widgetTitle, // Save widgetTitle as chatbot name
+          welcomeMessage: widgetMessage, // Save widgetMessage as chatbot welcomeMessage
+          language: primaryLanguage,
           settings: {
             theme: widgetTheme,
             placeholder: widgetPlaceholder,
@@ -112,8 +118,16 @@ const Chatbot: React.FC = () => {
       
       if (response.ok) {
         const result = await response.json();
-        console.log('✅ Widget customizations saved:', result);
+        console.log('✅ All chatbot settings saved:', result);
         setSaveStatus('success');
+        
+        // Update local state to match saved values
+        setChatbotName(widgetTitle);
+        setWelcomeMessage(widgetMessage);
+        
+        // Reload chatbot to ensure everything is in sync
+        await loadChatbot(false);
+        
         setTimeout(() => setSaveStatus('idle'), 3000);
       } else {
         console.error('❌ Save failed with status:', response.status);
@@ -121,7 +135,7 @@ const Chatbot: React.FC = () => {
         setTimeout(() => setSaveStatus('idle'), 3000);
       }
     } catch (error) {
-      console.error('❌ Failed to save widget customizations:', error);
+      console.error('❌ Failed to save chatbot settings:', error);
       setSaveStatus('error');
       setTimeout(() => setSaveStatus('idle'), 3000);
     } finally {
@@ -275,26 +289,8 @@ const Chatbot: React.FC = () => {
     loadChatbot();
   }, []);
 
-  // Sync widget customizations with chatbot settings
-  useEffect(() => {
-    if (chatbotName) {
-      setWidgetTitle(chatbotName);
-    }
-  }, [chatbotName]);
-
-  // Sync input placeholder with chatbot welcome message
-  useEffect(() => {
-    if (welcomeMessage) {
-      setWidgetPlaceholder('Type your message...');
-    }
-  }, [welcomeMessage]);
-
-  // Sync widget message with chatbot welcome message
-  useEffect(() => {
-    if (welcomeMessage) {
-      setWidgetMessage(welcomeMessage);
-    }
-  }, [welcomeMessage]);
+  // Note: Removed auto-sync useEffects to avoid conflicts
+  // Settings and customizations are now saved together when user clicks Save
 
   // Loading effect
   useEffect(() => {
@@ -819,7 +815,10 @@ const Chatbot: React.FC = () => {
                 <input
                   type="text"
                   value={chatbotName}
-                  onChange={(e)=>setChatbotName(e.target.value)}
+                  onChange={(e)=>{
+                    setChatbotName(e.target.value);
+                    setWidgetTitle(e.target.value); // Sync with widget title
+                  }}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -827,7 +826,10 @@ const Chatbot: React.FC = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Welcome Message</label>
                 <textarea
                   value={welcomeMessage}
-                  onChange={(e)=>setWelcomeMessage(e.target.value)}
+                  onChange={(e)=>{
+                    setWelcomeMessage(e.target.value);
+                    setWidgetMessage(e.target.value); // Sync with widget message
+                  }}
                   rows={3}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
@@ -880,7 +882,9 @@ const Chatbot: React.FC = () => {
                         settings: {
                           theme: widgetTheme,
                           placeholder: widgetPlaceholder,
-                          showAvatar: showWidgetAvatar
+                          showAvatar: showWidgetAvatar,
+                          title: widgetTitle,
+                          message: widgetMessage
                         }
                       })
                     });
@@ -1042,7 +1046,10 @@ const Chatbot: React.FC = () => {
                     <input
                       type="text"
                       value={widgetTitle}
-                      onChange={(e) => setWidgetTitle(e.target.value)}
+                      onChange={(e) => {
+                        setWidgetTitle(e.target.value);
+                        setChatbotName(e.target.value); // Sync with chatbot name
+                      }}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="AI Support"
                     />
@@ -1061,7 +1068,10 @@ const Chatbot: React.FC = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-2">Widget Message</label>
                     <textarea
                       value={widgetMessage}
-                      onChange={(e) => setWidgetMessage(e.target.value)}
+                      onChange={(e) => {
+                        setWidgetMessage(e.target.value);
+                        setWelcomeMessage(e.target.value); // Sync with welcome message
+                      }}
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="Hello! I'm your AI assistant. How can I help you today?"
