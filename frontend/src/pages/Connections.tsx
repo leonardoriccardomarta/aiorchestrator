@@ -128,14 +128,18 @@ const ConnectionsNew: React.FC = () => {
 
     try {
       const token = localStorage.getItem('authToken');
-      await fetch(`${API_URL}/api/connections/${connectionToDelete}`, {
+      const response = await fetch(`${API_URL}/api/connections/${connectionToDelete}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
 
-      fetchConnections();
+      if (!response.ok) {
+        throw new Error('Failed to delete connection');
+      }
+
+      await fetchConnections();
       setShowDeleteConfirm(false);
       setConnectionToDelete(null);
     } catch (error) {

@@ -51,9 +51,13 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
     try {
       const token = localStorage.getItem('authToken');
       const chatbotId = selectedChatbotId || localStorage.getItem('selectedChatbotId');
+      console.log('🔍 Fetching widget code for connection:', connectionId, 'chatbot:', chatbotId);
+      
       const url = chatbotId 
         ? `${API_URL}/api/connections/${connectionId}/widget?chatbotId=${chatbotId}`
         : `${API_URL}/api/connections/${connectionId}/widget`;
+      
+      console.log('📡 Widget API URL:', url);
       
       const response = await fetch(url, {
         headers: {
@@ -61,12 +65,17 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
         }
       });
 
+      console.log('📊 Widget API response status:', response.status);
       const data = await response.json();
+      console.log('📊 Widget API response data:', data);
+      
       if (data.success) {
         setWidgetData(data.data);
+      } else {
+        console.error('❌ Widget API error:', data.error);
       }
     } catch (error) {
-      console.error('Failed to fetch widget code:', error);
+      console.error('❌ Failed to fetch widget code:', error);
     } finally {
       setLoading(false);
     }
