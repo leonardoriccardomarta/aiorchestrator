@@ -64,6 +64,7 @@ const Chatbot: React.FC = () => {
   const [widgetSize, setWidgetSize] = useState<'small' | 'medium' | 'large'>('medium');
   const [widgetTitle, setWidgetTitle] = useState<string>('AI Support');
   const [widgetPlaceholder, setWidgetPlaceholder] = useState<string>('Type your message...');
+  const [widgetMessage, setWidgetMessage] = useState<string>('Hello! I\'m your AI assistant. How can I help you today?');
   const [showWidgetAvatar, setShowWidgetAvatar] = useState<boolean>(true);
   const [widgetAnimation, setWidgetAnimation] = useState<'fadeIn' | 'slideUp' | 'bounce' | 'scale' | 'none'>('slideUp');
 
@@ -181,6 +182,13 @@ const Chatbot: React.FC = () => {
   useEffect(() => {
     if (welcomeMessage) {
       setWidgetPlaceholder('Type your message...');
+    }
+  }, [welcomeMessage]);
+
+  // Sync widget message with chatbot welcome message
+  useEffect(() => {
+    if (welcomeMessage) {
+      setWidgetMessage(welcomeMessage);
     }
   }, [welcomeMessage]);
 
@@ -927,6 +935,16 @@ const Chatbot: React.FC = () => {
                       placeholder="Type your message..."
                     />
                   </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Widget Message</label>
+                    <textarea
+                      value={widgetMessage}
+                      onChange={(e) => setWidgetMessage(e.target.value)}
+                      rows={3}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Hello! I'm your AI assistant. How can I help you today?"
+                    />
+                  </div>
                   <div className="flex items-center">
                     <input
                       type="checkbox"
@@ -983,7 +1001,7 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&size=${widgetSize}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&showAvatar=${showWidgetAvatar}&animation=${widgetAnimation}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&size=${widgetSize}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&animation=${widgetAnimation}`}
                       className="w-full h-[500px] border-0"
                       title="Live Chatbot Preview"
                     />

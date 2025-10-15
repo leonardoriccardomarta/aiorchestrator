@@ -180,7 +180,7 @@ app.use(limiter);
 app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
     const { chatbotId } = req.params;
-    const { theme, size, title, placeholder, showAvatar, animation } = req.query;
+    const { theme, size, title, placeholder, message, showAvatar, animation } = req.query;
     
     // Get chatbot from database
     const chatbot = await prisma.chatbot.findUnique({
@@ -240,189 +240,99 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             height: 100vh;
             overflow: hidden;
         }
-        .toggle-button {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            ${sizeClasses.buttonSize};
-            background: linear-gradient(135deg, ${theme === 'blue' ? '#3B82F6, #7C3AED' : 
-              theme === 'purple' ? '#7C3AED, #EC4899' :
-              theme === 'green' ? '#10B981, #059669' :
-              theme === 'red' ? '#EF4444, #DC2626' :
-              theme === 'orange' ? '#F97316, #EA580C' :
-              theme === 'pink' ? '#EC4899, #DB2777' :
-              theme === 'indigo' ? '#6366F1, #4F46E5' :
-              theme === 'teal' ? '#14B8A6, #0D9488' :
-              '#3B82F6, #7C3AED'});
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            border: 2px solid rgba(255,255,255,0.2);
-        }
-        .toggle-button:hover {
-            transform: scale(1.1);
-        }
-        .toggle-button::before {
-            content: '';
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            width: 16px;
-            height: 16px;
-            background: #10B981;
-            border-radius: 50%;
-            border: 3px solid white;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .animate-slide-up {
-            animation: slideUp 0.3s ease-out;
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.3s ease-out;
-        }
-        .animate-bounce {
-            animation: bounce 0.6s ease-out;
-        }
-        .animate-scale {
-            animation: scale 0.3s ease-out;
-        }
-        @keyframes slideUp {
-            from { transform: translateY(100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-        @keyframes scale {
-            from { transform: scale(0); }
-            to { transform: scale(1); }
-        }
-        .chat-widget {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            ${sizeClasses.width};
-            ${sizeClasses.height};
-            z-index: 999;
-            transform: translateY(0);
-            transition: transform 0.3s ease;
-        }
-        .chat-widget.hidden {
-            transform: translateY(100%);
-        }
     </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggleButton = document.querySelector('.toggle-button');
-            const chatWidget = document.querySelector('.chat-widget');
-            let isOpen = false;
-            
-            // Initially hide the chat widget
-            chatWidget.classList.add('hidden');
-            
-            toggleButton.addEventListener('click', function() {
-                if (isOpen) {
-                    chatWidget.classList.add('hidden');
-                    isOpen = false;
-                } else {
-                    chatWidget.classList.remove('hidden');
-                    isOpen = true;
-                }
-            });
-        });
-    </script>
 </head>
 <body>
-    <!-- Toggle Button with Animation -->
-    <div class="toggle-button ${animations[animation] || animations.slideUp}">
-        <svg style="color: white; width: ${sizeClasses.iconSize}; height: ${sizeClasses.iconSize};" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+    <!-- EXACT COPY OF LANDING PAGE WIDGET -->
+    <div class="fixed bottom-6 right-6 z-50 w-96">
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
+            <!-- Header -->
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-100 border-b-2 border-blue-200 p-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        ${showAvatar !== 'false' ? `
+                            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                </svg>
+                            </div>
+                        ` : ''}
+                        <div>
+                            <div class="font-bold text-gray-900">${title || 'AI Support'}</div>
+                            <div class="text-xs text-gray-600 flex items-center gap-1">
+                                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                Online 24/7
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                            </svg>
+                        </button>
+                        <button class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div class="h-96 overflow-y-auto p-4 bg-gray-50">
+                <div class="mb-4 flex justify-start">
+                    <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
+                        <div class="text-sm">${message || chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}</div>
+                        <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                    </div>
+                </div>
+                <div class="mb-4 flex justify-end">
+                    <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-blue-600 text-white">
+                        <div class="text-sm">Hi! Can you help me?</div>
+                        <div class="text-xs mt-1 text-blue-100">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                    </div>
+                </div>
+                <div class="flex justify-start mb-4">
+                    <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
+                        <div class="flex gap-1">
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input -->
+            <div class="p-4 bg-white border-t border-gray-200">
+                <div class="flex gap-2">
+                    <input
+                        type="text"
+                        placeholder="${placeholder || 'Type your message...'}"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toggle Button - EXACT COPY FROM LANDING -->
+    <button class="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-full shadow-2xl hover:scale-110 transition-transform z-50 flex items-center justify-center group">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
         </svg>
-    </div>
-    
-    <!-- Customer Support Widget with Customizations -->
-    <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
-        <!-- Header -->
-        <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    ${showAvatar !== 'false' ? `
-                        <div class="w-10 h-10 bg-gradient-to-br ${themeColors.primary} rounded-full flex items-center justify-center">
-                            <span class="text-white text-lg">💬</span>
-                        </div>
-                    ` : ''}
-                    <div>
-                        <div class="font-bold ${themeColors.text}">${title || 'AI Support'}</div>
-                        <div class="text-xs text-gray-600 flex items-center gap-1">
-                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                            Online 24/7
-                        </div>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
-                    </button>
-                    <button class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-                </div>
-            </div>
+        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
+        <div class="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Chat with us 24/7
         </div>
-        <!-- Messages -->
-        <div class="h-96 overflow-y-auto p-4 bg-gray-50">
-            <div class="mb-4 flex justify-start">
-                <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
-                    <div class="text-sm">${chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}</div>
-                    <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                </div>
-            </div>
-            <div class="mb-4 flex justify-end">
-                <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
-                    <div class="text-sm">Hi! Can you help me?</div>
-                    <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                </div>
-            </div>
-            <div class="flex justify-start mb-4">
-                <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
-                    <div class="flex gap-1">
-                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Input -->
-        <div class="p-4 bg-white border-t border-gray-200">
-            <div class="flex gap-2">
-                <input
-                    type="text"
-                    placeholder="${placeholder || 'Type your message...'}"
-                    class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-                <button class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                </button>
-            </div>
-        </div>
-    </div>
+    </button>
 </body>
 </html>`;
 
@@ -918,7 +828,7 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
 
     // Store connection
     const connection = await realDataService.addConnection(stateData.userId, {
-      platform: 'shopify',
+      type: 'shopify',
       name: testResult.shop.name,
       url: shop,
       status: 'connected',
@@ -1851,7 +1761,7 @@ app.post('/api/faqs', authenticateToken, (req, res) => {
 app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
     const { chatbotId } = req.params;
-    const { theme, size, title, placeholder, showAvatar, animation } = req.query;
+    const { theme, size, title, placeholder, message, showAvatar, animation } = req.query;
     
     // Get chatbot from database
     const chatbot = await prisma.chatbot.findUnique({
@@ -1915,39 +1825,33 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             position: fixed;
             bottom: 24px;
             right: 24px;
-            ${sizeClasses.buttonSize};
-            background: linear-gradient(135deg, ${theme === 'blue' ? '#3B82F6, #7C3AED' : 
-              theme === 'purple' ? '#7C3AED, #EC4899' :
-              theme === 'green' ? '#10B981, #059669' :
-              theme === 'red' ? '#EF4444, #DC2626' :
-              theme === 'orange' ? '#F97316, #EA580C' :
-              theme === 'pink' ? '#EC4899, #DB2777' :
-              theme === 'indigo' ? '#6366F1, #4F46E5' :
-              theme === 'teal' ? '#14B8A6, #0D9488' :
-              '#3B82F6, #7C3AED'});
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000;
-            border: 2px solid rgba(255,255,255,0.2);
+            border: none;
         }
         .toggle-button:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
         }
         .toggle-button::before {
             content: '';
             position: absolute;
-            top: -6px;
-            right: -6px;
-            width: 16px;
-            height: 16px;
+            top: -4px;
+            right: -4px;
+            width: 12px;
+            height: 12px;
             background: #10B981;
             border-radius: 50%;
-            border: 3px solid white;
+            border: 2px solid white;
             animation: pulse 2s infinite;
         }
         @keyframes pulse {
@@ -1988,8 +1892,8 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             position: fixed;
             bottom: 24px;
             right: 24px;
-            ${sizeClasses.width};
-            ${sizeClasses.height};
+            width: 384px;
+            height: 500px;
             z-index: 999;
             transform: translateY(0);
             transition: transform 0.3s ease;
@@ -2022,13 +1926,13 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
 <body>
     <!-- Toggle Button with Animation -->
     <div class="toggle-button ${animations[animation] || animations.slideUp}">
-        <svg style="color: white; width: ${sizeClasses.iconSize}; height: ${sizeClasses.iconSize};" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+        <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
         </svg>
     </div>
     
     <!-- Customer Support Widget with Customizations -->
-    <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
+    <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200" style="width: 384px; height: 500px;">
         <!-- Header -->
         <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
             <div class="flex items-center justify-between">
@@ -2065,7 +1969,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         <div class="h-96 overflow-y-auto p-4 bg-gray-50">
             <div class="mb-4 flex justify-start">
                 <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
-                    <div class="text-sm">${chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}</div>
+                    <div class="text-sm">${message || chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}</div>
                     <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                 </div>
             </div>
