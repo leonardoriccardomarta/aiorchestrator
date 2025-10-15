@@ -70,6 +70,8 @@ const RealDataService = require('./real-data-service');
 const PlanService = require('./src/services/planService');
 const ShopifyOAuthService = require('./src/services/shopifyOAuthService');
 const WooCommerceOAuthService = require('./src/services/woocommerceOAuthService');
+const ShopifyEnhancedService = require('./src/services/shopifyEnhancedService');
+const UniversalEmbedService = require('./src/services/universalEmbedService');
 const { canCreateConnection, canCreateChatbot, canSendMessage, getPlan } = require('./config/plans');
 
 const app = express();
@@ -87,6 +89,10 @@ const planService = new PlanService();
 // Initialize OAuth Services
 const shopifyOAuthService = new ShopifyOAuthService();
 const woocommerceOAuthService = new WooCommerceOAuthService();
+
+// Initialize Enhanced Services
+const shopifyEnhancedService = new ShopifyEnhancedService();
+const universalEmbedService = new UniversalEmbedService();
 
 // Initialize ML Service (Full Machine Learning Suite)
 const mlService = new MLService();
@@ -3185,28 +3191,130 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
       timestamp: Date.now()
     });
     
+    // ============ SHOPIFY ENHANCED FEATURES ============
+    let shopifyEnhancements = null;
+    if (context.connectionType === 'shopify' && context.shopifyConnection) {
+      console.log('🛍️ Shopify connection detected - using enhanced features');
+      const { shop, accessToken } = context.shopifyConnection;
+      
+      // Detect intent and provide relevant features
+      const intent = shopifyEnhancedService.detectIntent(message);
+      
+      if (intent === 'order_tracking') {
+        // Extract order identifier from message
+        const orderMatch = message.match(/#?\d+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+        if (orderMatch) {
+          shopifyEnhancements = await shopifyEnhancedService.trackOrder(shop, accessToken, orderMatch[0]);
+        }
+      } else if (intent === 'product_search') {
+        shopifyEnhancements = await shopifyEnhancedService.getProductRecommendations(shop, accessToken, message, context);
+      } else if (intent === 'inventory_check') {
+        // Extract product name from message
+        const productQuery = message.replace(/in stock|available|inventory|check|is/gi, '').trim();
+        shopifyEnhancements = await shopifyEnhancedService.checkInventory(shop, accessToken, productQuery);
+      }
+      
+      // Check customer history if email provided
+      if (context.customerEmail) {
+        const customerHistory = await shopifyEnhancedService.getCustomerHistory(shop, accessToken, context.customerEmail);
+        if (customerHistory.success && !customerHistory.isNewCustomer) {
+          shopifyEnhancements = shopifyEnhancements || {};
+          shopifyEnhancements.customerHistory = customerHistory;
+        }
+      }
+    }
+    
+    // ============ UNIVERSAL EMBED FEATURES ============
+    let embedEnhancements = null;
+    if (context.connectionType !== 'shopify' && context.websiteUrl) {
+      console.log('🌐 Universal embed detected - using enhanced features');
+      
+      // Scrape website content (cached)
+      const websiteData = await universalEmbedService.scrapeWebsiteContent(context.websiteUrl);
+      
+      // Search website content for relevant information
+      if (websiteData.success !== false) {
+        const searchResults = universalEmbedService.searchWebsiteContent(websiteData, message);
+        
+        if (searchResults.results.length > 0) {
+          embedEnhancements = {
+            websiteContent: searchResults.results,
+            faqs: websiteData.faqs?.slice(0, 3) || []
+          };
+        }
+      }
+      
+      // Analyze page context
+      if (context.currentPageUrl) {
+        const pageContext = await universalEmbedService.analyzePageContext(
+          context.currentPageUrl,
+          context.currentPageTitle,
+          context.chatHistory || []
+        );
+        
+        if (pageContext.success) {
+          embedEnhancements = embedEnhancements || {};
+          embedEnhancements.pageContext = pageContext.context;
+        }
+      }
+    }
+    
     // Use real AI service with Groq
     console.log('🤖 Using Groq AI service');
     const startTime = Date.now();
     
-    // Enhanced system prompt for demo/landing page users
-    const enhancedContext = {
-      ...context,
-      primaryLanguage: primaryLanguage,
-      language: primaryLanguage,
-      systemPrompt: user.id === 'demo-user' 
+    // Enhanced system prompt with Shopify/Embed context
+    let systemPrompt = user.id === 'demo-user' 
         ? `You are an AI assistant showcasing an advanced AI Chatbot Platform.
 Your goal is to demonstrate the platform's capabilities by being helpful, multilingual, and intelligent.
 Always respond in the SAME LANGUAGE as the user's message.
 Be friendly, professional, and highlight features like: multi-language support, ML analytics, e-commerce integration, and automation.
 Keep responses concise (2-3 sentences) and engaging.`
-        : context.systemPrompt
+      : context.systemPrompt || 'You are a helpful AI assistant.';
+    
+    // Add Shopify context to prompt
+    if (shopifyEnhancements) {
+      systemPrompt += '\n\nYou have access to real Shopify store data. Use the following information to provide accurate responses:';
+      if (shopifyEnhancements.order) {
+        systemPrompt += `\n\nORDER INFORMATION:\n${shopifyEnhancements.message}`;
+      }
+      if (shopifyEnhancements.recommendations) {
+        systemPrompt += `\n\nPRODUCT RECOMMENDATIONS:\n${JSON.stringify(shopifyEnhancements.recommendations.slice(0, 3), null, 2)}`;
+      }
+      if (shopifyEnhancements.inventory) {
+        systemPrompt += `\n\nINVENTORY INFO:\n${shopifyEnhancements.message}`;
+      }
+      if (shopifyEnhancements.customerHistory) {
+        systemPrompt += `\n\nCUSTOMER INFO:\n${shopifyEnhancements.customerHistory.message}`;
+      }
+    }
+    
+    // Add Website context to prompt
+    if (embedEnhancements) {
+      systemPrompt += '\n\nYou have access to the website content. Use the following information:';
+      if (embedEnhancements.websiteContent && embedEnhancements.websiteContent.length > 0) {
+        systemPrompt += `\n\nRELEVANT WEBSITE CONTENT:\n${embedEnhancements.websiteContent.map(c => c.text).join('\n\n')}`;
+      }
+      if (embedEnhancements.faqs && embedEnhancements.faqs.length > 0) {
+        systemPrompt += `\n\nFAQs:\n${embedEnhancements.faqs.map(f => `Q: ${f.question}\nA: ${f.answer}`).join('\n\n')}`;
+      }
+      if (embedEnhancements.pageContext) {
+        systemPrompt += `\n\nCURRENT PAGE: ${embedEnhancements.pageContext.title} (${embedEnhancements.pageContext.pageType})`;
+        systemPrompt += `\n${embedEnhancements.pageContext.greeting}`;
+      }
+    }
+    
+    const enhancedContext = {
+      ...context,
+      primaryLanguage: primaryLanguage,
+      language: primaryLanguage,
+      systemPrompt
     };
     
     // Build AI request options
     const aiOptions = {
       language: primaryLanguage,
-      // add more options if needed
+      systemPrompt
     };
     
     const response = await aiService.generateResponse(message, aiOptions);
@@ -3249,6 +3357,19 @@ Keep responses concise (2-3 sentences) and engaging.`
         intent: mlAnalysis.intent,
         recommendations: recommendations,
         urgency: mlAnalysis.sentiment.urgency
+      } : undefined,
+      // Shopify Enhancements (if available)
+      shopify: shopifyEnhancements ? {
+        order: shopifyEnhancements.order || null,
+        recommendations: shopifyEnhancements.recommendations?.recommendations || null,
+        inventory: shopifyEnhancements.inventory || null,
+        customerHistory: shopifyEnhancements.customerHistory || null
+      } : undefined,
+      // Universal Embed Enhancements (if available)
+      embed: embedEnhancements ? {
+        pageContext: embedEnhancements.pageContext || null,
+        suggestedQuestions: embedEnhancements.pageContext?.suggestedQuestions || null,
+        faqs: embedEnhancements.faqs || null
       } : undefined
     });
     
@@ -4075,6 +4196,271 @@ process.on('SIGTERM', () => {
 process.on('SIGINT', () => {
   console.log('🛑 SIGINT received, shutting down gracefully');
   process.exit(0);
+});
+
+// ===== SHOPIFY ENHANCED API ENDPOINTS =====
+
+// Get product recommendations
+app.post('/api/shopify/recommendations', authenticateToken, async (req, res) => {
+  try {
+    const { connectionId, query, context = {} } = req.body;
+    const userId = req.user.userId || req.user.id;
+    
+    // Get connection
+    const connection = await prisma.connection.findFirst({
+      where: { id: connectionId, userId }
+    });
+    
+    if (!connection || connection.type !== 'shopify') {
+      return res.status(404).json({
+        success: false,
+        error: 'Shopify connection not found'
+      });
+    }
+    
+    const result = await shopifyEnhancedService.getProductRecommendations(
+      connection.url,
+      connection.apiKey,
+      query,
+      context
+    );
+    
+    res.json(result);
+  } catch (error) {
+    console.error('❌ Shopify recommendations error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to get product recommendations'
+    });
+  }
+});
+
+// Track order
+app.post('/api/shopify/track-order', authenticateToken, async (req, res) => {
+  try {
+    const { connectionId, orderIdentifier } = req.body;
+    const userId = req.user.userId || req.user.id;
+    
+    const connection = await prisma.connection.findFirst({
+      where: { id: connectionId, userId }
+    });
+    
+    if (!connection || connection.type !== 'shopify') {
+      return res.status(404).json({
+        success: false,
+        error: 'Shopify connection not found'
+      });
+    }
+    
+    const result = await shopifyEnhancedService.trackOrder(
+      connection.url,
+      connection.apiKey,
+      orderIdentifier
+    );
+    
+    res.json(result);
+  } catch (error) {
+    console.error('❌ Order tracking error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to track order'
+    });
+  }
+});
+
+// Check inventory
+app.post('/api/shopify/check-inventory', authenticateToken, async (req, res) => {
+  try {
+    const { connectionId, productQuery } = req.body;
+    const userId = req.user.userId || req.user.id;
+    
+    const connection = await prisma.connection.findFirst({
+      where: { id: connectionId, userId }
+    });
+    
+    if (!connection || connection.type !== 'shopify') {
+      return res.status(404).json({
+        success: false,
+        error: 'Shopify connection not found'
+      });
+    }
+    
+    const result = await shopifyEnhancedService.checkInventory(
+      connection.url,
+      connection.apiKey,
+      productQuery
+    );
+    
+    res.json(result);
+  } catch (error) {
+    console.error('❌ Inventory check error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to check inventory'
+    });
+  }
+});
+
+// Get customer history
+app.post('/api/shopify/customer-history', authenticateToken, async (req, res) => {
+  try {
+    const { connectionId, email } = req.body;
+    const userId = req.user.userId || req.user.id;
+    
+    const connection = await prisma.connection.findFirst({
+      where: { id: connectionId, userId }
+    });
+    
+    if (!connection || connection.type !== 'shopify') {
+      return res.status(404).json({
+        success: false,
+        error: 'Shopify connection not found'
+      });
+    }
+    
+    const result = await shopifyEnhancedService.getCustomerHistory(
+      connection.url,
+      connection.apiKey,
+      email
+    );
+    
+    res.json(result);
+  } catch (error) {
+    console.error('❌ Customer history error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to get customer history'
+    });
+  }
+});
+
+// ===== UNIVERSAL EMBED API ENDPOINTS =====
+
+// Scrape website content
+app.post('/api/embed/scrape-website', authenticateToken, async (req, res) => {
+  try {
+    const { url, options = {} } = req.body;
+    
+    if (!url) {
+      return res.status(400).json({
+        success: false,
+        error: 'URL is required'
+      });
+    }
+    
+    const result = await universalEmbedService.scrapeWebsiteContent(url, options);
+    res.json(result);
+  } catch (error) {
+    console.error('❌ Website scraping error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to scrape website'
+    });
+  }
+});
+
+// Analyze page context
+app.post('/api/embed/analyze-context', async (req, res) => {
+  try {
+    const { pageUrl, pageTitle, chatHistory = [] } = req.body;
+    
+    if (!pageUrl) {
+      return res.status(400).json({
+        success: false,
+        error: 'Page URL is required'
+      });
+    }
+    
+    const result = await universalEmbedService.analyzePageContext(pageUrl, pageTitle, chatHistory);
+    res.json(result);
+  } catch (error) {
+    console.error('❌ Context analysis error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to analyze context'
+    });
+  }
+});
+
+// Get lead capture form
+app.post('/api/embed/lead-capture-form', async (req, res) => {
+  try {
+    const { intent, previousMessages = [] } = req.body;
+    
+    const form = universalEmbedService.generateLeadCaptureForm({
+      intent,
+      previousMessages
+    });
+    
+    res.json({
+      success: true,
+      form
+    });
+  } catch (error) {
+    console.error('❌ Lead form generation error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to generate lead form'
+    });
+  }
+});
+
+// Process lead submission
+app.post('/api/embed/submit-lead', async (req, res) => {
+  try {
+    const { data, chatbotId } = req.body;
+    
+    if (!data || !data.email || !data.name) {
+      return res.status(400).json({
+        success: false,
+        error: 'Name and email are required'
+      });
+    }
+    
+    const result = await universalEmbedService.processLeadSubmission(data, chatbotId);
+    res.json(result);
+  } catch (error) {
+    console.error('❌ Lead submission error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to process lead submission'
+    });
+  }
+});
+
+// Search website content
+app.post('/api/embed/search-content', async (req, res) => {
+  try {
+    const { websiteUrl, query } = req.body;
+    
+    if (!websiteUrl || !query) {
+      return res.status(400).json({
+        success: false,
+        error: 'Website URL and query are required'
+      });
+    }
+    
+    // First scrape the website (will use cache if available)
+    const websiteData = await universalEmbedService.scrapeWebsiteContent(websiteUrl);
+    
+    if (websiteData.success === false) {
+      return res.json({
+        success: false,
+        results: [],
+        error: 'Failed to access website content'
+      });
+    }
+    
+    // Search the content
+    const result = universalEmbedService.searchWebsiteContent(websiteData, query);
+    res.json(result);
+  } catch (error) {
+    console.error('❌ Content search error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to search content'
+    });
+  }
 });
 
 // Start server
