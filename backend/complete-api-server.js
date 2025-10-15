@@ -2930,14 +2930,17 @@ app.patch('/api/chatbots/:chatbotId', authenticateToken, async (req, res) => {
     const { chatbotId } = req.params;
     const updates = req.body;
     
+    const userId = user.userId || user.id;
+    
     console.log('🔧 PATCH chatbot request:', {
-      userId: user.id,
+      userId,
       chatbotId,
-      updates
+      updates,
+      userObject: user
     });
     
     // Update chatbot using RealDataService
-    const chatbot = await realDataService.updateChatbot(user.id, chatbotId, updates);
+    const chatbot = await realDataService.updateChatbot(userId, chatbotId, updates);
     
     if (chatbot) {
       res.json({

@@ -37,6 +37,7 @@ const ConnectionsNew: React.FC = () => {
   const { selectedChatbotId, chatbots } = useChatbot();
   const [searchParams] = useSearchParams();
   const [connections, setConnections] = useState<Connection[]>([]);
+  const [connectionsLoading, setConnectionsLoading] = useState(true);
   const [loading, setLoading] = useState(true);
   const [showAddConnection, setShowAddConnection] = useState(false);
   const [selectedPlatform, setSelectedPlatform] = useState<'shopify' | 'woocommerce' | null>(null);
@@ -88,7 +89,7 @@ const ConnectionsNew: React.FC = () => {
 
   const fetchConnections = async () => {
     try {
-      setLoading(true);
+      setConnectionsLoading(true);
       const token = localStorage.getItem('authToken');
       console.log('🔄 Fetching connections...');
       
@@ -109,12 +110,18 @@ const ConnectionsNew: React.FC = () => {
       const connectionsData = data.data?.connections || data.connections || [];
       console.log('✅ Connections fetched:', connectionsData.length, 'connections');
       console.log('📋 Connection details:', connectionsData);
-      setConnections(connectionsData);
+      
+      if (Array.isArray(connectionsData)) {
+        setConnections(connectionsData);
+      } else {
+        console.error('❌ Connections data is not an array:', connectionsData);
+        setConnections([]);
+      }
     } catch (error) {
       console.error('❌ Failed to fetch connections:', error);
       setConnections([]); // Set empty array on error
     } finally {
-      setLoading(false);
+      setConnectionsLoading(false);
     }
   };
 
@@ -336,7 +343,12 @@ const ConnectionsNew: React.FC = () => {
           </div>
         ) : (
             <div className="grid gap-4">
-              {connections && Array.isArray(connections) && connections.length > 0 ? connections.map((connection) => {
+              {connectionsLoading ? (
+                <div className="text-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+                  <p className="text-gray-500 mt-2">Loading connections...</p>
+                </div>
+              ) : connections && Array.isArray(connections) && connections.length > 0 ? connections.map((connection) => {
                 if (!connection) return null;
                 return (
                 <div

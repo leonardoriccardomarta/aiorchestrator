@@ -18,6 +18,7 @@ import {
   Users,
   Activity,
   Code,
+  Save,
   X,
   Send,
   Loader2,
@@ -67,12 +68,18 @@ const Chatbot: React.FC = () => {
   const [showWidgetAvatar, setShowWidgetAvatar] = useState<boolean>(true);
   // removed detectLanguage; use primaryLanguage only
 
-  // Auto-save widget customizations when they change
+  // Save widget customizations manually
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  
   const saveWidgetCustomizations = async () => {
     if (!currentChatbotId) {
       console.log('❌ No chatbot ID, skipping save');
       return;
     }
+    
+    setIsSaving(true);
+    setSaveStatus('idle');
     
     console.log('💾 Saving widget customizations to backend...', {
       chatbotId: currentChatbotId,
@@ -103,27 +110,25 @@ const Chatbot: React.FC = () => {
         })
       });
       
-      const result = await response.json();
-      console.log('✅ Widget customizations saved:', result);
+      if (response.ok) {
+        const result = await response.json();
+        console.log('✅ Widget customizations saved:', result);
+        setSaveStatus('success');
+        setTimeout(() => setSaveStatus('idle'), 3000);
+      } else {
+        console.error('❌ Save failed with status:', response.status);
+        setSaveStatus('error');
+        setTimeout(() => setSaveStatus('idle'), 3000);
+      }
     } catch (error) {
       console.error('❌ Failed to save widget customizations:', error);
+      setSaveStatus('error');
+      setTimeout(() => setSaveStatus('idle'), 3000);
+    } finally {
+      setIsSaving(false);
     }
   };
 
-  // Auto-save when widget customizations change
-  useEffect(() => {
-    if (currentChatbotId && currentChatbotId !== '') {
-      console.log('💾 Auto-saving widget customizations...', {
-        theme: widgetTheme,
-        title: widgetTitle,
-        placeholder: widgetPlaceholder,
-        message: widgetMessage,
-        showAvatar: showWidgetAvatar
-      });
-      const timeoutId = setTimeout(saveWidgetCustomizations, 1000); // Debounce 1 second
-      return () => clearTimeout(timeoutId);
-    }
-  }, [widgetTheme, widgetTitle, widgetPlaceholder, widgetMessage, showWidgetAvatar, currentChatbotId]);
 
   // Theme palette (mirror of preview)
   const themeColors = {
@@ -1097,6 +1102,38 @@ const Chatbot: React.FC = () => {
                     </select>
                     <p className="text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
                   </div>
+                </div>
+                
+                {/* Save Button */}
+                <div className="mt-6 flex justify-end items-center space-x-4">
+                  {saveStatus === 'success' && (
+                    <span className="text-green-600 text-sm flex items-center space-x-1">
+                      <CheckCircle className="w-4 h-4" />
+                      <span>Saved successfully!</span>
+                    </span>
+                  )}
+                  {saveStatus === 'error' && (
+                    <span className="text-red-600 text-sm flex items-center space-x-1">
+                      <AlertCircle className="w-4 h-4" />
+                      <span>Save failed. Try again.</span>
+                    </span>
+                  )}
+                  <button
+                    onClick={saveWidgetCustomizations}
+                    disabled={isSaving}
+                    className={`px-6 py-2 rounded-lg transition-colors flex items-center space-x-2 ${
+                      isSaving 
+                        ? 'bg-gray-400 cursor-not-allowed' 
+                        : 'bg-blue-600 hover:bg-blue-700'
+                    } text-white`}
+                  >
+                    {isSaving ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Save className="w-4 h-4" />
+                    )}
+                    <span>{isSaving ? 'Saving...' : 'Save Widget Settings'}</span>
+                  </button>
                 </div>
               </div>
 
