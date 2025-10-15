@@ -3145,10 +3145,17 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
     const userPlanId = user.planId || 'starter';
       const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
     
-    // Count messages for current month
+    // Get user's chatbots first
+    const userChatbots = await prisma.chatbot.findMany({
+      where: { userId: user.id },
+      select: { id: true }
+    });
+    const chatbotIds = userChatbots.map(c => c.id);
+    
+    // Count messages for current month across all user's chatbots
     const monthlyMessageCount = await prisma.conversation.count({
       where: {
-        userId: user.id,
+        chatbotId: { in: chatbotIds },
         createdAt: {
           gte: new Date(`${currentMonth}-01`)
         }
