@@ -836,7 +836,7 @@ const Chatbot: React.FC = () => {
 <script 
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
   data-chatbot-id="${currentChatbotId}"
-  data-api-key="demo-key"
+  data-api-key="${API_URL}"
   data-theme="${widgetTheme}"
   data-title="${widgetTitle}"
   data-placeholder="${widgetPlaceholder}"
@@ -852,7 +852,7 @@ const Chatbot: React.FC = () => {
 <script 
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
   data-chatbot-id="${currentChatbotId}"
-  data-api-key="demo-key"
+  data-api-key="${API_URL}"
   data-theme="${widgetTheme}"
   data-title="${widgetTitle}"
   data-placeholder="${widgetPlaceholder}"

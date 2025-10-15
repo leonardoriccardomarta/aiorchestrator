@@ -224,12 +224,45 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             height: 100vh;
             overflow: hidden;
         }
+        .preview-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .chat-widget {
+            position: relative;
+            width: 384px;
+            height: 500px;
+            z-index: 2;
+        }
+        .toggle-button {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            width: 40px;
+            height: 40px;
+            z-index: 3;
+        }
     </style>
 </head>
 <body>
-    <!-- EXACT COPY OF LANDING PAGE WIDGET -->
-    <div class="fixed bottom-6 right-6 z-50 w-96">
-        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
+    <div class="preview-container">
+        <!-- Toggle Button - IDENTICAL TO AVATAR, PROPER SIZE -->
+        <button class="toggle-button bg-gradient-to-br ${themeColors.primary} text-white rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+            <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
+            <div class="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                Chat with us 24/7
+            </div>
+        </button>
+
+        <!-- Chat Widget - OPENS TO THE LEFT -->
+        <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200" style="margin-right: 60px;">
             <!-- Header -->
             <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
                 <div class="flex items-center justify-between">
@@ -306,17 +339,6 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             </div>
         </div>
     </div>
-
-    <!-- Toggle Button - IDENTICAL TO AVATAR -->
-    <button class="fixed bottom-6 right-6 w-10 h-10 bg-gradient-to-br ${themeColors.primary} text-white rounded-full shadow-2xl hover:scale-110 transition-transform z-50 flex items-center justify-center group">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-        </svg>
-        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
-        <div class="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Chat with us 24/7
-        </div>
-    </button>
 </body>
 </html>`;
 
