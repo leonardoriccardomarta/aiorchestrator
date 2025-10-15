@@ -944,20 +944,33 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
       console.log('🔑 Shopify API Key:', process.env.SHOPIFY_API_KEY ? 'configured' : 'missing');
       console.log('🔑 Shopify API Secret:', process.env.SHOPIFY_API_SECRET ? 'configured' : 'missing');
       
-      // Get products count - use count endpoint
-      const productsResponse = await fetch(`https://${shop}/admin/api/2023-10/products/count.json`, {
-        headers: { 'X-Shopify-Access-Token': accessToken }
+      // Get products count - use count endpoint with better error handling
+      console.log('📦 Fetching products from:', `https://${shop}/admin/api/2024-01/products/count.json`);
+      const productsResponse = await fetch(`https://${shop}/admin/api/2024-01/products/count.json`, {
+        headers: { 
+          'X-Shopify-Access-Token': accessToken,
+          'Content-Type': 'application/json'
+        }
       });
+      console.log('📦 Products response status:', productsResponse.status);
       if (productsResponse.ok) {
         const productsData = await productsResponse.json();
         shopifyData.productsCount = productsData.count || 0;
-        console.log('📦 Products count:', shopifyData.productsCount);
+        console.log('✅ Products count:', shopifyData.productsCount, 'Raw data:', productsData);
+      } else {
+        const errorText = await productsResponse.text();
+        console.error('❌ Products fetch failed:', productsResponse.status, errorText);
       }
 
-      // Get orders count - use count endpoint
-      const ordersResponse = await fetch(`https://${shop}/admin/api/2023-10/orders/count.json?status=any`, {
-        headers: { 'X-Shopify-Access-Token': accessToken }
+      // Get orders count - use count endpoint with better error handling
+      console.log('📦 Fetching orders from:', `https://${shop}/admin/api/2024-01/orders/count.json?status=any`);
+      const ordersResponse = await fetch(`https://${shop}/admin/api/2024-01/orders/count.json?status=any`, {
+        headers: { 
+          'X-Shopify-Access-Token': accessToken,
+          'Content-Type': 'application/json'
+        }
       });
+      console.log('📦 Orders response status:', ordersResponse.status);
       if (ordersResponse.ok) {
         const ordersData = await ordersResponse.json();
         shopifyData.ordersCount = ordersData.count || 0;

@@ -2,6 +2,17 @@
 (function() {
   'use strict';
 
+  // Inject Tailwind CSS CDN for Shopify compatibility
+  console.log('AI Orchestrator: Checking for Tailwind CSS...');
+  if (!document.getElementById('ai-widget-tailwind')) {
+    console.log('AI Orchestrator: Injecting Tailwind CSS CDN...');
+    const tailwindScript = document.createElement('script');
+    tailwindScript.id = 'ai-widget-tailwind';
+    tailwindScript.src = 'https://cdn.tailwindcss.com';
+    document.head.appendChild(tailwindScript);
+    console.log('✅ Tailwind CSS CDN injected');
+  }
+
   // Wait for DOM to be ready (Shopify compatibility)
   function waitForDOM(callback) {
     if (document.readyState === 'loading') {
@@ -426,18 +437,11 @@
       console.log('AI Orchestrator: Chat widget z-index:', chatStyle.zIndex);
     }
     
-    // Force visibility for debugging
+    // Ensure maximum z-index for Shopify compatibility
     if (toggleButton) {
-      console.log('AI Orchestrator: Forcing toggle button visibility for debugging...');
-      toggleButton.style.display = 'flex !important';
-      toggleButton.style.visibility = 'visible !important';
-      toggleButton.style.opacity = '1 !important';
-      toggleButton.style.zIndex = '999999 !important';
-      toggleButton.style.position = 'fixed !important';
-      toggleButton.style.bottom = '24px !important';
-      toggleButton.style.right = '24px !important';
-      toggleButton.style.backgroundColor = 'red !important'; // Make it very visible
-      console.log('AI Orchestrator: Toggle button forced to be visible (red background)');
+      console.log('AI Orchestrator: Setting maximum z-index for Shopify...');
+      toggleButton.style.zIndex = '2147483647';
+      console.log('✅ Widget ready! Toggle button z-index:', window.getComputedStyle(toggleButton).zIndex);
     }
     } // End of initializeWidget function
 
