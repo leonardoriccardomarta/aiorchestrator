@@ -1018,16 +1018,19 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
     
     // Generate widget code with chatbot customizations
     const apiUrl = process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app';
+    const settings = selectedChatbot?.settings ? 
+      (typeof selectedChatbot.settings === 'string' ? JSON.parse(selectedChatbot.settings) : selectedChatbot.settings) : {};
+    
     const widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
 <script 
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
   data-chatbot-id="${chatbotId}"
   data-api-key="${apiUrl}"
-  data-theme="${selectedChatbot?.settings?.theme || selectedChatbot?.theme || 'blue'}"
-  data-title="${selectedChatbot?.name || 'AI Support'}"
-  data-placeholder="${selectedChatbot?.settings?.placeholder || 'Type your message...'}"
-  data-show-avatar="${selectedChatbot?.settings?.showAvatar !== false}"
-  data-welcome-message="${selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"
+  data-theme="${settings.theme || 'blue'}"
+  data-title="${settings.title || selectedChatbot?.name || 'AI Support'}"
+  data-placeholder="${settings.placeholder || 'Type your message...'}"
+  data-show-avatar="${settings.showAvatar !== false}"
+  data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"
   data-primary-language="${selectedChatbot?.language || 'auto'}"
   defer>
 </script>`;

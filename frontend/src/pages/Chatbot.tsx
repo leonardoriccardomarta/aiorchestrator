@@ -67,6 +67,40 @@ const Chatbot: React.FC = () => {
   const [showWidgetAvatar, setShowWidgetAvatar] = useState<boolean>(true);
   // removed detectLanguage; use primaryLanguage only
 
+  // Auto-save widget customizations when they change
+  const saveWidgetCustomizations = async () => {
+    if (!currentChatbotId) return;
+    
+    try {
+      await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${currentChatbotId}`, {
+        method: 'PATCH',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}` 
+        },
+        body: JSON.stringify({
+          settings: {
+            theme: widgetTheme,
+            placeholder: widgetPlaceholder,
+            showAvatar: showWidgetAvatar,
+            title: widgetTitle,
+            message: widgetMessage
+          }
+        })
+      });
+    } catch (error) {
+      console.error('Failed to save widget customizations:', error);
+    }
+  };
+
+  // Auto-save when widget customizations change
+  useEffect(() => {
+    if (currentChatbotId) {
+      const timeoutId = setTimeout(saveWidgetCustomizations, 1000); // Debounce 1 second
+      return () => clearTimeout(timeoutId);
+    }
+  }, [widgetTheme, widgetTitle, widgetPlaceholder, widgetMessage, showWidgetAvatar, currentChatbotId]);
+
   // Theme palette (mirror of preview)
   const themeColors = {
     blue:   { primary: 'from-blue-600 to-blue-700', userMsg: 'bg-blue-600', send: 'bg-blue-600' },
@@ -154,6 +188,8 @@ const Chatbot: React.FC = () => {
           if (settings.theme) setWidgetTheme(settings.theme);
           if (settings.placeholder) setWidgetPlaceholder(settings.placeholder);
           if (settings.showAvatar !== undefined) setShowWidgetAvatar(settings.showAvatar);
+          if (settings.title) setWidgetTitle(settings.title);
+          if (settings.message) setWidgetMessage(settings.message);
         }
         
         // Update chat welcome message
