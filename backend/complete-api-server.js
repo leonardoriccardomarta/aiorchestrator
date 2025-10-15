@@ -180,7 +180,7 @@ app.use(limiter);
 app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
     const { chatbotId } = req.params;
-    const { theme, size, title, placeholder, message, showAvatar, animation } = req.query;
+    const { theme, title, placeholder, message, showAvatar } = req.query;
     
     // Get chatbot from database
     const chatbot = await prisma.chatbot.findUnique({
@@ -204,24 +204,8 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
       teal: { primary: 'from-teal-600 to-teal-700', secondary: 'from-teal-50 to-teal-100', accent: 'bg-teal-600', text: 'text-teal-900', border: 'border-teal-200', userMessage: 'bg-teal-600' }
     };
     
-    // Get size classes - Make toggle button much larger and proportional
-    const sizes = {
-      small: { width: 'w-80', height: 'h-80', buttonSize: 'w-20 h-20', iconSize: '20px' },
-      medium: { width: 'w-96', height: 'h-96', buttonSize: 'w-24 h-24', iconSize: '24px' },
-      large: { width: 'w-[28rem]', height: 'h-[28rem]', buttonSize: 'w-28 h-28', iconSize: '28px' }
-    };
-    
-    // Get animation classes
-    const animations = {
-      slideUp: 'animate-slide-up',
-      fadeIn: 'animate-fade-in',
-      bounce: 'animate-bounce',
-      scale: 'animate-scale',
-      none: ''
-    };
     
     const themeColors = themes[theme] || themes.blue;
-    const sizeClasses = sizes[size] || sizes.medium;
 
     const html = `
 <!DOCTYPE html>
@@ -247,18 +231,18 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     <div class="fixed bottom-6 right-6 z-50 w-96">
         <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
             <!-- Header -->
-            <div class="bg-gradient-to-br from-blue-50 to-indigo-100 border-b-2 border-blue-200 p-4">
+            <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         ${showAvatar !== 'false' ? `
-                            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                            <div class="w-10 h-10 bg-gradient-to-br ${themeColors.primary} rounded-full flex items-center justify-center">
                                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                                 </svg>
                             </div>
                         ` : ''}
                         <div>
-                            <div class="font-bold text-gray-900">${title || 'AI Support'}</div>
+                            <div class="font-bold ${themeColors.text}">${title || 'AI Support'}</div>
                             <div class="text-xs text-gray-600 flex items-center gap-1">
                                 <div class="w-2 h-2 bg-green-500 rounded-full"></div>
                                 Online 24/7
@@ -289,9 +273,9 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                     </div>
                 </div>
                 <div class="mb-4 flex justify-end">
-                    <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-blue-600 text-white">
+                    <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
                         <div class="text-sm">Hi! Can you help me?</div>
-                        <div class="text-xs mt-1 text-blue-100">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                        <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                     </div>
                 </div>
                 <div class="flex justify-start mb-4">
@@ -313,7 +297,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                         placeholder="${placeholder || 'Type your message...'}"
                         class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
-                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all">
+                    <button class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                         </svg>
@@ -323,9 +307,9 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         </div>
     </div>
 
-    <!-- Toggle Button - EXACT COPY FROM LANDING -->
-    <button class="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-full shadow-2xl hover:scale-110 transition-transform z-50 flex items-center justify-center group">
-        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <!-- Toggle Button - IDENTICAL TO AVATAR -->
+    <button class="fixed bottom-6 right-6 w-10 h-10 bg-gradient-to-br ${themeColors.primary} text-white rounded-full shadow-2xl hover:scale-110 transition-transform z-50 flex items-center justify-center group">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
         </svg>
         <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
@@ -1761,7 +1745,7 @@ app.post('/api/faqs', authenticateToken, (req, res) => {
 app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
     const { chatbotId } = req.params;
-    const { theme, size, title, placeholder, message, showAvatar, animation } = req.query;
+    const { theme, title, placeholder, message, showAvatar } = req.query;
     
     // Get chatbot from database
     const chatbot = await prisma.chatbot.findUnique({
@@ -1785,24 +1769,8 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
       teal: { primary: 'from-teal-600 to-teal-700', secondary: 'from-teal-50 to-teal-100', accent: 'bg-teal-600', text: 'text-teal-900', border: 'border-teal-200', userMessage: 'bg-teal-600' }
     };
     
-    // Get size classes - Make toggle button much larger and proportional
-    const sizes = {
-      small: { width: 'w-80', height: 'h-80', buttonSize: 'w-20 h-20', iconSize: '20px' },
-      medium: { width: 'w-96', height: 'h-96', buttonSize: 'w-24 h-24', iconSize: '24px' },
-      large: { width: 'w-[28rem]', height: 'h-[28rem]', buttonSize: 'w-28 h-28', iconSize: '28px' }
-    };
-    
-    // Get animation classes
-    const animations = {
-      slideUp: 'animate-slide-up',
-      fadeIn: 'animate-fade-in',
-      bounce: 'animate-bounce',
-      scale: 'animate-scale',
-      none: ''
-    };
     
     const themeColors = themes[theme] || themes.blue;
-    const sizeClasses = sizes[size] || sizes.medium;
 
     const html = `
 <!DOCTYPE html>

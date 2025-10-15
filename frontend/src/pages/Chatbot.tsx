@@ -61,12 +61,10 @@ const Chatbot: React.FC = () => {
   
   // Widget customization state
   const [widgetTheme, setWidgetTheme] = useState<'blue' | 'purple' | 'green' | 'red' | 'orange' | 'pink' | 'indigo' | 'teal'>('blue');
-  const [widgetSize, setWidgetSize] = useState<'small' | 'medium' | 'large'>('medium');
   const [widgetTitle, setWidgetTitle] = useState<string>('AI Support');
   const [widgetPlaceholder, setWidgetPlaceholder] = useState<string>('Type your message...');
   const [widgetMessage, setWidgetMessage] = useState<string>('Hello! I\'m your AI assistant. How can I help you today?');
   const [showWidgetAvatar, setShowWidgetAvatar] = useState<boolean>(true);
-  const [widgetAnimation, setWidgetAnimation] = useState<'fadeIn' | 'slideUp' | 'bounce' | 'scale' | 'none'>('slideUp');
 
   const createDefaultChatbot = async () => {
     try {
@@ -845,7 +843,6 @@ const Chatbot: React.FC = () => {
   data-placeholder="${widgetPlaceholder}"
   data-show-avatar="${showWidgetAvatar}"
   data-welcome-message="${welcomeMessage}"
-  data-animation="${widgetAnimation}"
   defer>
 </script>` : 'Loading chatbot...'}
                   </code>
@@ -863,7 +860,6 @@ const Chatbot: React.FC = () => {
   data-placeholder="${widgetPlaceholder}"
   data-show-avatar="${showWidgetAvatar}"
   data-welcome-message="${welcomeMessage}"
-  data-animation="${widgetAnimation}"
   defer>
 </script>` : 'No chatbot available';
                     navigator.clipboard.writeText(code).then(() => alert('Copied to clipboard!')).catch(() => alert('Copy failed'));
@@ -957,32 +953,6 @@ const Chatbot: React.FC = () => {
                       Show Avatar
                     </label>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Animation</label>
-                    <select 
-                      value={widgetAnimation}
-                      onChange={(e) => setWidgetAnimation(e.target.value as any)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="slideUp">Slide Up</option>
-                      <option value="fadeIn">Fade In</option>
-                      <option value="bounce">Bounce</option>
-                      <option value="scale">Scale</option>
-                      <option value="none">None</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Widget Size</label>
-                    <select 
-                      value={widgetSize}
-                      onChange={(e) => setWidgetSize(e.target.value as any)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="small">Small (280px)</option>
-                      <option value="medium">Medium (384px)</option>
-                      <option value="large">Large (448px)</option>
-                    </select>
-                  </div>
                 </div>
               </div>
 
@@ -1001,7 +971,7 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&size=${widgetSize}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&animation=${widgetAnimation}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}`}
                       className="w-full h-[500px] border-0"
                       title="Live Chatbot Preview"
                     />
