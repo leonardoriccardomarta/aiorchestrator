@@ -970,7 +970,7 @@ const Chatbot: React.FC = () => {
                   {currentChatbotId ? (
                     <iframe
                       src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}`}
-                      className="w-full h-[600px] border-0"
+                      className="w-full h-[740px] border-0"
                       title="Live Chatbot Preview"
                     />
                   ) : (
