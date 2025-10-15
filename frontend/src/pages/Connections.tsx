@@ -336,7 +336,9 @@ const ConnectionsNew: React.FC = () => {
           </div>
         ) : (
             <div className="grid gap-4">
-              {connections && Array.isArray(connections) && connections.length > 0 ? connections.map((connection) => (
+              {connections && Array.isArray(connections) && connections.length > 0 ? connections.map((connection) => {
+                if (!connection) return null;
+                return (
                 <div
                   key={connection.id}
                   className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
@@ -394,7 +396,8 @@ const ConnectionsNew: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              )) : (
+                );
+              }) : (
                 <div className="text-center py-8 text-gray-500">
                   No connections found
                 </div>
@@ -462,7 +465,7 @@ const ConnectionsNew: React.FC = () => {
                 >
                   Disconnect
                   </button>
-              </div>
+                </div>
               </div>
             </div>
           </div>

@@ -890,6 +890,8 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
     let shopifyData = { productsCount: 0, ordersCount: 0, customersCount: 0, revenue: 0 };
     try {
       console.log('🔄 Syncing data from Shopify...');
+      console.log('🔑 Shopify API Key:', process.env.SHOPIFY_API_KEY ? 'configured' : 'missing');
+      console.log('🔑 Shopify API Secret:', process.env.SHOPIFY_API_SECRET ? 'configured' : 'missing');
       
       // Get products count - use count endpoint
       const productsResponse = await fetch(`https://${shop}/admin/api/2023-10/products/count.json`, {
@@ -2927,6 +2929,12 @@ app.patch('/api/chatbots/:chatbotId', authenticateToken, async (req, res) => {
     const user = req.user;
     const { chatbotId } = req.params;
     const updates = req.body;
+    
+    console.log('🔧 PATCH chatbot request:', {
+      userId: user.id,
+      chatbotId,
+      updates
+    });
     
     // Update chatbot using RealDataService
     const chatbot = await realDataService.updateChatbot(user.id, chatbotId, updates);
