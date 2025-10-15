@@ -52,9 +52,18 @@
 
   // Initialize widget when DOM is ready
   waitForDOM(function() {
+    console.log('AI Orchestrator: DOM ready, looking for config...');
+    
+    // Debug: Check all script tags
+    const allScripts = document.querySelectorAll('script');
+    console.log('AI Orchestrator: Found', allScripts.length, 'script tags');
+    
     const config = getConfig() || getLegacyConfig();
+    console.log('AI Orchestrator: Config found:', config);
+    
     if (!config) {
       console.error('AI Orchestrator: No valid configuration found');
+      console.error('AI Orchestrator: Make sure you have data-chatbot-id and data-api-key attributes');
       return;
     }
 
@@ -390,7 +399,9 @@
   document.getElementById('ai-widget-send').addEventListener('click', sendChatbotMessage);
   document.getElementById('ai-widget-input').addEventListener('keypress', handleChatbotKeypress);
 
-  console.log('AI Orchestrator: Shopify-compatible widget loaded successfully!');
-  } // End of initializeWidget function
+    console.log('AI Orchestrator: Shopify-compatible widget loaded successfully!');
+    console.log('AI Orchestrator: Toggle button added to page:', document.getElementById('ai-widget-toggle') ? 'YES' : 'NO');
+    console.log('AI Orchestrator: Chat widget added to page:', document.getElementById('ai-widget') ? 'YES' : 'NO');
+    } // End of initializeWidget function
 
 })(); // End of IIFE
