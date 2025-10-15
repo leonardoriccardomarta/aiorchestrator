@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { API_URL } from '../config/constants';
 import ShopifyOAuthButton from '../components/connections/ShopifyOAuthButton';
-import WooCommerceConnectForm from '../components/connections/WooCommerceConnectForm';
 import WidgetInstructions from '../components/connections/WidgetInstructions';
 import { 
   ShoppingCart, 
@@ -39,7 +38,7 @@ const Connections: React.FC = () => {
   const [connections, setConnections] = useState<Connection[]>([]);
   const [connectionsLoading, setConnectionsLoading] = useState(true);
   const [showAddConnection, setShowAddConnection] = useState(false);
-  const [selectedPlatform, setSelectedPlatform] = useState<'shopify' | 'woocommerce' | null>(null);
+  const [selectedPlatform, setSelectedPlatform] = useState<'shopify' | null>(null);
   const [successConnectionId, setSuccessConnectionId] = useState<string | null>(null);
   const [showWidgetModal, setShowWidgetModal] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -161,12 +160,6 @@ const Connections: React.FC = () => {
     fetchConnections();
   };
 
-  const handleWooCommerceSuccess = (connectionId: string) => {
-    setSuccessConnectionId(connectionId);
-    setShowAddConnection(false);
-    setShowWidgetModal(true);
-    fetchConnections();
-  };
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
@@ -191,8 +184,8 @@ const Connections: React.FC = () => {
       <div className="max-w-6xl mx-auto mb-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Store Connections</h1>
-            <p className="text-gray-600 mt-2">Connect your eCommerce stores with 1-click OAuth</p>
+            <h1 className="text-3xl font-bold text-gray-900">Shopify Integration</h1>
+            <p className="text-gray-600 mt-2">Connect your Shopify store for seamless AI-powered customer support</p>
             </div>
 
           <div className="flex items-center gap-4">
@@ -207,10 +200,10 @@ const Connections: React.FC = () => {
             {!showAddConnection && (
               <button
                 onClick={() => setShowAddConnection(true)}
-                className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
+                className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors shadow-lg"
               >
-                <Plus className="w-5 h-5" />
-                Add Connection
+                <ShoppingCart className="w-5 h-5" />
+                Connect Shopify Store
               </button>
             )}
           </div>
@@ -226,7 +219,7 @@ const Connections: React.FC = () => {
                 <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-              </div>
+            </div>
               <div className="ml-3">
                 <h3 className="text-sm font-medium text-green-800">
                   Store Connected Successfully!
@@ -244,89 +237,66 @@ const Connections: React.FC = () => {
           <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-gray-900">Add New Connection</h2>
-              <button
-                onClick={() => {
-                  setShowAddConnection(false);
-                  setSelectedPlatform(null);
-                }}
+                <button
+                onClick={() => setShowAddConnection(false)}
                 className="text-gray-400 hover:text-gray-600"
               >
                 <X className="w-5 h-5" />
-              </button>
+                </button>
             </div>
 
-            {!selectedPlatform ? (
-              <div className="grid md:grid-cols-2 gap-6">
-                <button
-                  onClick={() => setSelectedPlatform('shopify')}
-                  className="p-6 border-2 border-gray-200 rounded-xl hover:border-green-500 hover:bg-green-50 transition-all text-left group"
-                >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="p-3 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
-                  <ShoppingCart className="w-8 h-8 text-green-600" />
+            {/* Shopify Connection - Direct Integration */}
+            <div className="text-center space-y-6">
+              <div className="flex justify-center">
+                <div className="p-4 bg-green-100 rounded-full">
+                  <ShoppingCart className="w-12 h-12 text-green-600" />
                 </div>
-                    <div>
-                      <h3 className="font-semibold text-lg text-gray-900">Shopify</h3>
-                      <p className="text-sm text-gray-600">1-click OAuth connection</p>
-                    </div>
-                  </div>
-                  <p className="text-sm text-gray-600">
-                    Connect via OAuth - No API keys needed! Just enter your store URL and authorize.
-                  </p>
-                </button>
-
-                <button
-                  onClick={() => setSelectedPlatform('woocommerce')}
-                  className="p-6 border-2 border-gray-200 rounded-xl hover:border-purple-500 hover:bg-purple-50 transition-all text-left group"
-                >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="p-3 bg-purple-100 rounded-lg group-hover:bg-purple-200 transition-colors">
-                      <Globe className="w-8 h-8 text-purple-600" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-lg text-gray-900">WooCommerce</h3>
-                      <p className="text-sm text-gray-600">API credentials connection</p>
-                    </div>
-                  </div>
-                  <p className="text-sm text-gray-600">
-                    Connect with Consumer Key & Secret from your WooCommerce REST API settings.
-                  </p>
-                </button>
               </div>
-            ) : (
-              <div className="space-y-4">
-                {selectedPlatform === 'shopify' && (
-                  <ShopifyOAuthButton
-                    onSuccess={handleShopifySuccess}
-                    onError={(error) => alert(error)}
-                  />
-                )}
 
-                {selectedPlatform === 'woocommerce' && (
-                  <WooCommerceConnectForm
-                    onSuccess={handleWooCommerceSuccess}
-                    onError={(error) => alert(error)}
-                  />
-                )}
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Connect Your Shopify Store</h3>
+                <p className="text-gray-600 mb-6">
+                  Connect your Shopify store in seconds with our 1-click OAuth integration. 
+                  No API keys needed - just authorize and you're ready to go!
+                </p>
+              </div>
+
+              <ShopifyOAuthButton
+                onSuccess={handleShopifySuccess}
+                onError={(error) => alert(error)}
+              />
+
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0">
+                    <svg className="w-5 h-5 text-blue-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                    </svg>
                   </div>
-            )}
+                  <div className="text-sm text-blue-800">
+                    <p className="font-medium mb-1">Other platforms?</p>
+                    <p>For WooCommerce, WordPress, or any other website, use our <strong>Universal Embed Code</strong> from the Chatbot page.</p>
+                  </div>
                 </div>
+              </div>
+            </div>
+                  </div>
         )}
 
         {/* Existing Connections */}
         <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Connected Stores</h2>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Connected Shopify Stores</h2>
 
           {connections.length === 0 ? (
             <div className="text-center py-12">
               <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-600 text-lg mb-2">No stores connected yet</p>
-              <p className="text-gray-500 mb-6">Connect your first store to get started</p>
+              <p className="text-gray-600 text-lg mb-2">No Shopify stores connected yet</p>
+              <p className="text-gray-500 mb-6">Connect your first Shopify store to get started</p>
                   <button
                 onClick={() => setShowAddConnection(true)}
-                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
               >
-                Connect Your First Store
+                Connect Your First Shopify Store
                   </button>
           </div>
         ) : (

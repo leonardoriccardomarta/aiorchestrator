@@ -1,6 +1,15 @@
-// AI Orchestrator Chatbot Widget - Beautiful Version
+// AI Orchestrator Chatbot Widget - Shopify Compatible Version
 (function() {
   'use strict';
+
+  // Wait for DOM to be ready (Shopify compatibility)
+  function waitForDOM(callback) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', callback);
+    } else {
+      callback();
+    }
+  }
 
   // Get configuration from data attributes or legacy config
   function getConfig() {
@@ -15,7 +24,8 @@
         welcomeMessage: script.dataset.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
         placeholder: script.dataset.placeholder || 'Type your message...',
         showAvatar: script.dataset.showAvatar !== 'false',
-        size: script.dataset.size || 'medium'
+        size: script.dataset.size || 'medium',
+        primaryLanguage: script.dataset.primaryLanguage || 'auto'
       };
     }
     return null;
@@ -33,19 +43,26 @@
         welcomeMessage: window.AIChatbotConfig.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
         placeholder: window.AIChatbotConfig.placeholder || 'Type your message...',
         showAvatar: window.AIChatbotConfig.showAvatar !== false,
-        size: window.AIChatbotConfig.size || 'medium'
+        size: window.AIChatbotConfig.size || 'medium',
+        primaryLanguage: window.AIChatbotConfig.primaryLanguage || 'auto'
       };
     }
     return null;
   }
 
-  const config = getConfig() || getLegacyConfig();
-  if (!config) {
-    console.error('AI Orchestrator: No valid configuration found');
-    return;
-  }
+  // Initialize widget when DOM is ready
+  waitForDOM(function() {
+    const config = getConfig() || getLegacyConfig();
+    if (!config) {
+      console.error('AI Orchestrator: No valid configuration found');
+      return;
+    }
 
-  console.log('AI Orchestrator: Initializing beautiful widget with config:', config);
+    console.log('AI Orchestrator: Initializing Shopify-compatible widget with config:', config);
+    initializeWidget(config);
+  });
+
+  function initializeWidget(config) {
 
   // Theme configurations
   const themes = {
@@ -373,5 +390,7 @@
   document.getElementById('ai-widget-send').addEventListener('click', sendChatbotMessage);
   document.getElementById('ai-widget-input').addEventListener('keypress', handleChatbotKeypress);
 
-  console.log('AI Orchestrator: Beautiful widget loaded successfully!');
-})();
+  console.log('AI Orchestrator: Shopify-compatible widget loaded successfully!');
+  } // End of initializeWidget function
+
+})(); // End of IIFE
