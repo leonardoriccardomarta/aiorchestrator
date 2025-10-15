@@ -719,6 +719,16 @@ const Chatbot: React.FC = () => {
                 />
               </div>
               <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Input Placeholder</label>
+                <input
+                  type="text"
+                  value={widgetPlaceholder}
+                  onChange={(e) => setWidgetPlaceholder(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Type your message..."
+                />
+              </div>
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Primary Language</label>
                 <select value={primaryLanguage} onChange={(e)=>setPrimaryLanguage(e.target.value)} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                   <option value="auto">Auto Detect</option>
@@ -905,16 +915,6 @@ const Chatbot: React.FC = () => {
                       onChange={(e) => setWidgetTitle(e.target.value)}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="AI Support"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Input Placeholder</label>
-                    <input
-                      type="text"
-                      value={widgetPlaceholder}
-                      onChange={(e) => setWidgetPlaceholder(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="Enter placeholder text..."
                     />
                   </div>
                   <div className="flex items-center">

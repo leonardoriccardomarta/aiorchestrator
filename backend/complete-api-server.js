@@ -657,7 +657,7 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
     console.log('✅ Connection test passed:', testResult.shop.name);
 
     // Store connection
-    const connection = realDataService.addConnection(stateData.userId, {
+    const connection = await realDataService.addConnection(stateData.userId, {
       id: `shopify_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       platform: 'shopify',
       storeName: testResult.shop.name,
@@ -1588,7 +1588,7 @@ app.post('/api/faqs', authenticateToken, (req, res) => {
   });
 });
 
-// ===== EMBED API =====
+// ===== PUBLIC EMBED API (NO AUTH REQUIRED) =====
 app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
     const { chatbotId } = req.params;
