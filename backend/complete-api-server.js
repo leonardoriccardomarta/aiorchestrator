@@ -1806,7 +1806,7 @@ app.use('/api/agents', agentRoutes);
         }
     
     // Get real metrics (optionally filtered by chatbotId)
-    const realMetrics = realDataService.calculateRealMetrics(user.id, chatbotId);
+    const realMetrics = await realDataService.calculateRealMetrics(user.id, chatbotId);
     
     // Get plan info
     const planInfo = {
@@ -1846,70 +1846,245 @@ app.use('/api/agents', agentRoutes);
   }
 });
 
-app.get('/api/dashboard/activity', authenticateToken, (req, res) => {
-  const activities = [
-    {
-      id: 1,
-      type: 'chatbot_created',
-      message: 'New chatbot "Customer Support" created',
-      timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
-      icon: 'chatbot'
-    },
-    {
-      id: 2,
-      type: 'message_received',
-      message: 'Customer inquiry about product availability',
-      timestamp: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
-      icon: 'message'
-    },
-    {
-      id: 3,
-      type: 'workflow_completed',
-      message: 'Order processing workflow completed successfully',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
-      icon: 'workflow'
-    }
-  ];
-  
-  res.json({
-    success: true,
-    data: activities
-  });
+app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId || req.user.id;
+    const { chatbotId } = req.query;
+    
+    console.log('📈 Getting real activity for user:', userId, 'chatbot:', chatbotId);
+    
+    // Get user's chatbots
+    const chatbots = await prisma.chatbot.findMany({
+      where: { userId },
+      select: { id: true, name: true }
+    });
+    
+    const chatbotIds = chatbotId ? [chatbotId] : chatbots.map(c => c.id);
+    
+    // Get recent conversations
+    const recentConversations = await prisma.conversation.findMany({
+      where: { chatbotId: { in: chatbotIds } },
+      orderBy: { createdAt: 'desc' },
+      take: 10,
+      include: {
+        chatbot: { select: { name: true } }
+      }
+    });
+    
+    // Get recent connections
+    const recentConnections = await prisma.connection.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      take: 5
+    });
+    
+    // Build activities array
+    const activities = [];
+    
+    // Add conversation activities
+    recentConversations.forEach(conv => {
+      activities.push({
+        id: `conv_${conv.id}`,
+        type: 'message_received',
+        message: `New conversation started with ${conv.chatbot.name}`,
+        timestamp: conv.createdAt.toISOString(),
+        icon: 'message'
+      });
+    });
+    
+    // Add connection activities
+    recentConnections.forEach(conn => {
+      activities.push({
+        id: `conn_${conn.id}`,
+        type: 'connection_created',
+        message: `${conn.type} store "${conn.name}" connected`,
+        timestamp: conn.createdAt.toISOString(),
+        icon: 'connection'
+      });
+    });
+    
+    // Add chatbot creation activities
+    chatbots.forEach(chatbot => {
+      activities.push({
+        id: `bot_${chatbot.id}`,
+        type: 'chatbot_created',
+        message: `Chatbot "${chatbot.name}" created`,
+        timestamp: new Date().toISOString(), // Mock timestamp for now
+        icon: 'chatbot'
+      });
+    });
+    
+    // Sort by timestamp (newest first)
+    activities.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    
+    console.log('📈 Real activities calculated:', activities.length, 'activities');
+    
+    res.json({
+      success: true,
+      data: activities.slice(0, 10) // Return top 10
+    });
+  } catch (error) {
+    console.error('❌ Dashboard activity error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error'
+    });
+  }
 });
 
 // ===== ANALYTICS API =====
-app.get('/api/analytics', authenticateToken, (req, res) => {
-  const { timeRange = '24h', chatbotId } = req.query;
-  
-  const analyticsData = {
-    totalMessages: 2847,
-    activeChatbots: 3,
-    responseTime: 1.2,
-    revenue: 2840.50,
-    conversions: 23,
-    customerSatisfaction: 4.8,
-    messageTrend: Array.from({ length: 24 }, (_, i) => ({
-      hour: i,
-      messages: Math.floor(Math.random() * 100) + 50,
-      revenue: Math.floor(Math.random() * 50) + 20
-    })),
-    topKeywords: [
-      { keyword: 'product', count: 156, trend: '+12%' },
-      { keyword: 'shipping', count: 89, trend: '+5%' },
-      { keyword: 'return', count: 67, trend: '-3%' },
-      { keyword: 'price', count: 45, trend: '+8%' }
-    ],
-    chatbotPerformance: [
-      { name: 'Customer Support', messages: 1247, satisfaction: 4.9, responseTime: 0.8 },
-      { name: 'Sales Assistant', messages: 892, satisfaction: 4.6, responseTime: 1.1 },
-      { name: 'Technical Help', messages: 708, satisfaction: 4.7, responseTime: 1.5 }
-    ]
-  };
-  
-  res.json({
-    success: true,
-    data: analyticsData
-  });
+app.get('/api/analytics', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId || req.user.id;
+    const { timeRange = '24h', chatbotId } = req.query;
+    
+    console.log('📊 Getting real analytics for user:', userId, 'timeRange:', timeRange, 'chatbot:', chatbotId);
+    
+    // Get user's chatbots
+    const chatbots = await prisma.chatbot.findMany({
+      where: { userId },
+      select: { id: true, name: true }
+    });
+    
+    const chatbotIds = chatbotId ? [chatbotId] : chatbots.map(c => c.id);
+    
+    if (chatbotIds.length === 0) {
+      return res.json({
+        success: true,
+        data: {
+          totalMessages: 0,
+          activeChatbots: 0,
+          responseTime: 0,
+          revenue: 0,
+          conversions: 0,
+          customerSatisfaction: 0,
+          messageTrend: [],
+          topKeywords: [],
+          chatbotPerformance: []
+        }
+      });
+    }
+    
+    // Calculate time range
+    const now = new Date();
+    let startDate;
+    switch (timeRange) {
+      case '24h':
+        startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+        break;
+      case '7d':
+        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case '30d':
+        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        break;
+      default:
+        startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    }
+    
+    // Get total messages
+    const totalMessages = await prisma.conversationMessage.count({
+      where: {
+        conversation: { 
+          chatbotId: { in: chatbotIds } 
+        },
+        createdAt: { gte: startDate }
+      }
+    });
+    
+    // Get active chatbots count
+    const activeChatbots = chatbots.length;
+    
+    // Get connections count
+    const activeConnections = await prisma.connection.count({
+      where: { userId, status: 'connected' }
+    });
+    
+    // Calculate revenue (mock for now - would need payment tracking)
+    const planPrices = { starter: 29, professional: 99, enterprise: 299 };
+    const userPlan = req.user.planId || 'starter';
+    const monthlyRevenue = req.user.isPaid ? planPrices[userPlan] || 0 : 0;
+    
+    // Get message trend (hourly for 24h, daily for 7d/30d)
+    const messageTrend = [];
+    if (timeRange === '24h') {
+      for (let i = 0; i < 24; i++) {
+        const hourStart = new Date(startDate.getTime() + i * 60 * 60 * 1000);
+        const hourEnd = new Date(hourStart.getTime() + 60 * 60 * 1000);
+        
+        const hourMessages = await prisma.conversationMessage.count({
+          where: {
+            conversation: { 
+              chatbotId: { in: chatbotIds } 
+            },
+            createdAt: { gte: hourStart, lt: hourEnd }
+          }
+        });
+        
+        messageTrend.push({
+          hour: i,
+          messages: hourMessages,
+          revenue: Math.floor(hourMessages * 0.1) // Mock revenue calculation
+        });
+      }
+    }
+    
+    // Get chatbot performance
+    const chatbotPerformance = [];
+    for (const chatbot of chatbots) {
+      const chatbotMessages = await prisma.conversationMessage.count({
+        where: {
+          conversation: { chatbotId: chatbot.id },
+          createdAt: { gte: startDate }
+        }
+      });
+      
+      chatbotPerformance.push({
+        name: chatbot.name,
+        messages: chatbotMessages,
+        satisfaction: Math.floor(Math.random() * 20) + 80, // Mock satisfaction
+        responseTime: Math.floor(Math.random() * 2000) + 500 // Mock response time
+      });
+    }
+    
+    // Mock top keywords (would need message analysis)
+    const topKeywords = [
+      { keyword: 'product', count: Math.floor(totalMessages * 0.1), trend: '+12%' },
+      { keyword: 'shipping', count: Math.floor(totalMessages * 0.05), trend: '+5%' },
+      { keyword: 'return', count: Math.floor(totalMessages * 0.03), trend: '-3%' },
+      { keyword: 'price', count: Math.floor(totalMessages * 0.02), trend: '+8%' }
+    ];
+    
+    const analyticsData = {
+      totalMessages,
+      activeChatbots,
+      responseTime: totalMessages > 0 ? Math.floor(Math.random() * 2000) + 500 : 0,
+      revenue: monthlyRevenue,
+      conversions: Math.floor(totalMessages * 0.01), // Mock conversions
+      customerSatisfaction: totalMessages > 0 ? Math.floor(Math.random() * 20) + 80 : 0,
+      messageTrend,
+      topKeywords,
+      chatbotPerformance
+    };
+    
+    console.log('📊 Real analytics calculated:', {
+      totalMessages,
+      activeChatbots,
+      activeConnections,
+      revenue: monthlyRevenue
+    });
+    
+    res.json({
+      success: true,
+      data: analyticsData
+    });
+  } catch (error) {
+    console.error('❌ Analytics error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error'
+    });
+  }
 });
 
 // ===== FAQ API =====
@@ -3351,7 +3526,7 @@ Keep responses concise (2-3 sentences) and engaging.`
     const responseTime = Date.now() - startTime;
     
     // Store conversation in real data service with ML insights
-    const conversation = realDataService.addConversation(user.id, {
+    const conversation = await realDataService.addConversation(user.id, {
       message,
       response: response.response || response,
       language: context?.language || 'en',
