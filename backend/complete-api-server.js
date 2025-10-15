@@ -224,118 +224,151 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             height: 100vh;
             overflow: hidden;
         }
-        .preview-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
+        .toggle-button {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            border: none;
+        }
+        .toggle-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
+        }
+        .toggle-button::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 12px;
+            height: 12px;
+            background: #10B981;
+            border-radius: 50%;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
         }
         .chat-widget {
-            position: relative;
-            width: 384px;
-            height: 500px;
-            z-index: 2;
-        }
-        .toggle-button {
-            position: absolute;
+            position: fixed;
             bottom: 24px;
             right: 24px;
-            width: 40px;
-            height: 40px;
-            z-index: 3;
+            width: 384px;
+            height: 500px;
+            z-index: 999;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        .chat-widget.hidden {
+            transform: translateY(100%);
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButton = document.querySelector('.toggle-button');
+            const chatWidget = document.querySelector('.chat-widget');
+            let isOpen = false;
+            
+            // Initially hide the chat widget
+            chatWidget.classList.add('hidden');
+            
+            toggleButton.addEventListener('click', function() {
+                if (isOpen) {
+                    chatWidget.classList.add('hidden');
+                    isOpen = false;
+                } else {
+                    chatWidget.classList.remove('hidden');
+                    isOpen = true;
+                }
+            });
+        });
+    </script>
 </head>
 <body>
-    <div class="preview-container">
-        <!-- Toggle Button - IDENTICAL TO AVATAR, PROPER SIZE -->
-        <button class="toggle-button bg-gradient-to-br ${themeColors.primary} text-white rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-            </svg>
-            <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
-            <div class="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                Chat with us 24/7
-            </div>
-        </button>
-
-        <!-- Chat Widget - OPENS TO THE LEFT -->
-        <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200" style="margin-right: 60px;">
-            <!-- Header -->
-            <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        ${showAvatar !== 'false' ? `
-                            <div class="w-10 h-10 bg-gradient-to-br ${themeColors.primary} rounded-full flex items-center justify-center">
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                                </svg>
-                            </div>
-                        ` : ''}
-                        <div>
-                            <div class="font-bold ${themeColors.text}">${title || 'AI Support'}</div>
-                            <div class="text-xs text-gray-600 flex items-center gap-1">
-                                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                                Online 24/7
-                            </div>
+    <!-- Toggle Button - LANDING PAGE STYLE -->
+    <button class="toggle-button">
+        <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+        </svg>
+    </button>
+    
+    <!-- Chat Widget - POPUP WINDOW -->
+    <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
+        <!-- Header -->
+        <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    ${showAvatar !== 'false' ? `
+                        <div class="w-10 h-10 bg-gradient-to-br ${themeColors.primary} rounded-full flex items-center justify-center">
+                            <span class="text-white text-lg">💬</span>
                         </div>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
-                            </svg>
-                        </button>
-                        <button class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Messages -->
-            <div class="h-96 overflow-y-auto p-4 bg-gray-50">
-                <div class="mb-4 flex justify-start">
-                    <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
-                        <div class="text-sm">${message || chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}</div>
-                        <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                    </div>
-                </div>
-                <div class="mb-4 flex justify-end">
-                    <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
-                        <div class="text-sm">Hi! Can you help me?</div>
-                        <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                    </div>
-                </div>
-                <div class="flex justify-start mb-4">
-                    <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
-                        <div class="flex gap-1">
-                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    ` : ''}
+                    <div>
+                        <div class="font-bold ${themeColors.text}">${title || 'AI Support'}</div>
+                        <div class="text-xs text-gray-600 flex items-center gap-1">
+                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                            Online 24/7
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Input -->
-            <div class="p-4 bg-white border-t border-gray-200">
-                <div class="flex gap-2">
-                    <input
-                        type="text"
-                        placeholder="${placeholder || 'Type your message...'}"
-                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                    <button class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                        </svg>
+                <div class="flex items-center gap-2">
+                    <button class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                    </button>
+                    <button class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
+            </div>
+        </div>
+        <!-- Messages -->
+        <div class="h-96 overflow-y-auto p-4 bg-gray-50">
+            <div class="mb-4 flex justify-start">
+                <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
+                    <div class="text-sm">${message || chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}</div>
+                    <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                </div>
+            </div>
+            <div class="mb-4 flex justify-end">
+                <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
+                    <div class="text-sm">Hi! Can you help me?</div>
+                    <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                </div>
+            </div>
+            <div class="flex justify-start mb-4">
+                <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
+                    <div class="flex gap-1">
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Input -->
+        <div class="p-4 bg-white border-t border-gray-200">
+            <div class="flex gap-2">
+                <input
+                    type="text"
+                    placeholder="${placeholder || 'Type your message...'}"
+                    class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <button class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                </button>
             </div>
         </div>
     </div>
