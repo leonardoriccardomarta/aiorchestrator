@@ -64,9 +64,9 @@ export const PLANS: Record<string, Plan> = {
     id: 'business',
     name: 'Business',
     price: 299,
-    chatbotLimit: 999, // unlimited
+    chatbotLimit: 3,
     messageLimit: 100000,
-    connectionLimit: 999, // unlimited
+    connectionLimit: 3, // same as chatbot limit
     features: {
       basicAnalytics: true,
       customization: true,
