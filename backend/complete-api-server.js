@@ -974,23 +974,43 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
       if (ordersResponse.ok) {
         const ordersData = await ordersResponse.json();
         shopifyData.ordersCount = ordersData.count || 0;
-        console.log('🛒 Orders count:', shopifyData.ordersCount);
+        console.log('✅ Orders count:', shopifyData.ordersCount, 'Raw data:', ordersData);
+      } else {
+        const errorText = await ordersResponse.text();
+        console.error('❌ Orders fetch failed:', ordersResponse.status, errorText);
       }
 
-      // Get customers count - use count endpoint
-      const customersResponse = await fetch(`https://${shop}/admin/api/2023-10/customers/count.json`, {
-        headers: { 'X-Shopify-Access-Token': accessToken }
+      // Get customers count - use count endpoint with better error handling
+      console.log('📦 Fetching customers from:', `https://${shop}/admin/api/2024-01/customers/count.json`);
+      const customersResponse = await fetch(`https://${shop}/admin/api/2024-01/customers/count.json`, {
+        headers: { 
+          'X-Shopify-Access-Token': accessToken,
+          'Content-Type': 'application/json'
+        }
       });
+      console.log('📦 Customers response status:', customersResponse.status);
       if (customersResponse.ok) {
         const customersData = await customersResponse.json();
         shopifyData.customersCount = customersData.count || 0;
-        console.log('👥 Customers count:', shopifyData.customersCount);
+        console.log('✅ Customers count:', shopifyData.customersCount, 'Raw data:', customersData);
+      } else {
+        const errorText = await customersResponse.text();
+        console.error('❌ Customers fetch failed:', customersResponse.status, errorText);
       }
     } catch (error) {
       console.error('❌ Error syncing Shopify data:', error);
     }
 
     // Store connection (temporarily without chatbotId until migration is applied)
+    console.log('💾 Saving connection with data:', {
+      type: 'shopify',
+      name: testResult.shop.name,
+      productsCount: shopifyData.productsCount,
+      ordersCount: shopifyData.ordersCount,
+      customersCount: shopifyData.customersCount,
+      revenue: shopifyData.revenue
+    });
+    
     const connection = await realDataService.addConnection(stateData.userId, {
       type: 'shopify',
       name: testResult.shop.name,
@@ -1898,10 +1918,10 @@ app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
     recentConversations.forEach(conv => {
       activities.push({
         id: `conv_${conv.id}`,
-        type: 'message_received',
+      type: 'message_received',
         message: `New conversation started with ${conv.chatbot.name}`,
         timestamp: conv.createdAt.toISOString(),
-        icon: 'message'
+      icon: 'message'
       });
     });
     
@@ -1931,9 +1951,9 @@ app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
     activities.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
     
     console.log('📈 Real activities calculated:', activities.length, 'activities');
-    
-    res.json({
-      success: true,
+  
+  res.json({
+    success: true,
       data: activities.slice(0, 10) // Return top 10
     });
   } catch (error) {
@@ -1949,8 +1969,8 @@ app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
 app.get('/api/analytics', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId || req.user.id;
-    const { timeRange = '24h', chatbotId } = req.query;
-    
+  const { timeRange = '24h', chatbotId } = req.query;
+  
     console.log('📊 Getting real analytics for user:', userId, 'timeRange:', timeRange, 'chatbot:', chatbotId);
     
     // Get user's chatbots
@@ -2035,7 +2055,7 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
         });
         
         messageTrend.push({
-          hour: i,
+      hour: i,
           messages: hourMessages,
           revenue: Math.floor(hourMessages * 0.1) // Mock revenue calculation
         });
@@ -2086,11 +2106,11 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
       activeConnections,
       revenue: monthlyRevenue
     });
-    
-    res.json({
-      success: true,
-      data: analyticsData
-    });
+  
+  res.json({
+    success: true,
+    data: analyticsData
+  });
   } catch (error) {
     console.error('❌ Analytics error:', error);
     res.status(500).json({

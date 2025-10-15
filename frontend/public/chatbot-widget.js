@@ -319,7 +319,11 @@
         body: JSON.stringify({
           message: message,
           chatbotId: config.chatbotId,
-          conversationHistory: conversationHistory
+          conversationHistory: conversationHistory,
+          context: {
+            primaryLanguage: config.primaryLanguage || 'auto',
+            language: config.primaryLanguage || 'auto'
+          }
         })
       });
 
