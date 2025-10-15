@@ -70,6 +70,7 @@ const RealDataService = require('./real-data-service');
 const PlanService = require('./src/services/planService');
 const ShopifyOAuthService = require('./src/services/shopifyOAuthService');
 const WooCommerceOAuthService = require('./src/services/woocommerceOAuthService');
+const { canCreateConnection, canCreateChatbot, canSendMessage, getPlan } = require('./config/plans');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -774,6 +775,20 @@ app.post('/api/shopify/oauth/install', authenticateToken, async (req, res) => {
       return res.status(400).json({
         success: false,
         error: 'Shop URL is required'
+      });
+    }
+
+    // Check connection limit based on plan
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    const existingConnections = await prisma.connection.count({ where: { userId } });
+    
+    if (!canCreateConnection(user.planId, existingConnections)) {
+      const plan = getPlan(user.planId);
+      return res.status(403).json({
+        success: false,
+        error: `Connection limit reached. Your ${plan.name} plan allows ${plan.connectionLimit} connection(s). Upgrade to connect more stores.`,
+        limit: plan.connectionLimit,
+        current: existingConnections
       });
     }
 
@@ -2800,21 +2815,18 @@ app.post('/api/chatbots', authenticateToken, rateLimitMiddleware, async (req, re
       include: { chatbots: true }
     });
     
-    // Check plan limits - DEFINITIVE VALUES
-    const planLimits = {
-      starter: { chatbots: 1, messages: 5000 },
-      professional: { chatbots: 2, messages: 25000 },
-      enterprise: { chatbots: 3, messages: 100000 }
-    };
-    
+    // Check plan limits using centralized config
     const userPlanId = userWithChatbots.planId || 'starter';
-    const limits = planLimits[userPlanId] || planLimits.starter;
+    const currentChatbotCount = userWithChatbots.chatbots.length;
     
-    if (userWithChatbots.chatbots.length >= limits.chatbots) {
+    if (!canCreateChatbot(userPlanId, currentChatbotCount)) {
+      const plan = getPlan(userPlanId);
       return res.status(403).json({
         success: false,
-        error: `Your ${userPlanId} plan allows max ${limits.chatbots} chatbot(s). Upgrade to create more.`,
-        upgradeRequired: true
+        error: `Chatbot limit reached. Your ${plan.name} plan allows ${plan.chatbotLimit} chatbot(s). Upgrade to create more.`,
+        upgradeRequired: true,
+        limit: plan.chatbotLimit,
+        current: currentChatbotCount
       });
     }
     
@@ -3154,25 +3166,31 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
       });
     }
 
-    // Check conversation limits
-    const userPlan = planService.getUserPlan(user.id) || { planId: 'starter' };
-    const planLimits = planService.getPlanLimits(userPlan.planId);
-    const userStats = realDataService.getUserStats(user.id) || { monthlyConversations: 0 };
+    // Check message limits using centralized config
+    const userPlanId = user.planId || 'starter';
+    const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
     
-    if (planLimits && planLimits.conversations !== 'unlimited') {
-      const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
-      const monthlyConversations = userStats.monthlyConversations || 0;
-      
-      if (monthlyConversations >= planLimits.conversations) {
-        return res.status(429).json({
-          success: false,
-          error: `Monthly conversation limit reached (${planLimits.conversations}). Upgrade your plan to continue.`,
-          limitReached: true,
-          currentUsage: monthlyConversations,
-          limit: planLimits.conversations,
-          planId: userPlan.planId
-        });
+    // Count messages for current month
+    const monthlyMessageCount = await prisma.conversation.count({
+      where: {
+        userId: user.id,
+        createdAt: {
+          gte: new Date(`${currentMonth}-01`)
+        }
       }
+    });
+    
+    if (!canSendMessage(userPlanId, monthlyMessageCount)) {
+      const plan = getPlan(userPlanId);
+      return res.status(429).json({
+        success: false,
+        error: `Monthly message limit reached. Your ${plan.name} plan allows ${plan.messageLimit} messages/month. Upgrade to continue.`,
+        limitReached: true,
+        currentUsage: monthlyMessageCount,
+        limit: plan.messageLimit,
+        remaining: Math.max(0, plan.messageLimit - monthlyMessageCount),
+        planId: userPlanId
+      });
     }
 
     console.log(`🤖 Processing message: "${message.substring(0, 50)}..."`);
