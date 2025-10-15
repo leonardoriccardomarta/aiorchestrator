@@ -3022,6 +3022,7 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
     app.post('/api/chat', chatRateLimitMiddleware, async (req, res) => {
   try {
     const { message, context = {} } = req.body;
+    const primaryLanguage = context.primaryLanguage || context.language || 'auto';
     
     // For demo purposes, allow chat without authentication
     // In production, this should require authentication
@@ -3080,7 +3081,13 @@ Keep responses concise (2-3 sentences) and engaging.`
         : context.systemPrompt
     };
     
-    const response = await aiService.generateResponse(message, enhancedContext);
+    // Build AI request options
+    const aiOptions = {
+      language: primaryLanguage,
+      // add more options if needed
+    };
+    
+    const response = await aiService.generateReply(message, aiOptions);
     const responseTime = Date.now() - startTime;
     
     // Store conversation in real data service with ML insights

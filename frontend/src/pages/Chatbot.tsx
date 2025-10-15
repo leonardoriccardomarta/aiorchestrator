@@ -235,8 +235,11 @@ const Chatbot: React.FC = () => {
           'Authorization': 'Bearer demo-token'
         },
         body: JSON.stringify({
-          message: text.trim(),
-          userId: 'demo-user'
+          message: userMessage.text,
+          context: {
+            chatbotId: currentChatbotId,
+            primaryLanguage
+          }
         })
       });
 
@@ -384,12 +387,19 @@ const Chatbot: React.FC = () => {
             <div className={`bg-gradient-to-r ${tc.primary} text-white p-4`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                    <Bot className="w-5 h-5" />
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-white/20">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
                   </div>
                   <div>
                     <div className="font-semibold">AI Assistant</div>
-                    <div className="text-xs text-white/80">Online • 50+ languages supported</div>
+                    <div className="text-xs text-white/80 flex items-center gap-2">
+                      <span>Online</span>
+                      {primaryLanguage && primaryLanguage !== 'auto' && (
+                        <span className="px-2 py-0.5 text-[10px] rounded bg-white/20">{primaryLanguage.toUpperCase()}</span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -461,9 +471,7 @@ const Chatbot: React.FC = () => {
                   )}
                 </button>
               </div>
-              <p className="text-xs text-gray-500 mt-2 text-center">
-                Advanced AI Technology • Multi-language • ML Analytics
-              </p>
+              {/* footer tagline removed as requested */}
             </div>
           </div>
         )}
