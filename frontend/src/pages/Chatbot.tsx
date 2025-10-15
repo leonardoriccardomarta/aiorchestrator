@@ -470,7 +470,7 @@ const Chatbot: React.FC = () => {
 
         {/* Tab Content */}
         {activeTab === 'chat' && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden" data-tour="chat-interface">
+          <div key={widgetTheme} className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden" data-tour="chat-interface">
             {/* Chat Header */}
             <div className={`bg-gradient-to-br ${tc.primary} text-white p-4`}>
               <div className="flex items-center justify-between">
@@ -544,7 +544,7 @@ const Chatbot: React.FC = () => {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Type your message..."
+                  placeholder={widgetPlaceholder}
                   className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   disabled={isLoading}
                 />
