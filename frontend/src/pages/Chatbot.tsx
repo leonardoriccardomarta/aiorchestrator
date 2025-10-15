@@ -67,6 +67,19 @@ const Chatbot: React.FC = () => {
   const [showWidgetAvatar, setShowWidgetAvatar] = useState<boolean>(true);
   // removed detectLanguage; use primaryLanguage only
 
+  // Theme palette (mirror of preview)
+  const themeColors = {
+    blue:   { primary: 'from-blue-600 to-blue-700', userMsg: 'bg-blue-600', send: 'bg-blue-600' },
+    purple: { primary: 'from-purple-600 to-purple-700', userMsg: 'bg-purple-600', send: 'bg-purple-600' },
+    green:  { primary: 'from-green-600 to-green-700', userMsg: 'bg-green-600', send: 'bg-green-600' },
+    red:    { primary: 'from-red-600 to-red-700', userMsg: 'bg-red-600', send: 'bg-red-600' },
+    orange: { primary: 'from-orange-600 to-orange-700', userMsg: 'bg-orange-600', send: 'bg-orange-600' },
+    pink:   { primary: 'from-pink-600 to-pink-700', userMsg: 'bg-pink-600', send: 'bg-pink-600' },
+    indigo: { primary: 'from-indigo-600 to-indigo-700', userMsg: 'bg-indigo-600', send: 'bg-indigo-600' },
+    teal:   { primary: 'from-teal-600 to-teal-700', userMsg: 'bg-teal-600', send: 'bg-teal-600' }
+  } as const;
+  const tc = themeColors[widgetTheme] || themeColors.blue;
+
   const createDefaultChatbot = async () => {
     try {
       const response = await fetch(`${API_URL}/api/chatbots`, {
@@ -368,7 +381,7 @@ const Chatbot: React.FC = () => {
         {activeTab === 'chat' && (
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden" data-tour="chat-interface">
             {/* Chat Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4">
+            <div className={`bg-gradient-to-r ${tc.primary} text-white p-4`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
@@ -439,7 +452,7 @@ const Chatbot: React.FC = () => {
                 <button
                   onClick={() => sendMessage(inputValue)}
                   disabled={!inputValue.trim() || isLoading}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
+                  className={`text-white px-6 py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 ${tc.send} hover:opacity-90`}
                 >
                   {isLoading ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
