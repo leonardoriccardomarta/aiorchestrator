@@ -942,16 +942,20 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
 <script 
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
   data-chatbot-id="${chatbotId}"
-  data-api-key="demo-key"
+  data-api-key="${API_URL}"
   defer>
 </script>`;
 
+    // Get selected chatbot details
+    const selectedChatbot = chatbots.find(c => c.id === chatbotId);
+    
     res.json({
       success: true,
       data: {
         connection,
         widgetCode,
         chatbotId,
+        chatbot: selectedChatbot,
         instructions: {
           shopify: [
             'Go to your Shopify Admin',

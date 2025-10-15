@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from '../../config/constants';
-import { Code, Copy, Check, ExternalLink, BookOpen } from 'lucide-react';
+import { Code, Copy, Check, ExternalLink, BookOpen, ChevronDown } from 'lucide-react';
 
 interface WidgetInstructionsProps {
   connectionId: string;
@@ -10,17 +10,49 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
   const [widgetData, setWidgetData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [chatbots, setChatbots] = useState<any[]>([]);
+  const [selectedChatbotId, setSelectedChatbotId] = useState<string>('');
+  const [showChatbotSelector, setShowChatbotSelector] = useState(false);
 
   useEffect(() => {
+    fetchChatbots();
     fetchWidgetCode();
   }, [connectionId]);
+
+  useEffect(() => {
+    if (selectedChatbotId) {
+      fetchWidgetCode();
+    }
+  }, [selectedChatbotId]);
+
+  const fetchChatbots = async () => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${API_URL}/api/chatbots`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setChatbots(data.data || []);
+        // Set first chatbot as default if none selected
+        if (data.data && data.data.length > 0 && !selectedChatbotId) {
+          setSelectedChatbotId(data.data[0].id);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch chatbots:', error);
+    }
+  };
 
   const fetchWidgetCode = async () => {
     try {
       const token = localStorage.getItem('authToken');
-      const selectedChatbotId = localStorage.getItem('selectedChatbotId');
-      const url = selectedChatbotId 
-        ? `${API_URL}/api/connections/${connectionId}/widget?chatbotId=${selectedChatbotId}`
+      const chatbotId = selectedChatbotId || localStorage.getItem('selectedChatbotId');
+      const url = chatbotId 
+        ? `${API_URL}/api/connections/${connectionId}/widget?chatbotId=${chatbotId}`
         : `${API_URL}/api/connections/${connectionId}/widget`;
       
       const response = await fetch(url, {
@@ -63,7 +95,7 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
     return null;
   }
 
-  const { connection, widgetCode, instructions } = widgetData;
+  const { connection, widgetCode, instructions, chatbot } = widgetData;
 
   return (
     <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200 p-6 space-y-6">
@@ -80,9 +112,59 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
             <p className="text-sm text-gray-600">
               Copy the code below and add it to your {connection.platform === 'shopify' ? 'Shopify' : 'WooCommerce'} store
             </p>
+            {chatbot && (
+              <div className="mt-2 p-3 bg-white/50 rounded-lg border border-blue-200">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span className="text-sm font-medium text-gray-700">Selected Chatbot:</span>
+                  <span className="text-sm text-gray-900">{chatbot.name}</span>
+                </div>
+                {chatbot.description && (
+                  <p className="text-xs text-gray-600 mt-1">{chatbot.description}</p>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Chatbot Selection */}
+      {chatbots.length > 1 && (
+        <div className="space-y-3">
+          <label className="text-sm font-medium text-gray-700">Select Chatbot</label>
+          <div className="relative">
+            <button
+              onClick={() => setShowChatbotSelector(!showChatbotSelector)}
+              className="w-full flex items-center justify-between px-4 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <span className="text-gray-900">
+                {chatbots.find(c => c.id === selectedChatbotId)?.name || 'Select a chatbot'}
+              </span>
+              <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${showChatbotSelector ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {showChatbotSelector && (
+              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+                {chatbots.map((chatbot) => (
+                  <button
+                    key={chatbot.id}
+                    onClick={() => {
+                      setSelectedChatbotId(chatbot.id);
+                      setShowChatbotSelector(false);
+                    }}
+                    className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors ${
+                      selectedChatbotId === chatbot.id ? 'bg-blue-50 text-blue-700' : 'text-gray-900'
+                    }`}
+                  >
+                    <div className="font-medium">{chatbot.name}</div>
+                    <div className="text-sm text-gray-500">{chatbot.description || 'No description'}</div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Widget Code */}
       <div className="space-y-3">
