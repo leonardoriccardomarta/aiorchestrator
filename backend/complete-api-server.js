@@ -913,6 +913,35 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
   }
 });
 
+// Delete connection
+app.delete('/api/connections/:connectionId', authenticateToken, async (req, res) => {
+  try {
+    const { connectionId } = req.params;
+    const userId = req.user.userId || req.user.id;
+    
+    const connection = await realDataService.getConnection(userId, connectionId);
+    if (!connection) {
+      return res.status(404).json({
+        success: false,
+        error: 'Connection not found'
+      });
+    }
+
+    await realDataService.deleteConnection(userId, connectionId);
+    
+    res.json({
+      success: true,
+      message: 'Connection deleted successfully'
+    });
+  } catch (error) {
+    console.error('Error deleting connection:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to delete connection'
+    });
+  }
+});
+
 // Get connection details with widget code
 app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, res) => {
   try {

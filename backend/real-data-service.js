@@ -151,6 +151,15 @@ class RealDataService {
     this.userStats.set(userId, stats);
     console.log(`Updated user ${userId} plan to ${planId}, isPaid: ${isPaid}`);
   }
+
+  async deleteConnection(userId, connectionId) {
+    return await prisma.connection.delete({
+      where: { 
+        id: connectionId,
+        userId: userId
+      }
+    });
+  }
 }
 
 module.exports = RealDataService;
