@@ -336,7 +336,7 @@ const ConnectionsNew: React.FC = () => {
           </div>
         ) : (
             <div className="grid gap-4">
-              {connections.map((connection) => (
+              {connections && connections.length > 0 ? connections.map((connection) => (
                 <div
                   key={connection.id}
                   className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
@@ -394,7 +394,11 @@ const ConnectionsNew: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              ))}
+              )) : (
+                <div className="text-center py-8 text-gray-500">
+                  No connections found
+                </div>
+              )}
             </div>
           )}
             </div>

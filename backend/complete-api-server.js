@@ -955,7 +955,7 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
     const { chatbotId: selectedChatbotId } = req.query;
     const userId = req.user.userId || req.user.id;
     
-    const connection = realDataService.getConnection(userId, connectionId);
+    const connection = await realDataService.getConnection(userId, connectionId);
     if (!connection) {
       return res.status(404).json({
         success: false,
