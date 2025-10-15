@@ -15,7 +15,9 @@ const authenticate = authenticateToken;
 router.post('/register', authenticate, async (req, res) => {
   try {
     const { paypalEmail, bankAccount } = req.body;
-    const userId = req.user.id;
+    const userId = req.user.userId || req.user.id;
+    
+    console.log('🎯 Affiliate registration attempt:', { userId, paypalEmail, user: req.user });
 
     const result = await affiliateService.createAffiliate(userId, paypalEmail, bankAccount);
 
@@ -47,7 +49,7 @@ router.post('/register', authenticate, async (req, res) => {
  */
 router.get('/stats', authenticate, async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId || req.user.id;
 
     const result = await affiliateService.getAffiliateStats(userId);
 
@@ -79,7 +81,7 @@ router.get('/stats', authenticate, async (req, res) => {
 router.post('/payout', authenticate, async (req, res) => {
   try {
     const { method } = req.body;
-    const userId = req.user.id;
+    const userId = req.user.userId || req.user.id;
 
     const result = await affiliateService.requestPayout(userId, method);
 
@@ -112,7 +114,7 @@ router.post('/payout', authenticate, async (req, res) => {
 router.put('/payment-info', authenticate, async (req, res) => {
   try {
     const { paypalEmail, bankAccount } = req.body;
-    const userId = req.user.id;
+    const userId = req.user.userId || req.user.id;
 
     const result = await affiliateService.updatePaymentInfo(userId, paypalEmail, bankAccount);
 
