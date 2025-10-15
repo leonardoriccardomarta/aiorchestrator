@@ -69,10 +69,24 @@ const Chatbot: React.FC = () => {
 
   // Auto-save widget customizations when they change
   const saveWidgetCustomizations = async () => {
-    if (!currentChatbotId) return;
+    if (!currentChatbotId) {
+      console.log('❌ No chatbot ID, skipping save');
+      return;
+    }
+    
+    console.log('💾 Saving widget customizations to backend...', {
+      chatbotId: currentChatbotId,
+      settings: {
+        theme: widgetTheme,
+        placeholder: widgetPlaceholder,
+        showAvatar: showWidgetAvatar,
+        title: widgetTitle,
+        message: widgetMessage
+      }
+    });
     
     try {
-      await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${currentChatbotId}`, {
+      const response = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${currentChatbotId}`, {
         method: 'PATCH',
         headers: { 
           'Content-Type': 'application/json', 
@@ -88,14 +102,24 @@ const Chatbot: React.FC = () => {
           }
         })
       });
+      
+      const result = await response.json();
+      console.log('✅ Widget customizations saved:', result);
     } catch (error) {
-      console.error('Failed to save widget customizations:', error);
+      console.error('❌ Failed to save widget customizations:', error);
     }
   };
 
   // Auto-save when widget customizations change
   useEffect(() => {
-    if (currentChatbotId) {
+    if (currentChatbotId && currentChatbotId !== '') {
+      console.log('💾 Auto-saving widget customizations...', {
+        theme: widgetTheme,
+        title: widgetTitle,
+        placeholder: widgetPlaceholder,
+        message: widgetMessage,
+        showAvatar: showWidgetAvatar
+      });
       const timeoutId = setTimeout(saveWidgetCustomizations, 1000); // Debounce 1 second
       return () => clearTimeout(timeoutId);
     }
