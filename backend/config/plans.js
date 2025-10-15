@@ -6,7 +6,7 @@ const PLANS = {
     price: 29,
     chatbotLimit: 1,
     messageLimit: 5000, // per month
-    connectionLimit: 1, // store connections
+    connectionLimit: 1, // same as chatbot limit
     features: {
       basicAnalytics: true,
       customization: true,
@@ -26,7 +26,7 @@ const PLANS = {
     price: 99,
     chatbotLimit: 2,
     messageLimit: 25000, // per month
-    connectionLimit: 999, // unlimited
+    connectionLimit: 2, // same as chatbot limit
     features: {
       basicAnalytics: true,
       customization: true,
