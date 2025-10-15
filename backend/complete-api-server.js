@@ -926,6 +926,10 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
       console.error('❌ Error syncing Shopify data:', error);
     }
 
+    // Get user's first chatbot for this connection
+    const userChatbots = await realDataService.getChatbots(stateData.userId);
+    const firstChatbotId = userChatbots.length > 0 ? userChatbots[0].id : null;
+    
     // Store connection
     const connection = await realDataService.addConnection(stateData.userId, {
       type: 'shopify',
@@ -939,9 +943,10 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
       revenue: shopifyData.revenue,
       apiKey: accessToken,
       shopId: shop,
-      currency: testResult.shop.currency || 'USD'
+      currency: testResult.shop.currency || 'USD',
+      chatbotId: firstChatbotId  // Associate with first chatbot
     });
-    console.log('✅ Connection stored:', connection.id);
+    console.log('✅ Connection stored:', connection.id, 'for chatbot:', firstChatbotId);
 
     // Redirect back to frontend with success
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5176';

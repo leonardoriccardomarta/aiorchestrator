@@ -4,6 +4,7 @@ import { cn } from '../../utils/cn';
 import { Button } from '../ui/Button';
 import { Menu, ChevronRight } from 'lucide-react';
 import MobileSidebar from './MobileSidebar';
+import ChatbotSelector from '../ChatbotSelector';
 
 export interface NavigationItem {
   label: string;
@@ -78,9 +79,10 @@ export const Navigation: React.FC<NavigationProps> = ({
             </div>
           </div>
 
-          {/* Right side - Simplified */}
+          {/* Right side - Chatbot Selector + Mobile Menu */}
           <div className="flex items-center space-x-4">
-            {/* Only mobile menu button */}
+            {/* Chatbot Selector */}
+            <ChatbotSelector />
 
             {/* Mobile menu button */}
             <Button

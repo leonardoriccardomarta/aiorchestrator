@@ -104,6 +104,7 @@ model Chatbot {
   legacyConversations LegacyConversation[] @relation("LegacyConversations")
   liveConversations Conversation[]
   analytics     Analytics[]
+  connections   Connection[]
 
   @@map("chatbots")
 }
@@ -122,6 +123,7 @@ model Connection {
   syncedProductsCount   Int      @default(0)
   ordersCount           Int      @default(0)
   syncedOrdersCount     Int      @default(0)
+  chatbotId             String?  // Optional: which chatbot is this connection for
   userId                String
   tenantId              String
   createdAt             DateTime @default(now())
@@ -130,6 +132,7 @@ model Connection {
   // Relations
   user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   tenant                Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  chatbot               Chatbot? @relation(fields: [chatbotId], references: [id], onDelete: SetNull)
   syncLogs              SyncLog[]
 
   @@map("connections")
