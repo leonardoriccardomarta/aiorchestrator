@@ -60,14 +60,12 @@ const Chatbot: React.FC = () => {
   const [chatbotDeleted, setChatbotDeleted] = useState(false);
   
   // Widget customization state
-  const [widgetPosition, setWidgetPosition] = useState<'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'>('bottom-right');
-  const [widgetTheme, setWidgetTheme] = useState<'blue' | 'purple' | 'green' | 'red'>('blue');
+  const [widgetTheme, setWidgetTheme] = useState<'blue' | 'purple' | 'green' | 'red' | 'orange' | 'pink' | 'indigo' | 'teal'>('blue');
   const [widgetSize, setWidgetSize] = useState<'small' | 'medium' | 'large'>('medium');
   const [widgetTitle, setWidgetTitle] = useState<string>('AI Support');
   const [widgetPlaceholder, setWidgetPlaceholder] = useState<string>('Type your message...');
   const [showWidgetAvatar, setShowWidgetAvatar] = useState<boolean>(true);
-  const [widgetAnimation, setWidgetAnimation] = useState<'fadeIn' | 'slideUp' | 'bounce' | 'scale'>('slideUp');
-  const [botEmoji, setBotEmoji] = useState<string>('💬'); // Speech bubble emoji for toggle button
+  const [widgetAnimation, setWidgetAnimation] = useState<'fadeIn' | 'slideUp' | 'bounce' | 'scale' | 'none'>('slideUp');
 
   const createDefaultChatbot = async () => {
     try {
@@ -178,6 +176,13 @@ const Chatbot: React.FC = () => {
       setWidgetTitle(chatbotName);
     }
   }, [chatbotName]);
+
+  // Sync input placeholder with chatbot welcome message
+  useEffect(() => {
+    if (welcomeMessage) {
+      setWidgetPlaceholder('Type your message...');
+    }
+  }, [welcomeMessage]);
 
   // Loading effect
   useEffect(() => {
@@ -816,7 +821,6 @@ const Chatbot: React.FC = () => {
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
   data-chatbot-id="${currentChatbotId}"
   data-api-key="demo-key"
-  data-position="${widgetPosition}"
   data-theme="${widgetTheme}"
   data-size="${widgetSize}"
   data-title="${widgetTitle}"
@@ -824,7 +828,6 @@ const Chatbot: React.FC = () => {
   data-show-avatar="${showWidgetAvatar}"
   data-welcome-message="${welcomeMessage}"
   data-animation="${widgetAnimation}"
-  data-bot-emoji="${botEmoji}"
   defer>
 </script>` : 'Loading chatbot...'}
                   </code>
@@ -836,7 +839,6 @@ const Chatbot: React.FC = () => {
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
   data-chatbot-id="${currentChatbotId}"
   data-api-key="demo-key"
-  data-position="${widgetPosition}"
   data-theme="${widgetTheme}"
   data-size="${widgetSize}"
   data-title="${widgetTitle}"
@@ -844,7 +846,6 @@ const Chatbot: React.FC = () => {
   data-show-avatar="${showWidgetAvatar}"
   data-welcome-message="${welcomeMessage}"
   data-animation="${widgetAnimation}"
-  data-bot-emoji="${botEmoji}"
   defer>
 </script>` : 'No chatbot available';
                     navigator.clipboard.writeText(code).then(() => alert('Copied to clipboard!')).catch(() => alert('Copy failed'));
@@ -859,19 +860,6 @@ const Chatbot: React.FC = () => {
               <div className="mb-6">
                 <h4 className="font-medium text-gray-900 mb-4">Widget Customization</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Widget Position</label>
-                    <select 
-                      value={widgetPosition}
-                      onChange={(e) => setWidgetPosition(e.target.value as any)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="bottom-right">Bottom Right</option>
-                      <option value="bottom-left">Bottom Left</option>
-                      <option value="top-right">Top Right</option>
-                      <option value="top-left">Top Left</option>
-                    </select>
-                  </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Theme Color</label>
                     <div className="flex space-x-2">
@@ -890,6 +878,22 @@ const Chatbot: React.FC = () => {
                       <div 
                         className={`w-8 h-8 bg-red-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'red' ? 'border-red-800' : 'border-transparent'} hover:border-gray-300`}
                         onClick={() => setWidgetTheme('red')}
+                      ></div>
+                      <div 
+                        className={`w-8 h-8 bg-orange-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'orange' ? 'border-orange-800' : 'border-transparent'} hover:border-gray-300`}
+                        onClick={() => setWidgetTheme('orange')}
+                      ></div>
+                      <div 
+                        className={`w-8 h-8 bg-pink-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'pink' ? 'border-pink-800' : 'border-transparent'} hover:border-gray-300`}
+                        onClick={() => setWidgetTheme('pink')}
+                      ></div>
+                      <div 
+                        className={`w-8 h-8 bg-indigo-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'indigo' ? 'border-indigo-800' : 'border-transparent'} hover:border-gray-300`}
+                        onClick={() => setWidgetTheme('indigo')}
+                      ></div>
+                      <div 
+                        className={`w-8 h-8 bg-teal-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'teal' ? 'border-teal-800' : 'border-transparent'} hover:border-gray-300`}
+                        onClick={() => setWidgetTheme('teal')}
                       ></div>
                     </div>
                   </div>
@@ -926,17 +930,6 @@ const Chatbot: React.FC = () => {
                     </label>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Bot Emoji</label>
-                    <input
-                      type="text"
-                      value={botEmoji}
-                      onChange={(e) => setBotEmoji(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="🤖"
-                      maxLength={2}
-                    />
-                  </div>
-                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Animation</label>
                     <select 
                       value={widgetAnimation}
@@ -947,6 +940,7 @@ const Chatbot: React.FC = () => {
                       <option value="fadeIn">Fade In</option>
                       <option value="bounce">Bounce</option>
                       <option value="scale">Scale</option>
+                      <option value="none">None</option>
                     </select>
                   </div>
                   <div>
@@ -979,7 +973,7 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      src={`${API_URL}/public/embed/${currentChatbotId}?position=${widgetPosition}&theme=${widgetTheme}&size=${widgetSize}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&showAvatar=${showWidgetAvatar}&animation=${widgetAnimation}&botEmoji=${encodeURIComponent(botEmoji)}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&size=${widgetSize}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&showAvatar=${showWidgetAvatar}&animation=${widgetAnimation}`}
                       className="w-full h-[500px] border-0"
                       title="Live Chatbot Preview"
                     />

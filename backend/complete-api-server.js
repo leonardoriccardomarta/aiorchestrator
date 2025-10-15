@@ -1592,7 +1592,7 @@ app.post('/api/faqs', authenticateToken, (req, res) => {
 app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
     const { chatbotId } = req.params;
-    const { position, theme, size, title, placeholder, showAvatar, animation, botEmoji } = req.query;
+    const { theme, size, title, placeholder, showAvatar, animation } = req.query;
     
     // Get chatbot from database
     const chatbot = await prisma.chatbot.findUnique({
@@ -1609,14 +1609,18 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
       blue: { primary: 'from-blue-600 to-blue-700', secondary: 'from-blue-50 to-blue-100', accent: 'bg-blue-600', text: 'text-blue-900', border: 'border-blue-200', userMessage: 'bg-blue-600' },
       purple: { primary: 'from-purple-600 to-purple-700', secondary: 'from-purple-50 to-purple-100', accent: 'bg-purple-600', text: 'text-purple-900', border: 'border-purple-200', userMessage: 'bg-purple-600' },
       green: { primary: 'from-green-600 to-green-700', secondary: 'from-green-50 to-green-100', accent: 'bg-green-600', text: 'text-green-900', border: 'border-green-200', userMessage: 'bg-green-600' },
-      red: { primary: 'from-red-600 to-red-700', secondary: 'from-red-50 to-red-100', accent: 'bg-red-600', text: 'text-red-900', border: 'border-red-200', userMessage: 'bg-red-600' }
+      red: { primary: 'from-red-600 to-red-700', secondary: 'from-red-50 to-red-100', accent: 'bg-red-600', text: 'text-red-900', border: 'border-red-200', userMessage: 'bg-red-600' },
+      orange: { primary: 'from-orange-600 to-orange-700', secondary: 'from-orange-50 to-orange-100', accent: 'bg-orange-600', text: 'text-orange-900', border: 'border-orange-200', userMessage: 'bg-orange-600' },
+      pink: { primary: 'from-pink-600 to-pink-700', secondary: 'from-pink-50 to-pink-100', accent: 'bg-pink-600', text: 'text-pink-900', border: 'border-pink-200', userMessage: 'bg-pink-600' },
+      indigo: { primary: 'from-indigo-600 to-indigo-700', secondary: 'from-indigo-50 to-indigo-100', accent: 'bg-indigo-600', text: 'text-indigo-900', border: 'border-indigo-200', userMessage: 'bg-indigo-600' },
+      teal: { primary: 'from-teal-600 to-teal-700', secondary: 'from-teal-50 to-teal-100', accent: 'bg-teal-600', text: 'text-teal-900', border: 'border-teal-200', userMessage: 'bg-teal-600' }
     };
     
-    // Get size classes
+    // Get size classes - Make toggle button much larger and proportional
     const sizes = {
-      small: { width: 'w-80', height: 'h-80', buttonSize: 'w-12 h-12' },
-      medium: { width: 'w-96', height: 'h-96', buttonSize: 'w-16 h-16' },
-      large: { width: 'w-[28rem]', height: 'h-[28rem]', buttonSize: 'w-20 h-20' }
+      small: { width: 'w-80', height: 'h-80', buttonSize: 'w-20 h-20', iconSize: '20px' },
+      medium: { width: 'w-96', height: 'h-96', buttonSize: 'w-24 h-24', iconSize: '24px' },
+      large: { width: 'w-[28rem]', height: 'h-[28rem]', buttonSize: 'w-28 h-28', iconSize: '28px' }
     };
     
     // Get animation classes
@@ -1624,7 +1628,8 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
       slideUp: 'animate-slide-up',
       fadeIn: 'animate-fade-in',
       bounce: 'animate-bounce',
-      scale: 'animate-scale'
+      scale: 'animate-scale',
+      none: ''
     };
     
     const themeColors = themes[theme] || themes.blue;
@@ -1652,23 +1657,27 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         }
         .toggle-button {
             position: fixed;
-            ${position === 'bottom-right' ? 'bottom: 24px; right: 24px;' : 
-              position === 'bottom-left' ? 'bottom: 24px; left: 24px;' :
-              position === 'top-right' ? 'top: 24px; right: 24px;' :
-              'top: 24px; left: 24px;'}
+            bottom: 24px;
+            right: 24px;
             ${sizeClasses.buttonSize};
             background: linear-gradient(135deg, ${theme === 'blue' ? '#3B82F6, #7C3AED' : 
               theme === 'purple' ? '#7C3AED, #EC4899' :
               theme === 'green' ? '#10B981, #059669' :
-              '#EF4444, #DC2626'});
+              theme === 'red' ? '#EF4444, #DC2626' :
+              theme === 'orange' ? '#F97316, #EA580C' :
+              theme === 'pink' ? '#EC4899, #DB2777' :
+              theme === 'indigo' ? '#6366F1, #4F46E5' :
+              theme === 'teal' ? '#14B8A6, #0D9488' :
+              '#3B82F6, #7C3AED'});
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 1000;
+            border: 2px solid rgba(255,255,255,0.2);
         }
         .toggle-button:hover {
             transform: scale(1.1);
@@ -1676,13 +1685,13 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         .toggle-button::before {
             content: '';
             position: absolute;
-            top: -4px;
-            right: -4px;
-            width: 12px;
-            height: 12px;
+            top: -6px;
+            right: -6px;
+            width: 16px;
+            height: 16px;
             background: #10B981;
             border-radius: 50%;
-            border: 2px solid white;
+            border: 3px solid white;
             animation: pulse 2s infinite;
         }
         @keyframes pulse {
@@ -1724,7 +1733,9 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
 <body>
     <!-- Toggle Button with Animation -->
     <div class="toggle-button ${animations[animation] || animations.slideUp}">
-        <span style="color: white; font-size: ${size === 'small' ? '16px' : size === 'large' ? '24px' : '20px'};">${botEmoji || '💬'}</span>
+        <svg style="color: white; width: ${sizeClasses.iconSize}; height: ${sizeClasses.iconSize};" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+        </svg>
     </div>
     
     <!-- Customer Support Widget with Customizations -->
