@@ -217,6 +217,8 @@ Highly recommended for any e-commerce business looking to scale support efficien
     // Use PayPal email or fallback to login email
     const emailToUse = paypalEmail || user?.email;
     
+    console.log('🎯 Registering as affiliate:', { emailToUse, user, hasToken: !!localStorage.getItem('authToken') });
+    
     if (!emailToUse) {
       alert('Please enter your PayPal email');
       return;
@@ -232,17 +234,28 @@ Highly recommended for any e-commerce business looking to scale support efficien
         body: JSON.stringify({ paypalEmail: emailToUse })
       });
 
+      console.log('🎯 Affiliate registration response:', response.status);
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Network error' }));
+        console.error('❌ Registration failed:', errorData);
+        alert(errorData.error || `Failed to register: ${response.status}`);
+        return;
+      }
+
       const data = await response.json();
+      console.log('✅ Registration successful:', data);
       
       if (data.success) {
         await loadAffiliateStats();
         setShowRegisterForm(false);
+        alert('Successfully registered as affiliate!');
     } else {
         alert(data.error || 'Failed to register as affiliate');
       }
     } catch (error) {
-      console.error('Error registering as affiliate:', error);
-      alert('Failed to register as affiliate');
+      console.error('❌ Error registering as affiliate:', error);
+      alert(`Failed to register as affiliate: ${error.message}`);
     }
   };
 

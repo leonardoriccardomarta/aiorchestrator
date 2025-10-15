@@ -25,7 +25,6 @@ const Settings: React.FC = () => {
   const { logout } = useAuth();
   const [trialDaysLeft, setTrialDaysLeft] = useState(0);
   const [trialHoursLeft, setTrialHoursLeft] = useState(0);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [profile, setProfile] = useState({
     name: user?.name || '',
     email: user?.email || '',
@@ -87,7 +86,8 @@ const Settings: React.FC = () => {
   }, [user]);
 
   const handleUpgrade = () => {
-    setShowPaymentModal(true);
+    // Navigate to pricing page
+    window.location.href = '/pricing';
   };
 
   const handleLogout = () => {
@@ -282,10 +282,14 @@ const Settings: React.FC = () => {
                 </div>
                 <div className="flex items-center space-x-3">
                   <Calendar className="w-5 h-5 text-gray-400" />
-            <div>
+                  <div>
                     <div className="text-sm text-gray-500">Member since</div>
                     <div className="font-medium text-gray-900">
-                      {new Date().toLocaleDateString('en-US')}
+                      {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      }) : 'N/A'}
                     </div>
                   </div>
             </div>
