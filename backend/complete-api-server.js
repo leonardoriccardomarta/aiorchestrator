@@ -1614,9 +1614,17 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     
     // Get size classes
     const sizes = {
-      small: { width: 'w-80', height: 'h-80' },
-      medium: { width: 'w-96', height: 'h-96' },
-      large: { width: 'w-[28rem]', height: 'h-[28rem]' }
+      small: { width: 'w-80', height: 'h-80', buttonSize: 'w-12 h-12' },
+      medium: { width: 'w-96', height: 'h-96', buttonSize: 'w-16 h-16' },
+      large: { width: 'w-[28rem]', height: 'h-[28rem]', buttonSize: 'w-20 h-20' }
+    };
+    
+    // Get animation classes
+    const animations = {
+      slideUp: 'animate-slide-up',
+      fadeIn: 'animate-fade-in',
+      bounce: 'animate-bounce',
+      scale: 'animate-scale'
     };
     
     const themeColors = themes[theme] || themes.blue;
@@ -1642,9 +1650,83 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             align-items: center;
             justify-content: center;
         }
+        .toggle-button {
+            position: fixed;
+            ${position === 'bottom-right' ? 'bottom: 24px; right: 24px;' : 
+              position === 'bottom-left' ? 'bottom: 24px; left: 24px;' :
+              position === 'top-right' ? 'top: 24px; right: 24px;' :
+              'top: 24px; left: 24px;'}
+            ${sizeClasses.buttonSize};
+            background: linear-gradient(135deg, ${theme === 'blue' ? '#3B82F6, #7C3AED' : 
+              theme === 'purple' ? '#7C3AED, #EC4899' :
+              theme === 'green' ? '#10B981, #059669' :
+              '#EF4444, #DC2626'});
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .toggle-button:hover {
+            transform: scale(1.1);
+        }
+        .toggle-button::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 12px;
+            height: 12px;
+            background: #10B981;
+            border-radius: 50%;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-slide-up {
+            animation: slideUp 0.3s ease-out;
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        .animate-bounce {
+            animation: bounce 0.6s ease-out;
+        }
+        .animate-scale {
+            animation: scale 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        @keyframes scale {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
+    <!-- Toggle Button with Animation -->
+    <div class="toggle-button ${animations[animation] || animations.slideUp}">
+        <span style="color: white; font-size: ${size === 'small' ? '16px' : size === 'large' ? '24px' : '20px'};">${botEmoji || '💬'}</span>
+    </div>
+    
     <!-- Customer Support Widget with Customizations -->
     <div class="${sizeClasses.width} ${sizeClasses.height} bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
         <!-- Header -->

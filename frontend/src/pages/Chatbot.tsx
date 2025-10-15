@@ -67,7 +67,7 @@ const Chatbot: React.FC = () => {
   const [widgetPlaceholder, setWidgetPlaceholder] = useState<string>('Type your message...');
   const [showWidgetAvatar, setShowWidgetAvatar] = useState<boolean>(true);
   const [widgetAnimation, setWidgetAnimation] = useState<'fadeIn' | 'slideUp' | 'bounce' | 'scale'>('slideUp');
-  const [botEmoji, setBotEmoji] = useState<string>('🤖');
+  const [botEmoji, setBotEmoji] = useState<string>('💬'); // Speech bubble emoji for toggle button
 
   const createDefaultChatbot = async () => {
     try {
@@ -171,6 +171,13 @@ const Chatbot: React.FC = () => {
     }]);
     loadChatbot();
   }, []);
+
+  // Sync widget customizations with chatbot settings
+  useEffect(() => {
+    if (chatbotName) {
+      setWidgetTitle(chatbotName);
+    }
+  }, [chatbotName]);
 
   // Loading effect
   useEffect(() => {
@@ -944,19 +951,14 @@ const Chatbot: React.FC = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Widget Size</label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select 
+                      value={widgetSize}
+                      onChange={(e) => setWidgetSize(e.target.value as any)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
                       <option value="small">Small (280px)</option>
-                      <option value="medium">Medium (320px)</option>
-                      <option value="large">Large (400px)</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Animation</label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                      <option value="slide-up">Slide Up</option>
-                      <option value="fade-in">Fade In</option>
-                      <option value="bounce">Bounce</option>
-                      <option value="none">None</option>
+                      <option value="medium">Medium (384px)</option>
+                      <option value="large">Large (448px)</option>
                     </select>
                   </div>
                 </div>
