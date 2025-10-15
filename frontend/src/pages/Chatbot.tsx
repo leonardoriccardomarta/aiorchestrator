@@ -730,14 +730,23 @@ const Chatbot: React.FC = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Primary Language</label>
-                <select value={primaryLanguage} onChange={(e)=>setPrimaryLanguage(e.target.value)} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                  <option value="auto">Auto Detect</option>
+                <select
+                  value={primaryLanguage}
+                  onChange={(e)=> setPrimaryLanguage(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="auto">Auto-detect</option>
                   <option value="en">English</option>
                   <option value="it">Italiano</option>
                   <option value="es">Español</option>
                   <option value="fr">Français</option>
                   <option value="de">Deutsch</option>
+                  <option value="pt">Português</option>
+                  <option value="ja">日本語</option>
+                  <option value="ko">한국어</option>
+                  <option value="zh">中文</option>
                 </select>
+                <p className="text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
               </div>
               <div className="flex items-center justify-end">
                 <button onClick={async ()=>{
@@ -837,6 +846,7 @@ const Chatbot: React.FC = () => {
   data-show-avatar="${showWidgetAvatar}"
   data-welcome-message="${welcomeMessage}"
   data-detect-language="${detectLanguage}"
+  data-primary-language="${primaryLanguage}"
   defer>
 </script>` : 'Loading chatbot...'}
                   </code>
@@ -854,6 +864,7 @@ const Chatbot: React.FC = () => {
   data-show-avatar="${showWidgetAvatar}"
   data-welcome-message="${welcomeMessage}"
   data-detect-language="${detectLanguage}"
+  data-primary-language="${primaryLanguage}"
   defer>
 </script>` : 'No chatbot available';
                     navigator.clipboard.writeText(code).then(() => alert('Copied to clipboard!')).catch(() => alert('Copy failed'));
@@ -977,7 +988,7 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&detectLanguage=${detectLanguage}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&detectLanguage=${detectLanguage}&primaryLanguage=${encodeURIComponent(primaryLanguage)}`}
                       className="w-full h-[740px] border-0"
                       title="Live Chatbot Preview"
                     />

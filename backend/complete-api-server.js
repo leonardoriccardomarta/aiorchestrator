@@ -182,6 +182,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     const { chatbotId } = req.params;
     const { theme, title, placeholder, message, showAvatar } = req.query;
     const detectLanguage = (req.query.detectLanguage === 'true');
+    const primaryLanguage = typeof req.query.primaryLanguage === 'string' ? req.query.primaryLanguage : 'auto';
     
     // Get chatbot from database
     const chatbot = await prisma.chatbot.findUnique({
@@ -271,22 +272,20 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             height: 560px;
             z-index: 999;
             transform: translateY(0);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, height 0.25s ease;
             max-height: calc(100vh - 148px);
         }
-        .chat-widget.hidden {
-            transform: translateY(100%);
-        }
+        .chat-widget.hidden { transform: translateY(100%); }
+        .chat-widget.collapsed { height: 64px; }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const toggleButton = document.querySelector('.toggle-button');
             const chatWidget = document.querySelector('.chat-widget');
-            let isOpen = false;
-            
-            // Initially hide the chat widget
-            chatWidget.classList.add('hidden');
-            
+            const minimizeBtn = document.getElementById('ai-minimize-btn');
+            const closeBtn = document.getElementById('ai-close-btn');
+            let isOpen = true; // open by default in preview
+
             toggleButton.addEventListener('click', function() {
                 if (isOpen) {
                     chatWidget.classList.add('hidden');
@@ -296,6 +295,18 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                     isOpen = true;
                 }
             });
+
+            if (minimizeBtn) {
+                minimizeBtn.addEventListener('click', function() {
+                    chatWidget.classList.toggle('collapsed');
+                });
+            }
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    chatWidget.classList.add('hidden');
+                    isOpen = false;
+                });
+            }
         });
     </script>
 </head>
@@ -326,14 +337,15 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                             <div class="w-2 h-2 bg-green-500 rounded-full"></div>
                             <span>Online 24/7</span>
                             ${detectLanguage ? '<span class="px-2 py-0.5 text-[10px] rounded bg-blue-100 text-blue-700">Detect Language</span>' : ''}
+                            ${primaryLanguage && primaryLanguage !== 'auto' ? `<span class="px-2 py-0.5 text-[10px] rounded bg-gray-100 text-gray-700">${primaryLanguage.toUpperCase()}</span>` : ''}
                         </div>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
+                    <button id="ai-minimize-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Minimize">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
                     </button>
-                    <button class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
+                    <button id="ai-close-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Close">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
@@ -1809,6 +1821,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     const { chatbotId } = req.params;
     const { theme, title, placeholder, message, showAvatar } = req.query;
     const detectLanguage = (req.query.detectLanguage === 'true');
+    const primaryLanguage = typeof req.query.primaryLanguage === 'string' ? req.query.primaryLanguage : 'auto';
     
     // Get chatbot from database
     const chatbot = await prisma.chatbot.findUnique({
@@ -1927,22 +1940,20 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             height: 560px;
             z-index: 999;
             transform: translateY(0);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, height 0.25s ease;
             max-height: calc(100vh - 148px);
         }
-        .chat-widget.hidden {
-            transform: translateY(100%);
-        }
+        .chat-widget.hidden { transform: translateY(100%); }
+        .chat-widget.collapsed { height: 64px; }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const toggleButton = document.querySelector('.toggle-button');
             const chatWidget = document.querySelector('.chat-widget');
-            let isOpen = false;
-            
-            // Initially hide the chat widget
-            chatWidget.classList.add('hidden');
-            
+            const minimizeBtn = document.getElementById('ai-minimize-btn');
+            const closeBtn = document.getElementById('ai-close-btn');
+            let isOpen = true; // open by default in preview
+
             toggleButton.addEventListener('click', function() {
                 if (isOpen) {
                     chatWidget.classList.add('hidden');
@@ -1952,6 +1963,18 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                     isOpen = true;
                 }
             });
+
+            if (minimizeBtn) {
+                minimizeBtn.addEventListener('click', function() {
+                    chatWidget.classList.toggle('collapsed');
+                });
+            }
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    chatWidget.classList.add('hidden');
+                    isOpen = false;
+                });
+            }
         });
     </script>
 </head>
@@ -1982,19 +2005,16 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                             <div class="w-2 h-2 bg-green-500 rounded-full"></div>
                             <span>Online 24/7</span>
                             ${detectLanguage ? '<span class="px-2 py-0.5 text-[10px] rounded bg-blue-100 text-blue-700">Detect Language</span>' : ''}
+                            ${primaryLanguage && primaryLanguage !== 'auto' ? `<span class="px-2 py-0.5 text-[10px] rounded bg-gray-100 text-gray-700">${primaryLanguage.toUpperCase()}</span>` : ''}
                         </div>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
-                        </svg>
+                    <button id="ai-minimize-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Minimize">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
                     </button>
-                    <button class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
+                    <button id="ai-close-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Close">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
             </div>
