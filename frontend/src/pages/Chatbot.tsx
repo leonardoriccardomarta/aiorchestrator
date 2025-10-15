@@ -65,7 +65,7 @@ const Chatbot: React.FC = () => {
   const [widgetPlaceholder, setWidgetPlaceholder] = useState<string>('Type your message...');
   const [widgetMessage, setWidgetMessage] = useState<string>('Hello! I\'m your AI assistant. How can I help you today?');
   const [showWidgetAvatar, setShowWidgetAvatar] = useState<boolean>(true);
-  const [detectLanguage, setDetectLanguage] = useState<boolean>(true);
+  // removed detectLanguage; use primaryLanguage only
 
   const createDefaultChatbot = async () => {
     try {
@@ -845,7 +845,6 @@ const Chatbot: React.FC = () => {
   data-placeholder="${widgetPlaceholder}"
   data-show-avatar="${showWidgetAvatar}"
   data-welcome-message="${welcomeMessage}"
-  data-detect-language="${detectLanguage}"
   data-primary-language="${primaryLanguage}"
   defer>
 </script>` : 'Loading chatbot...'}
@@ -863,7 +862,6 @@ const Chatbot: React.FC = () => {
   data-placeholder="${widgetPlaceholder}"
   data-show-avatar="${showWidgetAvatar}"
   data-welcome-message="${welcomeMessage}"
-  data-detect-language="${detectLanguage}"
   data-primary-language="${primaryLanguage}"
   defer>
 </script>` : 'No chatbot available';
@@ -958,18 +956,7 @@ const Chatbot: React.FC = () => {
                       Show Avatar
                     </label>
                   </div>
-                  <div className="flex items-center">
-                    <input
-                      type="checkbox"
-                      id="detectLanguage"
-                      checked={detectLanguage}
-                      onChange={(e) => setDetectLanguage(e.target.checked)}
-                      className="h-4 w-4 text-blue-600 border-gray-300 rounded"
-                    />
-                    <label htmlFor="detectLanguage" className="ml-2 block text-sm text-gray-700">
-                      Detect Language
-                    </label>
-                  </div>
+                  {/* removed Detect Language toggle */}
                 </div>
               </div>
 
@@ -988,7 +975,7 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&detectLanguage=${detectLanguage}&primaryLanguage=${encodeURIComponent(primaryLanguage)}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}`}
                       className="w-full h-[740px] border-0"
                       title="Live Chatbot Preview"
                     />
