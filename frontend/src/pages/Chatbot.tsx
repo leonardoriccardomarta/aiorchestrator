@@ -384,10 +384,10 @@ const Chatbot: React.FC = () => {
         {activeTab === 'chat' && (
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden" data-tour="chat-interface">
             {/* Chat Header */}
-            <div className={`bg-gradient-to-br ${tc.primary} text-white p-4`}>
+            <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br ${tc.primary}`}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br from-blue-600 to-blue-700">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
@@ -395,9 +395,10 @@ const Chatbot: React.FC = () => {
                   <div>
                     <div className="font-bold">AI Support</div>
                     <div className="text-xs text-white/80 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                       <span>Online 24/7</span>
                       {primaryLanguage && primaryLanguage !== 'auto' && (
-                        <span className="px-2 py-0.5 text-[10px] rounded bg-white/20">{primaryLanguage.toUpperCase()}</span>
+                        <span className="px-2 py-0.5 text-[10px] rounded bg-gray-100 text-gray-700">{primaryLanguage.toUpperCase()}</span>
                       )}
                     </div>
                   </div>

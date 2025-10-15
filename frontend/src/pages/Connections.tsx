@@ -43,6 +43,8 @@ const ConnectionsNew: React.FC = () => {
   const [successConnectionId, setSuccessConnectionId] = useState<string | null>(null);
   const [showWidgetModal, setShowWidgetModal] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [connectionToDelete, setConnectionToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     fetchConnections();
@@ -116,12 +118,17 @@ const ConnectionsNew: React.FC = () => {
     }
   };
 
-  const handleDeleteConnection = async (connectionId: string) => {
-    if (!confirm('Are you sure you want to disconnect this store?')) return;
+  const handleDeleteConnection = (connectionId: string) => {
+    setConnectionToDelete(connectionId);
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDeleteConnection = async () => {
+    if (!connectionToDelete) return;
 
     try {
       const token = localStorage.getItem('authToken');
-      await fetch(`${API_URL}/api/connections/${connectionId}`, {
+      await fetch(`${API_URL}/api/connections/${connectionToDelete}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -129,6 +136,8 @@ const ConnectionsNew: React.FC = () => {
       });
 
       fetchConnections();
+      setShowDeleteConfirm(false);
+      setConnectionToDelete(null);
     } catch (error) {
       console.error('Failed to delete connection:', error);
       alert('Failed to disconnect store');
@@ -409,6 +418,47 @@ const ConnectionsNew: React.FC = () => {
             </div>
           </div>
         )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full">
+            <div className="p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                  <AlertCircle className="w-5 h-5 text-red-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">Disconnect Store</h3>
+                  <p className="text-sm text-gray-600">This action cannot be undone</p>
+                </div>
+              </div>
+              
+              <p className="text-gray-700 mb-6">
+                Are you sure you want to disconnect this store? You'll need to reconnect it to use the chatbot widget.
+              </p>
+              
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={() => {
+                    setShowDeleteConfirm(false);
+                    setConnectionToDelete(null);
+                  }}
+                  className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDeleteConnection}
+                  className="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded-lg transition-colors"
+                >
+                  Disconnect
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
