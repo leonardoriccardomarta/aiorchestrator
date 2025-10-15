@@ -3087,7 +3087,7 @@ Keep responses concise (2-3 sentences) and engaging.`
       // add more options if needed
     };
     
-    const response = await aiService.generateReply(message, aiOptions);
+    const response = await aiService.generateResponse(message, aiOptions);
     const responseTime = Date.now() - startTime;
     
     // Store conversation in real data service with ML insights

@@ -419,7 +419,7 @@ const Chatbot: React.FC = () => {
                   <div
                     className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
                       message.isUser
-                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                        ? 'bg-blue-600 text-white shadow-sm'
                         : 'bg-white text-gray-900 border border-gray-200 shadow-sm'
                     }`}
                   >
@@ -977,7 +977,29 @@ const Chatbot: React.FC = () => {
                       Show Avatar
                     </label>
                   </div>
-                  {/* removed Detect Language toggle */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Primary Language</label>
+                    <select
+                      value={primaryLanguage}
+                      onChange={(e) => setPrimaryLanguage(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="auto">Auto-detect</option>
+                      <option value="en">English</option>
+                      <option value="it">Italiano</option>
+                      <option value="es">Español</option>
+                      <option value="fr">Français</option>
+                      <option value="de">Deutsch</option>
+                      <option value="pt">Português</option>
+                      <option value="ru">Русский</option>
+                      <option value="zh">中文</option>
+                      <option value="ja">日本語</option>
+                      <option value="ko">한국어</option>
+                      <option value="ar">العربية</option>
+                      <option value="hi">हिन्दी</option>
+                    </select>
+                    <p className="text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
+                  </div>
                 </div>
               </div>
 
