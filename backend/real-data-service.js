@@ -29,6 +29,11 @@ class RealDataService {
   }
 
   async updateChatbot(id, data) {
+    // Handle settings field - convert to JSON string if it's an object
+    if (data.settings && typeof data.settings === 'object') {
+      data.settings = JSON.stringify(data.settings);
+    }
+    
     return await prisma.chatbot.update({
       where: { id },
       data

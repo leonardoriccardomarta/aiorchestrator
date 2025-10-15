@@ -882,6 +882,47 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
     }
     console.log('✅ Connection test passed:', testResult.shop.name);
 
+    // Sync data from Shopify
+    let shopifyData = { productsCount: 0, ordersCount: 0, customersCount: 0, revenue: 0 };
+    try {
+      console.log('🔄 Syncing data from Shopify...');
+      
+      // Get products count
+      const productsResponse = await fetch(`https://${shop}/admin/api/2023-10/products.json?limit=1`, {
+        headers: { 'X-Shopify-Access-Token': accessToken }
+      });
+      if (productsResponse.ok) {
+        const productsData = await productsResponse.json();
+        // Get total count from headers
+        const totalProducts = productsResponse.headers.get('x-shopify-shop-api-call-limit') ? 
+          parseInt(productsResponse.headers.get('x-shopify-shop-api-call-limit').split('/')[0]) : 0;
+        shopifyData.productsCount = totalProducts || 0;
+        console.log('📦 Products count:', shopifyData.productsCount);
+      }
+
+      // Get orders count (last 30 days)
+      const ordersResponse = await fetch(`https://${shop}/admin/api/2023-10/orders.json?limit=1&status=any&created_at_min=${new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()}`, {
+        headers: { 'X-Shopify-Access-Token': accessToken }
+      });
+      if (ordersResponse.ok) {
+        const ordersData = await ordersResponse.json();
+        shopifyData.ordersCount = ordersData.orders?.length || 0;
+        console.log('🛒 Orders count:', shopifyData.ordersCount);
+      }
+
+      // Get customers count
+      const customersResponse = await fetch(`https://${shop}/admin/api/2023-10/customers.json?limit=1`, {
+        headers: { 'X-Shopify-Access-Token': accessToken }
+      });
+      if (customersResponse.ok) {
+        const customersData = await customersResponse.json();
+        shopifyData.customersCount = customersData.customers?.length || 0;
+        console.log('👥 Customers count:', shopifyData.customersCount);
+      }
+    } catch (error) {
+      console.error('❌ Error syncing Shopify data:', error);
+    }
+
     // Store connection
     const connection = await realDataService.addConnection(stateData.userId, {
       type: 'shopify',
@@ -889,10 +930,10 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
       url: shop,
       status: 'connected',
       lastSync: new Date().toISOString(),
-      productsCount: 0,
-      ordersCount: 0,
-      customersCount: 0,
-      revenue: 0,
+      productsCount: shopifyData.productsCount,
+      ordersCount: shopifyData.ordersCount,
+      customersCount: shopifyData.customersCount,
+      revenue: shopifyData.revenue,
       apiKey: accessToken,
       shopId: shop,
       currency: testResult.shop.currency || 'USD'

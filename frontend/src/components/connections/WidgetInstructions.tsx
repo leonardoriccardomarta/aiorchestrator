@@ -230,8 +230,8 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
           <h4 className="font-semibold text-gray-900">Installation Instructions</h4>
         </div>
         
-        <ol className="space-y-2">
-          {instructions?.map((instruction: string, index: number) => (
+        <ol className="space-y-3">
+          {(instructions?.shopify || instructions?.woocommerce || instructions || []).map((instruction: string, index: number) => (
             <li key={index} className="flex gap-3">
               <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold">
                 {index + 1}
@@ -240,6 +240,17 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
             </li>
           ))}
         </ol>
+        
+        {/* Additional Help */}
+        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <h5 className="font-semibold text-blue-900 mb-2">💡 Pro Tips:</h5>
+          <ul className="text-sm text-blue-800 space-y-1">
+            <li>• The widget will appear in the bottom-right corner of your store</li>
+            <li>• It's mobile-responsive and works on all devices</li>
+            <li>• You can customize colors and text from your AI Orchestrator dashboard</li>
+            <li>• Changes are applied instantly without touching the code again</li>
+          </ul>
+        </div>
       </div>
 
       {/* Help Links */}
