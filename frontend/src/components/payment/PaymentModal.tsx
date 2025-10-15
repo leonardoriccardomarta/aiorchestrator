@@ -411,12 +411,14 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSuccess,
         <div className="mb-6">
           <h3 className="font-semibold text-gray-900 mb-3">Included features:</h3>
           <ul className="space-y-2">
-            {plan.features.map((feature, index) => (
+            {plan.features && Array.isArray(plan.features) ? plan.features.map((feature, index) => (
               <li key={index} className="flex items-start text-sm text-gray-600">
                 <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
                 <span>{feature}</span>
               </li>
-            ))}
+            )) : (
+              <li className="text-sm text-gray-500">No features listed</li>
+            )}
           </ul>
         </div>
 

@@ -2431,7 +2431,8 @@ app.get('/api/connections', authenticateToken, async (req, res) => {
     
     // Get connections from real data service
     const connections = await realDataService.getConnections(userId);
-    console.log('📋 Found connections:', connections.length);
+    console.log('📋 Found connections:', connections ? connections.length : 'undefined');
+    console.log('📋 Connections data:', connections);
     
     // Transform connections to match expected format
     const formattedConnections = connections.map(conn => ({
