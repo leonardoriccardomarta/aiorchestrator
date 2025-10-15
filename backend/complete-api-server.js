@@ -1604,6 +1604,24 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     }
     
     // Return HTML page with chatbot widget
+    // Get theme colors
+    const themes = {
+      blue: { primary: 'from-blue-600 to-blue-700', secondary: 'from-blue-50 to-blue-100', accent: 'bg-blue-600', text: 'text-blue-900', border: 'border-blue-200' },
+      purple: { primary: 'from-purple-600 to-purple-700', secondary: 'from-purple-50 to-purple-100', accent: 'bg-purple-600', text: 'text-purple-900', border: 'border-purple-200' },
+      green: { primary: 'from-green-600 to-green-700', secondary: 'from-green-50 to-green-100', accent: 'bg-green-600', text: 'text-green-900', border: 'border-green-200' },
+      red: { primary: 'from-red-600 to-red-700', secondary: 'from-red-50 to-red-100', accent: 'bg-red-600', text: 'text-red-900', border: 'border-red-200' }
+    };
+    
+    // Get size classes
+    const sizes = {
+      small: { width: 'w-80', height: 'h-80' },
+      medium: { width: 'w-96', height: 'h-96' },
+      large: { width: 'w-[28rem]', height: 'h-[28rem]' }
+    };
+    
+    const themeColors = themes[theme] || themes.blue;
+    const sizeClasses = sizes[size] || sizes.medium;
+
     const html = `
 <!DOCTYPE html>
 <html lang="en">
@@ -1611,6 +1629,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             margin: 0;
@@ -1619,25 +1638,90 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             background: #f3f4f6;
             height: 100vh;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
 <body>
-    
-    <!-- Embedded widget with customizations -->
-    <script 
-      src="https://www.aiorchestrator.dev/chatbot-widget.js"
-      data-chatbot-id="${chatbotId}"
-      data-api-key="demo-key"
-      data-position="${position || 'bottom-right'}"
-      data-theme="${theme || 'blue'}"
-      data-size="${size || 'medium'}"
-      data-title="${title || 'AI Support'}"
-      data-placeholder="${placeholder || 'Type your message...'}"
-      data-show-avatar="${showAvatar !== 'false'}"
-      data-welcome-message="${chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}"
-      defer>
-    </script>
+    <!-- Customer Support Widget with Customizations -->
+    <div class="${sizeClasses.width} ${sizeClasses.height} bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
+        <!-- Header -->
+        <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    ${showAvatar !== 'false' ? `
+                        <div class="w-10 h-10 bg-gradient-to-br ${themeColors.primary} rounded-full flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                        </div>
+                    ` : ''}
+                    <div>
+                        <div class="font-bold ${themeColors.text}">${title || 'AI Support'}</div>
+                        <div class="text-xs text-gray-600 flex items-center gap-1">
+                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                            Online 24/7
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                        </svg>
+                    </button>
+                    <button class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="h-96 overflow-y-auto p-4 bg-gray-50">
+            <div class="mb-4 flex justify-start">
+                <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
+                    <div class="text-sm">${chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}</div>
+                    <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                </div>
+            </div>
+            <div class="mb-4 flex justify-end">
+                <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-blue-600 text-white">
+                    <div class="text-sm">Hi! Can you help me?</div>
+                    <div class="text-xs mt-1 text-blue-100">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                </div>
+            </div>
+            <div class="flex justify-start mb-4">
+                <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
+                    <div class="flex gap-1">
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input -->
+        <div class="p-4 bg-white border-t border-gray-200">
+            <div class="flex gap-2">
+                <input
+                    type="text"
+                    placeholder="${placeholder || 'Type your message...'}"
+                    class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <button class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>`;
     
