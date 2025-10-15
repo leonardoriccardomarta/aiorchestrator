@@ -1651,9 +1651,6 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             background: #f3f4f6;
             height: 100vh;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         .toggle-button {
             position: fixed;
@@ -1728,7 +1725,40 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             from { transform: scale(0); }
             to { transform: scale(1); }
         }
+        .chat-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            ${sizeClasses.width};
+            ${sizeClasses.height};
+            z-index: 999;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        .chat-widget.hidden {
+            transform: translateY(100%);
+        }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButton = document.querySelector('.toggle-button');
+            const chatWidget = document.querySelector('.chat-widget');
+            let isOpen = false;
+            
+            // Initially hide the chat widget
+            chatWidget.classList.add('hidden');
+            
+            toggleButton.addEventListener('click', function() {
+                if (isOpen) {
+                    chatWidget.classList.add('hidden');
+                    isOpen = false;
+                } else {
+                    chatWidget.classList.remove('hidden');
+                    isOpen = true;
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <!-- Toggle Button with Animation -->
@@ -1739,7 +1769,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     </div>
     
     <!-- Customer Support Widget with Customizations -->
-    <div class="${sizeClasses.width} ${sizeClasses.height} bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
+    <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
         <!-- Header -->
         <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
             <div class="flex items-center justify-between">
