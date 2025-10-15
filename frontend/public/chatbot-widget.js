@@ -400,8 +400,45 @@
   document.getElementById('ai-widget-input').addEventListener('keypress', handleChatbotKeypress);
 
     console.log('AI Orchestrator: Shopify-compatible widget loaded successfully!');
-    console.log('AI Orchestrator: Toggle button added to page:', document.getElementById('ai-widget-toggle') ? 'YES' : 'NO');
-    console.log('AI Orchestrator: Chat widget added to page:', document.getElementById('ai-widget') ? 'YES' : 'NO');
+    
+    // Debug: Check if elements are actually visible
+    const toggleButton = document.getElementById('ai-widget-toggle');
+    const chatWidget = document.getElementById('ai-widget');
+    
+    console.log('AI Orchestrator: Toggle button added to page:', toggleButton ? 'YES' : 'NO');
+    console.log('AI Orchestrator: Chat widget added to page:', chatWidget ? 'YES' : 'NO');
+    
+    if (toggleButton) {
+      const toggleStyle = window.getComputedStyle(toggleButton);
+      console.log('AI Orchestrator: Toggle button position:', toggleStyle.position);
+      console.log('AI Orchestrator: Toggle button display:', toggleStyle.display);
+      console.log('AI Orchestrator: Toggle button visibility:', toggleStyle.visibility);
+      console.log('AI Orchestrator: Toggle button z-index:', toggleStyle.zIndex);
+      console.log('AI Orchestrator: Toggle button bottom:', toggleStyle.bottom);
+      console.log('AI Orchestrator: Toggle button right:', toggleStyle.right);
+    }
+    
+    if (chatWidget) {
+      const chatStyle = window.getComputedStyle(chatWidget);
+      console.log('AI Orchestrator: Chat widget position:', chatStyle.position);
+      console.log('AI Orchestrator: Chat widget display:', chatStyle.display);
+      console.log('AI Orchestrator: Chat widget visibility:', chatStyle.visibility);
+      console.log('AI Orchestrator: Chat widget z-index:', chatStyle.zIndex);
+    }
+    
+    // Force visibility for debugging
+    if (toggleButton) {
+      console.log('AI Orchestrator: Forcing toggle button visibility for debugging...');
+      toggleButton.style.display = 'flex !important';
+      toggleButton.style.visibility = 'visible !important';
+      toggleButton.style.opacity = '1 !important';
+      toggleButton.style.zIndex = '999999 !important';
+      toggleButton.style.position = 'fixed !important';
+      toggleButton.style.bottom = '24px !important';
+      toggleButton.style.right = '24px !important';
+      toggleButton.style.backgroundColor = 'red !important'; // Make it very visible
+      console.log('AI Orchestrator: Toggle button forced to be visible (red background)');
+    }
     } // End of initializeWidget function
 
 })(); // End of IIFE
