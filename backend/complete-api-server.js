@@ -973,11 +973,12 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
     }
 
     // Generate widget code
+    const apiUrl = process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app';
     const widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
 <script 
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
   data-chatbot-id="${chatbotId}"
-  data-api-key="${API_URL}"
+  data-api-key="${apiUrl}"
   defer>
 </script>`;
 
