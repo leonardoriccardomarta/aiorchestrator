@@ -919,14 +919,20 @@ app.delete('/api/connections/:connectionId', authenticateToken, async (req, res)
     const { connectionId } = req.params;
     const userId = req.user.userId || req.user.id;
     
+    console.log(`🗑️ Delete connection request: ${connectionId} for user: ${userId}`);
+    
     const connection = await realDataService.getConnection(userId, connectionId);
+    console.log(`🔍 Connection found:`, connection);
+    
     if (!connection) {
+      console.log(`❌ Connection not found: ${connectionId}`);
       return res.status(404).json({
         success: false,
         error: 'Connection not found'
       });
     }
 
+    console.log(`✅ Deleting connection: ${connectionId}`);
     await realDataService.deleteConnection(userId, connectionId);
     
     res.json({
@@ -934,7 +940,7 @@ app.delete('/api/connections/:connectionId', authenticateToken, async (req, res)
       message: 'Connection deleted successfully'
     });
   } catch (error) {
-    console.error('Error deleting connection:', error);
+    console.error('❌ Error deleting connection:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to delete connection'
@@ -3105,6 +3111,8 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
     // Enhanced system prompt for demo/landing page users
     const enhancedContext = {
       ...context,
+      primaryLanguage: primaryLanguage,
+      language: primaryLanguage,
       systemPrompt: user.id === 'demo-user' 
         ? `You are an AI assistant showcasing an advanced AI Chatbot Platform.
 Your goal is to demonstrate the platform's capabilities by being helpful, multilingual, and intelligent.
