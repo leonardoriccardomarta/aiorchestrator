@@ -148,6 +148,14 @@ const Chatbot: React.FC = () => {
         setPrimaryLanguage(first.language || 'auto');
         setChatbotDeleted(false);
         
+        // Load widget customization settings
+        if (first.settings) {
+          const settings = typeof first.settings === 'string' ? JSON.parse(first.settings) : first.settings;
+          if (settings.theme) setWidgetTheme(settings.theme);
+          if (settings.placeholder) setWidgetPlaceholder(settings.placeholder);
+          if (settings.showAvatar !== undefined) setShowWidgetAvatar(settings.showAvatar);
+        }
+        
         // Update chat welcome message
         setMessages([{
           id: '1',
@@ -781,7 +789,16 @@ const Chatbot: React.FC = () => {
                     const res = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${currentChatbotId}` ,{
                       method:'PUT',
                       headers:{ 'Content-Type':'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
-                      body: JSON.stringify({ name: chatbotName, welcomeMessage, language: primaryLanguage })
+                      body: JSON.stringify({ 
+                        name: chatbotName, 
+                        welcomeMessage, 
+                        language: primaryLanguage,
+                        settings: {
+                          theme: widgetTheme,
+                          placeholder: widgetPlaceholder,
+                          showAvatar: showWidgetAvatar
+                        }
+                      })
                     });
                     const j = await res.json();
                     if(j?.success){ 
