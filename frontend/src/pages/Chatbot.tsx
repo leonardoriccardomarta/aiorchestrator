@@ -144,16 +144,72 @@ const Chatbot: React.FC = () => {
   };
 
 
-  // Theme palette (mirror of preview)
+  // Theme palette (mirror of widget preview)
   const themeColors = {
-    blue:   { primary: 'from-blue-600 to-blue-700', userMsg: 'bg-blue-600', send: 'bg-blue-600' },
-    purple: { primary: 'from-purple-600 to-purple-700', userMsg: 'bg-purple-600', send: 'bg-purple-600' },
-    green:  { primary: 'from-green-600 to-green-700', userMsg: 'bg-green-600', send: 'bg-green-600' },
-    red:    { primary: 'from-red-600 to-red-700', userMsg: 'bg-red-600', send: 'bg-red-600' },
-    orange: { primary: 'from-orange-600 to-orange-700', userMsg: 'bg-orange-600', send: 'bg-orange-600' },
-    pink:   { primary: 'from-pink-600 to-pink-700', userMsg: 'bg-pink-600', send: 'bg-pink-600' },
-    indigo: { primary: 'from-indigo-600 to-indigo-700', userMsg: 'bg-indigo-600', send: 'bg-indigo-600' },
-    teal:   { primary: 'from-teal-600 to-teal-700', userMsg: 'bg-teal-600', send: 'bg-teal-600' }
+    blue:   { 
+      primary: 'from-blue-600 to-blue-700', 
+      secondary: 'from-blue-50 to-blue-100', 
+      text: 'text-blue-900', 
+      border: 'border-blue-200',
+      userMsg: 'bg-blue-600', 
+      send: 'bg-blue-600' 
+    },
+    purple: { 
+      primary: 'from-purple-600 to-purple-700', 
+      secondary: 'from-purple-50 to-purple-100', 
+      text: 'text-purple-900', 
+      border: 'border-purple-200',
+      userMsg: 'bg-purple-600', 
+      send: 'bg-purple-600' 
+    },
+    green:  { 
+      primary: 'from-green-600 to-green-700', 
+      secondary: 'from-green-50 to-green-100', 
+      text: 'text-green-900', 
+      border: 'border-green-200',
+      userMsg: 'bg-green-600', 
+      send: 'bg-green-600' 
+    },
+    red:    { 
+      primary: 'from-red-600 to-red-700', 
+      secondary: 'from-red-50 to-red-100', 
+      text: 'text-red-900', 
+      border: 'border-red-200',
+      userMsg: 'bg-red-600', 
+      send: 'bg-red-600' 
+    },
+    orange: { 
+      primary: 'from-orange-600 to-orange-700', 
+      secondary: 'from-orange-50 to-orange-100', 
+      text: 'text-orange-900', 
+      border: 'border-orange-200',
+      userMsg: 'bg-orange-600', 
+      send: 'bg-orange-600' 
+    },
+    pink:   { 
+      primary: 'from-pink-600 to-pink-700', 
+      secondary: 'from-pink-50 to-pink-100', 
+      text: 'text-pink-900', 
+      border: 'border-pink-200',
+      userMsg: 'bg-pink-600', 
+      send: 'bg-pink-600' 
+    },
+    indigo: { 
+      primary: 'from-indigo-600 to-indigo-700', 
+      secondary: 'from-indigo-50 to-indigo-100', 
+      text: 'text-indigo-900', 
+      border: 'border-indigo-200',
+      userMsg: 'bg-indigo-600', 
+      send: 'bg-indigo-600' 
+    },
+    teal:   { 
+      primary: 'from-teal-600 to-teal-700', 
+      secondary: 'from-teal-50 to-teal-100', 
+      text: 'text-teal-900', 
+      border: 'border-teal-200',
+      userMsg: 'bg-teal-600', 
+      send: 'bg-teal-600' 
+    }
   } as const;
   const tc = themeColors[widgetTheme] || themeColors.blue;
 
@@ -472,7 +528,7 @@ const Chatbot: React.FC = () => {
         {activeTab === 'chat' && (
           <div key={widgetTheme} className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden" data-tour="chat-interface">
             {/* Chat Header */}
-            <div className={`bg-gradient-to-br ${tc.primary} text-white p-4`}>
+            <div className={`bg-gradient-to-br ${tc.secondary} border-b-2 ${tc.border} p-4`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br ${tc.primary}`}>
@@ -481,8 +537,8 @@ const Chatbot: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <div className="font-bold">{widgetTitle}</div>
-                    <div className="text-xs text-white/80 flex items-center gap-2">
+                    <div className={`font-bold ${tc.text}`}>{widgetTitle}</div>
+                    <div className="text-xs text-gray-600 flex items-center gap-2">
                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                       <span>Online 24/7</span>
                       {primaryLanguage && primaryLanguage !== 'auto' && (
@@ -492,8 +548,12 @@ const Chatbot: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-sm">Active</span>
+                  <button className="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Minimize">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg>
+                  </button>
+                  <button className="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Close">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                  </button>
                 </div>
               </div>
             </div>
@@ -516,7 +576,7 @@ const Chatbot: React.FC = () => {
                     <p className={`text-xs mt-1 ${
                       message.isUser ? 'text-white/70' : 'text-gray-500'
                     }`}>
-                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })}
+                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
                     </p>
                   </div>
                 </div>

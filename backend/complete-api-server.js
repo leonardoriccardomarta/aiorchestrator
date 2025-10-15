@@ -3143,6 +3143,7 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
 
     // Check message limits using centralized config
     const userPlanId = user.planId || 'starter';
+    const userPlan = { planId: userPlanId };
       const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
     
     // Get user's chatbots first
