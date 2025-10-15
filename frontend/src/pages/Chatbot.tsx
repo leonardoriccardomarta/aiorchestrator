@@ -183,13 +183,32 @@ const Chatbot: React.FC = () => {
         setChatbotDeleted(false);
         
         // Load widget customization settings
+        console.log('🔧 Loading chatbot settings:', first.settings);
         if (first.settings) {
           const settings = typeof first.settings === 'string' ? JSON.parse(first.settings) : first.settings;
-          if (settings.theme) setWidgetTheme(settings.theme);
-          if (settings.placeholder) setWidgetPlaceholder(settings.placeholder);
-          if (settings.showAvatar !== undefined) setShowWidgetAvatar(settings.showAvatar);
-          if (settings.title) setWidgetTitle(settings.title);
-          if (settings.message) setWidgetMessage(settings.message);
+          console.log('🔧 Parsed settings:', settings);
+          if (settings.theme) {
+            console.log('🔧 Setting theme:', settings.theme);
+            setWidgetTheme(settings.theme);
+          }
+          if (settings.placeholder) {
+            console.log('🔧 Setting placeholder:', settings.placeholder);
+            setWidgetPlaceholder(settings.placeholder);
+          }
+          if (settings.showAvatar !== undefined) {
+            console.log('🔧 Setting showAvatar:', settings.showAvatar);
+            setShowWidgetAvatar(settings.showAvatar);
+          }
+          if (settings.title) {
+            console.log('🔧 Setting title:', settings.title);
+            setWidgetTitle(settings.title);
+          }
+          if (settings.message) {
+            console.log('🔧 Setting message:', settings.message);
+            setWidgetMessage(settings.message);
+          }
+        } else {
+          console.log('🔧 No settings found, using defaults');
         }
         
         // Update chat welcome message
