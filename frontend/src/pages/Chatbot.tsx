@@ -65,6 +65,7 @@ const Chatbot: React.FC = () => {
   const [widgetPlaceholder, setWidgetPlaceholder] = useState<string>('Type your message...');
   const [widgetMessage, setWidgetMessage] = useState<string>('Hello! I\'m your AI assistant. How can I help you today?');
   const [showWidgetAvatar, setShowWidgetAvatar] = useState<boolean>(true);
+  const [detectLanguage, setDetectLanguage] = useState<boolean>(true);
 
   const createDefaultChatbot = async () => {
     try {
@@ -301,14 +302,7 @@ const Chatbot: React.FC = () => {
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <span className="text-sm font-medium">Live</span>
               </div>
-              <button
-                onClick={() => setShowEmbedModal(true)}
-                className="flex items-center px-4 py-2 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium"
-                data-tour="embed-code"
-              >
-                <Code className="w-4 h-4 mr-2" />
-                Get Embed Code
-              </button>
+              {/* removed Get Embed Code button (duplicate of Quick Embed) */}
             </div>
           </div>
         </div>
@@ -842,6 +836,7 @@ const Chatbot: React.FC = () => {
   data-placeholder="${widgetPlaceholder}"
   data-show-avatar="${showWidgetAvatar}"
   data-welcome-message="${welcomeMessage}"
+  data-detect-language="${detectLanguage}"
   defer>
 </script>` : 'Loading chatbot...'}
                   </code>
@@ -858,6 +853,7 @@ const Chatbot: React.FC = () => {
   data-placeholder="${widgetPlaceholder}"
   data-show-avatar="${showWidgetAvatar}"
   data-welcome-message="${welcomeMessage}"
+  data-detect-language="${detectLanguage}"
   defer>
 </script>` : 'No chatbot available';
                     navigator.clipboard.writeText(code).then(() => alert('Copied to clipboard!')).catch(() => alert('Copy failed'));
@@ -951,6 +947,18 @@ const Chatbot: React.FC = () => {
                       Show Avatar
                     </label>
                   </div>
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="detectLanguage"
+                      checked={detectLanguage}
+                      onChange={(e) => setDetectLanguage(e.target.checked)}
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                    />
+                    <label htmlFor="detectLanguage" className="ml-2 block text-sm text-gray-700">
+                      Detect Language
+                    </label>
+                  </div>
                 </div>
               </div>
 
@@ -969,7 +977,7 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&detectLanguage=${detectLanguage}`}
                       className="w-full h-[740px] border-0"
                       title="Live Chatbot Preview"
                     />

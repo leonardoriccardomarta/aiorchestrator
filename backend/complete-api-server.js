@@ -181,6 +181,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
     const { chatbotId } = req.params;
     const { theme, title, placeholder, message, showAvatar } = req.query;
+    const detectLanguage = (req.query.detectLanguage === 'true');
     
     // Get chatbot from database
     const chatbot = await prisma.chatbot.findUnique({
@@ -230,7 +231,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             right: 24px;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* gradient now handled by utility classes on element */
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -300,7 +301,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
 </head>
 <body>
     <!-- Toggle Button - LANDING PAGE STYLE -->
-    <button class="toggle-button">
+    <button class="toggle-button bg-gradient-to-br ${themeColors.primary}">
         <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
         </svg>
@@ -321,9 +322,10 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                     ` : ''}
                     <div>
                         <div class="font-bold ${themeColors.text}">${title || 'AI Support'}</div>
-                        <div class="text-xs text-gray-600 flex items-center gap-1">
+                        <div class="text-xs text-gray-600 flex items-center gap-2">
                             <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                            Online 24/7
+                            <span>Online 24/7</span>
+                            ${detectLanguage ? '<span class="px-2 py-0.5 text-[10px] rounded bg-blue-100 text-blue-700">Detect Language</span>' : ''}
                         </div>
                     </div>
                 </div>
@@ -1806,6 +1808,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
     const { chatbotId } = req.params;
     const { theme, title, placeholder, message, showAvatar } = req.query;
+    const detectLanguage = (req.query.detectLanguage === 'true');
     
     // Get chatbot from database
     const chatbot = await prisma.chatbot.findUnique({
@@ -1855,7 +1858,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             right: 24px;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* gradient now handled by utility classes on element */
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -1975,9 +1978,10 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                     ` : ''}
                     <div>
                         <div class="font-bold ${themeColors.text}">${title || 'AI Support'}</div>
-                        <div class="text-xs text-gray-600 flex items-center gap-1">
+                        <div class="text-xs text-gray-600 flex items-center gap-2">
                             <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                            Online 24/7
+                            <span>Online 24/7</span>
+                            ${detectLanguage ? '<span class="px-2 py-0.5 text-[10px] rounded bg-blue-100 text-blue-700">Detect Language</span>' : ''}
                         </div>
                     </div>
                 </div>
