@@ -26,6 +26,10 @@ if (!process.env.GROQ_API_KEY) {
   process.env.GROQ_API_KEY = 'your_groq_api_key_here';
 }
 
+// Stripe configuration
+if (!process.env.STRIPE_SECRET_KEY) {
+  console.error('❌ STRIPE_SECRET_KEY not configured! Payment functionality will not work.');
+}
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
@@ -3603,6 +3607,13 @@ app.post('/api/payments/create-subscription', authenticateToken, async (req, res
       return res.status(400).json({
         success: false,
         error: 'Missing required fields: paymentMethodId, planId'
+      });
+    }
+
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return res.status(500).json({
+        success: false,
+        error: 'Payment system not configured. Please contact support.'
       });
     }
 
