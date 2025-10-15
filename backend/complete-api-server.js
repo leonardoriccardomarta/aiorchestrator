@@ -849,6 +849,36 @@ app.get('/api/connections/test', (req, res) => {
   }
 });
 
+// Test endpoint for language detection
+app.post('/api/test/language', async (req, res) => {
+  try {
+    const { message, primaryLanguage = 'auto' } = req.body;
+    
+    console.log('🧪 Testing language detection:', { message, primaryLanguage });
+    
+    // Test AI service
+    const aiOptions = {
+      language: primaryLanguage
+    };
+    
+    const response = await aiService.generateResponse(message, aiOptions);
+    
+    res.json({
+      success: true,
+      message,
+      primaryLanguage,
+      response: response.response || response,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('❌ Language test error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 // Step 2: Shopify OAuth callback (receives authorization code)
 app.get('/api/shopify/oauth/callback', async (req, res) => {
   console.log('🚨 OAUTH CALLBACK HIT!', new Date().toISOString());

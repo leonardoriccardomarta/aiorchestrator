@@ -33,6 +33,11 @@ const ShopifyOAuthButton: React.FC<ShopifyOAuthButtonProps> = ({ onSuccess, onEr
 
       const data = await response.json();
 
+      if (response.status === 403) {
+        // Plan limit reached
+        throw new Error(data.error || 'Connection limit reached. Please upgrade your plan.');
+      }
+
       if (data.success && data.data.installUrl) {
         // Redirect to Shopify OAuth page
         window.location.href = data.data.installUrl;
