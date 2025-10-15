@@ -1592,7 +1592,7 @@ app.post('/api/faqs', authenticateToken, (req, res) => {
 app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
     const { chatbotId } = req.params;
-    const { position, theme, size, title, placeholder, showAvatar } = req.query;
+    const { position, theme, size, title, placeholder, showAvatar, animation, botEmoji } = req.query;
     
     // Get chatbot from database
     const chatbot = await prisma.chatbot.findUnique({
@@ -1604,12 +1604,12 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     }
     
     // Return HTML page with chatbot widget
-    // Get theme colors
+    // Get theme colors with user message colors
     const themes = {
-      blue: { primary: 'from-blue-600 to-blue-700', secondary: 'from-blue-50 to-blue-100', accent: 'bg-blue-600', text: 'text-blue-900', border: 'border-blue-200' },
-      purple: { primary: 'from-purple-600 to-purple-700', secondary: 'from-purple-50 to-purple-100', accent: 'bg-purple-600', text: 'text-purple-900', border: 'border-purple-200' },
-      green: { primary: 'from-green-600 to-green-700', secondary: 'from-green-50 to-green-100', accent: 'bg-green-600', text: 'text-green-900', border: 'border-green-200' },
-      red: { primary: 'from-red-600 to-red-700', secondary: 'from-red-50 to-red-100', accent: 'bg-red-600', text: 'text-red-900', border: 'border-red-200' }
+      blue: { primary: 'from-blue-600 to-blue-700', secondary: 'from-blue-50 to-blue-100', accent: 'bg-blue-600', text: 'text-blue-900', border: 'border-blue-200', userMessage: 'bg-blue-600' },
+      purple: { primary: 'from-purple-600 to-purple-700', secondary: 'from-purple-50 to-purple-100', accent: 'bg-purple-600', text: 'text-purple-900', border: 'border-purple-200', userMessage: 'bg-purple-600' },
+      green: { primary: 'from-green-600 to-green-700', secondary: 'from-green-50 to-green-100', accent: 'bg-green-600', text: 'text-green-900', border: 'border-green-200', userMessage: 'bg-green-600' },
+      red: { primary: 'from-red-600 to-red-700', secondary: 'from-red-50 to-red-100', accent: 'bg-red-600', text: 'text-red-900', border: 'border-red-200', userMessage: 'bg-red-600' }
     };
     
     // Get size classes
@@ -1653,9 +1653,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                 <div class="flex items-center gap-3">
                     ${showAvatar !== 'false' ? `
                         <div class="w-10 h-10 bg-gradient-to-br ${themeColors.primary} rounded-full flex items-center justify-center">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                            </svg>
+                            <span class="text-white text-lg">${botEmoji || '🤖'}</span>
                         </div>
                     ` : ''}
                     <div>
@@ -1690,9 +1688,9 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                 </div>
             </div>
             <div class="mb-4 flex justify-end">
-                <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-blue-600 text-white">
+                <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
                     <div class="text-sm">Hi! Can you help me?</div>
-                    <div class="text-xs mt-1 text-blue-100">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                    <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                 </div>
             </div>
             <div class="flex justify-start mb-4">

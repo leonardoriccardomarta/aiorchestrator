@@ -66,6 +66,8 @@ const Chatbot: React.FC = () => {
   const [widgetTitle, setWidgetTitle] = useState<string>('AI Support');
   const [widgetPlaceholder, setWidgetPlaceholder] = useState<string>('Type your message...');
   const [showWidgetAvatar, setShowWidgetAvatar] = useState<boolean>(true);
+  const [widgetAnimation, setWidgetAnimation] = useState<'fadeIn' | 'slideUp' | 'bounce' | 'scale'>('slideUp');
+  const [botEmoji, setBotEmoji] = useState<string>('🤖');
 
   const createDefaultChatbot = async () => {
     try {
@@ -814,6 +816,8 @@ const Chatbot: React.FC = () => {
   data-placeholder="${widgetPlaceholder}"
   data-show-avatar="${showWidgetAvatar}"
   data-welcome-message="${welcomeMessage}"
+  data-animation="${widgetAnimation}"
+  data-bot-emoji="${botEmoji}"
   defer>
 </script>` : 'Loading chatbot...'}
                   </code>
@@ -832,6 +836,8 @@ const Chatbot: React.FC = () => {
   data-placeholder="${widgetPlaceholder}"
   data-show-avatar="${showWidgetAvatar}"
   data-welcome-message="${welcomeMessage}"
+  data-animation="${widgetAnimation}"
+  data-bot-emoji="${botEmoji}"
   defer>
 </script>` : 'No chatbot available';
                     navigator.clipboard.writeText(code).then(() => alert('Copied to clipboard!')).catch(() => alert('Copy failed'));
@@ -857,18 +863,6 @@ const Chatbot: React.FC = () => {
                       <option value="bottom-left">Bottom Left</option>
                       <option value="top-right">Top Right</option>
                       <option value="top-left">Top Left</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Widget Size</label>
-                    <select 
-                      value={widgetSize}
-                      onChange={(e) => setWidgetSize(e.target.value as any)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="small">Small (280px)</option>
-                      <option value="medium">Medium (384px)</option>
-                      <option value="large">Large (448px)</option>
                     </select>
                   </div>
                   <div>
@@ -909,7 +903,7 @@ const Chatbot: React.FC = () => {
                       value={widgetPlaceholder}
                       onChange={(e) => setWidgetPlaceholder(e.target.value)}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="Type your message..."
+                      placeholder="Enter placeholder text..."
                     />
                   </div>
                   <div className="flex items-center">
@@ -923,6 +917,30 @@ const Chatbot: React.FC = () => {
                     <label htmlFor="showAvatar" className="ml-2 block text-sm text-gray-700">
                       Show Avatar
                     </label>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Bot Emoji</label>
+                    <input
+                      type="text"
+                      value={botEmoji}
+                      onChange={(e) => setBotEmoji(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="🤖"
+                      maxLength={2}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Animation</label>
+                    <select 
+                      value={widgetAnimation}
+                      onChange={(e) => setWidgetAnimation(e.target.value as any)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="slideUp">Slide Up</option>
+                      <option value="fadeIn">Fade In</option>
+                      <option value="bounce">Bounce</option>
+                      <option value="scale">Scale</option>
+                    </select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Widget Size</label>
@@ -959,7 +977,7 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      src={`${API_URL}/public/embed/${currentChatbotId}?position=${widgetPosition}&theme=${widgetTheme}&size=${widgetSize}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&showAvatar=${showWidgetAvatar}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?position=${widgetPosition}&theme=${widgetTheme}&size=${widgetSize}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&showAvatar=${showWidgetAvatar}&animation=${widgetAnimation}&botEmoji=${encodeURIComponent(botEmoji)}`}
                       className="w-full h-[500px] border-0"
                       title="Live Chatbot Preview"
                     />
