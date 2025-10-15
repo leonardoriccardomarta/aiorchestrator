@@ -941,11 +941,7 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
       console.error('❌ Error syncing Shopify data:', error);
     }
 
-    // Get user's first chatbot for this connection
-    const userChatbots = await realDataService.getChatbots(stateData.userId);
-    const firstChatbotId = userChatbots.length > 0 ? userChatbots[0].id : null;
-    
-    // Store connection
+    // Store connection (temporarily without chatbotId until migration is applied)
     const connection = await realDataService.addConnection(stateData.userId, {
       type: 'shopify',
       name: testResult.shop.name,
@@ -958,10 +954,10 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
       revenue: shopifyData.revenue,
       apiKey: accessToken,
       shopId: shop,
-      currency: testResult.shop.currency || 'USD',
-      chatbotId: firstChatbotId  // Associate with first chatbot
+      currency: testResult.shop.currency || 'USD'
+      // chatbotId: firstChatbotId  // Temporarily disabled until migration
     });
-    console.log('✅ Connection stored:', connection.id, 'for chatbot:', firstChatbotId);
+    console.log('✅ Connection stored:', connection.id);
 
     // Redirect back to frontend with success
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5176';
@@ -2606,29 +2602,7 @@ app.post('/api/payments/paypal/confirm-subscription', authenticateToken, async (
 });
 
 // ===== PAYMENTS API =====
-app.post('/api/payments/create-subscription', authenticateToken, (req, res) => {
-  const { planId, cardData, trialDays = 14 } = req.body;
-  
-  // Simulate Stripe subscription creation
-  const subscription = {
-    id: 'sub_' + Date.now(),
-    planId,
-    status: 'trialing',
-    trialEnd: new Date(Date.now() + trialDays * 24 * 60 * 60 * 1000).toISOString(),
-    currentPeriodStart: new Date().toISOString(),
-    currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-    customerId: 'cus_' + Date.now(),
-    priceId: planId === 'starter' ? 'price_starter' : 'price_pro',
-    amount: planId === 'starter' ? 2900 : 9900, // in cents
-    currency: 'usd'
-  };
-  
-  res.json({
-    success: true,
-    data: subscription,
-    message: 'Subscription created successfully. Trial started.'
-  });
-});
+// (Removed duplicate endpoint - using the real Stripe one below)
 
 app.get('/api/payments', authenticateToken, (req, res) => {
   const payments = [
@@ -2969,7 +2943,7 @@ app.patch('/api/chatbots/:chatbotId', authenticateToken, async (req, res) => {
     });
     
     // Update chatbot using RealDataService
-    const chatbot = await realDataService.updateChatbot(userId, chatbotId, updates);
+    const chatbot = await realDataService.updateChatbot(chatbotId, updates);
     
     if (chatbot) {
       res.json({
@@ -3168,7 +3142,7 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
 
     // Check message limits using centralized config
     const userPlanId = user.planId || 'starter';
-    const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
+      const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
     
     // Count messages for current month
     const monthlyMessageCount = await prisma.conversation.count({
@@ -3182,10 +3156,10 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
     
     if (!canSendMessage(userPlanId, monthlyMessageCount)) {
       const plan = getPlan(userPlanId);
-      return res.status(429).json({
-        success: false,
+        return res.status(429).json({
+          success: false,
         error: `Monthly message limit reached. Your ${plan.name} plan allows ${plan.messageLimit} messages/month. Upgrade to continue.`,
-        limitReached: true,
+          limitReached: true,
         currentUsage: monthlyMessageCount,
         limit: plan.messageLimit,
         remaining: Math.max(0, plan.messageLimit - monthlyMessageCount),
