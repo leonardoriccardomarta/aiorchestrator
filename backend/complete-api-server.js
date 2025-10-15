@@ -1047,22 +1047,34 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
         chatbot: selectedChatbot,
         instructions: {
           shopify: [
-            'Go to your Shopify Admin',
-            'Navigate to Online Store → Themes',
-            'Click Actions → Edit code',
-            'Open theme.liquid file',
-            'Paste the code above just before the closing </body> tag',
-            'Click Save',
-            'Your chatbot is now live on your store!'
+            '📋 Step 1: Copy the widget code above',
+            '🏪 Step 2: Go to your Shopify Admin Dashboard',
+            '🎨 Step 3: Navigate to: Online Store → Themes',
+            '⚙️ Step 4: Click "Actions" → "Edit code" (on your active theme)',
+            '📄 Step 5: Find and open "theme.liquid" file (under Layout)',
+            '🔍 Step 6: Scroll to the bottom and find the </body> tag',
+            '📌 Step 7: Paste the code just BEFORE the </body> tag',
+            '💾 Step 8: Click "Save" in the top-right corner',
+            '✅ Done! Visit your store to see the chatbot live!',
+            '',
+            '💡 Pro Tip: Test in incognito mode to see it as customers do',
+            '🎨 Customize colors/text in Chatbot settings page',
+            '🔄 Changes auto-update after you refresh your site'
           ],
           woocommerce: [
-            'Go to your WordPress Admin',
-            'Navigate to Appearance → Theme File Editor',
-            'Select your theme',
-            'Open footer.php or header.php',
-            'Paste the code above just before the closing </body> tag',
-            'Click Update File',
-            'Your chatbot is now live on your store!'
+            '📋 Step 1: Copy the widget code above',
+            '🔐 Step 2: Log in to WordPress Admin Dashboard',
+            '🎨 Step 3: Navigate to: Appearance → Theme File Editor',
+            '⚠️ Step 4: Accept the warning (use child theme for safety)',
+            '📄 Step 5: Select "Theme Footer" (footer.php) from sidebar',
+            '🔍 Step 6: Find the </body> tag (near the bottom)',
+            '📌 Step 7: Paste the code just BEFORE the </body> tag',
+            '💾 Step 8: Click "Update File" button',
+            '✅ Done! Visit your site to see the chatbot live!',
+            '',
+            '💡 Pro Tip: Always backup files before editing',
+            '🎨 Customize colors/text in Chatbot settings page',
+            '🔄 Changes auto-update after you refresh your site'
           ]
         }[connection.platform]
       }
