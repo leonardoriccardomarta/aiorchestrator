@@ -271,6 +271,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             z-index: 999;
             transform: translateY(0);
             transition: transform 0.3s ease;
+            max-height: calc(100vh - 48px);
         }
         .chat-widget.hidden {
             transform: translateY(100%);
@@ -1920,6 +1921,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             z-index: 999;
             transform: translateY(0);
             transition: transform 0.3s ease;
+            max-height: calc(100vh - 48px);
         }
         .chat-widget.hidden {
             transform: translateY(100%);

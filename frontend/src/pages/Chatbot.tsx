@@ -970,11 +970,11 @@ const Chatbot: React.FC = () => {
                   {currentChatbotId ? (
                     <iframe
                       src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}`}
-                      className="w-full h-[500px] border-0"
+                      className="w-full h-[600px] border-0"
                       title="Live Chatbot Preview"
                     />
                   ) : (
-                    <div className="w-full h-[500px] bg-gray-50 flex items-center justify-center">
+                    <div className="w-full h-[600px] bg-gray-50 flex items-center justify-center">
                       <div className="text-center">
                         <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-3 animate-pulse">
                           <Bot className="w-8 h-8 text-white" />
