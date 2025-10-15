@@ -118,11 +118,14 @@ const Dashboard: React.FC = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
+      console.log('🔍 Dashboard: Fetching data...', { selectedChatbotId, chatbotsLength: chatbots.length });
       
       // Fetch real dashboard data from API (filtered by selected chatbot)
       const url = selectedChatbotId 
         ? `${API_URL}/api/dashboard/stats?chatbotId=${selectedChatbotId}`
         : `${API_URL}/api/dashboard/stats`;
+      
+      console.log('📡 Dashboard: API URL:', url);
       
       const response = await fetch(url, {
         headers: {
@@ -130,11 +133,15 @@ const Dashboard: React.FC = () => {
         }
       });
       
+      console.log('📊 Dashboard: Response status:', response.status);
+      
       if (response.ok) {
         const data = await response.json();
+        console.log('📊 Dashboard: API Response:', data);
+        
         if (data.success) {
           setStats({
-            totalChatbots: chatbots.length, // Use actual chatbots count from context
+            totalChatbots: data.data.totalChatbots || chatbots.length, // Use API data first, then context
             totalMessages: data.data.totalMessages || 0,
             activeConnections: data.data.activeConnections || 0,
             totalRevenue: data.data.totalRevenue || 0,
@@ -151,9 +158,10 @@ const Dashboard: React.FC = () => {
           setUserPlan(data.data.planInfo?.planId || 'starter');
         }
       } else {
-        // Fallback to realistic data
+        // Fallback to context data when API fails
+        console.log('Dashboard API failed, using context data');
         setStats({
-          totalChatbots: 0,
+          totalChatbots: chatbots.length,
           totalMessages: 0,
           activeConnections: 0,
           totalRevenue: 0,

@@ -1614,87 +1614,15 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     <style>
         body {
             margin: 0;
-            padding: 20px;
+            padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f9fafb;
-        }
-        .preview-container {
-            max-width: 400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background: #f3f4f6;
+            height: 100vh;
             overflow: hidden;
-        }
-        .preview-header {
-            background: #3B82F6;
-            color: white;
-            padding: 16px;
-            text-align: center;
-        }
-        .preview-content {
-            padding: 20px;
-        }
-        .chat-message {
-            margin-bottom: 12px;
-            padding: 12px;
-            border-radius: 18px;
-            max-width: 80%;
-        }
-        .chat-bot {
-            background: #f3f4f6;
-            color: #1f2937;
-            margin-right: auto;
-        }
-        .chat-user {
-            background: #3B82F6;
-            color: white;
-            margin-left: auto;
-        }
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 12px;
-            background: #f3f4f6;
-            border-radius: 18px;
-            max-width: 80px;
-        }
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: #6b7280;
-            border-radius: 50%;
-            animation: typing 1.4s infinite;
-        }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-10px); }
         }
     </style>
 </head>
 <body>
-    <div class="preview-container">
-        <div class="preview-header">
-            <h3>${chatbot.name}</h3>
-            <p style="margin: 0; font-size: 14px; opacity: 0.9;">AI Assistant Preview</p>
-        </div>
-        <div class="preview-content">
-            <div class="chat-message chat-bot">
-                ${chatbot.welcomeMessage || 'Hello! How can I help you today?'}
-            </div>
-            <div class="chat-message chat-user">
-                Hi! Can you help me?
-            </div>
-            <div class="typing-indicator">
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-            </div>
-        </div>
-    </div>
     
     <!-- Embedded widget with customizations -->
     <script 
