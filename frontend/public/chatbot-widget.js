@@ -816,7 +816,7 @@
     
     // Debug: Check if elements are actually visible
     const toggleButton = document.getElementById('ai-widget-toggle');
-    const chatWidget = document.getElementById('ai-widget');
+    const chatWidget = document.getElementById('ai-widget-chat');
     
     console.log('AI Orchestrator: Toggle button added to page:', toggleButton ? 'YES' : 'NO');
     console.log('AI Orchestrator: Chat widget added to page:', chatWidget ? 'YES' : 'NO');
@@ -839,10 +839,14 @@
       console.log('AI Orchestrator: Chat widget z-index:', chatStyle.zIndex);
     }
     
-    // Ensure maximum z-index for Shopify compatibility
+    // Force correct positioning for Shopify compatibility
     if (toggleButton) {
-      console.log('AI Orchestrator: Setting maximum z-index for Shopify...');
+      console.log('AI Orchestrator: Forcing correct positioning for Shopify...');
+      toggleButton.style.position = 'fixed';
+      toggleButton.style.bottom = '1.5rem';
+      toggleButton.style.right = '1.5rem';
       toggleButton.style.zIndex = '2147483647';
+      console.log('✅ Widget ready! Toggle button position:', window.getComputedStyle(toggleButton).position);
       console.log('✅ Widget ready! Toggle button z-index:', window.getComputedStyle(toggleButton).zIndex);
     }
     } // End of initializeWidget function
