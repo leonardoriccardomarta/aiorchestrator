@@ -4582,120 +4582,74 @@ app.get('/api/shopify/test', (req, res) => {
   res.json({ success: true, message: 'Test endpoint working!' });
 });
 
-// Endpoint per installare automaticamente il widget su Shopify
+// Install widget on existing Shopify connection
 app.post('/api/shopify/install-widget', authenticateToken, async (req, res) => {
-  const { shop, accessToken, chatbotId, config } = req.body;
+  const { connectionId, chatbotId, widgetConfig } = req.body;
+  const user = req.user;
   
   try {
-    console.log(`🚀 Installing widget for shop: ${shop}, chatbot: ${chatbotId}`);
+    console.log(`🚀 Installing widget for connection: ${connectionId}, chatbot: ${chatbotId}`);
     
-    // 1. Genera il codice widget con configurazione dinamica
+    // Get the existing connection
+    const connections = await realDataService.getConnections(user.id);
+    const connection = connections.find(c => c.id === connectionId);
+    
+    if (!connection) {
+      return res.status(404).json({
+        success: false,
+        error: 'Connection not found'
+      });
+    }
+    
+    if (connection.type !== 'shopify') {
+      return res.status(400).json({
+        success: false,
+        error: 'Connection is not a Shopify store'
+      });
+    }
+    
+    // Generate widget code
     const widgetCode = `
 <!-- AI Orchestrator Widget -->
 <script>
   window.AIOrchestratorConfig = {
     chatbotId: '${chatbotId}',
     apiKey: '${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}',
-    theme: '${config.theme || 'teal'}',
-    title: '${config.title || 'AI Support'}',
-    placeholder: '${config.placeholder || 'Type your message...'}',
-    showAvatar: ${config.showAvatar !== false},
-    welcomeMessage: '${config.welcomeMessage || 'Hello! How can I help you today?'}',
-    primaryLanguage: '${config.primaryLanguage || 'en'}',
-    primaryColor: '${config.primaryColor || '#14b8a6'}',
-    primaryDarkColor: '${config.primaryDarkColor || '#0d9488'}',
-    headerLightColor: '${config.headerLightColor || '#14b8a6'}',
-    headerDarkColor: '${config.headerDarkColor || '#0d9488'}',
-    textColor: '${config.textColor || '#1f2937'}',
-    accentColor: '${config.accentColor || '#14b8a6'}'
+    theme: '${widgetConfig.theme || 'teal'}',
+    title: '${widgetConfig.title || 'AI Support'}',
+    placeholder: '${widgetConfig.placeholder || 'Type your message...'}',
+    showAvatar: ${widgetConfig.showAvatar !== false},
+    welcomeMessage: '${widgetConfig.welcomeMessage || 'Hello! How can I help you today?'}',
+    primaryLanguage: '${widgetConfig.primaryLanguage || 'en'}',
+    primaryColor: '${widgetConfig.primaryColor || '#14b8a6'}',
+    primaryDarkColor: '${widgetConfig.primaryDarkColor || '#0d9488'}',
+    headerLightColor: '${widgetConfig.headerLightColor || '#14b8a6'}',
+    headerDarkColor: '${widgetConfig.headerDarkColor || '#0d9488'}',
+    textColor: '${widgetConfig.textColor || '#1f2937'}',
+    accentColor: '${widgetConfig.accentColor || '#14b8a6'}'
   };
 </script>
 <script src="https://www.aiorchestrator.dev/shopify-app-widget.js" defer></script>`;
 
-    // 2. Inietta nel theme.liquid
-    await injectWidgetIntoTheme(shop, accessToken, widgetCode);
+    // Install widget in theme
+    await injectWidgetIntoTheme(connection.url, connection.apiKey, widgetCode);
     
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: 'Widget installato con successo!',
       widgetCode: widgetCode
     });
+    
   } catch (error) {
-    console.error('❌ Errore installazione widget:', error);
-    res.status(500).json({ error: error.message });
+    console.error('❌ Widget installation error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
   }
 });
 
-// Funzione per iniettare il widget nel tema
-async function injectWidgetIntoTheme(shop, accessToken, widgetCode) {
-  try {
-    console.log(`🔧 Injecting widget into theme for shop: ${shop}`);
-    
-    // 1. Ottieni il tema attivo
-    const themesResponse = await fetch(`https://${shop}.myshopify.com/admin/api/2023-10/themes.json`, {
-      headers: { 'X-Shopify-Access-Token': accessToken }
-    });
-    const themes = await themesResponse.json();
-    const activeTheme = themes.themes.find(t => t.role === 'main');
-    
-    if (!activeTheme) {
-      throw new Error('Nessun tema attivo trovato');
-    }
-    
-    console.log(`📋 Found active theme: ${activeTheme.name} (ID: ${activeTheme.id})`);
-    
-    // 2. Leggi il theme.liquid
-    const themeResponse = await fetch(
-      `https://${shop}.myshopify.com/admin/api/2023-10/themes/${activeTheme.id}/assets.json?asset[key]=layout/theme.liquid`,
-      { headers: { 'X-Shopify-Access-Token': accessToken } }
-    );
-    const themeData = await themeResponse.json();
-    
-    if (!themeData.asset) {
-      throw new Error('Impossibile leggere theme.liquid');
-    }
-    
-    // 3. Controlla se il widget è già presente
-    if (themeData.asset.value.includes('AI Orchestrator Widget')) {
-      throw new Error('Widget già installato');
-    }
-    
-    // 4. Aggiungi il widget prima di </body>
-    const updatedTheme = themeData.asset.value.replace(
-      '</body>',
-      `\n${widgetCode}\n</body>`
-    );
-    
-    // 5. Salva il tema aggiornato
-    const updateResponse = await fetch(
-      `https://${shop}.myshopify.com/admin/api/2023-10/themes/${activeTheme.id}/assets.json`,
-      {
-        method: 'PUT',
-        headers: { 
-          'X-Shopify-Access-Token': accessToken,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          asset: {
-            key: 'layout/theme.liquid',
-            value: updatedTheme
-          }
-        })
-      }
-    );
-    
-    if (!updateResponse.ok) {
-      const errorText = await updateResponse.text();
-      throw new Error(`Errore durante il salvataggio del tema: ${errorText}`);
-    }
-    
-    console.log(`✅ Widget installato con successo in ${shop}`);
-    
-  } catch (error) {
-    console.error('❌ Errore installazione widget:', error);
-    throw error;
-  }
-}
+// Duplicate endpoint removed - using the one above
 
 // Start server
 app.listen(PORT, () => {
