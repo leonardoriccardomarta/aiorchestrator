@@ -1429,6 +1429,7 @@ app.post('/api/shopify/connect', authenticateToken, async (req, res) => {
 app.post('/api/shopify/sync/:connectionId', authenticateToken, async (req, res) => {
   try {
     const { connectionId } = req.params;
+    const { installWidget, chatbotId, widgetConfig } = req.body;
     const user = req.user;
     
     const connection = await realDataService.getConnection(user.id, connectionId);
@@ -1439,26 +1440,71 @@ app.post('/api/shopify/sync/:connectionId', authenticateToken, async (req, res) 
       });
     }
 
-    // Simulate data sync
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call delay
+    // Install widget if requested
+    if (installWidget && chatbotId && widgetConfig) {
+      try {
+        console.log(`🚀 Installing widget for connection: ${connectionId}, chatbot: ${chatbotId}`);
+        
+        const widgetCode = `
+<!-- AI Orchestrator Widget -->
+<script>
+  window.AIOrchestratorConfig = {
+    chatbotId: '${chatbotId}',
+    apiKey: '${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}',
+    theme: '${widgetConfig.theme || 'teal'}',
+    title: '${widgetConfig.title || 'AI Support'}',
+    placeholder: '${widgetConfig.placeholder || 'Type your message...'}',
+    showAvatar: ${widgetConfig.showAvatar !== false},
+    welcomeMessage: '${widgetConfig.welcomeMessage || 'Hello! How can I help you today?'}',
+    primaryLanguage: '${widgetConfig.primaryLanguage || 'en'}',
+    primaryColor: '${widgetConfig.primaryColor || '#14b8a6'}',
+    primaryDarkColor: '${widgetConfig.primaryDarkColor || '#0d9488'}',
+    headerLightColor: '${widgetConfig.headerLightColor || '#14b8a6'}',
+    headerDarkColor: '${widgetConfig.headerDarkColor || '#0d9488'}',
+    textColor: '${widgetConfig.textColor || '#1f2937'}',
+    accentColor: '${widgetConfig.accentColor || '#14b8a6'}'
+  };
+</script>
+<script src="https://www.aiorchestrator.dev/shopify-app-widget.js" defer></script>`;
 
-    // Update connection with mock data for now
-    const updatedConnection = await realDataService.updateConnection(user.id, connectionId, {
-      lastSync: new Date().toISOString(),
-      productsCount: Math.floor(Math.random() * 1000),
-      ordersCount: Math.floor(Math.random() * 500),
-      customersCount: Math.floor(Math.random() * 200),
-      revenue: parseFloat((Math.random() * 10000).toFixed(2)),
-      monthlyRevenue: parseFloat((Math.random() * 2000).toFixed(2))
-    });
-
-    res.json({
-      success: true,
-      data: {
-        connection: updatedConnection,
-        message: 'Shopify data synced successfully!'
+        await injectWidgetIntoTheme(connection.url, connection.apiKey, widgetCode);
+        
+        res.json({
+          success: true,
+          data: {
+            connection: connection,
+            message: 'Widget installato con successo!',
+            widgetInstalled: true
+          }
+        });
+      } catch (widgetError) {
+        console.error('❌ Widget installation error:', widgetError);
+        res.status(500).json({
+          success: false,
+          error: 'Widget installation failed: ' + widgetError.message
+        });
       }
-    });
+    } else {
+      // Normal sync operation
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call delay
+
+      const updatedConnection = await realDataService.updateConnection(user.id, connectionId, {
+        lastSync: new Date().toISOString(),
+        productsCount: Math.floor(Math.random() * 1000),
+        ordersCount: Math.floor(Math.random() * 500),
+        customersCount: Math.floor(Math.random() * 200),
+        revenue: parseFloat((Math.random() * 10000).toFixed(2)),
+        monthlyRevenue: parseFloat((Math.random() * 2000).toFixed(2))
+      });
+
+      res.json({
+        success: true,
+        data: {
+          connection: updatedConnection,
+          message: 'Shopify data synced successfully!'
+        }
+      });
+    }
   } catch (error) {
     console.error('Shopify sync error:', error);
     res.status(500).json({
