@@ -152,6 +152,11 @@ const allowedOrigins = [
   'http://localhost:5173', 
   'http://localhost:5177',
   process.env.FRONTEND_URL, // Production frontend URL
+  // Allow all Shopify stores
+  /^https:\/\/[a-zA-Z0-9-]+\.myshopify\.com$/,
+  /^https:\/\/[a-zA-Z0-9-]+\.myshopify\.io$/,
+  // Allow all domains for widget (temporary for testing)
+  /^https:\/\/.*$/
 ].filter(Boolean); // Remove undefined values
 
 app.use(cors({
@@ -159,7 +164,18 @@ app.use(cors({
     // Allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.includes(origin)) {
+    // Check if origin matches any allowed origin (string or regex)
+    const isAllowed = allowedOrigins.some(allowedOrigin => {
+      if (typeof allowedOrigin === 'string') {
+        return allowedOrigin === origin;
+      } else if (allowedOrigin instanceof RegExp) {
+        return allowedOrigin.test(origin);
+      }
+      return false;
+    });
+    
+    if (isAllowed) {
+      console.log(`✅ CORS allowed origin: ${origin}`);
       callback(null, true);
     } else {
       console.warn(`⚠️  CORS blocked origin: ${origin}`);

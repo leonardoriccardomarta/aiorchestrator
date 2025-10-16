@@ -13,12 +13,32 @@
     console.log('✅ Tailwind CSS CDN injected');
   }
 
-  // Wait for DOM to be ready (Shopify compatibility)
+  // Wait for DOM AND Tailwind to be ready
   function waitForDOM(callback) {
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', callback);
+      document.addEventListener('DOMContentLoaded', () => waitForTailwind(callback));
     } else {
+      waitForTailwind(callback);
+    }
+  }
+
+  function waitForTailwind(callback) {
+    // Check if Tailwind is loaded by testing a utility class
+    const testEl = document.createElement('div');
+    testEl.className = 'fixed';
+    testEl.style.position = 'absolute';
+    testEl.style.top = '-9999px';
+    document.body.appendChild(testEl);
+    
+    const isLoaded = window.getComputedStyle(testEl).position === 'fixed';
+    document.body.removeChild(testEl);
+    
+    if (isLoaded) {
+      console.log('✅ Tailwind CSS is ready');
       callback();
+    } else {
+      console.log('⏳ Waiting for Tailwind CSS...');
+      setTimeout(() => waitForTailwind(callback), 100);
     }
   }
 
