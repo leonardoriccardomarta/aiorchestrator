@@ -1128,20 +1128,27 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
     // Generate different widget code based on platform
     let widgetCode;
     if (connection.platform === 'shopify') {
-      // For Shopify, use simple widget that creates elements directly in DOM
-      widgetCode = `<!-- AI Orchestrator Simple Widget for Shopify -->
-<script 
-  src="https://www.aiorchestrator.dev/shopify-widget-simple.js"
-  data-chatbot-id="${chatbotId}"
-  data-api-key="${apiUrl}"
-  data-theme="${settings.theme || 'teal'}"
-  data-title="${settings.title || selectedChatbot?.name || 'AI Support'}"
-  data-placeholder="${settings.placeholder || 'Type your message...'}"
-  data-show-avatar="${settings.showAvatar !== false}"
-  data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"
-  data-primary-language="${selectedChatbot?.language || 'auto'}"
-  defer>
-</script>`;
+      // For Shopify, use GTM approach with iframe isolation
+      widgetCode = `<!-- AI Orchestrator GTM Widget for Shopify -->
+<!-- Step 1: Add this to your theme.liquid <head> section -->
+<script>
+  window.AIOrchestratorConfig = {
+    chatbotId: '${chatbotId}',
+    apiKey: '${apiUrl}',
+    theme: '${settings.theme || 'teal'}',
+    title: '${settings.title || selectedChatbot?.name || 'AI Support'}',
+    placeholder: '${settings.placeholder || 'Type your message...'}',
+    showAvatar: ${settings.showAvatar !== false},
+    welcomeMessage: '${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}',
+    primaryLanguage: '${selectedChatbot?.language || 'auto'}'
+  };
+</script>
+
+<!-- Step 2: Add this script before closing </body> tag -->
+<script src="https://www.aiorchestrator.dev/gtm-widget.js" defer></script>
+
+<!-- Alternative: If you prefer Google Tag Manager, add this instead of the script above -->
+<!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-XXXXXX');</script> -->`;
     } else {
       // For other platforms, use standard chatbot-widget.js
       widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
