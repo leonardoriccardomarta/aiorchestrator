@@ -1316,18 +1316,8 @@
             accentColor: urlParams.get('accentColor') || 'rgb(34 197 94)'
         };
 
-        // Apply configuration
-        const titleElement = document.querySelector('.title');
-        if (titleElement) titleElement.textContent = config.title;
-        
-        const welcomeMessageElement = document.getElementById('welcomeMessage');
-        if (welcomeMessageElement) welcomeMessageElement.textContent = config.welcomeMessage;
-        
-        const messageInputElement = document.getElementById('messageInput');
-        if (messageInputElement) messageInputElement.placeholder = config.placeholder;
-        
-        const welcomeTimeElement = document.getElementById('welcomeTime');
-        if (welcomeTimeElement) welcomeTimeElement.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        // Apply initial configuration
+        applyConfiguration();
 
         // Apply dynamic theme colors
         function applyThemeColors() {
@@ -1371,10 +1361,46 @@
 
         // Apply theme colors
         applyThemeColors();
+        
+        // Apply configuration
+        function applyConfiguration() {
+            const titleElement = document.querySelector('.title');
+            if (titleElement) titleElement.textContent = config.title;
+            
+            const welcomeMessageElement = document.getElementById('welcomeMessage');
+            if (welcomeMessageElement) welcomeMessageElement.textContent = config.welcomeMessage;
+            
+            const messageInputElement = document.getElementById('messageInput');
+            if (messageInputElement) messageInputElement.placeholder = config.placeholder;
+            
+            const welcomeTimeElement = document.getElementById('welcomeTime');
+            if (welcomeTimeElement) welcomeTimeElement.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
 
         // Widget state
         let isOpen = false;
         let conversationHistory = [];
+        
+        // Listen for messages from parent window
+        window.addEventListener('message', function(event) {
+            const { action, config: parentConfig } = event.data;
+            
+            if (action === 'init' && parentConfig) {
+                // Update configuration from parent
+                Object.assign(config, parentConfig);
+                
+                // Apply updated configuration
+                applyConfiguration();
+                applyThemeColors();
+            }
+        });
+        
+        // Send messages to parent window
+        function sendToParent(action, data = {}) {
+            if (window.parent) {
+                window.parent.postMessage({ action, data }, '*');
+            }
+        }
 
         // Elements
         const toggleButton = document.getElementById('toggleButton');
@@ -1392,10 +1418,12 @@
                 toggleButton.style.display = 'none';
                 isOpen = true;
                 messageInput.focus();
+                sendToParent('toggleWidget', { isOpen: true });
             } else {
                 chatWidget.style.display = 'none';
                 toggleButton.style.display = 'flex';
                 isOpen = false;
+                sendToParent('toggleWidget', { isOpen: false });
             }
         }
 
@@ -1404,6 +1432,7 @@
             chatWidget.style.display = 'none';
             toggleButton.style.display = 'flex';
             isOpen = false;
+            sendToParent('closeWidget', { isOpen: false });
         }
 
         // Minimize widget
@@ -1411,6 +1440,7 @@
             chatWidget.style.display = 'none';
             toggleButton.style.display = 'flex';
             isOpen = false;
+            sendToParent('minimizeWidget', { isOpen: false });
         }
 
         // Send message

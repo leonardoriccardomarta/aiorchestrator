@@ -292,10 +292,57 @@
       setTimeout(() => {
         iframe.style.pointerEvents = 'auto';
         iframeContainer.style.pointerEvents = 'auto';
+        
+        // Set up communication with iframe
+        setupIframeCommunication(iframe);
       }, 1000);
     };
 
     console.log('AI Orchestrator: Shopify iframe widget initialized!');
+  }
+
+  // Set up communication with iframe for toggle functionality
+  function setupIframeCommunication(iframe) {
+    // Listen for messages from iframe
+    window.addEventListener('message', function(event) {
+      // Check if message is from our iframe
+      if (event.source !== iframe.contentWindow) return;
+      
+      const { action, data } = event.data;
+      
+      switch (action) {
+        case 'toggleWidget':
+          // Toggle the iframe visibility
+          if (iframe.style.display === 'none') {
+            iframe.style.display = 'block';
+          } else {
+            iframe.style.display = 'none';
+          }
+          break;
+        case 'closeWidget':
+          iframe.style.display = 'none';
+          break;
+        case 'minimizeWidget':
+          iframe.style.display = 'none';
+          break;
+      }
+    });
+    
+    // Send initial configuration to iframe
+    iframe.contentWindow.postMessage({
+      action: 'init',
+      config: {
+        chatbotId: config.chatbotId,
+        apiKey: config.apiKey,
+        theme: config.theme,
+        title: config.title,
+        welcomeMessage: config.welcomeMessage,
+        placeholder: config.placeholder,
+        showAvatar: config.showAvatar,
+        primaryLanguage: config.primaryLanguage,
+        themeColors: config.themeColors
+      }
+    }, '*');
   }
 
   // Load standard widget for other platforms
