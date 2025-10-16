@@ -261,7 +261,7 @@
     `;
 
     // Build iframe URL with parameters
-    const iframeUrl = new URL('https://www.aiorchestrator.dev/shopify-widget.html');
+    const iframeUrl = new URL('https://www.aiorchestrator.dev/shopify-widget-clean.html');
     iframeUrl.searchParams.set('chatbotId', config.chatbotId);
     iframeUrl.searchParams.set('apiKey', config.apiKey);
     iframeUrl.searchParams.set('theme', config.theme);

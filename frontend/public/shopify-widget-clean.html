@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot Widget</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: transparent;
+            overflow: hidden;
+        }
+
+        /* Widget Container */
+        #ai-orchestrator-widget-container {
+            position: fixed !important;
+            bottom: 1.5rem !important;
+            right: 1.5rem !important;
+            z-index: 999999999 !important;
+            width: auto !important;
+            height: auto !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+            background: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        }
+
+        /* Toggle Button */
+        #toggleButton {
+            width: 4rem !important;
+            height: 4rem !important;
+            border-radius: 50% !important;
+            background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
+            border: none !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            transition: transform 0.2s ease !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            outline: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-size: 1rem !important;
+            font-weight: normal !important;
+            line-height: 1 !important;
+            color: white !important;
+            text-decoration: none !important;
+            text-align: center !important;
+            vertical-align: middle !important;
+            white-space: nowrap !important;
+            overflow: visible !important;
+            box-sizing: border-box !important;
+            transform: none !important;
+            animation: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            z-index: 999999999 !important;
+        }
+        
+        #toggleButton:hover {
+            transform: scale(1.1) !important;
+        }
+
+        /* Chat Widget */
+        #chatWidget {
+            width: 24rem !important;
+            height: 32rem !important;
+            background: white !important;
+            border-radius: 1rem !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+            border: 1px solid rgb(229 231 235) !important;
+            overflow: hidden !important;
+            position: fixed !important;
+            bottom: 6rem !important;
+            right: 1.5rem !important;
+            z-index: 999999998 !important;
+            display: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            outline: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-size: 1rem !important;
+            font-weight: normal !important;
+            line-height: 1.5 !important;
+            color: rgb(17 24 39) !important;
+            text-decoration: none !important;
+            text-align: left !important;
+            vertical-align: baseline !important;
+            white-space: normal !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+            transition: none !important;
+            animation: none !important;
+            box-sizing: border-box !important;
+        }
+        
+        #chatWidget.show {
+            display: block !important;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, rgb(153 246 228), rgb(94 234 212)) !important;
+            border-bottom: 2px solid rgb(153 246 228) !important;
+            padding: 1rem !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            margin: 0 !important;
+            border: none !important;
+            outline: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-size: 1rem !important;
+            font-weight: normal !important;
+            line-height: 1.5 !important;
+            color: rgb(19 78 74) !important;
+            text-decoration: none !important;
+            text-align: left !important;
+            vertical-align: baseline !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            position: relative !important;
+            z-index: 1 !important;
+            width: 100% !important;
+            height: auto !important;
+            min-height: auto !important;
+            max-height: none !important;
+            box-sizing: border-box !important;
+        }
+        
+        .header-left {
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.75rem !important;
+        }
+        
+        .avatar {
+            width: 2.5rem !important;
+            height: 2.5rem !important;
+            background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        .title {
+            font-weight: 700 !important;
+            color: rgb(19 78 74) !important;
+            font-size: 1rem !important;
+            line-height: 1.25rem !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+            outline: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            text-decoration: none !important;
+            text-align: left !important;
+            vertical-align: baseline !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            position: relative !important;
+            z-index: 1 !important;
+            width: auto !important;
+            height: auto !important;
+            min-height: auto !important;
+            max-height: none !important;
+            box-sizing: border-box !important;
+            background: none !important;
+            box-shadow: none !important;
+            transform: none !important;
+            transition: none !important;
+            animation: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        .status {
+            font-size: 0.75rem !important;
+            color: rgb(75 85 99) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.25rem !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+            outline: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-weight: normal !important;
+            line-height: 1 !important;
+            text-decoration: none !important;
+            text-align: left !important;
+            vertical-align: baseline !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            position: relative !important;
+            z-index: 1 !important;
+            width: auto !important;
+            height: auto !important;
+            min-height: auto !important;
+            max-height: none !important;
+            box-sizing: border-box !important;
+            background: none !important;
+            box-shadow: none !important;
+            transform: none !important;
+            transition: none !important;
+            animation: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        .status-dot {
+            width: 0.5rem !important;
+            height: 0.5rem !important;
+            background: rgb(34 197 94) !important;
+            border-radius: 50% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+            outline: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-size: 1rem !important;
+            font-weight: normal !important;
+            line-height: 1 !important;
+            color: transparent !important;
+            text-decoration: none !important;
+            text-align: left !important;
+            vertical-align: baseline !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            position: relative !important;
+            z-index: 1 !important;
+            min-width: 0.5rem !important;
+            min-height: 0.5rem !important;
+            max-width: 0.5rem !important;
+            max-height: 0.5rem !important;
+            box-sizing: border-box !important;
+            box-shadow: none !important;
+            transform: none !important;
+            transition: none !important;
+            animation: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        .header-right {
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+        }
+        
+        .header-button {
+            color: rgb(75 85 99) !important;
+            background: none !important;
+            border: none !important;
+            padding: 0.5rem !important;
+            border-radius: 0.5rem !important;
+            cursor: pointer !important;
+            transition: background-color 0.2s ease !important;
+        }
+        
+        .header-button:hover {
+            background: rgb(229 231 235) !important;
+        }
+
+        /* Messages area */
+        #messagesContainer {
+            height: 24rem !important;
+            overflow-y: auto !important;
+            padding: 1rem !important;
+            background: rgb(249 250 251) !important;
+            margin: 0 !important;
+            border: none !important;
+            outline: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-size: 1rem !important;
+            font-weight: normal !important;
+            line-height: 1.5 !important;
+            color: rgb(17 24 39) !important;
+            text-decoration: none !important;
+            text-align: left !important;
+            vertical-align: baseline !important;
+            white-space: normal !important;
+            position: relative !important;
+            z-index: 1 !important;
+            width: 100% !important;
+            min-height: 24rem !important;
+            max-height: 24rem !important;
+            box-sizing: border-box !important;
+            box-shadow: none !important;
+            transform: none !important;
+            transition: none !important;
+            animation: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        #messagesContainer::-webkit-scrollbar {
+            width: 6px !important;
+        }
+        #messagesContainer::-webkit-scrollbar-track {
+            background: #f1f1f1 !important;
+            border-radius: 3px !important;
+        }
+        #messagesContainer::-webkit-scrollbar-thumb {
+            background: #c1c1c1 !important;
+            border-radius: 3px !important;
+        }
+        #messagesContainer::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1 !important;
+        }
+
+        /* Input area */
+        .input-area {
+            padding: 1rem !important;
+            background: white !important;
+            border-top: 1px solid rgb(229 231 235) !important;
+            display: flex !important;
+            gap: 0.5rem !important;
+            margin: 0 !important;
+            border: none !important;
+            outline: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-size: 1rem !important;
+            font-weight: normal !important;
+            line-height: 1.5 !important;
+            color: rgb(17 24 39) !important;
+            text-decoration: none !important;
+            text-align: left !important;
+            vertical-align: baseline !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            position: relative !important;
+            z-index: 1 !important;
+            width: 100% !important;
+            height: auto !important;
+            min-height: auto !important;
+            max-height: none !important;
+            box-sizing: border-box !important;
+            box-shadow: none !important;
+            transform: none !important;
+            transition: none !important;
+            animation: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        #messageInput {
+            flex: 1 !important;
+            padding: 0.75rem 1rem !important;
+            border: 1px solid rgb(209 213 219) !important;
+            border-radius: 0.5rem !important;
+            font-size: 0.875rem !important;
+            line-height: 1.25rem !important;
+            outline: none !important;
+            background: white !important;
+            margin: 0 !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-weight: normal !important;
+            color: rgb(17 24 39) !important;
+            text-decoration: none !important;
+            text-align: left !important;
+            vertical-align: baseline !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            position: relative !important;
+            z-index: 1 !important;
+            width: auto !important;
+            height: auto !important;
+            min-height: auto !important;
+            max-height: none !important;
+            box-sizing: border-box !important;
+            box-shadow: none !important;
+            transform: none !important;
+            transition: none !important;
+            animation: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        #messageInput:focus {
+            border-color: rgb(13 148 136) !important;
+            box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2) !important;
+        }
+        
+        #sendButton {
+            background: rgb(13 148 136) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 0.5rem !important;
+            padding: 0.75rem 1rem !important;
+            cursor: pointer !important;
+            transition: opacity 0.2s ease !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            min-width: 3rem !important;
+            height: 2.75rem !important;
+            margin: 0 !important;
+            outline: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-size: 1rem !important;
+            font-weight: normal !important;
+            line-height: 1 !important;
+            text-decoration: none !important;
+            text-align: center !important;
+            vertical-align: middle !important;
+            white-space: nowrap !important;
+            overflow: visible !important;
+            position: relative !important;
+            z-index: 1 !important;
+            width: auto !important;
+            min-height: 2.75rem !important;
+            max-height: 2.75rem !important;
+            box-sizing: border-box !important;
+            box-shadow: none !important;
+            transform: none !important;
+            animation: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        #sendButton:hover {
+            opacity: 0.9 !important;
+        }
+        
+        #sendButton svg {
+            width: 1.25rem !important;
+            height: 1.25rem !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+            outline: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-size: 1rem !important;
+            font-weight: normal !important;
+            line-height: 1 !important;
+            color: white !important;
+            text-decoration: none !important;
+            text-align: center !important;
+            vertical-align: middle !important;
+            white-space: nowrap !important;
+            overflow: visible !important;
+            position: relative !important;
+            z-index: 1 !important;
+            min-width: 1.25rem !important;
+            min-height: 1.25rem !important;
+            max-width: 1.25rem !important;
+            max-height: 1.25rem !important;
+            box-sizing: border-box !important;
+            box-shadow: none !important;
+            transform: none !important;
+            transition: none !important;
+            animation: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="ai-orchestrator-widget-container">
+        <!-- Toggle Button -->
+        <button id="toggleButton">
+            <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+            <div class="status-dot"></div>
+        </button>
+
+        <!-- Chat Widget -->
+        <div id="chatWidget">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <div class="avatar">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="title" id="chatTitle">My AI</div>
+                        <div class="status">
+                            <div class="status-dot"></div>
+                            Online 24/7
+                            <span class="language-badge" style="
+                                background: rgb(229 231 235) !important;
+                                color: rgb(75 85 99) !important;
+                                padding: 0.125rem 0.375rem !important;
+                                border-radius: 0.25rem !important;
+                                font-size: 0.625rem !important;
+                                font-weight: 500 !important;
+                                margin-left: 0.5rem !important;
+                            ">EN</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-button" id="minimizeButton">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                        </svg>
+                    </button>
+                    <button class="header-button" id="closeButton">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages Container -->
+            <div id="messagesContainer">
+                <div style="font-size: 0.875rem; line-height: 1.25rem;" id="welcomeMessage">Hello! I'm your ai</div>
+                <div style="font-size: 0.75rem; margin-top: 0.25rem; color: rgb(107 114 128);" id="welcomeTime">17:25</div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <input
+                    id="messageInput"
+                    type="text"
+                    placeholder="Type your id"
+                    style="
+                        flex: 1 !important;
+                        padding: 0.75rem 1rem !important;
+                        border: 1px solid rgb(209 213 219) !important;
+                        border-radius: 0.5rem !important;
+                        font-size: 0.875rem !important;
+                        line-height: 1.25rem !important;
+                        outline: none !important;
+                        background: white !important;
+                        margin: 0 !important;
+                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                        font-weight: normal !important;
+                        color: rgb(17 24 39) !important;
+                        text-decoration: none !important;
+                        text-align: left !important;
+                        vertical-align: baseline !important;
+                        white-space: normal !important;
+                        overflow: visible !important;
+                        position: relative !important;
+                        z-index: 1 !important;
+                        width: auto !important;
+                        height: auto !important;
+                        min-height: auto !important;
+                        max-height: none !important;
+                        box-sizing: border-box !important;
+                        box-shadow: none !important;
+                        transform: none !important;
+                        transition: none !important;
+                        animation: none !important;
+                        opacity: 1 !important;
+                        visibility: visible !important;
+                    "
+                />
+                <button id="sendButton">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Parse URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const config = {
+            chatbotId: urlParams.get('chatbotId') || 'default',
+            apiKey: urlParams.get('apiKey') || 'demo-key',
+            theme: urlParams.get('theme') || 'teal',
+            title: urlParams.get('title') || 'My AI',
+            welcomeMessage: urlParams.get('welcomeMessage') || 'Hello! I\'m your ai',
+            placeholder: urlParams.get('placeholder') || 'Type your id',
+            showAvatar: urlParams.get('showAvatar') !== 'false',
+            primaryLanguage: urlParams.get('primaryLanguage') || 'en',
+            // Theme colors
+            primaryColor: urlParams.get('primaryColor') || 'rgb(13 148 136)',
+            primaryDarkColor: urlParams.get('primaryDarkColor') || 'rgb(15 118 110)',
+            headerLightColor: urlParams.get('headerLightColor') || 'rgb(153 246 228)',
+            headerDarkColor: urlParams.get('headerDarkColor') || 'rgb(94 234 212)',
+            textColor: urlParams.get('textColor') || 'rgb(19 78 74)',
+            accentColor: urlParams.get('accentColor') || 'rgb(34 197 94)'
+        };
+
+        // Apply configuration
+        function applyConfiguration() {
+            const titleElement = document.querySelector('.title');
+            if (titleElement) titleElement.textContent = config.title;
+            
+            const welcomeMessageElement = document.getElementById('welcomeMessage');
+            if (welcomeMessageElement) welcomeMessageElement.textContent = config.welcomeMessage;
+            
+            const messageInputElement = document.getElementById('messageInput');
+            if (messageInputElement) messageInputElement.placeholder = config.placeholder;
+            
+            const welcomeTimeElement = document.getElementById('welcomeTime');
+            if (welcomeTimeElement) welcomeTimeElement.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Apply theme colors
+        function applyThemeColors() {
+            // Toggle button colors
+            const toggleButton = document.getElementById('toggleButton');
+            if (toggleButton) {
+                toggleButton.style.background = `linear-gradient(135deg, ${config.primaryColor}, ${config.primaryDarkColor})`;
+            }
+
+            // Header colors
+            const header = document.querySelector('.header');
+            if (header) {
+                header.style.background = `linear-gradient(135deg, ${config.headerLightColor}, ${config.headerDarkColor})`;
+            }
+
+            // Avatar colors
+            const avatar = document.querySelector('.avatar');
+            if (avatar) {
+                avatar.style.background = `linear-gradient(135deg, ${config.primaryColor}, ${config.primaryDarkColor})`;
+            }
+
+            // Title color
+            const titleElement = document.querySelector('.title');
+            if (titleElement) {
+                titleElement.style.color = config.textColor;
+            }
+
+            // Send button color
+            const sendButton = document.getElementById('sendButton');
+            if (sendButton) {
+                sendButton.style.background = config.primaryColor;
+            }
+
+            // Input focus color
+            const messageInputElement = document.getElementById('messageInput');
+            if (messageInputElement) {
+                messageInputElement.addEventListener('focus', function() {
+                    this.style.borderColor = config.primaryColor;
+                    this.style.boxShadow = `0 0 0 2px ${config.primaryColor.replace('rgb', 'rgba').replace(')', ', 0.2)')}`;
+                });
+            }
+        }
+
+        // Apply initial configuration
+        applyConfiguration();
+        applyThemeColors();
+
+        // Widget state
+        let isOpen = false;
+        let conversationHistory = [];
+        
+        // Listen for messages from parent window
+        window.addEventListener('message', function(event) {
+            const { action, config: parentConfig } = event.data;
+            
+            if (action === 'init' && parentConfig) {
+                // Update configuration from parent
+                Object.assign(config, parentConfig);
+                
+                // Apply updated configuration
+                applyConfiguration();
+                applyThemeColors();
+            }
+        });
+        
+        // Send messages to parent window
+        function sendToParent(action, data = {}) {
+            if (window.parent) {
+                window.parent.postMessage({ action, data }, '*');
+            }
+        }
+
+        // Elements
+        const chatWidget = document.getElementById('chatWidget');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const closeButton = document.getElementById('closeButton');
+        const minimizeButton = document.getElementById('minimizeButton');
+
+        // Close widget
+        function closeWidget() {
+            chatWidget.style.display = 'none';
+            isOpen = false;
+            sendToParent('closeWidget', { isOpen: false });
+        }
+
+        // Minimize widget
+        function minimizeWidget() {
+            chatWidget.style.display = 'none';
+            isOpen = false;
+            sendToParent('minimizeWidget', { isOpen: false });
+        }
+
+        // Send message
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Add user message to conversation
+            conversationHistory.push({ role: 'user', content: message });
+            
+            // Add user message to UI
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.style.cssText = `
+                margin-bottom: 1rem !important;
+                display: flex !important;
+                justify-content: flex-end !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                outline: none !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-size: 1rem !important;
+                font-weight: normal !important;
+                line-height: 1.5 !important;
+                color: rgb(17 24 39) !important;
+                text-decoration: none !important;
+                text-align: left !important;
+                vertical-align: baseline !important;
+                white-space: normal !important;
+                overflow: visible !important;
+                position: relative !important;
+                z-index: 1 !important;
+                width: auto !important;
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
+                box-sizing: border-box !important;
+                background: none !important;
+                box-shadow: none !important;
+                transform: none !important;
+                transition: none !important;
+                animation: none !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+            `;
+            
+            const userBubble = document.createElement('div');
+            userBubble.style.cssText = `
+                background: ${config.primaryColor} !important;
+                color: white !important;
+                padding: 0.75rem 1rem !important;
+                border-radius: 1rem 1rem 0.25rem 1rem !important;
+                max-width: 80% !important;
+                word-wrap: break-word !important;
+                margin: 0 !important;
+                padding: 0.75rem 1rem !important;
+                border: none !important;
+                outline: none !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-size: 0.875rem !important;
+                font-weight: normal !important;
+                line-height: 1.25rem !important;
+                text-decoration: none !important;
+                text-align: left !important;
+                vertical-align: baseline !important;
+                white-space: normal !important;
+                overflow: visible !important;
+                position: relative !important;
+                z-index: 1 !important;
+                width: auto !important;
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
+                box-sizing: border-box !important;
+                box-shadow: none !important;
+                transform: none !important;
+                transition: none !important;
+                animation: none !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+            `;
+            userBubble.textContent = message;
+            userMessageDiv.appendChild(userBubble);
+            messagesContainer.appendChild(userMessageDiv);
+            
+            // Clear input
+            messageInput.value = '';
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Show typing indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.style.cssText = `
+                margin-bottom: 1rem !important;
+                display: flex !important;
+                justify-content: flex-start !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                outline: none !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-size: 1rem !important;
+                font-weight: normal !important;
+                line-height: 1.5 !important;
+                color: rgb(17 24 39) !important;
+                text-decoration: none !important;
+                text-align: left !important;
+                vertical-align: baseline !important;
+                white-space: normal !important;
+                overflow: visible !important;
+                position: relative !important;
+                z-index: 1 !important;
+                width: auto !important;
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
+                box-sizing: border-box !important;
+                background: none !important;
+                box-shadow: none !important;
+                transform: none !important;
+                transition: none !important;
+                animation: none !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+            `;
+            
+            const typingBubble = document.createElement('div');
+            typingBubble.style.cssText = `
+                background: white !important;
+                color: rgb(75 85 99) !important;
+                padding: 0.75rem 1rem !important;
+                border-radius: 1rem 1rem 1rem 0.25rem !important;
+                max-width: 80% !important;
+                word-wrap: break-word !important;
+                margin: 0 !important;
+                padding: 0.75rem 1rem !important;
+                border: 1px solid rgb(229 231 235) !important;
+                outline: none !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-size: 0.875rem !important;
+                font-weight: normal !important;
+                line-height: 1.25rem !important;
+                text-decoration: none !important;
+                text-align: left !important;
+                vertical-align: baseline !important;
+                white-space: normal !important;
+                overflow: visible !important;
+                position: relative !important;
+                z-index: 1 !important;
+                width: auto !important;
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
+                box-sizing: border-box !important;
+                box-shadow: none !important;
+                transform: none !important;
+                transition: none !important;
+                animation: none !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+            `;
+            typingBubble.innerHTML = '...';
+            typingDiv.appendChild(typingBubble);
+            messagesContainer.appendChild(typingDiv);
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            try {
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Remove typing indicator
+                typingDiv.remove();
+                
+                // Add bot response
+                const botMessageDiv = document.createElement('div');
+                botMessageDiv.style.cssText = `
+                    margin-bottom: 1rem !important;
+                    display: flex !important;
+                    justify-content: flex-start !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    border: none !important;
+                    outline: none !important;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                    font-size: 1rem !important;
+                    font-weight: normal !important;
+                    line-height: 1.5 !important;
+                    color: rgb(17 24 39) !important;
+                    text-decoration: none !important;
+                    text-align: left !important;
+                    vertical-align: baseline !important;
+                    white-space: normal !important;
+                    overflow: visible !important;
+                    position: relative !important;
+                    z-index: 1 !important;
+                    width: auto !important;
+                    height: auto !important;
+                    min-height: auto !important;
+                    max-height: none !important;
+                    box-sizing: border-box !important;
+                    background: none !important;
+                    box-shadow: none !important;
+                    transform: none !important;
+                    transition: none !important;
+                    animation: none !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                `;
+                
+                const botBubble = document.createElement('div');
+                botBubble.style.cssText = `
+                    background: white !important;
+                    color: rgb(17 24 39) !important;
+                    padding: 0.75rem 1rem !important;
+                    border-radius: 1rem 1rem 1rem 0.25rem !important;
+                    max-width: 80% !important;
+                    word-wrap: break-word !important;
+                    margin: 0 !important;
+                    padding: 0.75rem 1rem !important;
+                    border: 1px solid rgb(229 231 235) !important;
+                    outline: none !important;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                    font-size: 0.875rem !important;
+                    font-weight: normal !important;
+                    line-height: 1.25rem !important;
+                    text-decoration: none !important;
+                    text-align: left !important;
+                    vertical-align: baseline !important;
+                    white-space: normal !important;
+                    overflow: visible !important;
+                    position: relative !important;
+                    z-index: 1 !important;
+                    width: auto !important;
+                    height: auto !important;
+                    min-height: auto !important;
+                    max-height: none !important;
+                    box-sizing: border-box !important;
+                    box-shadow: none !important;
+                    transform: none !important;
+                    transition: none !important;
+                    animation: none !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                `;
+                botBubble.textContent = 'Thank you for your message! This is a demo response.';
+                botMessageDiv.appendChild(botBubble);
+                messagesContainer.appendChild(botMessageDiv);
+                
+                // Scroll to bottom
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+            } catch (error) {
+                console.error('Error sending message:', error);
+                // Remove typing indicator
+                const typing = document.querySelector('.typing-indicator');
+                if (typing) {
+                    typing.remove();
+                }
+            }
+        }
+
+        // Event listeners
+        closeButton.addEventListener('click', closeWidget);
+        minimizeButton.addEventListener('click', minimizeWidget);
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
