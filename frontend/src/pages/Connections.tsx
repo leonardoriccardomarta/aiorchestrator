@@ -195,14 +195,14 @@ const Connections: React.FC = () => {
         accentColor: '#14b8a6'
       };
 
-      const response = await fetch(`${API_URL}/api/shopify/sync/${connection.id}`, {
+      const response = await fetch(`${API_URL}/api/connections/install-widget`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          installWidget: true,
+          connectionId: connection.id,
           chatbotId: selectedChatbotId,
           widgetConfig: widgetConfig
         })

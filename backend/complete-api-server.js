@@ -2584,6 +2584,74 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
 
 
 // ===== CONNECTIONS API =====
+
+// Install widget endpoint
+app.post('/api/connections/install-widget', authenticateToken, async (req, res) => {
+  const { connectionId, chatbotId, widgetConfig } = req.body;
+  const userId = req.user.userId || req.user.id;
+  
+  try {
+    console.log(`🚀 Installing widget for connection: ${connectionId}, chatbot: ${chatbotId}`);
+    
+    // Get the existing connection
+    const connections = await realDataService.getConnections(userId);
+    const connection = connections.find(c => c.id === connectionId);
+    
+    if (!connection) {
+      return res.status(404).json({
+        success: false,
+        error: 'Connection not found'
+      });
+    }
+    
+    if (connection.type !== 'shopify') {
+      return res.status(400).json({
+        success: false,
+        error: 'Connection is not a Shopify store'
+      });
+    }
+    
+    // Generate widget code
+    const widgetCode = `
+<!-- AI Orchestrator Widget -->
+<script>
+  window.AIOrchestratorConfig = {
+    chatbotId: '${chatbotId}',
+    apiKey: '${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}',
+    theme: '${widgetConfig.theme || 'teal'}',
+    title: '${widgetConfig.title || 'AI Support'}',
+    placeholder: '${widgetConfig.placeholder || 'Type your message...'}',
+    showAvatar: ${widgetConfig.showAvatar !== false},
+    welcomeMessage: '${widgetConfig.welcomeMessage || 'Hello! How can I help you today?'}',
+    primaryLanguage: '${widgetConfig.primaryLanguage || 'en'}',
+    primaryColor: '${widgetConfig.primaryColor || '#14b8a6'}',
+    primaryDarkColor: '${widgetConfig.primaryDarkColor || '#0d9488'}',
+    headerLightColor: '${widgetConfig.headerLightColor || '#14b8a6'}',
+    headerDarkColor: '${widgetConfig.headerDarkColor || '#0d9488'}',
+    textColor: '${widgetConfig.textColor || '#1f2937'}',
+    accentColor: '${widgetConfig.accentColor || '#14b8a6'}'
+  };
+</script>
+<script src="https://www.aiorchestrator.dev/shopify-app-widget.js" defer></script>`;
+
+    // Install widget in theme
+    await injectWidgetIntoTheme(connection.url, connection.apiKey, widgetCode);
+    
+    res.json({
+      success: true,
+      message: 'Widget installato con successo!',
+      widgetCode: widgetCode
+    });
+    
+  } catch (error) {
+    console.error('❌ Widget installation error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 app.get('/api/connections', authenticateToken, async (req, res) => {
   const { chatbotId } = req.query;
   
