@@ -76,6 +76,8 @@
     -moz-osx-font-smoothing: grayscale !important;
   `;
   
+  console.log('AI Orchestrator: Container created with styles');
+  
   // Create shadow DOM for complete isolation
   const shadowRoot = container.attachShadow({ mode: 'open' });
   
@@ -127,6 +129,7 @@
       border: none !important;
       background: none !important;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      pointer-events: auto !important;
     }
     
     #toggleButton {
@@ -685,4 +688,19 @@
   console.log('AI Orchestrator: Toggle button found:', !!toggleButton);
   console.log('AI Orchestrator: Chat widget found:', !!chatWidget);
   console.log('AI Orchestrator: Widget should be visible now');
+  
+  // Debug positioning
+  const widgetContainer = shadowRoot.getElementById('widget-container');
+  if (widgetContainer) {
+    const rect = widgetContainer.getBoundingClientRect();
+    console.log('AI Orchestrator: Widget position:', {
+      top: rect.top,
+      right: rect.right,
+      bottom: rect.bottom,
+      left: rect.left,
+      width: rect.width,
+      height: rect.height,
+      visible: rect.width > 0 && rect.height > 0
+    });
+  }
 })();
