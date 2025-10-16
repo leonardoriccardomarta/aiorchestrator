@@ -257,6 +257,7 @@
       background: transparent !important;
       pointer-events: none !important;
       z-index: 999999999 !important;
+      display: none !important;
     `;
 
     // Build iframe URL with parameters
@@ -283,7 +284,54 @@
     iframe.src = iframeUrl.toString();
     iframe.allow = 'microphone; camera';
 
+    // Create toggle button in parent window
+    const toggleButton = document.createElement('button');
+    toggleButton.id = 'ai-orchestrator-toggle-' + config.chatbotId;
+    toggleButton.innerHTML = `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+    `;
+    toggleButton.style.cssText = `
+      position: fixed !important;
+      bottom: 1.5rem !important;
+      right: 1.5rem !important;
+      width: 4rem !important;
+      height: 4rem !important;
+      border-radius: 50% !important;
+      background: linear-gradient(135deg, ${config.themeColors?.primary || 'rgb(13 148 136)'}, ${config.themeColors?.primaryDark || 'rgb(15 118 110)'}) !important;
+      border: none !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      transition: transform 0.2s ease !important;
+      z-index: 999999999 !important;
+      color: white !important;
+    `;
+    
+    // Add hover effect
+    toggleButton.addEventListener('mouseenter', () => {
+      toggleButton.style.transform = 'scale(1.1)';
+    });
+    toggleButton.addEventListener('mouseleave', () => {
+      toggleButton.style.transform = 'scale(1)';
+    });
+    
+    // Toggle functionality
+    toggleButton.addEventListener('click', () => {
+      if (iframe.style.display === 'none') {
+        iframe.style.display = 'block';
+        toggleButton.style.display = 'none';
+      } else {
+        iframe.style.display = 'none';
+        toggleButton.style.display = 'flex';
+      }
+    });
+
     iframeContainer.appendChild(iframe);
+    iframeContainer.appendChild(toggleButton);
     document.body.appendChild(iframeContainer);
 
     // Enable pointer events after load
@@ -315,15 +363,35 @@
           // Toggle the iframe visibility
           if (iframe.style.display === 'none') {
             iframe.style.display = 'block';
+            // Hide the toggle button when iframe is open
+            const toggleButton = document.querySelector('#ai-orchestrator-toggle-' + config.chatbotId);
+            if (toggleButton) {
+              toggleButton.style.display = 'none';
+            }
           } else {
             iframe.style.display = 'none';
+            // Show the toggle button when iframe is closed
+            const toggleButton = document.querySelector('#ai-orchestrator-toggle-' + config.chatbotId);
+            if (toggleButton) {
+              toggleButton.style.display = 'flex';
+            }
           }
           break;
         case 'closeWidget':
           iframe.style.display = 'none';
+          // Show the toggle button when iframe is closed
+          const closeToggleButton = document.querySelector('#ai-orchestrator-toggle-' + config.chatbotId);
+          if (closeToggleButton) {
+            closeToggleButton.style.display = 'flex';
+          }
           break;
         case 'minimizeWidget':
           iframe.style.display = 'none';
+          // Show the toggle button when iframe is minimized
+          const minimizeToggleButton = document.querySelector('#ai-orchestrator-toggle-' + config.chatbotId);
+          if (minimizeToggleButton) {
+            minimizeToggleButton.style.display = 'flex';
+          }
           break;
       }
     });
