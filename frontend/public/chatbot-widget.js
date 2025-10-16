@@ -642,20 +642,73 @@
   `;
   document.head.appendChild(style);
 
-  // Remove any existing AI Orchestrator widgets to prevent conflicts
-  const existingWidgets = document.querySelectorAll('[id^="ai-orchestrator-widget-"]');
-  existingWidgets.forEach(widget => widget.remove());
+  // AGGRESSIVELY remove ALL existing widgets to prevent conflicts
+  console.log('AI Orchestrator: Removing ALL existing widgets...');
   
-  // Remove any other potential conflicting widgets
-  const conflictingWidgets = document.querySelectorAll('[id*="chatbot"], [id*="chat-widget"], [id*="ai-widget"]');
-  conflictingWidgets.forEach(widget => {
-    if (!widget.id.includes('ai-orchestrator')) {
-      widget.remove();
+  // Remove any existing AI Orchestrator widgets
+  const existingWidgets = document.querySelectorAll('[id^="ai-orchestrator-widget-"]');
+  existingWidgets.forEach(widget => {
+    console.log('AI Orchestrator: Removing existing AI Orchestrator widget:', widget.id);
+    widget.remove();
+  });
+  
+  // AGGRESSIVELY remove ALL other potential conflicting widgets
+  const conflictingSelectors = [
+    '[id*="chatbot"]',
+    '[id*="chat-widget"]', 
+    '[id*="ai-widget"]',
+    '[id*="chat"]',
+    '[class*="chatbot"]',
+    '[class*="chat-widget"]',
+    '[class*="ai-widget"]',
+    '[class*="chat"]',
+    '.chat-widget',
+    '.chatbot-widget',
+    '.ai-widget',
+    '#chat-widget',
+    '#chatbot-widget',
+    '#ai-widget'
+  ];
+  
+  conflictingSelectors.forEach(selector => {
+    const widgets = document.querySelectorAll(selector);
+    widgets.forEach(widget => {
+      if (!widget.id.includes('ai-orchestrator') && !widget.className.includes('ai-orchestrator')) {
+        console.log('AI Orchestrator: Removing conflicting widget:', selector, widget.id || widget.className);
+        widget.remove();
+      }
+    });
+  });
+  
+  // Also remove any iframes that might be chat widgets
+  const iframes = document.querySelectorAll('iframe');
+  iframes.forEach(iframe => {
+    if (iframe.src && (iframe.src.includes('chat') || iframe.src.includes('widget'))) {
+      console.log('AI Orchestrator: Removing chat iframe:', iframe.src);
+      iframe.remove();
     }
   });
   
+  console.log('AI Orchestrator: Widget cleanup completed');
+  
   // Add widget to page
   document.body.insertAdjacentHTML('beforeend', widgetHTML);
+  
+  // Final check: Remove any widgets that might have been added after our cleanup
+  setTimeout(() => {
+    console.log('AI Orchestrator: Final cleanup check...');
+    const allWidgets = document.querySelectorAll('div[id*="chat"], div[class*="chat"], button[id*="chat"], button[class*="chat"]');
+    allWidgets.forEach(widget => {
+      if (!widget.id.includes('ai-orchestrator') && !widget.className.includes('ai-orchestrator')) {
+        const rect = widget.getBoundingClientRect();
+        // Only remove widgets that are positioned like chat widgets (bottom-right corner)
+        if (rect.bottom > window.innerHeight - 200 && rect.right > window.innerWidth - 200) {
+          console.log('AI Orchestrator: Removing positioned chat widget:', widget.id || widget.className);
+          widget.remove();
+        }
+      }
+    });
+  }, 1000);
 
   // Widget state
   let isOpen = false;
