@@ -40,7 +40,7 @@
         width: 4rem !important;
         height: 4rem !important;
         border-radius: 50% !important;
-        background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
+        background: linear-gradient(135deg, ${themeColors.primary}, ${themeColors.primaryDark}) !important;
         border: none !important;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
         display: flex !important;
@@ -168,8 +168,8 @@
       ">
         <!-- Header -->
         <div class="header" style="
-          background: linear-gradient(135deg, rgb(153 246 228), rgb(94 234 212)) !important;
-          border-bottom: 2px solid rgb(153 246 228) !important;
+          background: linear-gradient(135deg, ${themeColors.secondary}, ${themeColors.secondaryLight}) !important;
+          border-bottom: 2px solid ${themeColors.border} !important;
           padding: 1rem !important;
           display: flex !important;
           align-items: center !important;
@@ -181,7 +181,7 @@
           font-size: 1rem !important;
           font-weight: normal !important;
           line-height: 1.5 !important;
-          color: rgb(19 78 74) !important;
+          color: ${themeColors.text} !important;
           text-decoration: none !important;
           text-align: left !important;
           vertical-align: baseline !important;
@@ -207,7 +207,7 @@
             font-size: 1rem !important;
             font-weight: normal !important;
             line-height: 1.5 !important;
-            color: rgb(19 78 74) !important;
+            color: ${themeColors.text} !important;
             text-decoration: none !important;
             text-align: left !important;
             vertical-align: baseline !important;
@@ -224,8 +224,8 @@
             <div class="avatar" style="
               width: 2.5rem !important;
               height: 2.5rem !important;
-              background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
-              border-radius: 50% !important;
+              background: linear-gradient(135deg, ${themeColors.primary}, ${themeColors.primaryDark}) !important;
+              border-radius: 0.5rem !important;
               display: flex !important;
               align-items: center !important;
               justify-content: center !important;
@@ -290,7 +290,7 @@
               font-size: 1rem !important;
               font-weight: normal !important;
               line-height: 1.5 !important;
-              color: rgb(19 78 74) !important;
+              color: ${themeColors.text} !important;
               text-decoration: none !important;
               text-align: left !important;
               vertical-align: baseline !important;
@@ -306,7 +306,7 @@
             ">
               <div class="title" style="
                 font-weight: 700 !important;
-                color: rgb(19 78 74) !important;
+                color: ${themeColors.text} !important;
                 font-size: 1rem !important;
                 line-height: 1.25rem !important;
                 margin: 0 !important;
@@ -639,7 +639,7 @@
             "
           />
           <button id="sendButton" style="
-            background: rgb(13 148 136) !important;
+            background: ${themeColors.primary} !important;
             color: white !important;
             border: none !important;
             border-radius: 0.5rem !important;
@@ -718,6 +718,33 @@
             primaryLanguage: urlParams.get('primaryLanguage') || 'en'
         };
 
+        // Get theme colors for inline styles (EXACT COPY from chatbot-widget.js)
+        const getThemeColors = (themeName) => {
+            const themeMap = {
+                'teal': {
+                    primary: 'rgb(13 148 136)',
+                    primaryDark: 'rgb(15 118 110)',
+                    secondary: 'rgb(153 246 228)',
+                    secondaryLight: 'rgb(94 234 212)',
+                    text: 'rgb(19 78 74)',
+                    textLight: 'rgb(75 85 99)',
+                    border: 'rgb(153 246 228)'
+                },
+                'blue': {
+                    primary: 'rgb(37 99 235)',
+                    primaryDark: 'rgb(29 78 216)',
+                    secondary: 'rgb(191 219 254)',
+                    secondaryLight: 'rgb(147 197 253)',
+                    text: 'rgb(30 64 175)',
+                    textLight: 'rgb(75 85 99)',
+                    border: 'rgb(191 219 254)'
+                }
+            };
+            return themeMap[themeName] || themeMap['teal'];
+        };
+
+        const themeColors = getThemeColors(config.theme);
+
         // Apply configuration
         const titleElement = document.querySelector('.title');
         if (titleElement) titleElement.textContent = config.title;
@@ -765,6 +792,13 @@
 
         // Close widget
         function closeWidget() {
+            chatWidget.style.display = 'none';
+            toggleButton.style.display = 'flex';
+            isOpen = false;
+        }
+
+        // Minimize widget
+        function minimizeWidget() {
             chatWidget.style.display = 'none';
             toggleButton.style.display = 'flex';
             isOpen = false;
@@ -878,6 +912,7 @@
         // Event listeners
         toggleButton.addEventListener('click', toggleWidget);
         closeButton.addEventListener('click', closeWidget);
+        minimizeButton.addEventListener('click', minimizeWidget);
         sendButton.addEventListener('click', sendMessage);
         messageInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
