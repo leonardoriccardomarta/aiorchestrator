@@ -1073,8 +1073,8 @@
     switch (action) {
       case 'closeWidget':
       case 'minimizeWidget':
-        iframe.style.display = 'none';
-        iframeContainer.style.pointerEvents = 'none';
+        // Don't hide iframe, let it handle its own toggle
+        console.log('AI Orchestrator: Widget closed/minimized');
         break;
     }
   });
