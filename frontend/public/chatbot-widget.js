@@ -91,6 +91,15 @@
     
     const config = getConfig() || getLegacyConfig();
     console.log('AI Orchestrator: Config found:', config);
+    console.log('AI Orchestrator: Config details:', {
+      chatbotId: config?.chatbotId,
+      theme: config?.theme,
+      title: config?.title,
+      position: config?.position,
+      showAvatar: config?.showAvatar,
+      size: config?.size,
+      primaryLanguage: config?.primaryLanguage
+    });
     
     if (!config) {
       console.error('AI Orchestrator: No valid configuration found');
@@ -145,6 +154,12 @@
 
   const theme = themes[config.theme] || themes.blue;
   const size = sizes[config.size] || sizes.medium;
+  
+  console.log('AI Orchestrator: Theme selection:', {
+    requestedTheme: config.theme,
+    selectedTheme: theme,
+    themeKeys: Object.keys(themes)
+  });
 
   // Position configurations
   const positions = {
