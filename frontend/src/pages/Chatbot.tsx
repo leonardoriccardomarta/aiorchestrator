@@ -1025,7 +1025,7 @@ const Chatbot: React.FC = () => {
                     {currentChatbotId ? `<!-- AI Orchestrator Chatbot Widget -->
 <script 
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
-  data-chatbot-id="${currentChatbotId}"
+  data-ai-orchestrator-id="${currentChatbotId}"
   data-api-key="${API_URL}"
   data-theme="${widgetTheme}"
   data-title="${widgetTitle}"
@@ -1042,7 +1042,7 @@ const Chatbot: React.FC = () => {
                     const code = currentChatbotId ? `<!-- AI Orchestrator Chatbot Widget -->
 <script 
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
-  data-chatbot-id="${currentChatbotId}"
+  data-ai-orchestrator-id="${currentChatbotId}"
   data-api-key="${API_URL}"
   data-theme="${widgetTheme}"
   data-title="${widgetTitle}"

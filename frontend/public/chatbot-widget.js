@@ -407,10 +407,12 @@
 
   // Get configuration from data attributes or legacy config
   function getConfig() {
-    const script = document.querySelector('script[data-chatbot-id]');
+    // Use different attribute names to avoid Shopify conflicts
+    const script = document.querySelector('script[data-ai-orchestrator-id]') || 
+                   document.querySelector('script[data-chatbot-id]');
     if (script) {
       return {
-        chatbotId: script.dataset.chatbotId,
+        chatbotId: script.dataset.aiOrchestratorId || script.dataset.chatbotId,
         apiKey: script.dataset.apiKey || 'demo-key',
         position: script.dataset.position || 'bottom-right',
         theme: script.dataset.theme || 'blue',
@@ -536,9 +538,9 @@
 
   // Create widget HTML
   const widgetHTML = `
-    <div id="ai-chatbot-widget" class="fixed ${position} z-50">
+    <div id="ai-orchestrator-widget-${config.chatbotId}" class="fixed ${position} z-50">
       <!-- Toggle Button -->
-      <button id="ai-widget-toggle" class="${size.buttonSize} bg-gradient-to-br ${theme.primary} text-white rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group">
+      <button id="ai-orchestrator-toggle-${config.chatbotId}" class="${size.buttonSize} bg-gradient-to-br ${theme.primary} text-white rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group">
         <svg class="${size.iconSize}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
         </svg>
@@ -549,7 +551,7 @@
       </button>
 
       <!-- Chat Widget -->
-      <div id="ai-widget-chat" class="${size.width} ${size.height} bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 hidden">
+      <div id="ai-orchestrator-chat-${config.chatbotId}" class="${size.width} ${size.height} bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 hidden">
         <!-- Header -->
         <div class="bg-gradient-to-br ${theme.secondary} border-b-2 ${theme.border} p-4">
           <div class="flex items-center justify-between">
@@ -570,12 +572,12 @@
               </div>
             </div>
             <div class="flex items-center gap-2">
-              <button id="ai-widget-minimize" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
+              <button id="ai-orchestrator-minimize-${config.chatbotId}" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
                 </svg>
               </button>
-              <button id="ai-widget-close" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
+              <button id="ai-orchestrator-close-${config.chatbotId}" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
@@ -585,7 +587,7 @@
           </div>
           
         <!-- Messages -->
-        <div id="ai-widget-messages" class="h-96 overflow-y-auto p-4 bg-gray-50">
+        <div id="ai-orchestrator-messages-${config.chatbotId}" class="h-96 overflow-y-auto p-4 bg-gray-50">
           <div class="mb-4 flex justify-start">
             <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
               <div class="text-sm">${config.welcomeMessage}</div>
@@ -598,12 +600,12 @@
         <div class="p-4 bg-white border-t border-gray-200">
           <div class="flex gap-2">
             <input
-              id="ai-widget-input"
+              id="ai-orchestrator-input-${config.chatbotId}"
               type="text"
               placeholder="${config.placeholder}"
               class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
-            <button id="ai-widget-send" class="${theme.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
+            <button id="ai-orchestrator-send-${config.chatbotId}" class="${theme.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
               </svg>
@@ -617,29 +619,41 @@
     // Add styles
   const style = document.createElement('style');
   style.textContent = `
-    #ai-chatbot-widget * {
+    #ai-orchestrator-widget-${config.chatbotId} * {
       box-sizing: border-box;
     }
-    #ai-chatbot-widget {
+    #ai-orchestrator-widget-${config.chatbotId} {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       }
-    #ai-widget-messages::-webkit-scrollbar {
+    #ai-orchestrator-messages-${config.chatbotId}::-webkit-scrollbar {
       width: 6px;
     }
-    #ai-widget-messages::-webkit-scrollbar-track {
+    #ai-orchestrator-messages-${config.chatbotId}::-webkit-scrollbar-track {
       background: #f1f1f1;
       border-radius: 3px;
     }
-    #ai-widget-messages::-webkit-scrollbar-thumb {
+    #ai-orchestrator-messages-${config.chatbotId}::-webkit-scrollbar-thumb {
       background: #c1c1c1;
       border-radius: 3px;
     }
-    #ai-widget-messages::-webkit-scrollbar-thumb:hover {
+    #ai-orchestrator-messages-${config.chatbotId}::-webkit-scrollbar-thumb:hover {
       background: #a1a1a1;
     }
   `;
   document.head.appendChild(style);
 
+  // Remove any existing AI Orchestrator widgets to prevent conflicts
+  const existingWidgets = document.querySelectorAll('[id^="ai-orchestrator-widget-"]');
+  existingWidgets.forEach(widget => widget.remove());
+  
+  // Remove any other potential conflicting widgets
+  const conflictingWidgets = document.querySelectorAll('[id*="chatbot"], [id*="chat-widget"], [id*="ai-widget"]');
+  conflictingWidgets.forEach(widget => {
+    if (!widget.id.includes('ai-orchestrator')) {
+      widget.remove();
+    }
+  });
+  
   // Add widget to page
   document.body.insertAdjacentHTML('beforeend', widgetHTML);
 
@@ -650,14 +664,14 @@
 
   // Toggle widget
   window.toggleChatbot = function() {
-    const chat = document.getElementById('ai-widget-chat');
-    const button = document.getElementById('ai-widget-toggle');
+    const chat = document.getElementById(`ai-orchestrator-chat-${config.chatbotId}`);
+    const button = document.getElementById(`ai-orchestrator-toggle-${config.chatbotId}`);
     
     if (!isOpen) {
       chat.classList.remove('hidden');
       button.style.display = 'none';
       isOpen = true;
-      document.getElementById('ai-widget-input').focus();
+      document.getElementById(`ai-orchestrator-input-${config.chatbotId}`).focus();
     } else {
       chat.classList.add('hidden');
       button.style.display = 'flex';
@@ -667,8 +681,8 @@
 
   // Close widget
   window.closeChatbot = function() {
-    const chat = document.getElementById('ai-widget-chat');
-    const button = document.getElementById('ai-widget-toggle');
+    const chat = document.getElementById(`ai-orchestrator-chat-${config.chatbotId}`);
+    const button = document.getElementById(`ai-orchestrator-toggle-${config.chatbotId}`);
     
     chat.classList.add('hidden');
     button.style.display = 'flex';
@@ -678,8 +692,8 @@
 
   // Minimize widget
   window.minimizeChatbot = function() {
-    const messages = document.getElementById('ai-widget-messages');
-    const input = document.querySelector('#ai-widget-chat .p-4');
+    const messages = document.getElementById(`ai-orchestrator-messages-${config.chatbotId}`);
+    const input = document.querySelector(`#ai-orchestrator-chat-${config.chatbotId} .p-4`);
     
     if (!isMinimized) {
       messages.style.display = 'none';
@@ -694,7 +708,7 @@
 
   // Send message
   window.sendChatbotMessage = async function() {
-    const input = document.getElementById('ai-widget-input');
+    const input = document.getElementById(`ai-orchestrator-input-${config.chatbotId}`);
     const message = input.value.trim();
     
     if (!message) return;
@@ -750,7 +764,7 @@
 
   // Add message to chat
   function addMessage(content, isUser = false) {
-    const messagesContainer = document.getElementById('ai-widget-messages');
+    const messagesContainer = document.getElementById(`ai-orchestrator-messages-${config.chatbotId}`);
     const messageDiv = document.createElement('div');
     messageDiv.className = `mb-4 flex ${isUser ? 'justify-end' : 'justify-start'}`;
     
@@ -780,7 +794,7 @@
 
   // Show typing indicator
   function showTypingIndicator() {
-    const messagesContainer = document.getElementById('ai-widget-messages');
+    const messagesContainer = document.getElementById(`ai-orchestrator-messages-${config.chatbotId}`);
     const typingDiv = document.createElement('div');
     typingDiv.id = 'typing-indicator';
     typingDiv.className = 'flex justify-start mb-4';
@@ -806,17 +820,17 @@
     }
     
     // Event listeners
-  document.getElementById('ai-widget-toggle').addEventListener('click', toggleChatbot);
-  document.getElementById('ai-widget-close').addEventListener('click', closeChatbot);
-  document.getElementById('ai-widget-minimize').addEventListener('click', minimizeChatbot);
-  document.getElementById('ai-widget-send').addEventListener('click', sendChatbotMessage);
-  document.getElementById('ai-widget-input').addEventListener('keypress', handleChatbotKeypress);
+  document.getElementById(`ai-orchestrator-toggle-${config.chatbotId}`).addEventListener('click', toggleChatbot);
+  document.getElementById(`ai-orchestrator-close-${config.chatbotId}`).addEventListener('click', closeChatbot);
+  document.getElementById(`ai-orchestrator-minimize-${config.chatbotId}`).addEventListener('click', minimizeChatbot);
+  document.getElementById(`ai-orchestrator-send-${config.chatbotId}`).addEventListener('click', sendChatbotMessage);
+  document.getElementById(`ai-orchestrator-input-${config.chatbotId}`).addEventListener('keypress', handleChatbotKeypress);
 
     console.log('AI Orchestrator: Shopify-compatible widget loaded successfully!');
     
     // Debug: Check if elements are actually visible
-    const toggleButton = document.getElementById('ai-widget-toggle');
-    const chatWidget = document.getElementById('ai-widget-chat');
+    const toggleButton = document.getElementById(`ai-orchestrator-toggle-${config.chatbotId}`);
+    const chatWidget = document.getElementById(`ai-orchestrator-chat-${config.chatbotId}`);
     
     console.log('AI Orchestrator: Toggle button added to page:', toggleButton ? 'YES' : 'NO');
     console.log('AI Orchestrator: Chat widget added to page:', chatWidget ? 'YES' : 'NO');
@@ -842,10 +856,12 @@
     // Force correct positioning for Shopify compatibility
     if (toggleButton) {
       console.log('AI Orchestrator: Forcing correct positioning for Shopify...');
-      toggleButton.style.position = 'fixed';
-      toggleButton.style.bottom = '1.5rem';
-      toggleButton.style.right = '1.5rem';
-      toggleButton.style.zIndex = '2147483647';
+      toggleButton.style.position = 'fixed !important';
+      toggleButton.style.bottom = '1.5rem !important';
+      toggleButton.style.right = '1.5rem !important';
+      toggleButton.style.zIndex = '999999999 !important';
+      toggleButton.style.display = 'flex !important';
+      toggleButton.style.visibility = 'visible !important';
       console.log('✅ Widget ready! Toggle button position:', window.getComputedStyle(toggleButton).position);
       console.log('✅ Widget ready! Toggle button z-index:', window.getComputedStyle(toggleButton).zIndex);
     }
@@ -853,10 +869,10 @@
     // Force correct positioning for chat widget too
     if (chatWidget) {
       console.log('AI Orchestrator: Forcing chat widget positioning...');
-      chatWidget.style.position = 'fixed';
-      chatWidget.style.bottom = '6rem';
-      chatWidget.style.right = '1.5rem';
-      chatWidget.style.zIndex = '2147483646';
+      chatWidget.style.position = 'fixed !important';
+      chatWidget.style.bottom = '6rem !important';
+      chatWidget.style.right = '1.5rem !important';
+      chatWidget.style.zIndex = '999999998 !important';
       console.log('✅ Chat widget position:', window.getComputedStyle(chatWidget).position);
       console.log('✅ Chat widget z-index:', window.getComputedStyle(chatWidget).zIndex);
     }
