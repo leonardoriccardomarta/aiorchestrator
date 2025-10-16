@@ -3,6 +3,8 @@
   'use strict';
   
   console.log('AI Orchestrator: Loading direct Shopify widget...');
+  console.log('AI Orchestrator: Document ready state:', document.readyState);
+  console.log('AI Orchestrator: Body exists:', !!document.body);
   
   // Parse configuration from script tag
   const script = document.currentScript;
@@ -534,6 +536,9 @@
   
   // Add to page
   document.body.appendChild(container);
+  console.log('AI Orchestrator: Widget container added to DOM');
+  console.log('AI Orchestrator: Container in DOM:', document.body.contains(container));
+  console.log('AI Orchestrator: Shadow root created:', !!shadowRoot);
   
   // Widget functionality
   let isOpen = false;
@@ -677,4 +682,7 @@
   });
   
   console.log('AI Orchestrator: Direct Shopify widget loaded successfully!');
+  console.log('AI Orchestrator: Toggle button found:', !!toggleButton);
+  console.log('AI Orchestrator: Chat widget found:', !!chatWidget);
+  console.log('AI Orchestrator: Widget should be visible now');
 })();
