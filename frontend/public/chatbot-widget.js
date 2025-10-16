@@ -849,6 +849,17 @@
       console.log('✅ Widget ready! Toggle button position:', window.getComputedStyle(toggleButton).position);
       console.log('✅ Widget ready! Toggle button z-index:', window.getComputedStyle(toggleButton).zIndex);
     }
+    
+    // Force correct positioning for chat widget too
+    if (chatWidget) {
+      console.log('AI Orchestrator: Forcing chat widget positioning...');
+      chatWidget.style.position = 'fixed';
+      chatWidget.style.bottom = '6rem';
+      chatWidget.style.right = '1.5rem';
+      chatWidget.style.zIndex = '2147483646';
+      console.log('✅ Chat widget position:', window.getComputedStyle(chatWidget).position);
+      console.log('✅ Chat widget z-index:', window.getComputedStyle(chatWidget).zIndex);
+    }
     } // End of initializeWidget function
 
 })(); // End of IIFE
