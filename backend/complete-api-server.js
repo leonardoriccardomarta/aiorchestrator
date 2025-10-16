@@ -2583,6 +2583,93 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
 
 
 
+// ===== HELPER FUNCTIONS =====
+
+// Function to inject widget into Shopify theme
+async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
+  try {
+    console.log(`🔧 Injecting widget into theme for shop: ${shopUrl}`);
+    
+    // Get active theme
+    const themeResponse = await fetch(`https://${shopUrl}/admin/api/2023-10/themes.json`, {
+      headers: {
+        'X-Shopify-Access-Token': accessToken,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (!themeResponse.ok) {
+      throw new Error(`Failed to fetch themes: ${themeResponse.status}`);
+    }
+    
+    const themes = await themeResponse.json();
+    const activeTheme = themes.themes.find(theme => theme.role === 'main');
+    
+    if (!activeTheme) {
+      throw new Error('No active theme found');
+    }
+    
+    console.log(`📋 Found active theme: ${activeTheme.id}`);
+    
+    // Get theme.liquid content
+    const liquidResponse = await fetch(`https://${shopUrl}/admin/api/2023-10/themes/${activeTheme.id}/assets.json?asset[key]=layout/theme.liquid`, {
+      headers: {
+        'X-Shopify-Access-Token': accessToken,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (!liquidResponse.ok) {
+      throw new Error(`Failed to fetch theme.liquid: ${liquidResponse.status}`);
+    }
+    
+    const liquidData = await liquidResponse.json();
+    let themeContent = liquidData.asset.value;
+    
+    // Check if widget already exists
+    if (themeContent.includes('AI Orchestrator Widget')) {
+      console.log('⚠️ Widget already exists in theme, updating...');
+      // Remove existing widget code
+      themeContent = themeContent.replace(/<!-- AI Orchestrator Widget -->[\s\S]*?<\/script>/g, '');
+    }
+    
+    // Add widget code before </body>
+    const widgetPlaceholder = '</body>';
+    if (themeContent.includes(widgetPlaceholder)) {
+      themeContent = themeContent.replace(widgetPlaceholder, `${widgetCode}\n${widgetPlaceholder}`);
+    } else {
+      // If no </body> tag, append at the end
+      themeContent += `\n${widgetCode}`;
+    }
+    
+    // Save updated theme.liquid
+    const saveResponse = await fetch(`https://${shopUrl}/admin/api/2023-10/themes/${activeTheme.id}/assets.json`, {
+      method: 'PUT',
+      headers: {
+        'X-Shopify-Access-Token': accessToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        asset: {
+          key: 'layout/theme.liquid',
+          value: themeContent
+        }
+      })
+    });
+    
+    if (!saveResponse.ok) {
+      throw new Error(`Failed to save theme: ${saveResponse.status}`);
+    }
+    
+    console.log('✅ Widget successfully injected into theme!');
+    return true;
+    
+  } catch (error) {
+    console.error('❌ Error injecting widget:', error);
+    throw error;
+  }
+}
+
 // ===== CONNECTIONS API =====
 
 // Install widget endpoint
