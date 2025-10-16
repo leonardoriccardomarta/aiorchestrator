@@ -88,42 +88,6 @@
             overflow: visible !important;
         }
         
-        #toggleButton {
-            width: 4rem !important;
-            height: 4rem !important;
-            min-width: 4rem !important;
-            min-height: 4rem !important;
-            max-width: 4rem !important;
-            max-height: 4rem !important;
-            border-radius: 50% !important;
-            background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
-            border: none !important;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            cursor: pointer !important;
-            transition: transform 0.2s ease !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            outline: none !important;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-            font-size: 1rem !important;
-            font-weight: normal !important;
-            line-height: 1 !important;
-            color: white !important;
-            text-decoration: none !important;
-            text-align: center !important;
-            vertical-align: middle !important;
-            white-space: nowrap !important;
-            overflow: visible !important;
-            position: relative !important;
-            z-index: 1 !important;
-        }
-        
-        #toggleButton:hover {
-            transform: scale(1.1) !important;
-        }
         
         #chatWidget {
             width: 24rem !important;
@@ -538,106 +502,6 @@
       background: none !important;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     ">
-      <!-- Toggle Button -->
-      <button id="toggleButton" style="
-        position: fixed !important;
-        bottom: 1.5rem !important;
-        right: 1.5rem !important;
-        width: 4rem !important;
-        height: 4rem !important;
-        border-radius: 50% !important;
-        background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
-        border: none !important;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        cursor: pointer !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        outline: none !important;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-        font-size: 1rem !important;
-        font-weight: normal !important;
-        line-height: 1 !important;
-        color: white !important;
-        text-decoration: none !important;
-        text-align: center !important;
-        vertical-align: middle !important;
-        white-space: nowrap !important;
-        overflow: visible !important;
-        box-sizing: border-box !important;
-        transform: none !important;
-        transition: transform 0.2s ease !important;
-        animation: none !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        z-index: 999999999 !important;
-      ">
-        <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="
-          width: 1.75rem !important;
-          height: 1.75rem !important;
-          margin: 0 !important;
-          padding: 0 !important;
-          border: none !important;
-          outline: none !important;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-          font-size: 1rem !important;
-          font-weight: normal !important;
-          line-height: 1 !important;
-          color: white !important;
-          text-decoration: none !important;
-          text-align: center !important;
-          vertical-align: middle !important;
-          white-space: nowrap !important;
-          overflow: visible !important;
-          position: relative !important;
-          z-index: 1 !important;
-          min-width: 1.75rem !important;
-          min-height: 1.75rem !important;
-          max-width: 1.75rem !important;
-          max-height: 1.75rem !important;
-          box-sizing: border-box !important;
-          box-shadow: none !important;
-          transform: none !important;
-          transition: none !important;
-          animation: none !important;
-          opacity: 1 !important;
-          visibility: visible !important;
-        ">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-        </svg>
-        <div style="
-          position: absolute !important;
-          top: -4px !important;
-          right: -4px !important;
-          width: 12px !important;
-          height: 12px !important;
-          background: rgb(34 197 94) !important;
-          border-radius: 50% !important;
-          border: 2px solid white !important;
-          margin: 0 !important;
-          padding: 0 !important;
-          outline: none !important;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-          font-size: 1rem !important;
-          font-weight: normal !important;
-          line-height: 1 !important;
-          color: transparent !important;
-          text-decoration: none !important;
-          text-align: center !important;
-          vertical-align: middle !important;
-          white-space: nowrap !important;
-          overflow: visible !important;
-          box-sizing: border-box !important;
-          box-shadow: none !important;
-          transform: none !important;
-          transition: none !important;
-          animation: none !important;
-          opacity: 1 !important;
-          visibility: visible !important;
-        "></div>
-      </button>
 
       <!-- Chat Widget -->
       <div id="chatWidget" style="
@@ -645,7 +509,7 @@
         bottom: 6rem !important;
         right: 1.5rem !important;
         z-index: 999999998 !important;
-        display: none !important;
+        display: block !important;
         visibility: visible !important;
         width: 24rem !important;
         height: 32rem !important;
@@ -1321,11 +1185,6 @@
 
         // Apply dynamic theme colors
         function applyThemeColors() {
-            // Toggle button colors
-            const toggleButton = document.getElementById('toggleButton');
-            if (toggleButton) {
-                toggleButton.style.background = `linear-gradient(135deg, ${config.primaryColor}, ${config.primaryDarkColor})`;
-            }
 
             // Header colors
             const header = document.querySelector('.header');
@@ -1380,7 +1239,7 @@
         }
 
         // Widget state
-        let isOpen = false;
+        let isOpen = true;
         let conversationHistory = [];
         
         // Listen for messages from parent window
@@ -1405,7 +1264,6 @@
         }
 
         // Elements
-        const toggleButton = document.getElementById('toggleButton');
         const chatWidget = document.getElementById('chatWidget');
         const messagesContainer = document.getElementById('messagesContainer');
         const messageInput = document.getElementById('messageInput');
@@ -1413,26 +1271,9 @@
         const closeButton = document.getElementById('closeButton');
         const minimizeButton = document.getElementById('minimizeButton');
 
-        // Toggle widget
-        function toggleWidget() {
-            if (!isOpen) {
-                chatWidget.style.display = 'block';
-                toggleButton.style.display = 'none';
-                isOpen = true;
-                messageInput.focus();
-                sendToParent('toggleWidget', { isOpen: true });
-            } else {
-                chatWidget.style.display = 'none';
-                toggleButton.style.display = 'flex';
-                isOpen = false;
-                sendToParent('toggleWidget', { isOpen: false });
-            }
-        }
-
         // Close widget
         function closeWidget() {
             chatWidget.style.display = 'none';
-            toggleButton.style.display = 'flex';
             isOpen = false;
             sendToParent('closeWidget', { isOpen: false });
         }
@@ -1440,7 +1281,6 @@
         // Minimize widget
         function minimizeWidget() {
             chatWidget.style.display = 'none';
-            toggleButton.style.display = 'flex';
             isOpen = false;
             sendToParent('minimizeWidget', { isOpen: false });
         }
@@ -1551,7 +1391,6 @@
         }
 
         // Event listeners
-        toggleButton.addEventListener('click', toggleWidget);
         closeButton.addEventListener('click', closeWidget);
         minimizeButton.addEventListener('click', minimizeWidget);
         sendButton.addEventListener('click', sendMessage);
