@@ -1352,6 +1352,7 @@
             }
 
             // Input focus color
+            const messageInputElement = document.getElementById('messageInput');
             if (messageInputElement) {
                 messageInputElement.addEventListener('focus', function() {
                     this.style.borderColor = config.primaryColor;
