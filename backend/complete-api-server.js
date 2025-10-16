@@ -1128,13 +1128,13 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
     // Generate different widget code based on platform
     let widgetCode;
     if (connection.platform === 'shopify') {
-      // For Shopify, use smart-widget.js which auto-detects environment and loads iframe
-      widgetCode = `<!-- AI Orchestrator Smart Widget for Shopify -->
+      // For Shopify, use direct widget that bypasses all CSS conflicts with Shadow DOM
+      widgetCode = `<!-- AI Orchestrator Direct Widget for Shopify -->
 <script 
-  src="https://www.aiorchestrator.dev/smart-widget.js"
+  src="https://www.aiorchestrator.dev/shopify-widget-direct.js"
   data-chatbot-id="${chatbotId}"
   data-api-key="${apiUrl}"
-  data-theme="${settings.theme || 'blue'}"
+  data-theme="${settings.theme || 'teal'}"
   data-title="${settings.title || selectedChatbot?.name || 'AI Support'}"
   data-placeholder="${settings.placeholder || 'Type your message...'}"
   data-show-avatar="${settings.showAvatar !== false}"
