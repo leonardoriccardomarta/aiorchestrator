@@ -697,9 +697,9 @@
   console.log('AI Orchestrator: Widget should be visible now');
   
   // Debug positioning
-  const widgetContainer = shadowRoot.getElementById('widget-container');
-  if (widgetContainer) {
-    const rect = widgetContainer.getBoundingClientRect();
+  const widgetContainerElement = shadowRoot.getElementById('widget-container');
+  if (widgetContainerElement) {
+    const rect = widgetContainerElement.getBoundingClientRect();
     console.log('AI Orchestrator: Widget position:', {
       top: rect.top,
       right: rect.right,
