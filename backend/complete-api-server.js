@@ -1128,10 +1128,10 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
     // Generate different widget code based on platform
     let widgetCode;
     if (connection.platform === 'shopify') {
-      // For Shopify, use direct widget that bypasses all CSS conflicts with Shadow DOM
-      widgetCode = `<!-- AI Orchestrator Direct Widget for Shopify -->
+      // For Shopify, use simple widget that creates elements directly in DOM
+      widgetCode = `<!-- AI Orchestrator Simple Widget for Shopify -->
 <script 
-  src="https://www.aiorchestrator.dev/shopify-widget-direct.js"
+  src="https://www.aiorchestrator.dev/shopify-widget-simple.js"
   data-chatbot-id="${chatbotId}"
   data-api-key="${apiUrl}"
   data-theme="${settings.theme || 'teal'}"
