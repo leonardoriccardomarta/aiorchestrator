@@ -719,15 +719,22 @@
         };
 
         // Apply configuration
-        document.querySelector('.title').textContent = config.title;
-        document.querySelector('#messagesContainer .message-text') ? 
-            document.querySelector('#messagesContainer .message-text').textContent = config.welcomeMessage : null;
-        document.getElementById('messageInput').placeholder = config.placeholder;
-        document.querySelector('#messagesContainer .message-time').textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const titleElement = document.querySelector('.title');
+        if (titleElement) titleElement.textContent = config.title;
+        
+        const messageTextElement = document.querySelector('#messagesContainer div[style*="font-size: 0.875rem"]');
+        if (messageTextElement) messageTextElement.textContent = config.welcomeMessage;
+        
+        const messageInputElement = document.getElementById('messageInput');
+        if (messageInputElement) messageInputElement.placeholder = config.placeholder;
+        
+        const messageTimeElement = document.querySelector('#messagesContainer div[style*="font-size: 0.75rem"]');
+        if (messageTimeElement) messageTimeElement.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         
         // Set language badge
         const languageCode = config.primaryLanguage.toUpperCase();
-        document.querySelector('.language-badge').textContent = languageCode;
+        const languageBadgeElement = document.querySelector('.language-badge');
+        if (languageBadgeElement) languageBadgeElement.textContent = languageCode;
 
         // Widget state
         let isOpen = false;
