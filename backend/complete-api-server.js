@@ -1128,12 +1128,13 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
     // Generate different widget code based on platform
     console.log('🔍 Connection platform check:', {
       connectionId: connection.id,
+      type: connection.type,
       platform: connection.platform,
-      isShopify: connection.platform === 'shopify'
+      isShopify: connection.type === 'shopify' || connection.platform === 'shopify'
     });
     
     let widgetCode;
-    if (connection.platform === 'shopify') {
+    if (connection.type === 'shopify' || connection.platform === 'shopify') {
       // For Shopify, use GTM approach with iframe isolation
       widgetCode = `<!-- AI Orchestrator GTM Widget for Shopify -->
 <!-- Step 1: Add this to your theme.liquid <head> section -->
