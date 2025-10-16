@@ -629,8 +629,8 @@
         ">
           <div style="margin-bottom: 1rem; display: flex; justify-content: flex-start;">
             <div style="max-width: 80%; border-radius: 1rem; padding: 1rem; background: white; color: rgb(17 24 39); border: 1px solid rgb(229 231 235);">
-              <div style="font-size: 0.875rem; line-height: 1.25rem;">Hello! I'm your ai</div>
-              <div style="font-size: 0.75rem; margin-top: 0.25rem; color: rgb(107 114 128);">17:25</div>
+              <div style="font-size: 0.875rem; line-height: 1.25rem;" id="welcomeMessage">Hello! I'm your ai</div>
+              <div style="font-size: 0.75rem; margin-top: 0.25rem; color: rgb(107 114 128);" id="welcomeTime">17:25</div>
             </div>
           </div>
         </div>
@@ -798,14 +798,14 @@
         const titleElement = document.querySelector('.title');
         if (titleElement) titleElement.textContent = config.title;
         
-        const messageTextElement = document.querySelector('#messagesContainer div[style*="font-size: 0.875rem"]');
-        if (messageTextElement) messageTextElement.textContent = config.welcomeMessage;
+        const welcomeMessageElement = document.getElementById('welcomeMessage');
+        if (welcomeMessageElement) welcomeMessageElement.textContent = config.welcomeMessage;
         
         const messageInputElement = document.getElementById('messageInput');
         if (messageInputElement) messageInputElement.placeholder = config.placeholder;
         
-        const messageTimeElement = document.querySelector('#messagesContainer div[style*="font-size: 0.75rem"]');
-        if (messageTimeElement) messageTimeElement.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const welcomeTimeElement = document.getElementById('welcomeTime');
+        if (welcomeTimeElement) welcomeTimeElement.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
         // Widget state
         let isOpen = false;
