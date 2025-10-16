@@ -46,15 +46,71 @@
     return null;
   }
 
+  // Get configuration from the live preview widget (if it exists)
+  function getLivePreviewConfig() {
+    // First check if there's a global configuration from the live preview
+    if (window.AIOrchestratorConfig) {
+      console.log('AI Orchestrator: Found global configuration from live preview:', window.AIOrchestratorConfig);
+      return window.AIOrchestratorConfig;
+    }
+    
+    // Fallback: Look for the live preview widget configuration
+    const liveWidget = document.querySelector('#ai-orchestrator-widget-preview, [id^="ai-orchestrator-widget-"]');
+    
+    if (liveWidget) {
+      console.log('AI Orchestrator: Found live preview widget, extracting configuration...');
+      
+      // Extract configuration from the live widget
+      const title = liveWidget.querySelector('[class*="title"]')?.textContent || 'My AI';
+      const welcomeMessage = liveWidget.querySelector('[class*="message-text"]')?.textContent || 'Hello! I\'m your ai';
+      const placeholder = liveWidget.querySelector('input[type="text"]')?.placeholder || 'Type your id';
+      const showAvatar = liveWidget.querySelector('[class*="avatar"]') !== null;
+      
+      // Extract theme from CSS classes
+      let theme = 'teal';
+      if (liveWidget.querySelector('[class*="blue"]')) theme = 'blue';
+      if (liveWidget.querySelector('[class*="purple"]')) theme = 'purple';
+      if (liveWidget.querySelector('[class*="green"]')) theme = 'green';
+      if (liveWidget.querySelector('[class*="red"]')) theme = 'red';
+      if (liveWidget.querySelector('[class*="orange"]')) theme = 'orange';
+      if (liveWidget.querySelector('[class*="pink"]')) theme = 'pink';
+      if (liveWidget.querySelector('[class*="indigo"]')) theme = 'indigo';
+      if (liveWidget.querySelector('[class*="teal"]')) theme = 'teal';
+      
+      return {
+        chatbotId: 'live-preview',
+        apiKey: 'demo-key',
+        theme: theme,
+        title: title,
+        welcomeMessage: welcomeMessage,
+        placeholder: placeholder,
+        showAvatar: showAvatar,
+        size: 'medium',
+        primaryLanguage: 'en'
+      };
+    }
+    
+    return null;
+  }
+
   // Initialize widget when DOM is ready
   waitForDOM(function() {
     console.log('AI Orchestrator: DOM ready, detecting environment...');
     
-    const config = getConfig();
+    // First try to get configuration from live preview widget
+    let config = getLivePreviewConfig();
+    
+    // If no live preview, try to get from script attributes
+    if (!config) {
+      config = getConfig();
+    }
+    
     if (!config) {
       console.error('AI Orchestrator: No valid configuration found');
       return;
     }
+
+    console.log('AI Orchestrator: Using configuration:', config);
 
     const isShopifyEnv = isShopify();
     console.log('AI Orchestrator: Environment detected - Shopify:', isShopifyEnv);

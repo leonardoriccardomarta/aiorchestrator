@@ -1,4 +1,5 @@
 // AI Orchestrator Chatbot Widget - Shopify Ultra Compatible Version
+// This version uses iframe for complete isolation from Shopify CSS conflicts
 (function() {
   'use strict';
 
@@ -2161,6 +2162,22 @@
   document.getElementById(`ai-orchestrator-input-${config.chatbotId}`).addEventListener('keypress', handleChatbotKeypress);
 
     console.log('AI Orchestrator: Shopify-compatible widget loaded successfully!');
+    
+    // Expose configuration globally for smart-widget to read
+    window.AIOrchestratorConfig = {
+      chatbotId: config.chatbotId,
+      apiKey: config.apiKey,
+      theme: config.theme,
+      title: config.title,
+      welcomeMessage: config.welcomeMessage,
+      placeholder: config.placeholder,
+      showAvatar: config.showAvatar,
+      size: config.size,
+      primaryLanguage: config.primaryLanguage,
+      timestamp: Date.now()
+    };
+    
+    console.log('AI Orchestrator: Configuration exposed globally:', window.AIOrchestratorConfig);
     
     // Debug: Check if elements are actually visible
     const toggleButton = document.getElementById(`ai-orchestrator-toggle-${config.chatbotId}`);
