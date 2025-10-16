@@ -1125,7 +1125,26 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
     const settings = selectedChatbot?.settings ? 
       (typeof selectedChatbot.settings === 'string' ? JSON.parse(selectedChatbot.settings) : selectedChatbot.settings) : {};
     
-    const widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
+    // Generate different widget code based on platform
+    let widgetCode;
+    if (connection.platform === 'shopify') {
+      // For Shopify, use smart-widget.js which auto-detects environment and loads iframe
+      widgetCode = `<!-- AI Orchestrator Smart Widget for Shopify -->
+<script 
+  src="https://www.aiorchestrator.dev/smart-widget.js"
+  data-chatbot-id="${chatbotId}"
+  data-api-key="${apiUrl}"
+  data-theme="${settings.theme || 'blue'}"
+  data-title="${settings.title || selectedChatbot?.name || 'AI Support'}"
+  data-placeholder="${settings.placeholder || 'Type your message...'}"
+  data-show-avatar="${settings.showAvatar !== false}"
+  data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"
+  data-primary-language="${selectedChatbot?.language || 'auto'}"
+  defer>
+</script>`;
+    } else {
+      // For other platforms, use standard chatbot-widget.js
+      widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
 <script 
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
   data-chatbot-id="${chatbotId}"
@@ -1138,6 +1157,7 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
   data-primary-language="${selectedChatbot?.language || 'auto'}"
   defer>
 </script>`;
+    }
     
     res.json({
       success: true,
