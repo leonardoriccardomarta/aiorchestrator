@@ -1438,12 +1438,54 @@
     // Force correct positioning for Shopify compatibility
     if (toggleButton) {
       console.log('AI Orchestrator: Forcing correct positioning for Shopify...');
-      toggleButton.style.position = 'fixed !important';
-      toggleButton.style.bottom = '1.5rem !important';
-      toggleButton.style.right = '1.5rem !important';
-      toggleButton.style.zIndex = '999999999 !important';
-      toggleButton.style.display = 'flex !important';
-      toggleButton.style.visibility = 'visible !important';
+      
+      // Remove all existing positioning
+      toggleButton.style.position = '';
+      toggleButton.style.bottom = '';
+      toggleButton.style.right = '';
+      toggleButton.style.top = '';
+      toggleButton.style.left = '';
+      toggleButton.style.zIndex = '';
+      toggleButton.style.display = '';
+      toggleButton.style.visibility = '';
+      
+      // Force positioning with direct style application
+      toggleButton.setAttribute('style', `
+        position: fixed !important;
+        bottom: 1.5rem !important;
+        right: 1.5rem !important;
+        z-index: 999999999 !important;
+        display: flex !important;
+        visibility: visible !important;
+        width: 4rem !important;
+        height: 4rem !important;
+        border-radius: 50% !important;
+        background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
+        border: none !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        outline: none !important;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        font-size: 1rem !important;
+        font-weight: normal !important;
+        line-height: 1 !important;
+        color: white !important;
+        text-decoration: none !important;
+        text-align: center !important;
+        vertical-align: middle !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+        box-sizing: border-box !important;
+        transform: none !important;
+        transition: transform 0.2s ease !important;
+        animation: none !important;
+        opacity: 1 !important;
+      `);
+      
       console.log('✅ Widget ready! Toggle button position:', window.getComputedStyle(toggleButton).position);
       console.log('✅ Widget ready! Toggle button z-index:', window.getComputedStyle(toggleButton).zIndex);
     }
@@ -1451,13 +1493,97 @@
     // Force correct positioning for chat widget too
     if (chatWidget) {
       console.log('AI Orchestrator: Forcing chat widget positioning...');
-      chatWidget.style.position = 'fixed !important';
-      chatWidget.style.bottom = '6rem !important';
-      chatWidget.style.right = '1.5rem !important';
-      chatWidget.style.zIndex = '999999998 !important';
+      
+      // Remove all existing positioning
+      chatWidget.style.position = '';
+      chatWidget.style.bottom = '';
+      chatWidget.style.right = '';
+      chatWidget.style.top = '';
+      chatWidget.style.left = '';
+      chatWidget.style.zIndex = '';
+      chatWidget.style.display = '';
+      chatWidget.style.visibility = '';
+      
+      // Force positioning with direct style application
+      chatWidget.setAttribute('style', `
+        position: fixed !important;
+        bottom: 6rem !important;
+        right: 1.5rem !important;
+        z-index: 999999998 !important;
+        display: none !important;
+        visibility: visible !important;
+        width: 24rem !important;
+        height: 32rem !important;
+        background: white !important;
+        border-radius: 1rem !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+        border: 1px solid rgb(229 231 235) !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        outline: none !important;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        font-size: 1rem !important;
+        font-weight: normal !important;
+        line-height: 1.5 !important;
+        color: rgb(17 24 39) !important;
+        text-decoration: none !important;
+        text-align: left !important;
+        vertical-align: baseline !important;
+        white-space: normal !important;
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
+        box-sizing: border-box !important;
+      `);
+      
       console.log('✅ Chat widget position:', window.getComputedStyle(chatWidget).position);
       console.log('✅ Chat widget z-index:', window.getComputedStyle(chatWidget).zIndex);
     }
+    
+    // Periodic check to ensure positioning stays correct
+    setInterval(() => {
+      if (toggleButton && window.getComputedStyle(toggleButton).position !== 'fixed') {
+        console.log('AI Orchestrator: Fixing toggle button position...');
+        toggleButton.setAttribute('style', `
+          position: fixed !important;
+          bottom: 1.5rem !important;
+          right: 1.5rem !important;
+          z-index: 999999999 !important;
+          display: flex !important;
+          visibility: visible !important;
+          width: 4rem !important;
+          height: 4rem !important;
+          border-radius: 50% !important;
+          background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
+          border: none !important;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+          align-items: center !important;
+          justify-content: center !important;
+          cursor: pointer !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          outline: none !important;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+          font-size: 1rem !important;
+          font-weight: normal !important;
+          line-height: 1 !important;
+          color: white !important;
+          text-decoration: none !important;
+          text-align: center !important;
+          vertical-align: middle !important;
+          white-space: nowrap !important;
+          overflow: visible !important;
+          box-sizing: border-box !important;
+          transform: none !important;
+          transition: transform 0.2s ease !important;
+          animation: none !important;
+          opacity: 1 !important;
+        `);
+      }
+    }, 1000);
+    
     } // End of initializeWidget function
 
 })(); // End of IIFE
