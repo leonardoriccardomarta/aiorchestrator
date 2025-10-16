@@ -66,8 +66,17 @@
       const placeholder = liveWidget.querySelector('input[type="text"]')?.placeholder || 'Type your id';
       const showAvatar = liveWidget.querySelector('[class*="avatar"], .avatar') !== null;
       
-      // Extract theme from CSS classes or computed styles
+      // Extract theme and colors from CSS classes or computed styles
       let theme = 'teal';
+      let themeColors = {
+        primary: 'rgb(13 148 136)',
+        primaryDark: 'rgb(15 118 110)',
+        headerLight: 'rgb(153 246 228)',
+        headerDark: 'rgb(94 234 212)',
+        text: 'rgb(19 78 74)',
+        accent: 'rgb(34 197 94)'
+      };
+      
       const header = liveWidget.querySelector('[class*="header"], .header');
       if (header) {
         const computedStyle = window.getComputedStyle(header);
@@ -76,31 +85,96 @@
         // Check for specific teal colors
         if (bgColor.includes('153, 246, 228') || bgColor.includes('94, 234, 212')) {
           theme = 'teal';
+          themeColors = {
+            primary: 'rgb(13 148 136)',
+            primaryDark: 'rgb(15 118 110)',
+            headerLight: 'rgb(153 246 228)',
+            headerDark: 'rgb(94 234 212)',
+            text: 'rgb(19 78 74)',
+            accent: 'rgb(34 197 94)'
+          };
         } else if (bgColor.includes('191, 219, 254') || bgColor.includes('147, 197, 253')) {
           theme = 'blue';
+          themeColors = {
+            primary: 'rgb(37 99 235)',
+            primaryDark: 'rgb(29 78 216)',
+            headerLight: 'rgb(191 219 254)',
+            headerDark: 'rgb(147 197 253)',
+            text: 'rgb(30 64 175)',
+            accent: 'rgb(34 197 94)'
+          };
         } else if (bgColor.includes('196, 181, 253') || bgColor.includes('167, 139, 250')) {
           theme = 'purple';
+          themeColors = {
+            primary: 'rgb(124 58 237)',
+            primaryDark: 'rgb(109 40 217)',
+            headerLight: 'rgb(196 181 253)',
+            headerDark: 'rgb(167 139 250)',
+            text: 'rgb(88 28 135)',
+            accent: 'rgb(34 197 94)'
+          };
         } else if (bgColor.includes('187, 247, 208') || bgColor.includes('134, 239, 172')) {
           theme = 'green';
+          themeColors = {
+            primary: 'rgb(34 197 94)',
+            primaryDark: 'rgb(22 163 74)',
+            headerLight: 'rgb(187 247 208)',
+            headerDark: 'rgb(134 239 172)',
+            text: 'rgb(22 101 52)',
+            accent: 'rgb(34 197 94)'
+          };
         } else if (bgColor.includes('254, 202, 202') || bgColor.includes('252, 165, 165')) {
           theme = 'red';
+          themeColors = {
+            primary: 'rgb(239 68 68)',
+            primaryDark: 'rgb(220 38 38)',
+            headerLight: 'rgb(254 202 202)',
+            headerDark: 'rgb(252 165 165)',
+            text: 'rgb(153 27 27)',
+            accent: 'rgb(34 197 94)'
+          };
         } else if (bgColor.includes('254, 215, 170') || bgColor.includes('251, 191, 143')) {
           theme = 'orange';
+          themeColors = {
+            primary: 'rgb(249 115 22)',
+            primaryDark: 'rgb(234 88 12)',
+            headerLight: 'rgb(254 215 170)',
+            headerDark: 'rgb(251 191 143)',
+            text: 'rgb(154 52 18)',
+            accent: 'rgb(34 197 94)'
+          };
         } else if (bgColor.includes('251, 207, 232') || bgColor.includes('249, 168, 212')) {
           theme = 'pink';
+          themeColors = {
+            primary: 'rgb(236 72 153)',
+            primaryDark: 'rgb(219 39 119)',
+            headerLight: 'rgb(251 207 232)',
+            headerDark: 'rgb(249 168 212)',
+            text: 'rgb(157 23 77)',
+            accent: 'rgb(34 197 94)'
+          };
         } else if (bgColor.includes('199, 210, 254') || bgColor.includes('165, 180, 252')) {
           theme = 'indigo';
+          themeColors = {
+            primary: 'rgb(99 102 241)',
+            primaryDark: 'rgb(79 70 229)',
+            headerLight: 'rgb(199 210 254)',
+            headerDark: 'rgb(165 180 252)',
+            text: 'rgb(67 56 202)',
+            accent: 'rgb(34 197 94)'
+          };
         }
       }
       
       console.log('AI Orchestrator: Extracted configuration:', {
-        title, welcomeMessage, placeholder, showAvatar, theme
+        title, welcomeMessage, placeholder, showAvatar, theme, themeColors
       });
       
       return {
         chatbotId: 'live-preview',
         apiKey: 'demo-key',
         theme: theme,
+        themeColors: themeColors,
         title: title,
         welcomeMessage: welcomeMessage,
         placeholder: placeholder,
@@ -195,6 +269,16 @@
     iframeUrl.searchParams.set('placeholder', config.placeholder);
     iframeUrl.searchParams.set('showAvatar', config.showAvatar);
     iframeUrl.searchParams.set('primaryLanguage', config.primaryLanguage);
+    
+    // Add theme colors if available
+    if (config.themeColors) {
+      iframeUrl.searchParams.set('primaryColor', config.themeColors.primary);
+      iframeUrl.searchParams.set('primaryDarkColor', config.themeColors.primaryDark);
+      iframeUrl.searchParams.set('headerLightColor', config.themeColors.headerLight);
+      iframeUrl.searchParams.set('headerDarkColor', config.themeColors.headerDark);
+      iframeUrl.searchParams.set('textColor', config.themeColors.text);
+      iframeUrl.searchParams.set('accentColor', config.themeColors.accent);
+    }
 
     iframe.src = iframeUrl.toString();
     iframe.allow = 'microphone; camera';

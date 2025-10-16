@@ -1306,7 +1306,14 @@
             welcomeMessage: urlParams.get('welcomeMessage') || 'Hello! I\'m your ai',
             placeholder: urlParams.get('placeholder') || 'Type your id',
             showAvatar: urlParams.get('showAvatar') !== 'false',
-            primaryLanguage: urlParams.get('primaryLanguage') || 'en'
+            primaryLanguage: urlParams.get('primaryLanguage') || 'en',
+            // Theme colors
+            primaryColor: urlParams.get('primaryColor') || 'rgb(13 148 136)',
+            primaryDarkColor: urlParams.get('primaryDarkColor') || 'rgb(15 118 110)',
+            headerLightColor: urlParams.get('headerLightColor') || 'rgb(153 246 228)',
+            headerDarkColor: urlParams.get('headerDarkColor') || 'rgb(94 234 212)',
+            textColor: urlParams.get('textColor') || 'rgb(19 78 74)',
+            accentColor: urlParams.get('accentColor') || 'rgb(34 197 94)'
         };
 
         // Apply configuration
@@ -1321,6 +1328,49 @@
         
         const welcomeTimeElement = document.getElementById('welcomeTime');
         if (welcomeTimeElement) welcomeTimeElement.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        // Apply dynamic theme colors
+        function applyThemeColors() {
+            // Toggle button colors
+            const toggleButton = document.getElementById('toggleButton');
+            if (toggleButton) {
+                toggleButton.style.background = `linear-gradient(135deg, ${config.primaryColor}, ${config.primaryDarkColor})`;
+            }
+
+            // Header colors
+            const header = document.querySelector('.header');
+            if (header) {
+                header.style.background = `linear-gradient(135deg, ${config.headerLightColor}, ${config.headerDarkColor})`;
+            }
+
+            // Avatar colors
+            const avatar = document.querySelector('.avatar');
+            if (avatar) {
+                avatar.style.background = `linear-gradient(135deg, ${config.primaryColor}, ${config.primaryDarkColor})`;
+            }
+
+            // Title color
+            if (titleElement) {
+                titleElement.style.color = config.textColor;
+            }
+
+            // Send button color
+            const sendButton = document.getElementById('sendButton');
+            if (sendButton) {
+                sendButton.style.background = config.primaryColor;
+            }
+
+            // Input focus color
+            if (messageInputElement) {
+                messageInputElement.addEventListener('focus', function() {
+                    this.style.borderColor = config.primaryColor;
+                    this.style.boxShadow = `0 0 0 2px ${config.primaryColor.replace('rgb', 'rgba').replace(')', ', 0.2)')}`;
+                });
+            }
+        }
+
+        // Apply theme colors
+        applyThemeColors();
 
         // Widget state
         let isOpen = false;
