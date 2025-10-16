@@ -1126,6 +1126,12 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
       (typeof selectedChatbot.settings === 'string' ? JSON.parse(selectedChatbot.settings) : selectedChatbot.settings) : {};
     
     // Generate different widget code based on platform
+    console.log('🔍 Connection platform check:', {
+      connectionId: connection.id,
+      platform: connection.platform,
+      isShopify: connection.platform === 'shopify'
+    });
+    
     let widgetCode;
     if (connection.platform === 'shopify') {
       // For Shopify, use GTM approach with iframe isolation
