@@ -1,6 +1,25 @@
-// AI Orchestrator Chatbot Widget - Shopify Compatible Version
+// AI Orchestrator Chatbot Widget - Shopify Ultra Compatible Version
 (function() {
   'use strict';
+
+  // Create a completely isolated widget container
+  const widgetContainer = document.createElement('div');
+  widgetContainer.id = 'ai-orchestrator-isolated-widget';
+  widgetContainer.style.cssText = `
+    position: fixed !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    pointer-events: none !important;
+    z-index: 999999999 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  `;
+  document.body.appendChild(widgetContainer);
 
   // Inject fallback CSS immediately for Shopify compatibility
   console.log('AI Orchestrator: Injecting fallback CSS immediately for Shopify compatibility...');
@@ -588,77 +607,771 @@
 
   const position = positions[config.position] || positions['bottom-right'];
 
-  // Create widget HTML with proper structure
+  // Create widget HTML with inline styles for maximum compatibility
   const widgetHTML = `
-    <div id="ai-orchestrator-widget-${config.chatbotId}">
+    <div id="ai-orchestrator-widget-${config.chatbotId}" style="
+      position: fixed !important;
+      bottom: 1.5rem !important;
+      right: 1.5rem !important;
+      z-index: 999999999 !important;
+      width: auto !important;
+      height: auto !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      background: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    ">
       <!-- Toggle Button -->
-      <button id="ai-orchestrator-toggle-${config.chatbotId}">
-        <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <button id="ai-orchestrator-toggle-${config.chatbotId}" style="
+        position: fixed !important;
+        bottom: 1.5rem !important;
+        right: 1.5rem !important;
+        width: 4rem !important;
+        height: 4rem !important;
+        border-radius: 50% !important;
+        background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
+        border: none !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        outline: none !important;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        font-size: 1rem !important;
+        font-weight: normal !important;
+        line-height: 1 !important;
+        color: white !important;
+        text-decoration: none !important;
+        text-align: center !important;
+        vertical-align: middle !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+        box-sizing: border-box !important;
+        transform: none !important;
+        transition: transform 0.2s ease !important;
+        animation: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        z-index: 999999999 !important;
+      ">
+        <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="
+          width: 1.75rem !important;
+          height: 1.75rem !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          border: none !important;
+          outline: none !important;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+          font-size: 1rem !important;
+          font-weight: normal !important;
+          line-height: 1 !important;
+          color: white !important;
+          text-decoration: none !important;
+          text-align: center !important;
+          vertical-align: middle !important;
+          white-space: nowrap !important;
+          overflow: visible !important;
+          position: relative !important;
+          z-index: 1 !important;
+          min-width: 1.75rem !important;
+          min-height: 1.75rem !important;
+          max-width: 1.75rem !important;
+          max-height: 1.75rem !important;
+          box-sizing: border-box !important;
+          box-shadow: none !important;
+          transform: none !important;
+          transition: none !important;
+          animation: none !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+        ">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-          </svg>
-        <div style="position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; background: rgb(34 197 94); border-radius: 50%; border: 2px solid white;"></div>
+        </svg>
+        <div style="
+          position: absolute !important;
+          top: -4px !important;
+          right: -4px !important;
+          width: 12px !important;
+          height: 12px !important;
+          background: rgb(34 197 94) !important;
+          border-radius: 50% !important;
+          border: 2px solid white !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          outline: none !important;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+          font-size: 1rem !important;
+          font-weight: normal !important;
+          line-height: 1 !important;
+          color: transparent !important;
+          text-decoration: none !important;
+          text-align: center !important;
+          vertical-align: middle !important;
+          white-space: nowrap !important;
+          overflow: visible !important;
+          box-sizing: border-box !important;
+          box-shadow: none !important;
+          transform: none !important;
+          transition: none !important;
+          animation: none !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+        "></div>
       </button>
 
       <!-- Chat Widget -->
-      <div id="ai-orchestrator-chat-${config.chatbotId}">
+      <div id="ai-orchestrator-chat-${config.chatbotId}" style="
+        position: fixed !important;
+        bottom: 6rem !important;
+        right: 1.5rem !important;
+        z-index: 999999998 !important;
+        display: none !important;
+        visibility: visible !important;
+        width: 24rem !important;
+        height: 32rem !important;
+        background: white !important;
+        border-radius: 1rem !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+        border: 1px solid rgb(229 231 235) !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        outline: none !important;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        font-size: 1rem !important;
+        font-weight: normal !important;
+        line-height: 1.5 !important;
+        color: rgb(17 24 39) !important;
+        text-decoration: none !important;
+        text-align: left !important;
+        vertical-align: baseline !important;
+        white-space: normal !important;
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
+        box-sizing: border-box !important;
+      ">
         <!-- Header -->
-        <div class="header">
-          <div class="header-left">
+        <div class="header" style="
+          background: linear-gradient(135deg, rgb(153 246 228), rgb(94 234 212)) !important;
+          border-bottom: 2px solid rgb(153 246 228) !important;
+          padding: 1rem !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: space-between !important;
+          margin: 0 !important;
+          border: none !important;
+          outline: none !important;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+          font-size: 1rem !important;
+          font-weight: normal !important;
+          line-height: 1.5 !important;
+          color: rgb(19 78 74) !important;
+          text-decoration: none !important;
+          text-align: left !important;
+          vertical-align: baseline !important;
+          white-space: normal !important;
+          overflow: visible !important;
+          position: relative !important;
+          z-index: 1 !important;
+          width: 100% !important;
+          height: auto !important;
+          min-height: auto !important;
+          max-height: none !important;
+          box-sizing: border-box !important;
+        ">
+          <div class="header-left" style="
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.75rem !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+            outline: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-size: 1rem !important;
+            font-weight: normal !important;
+            line-height: 1.5 !important;
+            color: rgb(19 78 74) !important;
+            text-decoration: none !important;
+            text-align: left !important;
+            vertical-align: baseline !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            position: relative !important;
+            z-index: 1 !important;
+            width: auto !important;
+            height: auto !important;
+            min-height: auto !important;
+            max-height: none !important;
+            box-sizing: border-box !important;
+            background: none !important;
+            box-shadow: none !important;
+            transform: none !important;
+            transition: none !important;
+            animation: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+          ">
             ${config.showAvatar ? `
-              <div class="avatar">
-                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="avatar" style="
+                width: 2.5rem !important;
+                height: 2.5rem !important;
+                background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
+                border-radius: 50% !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                outline: none !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-size: 1rem !important;
+                font-weight: normal !important;
+                line-height: 1 !important;
+                color: white !important;
+                text-decoration: none !important;
+                text-align: center !important;
+                vertical-align: middle !important;
+                white-space: nowrap !important;
+                overflow: visible !important;
+                position: relative !important;
+                z-index: 1 !important;
+                min-width: 2.5rem !important;
+                min-height: 2.5rem !important;
+                max-width: 2.5rem !important;
+                max-height: 2.5rem !important;
+                box-sizing: border-box !important;
+                box-shadow: none !important;
+                transform: none !important;
+                transition: none !important;
+                animation: none !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+              ">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="
+                  width: 1.25rem !important;
+                  height: 1.25rem !important;
+                  margin: 0 !important;
+                  padding: 0 !important;
+                  border: none !important;
+                  outline: none !important;
+                  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                  font-size: 1rem !important;
+                  font-weight: normal !important;
+                  line-height: 1 !important;
+                  color: white !important;
+                  text-decoration: none !important;
+                  text-align: center !important;
+                  vertical-align: middle !important;
+                  white-space: nowrap !important;
+                  overflow: visible !important;
+                  position: relative !important;
+                  z-index: 1 !important;
+                  min-width: 1.25rem !important;
+                  min-height: 1.25rem !important;
+                  max-width: 1.25rem !important;
+                  max-height: 1.25rem !important;
+                  box-sizing: border-box !important;
+                  box-shadow: none !important;
+                  transform: none !important;
+                  transition: none !important;
+                  animation: none !important;
+                  opacity: 1 !important;
+                  visibility: visible !important;
+                ">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
               </div>
             ` : ''}
-              <div>
-              <div class="title">${config.title}</div>
-              <div class="status">
-                <div class="status-dot"></div>
+            <div style="
+              margin: 0 !important;
+              padding: 0 !important;
+              border: none !important;
+              outline: none !important;
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+              font-size: 1rem !important;
+              font-weight: normal !important;
+              line-height: 1.5 !important;
+              color: rgb(19 78 74) !important;
+              text-decoration: none !important;
+              text-align: left !important;
+              vertical-align: baseline !important;
+              white-space: normal !important;
+              overflow: visible !important;
+              position: relative !important;
+              z-index: 1 !important;
+              width: auto !important;
+              height: auto !important;
+              min-height: auto !important;
+              max-height: none !important;
+              box-sizing: border-box !important;
+              background: none !important;
+              box-shadow: none !important;
+              transform: none !important;
+              transition: none !important;
+              animation: none !important;
+              opacity: 1 !important;
+              visibility: visible !important;
+            ">
+              <div class="title" style="
+                font-weight: 700 !important;
+                color: rgb(19 78 74) !important;
+                font-size: 1rem !important;
+                line-height: 1.25rem !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                outline: none !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                text-decoration: none !important;
+                text-align: left !important;
+                vertical-align: baseline !important;
+                white-space: normal !important;
+                overflow: visible !important;
+                position: relative !important;
+                z-index: 1 !important;
+                width: auto !important;
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
+                box-sizing: border-box !important;
+                background: none !important;
+                box-shadow: none !important;
+                transform: none !important;
+                transition: none !important;
+                animation: none !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+              ">${config.title}</div>
+              <div class="status" style="
+                font-size: 0.75rem !important;
+                color: rgb(75 85 99) !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 0.25rem !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                outline: none !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-weight: normal !important;
+                line-height: 1 !important;
+                text-decoration: none !important;
+                text-align: left !important;
+                vertical-align: baseline !important;
+                white-space: normal !important;
+                overflow: visible !important;
+                position: relative !important;
+                z-index: 1 !important;
+                width: auto !important;
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
+                box-sizing: border-box !important;
+                background: none !important;
+                box-shadow: none !important;
+                transform: none !important;
+                transition: none !important;
+                animation: none !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+              ">
+                <div class="status-dot" style="
+                  width: 0.5rem !important;
+                  height: 0.5rem !important;
+                  background: rgb(34 197 94) !important;
+                  border-radius: 50% !important;
+                  margin: 0 !important;
+                  padding: 0 !important;
+                  border: none !important;
+                  outline: none !important;
+                  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                  font-size: 1rem !important;
+                  font-weight: normal !important;
+                  line-height: 1 !important;
+                  color: transparent !important;
+                  text-decoration: none !important;
+                  text-align: left !important;
+                  vertical-align: baseline !important;
+                  white-space: normal !important;
+                  overflow: visible !important;
+                  position: relative !important;
+                  z-index: 1 !important;
+                  min-width: 0.5rem !important;
+                  min-height: 0.5rem !important;
+                  max-width: 0.5rem !important;
+                  max-height: 0.5rem !important;
+                  box-sizing: border-box !important;
+                  box-shadow: none !important;
+                  transform: none !important;
+                  transition: none !important;
+                  animation: none !important;
+                  opacity: 1 !important;
+                  visibility: visible !important;
+                "></div>
                 Online 24/7
               </div>
             </div>
           </div>
-          <div class="header-right">
-            <button id="ai-orchestrator-minimize-${config.chatbotId}" class="header-button">
-              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="header-right" style="
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+            outline: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-size: 1rem !important;
+            font-weight: normal !important;
+            line-height: 1.5 !important;
+            color: rgb(75 85 99) !important;
+            text-decoration: none !important;
+            text-align: left !important;
+            vertical-align: baseline !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            position: relative !important;
+            z-index: 1 !important;
+            width: auto !important;
+            height: auto !important;
+            min-height: auto !important;
+            max-height: none !important;
+            box-sizing: border-box !important;
+            background: none !important;
+            box-shadow: none !important;
+            transform: none !important;
+            transition: none !important;
+            animation: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+          ">
+            <button id="ai-orchestrator-minimize-${config.chatbotId}" class="header-button" style="
+              color: rgb(75 85 99) !important;
+              background: none !important;
+              border: none !important;
+              padding: 0.5rem !important;
+              border-radius: 0.5rem !important;
+              cursor: pointer !important;
+              transition: background-color 0.2s ease !important;
+              margin: 0 !important;
+              outline: none !important;
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+              font-size: 1rem !important;
+              font-weight: normal !important;
+              line-height: 1 !important;
+              text-decoration: none !important;
+              text-align: center !important;
+              vertical-align: middle !important;
+              white-space: nowrap !important;
+              overflow: visible !important;
+              position: relative !important;
+              z-index: 1 !important;
+              width: auto !important;
+              height: auto !important;
+              min-height: auto !important;
+              max-height: none !important;
+              box-sizing: border-box !important;
+              box-shadow: none !important;
+              transform: none !important;
+              animation: none !important;
+              opacity: 1 !important;
+              visibility: visible !important;
+            ">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="
+                width: 1rem !important;
+                height: 1rem !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                outline: none !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-size: 1rem !important;
+                font-weight: normal !important;
+                line-height: 1 !important;
+                color: rgb(75 85 99) !important;
+                text-decoration: none !important;
+                text-align: center !important;
+                vertical-align: middle !important;
+                white-space: nowrap !important;
+                overflow: visible !important;
+                position: relative !important;
+                z-index: 1 !important;
+                min-width: 1rem !important;
+                min-height: 1rem !important;
+                max-width: 1rem !important;
+                max-height: 1rem !important;
+                box-sizing: border-box !important;
+                box-shadow: none !important;
+                transform: none !important;
+                transition: none !important;
+                animation: none !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+              ">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
               </svg>
             </button>
-            <button id="ai-orchestrator-close-${config.chatbotId}" class="header-button">
-              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button id="ai-orchestrator-close-${config.chatbotId}" class="header-button" style="
+              color: rgb(75 85 99) !important;
+              background: none !important;
+              border: none !important;
+              padding: 0.5rem !important;
+              border-radius: 0.5rem !important;
+              cursor: pointer !important;
+              transition: background-color 0.2s ease !important;
+              margin: 0 !important;
+              outline: none !important;
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+              font-size: 1rem !important;
+              font-weight: normal !important;
+              line-height: 1 !important;
+              text-decoration: none !important;
+              text-align: center !important;
+              vertical-align: middle !important;
+              white-space: nowrap !important;
+              overflow: visible !important;
+              position: relative !important;
+              z-index: 1 !important;
+              width: auto !important;
+              height: auto !important;
+              min-height: auto !important;
+              max-height: none !important;
+              box-sizing: border-box !important;
+              box-shadow: none !important;
+              transform: none !important;
+              animation: none !important;
+              opacity: 1 !important;
+              visibility: visible !important;
+            ">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="
+                width: 1rem !important;
+                height: 1rem !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                outline: none !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+                font-size: 1rem !important;
+                font-weight: normal !important;
+                line-height: 1 !important;
+                color: rgb(75 85 99) !important;
+                text-decoration: none !important;
+                text-align: center !important;
+                vertical-align: middle !important;
+                white-space: nowrap !important;
+                overflow: visible !important;
+                position: relative !important;
+                z-index: 1 !important;
+                min-width: 1rem !important;
+                min-height: 1rem !important;
+                max-width: 1rem !important;
+                max-height: 1rem !important;
+                box-sizing: border-box !important;
+                box-shadow: none !important;
+                transform: none !important;
+                transition: none !important;
+                animation: none !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+              ">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
               </svg>
             </button>
           </div>
-          </div>
+        </div>
           
         <!-- Messages -->
-        <div id="ai-orchestrator-messages-${config.chatbotId}">
+        <div id="ai-orchestrator-messages-${config.chatbotId}" style="
+          height: 24rem !important;
+          overflow-y: auto !important;
+          padding: 1rem !important;
+          background: rgb(249 250 251) !important;
+          margin: 0 !important;
+          border: none !important;
+          outline: none !important;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+          font-size: 1rem !important;
+          font-weight: normal !important;
+          line-height: 1.5 !important;
+          color: rgb(17 24 39) !important;
+          text-decoration: none !important;
+          text-align: left !important;
+          vertical-align: baseline !important;
+          white-space: normal !important;
+          position: relative !important;
+          z-index: 1 !important;
+          width: 100% !important;
+          min-height: 24rem !important;
+          max-height: 24rem !important;
+          box-sizing: border-box !important;
+          box-shadow: none !important;
+          transform: none !important;
+          transition: none !important;
+          animation: none !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+        ">
           <div style="margin-bottom: 1rem; display: flex; justify-content: flex-start;">
             <div style="max-width: 80%; border-radius: 1rem; padding: 1rem; background: white; color: rgb(17 24 39); border: 1px solid rgb(229 231 235);">
               <div style="font-size: 0.875rem; line-height: 1.25rem;">${config.welcomeMessage}</div>
               <div style="font-size: 0.75rem; margin-top: 0.25rem; color: rgb(107 114 128);">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-              </div>
             </div>
           </div>
+        </div>
           
         <!-- Input -->
-        <div class="input-area">
+        <div class="input-area" style="
+          padding: 1rem !important;
+          background: white !important;
+          border-top: 1px solid rgb(229 231 235) !important;
+          display: flex !important;
+          gap: 0.5rem !important;
+          margin: 0 !important;
+          border: none !important;
+          outline: none !important;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+          font-size: 1rem !important;
+          font-weight: normal !important;
+          line-height: 1.5 !important;
+          color: rgb(17 24 39) !important;
+          text-decoration: none !important;
+          text-align: left !important;
+          vertical-align: baseline !important;
+          white-space: normal !important;
+          overflow: visible !important;
+          position: relative !important;
+          z-index: 1 !important;
+          width: 100% !important;
+          height: auto !important;
+          min-height: auto !important;
+          max-height: none !important;
+          box-sizing: border-box !important;
+          box-shadow: none !important;
+          transform: none !important;
+          transition: none !important;
+          animation: none !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+        ">
           <input
             id="ai-orchestrator-input-${config.chatbotId}"
             type="text"
             placeholder="${config.placeholder}"
+            style="
+              flex: 1 !important;
+              padding: 0.75rem 1rem !important;
+              border: 1px solid rgb(209 213 219) !important;
+              border-radius: 0.5rem !important;
+              font-size: 0.875rem !important;
+              line-height: 1.25rem !important;
+              outline: none !important;
+              background: white !important;
+              margin: 0 !important;
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+              font-weight: normal !important;
+              color: rgb(17 24 39) !important;
+              text-decoration: none !important;
+              text-align: left !important;
+              vertical-align: baseline !important;
+              white-space: normal !important;
+              overflow: visible !important;
+              position: relative !important;
+              z-index: 1 !important;
+              width: auto !important;
+              height: auto !important;
+              min-height: auto !important;
+              max-height: none !important;
+              box-sizing: border-box !important;
+              box-shadow: none !important;
+              transform: none !important;
+              transition: none !important;
+              animation: none !important;
+              opacity: 1 !important;
+              visibility: visible !important;
+            "
           />
-          <button id="ai-orchestrator-send-${config.chatbotId}">
-            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button id="ai-orchestrator-send-${config.chatbotId}" style="
+            background: rgb(13 148 136) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 0.5rem !important;
+            padding: 0.75rem 1rem !important;
+            cursor: pointer !important;
+            transition: opacity 0.2s ease !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            min-width: 3rem !important;
+            height: 2.75rem !important;
+            margin: 0 !important;
+            outline: none !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            font-size: 1rem !important;
+            font-weight: normal !important;
+            line-height: 1 !important;
+            text-decoration: none !important;
+            text-align: center !important;
+            vertical-align: middle !important;
+            white-space: nowrap !important;
+            overflow: visible !important;
+            position: relative !important;
+            z-index: 1 !important;
+            width: auto !important;
+            min-height: 2.75rem !important;
+            max-height: 2.75rem !important;
+            box-sizing: border-box !important;
+            box-shadow: none !important;
+            transform: none !important;
+            animation: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+          ">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="
+              width: 1.25rem !important;
+              height: 1.25rem !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              border: none !important;
+              outline: none !important;
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+              font-size: 1rem !important;
+              font-weight: normal !important;
+              line-height: 1 !important;
+              color: white !important;
+              text-decoration: none !important;
+              text-align: center !important;
+              vertical-align: middle !important;
+              white-space: nowrap !important;
+              overflow: visible !important;
+              position: relative !important;
+              z-index: 1 !important;
+              min-width: 1.25rem !important;
+              min-height: 1.25rem !important;
+              max-width: 1.25rem !important;
+              max-height: 1.25rem !important;
+              box-sizing: border-box !important;
+              box-shadow: none !important;
+              transform: none !important;
+              transition: none !important;
+              animation: none !important;
+              opacity: 1 !important;
+              visibility: visible !important;
+            ">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
             </svg>
           </button>
-          </div>
         </div>
       </div>
-    `;
+    </div>
+  `;
 
     // Add styles with EXTREME specificity to override Shopify
   const style = document.createElement('style');
@@ -1220,8 +1933,8 @@
   
   console.log('AI Orchestrator: Widget cleanup completed');
   
-  // Add widget to page
-  document.body.insertAdjacentHTML('beforeend', widgetHTML);
+  // Add widget to isolated container
+  widgetContainer.insertAdjacentHTML('beforeend', widgetHTML);
   
   // Final check: Remove any widgets that might have been added after our cleanup
   setTimeout(() => {
