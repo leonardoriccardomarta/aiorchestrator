@@ -588,108 +588,286 @@
 
   const position = positions[config.position] || positions['bottom-right'];
 
-  // Create widget HTML
+  // Create widget HTML with proper structure
   const widgetHTML = `
-    <div id="ai-orchestrator-widget-${config.chatbotId}" class="fixed ${position} z-50">
+    <div id="ai-orchestrator-widget-${config.chatbotId}">
       <!-- Toggle Button -->
-      <button id="ai-orchestrator-toggle-${config.chatbotId}" class="${size.buttonSize} bg-gradient-to-br ${theme.primary} text-white rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group">
-        <svg class="${size.iconSize}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <button id="ai-orchestrator-toggle-${config.chatbotId}">
+        <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-        </svg>
-        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
-        <div class="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-          ${config.title}
-        </div>
+          </svg>
+        <div style="position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; background: rgb(34 197 94); border-radius: 50%; border: 2px solid white;"></div>
       </button>
 
       <!-- Chat Widget -->
-      <div id="ai-orchestrator-chat-${config.chatbotId}" class="${size.width} ${size.height} bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 hidden">
+      <div id="ai-orchestrator-chat-${config.chatbotId}">
         <!-- Header -->
-        <div class="bg-gradient-to-br ${theme.secondary} border-b-2 ${theme.border} p-4">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              ${config.showAvatar ? `
-                <div class="w-10 h-10 bg-gradient-to-br ${theme.primary} rounded-full flex items-center justify-center">
-                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-          </svg>
-        </div>
-              ` : ''}
-              <div>
-                <div class="font-bold ${theme.text}">${config.title}</div>
-                <div class="text-xs text-gray-600 flex items-center gap-1">
-                  <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                  Online 24/7
-                </div>
+        <div class="header">
+          <div class="header-left">
+            ${config.showAvatar ? `
+              <div class="avatar">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
               </div>
-            </div>
-            <div class="flex items-center gap-2">
-              <button id="ai-orchestrator-minimize-${config.chatbotId}" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
-                </svg>
-              </button>
-              <button id="ai-orchestrator-close-${config.chatbotId}" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </button>
+            ` : ''}
+              <div>
+              <div class="title">${config.title}</div>
+              <div class="status">
+                <div class="status-dot"></div>
+                Online 24/7
               </div>
             </div>
           </div>
+          <div class="header-right">
+            <button id="ai-orchestrator-minimize-${config.chatbotId}" class="header-button">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+              </svg>
+            </button>
+            <button id="ai-orchestrator-close-${config.chatbotId}" class="header-button">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+          </div>
           
         <!-- Messages -->
-        <div id="ai-orchestrator-messages-${config.chatbotId}" class="h-96 overflow-y-auto p-4 bg-gray-50">
-          <div class="mb-4 flex justify-start">
-            <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
-              <div class="text-sm">${config.welcomeMessage}</div>
-              <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+        <div id="ai-orchestrator-messages-${config.chatbotId}">
+          <div style="margin-bottom: 1rem; display: flex; justify-content: flex-start;">
+            <div style="max-width: 80%; border-radius: 1rem; padding: 1rem; background: white; color: rgb(17 24 39); border: 1px solid rgb(229 231 235);">
+              <div style="font-size: 0.875rem; line-height: 1.25rem;">${config.welcomeMessage}</div>
+              <div style="font-size: 0.75rem; margin-top: 0.25rem; color: rgb(107 114 128);">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
               </div>
             </div>
           </div>
           
         <!-- Input -->
-        <div class="p-4 bg-white border-t border-gray-200">
-          <div class="flex gap-2">
-            <input
-              id="ai-orchestrator-input-${config.chatbotId}"
-              type="text"
-              placeholder="${config.placeholder}"
-              class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <button id="ai-orchestrator-send-${config.chatbotId}" class="${theme.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-              </svg>
-            </button>
-          </div>
+        <div class="input-area">
+          <input
+            id="ai-orchestrator-input-${config.chatbotId}"
+            type="text"
+            placeholder="${config.placeholder}"
+          />
+          <button id="ai-orchestrator-send-${config.chatbotId}">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+            </svg>
+          </button>
           </div>
         </div>
       </div>
     `;
 
-    // Add styles
+    // Add styles with EXTREME specificity to override Shopify
   const style = document.createElement('style');
   style.textContent = `
+    /* EXTREME SPECIFICITY - Override ALL Shopify styles */
     #ai-orchestrator-widget-${config.chatbotId} * {
-      box-sizing: border-box;
+      box-sizing: border-box !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      outline: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     }
+    
     #ai-orchestrator-widget-${config.chatbotId} {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      }
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      position: fixed !important;
+      bottom: 1.5rem !important;
+      right: 1.5rem !important;
+      z-index: 999999999 !important;
+      width: auto !important;
+      height: auto !important;
+      max-width: none !important;
+      max-height: none !important;
+    }
+    
+    #ai-orchestrator-toggle-${config.chatbotId} {
+      width: 4rem !important;
+      height: 4rem !important;
+      min-width: 4rem !important;
+      min-height: 4rem !important;
+      max-width: 4rem !important;
+      max-height: 4rem !important;
+      border-radius: 50% !important;
+      background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
+      border: none !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      transition: transform 0.2s ease !important;
+    }
+    
+    #ai-orchestrator-toggle-${config.chatbotId}:hover {
+      transform: scale(1.1) !important;
+    }
+    
+    #ai-orchestrator-chat-${config.chatbotId} {
+      width: 24rem !important;
+      height: 32rem !important;
+      min-width: 24rem !important;
+      min-height: 32rem !important;
+      max-width: 24rem !important;
+      max-height: 32rem !important;
+      background: white !important;
+      border-radius: 1rem !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+      border: 1px solid rgb(229 231 235) !important;
+      overflow: hidden !important;
+      position: fixed !important;
+      bottom: 6rem !important;
+      right: 1.5rem !important;
+      z-index: 999999998 !important;
+      display: none !important;
+    }
+    
+    #ai-orchestrator-chat-${config.chatbotId}.show {
+      display: block !important;
+    }
+    
+    /* Header styling */
+    #ai-orchestrator-chat-${config.chatbotId} .header {
+      background: linear-gradient(135deg, rgb(153 246 228), rgb(94 234 212)) !important;
+      border-bottom: 2px solid rgb(153 246 228) !important;
+      padding: 1rem !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+    }
+    
+    #ai-orchestrator-chat-${config.chatbotId} .header-left {
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.75rem !important;
+    }
+    
+    #ai-orchestrator-chat-${config.chatbotId} .avatar {
+      width: 2.5rem !important;
+      height: 2.5rem !important;
+      background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    
+    #ai-orchestrator-chat-${config.chatbotId} .title {
+      font-weight: 700 !important;
+      color: rgb(19 78 74) !important;
+      font-size: 1rem !important;
+      line-height: 1.25rem !important;
+    }
+    
+    #ai-orchestrator-chat-${config.chatbotId} .status {
+      font-size: 0.75rem !important;
+      color: rgb(75 85 99) !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.25rem !important;
+    }
+    
+    #ai-orchestrator-chat-${config.chatbotId} .status-dot {
+      width: 0.5rem !important;
+      height: 0.5rem !important;
+      background: rgb(34 197 94) !important;
+      border-radius: 50% !important;
+    }
+    
+    #ai-orchestrator-chat-${config.chatbotId} .header-right {
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.5rem !important;
+    }
+    
+    #ai-orchestrator-chat-${config.chatbotId} .header-button {
+      color: rgb(75 85 99) !important;
+      background: none !important;
+      border: none !important;
+      padding: 0.5rem !important;
+      border-radius: 0.5rem !important;
+      cursor: pointer !important;
+      transition: background-color 0.2s ease !important;
+    }
+    
+    #ai-orchestrator-chat-${config.chatbotId} .header-button:hover {
+      background: rgb(229 231 235) !important;
+    }
+    
+    /* Messages area */
+    #ai-orchestrator-messages-${config.chatbotId} {
+      height: 24rem !important;
+      overflow-y: auto !important;
+      padding: 1rem !important;
+      background: rgb(249 250 251) !important;
+    }
+    
     #ai-orchestrator-messages-${config.chatbotId}::-webkit-scrollbar {
-      width: 6px;
+      width: 6px !important;
     }
     #ai-orchestrator-messages-${config.chatbotId}::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 3px;
+      background: #f1f1f1 !important;
+      border-radius: 3px !important;
     }
     #ai-orchestrator-messages-${config.chatbotId}::-webkit-scrollbar-thumb {
-      background: #c1c1c1;
-      border-radius: 3px;
+      background: #c1c1c1 !important;
+      border-radius: 3px !important;
     }
     #ai-orchestrator-messages-${config.chatbotId}::-webkit-scrollbar-thumb:hover {
-      background: #a1a1a1;
+      background: #a1a1a1 !important;
+    }
+    
+    /* Input area */
+    #ai-orchestrator-chat-${config.chatbotId} .input-area {
+      padding: 1rem !important;
+      background: white !important;
+      border-top: 1px solid rgb(229 231 235) !important;
+      display: flex !important;
+      gap: 0.5rem !important;
+    }
+    
+    #ai-orchestrator-input-${config.chatbotId} {
+      flex: 1 !important;
+      padding: 0.75rem 1rem !important;
+      border: 1px solid rgb(209 213 219) !important;
+      border-radius: 0.5rem !important;
+      font-size: 0.875rem !important;
+      line-height: 1.25rem !important;
+      outline: none !important;
+      background: white !important;
+    }
+    
+    #ai-orchestrator-input-${config.chatbotId}:focus {
+      border-color: rgb(13 148 136) !important;
+      box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2) !important;
+    }
+    
+    #ai-orchestrator-send-${config.chatbotId} {
+      background: rgb(13 148 136) !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 0.5rem !important;
+      padding: 0.75rem 1rem !important;
+      cursor: pointer !important;
+      transition: opacity 0.2s ease !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      min-width: 3rem !important;
+      height: 2.75rem !important;
+    }
+    
+    #ai-orchestrator-send-${config.chatbotId}:hover {
+      opacity: 0.9 !important;
+    }
+    
+    #ai-orchestrator-send-${config.chatbotId} svg {
+      width: 1.25rem !important;
+      height: 1.25rem !important;
     }
   `;
   document.head.appendChild(style);
@@ -773,12 +951,12 @@
     const button = document.getElementById(`ai-orchestrator-toggle-${config.chatbotId}`);
     
     if (!isOpen) {
-      chat.classList.remove('hidden');
+      chat.classList.add('show');
       button.style.display = 'none';
       isOpen = true;
       document.getElementById(`ai-orchestrator-input-${config.chatbotId}`).focus();
     } else {
-      chat.classList.add('hidden');
+      chat.classList.remove('show');
       button.style.display = 'flex';
       isOpen = false;
     }
@@ -789,7 +967,7 @@
     const chat = document.getElementById(`ai-orchestrator-chat-${config.chatbotId}`);
     const button = document.getElementById(`ai-orchestrator-toggle-${config.chatbotId}`);
     
-    chat.classList.add('hidden');
+    chat.classList.remove('show');
     button.style.display = 'flex';
     isOpen = false;
     isMinimized = false;
