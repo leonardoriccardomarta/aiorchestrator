@@ -1855,7 +1855,7 @@ app.use('/api/agents', agentRoutes);
         }
     
     // Get real metrics (optionally filtered by chatbotId)
-    const realMetrics = await realDataService.calculateRealMetrics(user.id, chatbotId);
+        const realMetrics = await realDataService.calculateRealMetrics(user.id, chatbotId);
     
     // Get plan info
     const planInfo = {
