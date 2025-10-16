@@ -671,6 +671,43 @@
       border: none !important;
       outline: none !important;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      color: inherit !important;
+      background: none !important;
+      text-decoration: none !important;
+      list-style: none !important;
+      text-align: left !important;
+      vertical-align: baseline !important;
+      border-collapse: separate !important;
+      border-spacing: 0 !important;
+      quotes: none !important;
+      content: none !important;
+    }
+    
+    /* Reset all possible Shopify interference */
+    #ai-orchestrator-widget-${config.chatbotId} *:before,
+    #ai-orchestrator-widget-${config.chatbotId} *:after {
+      box-sizing: border-box !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      outline: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      color: inherit !important;
+      background: none !important;
+      text-decoration: none !important;
+      list-style: none !important;
+      text-align: left !important;
+      vertical-align: baseline !important;
+      border-collapse: separate !important;
+      border-spacing: 0 !important;
+      quotes: none !important;
+      content: none !important;
     }
     
     #ai-orchestrator-widget-${config.chatbotId} {
@@ -683,6 +720,18 @@
       height: auto !important;
       max-width: none !important;
       max-height: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      background: none !important;
+      box-shadow: none !important;
+      transform: none !important;
+      transition: none !important;
+      animation: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: block !important;
+      overflow: visible !important;
     }
     
     #ai-orchestrator-toggle-${config.chatbotId} {
@@ -701,6 +750,21 @@
       justify-content: center !important;
       cursor: pointer !important;
       transition: transform 0.2s ease !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      outline: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-size: 1rem !important;
+      font-weight: normal !important;
+      line-height: 1 !important;
+      color: white !important;
+      text-decoration: none !important;
+      text-align: center !important;
+      vertical-align: middle !important;
+      white-space: nowrap !important;
+      overflow: visible !important;
+      position: relative !important;
+      z-index: 1 !important;
     }
     
     #ai-orchestrator-toggle-${config.chatbotId}:hover {
@@ -724,6 +788,23 @@
       right: 1.5rem !important;
       z-index: 999999998 !important;
       display: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      outline: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-size: 1rem !important;
+      font-weight: normal !important;
+      line-height: 1.5 !important;
+      color: rgb(17 24 39) !important;
+      text-decoration: none !important;
+      text-align: left !important;
+      vertical-align: baseline !important;
+      white-space: normal !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+      transition: none !important;
+      animation: none !important;
     }
     
     #ai-orchestrator-chat-${config.chatbotId}.show {
@@ -738,6 +819,26 @@
       display: flex !important;
       align-items: center !important;
       justify-content: space-between !important;
+      margin: 0 !important;
+      border: none !important;
+      outline: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-size: 1rem !important;
+      font-weight: normal !important;
+      line-height: 1.5 !important;
+      color: rgb(19 78 74) !important;
+      text-decoration: none !important;
+      text-align: left !important;
+      vertical-align: baseline !important;
+      white-space: normal !important;
+      overflow: visible !important;
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      height: auto !important;
+      min-height: auto !important;
+      max-height: none !important;
+      box-sizing: border-box !important;
     }
     
     #ai-orchestrator-chat-${config.chatbotId} .header-left {
@@ -761,6 +862,30 @@
       color: rgb(19 78 74) !important;
       font-size: 1rem !important;
       line-height: 1.25rem !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      outline: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      text-decoration: none !important;
+      text-align: left !important;
+      vertical-align: baseline !important;
+      white-space: normal !important;
+      overflow: visible !important;
+      position: relative !important;
+      z-index: 1 !important;
+      width: auto !important;
+      height: auto !important;
+      min-height: auto !important;
+      max-height: none !important;
+      box-sizing: border-box !important;
+      background: none !important;
+      box-shadow: none !important;
+      transform: none !important;
+      transition: none !important;
+      animation: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
     
     #ai-orchestrator-chat-${config.chatbotId} .status {
@@ -769,6 +894,32 @@
       display: flex !important;
       align-items: center !important;
       gap: 0.25rem !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      outline: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-weight: normal !important;
+      line-height: 1 !important;
+      text-decoration: none !important;
+      text-align: left !important;
+      vertical-align: baseline !important;
+      white-space: normal !important;
+      overflow: visible !important;
+      position: relative !important;
+      z-index: 1 !important;
+      width: auto !important;
+      height: auto !important;
+      min-height: auto !important;
+      max-height: none !important;
+      box-sizing: border-box !important;
+      background: none !important;
+      box-shadow: none !important;
+      transform: none !important;
+      transition: none !important;
+      animation: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
     
     #ai-orchestrator-chat-${config.chatbotId} .status-dot {
@@ -776,6 +927,33 @@
       height: 0.5rem !important;
       background: rgb(34 197 94) !important;
       border-radius: 50% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      outline: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-size: 1rem !important;
+      font-weight: normal !important;
+      line-height: 1 !important;
+      color: transparent !important;
+      text-decoration: none !important;
+      text-align: left !important;
+      vertical-align: baseline !important;
+      white-space: normal !important;
+      overflow: visible !important;
+      position: relative !important;
+      z-index: 1 !important;
+      min-width: 0.5rem !important;
+      min-height: 0.5rem !important;
+      max-width: 0.5rem !important;
+      max-height: 0.5rem !important;
+      box-sizing: border-box !important;
+      box-shadow: none !important;
+      transform: none !important;
+      transition: none !important;
+      animation: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
     
     #ai-orchestrator-chat-${config.chatbotId} .header-right {
@@ -804,6 +982,30 @@
       overflow-y: auto !important;
       padding: 1rem !important;
       background: rgb(249 250 251) !important;
+      margin: 0 !important;
+      border: none !important;
+      outline: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-size: 1rem !important;
+      font-weight: normal !important;
+      line-height: 1.5 !important;
+      color: rgb(17 24 39) !important;
+      text-decoration: none !important;
+      text-align: left !important;
+      vertical-align: baseline !important;
+      white-space: normal !important;
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      min-height: 24rem !important;
+      max-height: 24rem !important;
+      box-sizing: border-box !important;
+      box-shadow: none !important;
+      transform: none !important;
+      transition: none !important;
+      animation: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
     
     #ai-orchestrator-messages-${config.chatbotId}::-webkit-scrollbar {
@@ -828,6 +1030,32 @@
       border-top: 1px solid rgb(229 231 235) !important;
       display: flex !important;
       gap: 0.5rem !important;
+      margin: 0 !important;
+      border: none !important;
+      outline: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-size: 1rem !important;
+      font-weight: normal !important;
+      line-height: 1.5 !important;
+      color: rgb(17 24 39) !important;
+      text-decoration: none !important;
+      text-align: left !important;
+      vertical-align: baseline !important;
+      white-space: normal !important;
+      overflow: visible !important;
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      height: auto !important;
+      min-height: auto !important;
+      max-height: none !important;
+      box-sizing: border-box !important;
+      box-shadow: none !important;
+      transform: none !important;
+      transition: none !important;
+      animation: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
     
     #ai-orchestrator-input-${config.chatbotId} {
@@ -839,6 +1067,28 @@
       line-height: 1.25rem !important;
       outline: none !important;
       background: white !important;
+      margin: 0 !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-weight: normal !important;
+      color: rgb(17 24 39) !important;
+      text-decoration: none !important;
+      text-align: left !important;
+      vertical-align: baseline !important;
+      white-space: normal !important;
+      overflow: visible !important;
+      position: relative !important;
+      z-index: 1 !important;
+      width: auto !important;
+      height: auto !important;
+      min-height: auto !important;
+      max-height: none !important;
+      box-sizing: border-box !important;
+      box-shadow: none !important;
+      transform: none !important;
+      transition: none !important;
+      animation: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
     
     #ai-orchestrator-input-${config.chatbotId}:focus {
@@ -859,6 +1109,28 @@
       justify-content: center !important;
       min-width: 3rem !important;
       height: 2.75rem !important;
+      margin: 0 !important;
+      outline: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-size: 1rem !important;
+      font-weight: normal !important;
+      line-height: 1 !important;
+      text-decoration: none !important;
+      text-align: center !important;
+      vertical-align: middle !important;
+      white-space: nowrap !important;
+      overflow: visible !important;
+      position: relative !important;
+      z-index: 1 !important;
+      width: auto !important;
+      min-height: 2.75rem !important;
+      max-height: 2.75rem !important;
+      box-sizing: border-box !important;
+      box-shadow: none !important;
+      transform: none !important;
+      animation: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
     
     #ai-orchestrator-send-${config.chatbotId}:hover {
@@ -868,6 +1140,33 @@
     #ai-orchestrator-send-${config.chatbotId} svg {
       width: 1.25rem !important;
       height: 1.25rem !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      outline: none !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-size: 1rem !important;
+      font-weight: normal !important;
+      line-height: 1 !important;
+      color: white !important;
+      text-decoration: none !important;
+      text-align: center !important;
+      vertical-align: middle !important;
+      white-space: nowrap !important;
+      overflow: visible !important;
+      position: relative !important;
+      z-index: 1 !important;
+      min-width: 1.25rem !important;
+      min-height: 1.25rem !important;
+      max-width: 1.25rem !important;
+      max-height: 1.25rem !important;
+      box-sizing: border-box !important;
+      box-shadow: none !important;
+      transform: none !important;
+      transition: none !important;
+      animation: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
   `;
   document.head.appendChild(style);
