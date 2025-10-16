@@ -450,23 +450,34 @@
 
   // Get configuration from data attributes or legacy config
   function getConfig() {
-    // Use different attribute names to avoid Shopify conflicts
-    const script = document.querySelector('script[data-ai-orchestrator-id]') || 
-                   document.querySelector('script[data-chatbot-id]');
+    // Look for the script tag with chatbot configuration
+    const script = document.querySelector('script[data-chatbot-id]') || 
+                   document.querySelector('script[data-ai-orchestrator-id]');
+    
+    console.log('AI Orchestrator: Looking for script tag...');
+    console.log('AI Orchestrator: Found script:', script);
+    
     if (script) {
-      return {
-        chatbotId: script.dataset.aiOrchestratorId || script.dataset.chatbotId,
+      console.log('AI Orchestrator: Script dataset:', script.dataset);
+      
+      const config = {
+        chatbotId: script.dataset.chatbotId || script.dataset.aiOrchestratorId,
         apiKey: script.dataset.apiKey || 'demo-key',
         position: script.dataset.position || 'bottom-right',
-        theme: script.dataset.theme || 'blue',
-        title: script.dataset.title || 'AI Support',
-        welcomeMessage: script.dataset.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
-        placeholder: script.dataset.placeholder || 'Type your message...',
+        theme: script.dataset.theme || 'teal',
+        title: script.dataset.title || 'My AI',
+        welcomeMessage: script.dataset.welcomeMessage || 'Hello! I\'m your ai',
+        placeholder: script.dataset.placeholder || 'Type your id',
         showAvatar: script.dataset.showAvatar !== 'false',
         size: script.dataset.size || 'medium',
-        primaryLanguage: script.dataset.primaryLanguage || 'auto'
+        primaryLanguage: script.dataset.primaryLanguage || 'en'
       };
+      
+      console.log('AI Orchestrator: Parsed config:', config);
+      return config;
     }
+    
+    console.log('AI Orchestrator: No script tag found');
     return null;
   }
 
@@ -588,7 +599,7 @@
     large: { width: 'w-[28rem]', height: 'h-[28rem]', buttonSize: 'w-20 h-20', iconSize: 'w-8 h-8' }
   };
 
-  const theme = themes[config.theme] || themes.blue;
+  const theme = themes[config.theme] || themes.teal;
   const size = sizes[config.size] || sizes.medium;
   
   console.log('AI Orchestrator: Theme selection:', {
@@ -596,6 +607,34 @@
     selectedTheme: theme,
     themeKeys: Object.keys(themes)
   });
+
+  // Get theme colors for inline styles
+  const getThemeColors = (themeName) => {
+    const themeMap = {
+      'teal': {
+        primary: 'rgb(13 148 136)',
+        primaryDark: 'rgb(15 118 110)',
+        secondary: 'rgb(153 246 228)',
+        secondaryLight: 'rgb(94 234 212)',
+        text: 'rgb(19 78 74)',
+        textLight: 'rgb(75 85 99)',
+        border: 'rgb(153 246 228)'
+      },
+      'blue': {
+        primary: 'rgb(37 99 235)',
+        primaryDark: 'rgb(29 78 216)',
+        secondary: 'rgb(191 219 254)',
+        secondaryLight: 'rgb(147 197 253)',
+        text: 'rgb(30 64 175)',
+        textLight: 'rgb(75 85 99)',
+        border: 'rgb(191 219 254)'
+      }
+    };
+    return themeMap[themeName] || themeMap['teal'];
+  };
+
+  const themeColors = getThemeColors(config.theme);
+  console.log('AI Orchestrator: Theme colors:', themeColors);
 
   // Position configurations
   const positions = {
@@ -630,7 +669,7 @@
         width: 4rem !important;
         height: 4rem !important;
         border-radius: 50% !important;
-        background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
+        background: linear-gradient(135deg, ${themeColors.primary}, ${themeColors.primaryDark}) !important;
         border: none !important;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
         display: flex !important;
@@ -758,8 +797,8 @@
       ">
         <!-- Header -->
         <div class="header" style="
-          background: linear-gradient(135deg, rgb(153 246 228), rgb(94 234 212)) !important;
-          border-bottom: 2px solid rgb(153 246 228) !important;
+          background: linear-gradient(135deg, ${themeColors.secondary}, ${themeColors.secondaryLight}) !important;
+          border-bottom: 2px solid ${themeColors.border} !important;
           padding: 1rem !important;
           display: flex !important;
           align-items: center !important;
@@ -771,7 +810,7 @@
           font-size: 1rem !important;
           font-weight: normal !important;
           line-height: 1.5 !important;
-          color: rgb(19 78 74) !important;
+          color: ${themeColors.text} !important;
           text-decoration: none !important;
           text-align: left !important;
           vertical-align: baseline !important;
@@ -797,7 +836,7 @@
             font-size: 1rem !important;
             font-weight: normal !important;
             line-height: 1.5 !important;
-            color: rgb(19 78 74) !important;
+            color: ${themeColors.text} !important;
             text-decoration: none !important;
             text-align: left !important;
             vertical-align: baseline !important;
@@ -822,7 +861,7 @@
               <div class="avatar" style="
                 width: 2.5rem !important;
                 height: 2.5rem !important;
-                background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
+                background: linear-gradient(135deg, ${themeColors.primary}, ${themeColors.primaryDark}) !important;
                 border-radius: 50% !important;
                 display: flex !important;
                 align-items: center !important;
@@ -899,7 +938,7 @@
               font-size: 1rem !important;
               font-weight: normal !important;
               line-height: 1.5 !important;
-              color: rgb(19 78 74) !important;
+              color: ${themeColors.text} !important;
               text-decoration: none !important;
               text-align: left !important;
               vertical-align: baseline !important;
@@ -922,7 +961,7 @@
             ">
               <div class="title" style="
                 font-weight: 700 !important;
-                color: rgb(19 78 74) !important;
+                color: ${themeColors.text} !important;
                 font-size: 1rem !important;
                 line-height: 1.25rem !important;
                 margin: 0 !important;
@@ -1299,7 +1338,7 @@
             "
           />
           <button id="ai-orchestrator-send-${config.chatbotId}" style="
-            background: rgb(13 148 136) !important;
+            background: ${themeColors.primary} !important;
             color: white !important;
             border: none !important;
             border-radius: 0.5rem !important;
@@ -2173,7 +2212,7 @@
         width: 4rem !important;
         height: 4rem !important;
         border-radius: 50% !important;
-        background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
+        background: linear-gradient(135deg, ${themeColors.primary}, ${themeColors.primaryDark}) !important;
         border: none !important;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
         align-items: center !important;
@@ -2269,7 +2308,7 @@
           width: 4rem !important;
           height: 4rem !important;
           border-radius: 50% !important;
-          background: linear-gradient(135deg, rgb(13 148 136), rgb(15 118 110)) !important;
+          background: linear-gradient(135deg, ${themeColors.primary}, ${themeColors.primaryDark}) !important;
           border: none !important;
           box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
           align-items: center !important;
