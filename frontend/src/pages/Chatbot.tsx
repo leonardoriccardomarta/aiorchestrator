@@ -1024,7 +1024,7 @@ const Chatbot: React.FC = () => {
                   <code className="text-green-400 text-sm whitespace-pre-wrap">
                     {currentChatbotId ? `<!-- AI Orchestrator Chatbot Widget -->
 <script 
-  src="https://www.aiorchestrator.dev/chatbot-widget.js"
+  src="https://aiorchestrator-vtihz.ondigitalocean.app/chatbot-widget.js"
   data-chatbot-id="${currentChatbotId}"
   data-api-key="${API_URL}"
   data-theme="${widgetTheme}"
@@ -1041,7 +1041,7 @@ const Chatbot: React.FC = () => {
                   <button onClick={() => {
                     const code = currentChatbotId ? `<!-- AI Orchestrator Chatbot Widget -->
 <script 
-  src="https://www.aiorchestrator.dev/chatbot-widget.js"
+  src="https://aiorchestrator-vtihz.ondigitalocean.app/chatbot-widget.js"
   data-chatbot-id="${currentChatbotId}"
   data-api-key="${API_URL}"
   data-theme="${widgetTheme}"
