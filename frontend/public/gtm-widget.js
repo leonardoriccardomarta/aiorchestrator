@@ -372,11 +372,15 @@
 
         <script>
             let isOpen = false;
+            let conversationHistory = [];
             
             const toggleButton = document.getElementById('toggleButton');
             const chatWidget = document.getElementById('chatWidget');
             const closeButton = document.getElementById('closeButton');
             const minimizeButton = document.getElementById('minimizeButton');
+            const messageInput = document.getElementById('messageInput');
+            const sendButton = document.getElementById('sendButton');
+            const messagesContainer = document.getElementById('messagesContainer');
             
             function toggleWidget() {
                 isOpen = !isOpen;
@@ -393,17 +397,123 @@
                 isOpen = false;
                 chatWidget.classList.remove('show');
                 toggleButton.style.display = 'flex';
+                // Notify parent window
+                if (window.parent) {
+                    window.parent.postMessage({ action: 'closeWidget' }, '*');
+                }
             }
             
             function minimizeWidget() {
                 isOpen = false;
                 chatWidget.classList.remove('show');
                 toggleButton.style.display = 'flex';
+                // Notify parent window
+                if (window.parent) {
+                    window.parent.postMessage({ action: 'minimizeWidget' }, '*');
+                }
             }
             
+            async function sendMessage() {
+                const message = messageInput.value.trim();
+                if (!message) return;
+                
+                // Add user message
+                conversationHistory.push({ role: 'user', content: message });
+                
+                const userMessageDiv = document.createElement('div');
+                userMessageDiv.style.cssText = \`
+                    margin-bottom: 1rem !important;
+                    display: flex !important;
+                    justify-content: flex-end !important;
+                \`;
+                
+                const userBubble = document.createElement('div');
+                userBubble.style.cssText = \`
+                    background: ${themeColors.primary} !important;
+                    color: white !important;
+                    padding: 0.75rem 1rem !important;
+                    border-radius: 1rem 1rem 0.25rem 1rem !important;
+                    max-width: 80% !important;
+                    word-wrap: break-word !important;
+                \`;
+                userBubble.textContent = message;
+                userMessageDiv.appendChild(userBubble);
+                messagesContainer.appendChild(userMessageDiv);
+                
+                messageInput.value = '';
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                // Show typing indicator
+                const typingDiv = document.createElement('div');
+                typingDiv.style.cssText = \`
+                    margin-bottom: 1rem !important;
+                    display: flex !important;
+                    justify-content: flex-start !important;
+                \`;
+                
+                const typingBubble = document.createElement('div');
+                typingBubble.style.cssText = \`
+                    background: white !important;
+                    color: rgb(75 85 99) !important;
+                    padding: 0.75rem 1rem !important;
+                    border-radius: 1rem 1rem 1rem 0.25rem !important;
+                    max-width: 80% !important;
+                    word-wrap: break-word !important;
+                    border: 1px solid rgb(229 231 235) !important;
+                \`;
+                typingBubble.innerHTML = '...';
+                typingDiv.appendChild(typingBubble);
+                messagesContainer.appendChild(typingDiv);
+                
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                try {
+                    // Simulate API call
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    typingDiv.remove();
+                    
+                    // Add bot response
+                    const botMessageDiv = document.createElement('div');
+                    botMessageDiv.style.cssText = \`
+                        margin-bottom: 1rem !important;
+                        display: flex !important;
+                        justify-content: flex-start !important;
+                    \`;
+                    
+                    const botBubble = document.createElement('div');
+                    botBubble.style.cssText = \`
+                        background: white !important;
+                        color: rgb(17 24 39) !important;
+                        padding: 0.75rem 1rem !important;
+                        border-radius: 1rem 1rem 1rem 0.25rem !important;
+                        max-width: 80% !important;
+                        word-wrap: break-word !important;
+                        border: 1px solid rgb(229 231 235) !important;
+                    \`;
+                    botBubble.textContent = 'Thank you for your message! This is a demo response.';
+                    botMessageDiv.appendChild(botBubble);
+                    messagesContainer.appendChild(botMessageDiv);
+                    
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                    typingDiv.remove();
+                }
+            }
+            
+            // Event listeners
             toggleButton.addEventListener('click', toggleWidget);
             closeButton.addEventListener('click', closeWidget);
             minimizeButton.addEventListener('click', minimizeWidget);
+            sendButton.addEventListener('click', sendMessage);
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
             
             console.log('AI Orchestrator: GTM iframe widget loaded successfully!');
         </script>
@@ -426,6 +536,23 @@
       iframeContainer.style.pointerEvents = 'auto';
     }, 1000);
   };
+  
+  // Listen for messages from iframe
+  window.addEventListener('message', function(event) {
+    // Check if message is from our iframe
+    if (event.source !== iframe.contentWindow) return;
+    
+    const { action } = event.data;
+    
+    switch (action) {
+      case 'closeWidget':
+      case 'minimizeWidget':
+        // Hide the iframe and show toggle button
+        iframe.style.display = 'none';
+        iframeContainer.style.pointerEvents = 'none';
+        break;
+    }
+  });
   
   console.log('AI Orchestrator: GTM widget loaded successfully!');
 })();
