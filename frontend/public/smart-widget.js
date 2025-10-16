@@ -294,7 +294,7 @@
         iframeContainer.style.pointerEvents = 'auto';
         
         // Set up communication with iframe
-        setupIframeCommunication(iframe);
+        setupIframeCommunication(iframe, config);
       }, 1000);
     };
 
@@ -302,7 +302,7 @@
   }
 
   // Set up communication with iframe for toggle functionality
-  function setupIframeCommunication(iframe) {
+  function setupIframeCommunication(iframe, config) {
     // Listen for messages from iframe
     window.addEventListener('message', function(event) {
       // Check if message is from our iframe
