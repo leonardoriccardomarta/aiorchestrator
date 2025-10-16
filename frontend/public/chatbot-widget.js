@@ -2,6 +2,128 @@
 (function() {
   'use strict';
 
+  // Inject fallback CSS immediately for Shopify compatibility
+  console.log('AI Orchestrator: Injecting fallback CSS immediately for Shopify compatibility...');
+  const fallbackCSS = document.createElement('style');
+  fallbackCSS.textContent = `
+    /* Complete Tailwind CSS fallback - maintains EXACT same appearance */
+    .fixed { position: fixed !important; }
+    .absolute { position: absolute !important; }
+    .relative { position: relative !important; }
+    .bottom-6 { bottom: 1.5rem !important; }
+    .right-6 { right: 1.5rem !important; }
+    .bottom-full { bottom: 100% !important; }
+    .right-0 { right: 0 !important; }
+    .top-6 { top: 1.5rem !important; }
+    .left-6 { left: 1.5rem !important; }
+    .top-1 { top: 0.25rem !important; }
+    .right-1 { right: 0.25rem !important; }
+    .flex { display: flex !important; }
+    .hidden { display: none !important; }
+    .block { display: block !important; }
+    .items-center { align-items: center !important; }
+    .justify-center { justify-content: center !important; }
+    .justify-between { justify-content: space-between !important; }
+    .gap-3 { gap: 0.75rem !important; }
+    .gap-2 { gap: 0.5rem !important; }
+    .w-16 { width: 4rem !important; }
+    .h-16 { height: 4rem !important; }
+    .w-12 { width: 3rem !important; }
+    .h-12 { height: 3rem !important; }
+    .w-20 { width: 5rem !important; }
+    .h-20 { height: 5rem !important; }
+    .w-10 { width: 2.5rem !important; }
+    .h-10 { height: 2.5rem !important; }
+    .w-5 { width: 1.25rem !important; }
+    .h-5 { height: 1.25rem !important; }
+    .w-7 { width: 1.75rem !important; }
+    .h-7 { height: 1.75rem !important; }
+    .w-8 { width: 2rem !important; }
+    .h-8 { height: 2rem !important; }
+    .w-4 { width: 1rem !important; }
+    .h-4 { height: 1rem !important; }
+    .w-3 { width: 0.75rem !important; }
+    .h-3 { height: 0.75rem !important; }
+    .w-2 { width: 0.5rem !important; }
+    .h-2 { height: 0.5rem !important; }
+    .w-80 { width: 20rem !important; }
+    .h-80 { height: 20rem !important; }
+    .w-96 { width: 24rem !important; }
+    .h-96 { height: 24rem !important; }
+    .w-\\[28rem\\] { width: 28rem !important; }
+    .h-\\[28rem\\] { height: 28rem !important; }
+    .rounded-full { border-radius: 9999px !important; }
+    .rounded-2xl { border-radius: 1rem !important; }
+    .rounded-lg { border-radius: 0.5rem !important; }
+    .text-white { color: rgb(255 255 255) !important; }
+    .text-gray-600 { color: rgb(75 85 99) !important; }
+    .text-gray-500 { color: rgb(107 114 128) !important; }
+    .text-gray-900 { color: rgb(17 24 39) !important; }
+    .text-gray-400 { color: rgb(156 163 175) !important; }
+    .text-sm { font-size: 0.875rem !important; line-height: 1.25rem !important; }
+    .text-xs { font-size: 0.75rem !important; line-height: 1rem !important; }
+    .font-bold { font-weight: 700 !important; }
+    .font-medium { font-weight: 500 !important; }
+    .font-semibold { font-weight: 600 !important; }
+    .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important; }
+    .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; }
+    .bg-white { background-color: rgb(255 255 255) !important; }
+    .bg-gray-900 { background-color: rgb(17 24 39) !important; }
+    .bg-gray-200 { background-color: rgb(229 231 235) !important; }
+    .bg-green-500 { background-color: rgb(34 197 94) !important; }
+    .bg-blue-600 { background-color: rgb(37 99 235) !important; }
+    .bg-purple-600 { background-color: rgb(147 51 234) !important; }
+    .bg-red-600 { background-color: rgb(220 38 38) !important; }
+    .bg-emerald-600 { background-color: rgb(5 150 105) !important; }
+    .bg-emerald-500 { background-color: rgb(16 185 129) !important; }
+    .bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)) !important; }
+    .bg-gradient-to-r { background-image: linear-gradient(to right, var(--tw-gradient-stops)) !important; }
+    .from-blue-600 { --tw-gradient-from: rgb(37 99 235) !important; --tw-gradient-to: rgba(37, 99, 235, 0) !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
+    .to-blue-700 { --tw-gradient-to: rgb(29 78 216) !important; }
+    .from-purple-600 { --tw-gradient-from: rgb(147 51 234) !important; --tw-gradient-to: rgba(147, 51, 234, 0) !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
+    .to-purple-700 { --tw-gradient-to: rgb(126 34 206) !important; }
+    .from-green-600 { --tw-gradient-from: rgb(22 163 74) !important; --tw-gradient-to: rgba(22, 163, 74, 0) !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
+    .to-green-700 { --tw-gradient-to: rgb(21 128 61) !important; }
+    .from-red-600 { --tw-gradient-from: rgb(220 38 38) !important; --tw-gradient-to: rgba(220, 38, 38, 0) !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
+    .to-red-700 { --tw-gradient-to: rgb(185 28 28) !important; }
+    .from-emerald-500 { --tw-gradient-from: rgb(16 185 129) !important; --tw-gradient-to: rgba(16, 185, 129, 0) !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
+    .to-emerald-600 { --tw-gradient-to: rgb(5 150 105) !important; }
+    .border-2 { border-width: 2px !important; }
+    .border-white { border-color: rgb(255 255 255) !important; }
+    .border-gray-200 { border-color: rgb(229 231 235) !important; }
+    .border-blue-200 { border-color: rgb(191 219 254) !important; }
+    .border-purple-200 { border-color: rgb(196 181 253) !important; }
+    .border-green-200 { border-color: rgb(187 247 208) !important; }
+    .border-red-200 { border-color: rgb(254 202 202) !important; }
+    .border-emerald-200 { border-color: rgb(167 243 208) !important; }
+    .p-4 { padding: 1rem !important; }
+    .p-2 { padding: 0.5rem !important; }
+    .p-3 { padding: 0.75rem !important; }
+    .px-3 { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+    .py-2 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+    .mb-2 { margin-bottom: 0.5rem !important; }
+    .overflow-hidden { overflow: hidden !important; }
+    .whitespace-nowrap { white-space: nowrap !important; }
+    .opacity-0 { opacity: 0 !important; }
+    .pointer-events-none { pointer-events: none !important; }
+    .cursor-pointer { cursor: pointer !important; }
+    .transition-all { transition-property: all !important; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important; transition-duration: 150ms !important; }
+    .transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke !important; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important; transition-duration: 150ms !important; }
+    .transition-opacity { transition-property: opacity !important; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important; transition-duration: 150ms !important; }
+    .transition-transform { transition-property: transform !important; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important; transition-duration: 150ms !important; }
+    .duration-200 { transition-duration: 200ms !important; }
+    .hover\\:scale-110:hover { transform: scale(1.1) !important; }
+    .hover\\:bg-gray-200:hover { background-color: rgb(229 231 235) !important; }
+    .hover\\:opacity-100:hover { opacity: 1 !important; }
+    .group:hover .group-hover\\:opacity-100 { opacity: 1 !important; }
+    .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite !important; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    .z-50 { z-index: 50 !important; }
+    .z-40 { z-index: 40 !important; }
+  `;
+  document.head.appendChild(fallbackCSS);
+  console.log('✅ Fallback CSS injected immediately for Shopify compatibility');
+
   // Try Tailwind CDN first, fallback to inline CSS if it fails
   console.log('AI Orchestrator: Attempting to load Tailwind CSS...');
   if (!document.getElementById('ai-widget-tailwind')) {
