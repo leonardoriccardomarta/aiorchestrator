@@ -60,22 +60,42 @@
     if (liveWidget) {
       console.log('AI Orchestrator: Found live preview widget, extracting configuration...');
       
-      // Extract configuration from the live widget
-      const title = liveWidget.querySelector('[class*="title"]')?.textContent || 'My AI';
-      const welcomeMessage = liveWidget.querySelector('[class*="message-text"]')?.textContent || 'Hello! I\'m your ai';
+      // Extract configuration from the live widget with more specific selectors
+      const title = liveWidget.querySelector('[class*="title"], .title')?.textContent?.trim() || 'My AI';
+      const welcomeMessage = liveWidget.querySelector('[class*="message-text"], .message-text')?.textContent?.trim() || 'Hello! I\'m your ai';
       const placeholder = liveWidget.querySelector('input[type="text"]')?.placeholder || 'Type your id';
-      const showAvatar = liveWidget.querySelector('[class*="avatar"]') !== null;
+      const showAvatar = liveWidget.querySelector('[class*="avatar"], .avatar') !== null;
       
-      // Extract theme from CSS classes
+      // Extract theme from CSS classes or computed styles
       let theme = 'teal';
-      if (liveWidget.querySelector('[class*="blue"]')) theme = 'blue';
-      if (liveWidget.querySelector('[class*="purple"]')) theme = 'purple';
-      if (liveWidget.querySelector('[class*="green"]')) theme = 'green';
-      if (liveWidget.querySelector('[class*="red"]')) theme = 'red';
-      if (liveWidget.querySelector('[class*="orange"]')) theme = 'orange';
-      if (liveWidget.querySelector('[class*="pink"]')) theme = 'pink';
-      if (liveWidget.querySelector('[class*="indigo"]')) theme = 'indigo';
-      if (liveWidget.querySelector('[class*="teal"]')) theme = 'teal';
+      const header = liveWidget.querySelector('[class*="header"], .header');
+      if (header) {
+        const computedStyle = window.getComputedStyle(header);
+        const bgColor = computedStyle.backgroundColor;
+        
+        // Check for specific teal colors
+        if (bgColor.includes('153, 246, 228') || bgColor.includes('94, 234, 212')) {
+          theme = 'teal';
+        } else if (bgColor.includes('191, 219, 254') || bgColor.includes('147, 197, 253')) {
+          theme = 'blue';
+        } else if (bgColor.includes('196, 181, 253') || bgColor.includes('167, 139, 250')) {
+          theme = 'purple';
+        } else if (bgColor.includes('187, 247, 208') || bgColor.includes('134, 239, 172')) {
+          theme = 'green';
+        } else if (bgColor.includes('254, 202, 202') || bgColor.includes('252, 165, 165')) {
+          theme = 'red';
+        } else if (bgColor.includes('254, 215, 170') || bgColor.includes('251, 191, 143')) {
+          theme = 'orange';
+        } else if (bgColor.includes('251, 207, 232') || bgColor.includes('249, 168, 212')) {
+          theme = 'pink';
+        } else if (bgColor.includes('199, 210, 254') || bgColor.includes('165, 180, 252')) {
+          theme = 'indigo';
+        }
+      }
+      
+      console.log('AI Orchestrator: Extracted configuration:', {
+        title, welcomeMessage, placeholder, showAvatar, theme
+      });
       
       return {
         chatbotId: 'live-preview',
@@ -97,31 +117,34 @@
   waitForDOM(function() {
     console.log('AI Orchestrator: DOM ready, detecting environment...');
     
-    // First try to get configuration from live preview widget
-    let config = getLivePreviewConfig();
-    
-    // If no live preview, try to get from script attributes
-    if (!config) {
-      config = getConfig();
-    }
-    
-    if (!config) {
-      console.error('AI Orchestrator: No valid configuration found');
-      return;
-    }
+    // Wait a bit for the live preview widget to load first
+    setTimeout(() => {
+      // First try to get configuration from live preview widget
+      let config = getLivePreviewConfig();
+      
+      // If no live preview, try to get from script attributes
+      if (!config) {
+        config = getConfig();
+      }
+      
+      if (!config) {
+        console.error('AI Orchestrator: No valid configuration found');
+        return;
+      }
 
-    console.log('AI Orchestrator: Using configuration:', config);
+      console.log('AI Orchestrator: Using configuration:', config);
 
-    const isShopifyEnv = isShopify();
-    console.log('AI Orchestrator: Environment detected - Shopify:', isShopifyEnv);
+      const isShopifyEnv = isShopify();
+      console.log('AI Orchestrator: Environment detected - Shopify:', isShopifyEnv);
 
-    if (isShopifyEnv) {
-      console.log('AI Orchestrator: Using iframe method for Shopify compatibility');
-      loadIframeWidget(config);
-    } else {
-      console.log('AI Orchestrator: Using standard widget for other platforms');
-      loadStandardWidget(config);
-    }
+      if (isShopifyEnv) {
+        console.log('AI Orchestrator: Using iframe method for Shopify compatibility');
+        loadIframeWidget(config);
+      } else {
+        console.log('AI Orchestrator: Using standard widget for other platforms');
+        loadStandardWidget(config);
+      }
+    }, 1000); // Wait 1 second for live preview to load
   });
 
   // Load iframe widget for Shopify
