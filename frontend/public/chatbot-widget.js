@@ -23,21 +23,21 @@
   }
 
   function waitForTailwind(callback) {
-    // Check if Tailwind is loaded by testing a utility class
-    const testEl = document.createElement('div');
-    testEl.className = 'fixed';
-    testEl.style.position = 'absolute';
-    testEl.style.top = '-9999px';
-    document.body.appendChild(testEl);
+    // Check if Tailwind is loaded by checking if the script is loaded
+    const tailwindScript = document.getElementById('ai-widget-tailwind');
     
-    const isLoaded = window.getComputedStyle(testEl).position === 'fixed';
-    document.body.removeChild(testEl);
-    
-    if (isLoaded) {
-      console.log('✅ Tailwind CSS is ready');
-      callback();
+    if (tailwindScript && tailwindScript.readyState === 'complete') {
+      console.log('✅ Tailwind CSS script loaded');
+      // Give it a moment to process
+      setTimeout(callback, 500);
+    } else if (tailwindScript && tailwindScript.readyState === 'loading') {
+      console.log('⏳ Tailwind CSS script still loading...');
+      tailwindScript.addEventListener('load', () => {
+        console.log('✅ Tailwind CSS script finished loading');
+        setTimeout(callback, 500);
+      });
     } else {
-      console.log('⏳ Waiting for Tailwind CSS...');
+      console.log('⏳ Waiting for Tailwind CSS script...');
       setTimeout(() => waitForTailwind(callback), 100);
     }
   }
