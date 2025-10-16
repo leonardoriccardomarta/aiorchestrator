@@ -29,6 +29,7 @@ interface Connection {
   productsCount: number;
   ordersCount: number;
   lastSync: string;
+  accessToken?: string;
 }
 
 const Connections: React.FC = () => {
@@ -44,6 +45,7 @@ const Connections: React.FC = () => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [connectionToDelete, setConnectionToDelete] = useState<string | null>(null);
+  const [installingWidget, setInstallingWidget] = useState<string | null>(null);
 
   useEffect(() => {
     fetchConnections();
@@ -158,6 +160,68 @@ const Connections: React.FC = () => {
     setShowAddConnection(false);
     setShowWidgetModal(true);
     fetchConnections();
+  };
+
+  const handleInstallWidget = async (connection: Connection) => {
+    if (!selectedChatbotId) {
+      alert('Please select a chatbot first');
+      return;
+    }
+
+    setInstallingWidget(connection.id);
+    
+    try {
+      const token = localStorage.getItem('authToken');
+      
+      // Ottieni la configurazione del chatbot selezionato
+      const chatbot = chatbots.find(c => c.id === selectedChatbotId);
+      if (!chatbot) {
+        throw new Error('Chatbot not found');
+      }
+
+      // Crea la configurazione per il widget
+      const widgetConfig = {
+        theme: 'teal', // Default theme, puoi estenderlo
+        title: chatbot.name || 'AI Support',
+        placeholder: 'Type your message...',
+        showAvatar: true,
+        welcomeMessage: chatbot.welcomeMessage || 'Hello! How can I help you today?',
+        primaryLanguage: chatbot.language || 'en',
+        primaryColor: '#14b8a6',
+        primaryDarkColor: '#0d9488',
+        headerLightColor: '#14b8a6',
+        headerDarkColor: '#0d9488',
+        textColor: '#1f2937',
+        accentColor: '#14b8a6'
+      };
+
+      const response = await fetch(`${API_URL}/api/shopify/install-widget`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          shop: connection.domain,
+          accessToken: connection.accessToken, // Assumendo che sia disponibile
+          chatbotId: selectedChatbotId,
+          config: widgetConfig
+        })
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        alert('✅ Widget installato con successo! Vai sul tuo store per vederlo.');
+      } else {
+        alert('❌ Errore: ' + result.error);
+      }
+    } catch (error) {
+      console.error('❌ Errore installazione widget:', error);
+      alert('❌ Errore durante l\'installazione: ' + error.message);
+    } finally {
+      setInstallingWidget(null);
+    }
   };
 
 
@@ -345,6 +409,25 @@ const Connections: React.FC = () => {
                     </div>
 
                     <div className="flex gap-2">
+                        <button
+                        onClick={() => handleInstallWidget(connection)}
+                        disabled={installingWidget === connection.id}
+                        className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        title="Install widget automatically"
+                      >
+                        {installingWidget === connection.id ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                            Installing...
+                          </>
+                        ) : (
+                          <>
+                            <Settings className="w-4 h-4" />
+                            Install Widget
+                          </>
+                        )}
+                      </button>
+                      
                         <button
                         onClick={() => {
                           setSuccessConnectionId(connection.id);
