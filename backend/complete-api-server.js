@@ -1296,7 +1296,7 @@ app.post('/api/woocommerce/oauth/connect', authenticateToken, async (req, res) =
 // Connect Shopify store (legacy manual method - keep for backwards compatibility)
 app.post('/api/shopify/connect', authenticateToken, async (req, res) => {
   try {
-    const { shop, accessToken, storeName } = req.body;
+    const { shop, accessToken, storeName, installWidget, chatbotId, widgetConfig } = req.body;
     const user = req.user;
     
     if (!shop || !accessToken) {
@@ -1359,13 +1359,63 @@ app.post('/api/shopify/connect', authenticateToken, async (req, res) => {
     // Also store in old system for compatibility
     woocommerceConnections.set(connectionId, connection); // Keep for now for compatibility
 
-    res.json({
-      success: true,
-      data: {
-        connection,
-        message: 'Shopify store connected successfully!'
+    // Install widget if requested
+    if (installWidget && chatbotId && widgetConfig) {
+      try {
+        console.log(`🚀 Installing widget for shop: ${shop}, chatbot: ${chatbotId}`);
+        
+        const widgetCode = `
+<!-- AI Orchestrator Widget -->
+<script>
+  window.AIOrchestratorConfig = {
+    chatbotId: '${chatbotId}',
+    apiKey: '${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}',
+    theme: '${widgetConfig.theme || 'teal'}',
+    title: '${widgetConfig.title || 'AI Support'}',
+    placeholder: '${widgetConfig.placeholder || 'Type your message...'}',
+    showAvatar: ${widgetConfig.showAvatar !== false},
+    welcomeMessage: '${widgetConfig.welcomeMessage || 'Hello! How can I help you today?'}',
+    primaryLanguage: '${widgetConfig.primaryLanguage || 'en'}',
+    primaryColor: '${widgetConfig.primaryColor || '#14b8a6'}',
+    primaryDarkColor: '${widgetConfig.primaryDarkColor || '#0d9488'}',
+    headerLightColor: '${widgetConfig.headerLightColor || '#14b8a6'}',
+    headerDarkColor: '${widgetConfig.headerDarkColor || '#0d9488'}',
+    textColor: '${widgetConfig.textColor || '#1f2937'}',
+    accentColor: '${widgetConfig.accentColor || '#14b8a6'}'
+  };
+</script>
+<script src="https://www.aiorchestrator.dev/shopify-app-widget.js" defer></script>`;
+
+        await injectWidgetIntoTheme(shop, accessToken, widgetCode);
+        
+        res.json({
+          success: true,
+          data: {
+            connection,
+            message: 'Shopify store connected and widget installed successfully!',
+            widgetInstalled: true
+          }
+        });
+      } catch (widgetError) {
+        console.error('❌ Widget installation error:', widgetError);
+        res.json({
+          success: true,
+          data: {
+            connection,
+            message: 'Shopify store connected successfully, but widget installation failed: ' + widgetError.message,
+            widgetInstalled: false
+          }
+        });
       }
-    });
+    } else {
+      res.json({
+        success: true,
+        data: {
+          connection,
+          message: 'Shopify store connected successfully!'
+        }
+      });
+    }
   } catch (error) {
     console.error('Shopify connect error:', error);
     res.status(500).json({
