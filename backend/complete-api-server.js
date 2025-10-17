@@ -2706,6 +2706,8 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
       })
     });
     
+    console.log(`📊 Snippet response status: ${snippetResponse.status}`);
+    
     if (snippetResponse.ok) {
       console.log(`✅ Snippet created successfully!`);
       
@@ -2764,6 +2766,9 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
           };
         }
       }
+    } else {
+      const errorText = await snippetResponse.text();
+      console.error(`❌ Snippet creation failed: ${snippetResponse.status} - ${errorText}`);
     }
     
     // If automatic installation fails, provide manual instructions
