@@ -207,6 +207,7 @@ const Connections: React.FC = () => {
       let liveConfig = null;
       try {
         // Prova a leggere la configurazione dal live embed
+        console.log('🔍 Controllo window.AIOrchestratorConfig:', window.AIOrchestratorConfig);
         if (window.AIOrchestratorConfig) {
           liveConfig = window.AIOrchestratorConfig;
           console.log('🎯 Configurazione live embed trovata:', liveConfig);
