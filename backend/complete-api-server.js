@@ -2655,6 +2655,12 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     // Create a snippet file that auto-installs the widget
     console.log(`📝 Creating auto-install snippet...`);
     
+    // Define escapeString function for this scope
+    const escapeString = (str) => {
+      if (!str) return '';
+      return str.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+    };
+    
     const snippetCode = `{% comment %}
   AI Orchestrator Widget - Auto Install
   This snippet automatically injects the widget into your theme
