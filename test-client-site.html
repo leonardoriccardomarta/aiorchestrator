@@ -427,6 +427,8 @@
         if (chat) {
           console.log('✅ Chat trovato!');
           console.log('Chat display:', getComputedStyle(chat).display);
+          console.log('Chat classes:', chat.className);
+          console.log('Chat has show class:', chat.classList.contains('show'));
         } else {
           console.log('❌ Chat NON trovato!');
         }
@@ -434,6 +436,20 @@
         // Controlla se ci sono funzioni globali
         console.log('toggleChatbot function:', typeof window.toggleChatbot);
         console.log('closeChatbot function:', typeof window.closeChatbot);
+        
+        // Controlla la configurazione
+        console.log('AIOrchestratorConfig:', window.AIOrchestratorConfig);
+        
+        // Prova a chiamare toggleChatbot manualmente
+        if (typeof window.toggleChatbot === 'function') {
+          console.log('🧪 Provo a chiamare toggleChatbot manualmente...');
+          try {
+            window.toggleChatbot();
+            console.log('✅ toggleChatbot chiamato con successo!');
+          } catch (error) {
+            console.error('❌ Errore chiamando toggleChatbot:', error);
+          }
+        }
         
       }, 3000);
     </script>

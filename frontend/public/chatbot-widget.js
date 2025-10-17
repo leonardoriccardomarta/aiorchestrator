@@ -1566,6 +1566,11 @@
       display: block !important;
     }
     
+    /* Override inline styles when show class is present */
+    #ai-orchestrator-chat-${config.chatbotId}.show[style*="display: none"] {
+      display: block !important;
+    }
+    
     /* Header styling */
     #ai-orchestrator-chat-${config.chatbotId} .header {
       background: linear-gradient(135deg, rgb(153 246 228), rgb(94 234 212)) !important;
@@ -2010,6 +2015,7 @@
     
     if (!isOpen) {
       console.log('Aprendo chat...');
+      chat.style.display = 'block';
       chat.classList.add('show');
       button.style.display = 'none';
       isOpen = true;
@@ -2017,6 +2023,7 @@
       console.log('✅ Chat aperta!');
     } else {
       console.log('Chiudendo chat...');
+      chat.style.display = 'none';
       chat.classList.remove('show');
       button.style.display = 'flex';
       isOpen = false;
