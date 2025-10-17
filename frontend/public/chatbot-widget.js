@@ -106,6 +106,16 @@
           opacity: 1 !important;
           visibility: visible !important;
         }
+        #${widgetId} .toggle-button * {
+          opacity: 1 !important;
+          visibility: visible !important;
+        }
+        #${widgetId} .toggle-button,
+        #${widgetId} .toggle-button * {
+          opacity: 1 !important;
+          visibility: visible !important;
+          display: flex !important;
+        }
         #${widgetId} .toggle-button:hover {
           transform: scale(1.05);
           box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
@@ -113,10 +123,10 @@
         #${widgetId} .toggle-button::before {
           content: '';
           position: absolute;
-          top: -2px;
-          right: -2px;
-          width: 8px;
-          height: 8px;
+          top: -4px;
+          right: -4px;
+          width: 12px;
+          height: 12px;
           background: #10B981;
           border-radius: 50%;
           border: 2px solid white;
@@ -155,7 +165,7 @@
       </style>
 
       <div id="${widgetId}">
-        <!-- Toggle Button -->
+      <!-- Toggle Button -->
         <div class="toggle-button bg-gradient-to-br ${themeColors.primary}" id="${widgetId}-toggle">
           <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
@@ -163,7 +173,7 @@
         </div>
 
       <!-- Chat Widget -->
-        <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 ${config.autoOpen ? '' : 'hidden'}" id="${widgetId}-chat" style="width: 384px; height: 500px;">
+        <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 ${config.autoOpen ? '' : 'hidden'}" id="${widgetId}-chat">
         <!-- Header -->
           <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
             <div class="flex items-center justify-between">
@@ -246,17 +256,36 @@
     document.body.appendChild(container);
     console.log('✅ Widget HTML injected');
 
-    // Add event listeners
-    setTimeout(() => {
-      const toggleBtn = document.getElementById(`${widgetId}-toggle`);
-      const chatWidget = document.getElementById(`${widgetId}-chat`);
-      const minimizeBtn = document.getElementById(`${widgetId}-minimize`);
-      const closeBtn = document.getElementById(`${widgetId}-close`);
-      const sendBtn = document.getElementById(`${widgetId}-send`);
-      const inputField = document.getElementById(`${widgetId}-input`);
-      const messagesContainer = document.getElementById(`${widgetId}-messages`);
+    // Force toggle visibility immediately and continuously
+    const toggleBtn = document.getElementById(`${widgetId}-toggle`);
+    if (toggleBtn) {
+      toggleBtn.style.opacity = '1';
+      toggleBtn.style.visibility = 'visible';
+      toggleBtn.style.display = 'flex';
+      console.log('✅ Toggle forced visible');
+      
+      // Force visibility every 100ms to override any CSS
+      setInterval(() => {
+        if (toggleBtn) {
+          toggleBtn.style.opacity = '1';
+          toggleBtn.style.visibility = 'visible';
+          toggleBtn.style.display = 'flex';
+        }
+      }, 100);
+    }
 
-      let isOpen = config.autoOpen;
+      // Add event listeners
+      setTimeout(() => {
+        const toggleBtn = document.getElementById(`${widgetId}-toggle`);
+        const chatWidget = document.getElementById(`${widgetId}-chat`);
+        const minimizeBtn = document.getElementById(`${widgetId}-minimize`);
+        const closeBtn = document.getElementById(`${widgetId}-close`);
+        const sendBtn = document.getElementById(`${widgetId}-send`);
+        const inputField = document.getElementById(`${widgetId}-input`);
+        const messagesContainer = document.getElementById(`${widgetId}-messages`);
+
+
+        let isOpen = config.autoOpen;
 
       // Toggle button
       if (toggleBtn) {
