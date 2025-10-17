@@ -3,6 +3,27 @@ import { API_URL } from '../config/constants';
 import { Icons } from '../components/ui/Icon';
 import { PageLoading } from '../components/ui/Loading';
 import { useAuth } from '../contexts/AuthContextHooks';
+
+declare global {
+  interface Window {
+    AIOrchestratorConfig?: {
+      chatbotId: string;
+      apiKey: string;
+      theme: string;
+      title: string;
+      placeholder: string;
+      showAvatar: boolean;
+      welcomeMessage: string;
+      primaryLanguage: string;
+      primaryColor: string;
+      primaryDarkColor: string;
+      headerLightColor: string;
+      headerDarkColor: string;
+      textColor: string;
+      accentColor: string;
+    };
+  }
+}
 import { Copy, Check, ExternalLink, Code, Smartphone, Tablet, Monitor, Zap, Shield, Globe, MessageSquare, Settings, Eye } from 'lucide-react';
 
 const Implementation: React.FC = () => {
@@ -50,29 +71,50 @@ const Implementation: React.FC = () => {
 
   useEffect(() => {
     if (selectedChatbot && apiKey) {
-      const code = `<!-- AI Orchestrator Chatbot Widget -->
-<script src="https://your-domain.com/widget/chatbot-widget.js" 
-        data-chatbot-id="${selectedChatbot.id}"
-        data-api-key="${apiKey}">
-</script>
+      // 🔥 LEGGI LA CONFIGURAZIONE DAL LIVE EMBED (coordinamento in tempo reale)
+      let liveConfig = null;
+      try {
+        if (window.AIOrchestratorConfig) {
+          liveConfig = window.AIOrchestratorConfig;
+          console.log('🎯 Quick Embed: Configurazione live embed trovata:', liveConfig);
+        }
+      } catch (error) {
+        console.log('⚠️ Quick Embed: Errore lettura configurazione live embed:', error);
+      }
 
-<!-- Optional: Custom styling -->
-<style>
-  #ai-orchestrator-widget {
-    /* Customize widget position */
-    bottom: 30px;
-    right: 30px;
-  }
-  
-  .ai-widget-button {
-    /* Customize button color */
-    background: ${selectedChatbot.primaryColor || '#3B82F6'};
-  }
-  
-  .ai-widget-header {
-    background: ${selectedChatbot.primaryColor || '#3B82F6'};
-  }
-</style>`;
+      // Usa la configurazione live se disponibile, altrimenti usa i valori di default
+      const config = liveConfig || {
+        chatbotId: selectedChatbot.id,
+        apiKey: apiKey,
+        theme: 'teal',
+        title: selectedChatbot.name || 'AI Support',
+        placeholder: 'Type your message...',
+        showAvatar: true,
+        welcomeMessage: 'Hello! How can I help you today?',
+        primaryLanguage: 'en',
+        primaryColor: selectedChatbot.primaryColor || '#14B8A6',
+        primaryDarkColor: '#0D9488',
+        headerLightColor: '#14B8A6',
+        headerDarkColor: '#0D9488',
+        textColor: '#1F2937',
+        accentColor: '#14B8A6'
+      };
+
+      const code = `<!-- AI Orchestrator Chatbot Widget -->
+<script 
+  src="https://www.aiorchestrator.dev/chatbot-widget.js"
+  data-chatbot-id="${config.chatbotId}"
+  data-api-key="${config.apiKey}"
+  data-theme="${config.theme}"
+  data-title="${config.title}"
+  data-placeholder="${config.placeholder}"
+  data-show-avatar="${config.showAvatar}"
+  data-welcome-message="${config.welcomeMessage}"
+  data-primary-language="${config.primaryLanguage}"
+  data-auto-open="true"
+  defer>
+</script>`;
+      
       setImplementationCode(code);
       
       // Load preview data for the selected chatbot

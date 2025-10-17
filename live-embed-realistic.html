@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Embed - Realistic Preview</title>
+    <style>
+        /* Simula un sito reale con CSS che potrebbe interferire */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* CSS che potrebbe interferire con il widget */
+        .widget, .chat, .popup {
+            position: relative !important;
+            z-index: 1 !important;
+        }
+        
+        button {
+            background: #007bff !important;
+            color: white !important;
+            border: none !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 4px !important;
+            cursor: pointer !important;
+        }
+        
+        input {
+            width: 100% !important;
+            padding: 0.5rem !important;
+            border: 1px solid #ddd !important;
+            border-radius: 4px !important;
+        }
+        
+        /* Simula CSS di Shopify o altri framework */
+        .container {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .floating {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Live Embed Preview - Realistic Integration</h1>
+        <p>Questa è come apparirà il widget nel sito reale</p>
+    </div>
+    
+    <div class="content">
+        <div class="product-card">
+            <h2>Prodotto 1</h2>
+            <p>Descrizione del prodotto che potrebbe interferire con il widget.</p>
+            <button>Acquista Ora</button>
+        </div>
+        
+        <div class="product-card">
+            <h2>Prodotto 2</h2>
+            <p>Altro contenuto che potrebbe causare conflitti CSS.</p>
+            <button>Aggiungi al Carrello</button>
+        </div>
+        
+        <div class="product-card">
+            <h2>Prodotto 3</h2>
+            <p>Contenuto con stili che potrebbero sovrascrivere il widget.</p>
+            <button>Visualizza Dettagli</button>
+        </div>
+    </div>
+
+    <!-- AI Orchestrator Widget - INTEGRAZIONE REALE -->
+    <script 
+      src="https://www.aiorchestrator.dev/chatbot-widget.js"
+      data-chatbot-id="cmgr7ljok0005rop9rc2yd18f"
+      data-api-key="https://aiorchestrator-vtihz.ondigitalocean.app"
+      data-theme="teal"
+      data-title="My AI"
+      data-placeholder="Type your  id"
+      data-show-avatar="true"
+      data-welcome-message="Hello! I'm your ai "
+      data-primary-language="en"
+      data-auto-open="true"
+      defer>
+    </script>
+    
+    <!-- Debug Script -->
+    <script>
+      // Debug: Controlla se il widget è caricato
+      setTimeout(() => {
+        console.log('🔍 LIVE EMBED REALISTIC: Controllo widget...');
+        
+        const toggle = document.getElementById('ai-orchestrator-toggle-cmgr7ljok0005rop9rc2yd18f');
+        const chat = document.getElementById('ai-orchestrator-chat-cmgr7ljok0005rop9rc2yd18f');
+        
+        console.log('Toggle button:', toggle);
+        console.log('Chat widget:', chat);
+        
+        if (chat) {
+          console.log('Chat display:', getComputedStyle(chat).display);
+          console.log('Chat classes:', chat.className);
+          console.log('Chat has show class:', chat.classList.contains('show'));
+        }
+        
+        // Forza l'apertura se non è aperto
+        if (chat && getComputedStyle(chat).display === 'none') {
+          console.log('🔧 Forzando apertura chat...');
+          chat.style.display = 'block';
+          chat.classList.add('show');
+          if (toggle) {
+            toggle.style.display = 'none';
+          }
+        }
+        
+      }, 2000);
+    </script>
+</body>
+</html>

@@ -1,5 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from '../config/constants';
+
+// Dichiarazione TypeScript per window.AIOrchestratorConfig
+declare global {
+  interface Window {
+    AIOrchestratorConfig?: {
+      chatbotId: string;
+      apiKey: string;
+      theme: string;
+      title: string;
+      placeholder: string;
+      showAvatar: boolean;
+      welcomeMessage: string;
+      primaryLanguage: string;
+      primaryColor: string;
+      primaryDarkColor: string;
+      headerLightColor: string;
+      headerDarkColor: string;
+      textColor: string;
+      accentColor: string;
+    };
+  }
+}
 import { 
   Bot, 
   MessageSquare, 
@@ -355,6 +377,58 @@ const Chatbot: React.FC = () => {
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Expose widget configuration globally for live preview synchronization
+  useEffect(() => {
+    if (currentChatbotId) {
+      window.AIOrchestratorConfig = {
+        chatbotId: currentChatbotId,
+        apiKey: API_URL,
+        theme: widgetTheme,
+        title: widgetTitle,
+        placeholder: widgetPlaceholder,
+        showAvatar: showWidgetAvatar,
+        welcomeMessage: widgetMessage,
+        primaryLanguage: primaryLanguage,
+        primaryColor: getThemeColor(widgetTheme),
+        primaryDarkColor: getThemeDarkColor(widgetTheme),
+        headerLightColor: getThemeColor(widgetTheme),
+        headerDarkColor: getThemeDarkColor(widgetTheme),
+        textColor: '#1f2937',
+        accentColor: getThemeColor(widgetTheme)
+      };
+      console.log('🎯 Widget config exposed globally:', window.AIOrchestratorConfig);
+    }
+  }, [currentChatbotId, widgetTheme, widgetTitle, widgetPlaceholder, showWidgetAvatar, widgetMessage, primaryLanguage]);
+
+  // Helper function to get theme colors
+  const getThemeColor = (theme: string) => {
+    const colors = {
+      blue: '#3B82F6',
+      purple: '#8B5CF6',
+      green: '#10B981',
+      red: '#EF4444',
+      orange: '#F97316',
+      pink: '#EC4899',
+      indigo: '#6366F1',
+      teal: '#14B8A6'
+    };
+    return colors[theme] || '#3B82F6';
+  };
+
+  const getThemeDarkColor = (theme: string) => {
+    const colors = {
+      blue: '#2563EB',
+      purple: '#7C3AED',
+      green: '#059669',
+      red: '#DC2626',
+      orange: '#EA580C',
+      pink: '#DB2777',
+      indigo: '#4F46E5',
+      teal: '#0D9488'
+    };
+    return colors[theme] || '#2563EB';
+  };
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return;
