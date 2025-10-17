@@ -88,6 +88,7 @@ const planService = new PlanService();
 
 // Initialize OAuth Services
 const shopifyOAuthService = new ShopifyOAuthService();
+console.log('🔍 Shopify OAuth Service scopes after init:', shopifyOAuthService.scopes);
 const woocommerceOAuthService = new WooCommerceOAuthService();
 
 // Initialize Enhanced Services
