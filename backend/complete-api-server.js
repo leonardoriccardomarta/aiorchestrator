@@ -2690,7 +2690,7 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
     }
     
     const themeData = await getThemeResponse.json();
-    let themeContent = themeData.asset.value;
+    themeContent = themeData.asset.value;
     
     // Remove any existing widget code
     themeContent = themeContent.replace(/<!-- AI Orchestrator Widget[\s\S]*?<\/script>/g, '');
