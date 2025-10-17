@@ -471,7 +471,8 @@
         placeholder: script.dataset.placeholder || 'Type your id',
         showAvatar: script.dataset.showAvatar !== 'false',
         size: script.dataset.size || 'medium',
-        primaryLanguage: script.dataset.primaryLanguage || 'en'
+        primaryLanguage: script.dataset.primaryLanguage || 'en',
+        autoOpen: script.dataset.autoOpen === 'true'
       };
       
       console.log('AI Orchestrator: Parsed config:', config);
@@ -495,7 +496,8 @@
         placeholder: window.AIChatbotConfig.placeholder || 'Type your message...',
         showAvatar: window.AIChatbotConfig.showAvatar !== false,
         size: window.AIChatbotConfig.size || 'medium',
-        primaryLanguage: window.AIChatbotConfig.primaryLanguage || 'auto'
+        primaryLanguage: window.AIChatbotConfig.primaryLanguage || 'auto',
+        autoOpen: window.AIChatbotConfig.autoOpen === true
       };
     }
     return null;
@@ -2203,6 +2205,14 @@
     }, 100);
 
     console.log('AI Orchestrator: Shopify-compatible widget loaded successfully!');
+    
+    // Auto-open if configured
+    if (config.autoOpen) {
+      console.log('🚀 Auto-opening chat widget...');
+      setTimeout(() => {
+        window.toggleChatbot();
+      }, 500);
+    }
     
     // Expose configuration globally for smart-widget to read
     window.AIOrchestratorConfig = {
