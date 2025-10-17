@@ -2729,25 +2729,30 @@ app.post('/api/connections/install-widget', authenticateToken, async (req, res) 
       });
     }
     
-    // Generate widget code
+    // Generate widget code with proper string escaping
+    const escapeString = (str) => {
+      if (!str) return '';
+      return str.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+    };
+    
     const widgetCode = `
 <!-- AI Orchestrator Widget -->
 <script>
   window.AIOrchestratorConfig = {
-    chatbotId: '${chatbotId}',
-    apiKey: '${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}',
-    theme: '${widgetConfig.theme || 'teal'}',
-    title: '${widgetConfig.title || 'AI Support'}',
-    placeholder: '${widgetConfig.placeholder || 'Type your message...'}',
+    chatbotId: '${escapeString(chatbotId)}',
+    apiKey: '${escapeString(process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app')}',
+    theme: '${escapeString(widgetConfig.theme || 'teal')}',
+    title: '${escapeString(widgetConfig.title || 'AI Support')}',
+    placeholder: '${escapeString(widgetConfig.placeholder || 'Type your message...')}',
     showAvatar: ${widgetConfig.showAvatar !== false},
-    welcomeMessage: '${widgetConfig.welcomeMessage || 'Hello! How can I help you today?'}',
-    primaryLanguage: '${widgetConfig.primaryLanguage || 'en'}',
-    primaryColor: '${widgetConfig.primaryColor || '#14b8a6'}',
-    primaryDarkColor: '${widgetConfig.primaryDarkColor || '#0d9488'}',
-    headerLightColor: '${widgetConfig.headerLightColor || '#14b8a6'}',
-    headerDarkColor: '${widgetConfig.headerDarkColor || '#0d9488'}',
-    textColor: '${widgetConfig.textColor || '#1f2937'}',
-    accentColor: '${widgetConfig.accentColor || '#14b8a6'}'
+    welcomeMessage: '${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}',
+    primaryLanguage: '${escapeString(widgetConfig.primaryLanguage || 'en')}',
+    primaryColor: '${escapeString(widgetConfig.primaryColor || '#14b8a6')}',
+    primaryDarkColor: '${escapeString(widgetConfig.primaryDarkColor || '#0d9488')}',
+    headerLightColor: '${escapeString(widgetConfig.headerLightColor || '#14b8a6')}',
+    headerDarkColor: '${escapeString(widgetConfig.headerDarkColor || '#0d9488')}',
+    textColor: '${escapeString(widgetConfig.textColor || '#1f2937')}',
+    accentColor: '${escapeString(widgetConfig.accentColor || '#14b8a6')}'
   };
 </script>
 <script src="https://www.aiorchestrator.dev/shopify-app-widget.js" defer></script>`;
