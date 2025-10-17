@@ -2652,57 +2652,29 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     
     console.log(`📝 Updated theme.liquid size: ${themeContent.length} characters`);
     
-    // Try to modify theme.liquid directly - Shopify DOES allow this with correct permissions
-    console.log(`📝 Attempting to modify theme.liquid directly...`);
+    // ⚠️ Shopify BLOCKS modification of theme.liquid via API (even with write_themes permission)
+    // The only way is to provide the embed code for MANUAL installation
+    console.log(`⚠️ Shopify blocks theme.liquid modification via API for security.`);
+    console.log(`📝 Providing embed code for manual installation...`);
     
-    const apiVersion = '2025-10';
-    const saveUrl = `https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`;
-    
-    console.log(`💾 Saving theme.liquid to: ${saveUrl}`);
-    console.log(`📦 Asset key: layout/theme.liquid`);
-    console.log(`📏 Content length: ${themeContent.length} bytes`);
-    console.log(`🔑 Access token length: ${accessToken.length} characters`);
-    
-    const requestBody = {
-      asset: {
-        key: 'layout/theme.liquid',
-        value: themeContent
+    // Return success with manual installation instructions
+    return {
+      success: true,
+      requiresManualInstallation: true,
+      method: 'manual',
+      embedCode: widgetCode,
+      instructions: {
+        title: 'Widget Ready - Manual Installation Required',
+        steps: [
+          '1. Go to your Shopify Admin',
+          '2. Navigate to: Online Store → Themes → Edit Code',
+          '3. Open: Layout → theme.liquid',
+          '4. Find the </body> tag',
+          '5. Paste the code BEFORE </body>',
+          '6. Click Save'
+        ]
       }
     };
-    
-    console.log(`📋 Request body structure:`, {
-      hasAsset: !!requestBody.asset,
-      key: requestBody.asset.key,
-      valueLength: requestBody.asset.value.length,
-      valuePreview: requestBody.asset.value.substring(0, 100) + '...'
-    });
-    
-    const saveResponse = await fetch(saveUrl, {
-      method: 'PUT',
-      headers: {
-        'X-Shopify-Access-Token': accessToken,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(requestBody)
-    });
-    
-    console.log(`📊 Response status: ${saveResponse.status}`);
-    console.log(`📊 Response headers:`, Object.fromEntries(saveResponse.headers.entries()));
-    
-    if (!saveResponse.ok) {
-      const errorText = await saveResponse.text();
-      console.error(`❌ Save failed: ${saveResponse.status} - ${errorText}`);
-      throw new Error(`Failed to save theme.liquid: ${saveResponse.status} - ${errorText}`);
-    }
-    
-    const responseData = await saveResponse.json();
-    console.log(`✅ Successfully saved theme.liquid!`, responseData);
-    
-    console.log('✅ Widget successfully injected into theme!');
-    return true;
-    
-    console.log('✅ Widget successfully injected into theme!');
-    return true;
     
   } catch (error) {
     console.error('❌ Error injecting widget:', error);

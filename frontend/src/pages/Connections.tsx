@@ -211,8 +211,38 @@ const Connections: React.FC = () => {
       const result = await response.json();
       
       if (result.success) {
-        if (result.data?.requiresManualStep) {
-          alert(`✅ Widget snippet creato con successo!\n\n📋 ULTIMO PASSO:\nAggiungi questa riga al tuo theme.liquid prima di </body>:\n\n{% render 'aiorchestrator-widget' %}\n\nVai su Shopify Admin → Online Store → Themes → Edit Code → Layout → theme.liquid`);
+        if (result.data?.requiresManualInstallation) {
+          // Show professional modal with instructions and embed code
+          const instructions = result.data.instructions;
+          const embedCode = result.data.embedCode;
+          
+          const modalContent = `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ WIDGET READY FOR INSTALLATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ Shopify blocks automatic installation for security.
+Please follow these simple steps:
+
+${instructions.steps.join('\n')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 COPY THIS CODE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${embedCode}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+`;
+          
+          alert(modalContent);
+          
+          // Copy to clipboard
+          navigator.clipboard.writeText(embedCode).then(() => {
+            console.log('✅ Code copied to clipboard!');
+          }).catch(err => {
+            console.error('Failed to copy:', err);
+          });
         } else {
           alert('✅ Widget installato con successo! Vai sul tuo store per vederlo.');
         }
