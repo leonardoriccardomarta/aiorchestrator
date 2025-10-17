@@ -143,11 +143,11 @@
 
       <div id="${widgetId}">
       <!-- Toggle Button -->
-        <div class="toggle-button bg-gradient-to-br ${themeColors.primary}" id="${widgetId}-toggle" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
+        <div class="toggle-button bg-gradient-to-br ${themeColors.primary}" id="${widgetId}-toggle">
           <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
           </svg>
-          <div style="position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; background: #10B981; border-radius: 50%; border: 2px solid white; animation: pulse 2s infinite;"></div>
+          <div style="position: absolute; top: -3px; right: -3px; width: 10px; height: 10px; background: #10B981; border-radius: 50%; border: 2px solid white; animation: pulse 2s infinite;"></div>
         </div>
 
       <!-- Chat Widget -->
