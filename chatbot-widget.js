@@ -89,22 +89,23 @@
     const widgetHTML = `
       <style>
         #${widgetId} .toggle-button {
-          position: fixed;
-          bottom: 24px;
-          right: 24px;
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
+          position: fixed !important;
+          bottom: 24px !important;
+          right: 24px !important;
+          width: 60px !important;
+          height: 60px !important;
+          border-radius: 50% !important;
           display: flex !important;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
-          cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          z-index: 1000;
-          border: none;
+          align-items: center !important;
+          justify-content: center !important;
+          box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4) !important;
+          cursor: pointer !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+          z-index: 1000 !important;
+          border: none !important;
           opacity: 1 !important;
           visibility: visible !important;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         }
         #${widgetId} .toggle-button:hover {
           transform: scale(1.05);
@@ -137,13 +138,20 @@
           transform: translateY(0);
           transition: transform 0.3s ease, height 0.25s ease;
           max-height: calc(100vh - 148px);
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         #${widgetId} .chat-widget.hidden { 
           transform: translateY(100%); 
         }
         #${widgetId} .chat-widget.collapsed { 
-          height: 64px;
-          overflow: hidden;
+          height: 64px !important;
+          overflow: hidden !important;
+        }
+        #${widgetId} .chat-widget.collapsed .h-96 {
+          display: none !important;
+        }
+        #${widgetId} .chat-widget.collapsed .p-4.bg-white.border-t {
+          display: none !important;
         }
       </style>
 
@@ -188,12 +196,27 @@
           </div>
           </div>
           
-        <!-- Messages -->
+          <!-- Messages -->
           <div class="h-96 overflow-y-auto p-4 bg-gray-50" id="${widgetId}-messages">
             <div class="mb-4 flex justify-start">
               <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
                 <div class="text-sm">${config.welcomeMessage}</div>
                 <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+              </div>
+            </div>
+            <div class="mb-4 flex justify-end">
+              <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
+                <div class="text-sm">Hi! Can you help me?</div>
+                <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+              </div>
+            </div>
+            <div class="flex justify-start mb-4">
+              <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
+                <div class="flex gap-1">
+                  <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                  <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                  <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -272,7 +295,7 @@
     // Add user message
         const userMessageHTML = `
           <div class="mb-4 flex justify-end">
-            <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
+            <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
               <div class="text-sm">${message}</div>
               <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
             </div>
@@ -312,7 +335,7 @@
           // Add AI response
           const aiMessageHTML = `
             <div class="mb-4 flex justify-start">
-              <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
+              <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
                 <div class="text-sm">${data.response || 'Sorry, I couldn\'t process that.'}</div>
                 <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
               </div>
