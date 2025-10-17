@@ -2591,7 +2591,7 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
   try {
     console.log(`🔧 Injecting widget into theme for shop: ${shopUrl}`);
     
-    // Get active theme (using 2025-10 - same as app version)
+    // Get active theme (using 2025-10 - matches Shopify app version)
     const themeResponse = await fetch(`https://${shopUrl}/admin/api/2025-10/themes.json`, {
       headers: {
         'X-Shopify-Access-Token': accessToken,
@@ -2653,7 +2653,8 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     console.log(`📝 Updated theme.liquid size: ${themeContent.length} characters`);
     
     // Save theme.liquid directly (try multiple API versions for compatibility)
-    const apiVersions = ['2024-07', '2024-04', '2024-01'];
+    // Use 2025 versions as Shopify now requires these
+    const apiVersions = ['2025-10', '2025-07', '2025-04', '2025-01'];
     let saveSuccess = false;
     let lastError = null;
     
