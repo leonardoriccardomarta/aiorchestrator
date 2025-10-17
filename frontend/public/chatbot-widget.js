@@ -103,6 +103,7 @@
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           z-index: 1000;
           border: none;
+          background: linear-gradient(135deg, #14b8a6, #0d9488);
         }
         .toggle-button:hover {
           transform: scale(1.05);
