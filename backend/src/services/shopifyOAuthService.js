@@ -46,18 +46,12 @@ class ShopifyOAuthService {
     // Clean old states
     this.cleanExpiredStates();
 
-    // Build Shopify OAuth URL
-    const params = new URLSearchParams({
-      client_id: this.apiKey,
-      scope: this.scopes,
-      redirect_uri: this.redirectUri,
-      state: state,
-      grant_options: []
-    });
-
-    const installUrl = `https://${shop}/admin/oauth/authorize?${params.toString()}`;
+    // Build Shopify OAuth URL with force re-authorization
+    // Using grant_options[]=force to force Shopify to request new permissions
+    const installUrl = `https://${shop}/admin/oauth/authorize?client_id=${this.apiKey}&scope=${this.scopes}&redirect_uri=${encodeURIComponent(this.redirectUri)}&state=${state}&grant_options[]=force`;
+    
     console.log('🔐 OAuth URL generated with scopes:', this.scopes);
-    console.log('🔗 Install URL:', installUrl);
+    console.log('🔗 Install URL (with force):', installUrl);
     
     return installUrl;
   }
