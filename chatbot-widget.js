@@ -245,14 +245,23 @@
     function getGradientColors(tailwindClass) {
       const colorMap = {
         'from-indigo-500 to-indigo-600': { from: '#6366f1', to: '#4f46e5' },
+        'from-indigo-600 to-indigo-700': { from: '#4f46e5', to: '#4338ca' },
         'from-teal-500 to-teal-600': { from: '#14b8a6', to: '#0d9488' },
+        'from-teal-600 to-teal-700': { from: '#0d9488', to: '#0f766e' },
         'from-blue-500 to-blue-600': { from: '#3b82f6', to: '#2563eb' },
+        'from-blue-600 to-blue-700': { from: '#2563eb', to: '#1d4ed8' },
         'from-purple-500 to-purple-600': { from: '#8b5cf6', to: '#7c3aed' },
+        'from-purple-600 to-purple-700': { from: '#7c3aed', to: '#6d28d9' },
         'from-pink-500 to-pink-600': { from: '#ec4899', to: '#db2777' },
+        'from-pink-600 to-pink-700': { from: '#db2777', to: '#be185d' },
         'from-red-500 to-red-600': { from: '#ef4444', to: '#dc2626' },
+        'from-red-600 to-red-700': { from: '#dc2626', to: '#b91c1c' },
         'from-green-500 to-green-600': { from: '#10b981', to: '#059669' },
+        'from-green-600 to-green-700': { from: '#059669', to: '#047857' },
         'from-yellow-500 to-yellow-600': { from: '#eab308', to: '#ca8a04' },
-        'from-orange-500 to-orange-600': { from: '#f97316', to: '#ea580c' }
+        'from-yellow-600 to-yellow-700': { from: '#ca8a04', to: '#a16207' },
+        'from-orange-500 to-orange-600': { from: '#f97316', to: '#ea580c' },
+        'from-orange-600 to-orange-700': { from: '#ea580c', to: '#c2410c' }
       };
       return colorMap[tailwindClass] || { from: '#6366f1', to: '#4f46e5' };
     }
