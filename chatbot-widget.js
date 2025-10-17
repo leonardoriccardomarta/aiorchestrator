@@ -89,36 +89,37 @@
     const widgetHTML = `
       <style>
         .toggle-button {
-          position: fixed;
-          bottom: 24px;
-          right: 24px;
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
-          cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          z-index: 1000;
-          border: none;
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 60px;
+            height: 60px;
+            /* gradient now handled by utility classes on element */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            border: none;
         }
         .toggle-button:hover {
           transform: scale(1.05);
           box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
         }
         .toggle-button::before {
-          content: '';
-          position: absolute;
-          top: -2px;
-          right: -2px;
-          width: 8px;
-          height: 8px;
-          background: #10B981;
-          border-radius: 50%;
-          border: 2px solid white;
-          animation: pulse 2s infinite;
+            content: '';
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 12px;
+            height: 12px;
+            background: #10B981;
+            border-radius: 50%;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
         }
         @keyframes pulse {
           0% { transform: scale(1); opacity: 1; }
