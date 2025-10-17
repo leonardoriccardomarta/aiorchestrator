@@ -2691,10 +2691,29 @@ app.post('/api/connections/install-widget', authenticateToken, async (req, res) 
       });
     }
     
-    if (connection.type !== 'shopify') {
+    if (connection.type !== 'shopify' && connection.platform !== 'shopify') {
       return res.status(400).json({
         success: false,
         error: 'Connection is not a Shopify store'
+      });
+    }
+    
+    // Get shop URL and access token
+    const shopUrl = connection.domain || connection.url || connection.shopId;
+    const accessToken = connection.accessToken || connection.apiKey;
+    
+    console.log(`📋 Connection data:`, {
+      id: connection.id,
+      type: connection.type,
+      platform: connection.platform,
+      shopUrl,
+      hasAccessToken: !!accessToken
+    });
+    
+    if (!shopUrl || !accessToken) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing shop URL or access token in connection'
       });
     }
     
@@ -2722,7 +2741,7 @@ app.post('/api/connections/install-widget', authenticateToken, async (req, res) 
 <script src="https://www.aiorchestrator.dev/shopify-app-widget.js" defer></script>`;
 
     // Install widget in theme
-    await injectWidgetIntoTheme(connection.url, connection.apiKey, widgetCode);
+    await injectWidgetIntoTheme(shopUrl, accessToken, widgetCode);
     
     res.json({
       success: true,
