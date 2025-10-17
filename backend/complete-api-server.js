@@ -2661,28 +2661,28 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
       return str.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
     };
     
-    // Use shopify-app-widget.js which is CSS-isolated and identical to live embed
-    const directWidgetCode = `
-<!-- AI Orchestrator Widget - Shopify Isolated Version -->
-<script>
-  window.AIOrchestratorConfig = {
-    chatbotId: '${escapeString(chatbotId)}',
-    apiKey: '${escapeString(process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app')}',
-    theme: '${escapeString(widgetConfig.theme || 'teal')}',
-    title: '${escapeString(widgetConfig.title || 'AI Support')}',
-    placeholder: '${escapeString(widgetConfig.placeholder || 'Type your message...')}',
-    showAvatar: ${widgetConfig.showAvatar !== false},
-    welcomeMessage: '${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}',
-    primaryLanguage: '${escapeString(widgetConfig.primaryLanguage || 'en')}',
-    primaryColor: '${escapeString(widgetConfig.primaryColor || '#14b8a6')}',
-    primaryDarkColor: '${escapeString(widgetConfig.primaryDarkColor || '#0d9488')}',
-    headerLightColor: '${escapeString(widgetConfig.headerLightColor || '#14b8a6')}',
-    headerDarkColor: '${escapeString(widgetConfig.headerDarkColor || '#0d9488')}',
-    textColor: '${escapeString(widgetConfig.textColor || '#1f2937')}',
-    accentColor: '${escapeString(widgetConfig.accentColor || '#14b8a6')}'
-  };
-</script>
-<script src="https://www.aiorchestrator.dev/shopify-app-widget.js" defer></script>`;
+        // Use shopify-app-widget.js which is EXACT COPY from chatbot-widget.js
+        const directWidgetCode = `
+    <!-- AI Orchestrator Widget - EXACT COPY -->
+    <script>
+      window.AIOrchestratorConfig = {
+        chatbotId: '${escapeString(chatbotId)}',
+        apiKey: '${escapeString(process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app')}',
+        theme: '${escapeString(widgetConfig.theme || 'teal')}',
+        title: '${escapeString(widgetConfig.title || 'AI Support')}',
+        placeholder: '${escapeString(widgetConfig.placeholder || 'Type your message...')}',
+        showAvatar: ${widgetConfig.showAvatar !== false},
+        welcomeMessage: '${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}',
+        primaryLanguage: '${escapeString(widgetConfig.primaryLanguage || 'en')}',
+        primaryColor: '${escapeString(widgetConfig.primaryColor || '#14b8a6')}',
+        primaryDarkColor: '${escapeString(widgetConfig.primaryDarkColor || '#0d9488')}',
+        headerLightColor: '${escapeString(widgetConfig.headerLightColor || '#14b8a6')}',
+        headerDarkColor: '${escapeString(widgetConfig.headerDarkColor || '#0d9488')}',
+        textColor: '${escapeString(widgetConfig.textColor || '#1f2937')}',
+        accentColor: '${escapeString(widgetConfig.accentColor || '#14b8a6')}'
+      };
+    </script>
+    <script src="https://www.aiorchestrator.dev/shopify-app-widget.js" defer></script>`;
 
     // Get current theme.liquid
     const apiVersion = '2025-10';

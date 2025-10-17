@@ -1,9 +1,10 @@
+// AI Orchestrator Shopify Widget - EXACT COPY FROM CHATBOT-WIDGET.JS
 (function() {
   'use strict';
   
   console.log('AI Orchestrator: Loading Shopify widget...');
   
-  // Configurazione dal window o dai data attributes
+  // Configurazione dal window
   const config = window.AIOrchestratorConfig || {
     chatbotId: 'default',
     apiKey: 'https://aiorchestrator-vtihz.ondigitalocean.app',
@@ -24,77 +25,122 @@
   console.log('AI Orchestrator: Using configuration:', config);
 
   // Rimuovi widget esistenti
-  const existingWidgets = document.querySelectorAll('[id*="ai-widget"]');
+  const existingWidgets = document.querySelectorAll('[id*="ai-widget"], [id*="ai-orchestrator"]');
   existingWidgets.forEach(widget => widget.remove());
 
-  // Crea widget DIRETTO - identico al chatbot-widget.js
-  function createDirectWidget() {
+  // Crea widget IDENTICO al chatbot-widget.js
+  function createExactWidget() {
     const widgetContainer = document.createElement('div');
-    widgetContainer.id = 'ai-widget-tailwind';
+    widgetContainer.id = `ai-orchestrator-widget-${config.chatbotId}`;
+    widgetContainer.style.cssText = `
+      position: fixed !important;
+      bottom: 0 !important;
+      right: 0 !important;
+      z-index: 999999999 !important;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      background: transparent !important;
+    `;
+    
+    // Widget HTML IDENTICO al chatbot-widget.js
     widgetContainer.innerHTML = `
-      <div class="ai-widget-container" style="
+      <!-- Toggle Button -->
+      <div id="ai-orchestrator-toggle-${config.chatbotId}" class="ai-widget-toggle" style="
         position: fixed !important;
         bottom: 1.5rem !important;
         right: 1.5rem !important;
+        width: 4rem !important;
+        height: 4rem !important;
+        background: ${config.primaryColor} !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        transition: all 0.3s ease !important;
+        border: none !important;
         z-index: 999999999 !important;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
       ">
-        <button class="ai-widget-toggle" id="ai-widget-toggle" style="
-          width: 4rem !important;
-          height: 4rem !important;
-          background: ${config.primaryColor} !important;
-          border-radius: 50% !important;
+        <svg style="width: 1.5rem !important; height: 1.5rem !important; color: white !important;" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        </svg>
+      </div>
+
+      <!-- Chat Widget -->
+      <div id="ai-orchestrator-chat-${config.chatbotId}" class="ai-widget-chat" style="
+        position: fixed !important;
+        bottom: 5.5rem !important;
+        right: 1.5rem !important;
+        width: 22rem !important;
+        height: 32rem !important;
+        background: white !important;
+        border-radius: 1rem !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+        display: none !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        border: 1px solid #e5e7eb !important;
+        z-index: 999999999 !important;
+      ">
+        <!-- Header -->
+        <div class="ai-widget-header" style="
+          background: ${config.headerLightColor} !important;
+          color: white !important;
+          padding: 1rem !important;
           display: flex !important;
           align-items: center !important;
-          justify-content: center !important;
-          cursor: pointer !important;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-          transition: all 0.3s ease !important;
-          border: none !important;
-          position: relative !important;
+          justify-content: space-between !important;
+          border-radius: 1rem 1rem 0 0 !important;
         ">
-          <svg style="width: 1.5rem !important; height: 1.5rem !important; color: white !important;" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-          </svg>
-        </button>
-        
-        <div class="ai-widget-chat" id="ai-widget-chat" style="
-          position: absolute !important;
-          bottom: 5rem !important;
-          right: 0 !important;
-          width: 20rem !important;
-          height: 30rem !important;
-          background: white !important;
-          border-radius: 1rem !important;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
-          display: none !important;
-          flex-direction: column !important;
-          overflow: hidden !important;
-          border: 1px solid #e5e7eb !important;
-        ">
-          <div class="ai-widget-header" style="
-            background: ${config.headerLightColor} !important;
-            color: white !important;
-            padding: 1rem !important;
+          <div class="ai-widget-title" style="
+            font-size: 1rem !important;
+            font-weight: 600 !important;
             display: flex !important;
             align-items: center !important;
-            justify-content: space-between !important;
-            border-radius: 1rem 1rem 0 0 !important;
+            gap: 0.5rem !important;
           ">
-            <div class="ai-widget-title" style="
-              font-size: 1rem !important;
-              font-weight: 600 !important;
-              display: flex !important;
-              align-items: center !important;
-              gap: 0.5rem !important;
-            ">
-              ${config.showAvatar ? '<div class="ai-widget-avatar" style="width: 2rem !important; height: 2rem !important; border-radius: 50% !important; background: rgba(255, 255, 255, 0.2) !important; display: flex !important; align-items: center !important; justify-content: center !important; margin-right: 0.5rem !important;">🤖</div>' : ''}
-              ${config.title}
-            </div>
-            <button class="ai-widget-close" id="ai-widget-close" style="
+            ${config.showAvatar ? `
+              <div class="ai-widget-avatar" style="
+                width: 2rem !important;
+                height: 2rem !important;
+                border-radius: 50% !important;
+                background: rgba(255, 255, 255, 0.2) !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin-right: 0.5rem !important;
+                font-size: 1rem !important;
+              ">🤖</div>
+            ` : ''}
+            ${config.title}
+          </div>
+          <div class="header-right" style="
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+          ">
+            <button id="ai-orchestrator-minimize-${config.chatbotId}" class="header-button" style="
+              color: white !important;
               background: none !important;
               border: none !important;
+              cursor: pointer !important;
+              padding: 0.25rem !important;
+              border-radius: 0.25rem !important;
+              display: flex !important;
+              align-items: center !important;
+              justify-content: center !important;
+            ">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 19h12v2H6z"/>
+              </svg>
+            </button>
+            <button id="ai-orchestrator-close-${config.chatbotId}" class="header-button" style="
               color: white !important;
+              background: none !important;
+              border: none !important;
               cursor: pointer !important;
               padding: 0.25rem !important;
               border-radius: 0.25rem !important;
@@ -107,68 +153,69 @@
               </svg>
             </button>
           </div>
-          
-          <div class="ai-widget-messages" id="ai-widget-messages" style="
-            flex: 1 !important;
-            padding: 1rem !important;
-            overflow-y: auto !important;
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 1rem !important;
+        </div>
+
+        <!-- Messages -->
+        <div id="ai-orchestrator-messages-${config.chatbotId}" class="ai-widget-messages" style="
+          flex: 1 !important;
+          padding: 1rem !important;
+          overflow-y: auto !important;
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 1rem !important;
+        ">
+          <div class="ai-widget-message bot" style="
+            max-width: 80% !important;
+            padding: 0.75rem 1rem !important;
+            border-radius: 1rem 1rem 1rem 0.25rem !important;
+            font-size: 0.875rem !important;
+            line-height: 1.4 !important;
+            background: #f3f4f6 !important;
+            color: ${config.textColor} !important;
+            align-self: flex-start !important;
           ">
-            <div class="ai-widget-message bot" style="
-              max-width: 80% !important;
-              padding: 0.75rem 1rem !important;
-              border-radius: 1rem 1rem 1rem 0.25rem !important;
-              font-size: 0.875rem !important;
-              line-height: 1.4 !important;
-              background: #f3f4f6 !important;
-              color: ${config.textColor} !important;
-              align-self: flex-start !important;
-            ">
-              ${config.welcomeMessage}
-            </div>
+            ${config.welcomeMessage}
           </div>
-          
-          <div class="ai-widget-input-container" style="
-            padding: 1rem !important;
-            border-top: 1px solid #e5e7eb !important;
-            display: flex !important;
-            gap: 0.5rem !important;
-            align-items: center !important;
-          ">
-            <input 
-              type="text" 
-              class="ai-widget-input" 
-              id="ai-widget-input" 
-              placeholder="${config.placeholder}"
-              style="
-                flex: 1 !important;
-                border: 1px solid #d1d5db !important;
-                border-radius: 0.5rem !important;
-                padding: 0.75rem !important;
-                font-size: 0.875rem !important;
-                outline: none !important;
-                transition: border-color 0.2s !important;
-              "
-            >
-            <button class="ai-widget-send" id="ai-widget-send" style="
-              background: ${config.primaryColor} !important;
-              color: white !important;
-              border: none !important;
+        </div>
+
+        <!-- Input -->
+        <div class="ai-widget-input-container" style="
+          padding: 1rem !important;
+          border-top: 1px solid #e5e7eb !important;
+          display: flex !important;
+          gap: 0.5rem !important;
+          align-items: center !important;
+        ">
+          <input 
+            type="text" 
+            id="ai-orchestrator-input-${config.chatbotId}" 
+            placeholder="${config.placeholder}"
+            style="
+              flex: 1 !important;
+              border: 1px solid #d1d5db !important;
               border-radius: 0.5rem !important;
               padding: 0.75rem !important;
-              cursor: pointer !important;
-              display: flex !important;
-              align-items: center !important;
-              justify-content: center !important;
-              transition: background-color 0.2s !important;
-            ">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-              </svg>
-            </button>
-          </div>
+              font-size: 0.875rem !important;
+              outline: none !important;
+              transition: border-color 0.2s !important;
+            "
+          >
+          <button id="ai-orchestrator-send-${config.chatbotId}" style="
+            background: ${config.primaryColor} !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 0.5rem !important;
+            padding: 0.75rem !important;
+            cursor: pointer !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: background-color 0.2s !important;
+          ">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            </svg>
+          </button>
         </div>
       </div>
     `;
@@ -176,17 +223,18 @@
     return widgetContainer;
   }
   
-  // Crea widget diretto
-  const widget = createDirectWidget();
+  // Crea widget
+  const widget = createExactWidget();
   document.body.appendChild(widget);
   
   // Event listeners
-  const toggle = document.getElementById('ai-widget-toggle');
-  const chat = document.getElementById('ai-widget-chat');
-  const close = document.getElementById('ai-widget-close');
-  const input = document.getElementById('ai-widget-input');
-  const send = document.getElementById('ai-widget-send');
-  const messages = document.getElementById('ai-widget-messages');
+  const toggle = document.getElementById(`ai-orchestrator-toggle-${config.chatbotId}`);
+  const chat = document.getElementById(`ai-orchestrator-chat-${config.chatbotId}`);
+  const close = document.getElementById(`ai-orchestrator-close-${config.chatbotId}`);
+  const minimize = document.getElementById(`ai-orchestrator-minimize-${config.chatbotId}`);
+  const input = document.getElementById(`ai-orchestrator-input-${config.chatbotId}`);
+  const send = document.getElementById(`ai-orchestrator-send-${config.chatbotId}`);
+  const messages = document.getElementById(`ai-orchestrator-messages-${config.chatbotId}`);
   
   let isOpen = false;
   
@@ -196,6 +244,11 @@
   });
   
   close.addEventListener('click', () => {
+    isOpen = false;
+    chat.style.display = 'none';
+  });
+  
+  minimize.addEventListener('click', () => {
     isOpen = false;
     chat.style.display = 'none';
   });
