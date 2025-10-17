@@ -730,7 +730,7 @@
           visibility: visible !important;
         ">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-        </svg>
+          </svg>
         <div style="
           position: absolute !important;
           top: -4px !important;
@@ -1226,7 +1226,7 @@
               </svg>
             </button>
           </div>
-        </div>
+          </div>
           
         <!-- Messages -->
         <div id="ai-orchestrator-messages-${config.chatbotId}" style="
@@ -1263,9 +1263,9 @@
             <div style="max-width: 80%; border-radius: 1rem; padding: 1rem; background: white; color: rgb(17 24 39); border: 1px solid rgb(229 231 235);">
               <div style="font-size: 0.875rem; line-height: 1.25rem;">${config.welcomeMessage}</div>
               <div style="font-size: 0.75rem; margin-top: 0.25rem; color: rgb(107 114 128);">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+              </div>
             </div>
           </div>
-        </div>
           
         <!-- Input -->
         <div class="input-area" style="
@@ -1408,10 +1408,10 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
             </svg>
           </button>
+          </div>
         </div>
       </div>
-    </div>
-  `;
+    `;
 
     // Add styles with EXTREME specificity to override Shopify
   const style = document.createElement('style');
@@ -1999,18 +1999,26 @@
 
   // Toggle widget
   window.toggleChatbot = function() {
+    console.log('🎯 toggleChatbot chiamata! isOpen:', isOpen);
     const chat = document.getElementById(`ai-orchestrator-chat-${config.chatbotId}`);
     const button = document.getElementById(`ai-orchestrator-toggle-${config.chatbotId}`);
     
+    console.log('Chat element:', chat);
+    console.log('Button element:', button);
+    
     if (!isOpen) {
+      console.log('Aprendo chat...');
       chat.classList.add('show');
       button.style.display = 'none';
       isOpen = true;
       document.getElementById(`ai-orchestrator-input-${config.chatbotId}`).focus();
+      console.log('✅ Chat aperta!');
     } else {
+      console.log('Chiudendo chat...');
       chat.classList.remove('show');
       button.style.display = 'flex';
       isOpen = false;
+      console.log('✅ Chat chiusa!');
     }
   };
 
