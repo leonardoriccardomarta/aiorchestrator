@@ -103,7 +103,6 @@
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           z-index: 1000;
           border: none;
-          background: linear-gradient(135deg, #14b8a6, #0d9488);
         }
         .toggle-button:hover {
           transform: scale(1.05);
@@ -112,10 +111,10 @@
         .toggle-button::before {
           content: '';
           position: absolute;
-          top: -4px;
-          right: -4px;
-          width: 12px;
-          height: 12px;
+          top: -2px;
+          right: -2px;
+          width: 8px;
+          height: 8px;
           background: #10B981;
           border-radius: 50%;
           border: 2px solid white;
