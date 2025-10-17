@@ -2652,8 +2652,8 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
     
     console.log(`📝 Updated theme.liquid size: ${themeContent.length} characters`);
     
-    // Create a snippet file that auto-installs the widget
-    console.log(`📝 Creating auto-install snippet...`);
+    // DIRECT APPROACH: Inject widget code directly into theme.liquid
+    console.log(`🚀 DIRECT WIDGET INJECTION - No snippets, no bullshit!`);
     
     // Define escapeString function for this scope
     const escapeString = (str) => {
@@ -2661,11 +2661,9 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
       return str.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
     };
     
-    const snippetCode = `{% comment %}
-  AI Orchestrator Widget - Auto Install
-  This snippet automatically injects the widget into your theme
-{% endcomment %}
-
+    // Create the complete widget code to inject directly
+    const directWidgetCode = `
+<!-- AI Orchestrator Widget - Direct Injection -->
 <script>
   window.AIOrchestratorConfig = {
     chatbotId: '${escapeString(chatbotId)}',
@@ -2686,13 +2684,36 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
 </script>
 <script src="https://www.aiorchestrator.dev/shopify-app-widget.js" defer></script>`;
 
-    // Try to create the snippet file
+    // Get current theme.liquid
     const apiVersion = '2025-10';
-    const snippetUrl = `https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`;
+    const getThemeResponse = await fetch(`https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json?asset[key]=layout/theme.liquid`, {
+      headers: {
+        'X-Shopify-Access-Token': accessToken,
+        'Content-Type': 'application/json'
+      }
+    });
     
-    console.log(`💾 Creating snippet: snippets/aiorchestrator-widget.liquid`);
+    if (!getThemeResponse.ok) {
+      throw new Error(`Failed to fetch theme.liquid: ${getThemeResponse.status}`);
+    }
     
-    const snippetResponse = await fetch(snippetUrl, {
+    const themeData = await getThemeResponse.json();
+    let themeContent = themeData.asset.value;
+    
+    // Remove any existing widget code
+    themeContent = themeContent.replace(/<!-- AI Orchestrator Widget[\s\S]*?<\/script>/g, '');
+    
+    // Add widget code before </body>
+    if (themeContent.includes('</body>')) {
+      themeContent = themeContent.replace('</body>', `${directWidgetCode}\n</body>`);
+    } else {
+      themeContent += `\n${directWidgetCode}`;
+    }
+    
+    console.log(`💾 Saving updated theme.liquid with widget...`);
+    
+    // Save updated theme.liquid
+    const saveThemeResponse = await fetch(`https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`, {
       method: 'PUT',
       headers: {
         'X-Shopify-Access-Token': accessToken,
@@ -2700,97 +2721,44 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
       },
       body: JSON.stringify({
         asset: {
-          key: 'snippets/aiorchestrator-widget.liquid',
-          value: snippetCode
+          key: 'layout/theme.liquid',
+          value: themeContent
         }
       })
     });
     
-    console.log(`📊 Snippet response status: ${snippetResponse.status}`);
+    console.log(`📊 Save theme response status: ${saveThemeResponse.status}`);
     
-    if (snippetResponse.ok) {
-      console.log(`✅ Snippet created successfully!`);
-      
-      // Now try to modify theme.liquid to include the snippet
-      const themeLiquidUrl = `https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`;
-      
-      // Get current theme.liquid
-      const getThemeResponse = await fetch(`https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json?asset[key]=layout/theme.liquid`, {
-        headers: {
-          'X-Shopify-Access-Token': accessToken,
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (getThemeResponse.ok) {
-        const themeData = await getThemeResponse.json();
-        let themeContent = themeData.asset.value;
-        
-        // Check if snippet is already included
-        if (!themeContent.includes('aiorchestrator-widget')) {
-          // Add snippet before </body>
-          const snippetInclude = `{% render 'aiorchestrator-widget' %}`;
-          themeContent = themeContent.replace('</body>', `${snippetInclude}\n</body>`);
-          
-          // Save updated theme.liquid
-          const saveThemeResponse = await fetch(themeLiquidUrl, {
-            method: 'PUT',
-            headers: {
-              'X-Shopify-Access-Token': accessToken,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              asset: {
-                key: 'layout/theme.liquid',
-                value: themeContent
-              }
-            })
-          });
-          
-          if (saveThemeResponse.ok) {
-            console.log(`✅ Widget automatically installed!`);
-            return {
-              success: true,
-              autoInstalled: true,
-              message: 'Widget installed automatically! Check your store now.'
-            };
-          } else {
-            console.log(`⚠️ Snippet created but theme.liquid update failed. Manual step needed.`);
-          }
-        } else {
-          console.log(`✅ Widget already installed!`);
-          return {
-            success: true,
-            alreadyInstalled: true,
-            message: 'Widget is already installed on your store!'
-          };
-        }
-      }
+    if (saveThemeResponse.ok) {
+      console.log(`🎉 WIDGET INSTALLED DIRECTLY INTO THEME!`);
+      return {
+        success: true,
+        autoInstalled: true,
+        message: 'Widget installed directly into theme! Check your store now.'
+      };
     } else {
-      const errorText = await snippetResponse.text();
-      console.error(`❌ Snippet creation failed: ${snippetResponse.status} - ${errorText}`);
+      const errorText = await saveThemeResponse.text();
+      console.error(`❌ Direct injection failed: ${saveThemeResponse.status} - ${errorText}`);
+      
+      // Fallback: return the code for manual installation
+      return {
+        success: true,
+        requiresManualInstallation: true,
+        method: 'direct',
+        embedCode: directWidgetCode,
+        instructions: {
+          title: 'Widget Code Ready - Manual Installation',
+          steps: [
+            '1. Go to your Shopify Admin',
+            '2. Navigate to: Online Store → Themes → Edit Code',
+            '3. Open: Layout → theme.liquid',
+            '4. Find the </body> tag',
+            '5. Paste the code BEFORE </body>',
+            '6. Click Save'
+          ]
+        }
+      };
     }
-    
-    // If automatic installation fails, provide manual instructions
-    console.log(`⚠️ Automatic installation failed, providing manual instructions...`);
-    return {
-      success: true,
-      requiresManualInstallation: true,
-      method: 'snippet',
-      embedCode: `{% render 'aiorchestrator-widget' %}`,
-      instructions: {
-        title: 'Widget Snippet Created - Add to theme.liquid',
-        steps: [
-          '1. Go to your Shopify Admin',
-          '2. Navigate to: Online Store → Themes → Edit Code',
-          '3. Open: Layout → theme.liquid',
-          '4. Find the </body> tag',
-          '5. Add this line BEFORE </body>:',
-          '6. {% render \'aiorchestrator-widget\' %}',
-          '7. Click Save'
-        ]
-      }
-    };
     
   } catch (error) {
     console.error('❌ Error injecting widget:', error);
