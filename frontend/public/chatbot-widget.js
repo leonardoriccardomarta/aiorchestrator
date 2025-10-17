@@ -2154,12 +2154,45 @@
       }
     }
     
-    // Event listeners
-  document.getElementById(`ai-orchestrator-toggle-${config.chatbotId}`).addEventListener('click', toggleChatbot);
-  document.getElementById(`ai-orchestrator-close-${config.chatbotId}`).addEventListener('click', closeChatbot);
-  document.getElementById(`ai-orchestrator-minimize-${config.chatbotId}`).addEventListener('click', minimizeChatbot);
-  document.getElementById(`ai-orchestrator-send-${config.chatbotId}`).addEventListener('click', sendChatbotMessage);
-  document.getElementById(`ai-orchestrator-input-${config.chatbotId}`).addEventListener('keypress', handleChatbotKeypress);
+    // Event listeners - Wait for elements to be ready
+    setTimeout(() => {
+      try {
+        const toggle = document.getElementById(`ai-orchestrator-toggle-${config.chatbotId}`);
+        const close = document.getElementById(`ai-orchestrator-close-${config.chatbotId}`);
+        const minimize = document.getElementById(`ai-orchestrator-minimize-${config.chatbotId}`);
+        const send = document.getElementById(`ai-orchestrator-send-${config.chatbotId}`);
+        const input = document.getElementById(`ai-orchestrator-input-${config.chatbotId}`);
+        
+        if (toggle) {
+          toggle.addEventListener('click', toggleChatbot);
+          console.log('✅ Toggle event listener attached');
+        } else {
+          console.error('❌ Toggle element not found for event listener');
+        }
+        
+        if (close) {
+          close.addEventListener('click', closeChatbot);
+          console.log('✅ Close event listener attached');
+        }
+        
+        if (minimize) {
+          minimize.addEventListener('click', minimizeChatbot);
+          console.log('✅ Minimize event listener attached');
+        }
+        
+        if (send) {
+          send.addEventListener('click', sendChatbotMessage);
+          console.log('✅ Send event listener attached');
+        }
+        
+        if (input) {
+          input.addEventListener('keypress', handleChatbotKeypress);
+          console.log('✅ Input event listener attached');
+        }
+      } catch (error) {
+        console.error('❌ Error attaching event listeners:', error);
+      }
+    }, 100);
 
     console.log('AI Orchestrator: Shopify-compatible widget loaded successfully!');
     
