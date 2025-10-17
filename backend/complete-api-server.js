@@ -2590,8 +2590,8 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
   try {
     console.log(`🔧 Injecting widget into theme for shop: ${shopUrl}`);
     
-    // Get active theme
-    const themeResponse = await fetch(`https://${shopUrl}/admin/api/2024-10/themes.json`, {
+    // Get active theme (using 2024-07 - latest stable version)
+    const themeResponse = await fetch(`https://${shopUrl}/admin/api/2024-07/themes.json`, {
       headers: {
         'X-Shopify-Access-Token': accessToken,
         'Content-Type': 'application/json'
@@ -2614,7 +2614,7 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     console.log(`📋 Found active theme: ${activeTheme.id}`);
     
     // Get theme.liquid content
-    const liquidResponse = await fetch(`https://${shopUrl}/admin/api/2024-10/themes/${activeTheme.id}/assets.json?asset[key]=layout/theme.liquid`, {
+    const liquidResponse = await fetch(`https://${shopUrl}/admin/api/2024-07/themes/${activeTheme.id}/assets.json?asset[key]=layout/theme.liquid`, {
       headers: {
         'X-Shopify-Access-Token': accessToken,
         'Content-Type': 'application/json'
@@ -2645,7 +2645,7 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     }
     
     // Save updated theme.liquid
-    const saveUrl = `https://${shopUrl}/admin/api/2024-10/themes/${activeTheme.id}/assets.json`;
+    const saveUrl = `https://${shopUrl}/admin/api/2024-07/themes/${activeTheme.id}/assets.json`;
     console.log(`💾 Saving theme to: ${saveUrl}`);
     
     const saveResponse = await fetch(saveUrl, {
