@@ -105,7 +105,6 @@
           border: none !important;
           opacity: 1 !important;
           visibility: visible !important;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         }
         #${widgetId} .toggle-button:hover {
           transform: scale(1.05);
@@ -114,10 +113,10 @@
         #${widgetId} .toggle-button::before {
           content: '';
           position: absolute;
-          top: -4px;
-          right: -4px;
-          width: 12px;
-          height: 12px;
+          top: -2px;
+          right: -2px;
+          width: 8px;
+          height: 8px;
           background: #10B981;
           border-radius: 50%;
           border: 2px solid white;
@@ -156,7 +155,7 @@
       </style>
 
       <div id="${widgetId}">
-      <!-- Toggle Button -->
+        <!-- Toggle Button -->
         <div class="toggle-button bg-gradient-to-br ${themeColors.primary}" id="${widgetId}-toggle">
           <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
@@ -196,7 +195,7 @@
           </div>
           </div>
           
-          <!-- Messages -->
+        <!-- Messages -->
           <div class="h-96 overflow-y-auto p-4 bg-gray-50" id="${widgetId}-messages">
             <div class="mb-4 flex justify-start">
               <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
