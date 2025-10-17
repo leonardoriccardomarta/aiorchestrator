@@ -88,39 +88,27 @@
     // Create widget HTML - EXACT MATCH from live preview
     const widgetHTML = `
       <style>
-        #${widgetId} .toggle-button {
-          position: fixed !important;
-          bottom: 24px !important;
-          right: 24px !important;
-          width: 60px !important;
-          height: 60px !important;
-          border-radius: 50% !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4) !important;
-          cursor: pointer !important;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-          z-index: 1000 !important;
-          border: none !important;
-          opacity: 1 !important;
-          visibility: visible !important;
+        .toggle-button {
+          position: fixed;
+          bottom: 24px;
+          right: 24px;
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+          cursor: pointer;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 1000;
+          border: none;
         }
-        #${widgetId} .toggle-button * {
-          opacity: 1 !important;
-          visibility: visible !important;
-        }
-        #${widgetId} .toggle-button,
-        #${widgetId} .toggle-button * {
-          opacity: 1 !important;
-          visibility: visible !important;
-          display: flex !important;
-        }
-        #${widgetId} .toggle-button:hover {
+        .toggle-button:hover {
           transform: scale(1.05);
           box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
         }
-        #${widgetId} .toggle-button::before {
+        .toggle-button::before {
           content: '';
           position: absolute;
           top: -4px;
@@ -213,21 +201,6 @@
                 <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
               </div>
             </div>
-            <div class="mb-4 flex justify-end">
-              <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
-                <div class="text-sm">Hi! Can you help me?</div>
-                <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
-              </div>
-            </div>
-            <div class="flex justify-start mb-4">
-              <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
-                <div class="flex gap-1">
-                  <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                  <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-                  <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-                </div>
-              </div>
-            </div>
           </div>
           
         <!-- Input -->
@@ -256,22 +229,13 @@
     document.body.appendChild(container);
     console.log('✅ Widget HTML injected');
 
-    // Force toggle visibility immediately and continuously
+    // Force toggle visibility immediately
     const toggleBtn = document.getElementById(`${widgetId}-toggle`);
     if (toggleBtn) {
       toggleBtn.style.opacity = '1';
       toggleBtn.style.visibility = 'visible';
       toggleBtn.style.display = 'flex';
       console.log('✅ Toggle forced visible');
-      
-      // Force visibility every 100ms to override any CSS
-      setInterval(() => {
-        if (toggleBtn) {
-          toggleBtn.style.opacity = '1';
-          toggleBtn.style.visibility = 'visible';
-          toggleBtn.style.display = 'flex';
-        }
-      }, 100);
     }
 
       // Add event listeners
