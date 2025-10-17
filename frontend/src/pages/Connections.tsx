@@ -213,7 +213,11 @@ const Connections: React.FC = () => {
       const result = await response.json();
       
       if (result.success) {
-        if (result.data?.requiresManualInstallation) {
+        if (result.data?.autoInstalled) {
+          alert('🎉 WIDGET INSTALLATO AUTOMATICAMENTE!\n\n✅ Il widget è ora attivo sul tuo store Shopify!\n\nVai sul tuo store per vederlo in azione.');
+        } else if (result.data?.alreadyInstalled) {
+          alert('✅ Widget già installato!\n\nIl widget è già presente sul tuo store Shopify.');
+        } else if (result.data?.requiresManualInstallation) {
           // Show professional modal with instructions and embed code
           setInstallInstructions(result.data);
           setShowInstallInstructions(true);
