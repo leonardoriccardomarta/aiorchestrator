@@ -121,13 +121,11 @@
           width: 384px;
           height: 560px;
           z-index: 999;
-          transform: translateY(0);
-          transition: transform 0.3s ease, height 0.25s ease;
           max-height: calc(100vh - 148px);
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         #${widgetId} .chat-widget.hidden { 
-          transform: translateY(100%); 
+          display: none !important;
         }
         #${widgetId} .chat-widget.collapsed { 
           height: 64px !important;
