@@ -2661,28 +2661,20 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
       return str.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
     };
     
-    // Use shopify-app-widget.js which is CSS-isolated for Shopify
+    // Use the EXACT same chatbot-widget.js that works in preview
     const directWidgetCode = `
-<!-- AI Orchestrator Widget - Shopify Isolated -->
-<script>
-  window.AIOrchestratorConfig = {
-    chatbotId: '${escapeString(chatbotId)}',
-    apiKey: '${escapeString(process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app')}',
-    theme: '${escapeString(widgetConfig.theme || 'teal')}',
-    title: '${escapeString(widgetConfig.title || 'AI Support')}',
-    placeholder: '${escapeString(widgetConfig.placeholder || 'Type your message...')}',
-    showAvatar: ${widgetConfig.showAvatar !== false},
-    welcomeMessage: '${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}',
-    primaryLanguage: '${escapeString(widgetConfig.primaryLanguage || 'en')}',
-    primaryColor: '${escapeString(widgetConfig.primaryColor || '#14b8a6')}',
-    primaryDarkColor: '${escapeString(widgetConfig.primaryDarkColor || '#0d9488')}',
-    headerLightColor: '${escapeString(widgetConfig.headerLightColor || '#14b8a6')}',
-    headerDarkColor: '${escapeString(widgetConfig.headerDarkColor || '#0d9488')}',
-    textColor: '${escapeString(widgetConfig.textColor || '#1f2937')}',
-    accentColor: '${escapeString(widgetConfig.accentColor || '#14b8a6')}'
-  };
-</script>
-<script src="https://www.aiorchestrator.dev/shopify-app-widget.js" defer></script>`;
+<!-- AI Orchestrator Widget - EXACT COPY FROM PREVIEW -->
+<script src="https://www.aiorchestrator.dev/chatbot-widget.js" 
+        data-chatbot-id="${escapeString(chatbotId)}" 
+        data-api-key="${escapeString(process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app')}" 
+        data-theme="${escapeString(widgetConfig.theme || 'teal')}" 
+        data-title="${escapeString(widgetConfig.title || 'AI Support')}" 
+        data-placeholder="${escapeString(widgetConfig.placeholder || 'Type your message...')}" 
+        data-show-avatar="${widgetConfig.showAvatar !== false}" 
+        data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}" 
+        data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}" 
+        defer>
+</script>`;
 
     // Get current theme.liquid
     const apiVersion = '2025-10';
