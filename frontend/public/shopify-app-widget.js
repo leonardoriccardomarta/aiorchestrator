@@ -27,11 +27,11 @@
       position: fixed !important;
       bottom: 1.5rem !important;
       right: 1.5rem !important;
-      width: 4rem !important;
-      height: 4rem !important;
-      border: none !important;
+      width: 6rem !important;
+      height: 6rem !important;
+      border: 2px solid red !important;
       z-index: 999999999 !important;
-      background: transparent !important;
+      background: rgba(255, 0, 0, 0.1) !important;
       pointer-events: auto !important;
     `;
     
@@ -302,6 +302,10 @@
   // Crea il widget isolato con iframe
   const iframe = createIsolatedWidget();
   
+  // Aggiungi iframe al body
+  document.body.appendChild(iframe);
+  console.log('📦 Iframe added to body');
+  
   // Sincronizza con live preview ogni 2 secondi
   setInterval(syncWithLivePreview, 2000);
   
@@ -309,4 +313,6 @@
   setTimeout(syncWithLivePreview, 1000);
   
   console.log('✅ AI Orchestrator Shopify Widget loaded successfully with iframe isolation!');
+  console.log('🔍 Iframe element:', iframe);
+  console.log('🔍 Iframe style:', iframe.style.cssText);
 })();
