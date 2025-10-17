@@ -2622,11 +2622,14 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     });
     
     if (!liquidResponse.ok) {
+      const errorText = await liquidResponse.text();
+      console.error(`❌ Fetch theme.liquid error: ${liquidResponse.status} - ${errorText}`);
       throw new Error(`Failed to fetch theme.liquid: ${liquidResponse.status}`);
     }
     
     const liquidData = await liquidResponse.json();
     let themeContent = liquidData.asset.value;
+    console.log(`✅ Successfully fetched theme.liquid (${themeContent.length} characters)`);
     
     // Check if widget already exists
     if (themeContent.includes('AI Orchestrator Widget')) {
@@ -2639,10 +2642,14 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     const widgetPlaceholder = '</body>';
     if (themeContent.includes(widgetPlaceholder)) {
       themeContent = themeContent.replace(widgetPlaceholder, `${widgetCode}\n${widgetPlaceholder}`);
+      console.log('✅ Widget code added before </body>');
     } else {
       // If no </body> tag, append at the end
       themeContent += `\n${widgetCode}`;
+      console.log('⚠️ No </body> tag found, appended at end');
     }
+    
+    console.log(`📝 Updated theme.liquid size: ${themeContent.length} characters`);
     
     // Save updated theme.liquid
     const saveUrl = `https://${shopUrl}/admin/api/2025-10/themes/${activeTheme.id}/assets.json`;
