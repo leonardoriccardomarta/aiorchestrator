@@ -1,6 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { API_URL } from '../config/constants';
+
+// Dichiarazione TypeScript per window.AIOrchestratorConfig
+declare global {
+  interface Window {
+    AIOrchestratorConfig?: {
+      chatbotId: string;
+      apiKey: string;
+      theme: string;
+      title: string;
+      placeholder: string;
+      showAvatar: boolean;
+      welcomeMessage: string;
+      primaryLanguage: string;
+      primaryColor: string;
+      primaryDarkColor: string;
+      headerLightColor: string;
+      headerDarkColor: string;
+      textColor: string;
+      accentColor: string;
+    };
+  }
+}
 import ShopifyOAuthButton from '../components/connections/ShopifyOAuthButton';
 import WidgetInstructions from '../components/connections/WidgetInstructions';
 import { 
@@ -181,9 +203,37 @@ const Connections: React.FC = () => {
         throw new Error('Chatbot not found');
       }
 
-      // Crea la configurazione per il widget
-      const widgetConfig = {
-        theme: 'teal', // Default theme, puoi estenderlo
+      // 🔥 LEGGI LA CONFIGURAZIONE DAL LIVE EMBED (coordinamento in tempo reale)
+      let liveConfig = null;
+      try {
+        // Prova a leggere la configurazione dal live embed
+        if (window.AIOrchestratorConfig) {
+          liveConfig = window.AIOrchestratorConfig;
+          console.log('🎯 Configurazione live embed trovata:', liveConfig);
+        } else {
+          console.log('⚠️ Configurazione live embed non trovata, uso default');
+        }
+      } catch (error) {
+        console.log('⚠️ Errore lettura configurazione live embed:', error);
+      }
+
+      // Crea la configurazione per il widget (usa live config se disponibile)
+      const widgetConfig = liveConfig ? {
+        theme: liveConfig.theme || 'teal',
+        title: liveConfig.title || chatbot.name || 'AI Support',
+        placeholder: liveConfig.placeholder || 'Type your message...',
+        showAvatar: liveConfig.showAvatar !== false,
+        welcomeMessage: liveConfig.welcomeMessage || chatbot.welcomeMessage || 'Hello! How can I help you today?',
+        primaryLanguage: liveConfig.primaryLanguage || chatbot.language || 'en',
+        primaryColor: liveConfig.primaryColor || '#14b8a6',
+        primaryDarkColor: liveConfig.primaryDarkColor || '#0d9488',
+        headerLightColor: liveConfig.headerLightColor || '#14b8a6',
+        headerDarkColor: liveConfig.headerDarkColor || '#0d9488',
+        textColor: liveConfig.textColor || '#1f2937',
+        accentColor: liveConfig.accentColor || '#14b8a6'
+      } : {
+        // Fallback se non c'è configurazione live
+        theme: 'teal',
         title: chatbot.name || 'AI Support',
         placeholder: 'Type your message...',
         showAvatar: true,
@@ -196,6 +246,8 @@ const Connections: React.FC = () => {
         textColor: '#1f2937',
         accentColor: '#14b8a6'
       };
+
+      console.log('🚀 Configurazione widget finale:', widgetConfig);
 
       const response = await fetch(`${API_URL}/api/connections/install-widget`, {
         method: 'POST',
