@@ -211,7 +211,11 @@ const Connections: React.FC = () => {
       const result = await response.json();
       
       if (result.success) {
-        alert('✅ Widget installato con successo! Vai sul tuo store per vederlo.');
+        if (result.data?.requiresManualStep) {
+          alert(`✅ Widget snippet creato con successo!\n\n📋 ULTIMO PASSO:\nAggiungi questa riga al tuo theme.liquid prima di </body>:\n\n{% render 'aiorchestrator-widget' %}\n\nVai su Shopify Admin → Online Store → Themes → Edit Code → Layout → theme.liquid`);
+        } else {
+          alert('✅ Widget installato con successo! Vai sul tuo store per vederlo.');
+        }
       } else {
         alert('❌ Errore: ' + result.error);
       }

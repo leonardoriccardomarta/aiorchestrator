@@ -2652,54 +2652,46 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     
     console.log(`📝 Updated theme.liquid size: ${themeContent.length} characters`);
     
-    // Save theme.liquid directly (try multiple API versions for compatibility)
-    // Use 2025 versions as Shopify now requires these
-    const apiVersions = ['2025-10', '2025-07', '2025-04', '2025-01'];
-    let saveSuccess = false;
-    let lastError = null;
+    // ⚠️ Shopify does NOT allow modifying theme.liquid via API for security reasons
+    // Instead, create a snippet file that users can include manually
+    console.log(`📝 Creating snippet file instead of modifying theme.liquid...`);
     
-    for (const apiVersion of apiVersions) {
-      const saveUrl = `https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`;
-      console.log(`💾 Attempting to save with API version ${apiVersion}: ${saveUrl}`);
-      console.log(`📦 Asset key: layout/theme.liquid`);
-      console.log(`📏 Content length: ${themeContent.length} bytes`);
-      
-      try {
-        const requestBody = {
-          asset: {
-            key: 'layout/theme.liquid',
-            value: themeContent
-          }
-        };
-        
-        const saveResponse = await fetch(saveUrl, {
-          method: 'PUT',
-          headers: {
-            'X-Shopify-Access-Token': accessToken,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(requestBody)
-        });
-        
-        if (saveResponse.ok) {
-          console.log(`✅ Successfully saved theme with API version ${apiVersion}!`);
-          saveSuccess = true;
-          break;
-        } else {
-          const errorText = await saveResponse.text();
-          lastError = `${saveResponse.status} - ${errorText}`;
-          console.warn(`⚠️ API version ${apiVersion} failed: ${lastError}`);
+    const snippetCode = widgetCode;
+    const apiVersion = '2025-10';
+    const snippetUrl = `https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`;
+    
+    console.log(`💾 Creating snippet: snippets/aiorchestrator-widget.liquid`);
+    
+    const snippetResponse = await fetch(snippetUrl, {
+      method: 'PUT',
+      headers: {
+        'X-Shopify-Access-Token': accessToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        asset: {
+          key: 'snippets/aiorchestrator-widget.liquid',
+          value: snippetCode
         }
-      } catch (error) {
-        lastError = error.message;
-        console.warn(`⚠️ API version ${apiVersion} error: ${lastError}`);
-      }
+      })
+    });
+    
+    if (!snippetResponse.ok) {
+      const errorText = await snippetResponse.text();
+      console.error(`❌ Snippet creation failed: ${snippetResponse.status} - ${errorText}`);
+      throw new Error(`Failed to create widget snippet: ${snippetResponse.status} - ${errorText}`);
     }
     
-    if (!saveSuccess) {
-      console.error(`❌ All API versions failed. Last error: ${lastError}`);
-      throw new Error(`Failed to save theme after trying multiple API versions. Last error: ${lastError}`);
-    }
+    console.log(`✅ Widget snippet created successfully!`);
+    console.log(`📋 USER ACTION REQUIRED: Add this line to your theme.liquid file before </body>:`);
+    console.log(`   {% render 'aiorchestrator-widget' %}`);
+    
+    // Return success with instructions
+    return {
+      success: true,
+      requiresManualStep: true,
+      instructions: "Add {% render 'aiorchestrator-widget' %} to your theme.liquid file before </body>"
+    };
     
     console.log('✅ Widget successfully injected into theme!');
     return true;
