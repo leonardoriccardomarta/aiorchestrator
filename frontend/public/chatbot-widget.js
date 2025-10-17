@@ -238,6 +238,33 @@
       toggleBtn.style.display = 'flex';
       console.log('✅ Toggle forced visible');
     }
+    
+    // Wait for Tailwind to load and force color
+    setTimeout(() => {
+      const toggleBtn = document.getElementById(`${widgetId}-toggle`);
+      if (toggleBtn) {
+        // Force background color after Tailwind loads
+        const primaryColor = themeColors.primary || 'from-indigo-500 to-indigo-600';
+        toggleBtn.style.background = `linear-gradient(135deg, ${getGradientColors(primaryColor).from}, ${getGradientColors(primaryColor).to})`;
+        console.log('✅ Toggle color applied after Tailwind load');
+      }
+    }, 500);
+    
+    // Helper function to get gradient colors from Tailwind class
+    function getGradientColors(tailwindClass) {
+      const colorMap = {
+        'from-indigo-500 to-indigo-600': { from: '#6366f1', to: '#4f46e5' },
+        'from-teal-500 to-teal-600': { from: '#14b8a6', to: '#0d9488' },
+        'from-blue-500 to-blue-600': { from: '#3b82f6', to: '#2563eb' },
+        'from-purple-500 to-purple-600': { from: '#8b5cf6', to: '#7c3aed' },
+        'from-pink-500 to-pink-600': { from: '#ec4899', to: '#db2777' },
+        'from-red-500 to-red-600': { from: '#ef4444', to: '#dc2626' },
+        'from-green-500 to-green-600': { from: '#10b981', to: '#059669' },
+        'from-yellow-500 to-yellow-600': { from: '#eab308', to: '#ca8a04' },
+        'from-orange-500 to-orange-600': { from: '#f97316', to: '#ea580c' }
+      };
+      return colorMap[tailwindClass] || { from: '#6366f1', to: '#4f46e5' };
+    }
 
       // Add event listeners
       setTimeout(() => {
