@@ -2652,59 +2652,52 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     
     console.log(`📝 Updated theme.liquid size: ${themeContent.length} characters`);
     
-    // TEST: First try to create a simple test file to verify write permissions
-    console.log(`🧪 Testing write permissions with a test file...`);
-    const testUrl = `https://${shopUrl}/admin/api/2025-10/themes/${activeTheme.id}/assets.json`;
-    const testResponse = await fetch(testUrl, {
-      method: 'PUT',
-      headers: {
-        'X-Shopify-Access-Token': accessToken,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        asset: {
-          key: 'snippets/aiorchestrator-test.liquid',
-          value: '<!-- AI Orchestrator Test File -->'
-        }
-      })
-    });
+    // Save theme.liquid directly (try multiple API versions for compatibility)
+    const apiVersions = ['2024-07', '2024-04', '2024-01'];
+    let saveSuccess = false;
+    let lastError = null;
     
-    if (!testResponse.ok) {
-      const testError = await testResponse.text();
-      console.error(`❌ Test file creation failed: ${testResponse.status} - ${testError}`);
-      console.error(`⚠️ This means the access token does NOT have write_themes permission!`);
-      console.error(`⚠️ You need to DISCONNECT and RECONNECT the store to get the new permissions!`);
-      throw new Error(`Access token missing write_themes permission. Please reconnect the store.`);
+    for (const apiVersion of apiVersions) {
+      const saveUrl = `https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`;
+      console.log(`💾 Attempting to save with API version ${apiVersion}: ${saveUrl}`);
+      console.log(`📦 Asset key: layout/theme.liquid`);
+      console.log(`📏 Content length: ${themeContent.length} bytes`);
+      
+      try {
+        const requestBody = {
+          asset: {
+            key: 'layout/theme.liquid',
+            value: themeContent
+          }
+        };
+        
+        const saveResponse = await fetch(saveUrl, {
+          method: 'PUT',
+          headers: {
+            'X-Shopify-Access-Token': accessToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestBody)
+        });
+        
+        if (saveResponse.ok) {
+          console.log(`✅ Successfully saved theme with API version ${apiVersion}!`);
+          saveSuccess = true;
+          break;
+        } else {
+          const errorText = await saveResponse.text();
+          lastError = `${saveResponse.status} - ${errorText}`;
+          console.warn(`⚠️ API version ${apiVersion} failed: ${lastError}`);
+        }
+      } catch (error) {
+        lastError = error.message;
+        console.warn(`⚠️ API version ${apiVersion} error: ${lastError}`);
+      }
     }
     
-    console.log(`✅ Test file created successfully! Write permissions confirmed.`);
-    
-    // Now save the actual theme.liquid
-    const saveUrl = `https://${shopUrl}/admin/api/2025-10/themes/${activeTheme.id}/assets.json`;
-    console.log(`💾 Saving theme.liquid to: ${saveUrl}`);
-    console.log(`📦 Asset key: layout/theme.liquid`);
-    console.log(`📏 Content length: ${themeContent.length} bytes`);
-    
-    const requestBody = {
-      asset: {
-        key: 'layout/theme.liquid',
-        value: themeContent
-      }
-    };
-    
-    const saveResponse = await fetch(saveUrl, {
-      method: 'PUT',
-      headers: {
-        'X-Shopify-Access-Token': accessToken,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(requestBody)
-    });
-    
-    if (!saveResponse.ok) {
-      const errorText = await saveResponse.text();
-      console.error(`❌ Save theme error: ${saveResponse.status} - ${errorText}`);
-      throw new Error(`Failed to save theme: ${saveResponse.status} - ${errorText}`);
+    if (!saveSuccess) {
+      console.error(`❌ All API versions failed. Last error: ${lastError}`);
+      throw new Error(`Failed to save theme after trying multiple API versions. Last error: ${lastError}`);
     }
     
     console.log('✅ Widget successfully injected into theme!');
