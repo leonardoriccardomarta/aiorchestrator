@@ -1148,12 +1148,18 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
     placeholder: '${settings.placeholder || 'Type your message...'}',
     showAvatar: ${settings.showAvatar !== false},
     welcomeMessage: '${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}',
-    primaryLanguage: '${selectedChatbot?.language || 'auto'}'
+    primaryLanguage: '${selectedChatbot?.language || 'auto'}',
+    primaryColor: '${settings.primaryColor || '#14b8a6'}',
+    primaryDarkColor: '${settings.primaryDarkColor || '#0d9488'}',
+    headerLightColor: '${settings.headerLightColor || '#14b8a6'}',
+    headerDarkColor: '${settings.headerDarkColor || '#0d9488'}',
+    textColor: '${settings.textColor || '#1f2937'}',
+    accentColor: '${settings.accentColor || '#14b8a6'}'
   };
 </script>
 
 <!-- Step 2: Add this script before closing </body> tag -->
-<script src="https://www.aiorchestrator.dev/gtm-widget-exact.js" defer></script>
+<script src="https://www.aiorchestrator.dev/shopify-app-widget.js" defer></script>
 
 <!-- Alternative: If you prefer Google Tag Manager, add this instead of the script above -->
 <!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-XXXXXX');</script> -->`;
