@@ -110,16 +110,37 @@
           box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
         }
         .toggle-button::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            width: 12px;
-            height: 12px;
-            background: #10B981;
-            border-radius: 50%;
-            border: 2px solid white;
-            animation: pulse 2s infinite;
+            content: '' !important;
+            position: absolute !important;
+            top: -4px !important;
+            right: -4px !important;
+            width: 12px !important;
+            height: 12px !important;
+            background: #10B981 !important;
+            border-radius: 50% !important;
+            border: 2px solid white !important;
+            animation: pulse 2s infinite !important;
+            display: block !important;
+            z-index: 1001 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        /* Force green dot immediately */
+        .toggle-button::after {
+            content: '' !important;
+            position: absolute !important;
+            top: -4px !important;
+            right: -4px !important;
+            width: 12px !important;
+            height: 12px !important;
+            background: #10B981 !important;
+            border-radius: 50% !important;
+            border: 2px solid white !important;
+            animation: pulse 2s infinite !important;
+            display: block !important;
+            z-index: 1001 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
         }
         @keyframes pulse {
           0% { transform: scale(1); opacity: 1; }
@@ -246,9 +267,11 @@
         // Force background color after Tailwind loads
         const primaryColor = themeColors.primary || 'from-indigo-500 to-indigo-600';
         toggleBtn.style.background = `linear-gradient(135deg, ${getGradientColors(primaryColor).from}, ${getGradientColors(primaryColor).to})`;
-        console.log('✅ Toggle color applied after Tailwind load');
+        
+        
+        console.log('✅ Toggle color and green dot applied after Tailwind load');
       }
-    }, 500);
+    }, 100);
     
     // Helper function to get gradient colors from Tailwind class
     function getGradientColors(tailwindClass) {
