@@ -2587,7 +2587,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
 // ===== HELPER FUNCTIONS =====
 
 // Function to inject widget into Shopify theme
-async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
+async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId, widgetConfig) {
   try {
     console.log(`🔧 Injecting widget into theme for shop: ${shopUrl}`);
     
@@ -2869,7 +2869,7 @@ app.post('/api/connections/install-widget', authenticateToken, async (req, res) 
 <script src="https://www.aiorchestrator.dev/shopify-app-widget.js" defer></script>`;
 
     // Install widget in theme
-    const result = await injectWidgetIntoTheme(shopUrl, accessToken, widgetCode);
+    const result = await injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId, widgetConfig);
     
     res.json({
       success: true,
