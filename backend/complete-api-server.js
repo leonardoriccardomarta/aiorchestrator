@@ -2652,46 +2652,63 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     
     console.log(`📝 Updated theme.liquid size: ${themeContent.length} characters`);
     
-    // ⚠️ Shopify does NOT allow modifying theme.liquid via API for security reasons
-    // Instead, create a snippet file that users can include manually
-    console.log(`📝 Creating snippet file instead of modifying theme.liquid...`);
+    // Try to modify theme.liquid directly - Shopify DOES allow this with correct permissions
+    console.log(`📝 Attempting to modify theme.liquid directly...`);
     
-    const snippetCode = widgetCode;
     const apiVersion = '2025-10';
-    const snippetUrl = `https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`;
+    // Try both endpoints: with and without .json
+    const endpoints = [
+      `https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`,
+      `https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets`
+    ];
     
-    console.log(`💾 Creating snippet: snippets/aiorchestrator-widget.liquid`);
+    let saveSuccess = false;
+    let lastError = null;
     
-    const snippetResponse = await fetch(snippetUrl, {
-      method: 'PUT',
-      headers: {
-        'X-Shopify-Access-Token': accessToken,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        asset: {
-          key: 'snippets/aiorchestrator-widget.liquid',
-          value: snippetCode
+    for (const saveUrl of endpoints) {
+      console.log(`💾 Attempting to save theme.liquid: ${saveUrl}`);
+      console.log(`📦 Asset key: layout/theme.liquid`);
+      console.log(`📏 Content length: ${themeContent.length} bytes`);
+      
+      try {
+        const requestBody = {
+          asset: {
+            key: 'layout/theme.liquid',
+            value: themeContent
+          }
+        };
+        
+        const saveResponse = await fetch(saveUrl, {
+          method: 'PUT',
+          headers: {
+            'X-Shopify-Access-Token': accessToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestBody)
+        });
+        
+        if (saveResponse.ok) {
+          console.log(`✅ Successfully saved theme.liquid!`);
+          saveSuccess = true;
+          break;
+        } else {
+          const errorText = await saveResponse.text();
+          lastError = `${saveResponse.status} - ${errorText}`;
+          console.warn(`⚠️ Endpoint failed: ${lastError}`);
         }
-      })
-    });
-    
-    if (!snippetResponse.ok) {
-      const errorText = await snippetResponse.text();
-      console.error(`❌ Snippet creation failed: ${snippetResponse.status} - ${errorText}`);
-      throw new Error(`Failed to create widget snippet: ${snippetResponse.status} - ${errorText}`);
+      } catch (error) {
+        lastError = error.message;
+        console.warn(`⚠️ Endpoint error: ${lastError}`);
+      }
     }
     
-    console.log(`✅ Widget snippet created successfully!`);
-    console.log(`📋 USER ACTION REQUIRED: Add this line to your theme.liquid file before </body>:`);
-    console.log(`   {% render 'aiorchestrator-widget' %}`);
+    if (!saveSuccess) {
+      console.error(`❌ All endpoints failed. Last error: ${lastError}`);
+      throw new Error(`Failed to save theme.liquid after trying multiple endpoints. Last error: ${lastError}`);
+    }
     
-    // Return success with instructions
-    return {
-      success: true,
-      requiresManualStep: true,
-      instructions: "Add {% render 'aiorchestrator-widget' %} to your theme.liquid file before </body>"
-    };
+    console.log('✅ Widget successfully injected into theme!');
+    return true;
     
     console.log('✅ Widget successfully injected into theme!');
     return true;
