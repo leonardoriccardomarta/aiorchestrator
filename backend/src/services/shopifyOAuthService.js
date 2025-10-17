@@ -9,13 +9,13 @@ class ShopifyOAuthService {
   constructor() {
     this.apiKey = process.env.SHOPIFY_API_KEY;
     this.apiSecret = process.env.SHOPIFY_API_SECRET;
-    this.scopes = 'read_products,read_orders,read_customers,read_inventory';
+    this.scopes = 'read_products,read_orders,read_customers,read_inventory,read_themes,write_themes';
     this.redirectUri = `https://aiorchestrator-vtihz.ondigitalocean.app/api/shopify/oauth/callback`;
     
     // Store for pending OAuth states (in production, use Redis/database)
     this.pendingStates = new Map();
     
-    console.log('🛍️ Shopify OAuth Service initialized');
+    console.log('🛍️ Shopify OAuth Service initialized with scopes:', this.scopes);
   }
 
   /**
