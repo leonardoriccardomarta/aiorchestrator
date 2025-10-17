@@ -32,7 +32,7 @@
       border: none !important;
       z-index: 999999999 !important;
       background: transparent !important;
-      pointer-events: none !important;
+      pointer-events: auto !important;
     `;
     
     // Widget HTML completo per iframe
