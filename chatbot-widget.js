@@ -95,7 +95,7 @@
           width: 60px;
           height: 60px;
           border-radius: 50%;
-          display: flex;
+          display: flex !important;
           align-items: center;
           justify-content: center;
           box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
@@ -103,6 +103,8 @@
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           z-index: 1000;
           border: none;
+          opacity: 1 !important;
+          visibility: visible !important;
         }
         #${widgetId} .toggle-button:hover {
           transform: scale(1.05);
@@ -130,7 +132,7 @@
           bottom: 100px;
           right: 24px;
           width: 384px;
-          height: 500px;
+          height: 560px;
           z-index: 999;
           transform: translateY(0);
           transition: transform 0.3s ease, height 0.25s ease;
@@ -140,7 +142,8 @@
           transform: translateY(100%); 
         }
         #${widgetId} .chat-widget.collapsed { 
-          height: 64px; 
+          height: 64px;
+          overflow: hidden;
         }
       </style>
 
@@ -185,27 +188,12 @@
           </div>
           </div>
           
-          <!-- Messages -->
+        <!-- Messages -->
           <div class="h-96 overflow-y-auto p-4 bg-gray-50" id="${widgetId}-messages">
             <div class="mb-4 flex justify-start">
               <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
                 <div class="text-sm">${config.welcomeMessage}</div>
-                <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-              </div>
-            </div>
-            <div class="mb-4 flex justify-end">
-              <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
-                <div class="text-sm">Hi! Can you help me?</div>
-                <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-              </div>
-            </div>
-            <div class="flex justify-start mb-4">
-              <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
-                <div class="flex gap-1">
-                  <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                  <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-                  <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-                </div>
+                <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
               </div>
             </div>
           </div>
@@ -265,16 +253,6 @@
       if (minimizeBtn) {
         minimizeBtn.addEventListener('click', () => {
           chatWidget.classList.toggle('collapsed');
-          // Hide messages and input when collapsed
-          const messagesContainer = document.getElementById(`${widgetId}-messages`);
-          const inputContainer = chatWidget.querySelector('.p-4.bg-white.border-t');
-          if (chatWidget.classList.contains('collapsed')) {
-            if (messagesContainer) messagesContainer.style.display = 'none';
-            if (inputContainer) inputContainer.style.display = 'none';
-          } else {
-            if (messagesContainer) messagesContainer.style.display = 'block';
-            if (inputContainer) inputContainer.style.display = 'block';
-          }
         });
       }
 
@@ -296,7 +274,7 @@
           <div class="mb-4 flex justify-end">
             <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
               <div class="text-sm">${message}</div>
-              <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+              <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
             </div>
       </div>
     `;
@@ -336,7 +314,7 @@
             <div class="mb-4 flex justify-start">
               <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
                 <div class="text-sm">${data.response || 'Sorry, I couldn\'t process that.'}</div>
-                <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
               </div>
             </div>
           `;
@@ -350,7 +328,7 @@
             <div class="mb-4 flex justify-start">
               <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-red-50 text-red-900 border border-red-200">
                 <div class="text-sm">Sorry, there was an error. Please try again.</div>
-                <div class="text-xs mt-1 text-red-700">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                <div class="text-xs mt-1 text-red-700">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
               </div>
             </div>
           `;
