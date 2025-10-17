@@ -110,16 +110,16 @@
           box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
         }
         .toggle-button::before {
-            content: '' !important;
-            position: absolute !important;
-            top: -4px !important;
-            right: -4px !important;
-            width: 12px !important;
-            height: 12px !important;
-            background: #10B981 !important;
-            border-radius: 50% !important;
-            border: 2px solid white !important;
-            animation: pulse 2s infinite !important;
+            content: '';
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 12px;
+            height: 12px;
+            background: #10B981;
+            border-radius: 50%;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
         }
         @keyframes pulse {
           0% { transform: scale(1); opacity: 1; }
@@ -230,32 +230,13 @@
     document.body.appendChild(container);
     console.log('✅ Widget HTML injected');
 
-    // Force toggle visibility and green dot immediately
+    // Force toggle visibility immediately
     const toggleBtn = document.getElementById(`${widgetId}-toggle`);
     if (toggleBtn) {
       toggleBtn.style.opacity = '1';
       toggleBtn.style.visibility = 'visible';
       toggleBtn.style.display = 'flex';
-      
-      // Force green dot CSS immediately
-      const style = document.createElement('style');
-      style.textContent = `
-        #${widgetId}-toggle::before {
-          content: '' !important;
-          position: absolute !important;
-          top: -4px !important;
-          right: -4px !important;
-          width: 12px !important;
-          height: 12px !important;
-          background: #10B981 !important;
-          border-radius: 50% !important;
-          border: 2px solid white !important;
-          animation: pulse 2s infinite !important;
-        }
-      `;
-      document.head.appendChild(style);
-      
-      console.log('✅ Toggle and green dot forced visible');
+      console.log('✅ Toggle forced visible');
     }
     
     // Wait for Tailwind to load and force color
