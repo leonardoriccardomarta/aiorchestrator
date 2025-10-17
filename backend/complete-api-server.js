@@ -2773,11 +2773,14 @@ app.post('/api/connections/install-widget', authenticateToken, async (req, res) 
 <script src="https://www.aiorchestrator.dev/shopify-app-widget.js" defer></script>`;
 
     // Install widget in theme
-    await injectWidgetIntoTheme(shopUrl, accessToken, widgetCode);
+    const result = await injectWidgetIntoTheme(shopUrl, accessToken, widgetCode);
     
     res.json({
       success: true,
-      message: 'Widget installato con successo!',
+      data: result,
+      message: result.requiresManualStep 
+        ? 'Widget snippet created! Manual step required.'
+        : 'Widget installato con successo!',
       widgetCode: widgetCode
     });
     
