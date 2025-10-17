@@ -55,7 +55,11 @@ class ShopifyOAuthService {
       grant_options: []
     });
 
-    return `https://${shop}/admin/oauth/authorize?${params.toString()}`;
+    const installUrl = `https://${shop}/admin/oauth/authorize?${params.toString()}`;
+    console.log('🔐 OAuth URL generated with scopes:', this.scopes);
+    console.log('🔗 Install URL:', installUrl);
+    
+    return installUrl;
   }
 
   /**
