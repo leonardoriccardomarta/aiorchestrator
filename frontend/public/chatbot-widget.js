@@ -112,27 +112,10 @@
         .toggle-button::before {
             content: '' !important;
             position: absolute !important;
-            top: -4px !important;
-            right: -4px !important;
-            width: 12px !important;
-            height: 12px !important;
-            background: #10B981 !important;
-            border-radius: 50% !important;
-            border: 2px solid white !important;
-            animation: pulse 2s infinite !important;
-            display: block !important;
-            z-index: 1001 !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-        }
-        /* Force green dot immediately */
-        .toggle-button::after {
-            content: '' !important;
-            position: absolute !important;
-            top: -4px !important;
-            right: -4px !important;
-            width: 12px !important;
-            height: 12px !important;
+            top: -3px !important;
+            right: -3px !important;
+            width: 10px !important;
+            height: 10px !important;
             background: #10B981 !important;
             border-radius: 50% !important;
             border: 2px solid white !important;
