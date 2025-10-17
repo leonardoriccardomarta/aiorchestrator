@@ -2591,7 +2591,7 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     console.log(`🔧 Injecting widget into theme for shop: ${shopUrl}`);
     
     // Get active theme
-    const themeResponse = await fetch(`https://${shopUrl}/admin/api/2023-10/themes.json`, {
+    const themeResponse = await fetch(`https://${shopUrl}/admin/api/2024-10/themes.json`, {
       headers: {
         'X-Shopify-Access-Token': accessToken,
         'Content-Type': 'application/json'
@@ -2599,6 +2599,8 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     });
     
     if (!themeResponse.ok) {
+      const errorText = await themeResponse.text();
+      console.error(`❌ Fetch themes error: ${themeResponse.status} - ${errorText}`);
       throw new Error(`Failed to fetch themes: ${themeResponse.status}`);
     }
     
@@ -2612,7 +2614,7 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     console.log(`📋 Found active theme: ${activeTheme.id}`);
     
     // Get theme.liquid content
-    const liquidResponse = await fetch(`https://${shopUrl}/admin/api/2023-10/themes/${activeTheme.id}/assets.json?asset[key]=layout/theme.liquid`, {
+    const liquidResponse = await fetch(`https://${shopUrl}/admin/api/2024-10/themes/${activeTheme.id}/assets.json?asset[key]=layout/theme.liquid`, {
       headers: {
         'X-Shopify-Access-Token': accessToken,
         'Content-Type': 'application/json'
@@ -2643,7 +2645,10 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     }
     
     // Save updated theme.liquid
-    const saveResponse = await fetch(`https://${shopUrl}/admin/api/2023-10/themes/${activeTheme.id}/assets.json`, {
+    const saveUrl = `https://${shopUrl}/admin/api/2024-10/themes/${activeTheme.id}/assets.json`;
+    console.log(`💾 Saving theme to: ${saveUrl}`);
+    
+    const saveResponse = await fetch(saveUrl, {
       method: 'PUT',
       headers: {
         'X-Shopify-Access-Token': accessToken,
@@ -2658,7 +2663,9 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     });
     
     if (!saveResponse.ok) {
-      throw new Error(`Failed to save theme: ${saveResponse.status}`);
+      const errorText = await saveResponse.text();
+      console.error(`❌ Save theme error: ${saveResponse.status} - ${errorText}`);
+      throw new Error(`Failed to save theme: ${saveResponse.status} - ${errorText}`);
     }
     
     console.log('✅ Widget successfully injected into theme!');
