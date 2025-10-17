@@ -2656,56 +2656,47 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode) {
     console.log(`📝 Attempting to modify theme.liquid directly...`);
     
     const apiVersion = '2025-10';
-    // Try both endpoints: with and without .json
-    const endpoints = [
-      `https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`,
-      `https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets`
-    ];
+    const saveUrl = `https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`;
     
-    let saveSuccess = false;
-    let lastError = null;
+    console.log(`💾 Saving theme.liquid to: ${saveUrl}`);
+    console.log(`📦 Asset key: layout/theme.liquid`);
+    console.log(`📏 Content length: ${themeContent.length} bytes`);
+    console.log(`🔑 Access token length: ${accessToken.length} characters`);
     
-    for (const saveUrl of endpoints) {
-      console.log(`💾 Attempting to save theme.liquid: ${saveUrl}`);
-      console.log(`📦 Asset key: layout/theme.liquid`);
-      console.log(`📏 Content length: ${themeContent.length} bytes`);
-      
-      try {
-        const requestBody = {
-          asset: {
-            key: 'layout/theme.liquid',
-            value: themeContent
-          }
-        };
-        
-        const saveResponse = await fetch(saveUrl, {
-          method: 'PUT',
-          headers: {
-            'X-Shopify-Access-Token': accessToken,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(requestBody)
-        });
-        
-        if (saveResponse.ok) {
-          console.log(`✅ Successfully saved theme.liquid!`);
-          saveSuccess = true;
-          break;
-        } else {
-          const errorText = await saveResponse.text();
-          lastError = `${saveResponse.status} - ${errorText}`;
-          console.warn(`⚠️ Endpoint failed: ${lastError}`);
-        }
-      } catch (error) {
-        lastError = error.message;
-        console.warn(`⚠️ Endpoint error: ${lastError}`);
+    const requestBody = {
+      asset: {
+        key: 'layout/theme.liquid',
+        value: themeContent
       }
+    };
+    
+    console.log(`📋 Request body structure:`, {
+      hasAsset: !!requestBody.asset,
+      key: requestBody.asset.key,
+      valueLength: requestBody.asset.value.length,
+      valuePreview: requestBody.asset.value.substring(0, 100) + '...'
+    });
+    
+    const saveResponse = await fetch(saveUrl, {
+      method: 'PUT',
+      headers: {
+        'X-Shopify-Access-Token': accessToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestBody)
+    });
+    
+    console.log(`📊 Response status: ${saveResponse.status}`);
+    console.log(`📊 Response headers:`, Object.fromEntries(saveResponse.headers.entries()));
+    
+    if (!saveResponse.ok) {
+      const errorText = await saveResponse.text();
+      console.error(`❌ Save failed: ${saveResponse.status} - ${errorText}`);
+      throw new Error(`Failed to save theme.liquid: ${saveResponse.status} - ${errorText}`);
     }
     
-    if (!saveSuccess) {
-      console.error(`❌ All endpoints failed. Last error: ${lastError}`);
-      throw new Error(`Failed to save theme.liquid after trying multiple endpoints. Last error: ${lastError}`);
-    }
+    const responseData = await saveResponse.json();
+    console.log(`✅ Successfully saved theme.liquid!`, responseData);
     
     console.log('✅ Widget successfully injected into theme!');
     return true;
