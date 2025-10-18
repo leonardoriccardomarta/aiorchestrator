@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Comparison - Live Embed vs Shopify Shadow DOM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        
+        .header p {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .widget-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .widget-section h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        
+        .widget-section .label {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .live-embed .label {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .shopify .label {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .widget-section p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .preview-area {
+            position: relative;
+            height: 600px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .instructions {
+            background: #fffbea;
+            border: 2px solid #fbbf24;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .instructions h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #92400e;
+        }
+        
+        .instructions ul {
+            margin-left: 20px;
+            color: #78350f;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .shopify-hostile {
+            background: #fee2e2;
+            border: 2px solid #dc2626;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        
+        .shopify-hostile h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #7f1d1d;
+        }
+        
+        .shopify-hostile p {
+            color: #991b1b;
+            line-height: 1.6;
+        }
+        
+        /* CSS AGGRESSIVO DI SHOPIFY per testare */
+        .shopify-test * {
+            box-sizing: border-box !important;
+        }
+        
+        .shopify-test button {
+            background: #5c6ac4 !important;
+            color: white !important;
+            border: none !important;
+            padding: 12px 24px !important;
+            border-radius: 4px !important;
+        }
+        
+        .shopify-test input {
+            width: 100% !important;
+            padding: 12px !important;
+            border: 2px solid #dfe3e8 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛍️ Widget Shopify Shadow DOM Test</h1>
+            <p>Questo è il widget che funziona su Shopify - verifica che appaia identico al live embed</p>
+        </div>
+        
+        <div class="instructions">
+            <h3>📋 Cosa Verificare:</h3>
+            <ul>
+                <li><strong>Clicca sul bottone teal in basso a destra</strong> per aprire il widget</li>
+                <li>Verifica che colori, font e dimensioni siano corretti</li>
+                <li>Testa l'invio di un messaggio</li>
+                <li>Confronta visivamente con il tuo live embed - devono essere <strong>IDENTICI</strong></li>
+                <li>Questo widget usa Shadow DOM quindi è protetto dal CSS di Shopify</li>
+            </ul>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 40px;">
+            <!-- SHOPIFY SHADOW DOM -->
+            <div class="widget-section shopify">
+                <h2>Widget Shopify con Shadow DOM</h2>
+                <span class="label">PRONTO PER SHOPIFY</span>
+                <p>
+                    Questo widget usa Shadow DOM per isolare completamente gli stili. 
+                    Appare IDENTICO al live embed ma è protetto dal CSS aggressivo di Shopify.
+                </p>
+                <div class="preview-area" style="height: 400px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; margin-bottom: 10px;">✅ Widget Attivo</div>
+                        <div style="font-size: 16px; opacity: 0.9; margin-bottom: 20px;">
+                            Clicca il bottone teal in basso a destra 👉
+                        </div>
+                        <div style="font-size: 14px; opacity: 0.8; line-height: 1.6;">
+                            • Il widget supporta TUTTE le configurazioni<br>
+                            • Cambia theme, colori, avatar, etc.<br>
+                            • Funziona identico al live embed<br>
+                            • Apri la console per vedere i log di debug
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="shopify-hostile">
+            <h3>⚠️ Perché Shadow DOM?</h3>
+            <p>
+                Shopify ha CSS globali molto aggressivi che sovrascrivono gli stili dei widget esterni.
+                Il Shadow DOM crea un contenitore isolato dove gli stili di Shopify non possono entrare.
+                Questo garantisce che il widget appaia ESATTAMENTE come nel live embed, senza differenze.
+            </p>
+        </div>
+    </div>
+
+    <!-- SOLO WIDGET SHOPIFY SHADOW DOM -->
+    <script>
+      window.AIOrchestratorConfig = {
+        chatbotId: "cmgr7ljok0005rop9rc2yd18f",
+        apiKey: "https://aiorchestrator-vtihz.ondigitalocean.app",
+        theme: "teal",
+        title: "Shopify Support",
+        placeholder: "Type your message...",
+        showAvatar: true,
+        welcomeMessage: "Hi! I'm your AI assistant 👋",
+        primaryLanguage: "en"
+        // autoOpen è false di default - il widget è chiuso
+      };
+    </script>
+    <script src="./frontend/public/shopify-widget-shadowdom.js" defer></script>
+
+    <!-- Debug -->
+    <script>
+      setTimeout(() => {
+        console.log('=== 🛍️ SHOPIFY WIDGET DEBUG ===');
+        console.log('Widget Config:', window.AIOrchestratorConfig);
+        
+        // Check shadow DOM widget
+        const shadowHost = document.querySelector('[id^="ai-orchestrator-widget-"]');
+        console.log('Shadow host element:', shadowHost);
+        
+        if (shadowHost) {
+          console.log('✅ Widget container found');
+          
+          if (shadowHost.shadowRoot) {
+            console.log('✅ Shadow DOM attached');
+            console.log('Shadow root:', shadowHost.shadowRoot);
+            
+            const toggleBtn = shadowHost.shadowRoot.querySelector('.toggle-button');
+            const chatWidget = shadowHost.shadowRoot.querySelector('.chat-widget');
+            
+            console.log('Toggle button:', toggleBtn);
+            console.log('Chat widget:', chatWidget);
+            
+            if (toggleBtn && chatWidget) {
+              console.log('✅ All widget elements found - Widget working correctly!');
+            }
+          } else {
+            console.log('❌ Shadow DOM not attached');
+          }
+        } else {
+          console.log('❌ Widget container not found');
+        }
+      }, 2000);
+    </script>
+</body>
+</html>
+
