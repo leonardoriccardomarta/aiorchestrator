@@ -344,6 +344,84 @@
         });
       }
 
+  // Extract customer email from message
+  function extractCustomerEmail(message) {
+    const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+    const match = message.match(emailRegex);
+    return match ? match[0] : null;
+  }
+
+  // Render Shopify Enhanced Features
+  function renderShopifyEnhancements(enhancements) {
+    let html = '';
+    
+    // Product Recommendations
+    if (enhancements.recommendations && enhancements.recommendations.length > 0) {
+      html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #0ea5e9;">';
+      html += '<h4 style="margin: 0 0 8px 0; color: #0c4a6e; font-size: 14px; font-weight: 600;">🛍️ Product Recommendations</h4>';
+      enhancements.recommendations.forEach(product => {
+        html += `<div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 6px; border: 1px solid #e0f2fe;">`;
+        html += `<div style="font-weight: 600; color: #0c4a6e;">${product.title}</div>`;
+        if (product.description) html += `<div style="font-size: 12px; color: #64748b; margin: 4px 0;">${product.description}</div>`;
+        html += `<div style="font-weight: 600; color: #059669;">$${product.price} ${product.inStock ? '✅ In Stock' : '❌ Out of Stock'}</div>`;
+        if (product.url) html += `<a href="${product.url}" target="_blank" style="color: #0ea5e9; text-decoration: none; font-size: 12px;">View Product →</a>`;
+        html += `</div>`;
+      });
+      html += '</div>';
+    }
+    
+    // Order Tracking
+    if (enhancements.order) {
+      html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #22c55e;">';
+      html += '<h4 style="margin: 0 0 8px 0; color: #166534; font-size: 14px; font-weight: 600;">📦 Order Status</h4>';
+      html += `<div style="font-weight: 600; color: #166534;">Order #${enhancements.order.name}</div>`;
+      html += `<div style="color: #16a34a; margin: 4px 0;">Status: ${enhancements.order.fulfillment_status || 'Processing'}</div>`;
+      html += `<div style="font-size: 12px; color: #64748b;">Total: $${enhancements.order.total_price}</div>`;
+      html += '</div>';
+    }
+    
+    // Customer History
+    if (enhancements.customerHistory) {
+      html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #fefce8; border-radius: 8px; border-left: 4px solid #eab308;">';
+      html += '<h4 style="margin: 0 0 8px 0; color: #a16207; font-size: 14px; font-weight: 600;">👤 Customer History</h4>';
+      html += `<div style="color: #a16207;">Total Orders: ${enhancements.customerHistory.totalOrders || 0}</div>`;
+      html += `<div style="color: #a16207;">Total Spent: $${enhancements.customerHistory.totalSpent || 0}</div>`;
+      html += '</div>';
+    }
+    
+    return html;
+  }
+
+  // Render Universal Embed Features
+  function renderEmbedEnhancements(enhancements) {
+    let html = '';
+    
+    if (enhancements.websiteData) {
+      html += '<div class="embed-enhancements" style="margin-top: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #6366f1;">';
+      html += '<h4 style="margin: 0 0 8px 0; color: #4338ca; font-size: 14px; font-weight: 600;">🌐 Website Information</h4>';
+      if (enhancements.websiteData.title) html += `<div style="font-weight: 600; color: #4338ca;">${enhancements.websiteData.title}</div>`;
+      if (enhancements.websiteData.description) html += `<div style="font-size: 12px; color: #64748b; margin: 4px 0;">${enhancements.websiteData.description}</div>`;
+      html += '</div>';
+    }
+    
+    return html;
+  }
+
+  // Render ML Analysis
+  function renderMLAnalysis(analysis) {
+    let html = '';
+    
+    if (analysis.sentiment) {
+      const sentimentEmoji = analysis.sentiment === 'positive' ? '😊' : analysis.sentiment === 'negative' ? '😔' : '😐';
+      html += '<div class="ml-analysis" style="margin-top: 12px; padding: 8px; background: #f1f5f9; border-radius: 6px; font-size: 12px; color: #475569;">';
+      html += `${sentimentEmoji} Sentiment: ${analysis.sentiment}`;
+      if (analysis.confidence) html += ` (${Math.round(analysis.confidence * 100)}% confidence)`;
+      html += '</div>';
+    }
+    
+    return html;
+  }
+
   // Send message
       const sendMessage = async () => {
         const message = inputField.value.trim();
@@ -388,7 +466,7 @@
                 primaryLanguage: config.primaryLanguage,
                 connectionType: 'universal',
                 websiteUrl: window.location.origin,
-                customerEmail: null // Will be detected from message
+                customerEmail: extractCustomerEmail(message)
               }
             })
           });
@@ -399,7 +477,23 @@
           document.getElementById(`${widgetId}-typing`)?.remove();
 
           // Add AI response with enhanced features
-          const aiResponse = data.response || data.message || 'Sorry, I couldn\'t process that.';
+          let aiResponse = data.response || data.message || 'Sorry, I couldn\'t process that.';
+          
+          // Add Shopify Enhanced Features if available
+          if (data.shopifyEnhancements) {
+            aiResponse += renderShopifyEnhancements(data.shopifyEnhancements);
+          }
+          
+          // Add Universal Embed Features if available
+          if (data.embedEnhancements) {
+            aiResponse += renderEmbedEnhancements(data.embedEnhancements);
+          }
+          
+          // Add ML Analysis if available
+          if (data.mlAnalysis) {
+            aiResponse += renderMLAnalysis(data.mlAnalysis);
+          }
+          
           const aiMessageHTML = `
             <div class="mb-4 flex justify-start">
               <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
