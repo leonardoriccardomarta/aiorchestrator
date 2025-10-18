@@ -2766,9 +2766,22 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
       return str.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
     };
     
-        // Use shopify-widget-inline.js - SIMPLE ONE-LINE INSTALLATION
+        // Use shopify-widget-inline.js with config object for Shopify compatibility
         const directWidgetCode = `<!-- AI Orchestrator Widget -->
-<script src="${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}/shopify-widget-inline.js" data-chatbot-id="${escapeString(chatbotId)}" data-theme="${escapeString(widgetConfig.theme || 'teal')}" data-title="${escapeString(widgetConfig.title || 'AI Support')}" data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}" data-placeholder="${escapeString(widgetConfig.placeholder || 'Type your message...')}" data-show-avatar="${widgetConfig.showAvatar !== false}" data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}" data-auto-open="${widgetConfig.autoOpen === true}" defer></script>`;
+<script>
+  window.AIOrchestratorConfig = {
+    chatbotId: '${escapeString(chatbotId)}',
+    apiKey: '${escapeString(process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app')}',
+    theme: '${escapeString(widgetConfig.theme || 'teal')}',
+    title: '${escapeString(widgetConfig.title || 'AI Support')}',
+    placeholder: '${escapeString(widgetConfig.placeholder || 'Type your message...')}',
+    showAvatar: ${widgetConfig.showAvatar !== false},
+    welcomeMessage: '${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}',
+    primaryLanguage: '${escapeString(widgetConfig.primaryLanguage || 'en')}',
+    autoOpen: ${widgetConfig.autoOpen === true}
+  };
+</script>
+<script src="${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}/shopify-widget-inline.js" defer></script>`;
 
     // Get current theme.liquid
     const apiVersion = '2025-10';
