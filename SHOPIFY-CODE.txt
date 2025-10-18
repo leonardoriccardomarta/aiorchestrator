@@ -12,48 +12,54 @@
 
 
 ┌──────────────────────────────────────────────────────────────────────┐
-│  CODICE DA COPIARE (usa la tua configurazione dal live embed):      │
+│  SUPER FACILE! USA IL CODICE DEL TUO QUICK EMBED:                   │
 └──────────────────────────────────────────────────────────────────────┘
 
-<!-- AI Orchestrator Chatbot - Shadow DOM Version for Shopify -->
-<script>
-  window.AIOrchestratorConfig = {
-    chatbotId: "TUO_CHATBOT_ID",  // ← Sostituisci con il tuo ID
-    apiKey: "https://aiorchestrator-vtihz.ondigitalocean.app",
-    
-    // ⚡ USA LA STESSA CONFIGURAZIONE DEL TUO LIVE EMBED
-    theme: "teal",                  // blue, purple, green, red, orange, pink, indigo, teal
-    title: "AI Support",
-    placeholder: "Type your message...",
-    showAvatar: true,               // true o false
-    welcomeMessage: "Hi! How can I help you today? 👋",
-    primaryLanguage: "en"           // en, it, es, fr, de, etc.
-    // autoOpen è FALSE di default (widget chiuso, utente fa click per aprire)
-    // Se vuoi aprirlo automaticamente: autoOpen: true
-  };
+1. Vai al tuo Quick Embed nella dashboard
+2. Copia il codice generato
+3. Sostituisci SOLO l'URL del widget:
+
+   DA:   chatbot-widget.js
+   A:    shopify-widget-shadowdom.js
+
+ESEMPIO:
+
+<!-- AI Orchestrator Chatbot Widget -->
+<script 
+  src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
+  data-ai-orchestrator-id="TUO_CHATBOT_ID"
+  data-api-key="https://aiorchestrator-vtihz.ondigitalocean.app"
+  data-theme="teal"
+  data-title="My AI"
+  data-placeholder="Type your message..."
+  data-show-avatar="true"
+  data-welcome-message="Hello! I'm your AI"
+  data-primary-language="en"
+  defer>
 </script>
-<script src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js" defer></script>
-<!-- Fine AI Orchestrator Chatbot -->
+
+✨ FATTO! Il widget apparirà IDENTICO al live embed ma funzionerà su Shopify!
 
 
 ┌──────────────────────────────────────────────────────────────────────┐
 │  ESEMPIO CON LA TUA CONFIGURAZIONE ATTUALE:                         │
 └──────────────────────────────────────────────────────────────────────┘
 
-<script>
-  window.AIOrchestratorConfig = {
-    chatbotId: "cmgr7ljok0005rop9rc2yd18f",
-    apiKey: "https://aiorchestrator-vtihz.ondigitalocean.app",
-    theme: "teal",
-    title: "My AI",
-    placeholder: "Type your message...",
-    showAvatar: true,
-    welcomeMessage: "Hello! I'm your ai",
-    primaryLanguage: "en"
-    // Widget chiuso di default - l'utente fa click per aprire
-  };
+<!-- AI Orchestrator Chatbot Widget -->
+<script 
+  src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
+  data-ai-orchestrator-id="cmgr7ljok0005rop9rc2yd18f"
+  data-api-key="https://aiorchestrator-vtihz.ondigitalocean.app"
+  data-theme="teal"
+  data-title="My AI"
+  data-placeholder="Type your id"
+  data-show-avatar="true"
+  data-welcome-message="Hello! I'm your ai"
+  data-primary-language="en"
+  defer>
 </script>
-<script src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js" defer></script>
+
+👆 Questo è ESATTAMENTE il tuo codice Quick Embed con solo l'URL cambiato!
 
 
 ╔══════════════════════════════════════════════════════════════════════╗
