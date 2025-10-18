@@ -67,122 +67,149 @@
     const themeColors = themes[config.theme] || themes.teal;
     const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
 
-    // Create widget HTML - EXACT MATCH from live preview
-    const widgetHTML = `
+      // Create widget HTML - EXACT MATCH from live preview with FULL CSS ISOLATION
+      const widgetHTML = `
       <style>
-        .toggle-button {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-            border: none;
+        /* FULL CSS ISOLATION - Override ALL Shopify styles */
+        #${widgetId} * {
+          box-sizing: border-box !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          border: none !important;
+          outline: none !important;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+          line-height: 1.5 !important;
+          color: inherit !important;
+          background: transparent !important;
+          text-decoration: none !important;
+          list-style: none !important;
         }
-        .toggle-button:hover {
-          transform: scale(1.05);
-          box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
+        
+        .ai-orchestrator-toggle-button {
+            position: fixed !important;
+            bottom: 24px !important;
+            right: 24px !important;
+            width: 60px !important;
+            height: 60px !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4) !important;
+            cursor: pointer !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            z-index: 999999 !important;
+            border: none !important;
+            background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
         }
-        @keyframes pulse {
+        .ai-orchestrator-toggle-button:hover {
+          transform: scale(1.05) !important;
+          box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6) !important;
+        }
+        @keyframes ai-orchestrator-pulse {
           0% { transform: scale(1); opacity: 1; }
           50% { transform: scale(1.2); opacity: 0.7; }
           100% { transform: scale(1); opacity: 1; }
         }
-        #${widgetId} .chat-widget {
-          position: fixed;
-          bottom: 100px;
-          right: 24px;
-          width: 384px;
-          height: 560px;
-          z-index: 999;
-          max-height: calc(100vh - 148px);
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        @keyframes bounce {
+          0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+          40%, 43% { transform: translate3d(0,-8px,0); }
+          70% { transform: translate3d(0,-4px,0); }
+          90% { transform: translate3d(0,-2px,0); }
         }
-        #${widgetId} .chat-widget.hidden { 
+        #${widgetId} .ai-orchestrator-chat-widget {
+          position: fixed !important;
+          bottom: 100px !important;
+          right: 24px !important;
+          width: 384px !important;
+          height: 560px !important;
+          z-index: 999998 !important;
+          max-height: calc(100vh - 148px) !important;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+          background: white !important;
+          border-radius: 16px !important;
+          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15) !important;
+          overflow: hidden !important;
+          border: 1px solid #e5e7eb !important;
+        }
+        #${widgetId} .ai-orchestrator-chat-widget.hidden { 
           display: none !important;
         }
-        #${widgetId} .chat-widget.collapsed { 
+        #${widgetId} .ai-orchestrator-chat-widget.collapsed { 
           height: 64px !important;
           overflow: hidden !important;
         }
-        #${widgetId} .chat-widget.collapsed .h-96 {
+        #${widgetId} .ai-orchestrator-chat-widget.collapsed .ai-orchestrator-messages {
           display: none !important;
         }
-        #${widgetId} .chat-widget.collapsed .p-4.bg-white.border-t {
+        #${widgetId} .ai-orchestrator-chat-widget.collapsed .ai-orchestrator-input {
           display: none !important;
         }
       </style>
 
       <div id="${widgetId}">
       <!-- Toggle Button -->
-        <div class="toggle-button bg-gradient-to-br ${themeColors.primary}" id="${widgetId}-toggle">
+        <div class="ai-orchestrator-toggle-button" id="${widgetId}-toggle">
           <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
           </svg>
-          <div style="position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; background: #10B981; border-radius: 50%; border: 2px solid white; animation: pulse 2s infinite;"></div>
+          <div style="position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; background: #10B981; border-radius: 50%; border: 2px solid white; animation: ai-orchestrator-pulse 2s infinite;"></div>
         </div>
 
       <!-- Chat Widget -->
-        <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 ${config.autoOpen ? '' : 'hidden'}" id="${widgetId}-chat">
+        <div class="ai-orchestrator-chat-widget ${config.autoOpen ? '' : 'hidden'}" id="${widgetId}-chat">
         <!-- Header -->
-          <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
+          <div style="background: linear-gradient(135deg, #f0fdfa, #ccfbf1); border-bottom: 2px solid #a7f3d0; padding: 16px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 12px;">
             ${config.showAvatar ? `
-                  <div class="w-10 h-10 bg-gradient-to-br ${themeColors.primary} rounded-full flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #14b8a6, #0d9488); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <svg style="width: 20px; height: 20px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                 </svg>
               </div>
             ` : ''}
               <div>
-                  <div class="font-bold ${themeColors.text}">${config.title}</div>
-                  <div class="text-xs text-gray-600 flex items-center gap-2">
-                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div style="font-weight: bold; color: #0f766e; font-size: 16px;">${config.title}</div>
+                  <div style="font-size: 12px; color: #6b7280; display: flex; align-items: center; gap: 8px;">
+                    <div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></div>
                     <span>Online 24/7</span>
-                    ${config.primaryLanguage && config.primaryLanguage !== 'auto' ? `<span class="px-2 py-0.5 text-[10px] rounded bg-gray-100 text-gray-700">${config.primaryLanguage.toUpperCase()}</span>` : ''}
+                    ${config.primaryLanguage && config.primaryLanguage !== 'auto' ? `<span style="padding: 2px 8px; font-size: 10px; border-radius: 4px; background: #f3f4f6; color: #374151;">${config.primaryLanguage.toUpperCase()}</span>` : ''}
               </div>
             </div>
           </div>
-              <div class="flex items-center gap-2">
-                <button id="${widgetId}-minimize" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Minimize">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <button id="${widgetId}-minimize" style="color: #6b7280; background: transparent; border: none; border-radius: 8px; padding: 8px; cursor: pointer; transition: background-color 0.2s;" title="Minimize">
+                  <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
             </button>
-                <button id="${widgetId}-close" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Close">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <button id="${widgetId}-close" style="color: #6b7280; background: transparent; border: none; border-radius: 8px; padding: 8px; cursor: pointer; transition: background-color 0.2s;" title="Close">
+                  <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
               </div>
           </div>
           </div>
           
         <!-- Messages -->
-          <div class="h-96 overflow-y-auto p-4 bg-gray-50" id="${widgetId}-messages">
-            <div class="mb-4 flex justify-start">
-              <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
-                <div class="text-sm">${config.welcomeMessage}</div>
-                <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+          <div class="ai-orchestrator-messages" style="height: 384px; overflow-y: auto; padding: 16px; background: #f9fafb;" id="${widgetId}-messages">
+            <div style="margin-bottom: 16px; display: flex; justify-content: flex-start;">
+              <div style="max-width: 80%; border-radius: 16px; padding: 16px; background: white; color: #111827; border: 1px solid #e5e7eb;">
+                <div style="font-size: 14px;">${config.welcomeMessage}</div>
+                <div style="font-size: 12px; margin-top: 4px; color: #6b7280;">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
               </div>
             </div>
           </div>
           
         <!-- Input -->
-          <div class="p-4 bg-white border-t border-gray-200">
-            <div class="flex gap-2">
+          <div class="ai-orchestrator-input" style="padding: 16px; background: white; border-top: 1px solid #e5e7eb;">
+            <div style="display: flex; gap: 8px;">
           <input
             type="text"
                 id="${widgetId}-input"
             placeholder="${config.placeholder}"
-                class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                style="flex: 1; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; outline: none; font-size: 14px; background: white;"
           />
-              <button id="${widgetId}-send" class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
-                <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <button id="${widgetId}-send" style="background: #14b8a6; color: white; padding: 12px 16px; border: none; border-radius: 8px; cursor: pointer; transition: opacity 0.2s;">
+                <svg style="width: 20px; height: 20px; transform: rotate(45deg);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
             </svg>
           </button>
@@ -291,10 +318,10 @@
     
     // Add user message
         const userMessageHTML = `
-          <div class="mb-4 flex justify-end">
-            <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-              <div class="text-sm">${message}</div>
-              <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+          <div style="margin-bottom: 16px; display: flex; justify-content: flex-end;">
+            <div style="max-width: 80%; border-radius: 16px; padding: 16px; background: #14b8a6; color: white; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+              <div style="font-size: 14px;">${message}</div>
+              <div style="font-size: 12px; margin-top: 4px; color: white; opacity: 0.8;">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
             </div>
       </div>
     `;
@@ -303,12 +330,12 @@
 
         // Add typing indicator
         const typingHTML = `
-          <div class="flex justify-start mb-4" id="${widgetId}-typing">
-      <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
-        <div class="flex gap-1">
-          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+          <div style="display: flex; justify-content: flex-start; margin-bottom: 16px;" id="${widgetId}-typing">
+      <div style="background: white; border: 1px solid #e5e7eb; border-radius: 16px; padding: 12px 16px;">
+        <div style="display: flex; gap: 4px;">
+          <div style="width: 8px; height: 8px; background: #9ca3af; border-radius: 50%; animation: bounce 1s infinite;"></div>
+          <div style="width: 8px; height: 8px; background: #9ca3af; border-radius: 50%; animation: bounce 1s infinite; animation-delay: 0.1s;"></div>
+          <div style="width: 8px; height: 8px; background: #9ca3af; border-radius: 50%; animation: bounce 1s infinite; animation-delay: 0.2s;"></div>
               </div>
         </div>
       </div>
@@ -331,10 +358,10 @@
 
           // Add AI response
           const aiMessageHTML = `
-            <div class="mb-4 flex justify-start">
-              <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-                <div class="text-sm">${data.response || 'Sorry, I couldn\'t process that.'}</div>
-                <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+            <div style="margin-bottom: 16px; display: flex; justify-content: flex-start;">
+              <div style="max-width: 80%; border-radius: 16px; padding: 16px; background: white; color: #111827; border: 1px solid #e5e7eb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                <div style="font-size: 14px;">${data.response || 'Sorry, I couldn\'t process that.'}</div>
+                <div style="font-size: 12px; margin-top: 4px; color: #6b7280;">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
               </div>
             </div>
           `;
@@ -345,10 +372,10 @@
           document.getElementById(`${widgetId}-typing`)?.remove();
           
           const errorHTML = `
-            <div class="mb-4 flex justify-start">
-              <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-red-50 text-red-900 border border-red-200">
-                <div class="text-sm">Sorry, there was an error. Please try again.</div>
-                <div class="text-xs mt-1 text-red-700">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+            <div style="margin-bottom: 16px; display: flex; justify-content: flex-start;">
+              <div style="max-width: 80%; border-radius: 16px; padding: 16px; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca;">
+                <div style="font-size: 14px;">Sorry, there was an error. Please try again.</div>
+                <div style="font-size: 12px; margin-top: 4px; color: #b91c1c;">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
               </div>
             </div>
           `;
