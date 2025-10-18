@@ -123,8 +123,42 @@
     }
   };
 
+  // Get Shopify access token from connection
+  async function getShopifyAccessToken() {
+    try {
+      // Try to get from window (set by Shopify app)
+      if (window.ShopifyAccessToken) {
+        return window.ShopifyAccessToken;
+      }
+      
+      // Try to get from localStorage (set during OAuth)
+      const stored = localStorage.getItem('shopify_access_token');
+      if (stored) {
+        return stored;
+      }
+      
+      // Try to get from API using chatbotId
+      const response = await fetch(`${config.apiKey}/api/connections?chatbotId=${config.chatbotId}`, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        const shopifyConnection = data.data?.connections?.find(c => c.platform === 'shopify');
+        if (shopifyConnection?.accessToken) {
+          return shopifyConnection.accessToken;
+        }
+      }
+      
+      return null;
+    } catch (error) {
+      console.log('⚠️ Could not get Shopify access token:', error.message);
+      return null;
+    }
+  }
+
   // Initialize widget
-  function init() {
+  async function init() {
     const config = getConfig();
     if (!config) {
       console.error('❌ Widget initialization failed: No config');
@@ -133,6 +167,10 @@
 
     const theme = themeColors[config.theme] || themeColors.teal;
     const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
+    
+    // Get Shopify access token for enhanced features
+    const shopifyAccessToken = await getShopifyAccessToken();
+    console.log('🔑 Shopify access token:', shopifyAccessToken ? 'found' : 'not found');
 
     // Create container for shadow DOM
     const shadowHost = document.createElement('div');
@@ -644,17 +682,24 @@
 
       // Send to API
       try {
-        const response = await fetch(`${config.apiKey}/api/chat`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            message,
-            context: {
-              chatbotId: config.chatbotId,
-              primaryLanguage: config.primaryLanguage
-            }
-          })
-        });
+          const response = await fetch(`${config.apiKey}/api/chat`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              message,
+              context: {
+                chatbotId: config.chatbotId,
+                primaryLanguage: config.primaryLanguage,
+                connectionType: 'shopify',
+                shopifyConnection: shopifyAccessToken ? {
+                  shop: window.location.hostname,
+                  accessToken: shopifyAccessToken
+                } : null,
+                websiteUrl: window.location.origin,
+                customerEmail: null // Will be detected from message
+              }
+            })
+          });
 
         const data = await response.json();
         

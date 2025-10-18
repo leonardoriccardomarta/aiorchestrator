@@ -385,7 +385,10 @@
               message,
               context: {
                 chatbotId: config.chatbotId,
-                primaryLanguage: config.primaryLanguage
+                primaryLanguage: config.primaryLanguage,
+                connectionType: 'universal',
+                websiteUrl: window.location.origin,
+                customerEmail: null // Will be detected from message
               }
             })
           });
