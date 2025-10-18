@@ -209,7 +209,14 @@ const fs = require('fs');
 
 // Serve chatbot-widget.js with CORS
 app.get('/chatbot-widget.js', (req, res) => {
-  const widgetPath = path.join(__dirname, '../frontend/public/chatbot-widget.js');
+  // Try multiple possible paths (local dev vs production)
+  const possiblePaths = [
+    path.join(__dirname, '../frontend/public/chatbot-widget.js'),
+    path.join(__dirname, 'chatbot-widget.js'),
+    path.join(__dirname, './chatbot-widget.js'),
+    '/app/backend/chatbot-widget.js',
+    '/workspace/backend/chatbot-widget.js'
+  ];
   
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -217,7 +224,20 @@ app.get('/chatbot-widget.js', (req, res) => {
   res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=3600');
   
-  fs.readFile(widgetPath, 'utf8', (err, data) => {
+  let foundPath = null;
+  for (const testPath of possiblePaths) {
+    if (fs.existsSync(testPath)) {
+      foundPath = testPath;
+      break;
+    }
+  }
+  
+  if (!foundPath) {
+    console.error('chatbot-widget.js not found in any of these paths:', possiblePaths);
+    return res.status(404).send('Widget file not found');
+  }
+  
+  fs.readFile(foundPath, 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading chatbot-widget.js:', err);
       return res.status(404).send('Widget file not found');
@@ -228,7 +248,14 @@ app.get('/chatbot-widget.js', (req, res) => {
 
 // Serve shopify-app-widget.js with CORS
 app.get('/shopify-app-widget.js', (req, res) => {
-  const widgetPath = path.join(__dirname, '../frontend/public/shopify-app-widget.js');
+  // Try multiple possible paths (local dev vs production)
+  const possiblePaths = [
+    path.join(__dirname, '../frontend/public/shopify-app-widget.js'),
+    path.join(__dirname, 'shopify-app-widget.js'),
+    path.join(__dirname, './shopify-app-widget.js'),
+    '/app/backend/shopify-app-widget.js',
+    '/workspace/backend/shopify-app-widget.js'
+  ];
   
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -236,7 +263,20 @@ app.get('/shopify-app-widget.js', (req, res) => {
   res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=3600');
   
-  fs.readFile(widgetPath, 'utf8', (err, data) => {
+  let foundPath = null;
+  for (const testPath of possiblePaths) {
+    if (fs.existsSync(testPath)) {
+      foundPath = testPath;
+      break;
+    }
+  }
+  
+  if (!foundPath) {
+    console.error('shopify-app-widget.js not found in any of these paths:', possiblePaths);
+    return res.status(404).send('Widget file not found');
+  }
+  
+  fs.readFile(foundPath, 'utf8', (err, data) => {
     if (err) {
       console.error('Error reading shopify-app-widget.js:', err);
       return res.status(404).send('Widget file not found');
