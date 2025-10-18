@@ -407,10 +407,33 @@
     console.log('✅ Config exposed globally');
   }
 
-  // Start when DOM is ready
+  // Start when DOM is ready AND config is available
+  function startWidget() {
+    // Check if config is available
+    if (window.AIOrchestratorConfig) {
+      console.log('✅ Config found, initializing widget');
+      init();
+    } else {
+      console.log('⏳ Waiting for config...');
+      // Wait a bit and try again (max 10 attempts = 5 seconds)
+      let attempts = 0;
+      const checkConfig = setInterval(() => {
+        attempts++;
+        if (window.AIOrchestratorConfig) {
+          console.log('✅ Config found after waiting, initializing widget');
+          clearInterval(checkConfig);
+          init();
+        } else if (attempts >= 10) {
+          console.error('❌ Config not found after 5 seconds, giving up');
+          clearInterval(checkConfig);
+        }
+      }, 500);
+    }
+  }
+  
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', startWidget);
   } else {
-    init();
+    startWidget();
   }
 })();
