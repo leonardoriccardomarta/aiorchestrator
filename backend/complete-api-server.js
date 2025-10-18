@@ -2766,28 +2766,9 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
       return str.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
     };
     
-        // Use shopify-app-widget.js which is EXACT COPY from chatbot-widget.js
-        const directWidgetCode = `
-    <!-- AI Orchestrator Widget - EXACT COPY -->
-    <script>
-      window.AIOrchestratorConfig = {
-        chatbotId: '${escapeString(chatbotId)}',
-        apiKey: '${escapeString(process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app')}',
-        theme: '${escapeString(widgetConfig.theme || 'teal')}',
-        title: '${escapeString(widgetConfig.title || 'AI Support')}',
-        placeholder: '${escapeString(widgetConfig.placeholder || 'Type your message...')}',
-        showAvatar: ${widgetConfig.showAvatar !== false},
-        welcomeMessage: '${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}',
-        primaryLanguage: '${escapeString(widgetConfig.primaryLanguage || 'en')}',
-        primaryColor: '${escapeString(widgetConfig.primaryColor || '#14b8a6')}',
-        primaryDarkColor: '${escapeString(widgetConfig.primaryDarkColor || '#0d9488')}',
-        headerLightColor: '${escapeString(widgetConfig.headerLightColor || '#14b8a6')}',
-        headerDarkColor: '${escapeString(widgetConfig.headerDarkColor || '#0d9488')}',
-        textColor: '${escapeString(widgetConfig.textColor || '#1f2937')}',
-        accentColor: '${escapeString(widgetConfig.accentColor || '#14b8a6')}'
-      };
-    </script>
-    <script src="${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}/shopify-app-widget.js" defer></script>`;
+        // Use shopify-widget-inline.js - SIMPLE ONE-LINE INSTALLATION
+        const directWidgetCode = `<!-- AI Orchestrator Widget -->
+<script src="${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}/shopify-widget-inline.js" data-chatbot-id="${escapeString(chatbotId)}" data-theme="${escapeString(widgetConfig.theme || 'teal')}" data-title="${escapeString(widgetConfig.title || 'AI Support')}" data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}" data-placeholder="${escapeString(widgetConfig.placeholder || 'Type your message...')}" data-show-avatar="${widgetConfig.showAvatar !== false}" data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}" data-auto-open="${widgetConfig.autoOpen === true}"></script>`;
 
     // Get current theme.liquid
     const apiVersion = '2025-10';
@@ -2924,28 +2905,8 @@ app.post('/api/connections/install-widget', authenticateToken, async (req, res) 
       return str.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
     };
     
-    const widgetCode = `
-<!-- AI Orchestrator Widget -->
-<script>
-  window.AIOrchestratorConfig = {
-    chatbotId: '${escapeString(chatbotId)}',
-    apiKey: '${escapeString(process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app')}',
-    theme: '${escapeString(widgetConfig.theme || 'teal')}',
-    title: '${escapeString(widgetConfig.title || 'AI Support')}',
-    placeholder: '${escapeString(widgetConfig.placeholder || 'Type your message...')}',
-    showAvatar: ${widgetConfig.showAvatar !== false},
-    welcomeMessage: '${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}',
-    primaryLanguage: '${escapeString(widgetConfig.primaryLanguage || 'en')}',
-    primaryColor: '${escapeString(widgetConfig.primaryColor || '#14b8a6')}',
-    primaryDarkColor: '${escapeString(widgetConfig.primaryDarkColor || '#0d9488')}',
-    headerLightColor: '${escapeString(widgetConfig.headerLightColor || '#14b8a6')}',
-    headerDarkColor: '${escapeString(widgetConfig.headerDarkColor || '#0d9488')}',
-    textColor: '${escapeString(widgetConfig.textColor || '#1f2937')}',
-    accentColor: '${escapeString(widgetConfig.accentColor || '#14b8a6')}',
-    autoOpen: ${widgetConfig.autoOpen === true}
-  };
-</script>
-<script src="${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}/shopify-app-widget.js" defer></script>`;
+    const widgetCode = `<!-- AI Orchestrator Widget -->
+<script src="${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}/shopify-widget-inline.js" data-chatbot-id="${escapeString(chatbotId)}" data-theme="${escapeString(widgetConfig.theme || 'teal')}" data-title="${escapeString(widgetConfig.title || 'AI Support')}" data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}" data-placeholder="${escapeString(widgetConfig.placeholder || 'Type your message...')}" data-show-avatar="${widgetConfig.showAvatar !== false}" data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}" data-auto-open="${widgetConfig.autoOpen === true}"></script>`;
 
     // Install widget in theme
     const result = await injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId, widgetConfig);
