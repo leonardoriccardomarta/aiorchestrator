@@ -231,7 +231,8 @@ const Connections: React.FC = () => {
         headerLightColor: liveConfig.headerLightColor || '#14b8a6',
         headerDarkColor: liveConfig.headerDarkColor || '#0d9488',
         textColor: liveConfig.textColor || '#1f2937',
-        accentColor: liveConfig.accentColor || '#14b8a6'
+        accentColor: liveConfig.accentColor || '#14b8a6',
+        autoOpen: liveConfig.autoOpen === true
       } : {
         // Fallback se non c'è configurazione live
         theme: 'teal',
@@ -245,7 +246,8 @@ const Connections: React.FC = () => {
         headerLightColor: '#14b8a6',
         headerDarkColor: '#0d9488',
         textColor: '#1f2937',
-        accentColor: '#14b8a6'
+        accentColor: '#14b8a6',
+        autoOpen: false
       };
 
       console.log('🚀 Configurazione widget finale:', widgetConfig);

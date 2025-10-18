@@ -1,629 +1,416 @@
-// AI Orchestrator Chatbot Widget - Shopify Ultra Compatible Version
-// This version uses iframe for complete isolation from Shopify CSS conflicts
+/**
+ * AI Orchestrator Chatbot Widget - Shopify Version
+ * Version: 3.0.0 - LIVE PREVIEW EXACT MATCH
+ * 
+ * This widget is IDENTICAL to the live preview shown in the dashboard.
+ * Uses Tailwind CSS CDN for styling consistency and Shopify compatibility.
+ */
+
 (function() {
   'use strict';
 
-  // Configuration from data attributes
+  console.log('🚀 AI Orchestrator Shopify Widget v3.0 - Live Preview Match');
+
+  // Get configuration from script tag or global config
   function getConfig() {
+    // Try script tag first
     const script = document.querySelector('script[data-chatbot-id]') || 
                    document.querySelector('script[data-ai-orchestrator-id]');
     
     if (script) {
-      return {
+      const config = {
         chatbotId: script.dataset.chatbotId || script.dataset.aiOrchestratorId,
-        apiKey: script.dataset.apiKey || 'demo-key',
-        position: script.dataset.position || 'bottom-right',
+        apiKey: script.dataset.apiKey || 'https://aiorchestrator-vtihz.ondigitalocean.app',
         theme: script.dataset.theme || 'teal',
-        title: script.dataset.title || 'My AI',
-        welcomeMessage: script.dataset.welcomeMessage || 'Hello! I\'m your AI assistant',
+        title: script.dataset.title || 'AI Support',
+        welcomeMessage: script.dataset.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
         placeholder: script.dataset.placeholder || 'Type your message...',
         showAvatar: script.dataset.showAvatar !== 'false',
-        size: script.dataset.size || 'medium',
-        primaryLanguage: script.dataset.primaryLanguage || 'en'
+        primaryLanguage: script.dataset.primaryLanguage || 'en',
+        autoOpen: script.dataset.autoOpen === 'true'
+      };
+      
+      console.log('✅ Config loaded from script tag:', config);
+      return config;
+  }
+
+    // Fallback to window config
+    if (window.AIChatbotConfig) {
+      console.log('✅ Config loaded from window.AIChatbotConfig');
+      return {
+        chatbotId: window.AIChatbotConfig.chatbotId,
+        apiKey: window.AIChatbotConfig.apiKey || 'https://aiorchestrator-vtihz.ondigitalocean.app',
+        theme: window.AIChatbotConfig.theme || 'teal',
+        title: window.AIChatbotConfig.title || 'AI Support',
+        welcomeMessage: window.AIChatbotConfig.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
+        placeholder: window.AIChatbotConfig.placeholder || 'Type your message...',
+        showAvatar: window.AIChatbotConfig.showAvatar !== false,
+        primaryLanguage: window.AIChatbotConfig.primaryLanguage || 'en',
+        autoOpen: window.AIChatbotConfig.autoOpen === true
       };
     }
-    
-    // Legacy config support
-    if (window.AIChatbotConfig) {
-      return window.AIChatbotConfig;
-    }
-    
+
+    console.error('❌ No configuration found');
     return null;
   }
 
-  // Wait for DOM to be ready
-  function waitForDOM(callback) {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', callback);
-    } else {
-      callback();
-    }
-  }
+  // Theme colors matching live preview
+  const themes = {
+    blue: { primary: 'from-blue-600 to-blue-700', secondary: 'from-blue-50 to-blue-100', accent: 'bg-blue-600', text: 'text-blue-900', border: 'border-blue-200', userMessage: 'bg-blue-600' },
+    purple: { primary: 'from-purple-600 to-purple-700', secondary: 'from-purple-50 to-purple-100', accent: 'bg-purple-600', text: 'text-purple-900', border: 'border-purple-200', userMessage: 'bg-purple-600' },
+    green: { primary: 'from-green-600 to-green-700', secondary: 'from-green-50 to-green-100', accent: 'bg-green-600', text: 'text-green-900', border: 'border-green-200', userMessage: 'bg-green-600' },
+    red: { primary: 'from-red-600 to-red-700', secondary: 'from-red-50 to-red-100', accent: 'bg-red-600', text: 'text-red-900', border: 'border-red-200', userMessage: 'bg-red-600' },
+    orange: { primary: 'from-orange-600 to-orange-700', secondary: 'from-orange-50 to-orange-100', accent: 'bg-orange-600', text: 'text-orange-900', border: 'border-orange-200', userMessage: 'bg-orange-600' },
+    pink: { primary: 'from-pink-600 to-pink-700', secondary: 'from-pink-50 to-pink-100', accent: 'bg-pink-600', text: 'text-pink-900', border: 'border-pink-200', userMessage: 'bg-pink-600' },
+    indigo: { primary: 'from-indigo-600 to-indigo-700', secondary: 'from-indigo-50 to-indigo-100', accent: 'bg-indigo-600', text: 'text-indigo-900', border: 'border-indigo-200', userMessage: 'bg-indigo-600' },
+    teal: { primary: 'from-teal-600 to-teal-700', secondary: 'from-teal-50 to-teal-100', accent: 'bg-teal-600', text: 'text-teal-900', border: 'border-teal-200', userMessage: 'bg-teal-600' }
+  };
 
-  // Initialize when DOM is ready
-  waitForDOM(function() {
+  // Initialize widget
+  function init() {
     const config = getConfig();
-    
     if (!config) {
-      console.error('AI Orchestrator: No valid configuration found');
+      console.error('❌ Widget initialization failed: No config');
       return;
     }
 
-    console.log('AI Orchestrator: Initializing Shopify-compatible iframe widget with config:', config);
-    initializeIframeWidget(config);
-  });
-
-  function initializeIframeWidget(config) {
-    // Remove any existing widgets to prevent duplicates
-    const existingWidgets = document.querySelectorAll('[id^="ai-orchestrator-"]');
-    existingWidgets.forEach(widget => widget.remove());
-
-    // Create iframe container
-    const iframeContainer = document.createElement('div');
-    iframeContainer.id = `ai-orchestrator-container-${config.chatbotId}`;
-    iframeContainer.style.cssText = `
-      position: fixed !important;
-      bottom: 20px !important;
-      right: 20px !important;
-      width: auto !important;
-      height: auto !important;
-      z-index: 999999999 !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      border: none !important;
-      background: transparent !important;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-    `;
-
-    // Create iframe
-    const iframe = document.createElement('iframe');
-    iframe.id = `ai-orchestrator-iframe-${config.chatbotId}`;
-    iframe.style.cssText = `
-      border: none !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      background: transparent !important;
-      display: block !important;
-      visibility: visible !important;
-    `;
-
-    // Set iframe dimensions based on state
-    function setIframeDimensions(isOpen = false) {
-      if (isOpen) {
-        iframe.style.width = '400px';
-        iframe.style.height = '600px';
-        iframe.style.borderRadius = '12px';
-      } else {
-        iframe.style.width = '80px';
-        iframe.style.height = '80px';
-        iframe.style.borderRadius = '50%';
-      }
+    // Load Tailwind CSS
+    if (!document.querySelector('script[src*="tailwindcss"]')) {
+      const tailwindScript = document.createElement('script');
+      tailwindScript.src = 'https://cdn.tailwindcss.com';
+      document.head.appendChild(tailwindScript);
+      console.log('✅ Tailwind CSS loaded');
     }
 
-    // Initial dimensions for closed state
-    setIframeDimensions(false);
+    const themeColors = themes[config.theme] || themes.teal;
+    const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
 
-    // Generate iframe content
-    const iframeContent = generateIframeContent(config);
-    
-    // Set up iframe communication
-    iframe.onload = function() {
-      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-      iframeDoc.open();
-      iframeDoc.write(iframeContent);
-      iframeDoc.close();
-
-      // Set up message communication
-      window.addEventListener('message', function(event) {
-        if (event.data.type === 'AI_ORCHESTRATOR_TOGGLE') {
-          setIframeDimensions(event.data.isOpen);
-        }
-        
-        if (event.data.type === 'AI_ORCHESTRATOR_CLOSE') {
-          setIframeDimensions(false);
-        }
-      });
-    };
-
-    iframeContainer.appendChild(iframe);
-    document.body.appendChild(iframeContainer);
-
-    console.log('AI Orchestrator: Shopify-compatible iframe widget loaded successfully!');
-  }
-
-  function generateIframeContent(config) {
-    // Theme configurations
-    const themes = {
-      blue: {
-        primary: 'rgb(37 99 235)',
-        primaryDark: 'rgb(29 78 216)',
-        secondary: 'rgb(191 219 254)',
-        secondaryLight: 'rgb(147 197 253)',
-        text: 'rgb(30 64 175)',
-        border: 'rgb(191 219 254)'
-      },
-      purple: {
-        primary: 'rgb(147 51 234)',
-        primaryDark: 'rgb(126 34 206)',
-        secondary: 'rgb(233 213 255)',
-        secondaryLight: 'rgb(216 180 254)',
-        text: 'rgb(126 34 206)',
-        border: 'rgb(233 213 255)'
-      },
-      green: {
-        primary: 'rgb(22 163 74)',
-        primaryDark: 'rgb(21 128 61)',
-        secondary: 'rgb(220 252 231)',
-        secondaryLight: 'rgb(187 247 208)',
-        text: 'rgb(22 101 52)',
-        border: 'rgb(220 252 231)'
-      },
-      red: {
-        primary: 'rgb(220 38 38)',
-        primaryDark: 'rgb(185 28 28)',
-        secondary: 'rgb(254 226 226)',
-        secondaryLight: 'rgb(254 202 202)',
-        text: 'rgb(153 27 27)',
-        border: 'rgb(254 226 226)'
-      },
-      orange: {
-        primary: 'rgb(234 88 12)',
-        primaryDark: 'rgb(194 65 12)',
-        secondary: 'rgb(255 237 213)',
-        secondaryLight: 'rgb(254 215 170)',
-        text: 'rgb(154 52 18)',
-        border: 'rgb(255 237 213)'
-      },
-      pink: {
-        primary: 'rgb(219 39 119)',
-        primaryDark: 'rgb(190 24 93)',
-        secondary: 'rgb(252 231 243)',
-        secondaryLight: 'rgb(251 207 232)',
-        text: 'rgb(157 23 77)',
-        border: 'rgb(252 231 243)'
-      },
-      indigo: {
-        primary: 'rgb(79 70 229)',
-        primaryDark: 'rgb(67 56 202)',
-        secondary: 'rgb(224 231 255)',
-        secondaryLight: 'rgb(199 210 254)',
-        text: 'rgb(55 48 163)',
-        border: 'rgb(224 231 255)'
-      },
-      teal: {
-        primary: 'rgb(13 148 136)',
-        primaryDark: 'rgb(15 118 110)',
-        secondary: 'rgb(204 251 241)',
-        secondaryLight: 'rgb(153 246 228)',
-        text: 'rgb(19 78 74)',
-        border: 'rgb(204 251 241)'
-      }
-    };
-
-    const theme = themes[config.theme] || themes.teal;
-    const size = config.size || 'medium';
-
-    return `
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Orchestrator Chat</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: transparent;
-            overflow: hidden;
-        }
-        .chat-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
+    // Create widget HTML - EXACT MATCH from live preview
+    const widgetHTML = `
+      <style>
         .toggle-button {
-            width: 80px;
-            height: 80px;
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 60px;
+            height: 60px;
+            /* gradient now handled by utility classes on element */
             border-radius: 50%;
-            background: linear-gradient(135deg, ${theme.primary}, ${theme.primaryDark});
-            border: none;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
             cursor: pointer;
-            transition: transform 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            border: none;
         }
         .toggle-button:hover {
-            transform: scale(1.1);
+          transform: scale(1.05);
+          box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
         }
-        .chat-widget {
-            width: 400px;
-            height: 600px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            border: 1px solid #e5e7eb;
-            display: none;
-            flex-direction: column;
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.2); opacity: 0.7; }
+          100% { transform: scale(1); opacity: 1; }
         }
-        .chat-widget.open {
-            display: flex;
+        #${widgetId} .chat-widget {
+          position: fixed;
+          bottom: 100px;
+          right: 24px;
+          width: 384px;
+          height: 560px;
+          z-index: 999;
+          max-height: calc(100vh - 148px);
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-        .header {
-            background: linear-gradient(135deg, ${theme.secondary}, ${theme.secondaryLight});
-            border-bottom: 2px solid ${theme.border};
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        #${widgetId} .chat-widget.hidden { 
+          display: none !important;
         }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+        #${widgetId} .chat-widget.collapsed { 
+          height: 64px !important;
+          overflow: hidden !important;
         }
-        .avatar {
-            width: 2.5rem;
-            height: 2.5rem;
-            background: linear-gradient(135deg, ${theme.primary}, ${theme.primaryDark});
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        #${widgetId} .chat-widget.collapsed .h-96 {
+          display: none !important;
         }
-        .title {
-            font-weight: 700;
-            color: ${theme.text};
-            font-size: 1rem;
+        #${widgetId} .chat-widget.collapsed .p-4.bg-white.border-t {
+          display: none !important;
         }
-        .status {
-            font-size: 0.75rem;
-            color: #6b7280;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        .status-dot {
-            width: 0.5rem;
-            height: 0.5rem;
-            background: #22c55e;
-            border-radius: 50%;
-        }
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .header-button {
-            color: #6b7280;
-            background: none;
-            border: none;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-        .header-button:hover {
-            background: #f3f4f6;
-        }
-        .messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
-            background: #f9fafb;
-        }
-        .message {
-            margin-bottom: 1rem;
-            display: flex;
-        }
-        .message.user {
-            justify-content: flex-end;
-        }
-        .message.assistant {
-            justify-content: flex-start;
-        }
-        .message-bubble {
-            max-width: 80%;
-            border-radius: 1rem;
-            padding: 0.75rem 1rem;
-        }
-        .message.user .message-bubble {
-            background: ${theme.primary};
-            color: white;
-        }
-        .message.assistant .message-bubble {
-            background: white;
-            color: #1f2937;
-            border: 1px solid #e5e7eb;
-        }
-        .message-time {
-            font-size: 0.75rem;
-            margin-top: 0.25rem;
-            opacity: 0.7;
-        }
-        .input-area {
-            padding: 1rem;
-            background: white;
-            border-top: 1px solid #e5e7eb;
-            display: flex;
-            gap: 0.5rem;
-        }
-        .message-input {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            outline: none;
-        }
-        .message-input:focus {
-            border-color: ${theme.primary};
-            box-shadow: 0 0 0 2px ${theme.primary}20;
-        }
-        .send-button {
-            background: ${theme.primary};
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-            transition: opacity 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 3rem;
-        }
-        .send-button:hover {
-            opacity: 0.9;
-        }
-        .typing-indicator {
-            display: flex;
-            gap: 0.25rem;
-            padding: 0.75rem 1rem;
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 1rem;
-            max-width: 80px;
-        }
-        .typing-dot {
-            width: 0.5rem;
-            height: 0.5rem;
-            background: #9ca3af;
-            border-radius: 50%;
-            animation: bounce 1.4s infinite ease-in-out;
-        }
-        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-    </style>
-</head>
-<body>
-    <div class="chat-container">
-        <!-- Toggle Button -->
-        <button class="toggle-button" onclick="toggleChat()">
-            <svg width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-            </svg>
-            <div style="position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; background: #22c55e; border-radius: 50%; border: 2px solid white;"></div>
-        </button>
+      </style>
 
-        <!-- Chat Widget -->
-        <div class="chat-widget" id="chatWidget">
-            <!-- Header -->
-            <div class="header">
-                <div class="header-left">
-                    ${config.showAvatar ? `
-                    <div class="avatar">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                        </svg>
-                    </div>
-                    ` : ''}
-                    <div>
-                        <div class="title">${config.title}</div>
-                        <div class="status">
-                            <div class="status-dot"></div>
-                            Online 24/7
-                        </div>
-                    </div>
-                </div>
-                <div class="header-right">
-                    <button class="header-button" onclick="minimizeChat()">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
-                        </svg>
-                    </button>
-                    <button class="header-button" onclick="closeChat()">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Messages -->
-            <div class="messages" id="messages">
-                <div class="message assistant">
-                    <div class="message-bubble">
-                        <div class="message-text">${config.welcomeMessage}</div>
-                        <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Input -->
-            <div class="input-area">
-                <input 
-                    type="text" 
-                    class="message-input" 
-                    id="messageInput"
-                    placeholder="${config.placeholder}"
-                    onkeypress="handleKeypress(event)"
-                />
-                <button class="send-button" onclick="sendMessage()">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                    </svg>
-                </button>
-            </div>
+      <div id="${widgetId}">
+      <!-- Toggle Button -->
+        <div class="toggle-button bg-gradient-to-br ${themeColors.primary}" id="${widgetId}-toggle">
+          <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+          </svg>
+          <div style="position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; background: #10B981; border-radius: 50%; border: 2px solid white; animation: pulse 2s infinite;"></div>
         </div>
-    </div>
 
-    <script>
-        let isOpen = false;
-        let conversationHistory = [];
-
-        function toggleChat() {
-            const chatWidget = document.getElementById('chatWidget');
-            isOpen = !isOpen;
-            
-            if (isOpen) {
-                chatWidget.classList.add('open');
-                document.getElementById('messageInput').focus();
-            } else {
-                chatWidget.classList.remove('open');
-            }
-            
-            // Notify parent window about state change
-            window.parent.postMessage({
-                type: 'AI_ORCHESTRATOR_TOGGLE',
-                isOpen: isOpen
-            }, '*');
-        }
-
-        function closeChat() {
-            const chatWidget = document.getElementById('chatWidget');
-            chatWidget.classList.remove('open');
-            isOpen = false;
-            
-            window.parent.postMessage({
-                type: 'AI_ORCHESTRATOR_CLOSE'
-            }, '*');
-        }
-
-        function minimizeChat() {
-            const messages = document.getElementById('messages');
-            const inputArea = document.querySelector('.input-area');
-            
-            if (messages.style.display === 'none') {
-                messages.style.display = 'block';
-                inputArea.style.display = 'flex';
-            } else {
-                messages.style.display = 'none';
-                inputArea.style.display = 'none';
-            }
-        }
-
-        function handleKeypress(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                sendMessage();
-            }
-        }
-
-        async function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            addMessage(message, true);
-            input.value = '';
-            showTypingIndicator();
-
-            try {
-                const response = await fetch('https://aiorchestrator-vtihz.ondigitalocean.app/api/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ${config.apiKey}'
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        chatbotId: '${config.chatbotId}',
-                        conversationHistory: conversationHistory,
-                        context: {
-                            primaryLanguage: '${config.primaryLanguage}',
-                            language: '${config.primaryLanguage}'
-                        }
-                    })
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    hideTypingIndicator();
-                    addMessage(data.response || 'I understand your message. How can I help you further?', false);
-                } else {
-                    hideTypingIndicator();
-                    addMessage('Sorry, I\\'m having trouble responding right now. Please try again.', false);
-                }
-            } catch (error) {
-                console.error('Chat error:', error);
-                hideTypingIndicator();
-                addMessage('Sorry, I\\'m having trouble responding right now. Please try again.', false);
-            }
-        }
-
-        function addMessage(content, isUser = false) {
-            const messagesContainer = document.getElementById('messages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = \`message \${isUser ? 'user' : 'assistant'}\`;
-            
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            
-            messageDiv.innerHTML = \`
-                <div class="message-bubble">
-                    <div class="message-text">\${content}</div>
-                    <div class="message-time">\${time}</div>
-                </div>
-            \`;
-            
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            
-            conversationHistory.push({
-                role: isUser ? 'user' : 'assistant',
-                content: content,
-                timestamp: new Date()
-            });
-        }
-
-        function showTypingIndicator() {
-            const messagesContainer = document.getElementById('messages');
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'message assistant';
-            typingDiv.id = 'typing-indicator';
-            typingDiv.innerHTML = \`
-                <div class="typing-indicator">
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                </div>
-            \`;
-            messagesContainer.appendChild(typingDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        function hideTypingIndicator() {
-            const typing = document.getElementById('typing-indicator');
-            if (typing) {
-                typing.remove();
-            }
-        }
-    </script>
-</body>
-</html>
+      <!-- Chat Widget -->
+        <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 ${config.autoOpen ? '' : 'hidden'}" id="${widgetId}-chat">
+        <!-- Header -->
+          <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+            ${config.showAvatar ? `
+                  <div class="w-10 h-10 bg-gradient-to-br ${themeColors.primary} rounded-full flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+              </div>
+            ` : ''}
+              <div>
+                  <div class="font-bold ${themeColors.text}">${config.title}</div>
+                  <div class="text-xs text-gray-600 flex items-center gap-2">
+                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span>Online 24/7</span>
+                    ${config.primaryLanguage && config.primaryLanguage !== 'auto' ? `<span class="px-2 py-0.5 text-[10px] rounded bg-gray-100 text-gray-700">${config.primaryLanguage.toUpperCase()}</span>` : ''}
+              </div>
+            </div>
+          </div>
+              <div class="flex items-center gap-2">
+                <button id="${widgetId}-minimize" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Minimize">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+            </button>
+                <button id="${widgetId}-close" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Close">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+              </div>
+          </div>
+          </div>
+          
+        <!-- Messages -->
+          <div class="h-96 overflow-y-auto p-4 bg-gray-50" id="${widgetId}-messages">
+            <div class="mb-4 flex justify-start">
+              <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
+                <div class="text-sm">${config.welcomeMessage}</div>
+                <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+              </div>
+            </div>
+          </div>
+          
+        <!-- Input -->
+          <div class="p-4 bg-white border-t border-gray-200">
+            <div class="flex gap-2">
+          <input
+            type="text"
+                id="${widgetId}-input"
+            placeholder="${config.placeholder}"
+                class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+              <button id="${widgetId}-send" class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
+                <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+            </svg>
+          </button>
+            </div>
+          </div>
+        </div>
+      </div>
     `;
+
+    // Inject widget HTML
+    const container = document.createElement('div');
+    container.innerHTML = widgetHTML;
+    document.body.appendChild(container);
+    console.log('✅ Widget HTML injected');
+
+    // Force toggle visibility immediately
+    const toggleBtn = document.getElementById(`${widgetId}-toggle`);
+    if (toggleBtn) {
+      toggleBtn.style.opacity = '1';
+      toggleBtn.style.visibility = 'visible';
+      toggleBtn.style.display = 'flex';
+      console.log('✅ Toggle forced visible');
+    }
+    
+    // Wait for Tailwind to load and force color
+    setTimeout(() => {
+      const toggleBtn = document.getElementById(`${widgetId}-toggle`);
+      if (toggleBtn) {
+        // Force background color after Tailwind loads
+        const primaryColor = themeColors.primary || 'from-indigo-500 to-indigo-600';
+        toggleBtn.style.background = `linear-gradient(135deg, ${getGradientColors(primaryColor).from}, ${getGradientColors(primaryColor).to})`;
+        
+        
+        console.log('✅ Toggle color and green dot applied after Tailwind load');
+      }
+    }, 100);
+    
+    // Helper function to get gradient colors from Tailwind class
+    function getGradientColors(tailwindClass) {
+      const colorMap = {
+        'from-indigo-500 to-indigo-600': { from: '#6366f1', to: '#4f46e5' },
+        'from-indigo-600 to-indigo-700': { from: '#4f46e5', to: '#4338ca' },
+        'from-teal-500 to-teal-600': { from: '#14b8a6', to: '#0d9488' },
+        'from-teal-600 to-teal-700': { from: '#0d9488', to: '#0f766e' },
+        'from-blue-500 to-blue-600': { from: '#3b82f6', to: '#2563eb' },
+        'from-blue-600 to-blue-700': { from: '#2563eb', to: '#1d4ed8' },
+        'from-purple-500 to-purple-600': { from: '#8b5cf6', to: '#7c3aed' },
+        'from-purple-600 to-purple-700': { from: '#7c3aed', to: '#6d28d9' },
+        'from-pink-500 to-pink-600': { from: '#ec4899', to: '#db2777' },
+        'from-pink-600 to-pink-700': { from: '#db2777', to: '#be185d' },
+        'from-red-500 to-red-600': { from: '#ef4444', to: '#dc2626' },
+        'from-red-600 to-red-700': { from: '#dc2626', to: '#b91c1c' },
+        'from-green-500 to-green-600': { from: '#10b981', to: '#059669' },
+        'from-green-600 to-green-700': { from: '#059669', to: '#047857' },
+        'from-yellow-500 to-yellow-600': { from: '#eab308', to: '#ca8a04' },
+        'from-yellow-600 to-yellow-700': { from: '#ca8a04', to: '#a16207' },
+        'from-orange-500 to-orange-600': { from: '#f97316', to: '#ea580c' },
+        'from-orange-600 to-orange-700': { from: '#ea580c', to: '#c2410c' }
+      };
+      return colorMap[tailwindClass] || { from: '#6366f1', to: '#4f46e5' };
+    }
+
+      // Add event listeners
+      setTimeout(() => {
+        const toggleBtn = document.getElementById(`${widgetId}-toggle`);
+        const chatWidget = document.getElementById(`${widgetId}-chat`);
+        const minimizeBtn = document.getElementById(`${widgetId}-minimize`);
+        const closeBtn = document.getElementById(`${widgetId}-close`);
+        const sendBtn = document.getElementById(`${widgetId}-send`);
+        const inputField = document.getElementById(`${widgetId}-input`);
+        const messagesContainer = document.getElementById(`${widgetId}-messages`);
+
+
+        let isOpen = config.autoOpen;
+
+      // Toggle button
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+          if (isOpen) {
+            chatWidget.classList.add('hidden');
+            isOpen = false;
+          } else {
+            chatWidget.classList.remove('hidden');
+            isOpen = true;
+          }
+        });
+      }
+
+      // Minimize button
+      if (minimizeBtn) {
+        minimizeBtn.addEventListener('click', () => {
+          chatWidget.classList.toggle('collapsed');
+        });
+      }
+
+      // Close button
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          chatWidget.classList.add('hidden');
+      isOpen = false;
+        });
+      }
+
+  // Send message
+      const sendMessage = async () => {
+        const message = inputField.value.trim();
+    if (!message) return;
+    
+    // Add user message
+        const userMessageHTML = `
+          <div class="mb-4 flex justify-end">
+            <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+              <div class="text-sm">${message}</div>
+              <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+            </div>
+      </div>
+    `;
+        messagesContainer.innerHTML += userMessageHTML;
+        inputField.value = '';
+
+        // Add typing indicator
+        const typingHTML = `
+          <div class="flex justify-start mb-4" id="${widgetId}-typing">
+      <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
+        <div class="flex gap-1">
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+          <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+              </div>
+        </div>
+      </div>
+    `;
+        messagesContainer.innerHTML += typingHTML;
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        // Send to API
+        try {
+          const response = await fetch(`${config.apiKey}/api/chatbots/${config.chatbotId}/chat`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message })
+          });
+
+          const data = await response.json();
+          
+          // Remove typing indicator
+          document.getElementById(`${widgetId}-typing`)?.remove();
+
+          // Add AI response
+          const aiMessageHTML = `
+            <div class="mb-4 flex justify-start">
+              <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+                <div class="text-sm">${data.response || 'Sorry, I couldn\'t process that.'}</div>
+                <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+              </div>
+            </div>
+          `;
+          messagesContainer.innerHTML += aiMessageHTML;
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        } catch (error) {
+          console.error('❌ Message send error:', error);
+          document.getElementById(`${widgetId}-typing`)?.remove();
+          
+          const errorHTML = `
+            <div class="mb-4 flex justify-start">
+              <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-red-50 text-red-900 border border-red-200">
+                <div class="text-sm">Sorry, there was an error. Please try again.</div>
+                <div class="text-xs mt-1 text-red-700">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+              </div>
+            </div>
+          `;
+          messagesContainer.innerHTML += errorHTML;
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+      };
+
+      if (sendBtn) {
+        sendBtn.addEventListener('click', sendMessage);
+      }
+
+      if (inputField) {
+        inputField.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            sendMessage();
+          }
+        });
+      }
+
+      console.log('✅ Event listeners attached');
+    }, 100);
+
+    // Expose config globally
+    window.AIOrchestratorConfig = {
+      chatbotId: config.chatbotId,
+      apiKey: config.apiKey,
+      theme: config.theme,
+      title: config.title,
+      placeholder: config.placeholder,
+      showAvatar: config.showAvatar,
+      welcomeMessage: config.welcomeMessage,
+      primaryLanguage: config.primaryLanguage
+    };
+    console.log('✅ Config exposed globally');
+  }
+
+  // Start when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
 })();
