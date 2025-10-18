@@ -459,6 +459,43 @@
           height: 20px;
           transform: rotate(45deg);
         }
+        
+        /* 📱 MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+          /* Toggle button più accessibile su mobile */
+          .toggle-button {
+            bottom: 16px;
+            right: 16px;
+            width: 56px;
+            height: 56px;
+          }
+          
+          /* Chat widget full-width su mobile */
+          .chat-widget {
+            bottom: 0;
+            right: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            max-height: 100vh;
+            border-radius: 0;
+          }
+          
+          /* Quando collassato su mobile */
+          .chat-widget.collapsed {
+            height: 60px !important;
+          }
+        }
+        
+        /* 📱 MOBILE SMALL (iPhone SE, etc.) */
+        @media (max-width: 390px) {
+          .toggle-button {
+            width: 50px;
+            height: 50px;
+            bottom: 12px;
+            right: 12px;
+          }
+        }
       </style>
 
       <div class="widget-root">

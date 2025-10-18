@@ -85,16 +85,16 @@
     const themeColors = themes[config.theme] || themes.teal;
     const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
 
-    // Create widget HTML - EXACT MATCH from live preview
+    // Create widget HTML - RESPONSIVE for Desktop & Mobile
     const widgetHTML = `
       <style>
+        /* Toggle Button */
         .toggle-button {
             position: fixed;
             bottom: 24px;
             right: 24px;
             width: 60px;
             height: 60px;
-            /* gradient now handled by utility classes on element */
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -114,6 +114,8 @@
           50% { transform: scale(1.2); opacity: 0.7; }
           100% { transform: scale(1); opacity: 1; }
         }
+        
+        /* Chat Widget - Desktop */
         #${widgetId} .chat-widget {
           position: fixed;
           bottom: 100px;
@@ -136,6 +138,43 @@
         }
         #${widgetId} .chat-widget.collapsed .p-4.bg-white.border-t {
           display: none !important;
+        }
+        
+        /* 📱 MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+          /* Toggle button più accessibile su mobile */
+          .toggle-button {
+            bottom: 16px;
+            right: 16px;
+            width: 56px;
+            height: 56px;
+          }
+          
+          /* Chat widget full-width su mobile */
+          #${widgetId} .chat-widget {
+            bottom: 0;
+            right: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            max-height: 100vh;
+            border-radius: 0;
+          }
+          
+          /* Quando collassato su mobile */
+          #${widgetId} .chat-widget.collapsed {
+            height: 60px !important;
+          }
+        }
+        
+        /* 📱 MOBILE SMALL (iPhone SE, etc.) */
+        @media (max-width: 390px) {
+          .toggle-button {
+            width: 50px;
+            height: 50px;
+            bottom: 12px;
+            right: 12px;
+          }
         }
       </style>
 
