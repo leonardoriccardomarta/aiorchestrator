@@ -9,27 +9,11 @@
 (function() {
   'use strict';
 
-  console.log('🚀 AI Orchestrator Shopify Widget v3.0 - Live Preview Match');
+  console.log('🚀 AI Orchestrator Widget v3.0 - Live Preview Match');
 
   // Get configuration from script tag or global config
   function getConfig() {
-    // PRIORITY 1: Check window.AIOrchestratorConfig (for Shopify and manual configs)
-    if (window.AIOrchestratorConfig) {
-      console.log('✅ Config loaded from window.AIOrchestratorConfig');
-      return {
-        chatbotId: window.AIOrchestratorConfig.chatbotId,
-        apiKey: window.AIOrchestratorConfig.apiKey || 'https://aiorchestrator-vtihz.ondigitalocean.app',
-        theme: window.AIOrchestratorConfig.theme || 'teal',
-        title: window.AIOrchestratorConfig.title || 'AI Support',
-        welcomeMessage: window.AIOrchestratorConfig.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
-        placeholder: window.AIOrchestratorConfig.placeholder || 'Type your message...',
-        showAvatar: window.AIOrchestratorConfig.showAvatar !== false,
-        primaryLanguage: window.AIOrchestratorConfig.primaryLanguage || 'en',
-        autoOpen: window.AIOrchestratorConfig.autoOpen === true
-      };
-    }
-
-    // PRIORITY 2: Try script tag data attributes
+    // Try script tag first
     const script = document.querySelector('script[data-chatbot-id]') || 
                    document.querySelector('script[data-ai-orchestrator-id]');
     
@@ -48,11 +32,11 @@
       
       console.log('✅ Config loaded from script tag:', config);
       return config;
-    }
+  }
 
-    // PRIORITY 3: Legacy window.AIChatbotConfig
+    // Fallback to window config
     if (window.AIChatbotConfig) {
-      console.log('✅ Config loaded from window.AIChatbotConfig (legacy)');
+      console.log('✅ Config loaded from window.AIChatbotConfig');
       return {
         chatbotId: window.AIChatbotConfig.chatbotId,
         apiKey: window.AIChatbotConfig.apiKey || 'https://aiorchestrator-vtihz.ondigitalocean.app',
@@ -423,33 +407,10 @@
     console.log('✅ Config exposed globally');
   }
 
-  // Start when DOM is ready AND config is available
-  function startWidget() {
-    // Check if config is available
-    if (window.AIOrchestratorConfig) {
-      console.log('✅ Config found, initializing widget');
-      init();
-    } else {
-      console.log('⏳ Waiting for config...');
-      // Wait a bit and try again (max 10 attempts = 5 seconds)
-      let attempts = 0;
-      const checkConfig = setInterval(() => {
-        attempts++;
-        if (window.AIOrchestratorConfig) {
-          console.log('✅ Config found after waiting, initializing widget');
-          clearInterval(checkConfig);
-          init();
-        } else if (attempts >= 10) {
-          console.error('❌ Config not found after 5 seconds, giving up');
-          clearInterval(checkConfig);
-        }
-      }, 500);
-    }
-  }
-  
+  // Start when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startWidget);
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    startWidget();
+    init();
   }
 })();
