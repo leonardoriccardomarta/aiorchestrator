@@ -1665,6 +1665,98 @@ app.get('/api/shopify/connections', authenticateToken, (req, res) => {
   }
 });
 
+// PUBLIC ENDPOINT: Get Shopify connection for widget (no auth required)
+// Widget uses this to get accessToken when loaded on Shopify store
+app.get('/api/public/shopify/connection', async (req, res) => {
+  try {
+    const { chatbotId, shop } = req.query;
+    
+    console.log('🔍 Public widget connection request:', { chatbotId, shop });
+    
+    if (!chatbotId) {
+      return res.status(400).json({
+        success: false,
+        error: 'chatbotId is required'
+      });
+    }
+
+    // Get chatbot to find userId
+    const chatbot = await prisma.chatbot.findUnique({
+      where: { id: chatbotId },
+      select: { userId: true, status: true }
+    });
+
+    if (!chatbot) {
+      return res.status(404).json({
+        success: false,
+        error: 'Chatbot not found'
+      });
+    }
+
+    if (chatbot.status !== 'active') {
+      return res.status(403).json({
+        success: false,
+        error: 'Chatbot is not active'
+      });
+    }
+
+    // Get all Shopify connections for this user
+    const connections = await prisma.connection.findMany({
+      where: {
+        userId: chatbot.userId,
+        type: 'shopify',
+        status: 'connected'
+      },
+      select: {
+        id: true,
+        url: true,
+        apiKey: true, // This is the accessToken
+        name: true
+      }
+    });
+
+    if (connections.length === 0) {
+      return res.json({
+        success: true,
+        data: {
+          hasConnection: false,
+          message: 'No Shopify connection found'
+        }
+      });
+    }
+
+    // If shop domain is provided, find matching connection
+    let connection = connections[0]; // Default to first
+    if (shop) {
+      const normalizedShop = shop.replace(/^https?:\/\//, '').replace(/\/$/, '');
+      connection = connections.find(c => 
+        c.url.replace(/^https?:\/\//, '').replace(/\/$/, '').includes(normalizedShop)
+      ) || connections[0];
+    }
+
+    console.log('✅ Found Shopify connection for widget:', {
+      connectionId: connection.id,
+      shop: connection.url
+    });
+
+    res.json({
+      success: true,
+      data: {
+        hasConnection: true,
+        shop: connection.url,
+        accessToken: connection.apiKey,
+        storeName: connection.name
+      }
+    });
+  } catch (error) {
+    console.error('❌ Public widget connection error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error'
+    });
+  }
+});
+
 // ===== PLAN MANAGEMENT API =====
 
 // Get all available plans

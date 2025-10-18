@@ -124,33 +124,36 @@
   };
 
   // Get Shopify access token from connection
-  async function getShopifyAccessToken() {
+  async function getShopifyAccessToken(chatbotId, apiUrl) {
     try {
       // Try to get from window (set by Shopify app)
       if (window.ShopifyAccessToken) {
+        console.log('🔑 Using accessToken from window.ShopifyAccessToken');
         return window.ShopifyAccessToken;
       }
       
-      // Try to get from localStorage (set during OAuth)
-      const stored = localStorage.getItem('shopify_access_token');
-      if (stored) {
-        return stored;
-      }
+      // Get shop domain from current URL
+      const shopDomain = window.location.hostname;
       
-      // Try to get from API using chatbotId
-      const response = await fetch(`${config.apiKey}/api/connections?chatbotId=${config.chatbotId}`, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
-      });
+      // Call PUBLIC endpoint - no authentication required
+      const url = `${apiUrl}/api/public/shopify/connection?chatbotId=${encodeURIComponent(chatbotId)}&shop=${encodeURIComponent(shopDomain)}`;
+      console.log('🔍 Fetching Shopify connection from:', url);
+      
+      const response = await fetch(url);
       
       if (response.ok) {
         const data = await response.json();
-        const shopifyConnection = data.data?.connections?.find(c => c.platform === 'shopify');
-        if (shopifyConnection?.accessToken) {
-          return shopifyConnection.accessToken;
+        if (data.success && data.data?.hasConnection && data.data?.accessToken) {
+          console.log('✅ Got Shopify accessToken for shop:', data.data.shop);
+          return data.data.accessToken;
+        } else {
+          console.log('⚠️ No Shopify connection found for this chatbot');
+          return null;
         }
+      } else {
+        console.warn('⚠️ Failed to fetch Shopify connection:', response.status);
+        return null;
       }
-      
-      return null;
     } catch (error) {
       console.log('⚠️ Could not get Shopify access token:', error.message);
       return null;
@@ -169,8 +172,8 @@
     const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
     
     // Get Shopify access token for enhanced features
-    const shopifyAccessToken = await getShopifyAccessToken();
-    console.log('🔑 Shopify access token:', shopifyAccessToken ? 'found' : 'not found');
+    const shopifyAccessToken = await getShopifyAccessToken(config.chatbotId, config.apiKey);
+    console.log('🔑 Shopify access token:', shopifyAccessToken ? 'found ✅' : 'not found (widget will work without Shopify features)');
 
     // Create container for shadow DOM
     const shadowHost = document.createElement('div');
