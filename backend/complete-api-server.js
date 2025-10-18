@@ -205,49 +205,58 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // ===== SERVE WIDGET FILES WITH CORS =====
-// Serve widget JS files from frontend/public with proper CORS headers
-app.use('/chatbot-widget.js', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('Content-Type', 'application/javascript');
-  res.header('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
-  next();
-}, express.static(path.join(__dirname, '../frontend/public'), {
-  setHeaders: (res, filePath) => {
-    if (filePath.endsWith('chatbot-widget.js')) {
-      res.header('Access-Control-Allow-Origin', '*');
-    }
-  }
-}));
+const fs = require('fs');
 
-app.use('/shopify-app-widget.js', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('Content-Type', 'application/javascript');
-  res.header('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
-  next();
-}, express.static(path.join(__dirname, '../frontend/public'), {
-  setHeaders: (res, filePath) => {
-    if (filePath.endsWith('shopify-app-widget.js')) {
-      res.header('Access-Control-Allow-Origin', '*');
+// Serve chatbot-widget.js with CORS
+app.get('/chatbot-widget.js', (req, res) => {
+  const widgetPath = path.join(__dirname, '../frontend/public/chatbot-widget.js');
+  
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+  
+  fs.readFile(widgetPath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading chatbot-widget.js:', err);
+      return res.status(404).send('Widget file not found');
     }
-  }
-}));
+    res.send(data);
+  });
+});
 
-// Handle OPTIONS requests for widget files
+// Serve shopify-app-widget.js with CORS
+app.get('/shopify-app-widget.js', (req, res) => {
+  const widgetPath = path.join(__dirname, '../frontend/public/shopify-app-widget.js');
+  
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+  
+  fs.readFile(widgetPath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading shopify-app-widget.js:', err);
+      return res.status(404).send('Widget file not found');
+    }
+    res.send(data);
+  });
+});
+
+// Handle OPTIONS preflight requests
 app.options('/chatbot-widget.js', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.sendStatus(200);
 });
 
 app.options('/shopify-app-widget.js', (req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.sendStatus(200);
 });
 
