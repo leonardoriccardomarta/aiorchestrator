@@ -644,10 +644,16 @@
 
       // Send to API
       try {
-        const response = await fetch(`${config.apiKey}/api/chatbots/${config.chatbotId}/chat`, {
+        const response = await fetch(`${config.apiKey}/api/chat`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message })
+          body: JSON.stringify({ 
+            message,
+            context: {
+              chatbotId: config.chatbotId,
+              primaryLanguage: config.primaryLanguage
+            }
+          })
         });
 
         const data = await response.json();

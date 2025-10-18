@@ -378,10 +378,16 @@
 
         // Send to API
         try {
-          const response = await fetch(`${config.apiKey}/api/chatbots/${config.chatbotId}/chat`, {
+          const response = await fetch(`${config.apiKey}/api/chat`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message })
+            body: JSON.stringify({ 
+              message,
+              context: {
+                chatbotId: config.chatbotId,
+                primaryLanguage: config.primaryLanguage
+              }
+            })
           });
 
           const data = await response.json();
@@ -389,12 +395,22 @@
           // Remove typing indicator
           document.getElementById(`${widgetId}-typing`)?.remove();
 
-          // Add AI response
+          // Add AI response with enhanced features
+          const aiResponse = data.response || data.message || 'Sorry, I couldn\'t process that.';
           const aiMessageHTML = `
             <div class="mb-4 flex justify-start">
               <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-                <div class="text-sm">${data.response || 'Sorry, I couldn\'t process that.'}</div>
+                <div class="text-sm">${aiResponse}</div>
                 <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+                ${data.suggestions ? `
+                  <div class="mt-2 flex flex-wrap gap-1">
+                    ${data.suggestions.map(suggestion => `
+                      <button class="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded-full transition-colors" onclick="this.parentElement.parentElement.parentElement.parentElement.querySelector('input').value='${suggestion}'; this.parentElement.parentElement.parentElement.parentElement.querySelector('input').focus();">
+                        ${suggestion}
+                      </button>
+                    `).join('')}
+                  </div>
+                ` : ''}
               </div>
             </div>
           `;
