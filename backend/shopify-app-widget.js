@@ -13,7 +13,23 @@
 
   // Get configuration from script tag or global config
   function getConfig() {
-    // Try script tag first
+    // PRIORITY 1: Check window.AIOrchestratorConfig (for Shopify and manual configs)
+    if (window.AIOrchestratorConfig) {
+      console.log('✅ Config loaded from window.AIOrchestratorConfig');
+      return {
+        chatbotId: window.AIOrchestratorConfig.chatbotId,
+        apiKey: window.AIOrchestratorConfig.apiKey || 'https://aiorchestrator-vtihz.ondigitalocean.app',
+        theme: window.AIOrchestratorConfig.theme || 'teal',
+        title: window.AIOrchestratorConfig.title || 'AI Support',
+        welcomeMessage: window.AIOrchestratorConfig.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
+        placeholder: window.AIOrchestratorConfig.placeholder || 'Type your message...',
+        showAvatar: window.AIOrchestratorConfig.showAvatar !== false,
+        primaryLanguage: window.AIOrchestratorConfig.primaryLanguage || 'en',
+        autoOpen: window.AIOrchestratorConfig.autoOpen === true
+      };
+    }
+
+    // PRIORITY 2: Try script tag data attributes
     const script = document.querySelector('script[data-chatbot-id]') || 
                    document.querySelector('script[data-ai-orchestrator-id]');
     
@@ -32,11 +48,11 @@
       
       console.log('✅ Config loaded from script tag:', config);
       return config;
-  }
+    }
 
-    // Fallback to window config
+    // PRIORITY 3: Legacy window.AIChatbotConfig
     if (window.AIChatbotConfig) {
-      console.log('✅ Config loaded from window.AIChatbotConfig');
+      console.log('✅ Config loaded from window.AIChatbotConfig (legacy)');
       return {
         chatbotId: window.AIChatbotConfig.chatbotId,
         apiKey: window.AIChatbotConfig.apiKey || 'https://aiorchestrator-vtihz.ondigitalocean.app',
