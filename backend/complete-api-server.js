@@ -207,9 +207,30 @@ app.use(limiter);
 // ===== SERVE WIDGET FILES WITH CORS =====
 const fs = require('fs');
 
-// Serve chatbot-widget.js with CORS
-app.get('/chatbot-widget.js', (req, res) => {
-  // Try multiple possible paths (local dev vs production)
+// CORS middleware specifically for widget files - DISABLE HELMET FOR THESE ROUTES
+const widgetCorsMiddleware = (req, res, next) => {
+  res.removeHeader('X-Content-Type-Options');
+  res.removeHeader('X-Frame-Options');
+  res.removeHeader('Content-Security-Policy');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.setHeader('Access-Control-Max-Age', '86400');
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+  res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+  
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+};
+
+// Serve chatbot-widget.js with aggressive CORS
+app.get('/chatbot-widget.js', widgetCorsMiddleware, (req, res) => {
+  console.log('🔍 Request for chatbot-widget.js from:', req.get('origin') || 'no origin');
+  
   const possiblePaths = [
     path.join(__dirname, '../frontend/public/chatbot-widget.js'),
     path.join(__dirname, 'chatbot-widget.js'),
@@ -218,37 +239,34 @@ app.get('/chatbot-widget.js', (req, res) => {
     '/workspace/backend/chatbot-widget.js'
   ];
   
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-  res.setHeader('Cache-Control', 'public, max-age=3600');
-  
   let foundPath = null;
   for (const testPath of possiblePaths) {
     if (fs.existsSync(testPath)) {
       foundPath = testPath;
+      console.log('✅ Found chatbot-widget.js at:', testPath);
       break;
     }
   }
   
   if (!foundPath) {
-    console.error('chatbot-widget.js not found in any of these paths:', possiblePaths);
+    console.error('❌ chatbot-widget.js not found in any of these paths:', possiblePaths);
     return res.status(404).send('Widget file not found');
   }
   
   fs.readFile(foundPath, 'utf8', (err, data) => {
     if (err) {
-      console.error('Error reading chatbot-widget.js:', err);
-      return res.status(404).send('Widget file not found');
+      console.error('❌ Error reading chatbot-widget.js:', err);
+      return res.status(500).send('Error reading widget file');
     }
+    console.log('✅ Sending chatbot-widget.js (${data.length} bytes)');
     res.send(data);
   });
 });
 
-// Serve shopify-app-widget.js with CORS
-app.get('/shopify-app-widget.js', (req, res) => {
-  // Try multiple possible paths (local dev vs production)
+// Serve shopify-app-widget.js with aggressive CORS
+app.get('/shopify-app-widget.js', widgetCorsMiddleware, (req, res) => {
+  console.log('🔍 Request for shopify-app-widget.js from:', req.get('origin') || 'no origin');
+  
   const possiblePaths = [
     path.join(__dirname, '../frontend/public/shopify-app-widget.js'),
     path.join(__dirname, 'shopify-app-widget.js'),
@@ -257,48 +275,33 @@ app.get('/shopify-app-widget.js', (req, res) => {
     '/workspace/backend/shopify-app-widget.js'
   ];
   
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-  res.setHeader('Cache-Control', 'public, max-age=3600');
-  
   let foundPath = null;
   for (const testPath of possiblePaths) {
     if (fs.existsSync(testPath)) {
       foundPath = testPath;
+      console.log('✅ Found shopify-app-widget.js at:', testPath);
       break;
     }
   }
   
   if (!foundPath) {
-    console.error('shopify-app-widget.js not found in any of these paths:', possiblePaths);
+    console.error('❌ shopify-app-widget.js not found in any of these paths:', possiblePaths);
     return res.status(404).send('Widget file not found');
   }
   
   fs.readFile(foundPath, 'utf8', (err, data) => {
     if (err) {
-      console.error('Error reading shopify-app-widget.js:', err);
-      return res.status(404).send('Widget file not found');
+      console.error('❌ Error reading shopify-app-widget.js:', err);
+      return res.status(500).send('Error reading widget file');
     }
+    console.log(`✅ Sending shopify-app-widget.js (${data.length} bytes)`);
     res.send(data);
   });
 });
 
-// Handle OPTIONS preflight requests
-app.options('/chatbot-widget.js', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.sendStatus(200);
-});
-
-app.options('/shopify-app-widget.js', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.sendStatus(200);
-});
+// Handle OPTIONS preflight for widget files
+app.options('/chatbot-widget.js', widgetCorsMiddleware);
+app.options('/shopify-app-widget.js', widgetCorsMiddleware);
 
 // ===== PUBLIC EMBED API (NO AUTH REQUIRED) =====
 app.get('/public/embed/:chatbotId', async (req, res) => {
