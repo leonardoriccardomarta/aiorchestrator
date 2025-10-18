@@ -204,6 +204,53 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// ===== SERVE WIDGET FILES WITH CORS =====
+// Serve widget JS files from frontend/public with proper CORS headers
+app.use('/chatbot-widget.js', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Content-Type', 'application/javascript');
+  res.header('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
+  next();
+}, express.static(path.join(__dirname, '../frontend/public'), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('chatbot-widget.js')) {
+      res.header('Access-Control-Allow-Origin', '*');
+    }
+  }
+}));
+
+app.use('/shopify-app-widget.js', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Content-Type', 'application/javascript');
+  res.header('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
+  next();
+}, express.static(path.join(__dirname, '../frontend/public'), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('shopify-app-widget.js')) {
+      res.header('Access-Control-Allow-Origin', '*');
+    }
+  }
+}));
+
+// Handle OPTIONS requests for widget files
+app.options('/chatbot-widget.js', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.sendStatus(200);
+});
+
+app.options('/shopify-app-widget.js', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.sendStatus(200);
+});
+
 // ===== PUBLIC EMBED API (NO AUTH REQUIRED) =====
 app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
