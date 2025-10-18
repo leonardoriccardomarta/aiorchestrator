@@ -2918,8 +2918,20 @@ app.post('/api/connections/install-widget', authenticateToken, async (req, res) 
       return str.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
     };
     
-    const widgetCode = `<!-- AI Orchestrator Widget -->
-<script src="${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}/shopify-widget-inline.js" data-chatbot-id="${escapeString(chatbotId)}" data-theme="${escapeString(widgetConfig.theme || 'teal')}" data-title="${escapeString(widgetConfig.title || 'AI Support')}" data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}" data-placeholder="${escapeString(widgetConfig.placeholder || 'Type your message...')}" data-show-avatar="${widgetConfig.showAvatar !== false}" data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}" data-auto-open="${widgetConfig.autoOpen === true}" defer></script>`;
+    // 🛍️ SHOPIFY SHADOW DOM WIDGET - Coordinato con Live Embed
+    const widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
+<script 
+  src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
+  data-ai-orchestrator-id="${escapeString(chatbotId)}"
+  data-api-key="${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}"
+  data-theme="${escapeString(widgetConfig.theme || 'teal')}"
+  data-title="${escapeString(widgetConfig.title || 'AI Support')}"
+  data-placeholder="${escapeString(widgetConfig.placeholder || 'Type your message...')}"
+  data-show-avatar="${widgetConfig.showAvatar !== false}"
+  data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}"
+  data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}"
+  defer>
+</script>`;
 
     // Install widget in theme
     const result = await injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId, widgetConfig);
@@ -5012,28 +5024,25 @@ app.post('/api/shopify/install-widget', authenticateToken, async (req, res) => {
       });
     }
     
-    // Generate widget code
-    const widgetCode = `
-<!-- AI Orchestrator Widget -->
-<script>
-  window.AIOrchestratorConfig = {
-    chatbotId: '${chatbotId}',
-    apiKey: '${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}',
-    theme: '${widgetConfig.theme || 'teal'}',
-    title: '${widgetConfig.title || 'AI Support'}',
-    placeholder: '${widgetConfig.placeholder || 'Type your message...'}',
-    showAvatar: ${widgetConfig.showAvatar !== false},
-    welcomeMessage: '${widgetConfig.welcomeMessage || 'Hello! How can I help you today?'}',
-    primaryLanguage: '${widgetConfig.primaryLanguage || 'en'}',
-    primaryColor: '${widgetConfig.primaryColor || '#14b8a6'}',
-    primaryDarkColor: '${widgetConfig.primaryDarkColor || '#0d9488'}',
-    headerLightColor: '${widgetConfig.headerLightColor || '#14b8a6'}',
-    headerDarkColor: '${widgetConfig.headerDarkColor || '#0d9488'}',
-    textColor: '${widgetConfig.textColor || '#1f2937'}',
-    accentColor: '${widgetConfig.accentColor || '#14b8a6'}'
-  };
-</script>
-<script src="${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}/shopify-app-widget.js" defer></script>`;
+    // 🛍️ SHOPIFY SHADOW DOM WIDGET - Coordinato con Live Embed
+    const escapeString = (str) => {
+      if (!str) return '';
+      return str.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+    };
+    
+    const widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
+<script 
+  src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
+  data-ai-orchestrator-id="${escapeString(chatbotId)}"
+  data-api-key="${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}"
+  data-theme="${escapeString(widgetConfig.theme || 'teal')}"
+  data-title="${escapeString(widgetConfig.title || 'AI Support')}"
+  data-placeholder="${escapeString(widgetConfig.placeholder || 'Type your message...')}"
+  data-show-avatar="${widgetConfig.showAvatar !== false}"
+  data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}"
+  data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}"
+  defer>
+</script>`;
 
     // Install widget in theme
     await injectWidgetIntoTheme(connection.url, connection.apiKey, widgetCode);
