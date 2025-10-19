@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Orchestrator Widget Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .header p {
+            margin: 1rem 0 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .feature-desc {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .test-info {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .test-info h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .test-info ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .test-info li {
+            margin: 0.5rem 0;
+            color: #555;
+        }
+        
+        .widget-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            z-index: 10000;
+        }
+        
+        .status-item {
+            margin: 0.25rem 0;
+        }
+        
+        .status-ok { color: #10B981; }
+        .status-error { color: #EF4444; }
+        .status-warning { color: #F59E0B; }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .header p { font-size: 1rem; }
+            .content { padding: 2rem 1rem; }
+            .features { grid-template-columns: 1fr; }
+            .widget-status { 
+                position: relative; 
+                top: auto; 
+                right: auto; 
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="widget-status" id="widget-status">
+        <div class="status-item">🔍 Checking widget...</div>
+    </div>
+
+    <div class="header">
+        <h1>AI Orchestrator Widget Test</h1>
+        <p>Discover the latest technology solutions for your business. From AI-powered tools to cutting-edge software, we have everything you need to succeed.</p>
+    </div>
+
+    <div class="content">
+        <div class="test-info">
+            <h3>🧪 Widget Test Information</h3>
+            <p>This page tests the AI Orchestrator chatbot widget in a real environment. The widget should appear in the bottom-right corner.</p>
+            <ul>
+                <li><strong>Widget Type:</strong> Standard Universal Widget</li>
+                <li><strong>Language:</strong> English (EN) - should respond only in English</li>
+                <li><strong>Context:</strong> Demo Mode - talks about AI Orchestrator platform</li>
+                <li><strong>Features:</strong> All advanced features enabled</li>
+                <li><strong>Mobile:</strong> Responsive floating design</li>
+            </ul>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <div class="feature-title">AI-Powered Chatbot</div>
+                <div class="feature-desc">Advanced conversational AI that understands context and provides intelligent responses to customer inquiries.</div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <div class="feature-title">Multi-Language Support</div>
+                <div class="feature-desc">Support for 10+ languages with automatic detection and language-specific responses.</div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🛍️</div>
+                <div class="feature-title">E-commerce Integration</div>
+                <div class="feature-desc">Seamless integration with Shopify, WooCommerce, and other e-commerce platforms.</div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Analytics & Insights</div>
+                <div class="feature-desc">Real-time analytics, conversation tracking, and performance insights for your business.</div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-title">ML Personalization</div>
+                <div class="feature-desc">Machine learning-powered personalization that adapts to each customer's behavior and preferences.</div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">Real-time Processing</div>
+                <div class="feature-desc">Lightning-fast response times with real-time data processing and intelligent routing.</div>
+            </div>
+        </div>
+
+        <div class="test-info">
+            <h3>📱 Mobile Testing</h3>
+            <p>Test the widget on mobile devices to verify responsive design:</p>
+            <ul>
+                <li>Widget should maintain floating design (not full-screen)</li>
+                <li>Input bar should be fully visible</li>
+                <li>Font sizes should be optimized for touch</li>
+                <li>Touch targets should be at least 44px</li>
+            </ul>
+        </div>
+
+        <div class="test-info">
+            <h3>🔧 Technical Details</h3>
+            <p>This test environment includes:</p>
+            <ul>
+                <li><strong>API Endpoint:</strong> /api/chat (unified endpoint)</li>
+                <li><strong>CORS:</strong> Configured for all origins</li>
+                <li><strong>Context Type:</strong> universal</li>
+                <li><strong>Website URL:</strong> Current domain</li>
+                <li><strong>Customer Email:</strong> Auto-extracted from messages</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- AI Orchestrator Chatbot Widget -->
+    <script src="https://www.aiorchestrator.dev/chatbot-widget.js" 
+            data-ai-orchestrator-id="cmgr7ljok0005rop9rc2yd18f" 
+            data-api-key="https://aiorchestrator-vtihz.ondigitalocean.app" 
+            data-theme="teal" 
+            data-title="My AI" 
+            data-placeholder="Type your message..." 
+            data-show-avatar="true" 
+            data-welcome-message="Hello! I'm your AI assistant" 
+            data-primary-language="en" 
+            data-auto-open="false" 
+            defer>
+    </script>
+
+    <script>
+        // Widget status monitoring
+        function checkWidgetStatus() {
+            const statusDiv = document.getElementById('widget-status');
+            const statusItems = [];
+            
+            // Check if widget script loaded
+            if (typeof window.AIOrchestratorConfig !== 'undefined') {
+                statusItems.push('<div class="status-item status-ok">✅ Widget script loaded</div>');
+            } else {
+                statusItems.push('<div class="status-item status-error">❌ Widget script not loaded</div>');
+            }
+            
+            // Check if toggle button exists
+            const toggleButton = document.querySelector('[id$="-toggle"]');
+            if (toggleButton) {
+                statusItems.push('<div class="status-item status-ok">✅ Toggle button found</div>');
+            } else {
+                statusItems.push('<div class="status-item status-warning">⚠️ Toggle button not found</div>');
+            }
+            
+            // Check if chat widget exists
+            const chatWidget = document.querySelector('[id$="-chat"]');
+            if (chatWidget) {
+                statusItems.push('<div class="status-item status-ok">✅ Chat widget found</div>');
+            } else {
+                statusItems.push('<div class="status-item status-warning">⚠️ Chat widget not found</div>');
+            }
+            
+            // Check global functions
+            if (typeof window.toggleChatbot === 'function') {
+                statusItems.push('<div class="status-item status-ok">✅ toggleChatbot function available</div>');
+            } else {
+                statusItems.push('<div class="status-item status-warning">⚠️ toggleChatbot function not available</div>');
+            }
+            
+            if (typeof window.closeChatbot === 'function') {
+                statusItems.push('<div class="status-item status-ok">✅ closeChatbot function available</div>');
+            } else {
+                statusItems.push('<div class="status-item status-warning">⚠️ closeChatbot function not available</div>');
+            }
+            
+            // Check config
+            if (window.AIOrchestratorConfig) {
+                statusItems.push(`<div class="status-item status-ok">✅ Config: ${JSON.stringify(window.AIOrchestratorConfig)}</div>`);
+            }
+            
+            statusDiv.innerHTML = statusItems.join('');
+        }
+        
+        // Check widget status after 3 seconds
+        setTimeout(checkWidgetStatus, 3000);
+        
+        // Check again after 5 seconds for any delayed loading
+        setTimeout(checkWidgetStatus, 5000);
+        
+        // Debug function for manual testing
+        window.debugWidget = function() {
+            console.log('🔍 DEBUG: Widget Status Check');
+            console.log('Toggle button:', document.querySelector('[id$="-toggle"]'));
+            console.log('Chat widget:', document.querySelector('[id$="-chat"]'));
+            console.log('toggleChatbot function:', typeof window.toggleChatbot);
+            console.log('closeChatbot function:', typeof window.closeChatbot);
+            console.log('AIOrchestratorConfig:', window.AIOrchestratorConfig);
+        };
+        
+        // Test message function
+        window.testMessage = function(message = 'Hello, can you help me?') {
+            const chatWidget = document.querySelector('[id$="-chat"]');
+            if (chatWidget) {
+                const input = chatWidget.querySelector('input[type="text"]');
+                const sendButton = chatWidget.querySelector('button[type="submit"]');
+                if (input && sendButton) {
+                    input.value = message;
+                    sendButton.click();
+                    console.log('📤 Test message sent:', message);
+                } else {
+                    console.error('❌ Input or send button not found');
+                }
+            } else {
+                console.error('❌ Chat widget not found');
+            }
+        };
+    </script>
+</body>
+</html>

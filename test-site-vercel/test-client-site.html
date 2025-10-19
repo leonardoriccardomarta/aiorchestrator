@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Your Tech Solution</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23f0f0f0" width="1200" height="600"/><circle fill="%23e0e0e0" cx="200" cy="150" r="80"/><circle fill="%23d0d0d0" cx="400" cy="200" r="60"/><circle fill="%23e0e0e0" cx="600" cy="100" r="70"/><circle fill="%23d0d0d0" cx="800" cy="180" r="50"/><circle fill="%23e0e0e0" cx="1000" cy="120" r="65"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+        
+        .cta-button {
+            background: #ff6b6b;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Products Section */
+        .products {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #eee;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+        }
+        
+        .product-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .buy-button {
+            background: #4ecdc4;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .buy-button:hover {
+            background: #45b7b8;
+        }
+        
+        /* Features Section */
+        .features {
+            background: #f8f9fa;
+            padding: 4rem 2rem;
+        }
+        
+        .features-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .feature p {
+            color: #666;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #555;
+            padding-top: 1rem;
+            color: #999;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">TechStore</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Welcome to TechStore</h1>
+            <p>Discover the latest technology solutions for your business. From AI-powered tools to cutting-edge software, we have everything you need to succeed.</p>
+            <a href="#products" class="cta-button">Explore Products</a>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <h2 class="section-title">Our Products</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image">💻</div>
+                <h3 class="product-title">AI Business Suite</h3>
+                <div class="product-price">$299/month</div>
+                <p class="product-description">Complete AI solution for your business with advanced analytics, automation, and customer insights.</p>
+                <button class="buy-button">Get Started</button>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">📱</div>
+                <h3 class="product-title">Mobile Analytics</h3>
+                <div class="product-price">$199/month</div>
+                <p class="product-description">Track and analyze your mobile app performance with real-time insights and detailed reports.</p>
+                <button class="buy-button">Learn More</button>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">🔧</div>
+                <h3 class="product-title">Dev Tools Pro</h3>
+                <div class="product-price">$149/month</div>
+                <p class="product-description">Professional development tools for modern software teams. Boost productivity and code quality.</p>
+                <button class="buy-button">Try Free</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-content">
+            <h2 class="section-title">Why Choose TechStore?</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Our solutions are optimized for speed and performance, ensuring your business runs smoothly.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure & Reliable</h3>
+                    <p>Enterprise-grade security with 99.9% uptime guarantee. Your data is safe with us.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">📈</div>
+                    <h3>Scalable Solutions</h3>
+                    <p>Grow with confidence. Our solutions scale with your business needs.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Expert Support</h3>
+                    <p>24/7 customer support from our team of experts. We're here to help you succeed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#support">Support</a>
+                <a href="#about">About Us</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechStore. All rights reserved. | Made with ❤️ for your business success.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Orchestrator Chatbot Widget - V3.0 LIVE PREVIEW MATCH -->
+    <script 
+      src="frontend/public/chatbot-widget.js"
+      data-ai-orchestrator-id="cmgr7ljok0005rop9rc2yd18f"
+      data-api-key="https://aiorchestrator-vtihz.ondigitalocean.app"
+      data-theme="teal"
+      data-title="My AI"
+      data-placeholder="Type your message"
+      data-show-avatar="true"
+      data-welcome-message="Hello! I'm your AI assistant"
+      data-primary-language="en"
+      defer>
+    </script>
+    
+    <!-- Debug Script -->
+    <script>
+      // Debug: Controlla se il widget è caricato
+      setTimeout(() => {
+        console.log('🔍 DEBUG: Controllo widget dopo 3 secondi...');
+        
+        // Controlla se gli elementi esistono
+        const toggle = document.getElementById('ai-orchestrator-toggle-cmgr7ljok0005rop9rc2yd18f');
+        const chat = document.getElementById('ai-orchestrator-chat-cmgr7ljok0005rop9rc2yd18f');
+        
+        console.log('Toggle button:', toggle);
+        console.log('Chat widget:', chat);
+        
+        if (toggle) {
+          console.log('✅ Toggle trovato!');
+          console.log('Toggle display:', getComputedStyle(toggle).display);
+          console.log('Toggle visibility:', getComputedStyle(toggle).visibility);
+          
+          // Prova ad aggiungere un event listener manualmente
+          toggle.addEventListener('click', function(e) {
+            console.log('🎯 CLICK SUL TOGGLE!', e);
+            alert('Toggle cliccato!');
+          });
+        } else {
+          console.log('❌ Toggle NON trovato!');
+        }
+        
+        if (chat) {
+          console.log('✅ Chat trovato!');
+          console.log('Chat display:', getComputedStyle(chat).display);
+          console.log('Chat classes:', chat.className);
+          console.log('Chat has show class:', chat.classList.contains('show'));
+        } else {
+          console.log('❌ Chat NON trovato!');
+        }
+        
+        // Controlla se ci sono funzioni globali
+        console.log('toggleChatbot function:', typeof window.toggleChatbot);
+        console.log('closeChatbot function:', typeof window.closeChatbot);
+        
+        // Controlla la configurazione
+        console.log('AIOrchestratorConfig:', window.AIOrchestratorConfig);
+        
+        // Prova a chiamare toggleChatbot manualmente
+        if (typeof window.toggleChatbot === 'function') {
+          console.log('🧪 Provo a chiamare toggleChatbot manualmente...');
+          try {
+            window.toggleChatbot();
+            console.log('✅ toggleChatbot chiamato con successo!');
+          } catch (error) {
+            console.error('❌ Errore chiamando toggleChatbot:', error);
+          }
+        }
+        
+      }, 3000);
+    </script>
+</body>
+</html>

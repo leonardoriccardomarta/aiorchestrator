@@ -1,0 +1,14 @@
+{
+  "name": "ai-orchestrator-widget-test",
+  "version": "1.0.0",
+  "description": "Test site for AI Orchestrator chatbot widget",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step needed'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": ["chatbot", "widget", "test"],
+  "author": "AI Orchestrator",
+  "license": "MIT"
+}
