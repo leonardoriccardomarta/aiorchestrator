@@ -315,20 +315,32 @@ class ShopifyEnhancedService {
    * Extract keywords from user query (multilingual stop words)
    */
   extractKeywords(query) {
-    // Stop words in multiple languages (EN, IT, ES, FR, DE, PT)
+    // Stop words in multiple languages (EN, IT, ES, FR, DE, PT, RU, ZH, JA, KO, AR, HI)
     const stopWords = [
       // English
-      'i', 'want', 'need', 'looking', 'for', 'a', 'an', 'the', 'show', 'me', 'find', 'get', 'buy', 'purchase', 'what', 'which', 'have', 'has', 'are', 'is', 'do', 'does', 'you', 'your',
+      'i', 'want', 'need', 'looking', 'for', 'a', 'an', 'the', 'show', 'me', 'find', 'get', 'buy', 'purchase', 'what', 'which', 'have', 'has', 'are', 'is', 'do', 'does', 'you', 'your', 'product', 'products', 'item', 'items',
       // Italian
-      'che', 'cosa', 'quali', 'hai', 'avete', 'hanno', 'sono', 'sei', 'siete', 'voglio', 'vorrei', 'cerco', 'cerca', 'mostra', 'trova', 'per', 'con', 'del', 'della', 'dei', 'delle',
+      'che', 'cosa', 'quali', 'hai', 'avete', 'hanno', 'sono', 'sei', 'siete', 'voglio', 'vorrei', 'cerco', 'cerca', 'mostra', 'trova', 'per', 'con', 'del', 'della', 'dei', 'delle', 'prodotti', 'prodotto', 'articoli', 'articolo',
       // Spanish
-      'qué', 'que', 'cuál', 'tienes', 'tienen', 'tiene', 'son', 'eres', 'estás', 'quiero', 'busco', 'muestra', 'encuentra', 'para', 'con', 'del', 'de', 'la', 'los', 'las',
+      'qué', 'que', 'cuál', 'tienes', 'tienen', 'tiene', 'son', 'eres', 'estás', 'quiero', 'busco', 'muestra', 'encuentra', 'para', 'con', 'del', 'de', 'la', 'los', 'las', 'productos', 'producto', 'artículos', 'artículo',
       // French
-      'quel', 'quoi', 'avez', 'ont', 'sont', 'êtes', 'veux', 'cherche', 'montre', 'trouve', 'pour', 'avec', 'du', 'de', 'le', 'la', 'les',
+      'quel', 'quoi', 'avez', 'ont', 'sont', 'êtes', 'veux', 'cherche', 'montre', 'trouve', 'pour', 'avec', 'du', 'de', 'le', 'la', 'les', 'produits', 'produit', 'articles', 'article',
       // German
-      'was', 'welch', 'haben', 'hat', 'sind', 'bist', 'möchte', 'suche', 'zeige', 'finde', 'für', 'mit', 'der', 'die', 'das',
+      'was', 'welch', 'haben', 'hat', 'sind', 'bist', 'möchte', 'suche', 'zeige', 'finde', 'für', 'mit', 'der', 'die', 'das', 'produkt', 'produkte', 'artikel',
       // Portuguese
-      'que', 'qual', 'tem', 'têm', 'são', 'está', 'quero', 'procuro', 'mostra', 'encontra', 'para', 'com', 'do', 'da', 'dos', 'das'
+      'que', 'qual', 'tem', 'têm', 'são', 'está', 'quero', 'procuro', 'mostra', 'encontra', 'para', 'com', 'do', 'da', 'dos', 'das', 'produtos', 'produto', 'artigos', 'artigo',
+      // Russian
+      'что', 'какой', 'есть', 'хочу', 'ищу', 'покажи', 'найди', 'для', 'товар', 'товары', 'продукт', 'продукты',
+      // Chinese
+      '什么', '哪个', '有', '想要', '找', '显示', '产品', '商品',
+      // Japanese  
+      '何', 'どの', 'ある', '欲しい', '探', '表示', '製品', '商品',
+      // Korean
+      '무엇', '어떤', '있', '원해', '찾', '보여', '제품', '상품',
+      // Arabic
+      'ما', 'أي', 'لديك', 'أريد', 'ابحث', 'عرض', 'منتج', 'منتجات',
+      // Hindi
+      'क्या', 'कौन', 'है', 'चाहिए', 'खोजो', 'दिखाओ', 'उत्पाद'
     ];
     
     const words = query.toLowerCase()
