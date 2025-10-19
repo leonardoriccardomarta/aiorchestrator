@@ -4047,6 +4047,12 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
     }
 
     console.log(`🤖 Processing message: "${message.substring(0, 50)}..."`);
+    console.log(`🔍 Context debug:`, {
+      connectionType: context.connectionType,
+      websiteUrl: context.websiteUrl,
+      shopifyConnection: context.shopifyConnection ? 'present' : 'null',
+      primaryLanguage: context.primaryLanguage
+    });
     
     // ============ PERSONALIZATION ============
     const sessionId = context.sessionId || `session_${user.id}_${Date.now()}`;
@@ -4296,8 +4302,8 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
 Your goal is to demonstrate the platform's capabilities by being helpful, multilingual, and intelligent.
 Be friendly, professional, and highlight features like: multi-language support, ML analytics, e-commerce integration, and automation.
 Keep responses concise (2-3 sentences) and engaging.`;
-    } else if (context.connectionType === 'shopify' || (context.websiteUrl && context.websiteUrl.includes('.myshopify.com'))) {
-      // SHOPIFY STORE ASSISTANT
+    } else if (context.connectionType === 'shopify') {
+      // SHOPIFY STORE ASSISTANT - Activated by connectionType, not domain
       systemPrompt += `You are an AI shopping assistant for this Shopify store.
 Your role is to help customers find products, track orders, and complete purchases.
 You have access to real-time store data including products, inventory, and orders.
