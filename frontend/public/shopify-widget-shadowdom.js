@@ -123,6 +123,49 @@
     }
   };
 
+  // Global function for Add to Cart (called from product cards)
+  window.addToCartFromChat = async function(productId, variantId) {
+    try {
+      console.log('🛒 Adding to cart from chat:', productId, variantId);
+      
+      // Use Shopify Ajax API to add to cart
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: variantId,
+          quantity: 1,
+          properties: {
+            '_chatbot_recommendation': 'true',
+            '_recommended_at': new Date().toISOString()
+          }
+        })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log('✅ Added to cart:', data);
+        
+        // Update cart count in theme
+        fetch('/cart.js')
+          .then(r => r.json())
+          .then(cart => {
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount) cartCount.textContent = cart.item_count;
+            
+            // Show success message in chat
+            alert('✅ Product added to cart!');
+          });
+      } else {
+        console.error('❌ Failed to add to cart');
+        alert('❌ Sorry, couldn\'t add to cart. Please try again.');
+      }
+    } catch (error) {
+      console.error('❌ Add to cart error:', error);
+      alert('❌ Sorry, an error occurred. Please try again.');
+    }
+  };
+
   // Get Shopify access token from connection
   async function getShopifyAccessToken(chatbotId, apiUrl) {
     try {
@@ -666,13 +709,31 @@
       // Product Recommendations
       if (enhancements.recommendations && enhancements.recommendations.length > 0) {
         html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #0ea5e9;">';
+        
+        // Show personalization message if available
+        if (enhancements.personalized && enhancements.personalizationReason) {
+          html += `<div style="font-size: 11px; color: #0369a1; margin-bottom: 8px; font-weight: 500;">✨ ${enhancements.personalizationReason}</div>`;
+        }
+        
         html += '<h4 style="margin: 0 0 8px 0; color: #0c4a6e; font-size: 14px; font-weight: 600;">🛍️ Product Recommendations</h4>';
         enhancements.recommendations.forEach(product => {
-          html += `<div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 6px; border: 1px solid #e0f2fe;">`;
-          html += `<div style="font-weight: 600; color: #0c4a6e;">${product.title}</div>`;
+          html += `<div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 6px; border: 1px solid #e0f2fe; position: relative;">`;
+          
+          // Personalized badge
+          if (product.personalizedScore) {
+            html += `<div style="position: absolute; top: 4px; right: 4px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600;">PERFECT FOR YOU</div>`;
+          }
+          
+          html += `<div style="font-weight: 600; color: #0c4a6e; margin-top: ${product.personalizedScore ? '20px' : '0'};">${product.title}</div>`;
           if (product.description) html += `<div style="font-size: 12px; color: #64748b; margin: 4px 0;">${product.description}</div>`;
-          html += `<div style="font-weight: 600; color: #059669;">$${product.price} ${product.inStock ? '✅ In Stock' : '❌ Out of Stock'}</div>`;
-          if (product.url) html += `<a href="${product.url}" target="_blank" style="color: #0ea5e9; text-decoration: none; font-size: 12px;">View Product →</a>`;
+          if (product.reason) html += `<div style="font-size: 11px; color: #0369a1; margin: 4px 0; font-style: italic;">💡 ${product.reason}</div>`;
+          html += `<div style="font-weight: 600; color: #059669; margin: 4px 0;">$${product.price} ${product.inStock ? '✅ In Stock' : '❌ Out of Stock'}</div>`;
+          
+          // Action buttons
+          html += `<div style="display: flex; gap: 8px; margin-top: 8px;">`;
+          if (product.url) html += `<a href="${product.url}" target="_blank" style="flex: 1; text-align: center; padding: 6px 12px; background: #0ea5e9; color: white; text-decoration: none; border-radius: 6px; font-size: 12px; font-weight: 600;">View Product</a>`;
+          html += `<button onclick="window.addToCartFromChat('${product.id}', '${product.variantId || product.id}')" style="flex: 1; padding: 6px 12px; background: #059669; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">🛒 Add to Cart</button>`;
+          html += `</div>`;
           html += `</div>`;
         });
         html += '</div>';
@@ -694,6 +755,53 @@
         html += '<h4 style="margin: 0 0 8px 0; color: #a16207; font-size: 14px; font-weight: 600;">👤 Customer History</h4>';
         html += `<div style="color: #a16207;">Total Orders: ${enhancements.customerHistory.totalOrders || 0}</div>`;
         html += `<div style="color: #a16207;">Total Spent: $${enhancements.customerHistory.totalSpent || 0}</div>`;
+        html += '</div>';
+      }
+      
+      // 🛒 Cart Action (Add to Cart confirmation)
+      if (enhancements.cartAction) {
+        html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #d1fae5; border-radius: 8px; border-left: 4px solid #059669;">';
+        html += `<div style="color: #065f46; font-weight: 600;">${enhancements.cartAction.message || '✅ Added to cart!'}</div>`;
+        html += '</div>';
+      }
+      
+      // 💳 Checkout Guidance
+      if (enhancements.checkoutGuidance) {
+        html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">';
+        html += '<h4 style="margin: 0 0 8px 0; color: #92400e; font-size: 14px; font-weight: 600;">💳 Checkout Guide</h4>';
+        html += `<div style="color: #78350f; margin-bottom: 8px;">${enhancements.checkoutGuidance.message}</div>`;
+        enhancements.checkoutGuidance.steps.forEach((step, idx) => {
+          html += `<div style="margin: 4px 0; color: #78350f; font-size: 13px;">${step.step}. ${step.title}</div>`;
+        });
+        if (enhancements.checkoutGuidance.quickCheckout) {
+          html += enhancements.checkoutGuidance.quickCheckout;
+        }
+        html += '</div>';
+      }
+      
+      // 🎯 Upsell / Cross-sell
+      if (enhancements.upsells && enhancements.upsells.length > 0) {
+        html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #fce7f3; border-radius: 8px; border-left: 4px solid #ec4899;">';
+        html += '<h4 style="margin: 0 0 8px 0; color: #9f1239; font-size: 14px; font-weight: 600;">✨ You might also love</h4>';
+        if (enhancements.upsellMessage) html += `<div style="color: #9f1239; margin-bottom: 8px; font-size: 13px;">${enhancements.upsellMessage}</div>`;
+        enhancements.upsells.forEach(upsell => {
+          html += `<div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 6px; border: 1px solid #fbcfe8;">`;
+          html += `<div style="display: flex; align-items: center; gap: 8px;">`;
+          html += `<div style="font-weight: 600; color: #9f1239; flex: 1;">${upsell.title}</div>`;
+          html += `<div style="background: #ec4899; color: white; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600;">${upsell.badge}</div>`;
+          html += `</div>`;
+          html += `<div style="font-weight: 600; color: #059669; margin: 4px 0;">$${upsell.price}</div>`;
+          if (upsell.reason) html += `<div style="font-size: 11px; color: #831843; margin: 4px 0;">${upsell.reason}</div>`;
+          if (upsell.url) html += `<a href="${upsell.url}" target="_blank" style="color: #ec4899; text-decoration: none; font-size: 12px; font-weight: 600;">View →</a>`;
+          html += `</div>`;
+        });
+        html += '</div>';
+      }
+      
+      // 💰 Stripe Payment
+      if (enhancements.payment && enhancements.payment.button) {
+        html += '<div class="shopify-enhancements" style="margin-top: 12px;">';
+        html += enhancements.payment.button;
         html += '</div>';
       }
       
@@ -794,6 +902,11 @@
         
         let responseContent = data.response || 'Sorry, I couldn\'t process that.';
         
+        // Add Personalized Greeting (if first message)
+        if (data.personalization?.greeting) {
+          responseContent = data.personalization.greeting.greeting + '<br><br>' + responseContent;
+        }
+        
         // Add Shopify Enhanced Features if available
         if (data.shopifyEnhancements) {
           responseContent += renderShopifyEnhancements(data.shopifyEnhancements);
@@ -802,6 +915,15 @@
         // Add Universal Embed Features if available
         if (data.embedEnhancements) {
           responseContent += renderEmbedEnhancements(data.embedEnhancements);
+        }
+        
+        // Add Personalized Discount if available
+        if (data.personalization?.discount) {
+          const discount = data.personalization.discount;
+          responseContent += `<div style="margin-top: 12px; padding: 12px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); border-radius: 8px; color: white; text-align: center;">
+            <div style="font-weight: 600; margin-bottom: 4px;">🎁 Special Offer</div>
+            <div style="font-size: 13px;">${discount.message}</div>
+          </div>`;
         }
         
         // Add ML Analysis if available
