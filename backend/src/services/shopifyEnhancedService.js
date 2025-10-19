@@ -508,19 +508,36 @@ class ShopifyEnhancedService {
   detectIntent(message) {
     const msgLower = message.toLowerCase();
     
-    // Order tracking (EN + IT + ES + FR + DE)
-    if (msgLower.match(/order|track|#|where is|ordine|traccia|pedido|rastrear|commande|suivre|bestellung|verfolgen/)) {
+    // Order tracking - Universal patterns
+    // Looks for: order numbers (#1234), emails, or tracking-related context
+    if (msgLower.match(/#\d+/) || // Order number like #1234
+        msgLower.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/) || // Email
+        msgLower.length < 30 && msgLower.match(/order|track|ordine|pedido|commande|bestellung/)) {
       return 'order_tracking';
     }
     
-    // Product search/recommendation (EN + IT + ES + FR + DE)
-    if (msgLower.match(/show|find|looking for|want|recommend|product|item|mostra|trova|cerco|voglio|consiglia|prodotto|articolo|buscar|quiero|mostrar|producto|cherche|veux|montrer|produit|zeigen|finden|möchte|produkt|che prodotti|quali prodotti|what products|which products|snowboard|ski|board/)) {
-      return 'product_search';
+    // Inventory check - Universal patterns
+    // Looks for: "in stock", "available", "inventory" context
+    if (msgLower.match(/stock|availab|inventor|disponibl|magazzin/)) {
+      return 'inventory_check';
     }
     
-    // Inventory check (EN + IT + ES + FR + DE)
-    if (msgLower.match(/in stock|available|inventory|disponibile|magazzino|disponible|inventario|en stock|verfügbar|lager/)) {
-      return 'inventory_check';
+    // Product search - DEFAULT for most queries
+    // This is the most common intent, so we make it broad:
+    // - Questions (?, what, which, how, where, when, who)
+    // - Product-related keywords
+    // - Anything that looks like a search query
+    if (
+      msgLower.includes('?') || // Any question
+      msgLower.match(/\b(what|which|show|find|looking|want|need|search|recommend|have|sell|buy|get|see|view)\b/) || // English verbs
+      msgLower.match(/\b(che|quali|cosa|dove|come|quando|chi|avete|hanno|cerca|mostra|trova|voglio|consiglia|vendo|compra)\b/) || // Italian
+      msgLower.match(/\b(qué|cuál|mostrar|buscar|quiero|necesito|recomendar|vender|comprar)\b/) || // Spanish
+      msgLower.match(/\b(quel|quoi|montrer|chercher|veux|besoin|recommander|vendre|acheter)\b/) || // French
+      msgLower.match(/\b(was|welch|zeigen|suchen|möchte|brauche|empfehlen|verkaufen|kaufen)\b/) || // German
+      msgLower.match(/product|item|articol|produit|produkt|goods|merchandise/) || // Product keywords
+      msgLower.length > 15 && !msgLower.includes('@') && !msgLower.includes('#') // Long query without order markers
+    ) {
+      return 'product_search';
     }
     
     return 'general';
