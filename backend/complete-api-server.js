@@ -4009,9 +4009,36 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
     const { message, context = {} } = req.body;
     const primaryLanguage = context.primaryLanguage || context.language || 'auto';
     
-    // For demo purposes, allow chat without authentication
-    // In production, this should require authentication
-    const user = req.user || { id: 'demo-user', planId: 'professional' };
+    // Get real user from chatbotId
+    let user = req.user;
+    
+    if (!user && context.chatbotId) {
+      // Widget is being used - get user from chatbot
+      const chatbot = await prisma.chatbot.findUnique({
+        where: { id: context.chatbotId },
+        select: { 
+          userId: true,
+          user: {
+            select: {
+              id: true,
+              planId: true,
+              email: true
+            }
+          }
+        }
+      });
+      
+      if (chatbot && chatbot.user) {
+        user = chatbot.user;
+        console.log('✅ Found user from chatbotId:', user.id);
+      } else {
+        console.log('⚠️ Chatbot not found, using demo user');
+        user = { id: 'demo-user', planId: 'professional' };
+      }
+    } else if (!user) {
+      // No auth and no chatbotId - use demo user
+      user = { id: 'demo-user', planId: 'professional' };
+    }
     
     if (!message) {
       return res.status(400).json({
