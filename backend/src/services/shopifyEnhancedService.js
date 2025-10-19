@@ -312,14 +312,30 @@ class ShopifyEnhancedService {
   // ============ HELPER METHODS ============
 
   /**
-   * Extract keywords from user query
+   * Extract keywords from user query (multilingual stop words)
    */
   extractKeywords(query) {
-    const stopWords = ['i', 'want', 'need', 'looking', 'for', 'a', 'an', 'the', 'show', 'me', 'find', 'get', 'buy', 'purchase'];
+    // Stop words in multiple languages (EN, IT, ES, FR, DE, PT)
+    const stopWords = [
+      // English
+      'i', 'want', 'need', 'looking', 'for', 'a', 'an', 'the', 'show', 'me', 'find', 'get', 'buy', 'purchase', 'what', 'which', 'have', 'has', 'are', 'is', 'do', 'does', 'you', 'your',
+      // Italian
+      'che', 'cosa', 'quali', 'hai', 'avete', 'hanno', 'sono', 'sei', 'siete', 'voglio', 'vorrei', 'cerco', 'cerca', 'mostra', 'trova', 'per', 'con', 'del', 'della', 'dei', 'delle',
+      // Spanish
+      'qué', 'que', 'cuál', 'tienes', 'tienen', 'tiene', 'son', 'eres', 'estás', 'quiero', 'busco', 'muestra', 'encuentra', 'para', 'con', 'del', 'de', 'la', 'los', 'las',
+      // French
+      'quel', 'quoi', 'avez', 'ont', 'sont', 'êtes', 'veux', 'cherche', 'montre', 'trouve', 'pour', 'avec', 'du', 'de', 'le', 'la', 'les',
+      // German
+      'was', 'welch', 'haben', 'hat', 'sind', 'bist', 'möchte', 'suche', 'zeige', 'finde', 'für', 'mit', 'der', 'die', 'das',
+      // Portuguese
+      'que', 'qual', 'tem', 'têm', 'são', 'está', 'quero', 'procuro', 'mostra', 'encontra', 'para', 'com', 'do', 'da', 'dos', 'das'
+    ];
+    
     const words = query.toLowerCase()
       .replace(/[^\w\s]/g, '')
       .split(/\s+/)
       .filter(word => word.length > 2 && !stopWords.includes(word));
+    
     return words;
   }
 
@@ -337,8 +353,21 @@ class ShopifyEnhancedService {
       }
     }
     
-    // Search by title
+    // If no useful keywords, get ALL products (general browse)
+    if (keywords.length === 0 || keywords.every(k => k.length < 3)) {
+      console.log('📦 No specific keywords, fetching all products');
+      const response = await axios.get(
+        `https://${shop}/admin/api/2023-10/products.json?limit=20`,
+        { headers: this.getHeaders(accessToken), timeout: 10000 }
+      );
+      const products = response.data.products || [];
+      this.cache.set(cacheKey, { data: products, timestamp: Date.now() });
+      return products;
+    }
+    
+    // Search by title with keywords
     const searchQuery = keywords.join(' ');
+    console.log('🔍 Searching Shopify for:', searchQuery);
     const response = await axios.get(
       `https://${shop}/admin/api/2023-10/products.json?title=${encodeURIComponent(searchQuery)}&limit=20`,
       { headers: this.getHeaders(accessToken), timeout: 10000 }
@@ -512,30 +541,63 @@ class ShopifyEnhancedService {
     // Looks for: order numbers (#1234), emails, or tracking-related context
     if (msgLower.match(/#\d+/) || // Order number like #1234
         msgLower.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/) || // Email
-        msgLower.length < 30 && msgLower.match(/order|track|ordine|pedido|commande|bestellung/)) {
+        msgLower.length < 30 && msgLower.match(/order|track|ordine|pedido|commande|bestellung|заказ|注文|주문|الطلب|ऑर्डर/)) {
       return 'order_tracking';
     }
     
     // Inventory check - Universal patterns
     // Looks for: "in stock", "available", "inventory" context
-    if (msgLower.match(/stock|availab|inventor|disponibl|magazzin/)) {
+    if (msgLower.match(/stock|availab|inventor|disponibl|magazzin|наличи|在庫|재고|متوفر|स्टॉक/)) {
       return 'inventory_check';
     }
     
-    // Product search - DEFAULT for most queries
-    // This is the most common intent, so we make it broad:
-    // - Questions (?, what, which, how, where, when, who)
-    // - Product-related keywords
-    // - Anything that looks like a search query
+    // Product search - DEFAULT for most queries (supports 50+ languages)
+    // Strategy: Use question marks (universal) + common verbs in 13 primary languages
     if (
-      msgLower.includes('?') || // Any question
-      msgLower.match(/\b(what|which|show|find|looking|want|need|search|recommend|have|sell|buy|get|see|view)\b/) || // English verbs
-      msgLower.match(/\b(che|quali|cosa|dove|come|quando|chi|avete|hanno|cerca|mostra|trova|voglio|consiglia|vendo|compra)\b/) || // Italian
-      msgLower.match(/\b(qué|cuál|mostrar|buscar|quiero|necesito|recomendar|vender|comprar)\b/) || // Spanish
-      msgLower.match(/\b(quel|quoi|montrer|chercher|veux|besoin|recommander|vendre|acheter)\b/) || // French
-      msgLower.match(/\b(was|welch|zeigen|suchen|möchte|brauche|empfehlen|verkaufen|kaufen)\b/) || // German
-      msgLower.match(/product|item|articol|produit|produkt|goods|merchandise/) || // Product keywords
-      msgLower.length > 15 && !msgLower.includes('@') && !msgLower.includes('#') // Long query without order markers
+      // Universal pattern: Any question mark
+      msgLower.includes('?') || msgLower.includes('？') || // Latin + CJK question marks
+      
+      // English (en)
+      msgLower.match(/\b(what|which|show|find|looking|want|need|search|recommend|have|sell|buy|get|see|view|product|item)\b/) ||
+      
+      // Italian (it)
+      msgLower.match(/\b(che|quali|cosa|dove|come|quando|chi|avete|hanno|cerca|mostra|trova|voglio|consiglia|vendo|compra|prodotto|articolo)\b/) ||
+      
+      // Spanish (es)
+      msgLower.match(/\b(qué|cuál|mostrar|buscar|quiero|necesito|recomendar|vender|comprar|producto|artículo|tienes|tienen)\b/) ||
+      
+      // French (fr)
+      msgLower.match(/\b(quel|quoi|montrer|chercher|veux|besoin|recommander|vendre|acheter|produit|article|avez|ont)\b/) ||
+      
+      // German (de)
+      msgLower.match(/\b(was|welch|zeigen|suchen|möchte|brauche|empfehlen|verkaufen|kaufen|produkt|artikel|haben|hat)\b/) ||
+      
+      // Portuguese (pt)
+      msgLower.match(/\b(que|qual|mostrar|procurar|quero|preciso|recomendar|vender|comprar|produto|artigo|tem|têm)\b/) ||
+      
+      // Russian (ru)
+      msgLower.match(/\b(что|какой|показать|найти|хочу|нужно|рекомендовать|продать|купить|товар|продукт|есть|имеете)\b/) ||
+      
+      // Chinese (zh) - Common characters
+      msgLower.match(/什么|哪个|显示|找|想要|需要|推荐|卖|买|产品|商品|有/) ||
+      
+      // Japanese (ja) - Common characters
+      msgLower.match(/何|どの|表示|探|欲しい|必要|おすすめ|売る|買う|製品|商品|ある|ください/) ||
+      
+      // Korean (ko) - Common characters
+      msgLower.match(/무엇|어떤|보여|찾|원해|필요|추천|팔|사|제품|상품|있/) ||
+      
+      // Arabic (ar) - Common words
+      msgLower.match(/ما|أي|عرض|بحث|أريد|أحتاج|توصية|بيع|شراء|منتج|سلعة|لديك/) ||
+      
+      // Hindi (hi) - Common words
+      msgLower.match(/क्या|कौन|दिखाओ|खोजो|चाहिए|जरूरत|सिफारिश|बेचना|खरीदना|उत्पाद|सामान|है/) ||
+      
+      // Universal product keywords (works across languages)
+      msgLower.match(/product|item|goods|merchandise|articol|produit|produkt|товар|商品|제품|منتج|उत्पाद/) ||
+      
+      // Long queries without order markers (likely product searches)
+      (msgLower.length > 15 && !msgLower.includes('@') && !msgLower.includes('#'))
     ) {
       return 'product_search';
     }
