@@ -96,7 +96,7 @@ const PLANS = {
   enterprise: {
     id: 'enterprise',
     name: 'Enterprise',
-    price: 199,
+    price: 299,
     chatbotLimit: 3,
     messageLimit: 100000, // per month
     connectionLimit: 5,
