@@ -56,7 +56,7 @@ const Pricing: React.FC = () => {
     }
 
     // Check if user is upgrading or downgrading
-    const planHierarchy = { free: 0, starter: 1, professional: 2, enterprise: 3 };
+    const planHierarchy = { free: 0, starter: 1, professional: 2, business: 3 };
     const userLevel = planHierarchy[userPlan as keyof typeof planHierarchy] || 0;
     const targetLevel = planHierarchy[planId as keyof typeof planHierarchy] || 1;
 
@@ -148,7 +148,7 @@ const Pricing: React.FC = () => {
                 To continue using AI Orchestrator and access your chatbots, please select a plan below.
               </p>
               <p className="text-gray-600 text-center text-sm">
-                <strong>Choose from Starter ($29/mo), Professional ($99/mo), or Enterprise ($299/mo)</strong>
+                <strong>Choose from Starter ($29/mo), Professional ($99/mo), or Business ($299/mo)</strong>
               </p>
             </div>
           )}
@@ -325,22 +325,30 @@ const Pricing: React.FC = () => {
             </CardContent>
           </Card>
 
-          {/* Enterprise Plan */}
-          <Card className="relative">
-            {user?.planId === 'enterprise' && (
+          {/* Business Plan */}
+          <Card className="relative border-purple-500">
+            {user?.planId === 'business' && (
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-green-600 text-white px-4 py-1">Current Plan</Badge>
         </div>
       )}
+            {user?.planId !== 'business' && (
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <Badge className="bg-purple-600 text-white px-4 py-1 flex items-center gap-1">
+                  <Crown className="w-3 h-3" />
+                  Premium
+                </Badge>
+              </div>
+            )}
             <CardHeader>
-              <CardTitle className="text-2xl font-bold text-gray-900">Enterprise</CardTitle>
+              <CardTitle className="text-2xl font-bold text-gray-900">Business</CardTitle>
               <div className="flex items-baseline space-x-1">
                   <span className="text-4xl font-bold text-gray-900">
-                  ${billingCycle === 'yearly' ? '166' : '199'}
+                  ${billingCycle === 'yearly' ? '249' : '299'}
                   </span>
                 <span className="text-gray-600">/month</span>
                 </div>
-              <p className="text-gray-600 mt-2">For large organizations with complex needs</p>
+              <p className="text-gray-600 mt-2">Full e-commerce automation for serious businesses</p>
               </CardHeader>
             <CardContent>
               <ul className="space-y-3 mb-6">
@@ -394,11 +402,11 @@ const Pricing: React.FC = () => {
                 </li>
               </ul>
                 <Button 
-                onClick={handleContactSales}
-                className={getButtonStyle('enterprise')}
-                disabled={isButtonDisabled('enterprise')}
+                onClick={() => handleSelectPlan({ id: 'business', name: 'Business', price: billingCycle === 'yearly' ? 249 : 299 })}
+                className={getButtonStyle('business')}
+                disabled={isButtonDisabled('business')}
               >
-                {getButtonText('enterprise')}
+                {getButtonText('business')}
                 </Button>
               </CardContent>
             </Card>

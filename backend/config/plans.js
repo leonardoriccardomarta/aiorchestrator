@@ -68,37 +68,6 @@ const PLANS = {
     price: 299,
     chatbotLimit: 3,
     messageLimit: 100000, // per month
-    connectionLimit: 3,
-    features: {
-      // Basic features
-      basicAnalytics: true,
-      customization: true,
-      emailSupport: true,
-      multiLanguage: true,
-      productRecommendations: true,
-      // All premium features
-      advancedAnalytics: true,
-      prioritySupport: true,
-      whiteLabel: true,
-      apiAccess: true,
-      customIntegrations: true,
-      // E-commerce Advanced - ENABLED
-      addToCart: true,
-      checkoutAssistance: true,
-      mlPersonalization: true,
-      // Enterprise features - ALL ENABLED
-      stripePayments: true,
-      aiUpselling: true,
-      abandonedCartRecovery: true,
-      fullMLSuite: true
-    }
-  },
-  enterprise: {
-    id: 'enterprise',
-    name: 'Enterprise',
-    price: 299,
-    chatbotLimit: 3,
-    messageLimit: 100000, // per month
     connectionLimit: 5,
     features: {
       // All features enabled
@@ -112,6 +81,7 @@ const PLANS = {
       whiteLabel: true,
       apiAccess: true,
       customIntegrations: true,
+      // E-commerce Advanced - ALL ENABLED
       addToCart: true,
       checkoutAssistance: true,
       mlPersonalization: true,
@@ -119,7 +89,7 @@ const PLANS = {
       aiUpselling: true,
       abandonedCartRecovery: true,
       fullMLSuite: true,
-      // Enterprise exclusives
+      // Business exclusives
       dedicatedSupport: true,
       accountManager: true
     }
