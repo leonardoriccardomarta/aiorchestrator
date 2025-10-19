@@ -4182,6 +4182,7 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
       
       // Detect intent and provide relevant features
       const intent = shopifyEnhancedService.detectIntent(message);
+      console.log('🎯 Detected intent:', intent, 'for message:', message);
       
       if (intent === 'order_tracking') {
         // Extract order identifier from message

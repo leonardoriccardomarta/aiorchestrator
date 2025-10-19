@@ -508,19 +508,18 @@ class ShopifyEnhancedService {
   detectIntent(message) {
     const msgLower = message.toLowerCase();
     
-    // Order tracking
-    if (msgLower.includes('order') || msgLower.includes('track') || msgLower.includes('#') || msgLower.includes('where is')) {
+    // Order tracking (EN + IT + ES + FR + DE)
+    if (msgLower.match(/order|track|#|where is|ordine|traccia|pedido|rastrear|commande|suivre|bestellung|verfolgen/)) {
       return 'order_tracking';
     }
     
-    // Product search/recommendation
-    if (msgLower.includes('show') || msgLower.includes('find') || msgLower.includes('looking for') || 
-        msgLower.includes('want') || msgLower.includes('recommend')) {
+    // Product search/recommendation (EN + IT + ES + FR + DE)
+    if (msgLower.match(/show|find|looking for|want|recommend|product|item|mostra|trova|cerco|voglio|consiglia|prodotto|articolo|buscar|quiero|mostrar|producto|cherche|veux|montrer|produit|zeigen|finden|möchte|produkt|che prodotti|quali prodotti|what products|which products|snowboard|ski|board/)) {
       return 'product_search';
     }
     
-    // Inventory check
-    if (msgLower.includes('in stock') || msgLower.includes('available') || msgLower.includes('inventory')) {
+    // Inventory check (EN + IT + ES + FR + DE)
+    if (msgLower.match(/in stock|available|inventory|disponibile|magazzino|disponible|inventario|en stock|verfügbar|lager/)) {
       return 'inventory_check';
     }
     
