@@ -3070,18 +3070,19 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
     };
     
         // Use shopify-widget-shadowdom.js with data attributes (matching Quick Embed format)
-        const directWidgetCode = `<!-- AI Orchestrator Widget -->
-<script src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js" 
-        data-ai-orchestrator-id="${escapeString(chatbotId)}" 
-        data-api-key="${escapeString(process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app')}" 
-        data-theme="${escapeString(widgetConfig.theme || 'teal')}" 
-        data-title="${escapeString(widgetConfig.title || 'AI Support')}" 
-        data-placeholder="${escapeString(widgetConfig.placeholder || 'Type your message...')}" 
-        data-show-avatar="${widgetConfig.showAvatar !== false ? 'true' : 'false'}" 
-        data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}" 
-        data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}" 
-        data-auto-open="${widgetConfig.autoOpen === true ? 'true' : 'false'}" 
-        defer>
+        const directWidgetCode = `<!-- AI Orchestrator Chatbot Widget -->
+<script 
+  src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
+  data-ai-orchestrator-id="${escapeString(chatbotId)}"
+  data-api-key="${escapeString(process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app')}"
+  data-theme="${escapeString(widgetConfig.theme || 'teal')}"
+  data-title="${escapeString(widgetConfig.title || 'AI Support')}"
+  data-placeholder="${escapeString(widgetConfig.placeholder || 'Type your message...')}"
+  data-show-avatar="${widgetConfig.showAvatar !== false ? 'true' : 'false'}"
+  data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}"
+  data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}"
+  data-auto-open="${widgetConfig.autoOpen === true ? 'true' : 'false'}"
+  defer>
 </script>`;
 
     // Get current theme.liquid

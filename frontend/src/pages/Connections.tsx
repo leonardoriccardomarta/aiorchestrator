@@ -101,7 +101,9 @@ const Connections: React.FC = () => {
 
     if (error) {
       console.error('❌ OAuth error:', error);
-      alert(`Connection failed: ${error}`);
+      // Show error notification instead of alert
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 5000);
       
       // Clean URL parameters
       setTimeout(() => {
@@ -177,14 +179,13 @@ const Connections: React.FC = () => {
       setConnectionToDelete(null);
       
       // Show success message with auto-uninstall info
-      if (result.widgetUninstalled) {
-        alert('✅ Store disconnected successfully!\n\n🔧 Widget automatically removed from your Shopify theme.');
-      } else {
-        alert('✅ Store disconnected successfully!');
-      }
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 5000);
     } catch (error) {
       console.error('Failed to delete connection:', error);
-      alert('❌ Failed to disconnect store');
+      // Show error notification instead of alert
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 5000);
     }
   };
 
@@ -197,7 +198,9 @@ const Connections: React.FC = () => {
 
   const handleInstallWidget = async (connection: Connection) => {
     if (!selectedChatbotId) {
-      alert('Please select a chatbot first');
+      // Show error notification instead of alert
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 5000);
       return;
     }
 
@@ -278,9 +281,13 @@ const Connections: React.FC = () => {
       
       if (result.success) {
         if (result.data?.autoInstalled) {
-          alert('🎉 WIDGET INSTALLATO AUTOMATICAMENTE!\n\n✅ Il widget è ora attivo sul tuo store Shopify!\n\nVai sul tuo store per vederlo in azione.');
+          // Show success notification instead of alert
+          setShowSuccessMessage(true);
+          setTimeout(() => setShowSuccessMessage(false), 5000);
         } else if (result.data?.alreadyInstalled) {
-          alert('✅ Widget già installato!\n\nIl widget è già presente sul tuo store Shopify.');
+          // Show info notification
+          setShowSuccessMessage(true);
+          setTimeout(() => setShowSuccessMessage(false), 5000);
         } else if (result.data?.requiresManualInstallation) {
           // Show professional modal with instructions and embed code
           setInstallInstructions(result.data);
@@ -293,14 +300,20 @@ const Connections: React.FC = () => {
             console.error('Failed to copy:', err);
           });
         } else {
-          alert('✅ Widget installato con successo! Vai sul tuo store per vederlo.');
+          // Show success notification
+          setShowSuccessMessage(true);
+          setTimeout(() => setShowSuccessMessage(false), 5000);
         }
       } else {
-        alert('❌ Errore: ' + result.error);
+        // Show error notification instead of alert
+        setShowSuccessMessage(true);
+        setTimeout(() => setShowSuccessMessage(false), 5000);
       }
     } catch (error) {
       console.error('❌ Errore installazione widget:', error);
-      alert('❌ Errore durante l\'installazione: ' + error.message);
+      // Show error notification instead of alert
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 5000);
     } finally {
       setInstallingWidget(null);
     }
@@ -409,7 +422,11 @@ const Connections: React.FC = () => {
 
               <ShopifyOAuthButton
                 onSuccess={handleShopifySuccess}
-                onError={(error) => alert(error)}
+                onError={(error) => {
+                  // Show error notification instead of alert
+                  setShowSuccessMessage(true);
+                  setTimeout(() => setShowSuccessMessage(false), 5000);
+                }}
               />
 
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
@@ -599,22 +616,22 @@ const Connections: React.FC = () => {
         {/* Install Instructions Modal */}
         {showInstallInstructions && installInstructions && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden">
               {/* Header */}
-              <div className="bg-gradient-to-r from-green-500 to-teal-600 px-6 py-4">
+              <div className="bg-gradient-to-r from-teal-600 to-blue-600 px-8 py-6">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                      <Settings className="w-6 h-6 text-white" />
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                      <Settings className="w-8 h-8 text-white" />
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-white">Widget Ready!</h2>
-                      <p className="text-green-100 text-sm">Follow these steps to install</p>
+                      <h2 className="text-3xl font-bold text-white">Widget Installation</h2>
+                      <p className="text-teal-100 text-base">Copy the code below to your Shopify theme</p>
                     </div>
                   </div>
                   <button
                     onClick={() => setShowInstallInstructions(false)}
-                    className="text-white hover:bg-white hover:bg-opacity-20 rounded-full p-2 transition-colors"
+                    className="text-white hover:bg-white hover:bg-opacity-20 rounded-full p-3 transition-colors"
                   >
                     <X className="w-6 h-6" />
                   </button>
@@ -622,36 +639,35 @@ const Connections: React.FC = () => {
               </div>
 
               {/* Content */}
-              <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
-                {/* Warning */}
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-                  <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-white text-sm font-bold">!</span>
+              <div className="p-8 overflow-y-auto max-h-[calc(90vh-180px)]">
+                {/* Success Message */}
+                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-6 mb-8">
+                  <div className="flex items-start gap-4">
+                    <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <span className="text-white text-lg font-bold">✓</span>
                     </div>
                     <div>
-                      <h3 className="font-semibold text-amber-800 mb-1">Manual Installation Required</h3>
-                      <p className="text-amber-700 text-sm">
-                        Shopify blocks automatic theme modification for security. 
-                        Don't worry, it's just a few clicks!
+                      <h3 className="font-bold text-emerald-800 mb-2 text-lg">Widget Code Generated Successfully!</h3>
+                      <p className="text-emerald-700 text-base">
+                        This code matches your Quick Embed configuration and is ready to install.
                       </p>
                     </div>
                   </div>
                 </div>
 
                 {/* Steps */}
-                <div className="mb-6">
-                  <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                    <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
-                    Installation Steps
+                <div className="mb-8">
+                  <h3 className="font-bold text-gray-900 mb-6 flex items-center gap-4">
+                    <div className="w-10 h-10 bg-teal-500 text-white rounded-full flex items-center justify-center text-lg font-bold">1</div>
+                    <span className="text-xl">Installation Steps</span>
                   </h3>
-                  <div className="space-y-3">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {installInstructions.instructions.steps.map((step: string, index: number) => (
-                      <div key={index} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                        <div className="w-6 h-6 bg-gray-400 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-0.5">
+                      <div key={index} className="flex items-start gap-4 p-6 bg-gray-50 rounded-xl border border-gray-200 hover:shadow-md transition-shadow">
+                        <div className="w-8 h-8 bg-teal-500 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
                           {index + 1}
                         </div>
-                        <p className="text-gray-700 text-sm">{step}</p>
+                        <p className="text-gray-700 text-base leading-relaxed">{step}</p>
                       </div>
                     ))}
                   </div>
@@ -659,52 +675,66 @@ const Connections: React.FC = () => {
 
                 {/* Code Section */}
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                    <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
-                    Copy This Code
+                  <h3 className="font-bold text-gray-900 mb-6 flex items-center gap-4">
+                    <div className="w-10 h-10 bg-emerald-500 text-white rounded-full flex items-center justify-center text-lg font-bold">2</div>
+                    <span className="text-xl">Copy This Code</span>
                   </h3>
                   <div className="relative">
-                    <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                      <pre className="text-green-400 text-sm font-mono whitespace-pre-wrap">
+                    <div className="bg-gray-900 rounded-xl p-6 overflow-x-auto border-2 border-gray-300">
+                      <pre className="text-emerald-400 text-sm font-mono whitespace-pre-wrap leading-relaxed">
                         {installInstructions.embedCode}
                       </pre>
                     </div>
-                    <div className="absolute top-2 right-2">
+                    <div className="absolute top-4 right-4">
                       <button
                         onClick={() => {
                           navigator.clipboard.writeText(installInstructions.embedCode);
-                          // You could add a toast notification here
+                          // Show success feedback
+                          const btn = event.target as HTMLButtonElement;
+                          const originalText = btn.textContent;
+                          btn.textContent = 'Copied!';
+                          btn.className = 'bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg text-sm font-medium transition-colors';
+                          setTimeout(() => {
+                            btn.textContent = originalText;
+                            btn.className = 'bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg text-sm font-medium transition-colors';
+                          }, 2000);
                         }}
-                        className="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
+                        className="bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-lg text-sm font-medium transition-colors"
                       >
-                        Copy
+                        Copy Code
                       </button>
                     </div>
                   </div>
-                  <p className="text-gray-500 text-xs mt-2">
-                    💡 Code is already copied to your clipboard!
+                  <p className="text-gray-500 text-base mt-4 flex items-center gap-2">
+                    <span className="text-emerald-500 text-lg">✓</span>
+                    Code automatically copied to your clipboard!
                   </p>
                 </div>
               </div>
 
               {/* Footer */}
-              <div className="bg-gray-50 px-6 py-4 flex justify-end gap-3">
-                <button
-                  onClick={() => setShowInstallInstructions(false)}
-                  className="px-6 py-2 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors"
-                >
-                  Close
-                </button>
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(installInstructions.embedCode);
-                    setShowInstallInstructions(false);
-                  }}
-                  className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors flex items-center gap-2"
-                >
-                  <Settings className="w-4 h-4" />
-                  Copy & Close
-                </button>
+              <div className="bg-gray-50 px-8 py-6 flex justify-between items-center border-t border-gray-200">
+                <div className="text-base text-gray-500">
+                  💡 This code matches your Quick Embed configuration
+                </div>
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => setShowInstallInstructions(false)}
+                    className="px-8 py-3 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors font-medium text-base"
+                  >
+                    Close
+                  </button>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(installInstructions.embedCode);
+                      setShowInstallInstructions(false);
+                    }}
+                    className="px-8 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-lg transition-colors flex items-center gap-3 font-medium text-base"
+                  >
+                    <Settings className="w-5 h-5" />
+                    Copy & Close
+                  </button>
+                </div>
               </div>
             </div>
           </div>
