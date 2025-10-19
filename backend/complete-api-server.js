@@ -75,7 +75,7 @@ const UniversalEmbedService = require('./src/services/universalEmbedService');
 const ShopifyCartService = require('./src/services/shopifyCartService');
 const StripePaymentService = require('./src/services/stripePaymentService');
 const PersonalizationService = require('./src/services/personalizationService');
-const { canCreateConnection, canCreateChatbot, canSendMessage, getPlan } = require('./config/plans');
+const { canCreateConnection, canCreateChatbot, canSendMessage, getPlan, hasFeature } = require('./config/plans');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -3902,13 +3902,15 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
       }
     });
     
-    // Get personalized greeting (if first message in session)
-    const personalizedGreeting = context.isFirstMessage 
+    // Get personalized greeting (if first message in session) - Professional+
+    const personalizedGreeting = (hasFeature(userPlanId, 'mlPersonalization') && context.isFirstMessage)
       ? personalizationService.getPersonalizedGreeting(userId)
       : null;
       
-    // Get personalized discount offer
-    const personalizedDiscount = personalizationService.getPersonalizedDiscount(userId);
+    // Get personalized discount offer - Professional+
+    const personalizedDiscount = hasFeature(userPlanId, 'mlPersonalization')
+      ? personalizationService.getPersonalizedDiscount(userId)
+      : null;
     
     // ML Analysis: Analyze message with full ML pipeline
     console.log('🧠 Running ML analysis...');
@@ -3935,8 +3937,8 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
       } else if (intent === 'product_search') {
         shopifyEnhancements = await shopifyEnhancedService.getProductRecommendations(shop, accessToken, message, context);
         
-        // Apply ML-based personalization to recommendations
-        if (shopifyEnhancements?.recommendations) {
+        // Apply ML-based personalization to recommendations (Professional+)
+        if (hasFeature(userPlanId, 'mlPersonalization') && shopifyEnhancements?.recommendations) {
           const personalizedRecs = personalizationService.getPersonalizedRecommendations(
             userId,
             shopifyEnhancements.recommendations
@@ -3965,8 +3967,8 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
       
       // ============ NEW E-COMMERCE FEATURES ============
       
-      // 🛒 ADD TO CART
-      if (intent === 'add_to_cart' || message.toLowerCase().includes('add to cart') || message.toLowerCase().includes('buy this')) {
+      // 🛒 ADD TO CART (Professional+)
+      if (hasFeature(userPlanId, 'addToCart') && (intent === 'add_to_cart' || message.toLowerCase().includes('add to cart') || message.toLowerCase().includes('buy this'))) {
         console.log('🛒 Add to cart intent detected');
         
         // Extract product ID from context or message
@@ -3985,18 +3987,26 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
           shopifyEnhancements = shopifyEnhancements || {};
           shopifyEnhancements.cartAction = cartResult;
         }
+      } else if (!hasFeature(userPlanId, 'addToCart') && (message.toLowerCase().includes('add to cart') || message.toLowerCase().includes('buy this'))) {
+        // User tried to use feature but doesn't have access
+        shopifyEnhancements = shopifyEnhancements || {};
+        shopifyEnhancements.upgradeMessage = {
+          feature: 'Add to Cart',
+          requiredPlan: 'Professional',
+          message: '🔒 Add to Cart is available on Professional plan and above. Upgrade to unlock this feature!'
+        };
       }
       
-      // 💳 CHECKOUT ASSISTANCE
-      if (intent === 'checkout' || message.toLowerCase().includes('checkout') || message.toLowerCase().includes('how to buy')) {
+      // 💳 CHECKOUT ASSISTANCE (Professional+)
+      if (hasFeature(userPlanId, 'checkoutAssistance') && (intent === 'checkout' || message.toLowerCase().includes('checkout') || message.toLowerCase().includes('how to buy'))) {
         console.log('💳 Checkout assistance requested');
         const checkoutGuidance = await shopifyCartService.getCheckoutGuidance(shop);
         shopifyEnhancements = shopifyEnhancements || {};
         shopifyEnhancements.checkoutGuidance = checkoutGuidance.guidance;
       }
       
-      // 🎯 AI UPSELLING / CROSS-SELLING
-      if (shopifyEnhancements?.recommendations?.[0]) {
+      // 🎯 AI UPSELLING / CROSS-SELLING (Enterprise)
+      if (hasFeature(userPlanId, 'aiUpselling') && shopifyEnhancements?.recommendations?.[0]) {
         console.log('🎯 Getting upsell recommendations');
         const currentProduct = shopifyEnhancements.recommendations[0];
         const upsellResult = await shopifyCartService.getUpsellRecommendations(
@@ -4011,14 +4021,14 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
         }
       }
       
-      // 🛒 ABANDONED CART RECOVERY
-      if (context.cartData && context.cartData.items?.length > 0) {
+      // 🛒 ABANDONED CART RECOVERY (Enterprise)
+      if (hasFeature(userPlanId, 'abandonedCartRecovery') && context.cartData && context.cartData.items?.length > 0) {
         console.log('📊 Tracking cart for abandoned cart recovery');
         await shopifyCartService.trackAbandonedCart(context.userId || user.id, context.cartData);
       }
       
-      // 💰 STRIPE PAYMENT INTEGRATION
-      if (message.toLowerCase().includes('pay now') || message.toLowerCase().includes('buy now') || intent === 'payment') {
+      // 💰 STRIPE PAYMENT INTEGRATION (Enterprise)
+      if (hasFeature(userPlanId, 'stripePayments') && (message.toLowerCase().includes('pay now') || message.toLowerCase().includes('buy now') || intent === 'payment')) {
         console.log('💳 Payment intent detected');
         
         if (shopifyEnhancements?.recommendations?.[0]) {
@@ -4041,6 +4051,14 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
             shopifyEnhancements.payment = paymentResult;
           }
         }
+      } else if (!hasFeature(userPlanId, 'stripePayments') && (message.toLowerCase().includes('pay now') || message.toLowerCase().includes('buy now'))) {
+        // User tried to use Stripe but doesn't have access
+        shopifyEnhancements = shopifyEnhancements || {};
+        shopifyEnhancements.upgradeMessage = {
+          feature: 'Stripe In-Chat Payments',
+          requiredPlan: 'Enterprise',
+          message: '🔒 Stripe Payments are available on Enterprise plan. Upgrade to accept payments directly in chat!'
+        };
       }
     }
     
