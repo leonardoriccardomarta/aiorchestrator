@@ -4296,7 +4296,7 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
 Your goal is to demonstrate the platform's capabilities by being helpful, multilingual, and intelligent.
 Be friendly, professional, and highlight features like: multi-language support, ML analytics, e-commerce integration, and automation.
 Keep responses concise (2-3 sentences) and engaging.`;
-    } else if (context.connectionType === 'shopify' && context.shopifyConnection) {
+    } else if (context.connectionType === 'shopify' || (context.websiteUrl && context.websiteUrl.includes('.myshopify.com'))) {
       // SHOPIFY STORE ASSISTANT
       systemPrompt += `You are an AI shopping assistant for this Shopify store.
 Your role is to help customers find products, track orders, and complete purchases.
@@ -4368,6 +4368,7 @@ Keep responses concise (2-3 sentences) and engaging.`;
     const responseTime = Date.now() - startTime;
     
     // Store conversation in real data service with ML insights
+    console.log('💾 Storing conversation for user:', user.id);
     const conversation = await realDataService.addConversation(user.id, {
       message,
       response: response.response || response,
@@ -4379,6 +4380,7 @@ Keep responses concise (2-3 sentences) and engaging.`;
       intent: mlAnalysis.intent,
       anomaly: mlAnalysis.anomaly
     });
+    console.log('✅ Conversation stored:', conversation ? 'success' : 'failed');
     
     // Update user stats
     realDataService.updateUserStats(user.id, {

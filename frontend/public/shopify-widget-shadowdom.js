@@ -214,9 +214,12 @@
     const theme = themeColors[config.theme] || themeColors.teal;
     const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
     
-    // Get Shopify access token for enhanced features
-    const shopifyAccessToken = await getShopifyAccessToken(config.chatbotId, config.apiKey);
-    console.log('🔑 Shopify access token:', shopifyAccessToken ? 'found ✅' : 'not found (widget will work without Shopify features)');
+  // Get Shopify access token for enhanced features
+  const shopifyAccessToken = await getShopifyAccessToken(config.chatbotId, config.apiKey);
+  console.log('🔑 Shopify access token:', shopifyAccessToken ? 'found ✅' : 'not found (widget will work without Shopify features)');
+  console.log('🔍 Debug - shopifyAccessToken:', shopifyAccessToken);
+  console.log('🔍 Debug - shop domain:', window.location.hostname);
+  console.log('🔍 Debug - chatbotId:', config.chatbotId);
 
     // Create container for shadow DOM
     const shadowHost = document.createElement('div');
