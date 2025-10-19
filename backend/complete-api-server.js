@@ -4298,7 +4298,7 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
     }
     
     // BUSINESS CONTEXT
-    if (user.id === 'demo-user' || context.websiteUrl === 'null' || context.websiteUrl === 'file://') {
+    if (user.id === 'demo-user' && (context.websiteUrl === 'null' || context.websiteUrl === 'file://' || !context.connectionType)) {
       systemPrompt += `You are an AI assistant showcasing an advanced AI Chatbot Platform.
 Your goal is to demonstrate the platform's capabilities by being helpful, multilingual, and intelligent.
 Be friendly, professional, and highlight features like: multi-language support, ML analytics, e-commerce integration, and automation.
