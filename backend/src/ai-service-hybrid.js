@@ -139,7 +139,8 @@ class HybridAIService {
     }
 
     try {
-      const systemPrompt = this.buildSystemPrompt(context);
+      // Use provided systemPrompt if available, otherwise build default
+      const systemPrompt = context.systemPrompt || this.buildSystemPrompt(context);
       
       const response = await axios.post(
         `${this.groqBaseUrl}/chat/completions`,
@@ -175,7 +176,8 @@ class HybridAIService {
     }
 
     try {
-      const systemPrompt = this.buildSystemPrompt(context);
+      // Use provided systemPrompt if available, otherwise build default
+      const systemPrompt = context.systemPrompt || this.buildSystemPrompt(context);
       
       const response = await axios.post(
         `${this.openaiBaseUrl}/chat/completions`,
