@@ -47,7 +47,7 @@ class ShopifyEnhancedService {
         return {
           success: true,
           recommendations: [],
-          message: "I couldn't find specific products matching your query. Let me show you our popular items!"
+          message: null // AI will generate message in correct language
         };
       }
       
@@ -57,6 +57,7 @@ class ShopifyEnhancedService {
       // Format recommendations
       const recommendations = rankedProducts.slice(0, 5).map(product => ({
         id: product.id,
+        variantId: product.variants?.[0]?.id || product.id, // First variant ID for Add to Cart
         title: product.title,
         description: product.body_html?.replace(/<[^>]*>/g, '').substring(0, 150) || '',
         price: product.variants[0]?.price || 'N/A',
@@ -69,14 +70,15 @@ class ShopifyEnhancedService {
       return {
         success: true,
         recommendations,
-        message: this.generateRecommendationMessage(recommendations, query)
+        // Don't generate message here - let AI generate it in correct language
+        message: null
       };
     } catch (error) {
       console.error('❌ Product recommendations error:', error.message);
       return {
         success: false,
         recommendations: [],
-        message: "I'm having trouble accessing product information right now."
+        message: null // AI will handle error message in correct language
       };
     }
   }
