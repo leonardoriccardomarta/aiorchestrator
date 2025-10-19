@@ -31,13 +31,17 @@ class ShopifyEnhancedService {
   async getProductRecommendations(shop, accessToken, query, context = {}) {
     try {
       console.log('🎯 Getting product recommendations for:', query);
+      console.log('📦 Shopify shop:', shop);
+      console.log('🔑 Access token:', accessToken ? `${accessToken.substring(0, 10)}...` : 'MISSING');
       
       // Extract keywords from query
       const keywords = this.extractKeywords(query);
       console.log('🔍 Extracted keywords:', keywords);
       
       // Search products based on keywords
+      console.log('🔍 Calling Shopify API...');
       const products = await this.searchProducts(shop, accessToken, keywords);
+      console.log('✅ Shopify API returned', products?.length || 0, 'products');
       
       if (!products || products.length === 0) {
         return {
