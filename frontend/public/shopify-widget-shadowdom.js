@@ -126,21 +126,39 @@
   // Global function for Add to Cart (called from product cards)
   window.addToCartFromChat = async function(productId, variantId) {
     try {
-      console.log('🛒 Adding to cart from chat:', productId, variantId);
+      console.log('🛒 Adding to cart from chat - productId:', productId, 'variantId:', variantId);
+      console.log('🔍 variantId type:', typeof variantId, 'value:', variantId);
+      
+      // Shopify Ajax API requires variant ID as number or string
+      // Try to parse as integer if it's a string number
+      const variantIdToUse = typeof variantId === 'string' && !isNaN(variantId) 
+        ? parseInt(variantId, 10) 
+        : variantId;
+      
+      console.log('🔍 Using variantId:', variantIdToUse, 'type:', typeof variantIdToUse);
+      
+      const payload = {
+        id: variantIdToUse,
+        quantity: 1,
+        properties: {
+          '_chatbot_recommendation': 'true',
+          '_recommended_at': new Date().toISOString()
+        }
+      };
+      
+      console.log('📦 Sending to Shopify:', JSON.stringify(payload));
       
       // Use Shopify Ajax API to add to cart
       const response = await fetch('/cart/add.js', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id: variantId,
-          quantity: 1,
-          properties: {
-            '_chatbot_recommendation': 'true',
-            '_recommended_at': new Date().toISOString()
-          }
-        })
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
       });
+      
+      console.log('📊 Response status:', response.status);
       
       if (response.ok) {
         const data = await response.json();
@@ -150,14 +168,20 @@
         fetch('/cart.js')
           .then(r => r.json())
           .then(cart => {
-            const cartCount = document.querySelector('.cart-count');
-            if (cartCount) cartCount.textContent = cart.item_count;
+            console.log('🛒 Current cart:', cart);
+            const cartCount = document.querySelector('.cart-count, [data-cart-count], .cart__count');
+            if (cartCount) {
+              cartCount.textContent = cart.item_count;
+              console.log('✅ Cart count updated:', cart.item_count);
+            }
             
             // Show success message in chat
             alert('✅ Product added to cart!');
           });
       } else {
-        console.error('❌ Failed to add to cart');
+        const errorData = await response.text();
+        console.error('❌ Failed to add to cart - Status:', response.status);
+        console.error('❌ Error response:', errorData);
         alert('❌ Sorry, couldn\'t add to cart. Please try again.');
       }
     } catch (error) {
