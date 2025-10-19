@@ -130,7 +130,7 @@ class ShopifyEnhancedService {
       if (!order) {
         return {
           success: false,
-          message: `I couldn't find an order matching "${orderIdentifier}". Please check the order number or email and try again.`
+          message: null // AI will generate error message in correct language
         };
       }
       
@@ -158,13 +158,13 @@ class ShopifyEnhancedService {
       return {
         success: true,
         order: orderInfo,
-        message: this.generateOrderStatusMessage(orderInfo)
+        message: null // AI will generate order status message in correct language
       };
     } catch (error) {
       console.error('❌ Order tracking error:', error.message);
       return {
         success: false,
-        message: "I'm having trouble accessing order information right now. Please try again later."
+        message: null // AI will handle error in correct language
       };
     }
   }
@@ -188,7 +188,7 @@ class ShopifyEnhancedService {
       if (!products || products.length === 0) {
         return {
           success: false,
-          message: `I couldn't find a product named "${productQuery}". Could you try a different name or be more specific?`
+          message: null // AI will generate "not found" message in correct language
         };
       }
       
@@ -215,13 +215,13 @@ class ShopifyEnhancedService {
           url: `https://${shop}/products/${product.handle}`
         },
         inventory,
-        message: this.generateInventoryMessage(product, inventory)
+        message: null // AI will generate inventory message in correct language
       };
     } catch (error) {
       console.error('❌ Inventory check error:', error.message);
       return {
         success: false,
-        message: "I'm having trouble checking inventory right now. Please try again later."
+        message: null // AI will handle error in correct language
       };
     }
   }
@@ -246,7 +246,7 @@ class ShopifyEnhancedService {
         return {
           success: false,
           isNewCustomer: true,
-          message: "Welcome! It looks like you're new here. How can I help you today?"
+          message: null // AI will welcome new customer in correct language
         };
       }
       
@@ -299,14 +299,14 @@ class ShopifyEnhancedService {
           status: this.formatOrderStatus(order.fulfillment_status, order.financial_status)
         })),
         favoriteProducts,
-        message: this.generateWelcomeBackMessage(customer, totalOrders, totalSpent)
+        message: null // AI will generate welcome back message in correct language
       };
     } catch (error) {
       console.error('❌ Customer history error:', error.message);
       return {
         success: false,
         isNewCustomer: true,
-        message: "Welcome! How can I help you today?"
+        message: null // AI will handle error in correct language
       };
     }
   }

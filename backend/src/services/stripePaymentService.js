@@ -78,8 +78,9 @@ class StripePaymentService {
           url: paymentLink.url,
           active: paymentLink.active
         },
-        message: `💳 Ready to purchase! Click the button below to complete payment securely via Stripe.`,
-        button: this.generatePaymentButton(paymentLink.url, productData)
+        message: null, // AI will generate payment message in correct language
+        paymentUrl: paymentLink.url,
+        hasPaymentButton: true
       };
     } catch (error) {
       console.error('❌ Create payment link error:', error.message);
@@ -160,8 +161,8 @@ class StripePaymentService {
         success: true,
         sessionId: session.id,
         checkoutUrl: session.url,
-        message: '💳 Checkout ready! Click below to complete your purchase.',
-        button: this.generateCheckoutButton(session.url)
+        message: null, // AI will generate checkout message in correct language
+        hasCheckoutButton: true
       };
     } catch (error) {
       console.error('❌ Create checkout session error:', error.message);
@@ -231,7 +232,7 @@ class StripePaymentService {
         
         default:
           console.log('Unhandled event type:', event.type);
-          return { success: true, message: 'Event received' };
+          return { success: true };
       }
     } catch (error) {
       console.error('❌ Webhook handling error:', error.message);
@@ -255,8 +256,7 @@ class StripePaymentService {
       success: true,
       sessionId: session.id,
       customerEmail: session.customer_details?.email,
-      amountTotal: session.amount_total / 100,
-      message: 'Payment successful!'
+      amountTotal: session.amount_total / 100
     };
   }
 
@@ -269,8 +269,7 @@ class StripePaymentService {
     return {
       success: true,
       paymentIntentId: paymentIntent.id,
-      amount: paymentIntent.amount / 100,
-      message: 'Payment processed successfully!'
+      amount: paymentIntent.amount / 100
     };
   }
 
@@ -283,8 +282,7 @@ class StripePaymentService {
     return {
       success: false,
       paymentIntentId: paymentIntent.id,
-      error: paymentIntent.last_payment_error?.message || 'Payment failed',
-      message: 'Payment failed. Please try again.'
+      error: paymentIntent.last_payment_error?.message || 'Payment failed'
     };
   }
 

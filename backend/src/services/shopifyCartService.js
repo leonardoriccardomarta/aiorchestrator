@@ -30,7 +30,8 @@ class ShopifyCartService {
           }
         },
         cartScript: this.generateAddToCartScript(variantId, quantity),
-        message: `✅ Added to cart! <a href="https://${shop}/cart" target="_blank" style="color: #0ea5e9; font-weight: 600;">View Cart →</a>`
+        message: null, // AI will generate confirmation in correct language
+        cartUrl: `https://${shop}/cart`
       };
     } catch (error) {
       console.error('❌ Add to cart error:', error.message);
@@ -110,8 +111,8 @@ class ShopifyCartService {
             }
           ],
           checkoutUrl: `https://${shop}/checkout`,
-          message: 'Ready to checkout? I can help you through each step!',
-          quickCheckout: `<a href="https://${shop}/checkout" target="_blank" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin-top: 12px;">🚀 Proceed to Checkout</a>`
+          message: null, // AI will generate checkout message in correct language
+          quickCheckoutButton: true // Widget will render button
         }
       };
     } catch (error) {
@@ -147,7 +148,7 @@ class ShopifyCartService {
 
       return {
         success: true,
-        message: 'Cart tracked for recovery'
+        message: null // Silent tracking, no message needed
       };
     } catch (error) {
       console.error('❌ Track abandoned cart error:', error.message);
@@ -173,12 +174,13 @@ class ShopifyCartService {
 
     return {
       success: true,
-      message: `🛒 Hey! You left ${itemsCount} item(s) in your cart (Total: $${total}). Still interested? I can help you complete your purchase!`,
+      message: null, // AI will generate recovery message in correct language
+      itemsCount,
+      total,
       discount: {
         code: 'COMEBACK10',
         value: 10,
-        type: 'percentage',
-        message: '💝 Special offer: Use code <strong>COMEBACK10</strong> for 10% off!'
+        type: 'percentage'
       },
       cartUrl: cart.cartData.checkoutUrl || '/cart'
     };
@@ -249,9 +251,7 @@ class ShopifyCartService {
           reason: item.reason,
           badge: item.priceIncrease > 0 ? '⭐ Upgrade' : '🔄 Alternative'
         })),
-        message: upsells.length > 0 
-          ? 'Customers who bought this also loved:' 
-          : 'Great choice! This is one of our best products.'
+        message: null // AI will generate upsell message in correct language
       };
     } catch (error) {
       console.error('❌ Upsell recommendations error:', error.message);
