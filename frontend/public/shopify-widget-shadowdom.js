@@ -544,40 +544,69 @@
           transform: rotate(45deg);
         }
         
-        /* 📱 MOBILE RESPONSIVE */
+        /* 📱 MOBILE RESPONSIVE - Migliora leggibilità ma mantiene floating design */
         @media (max-width: 768px) {
-          /* Toggle button più accessibile su mobile */
+          /* Toggle button leggermente più grande */
           .toggle-button {
-            bottom: 16px;
-            right: 16px;
-            width: 56px;
-            height: 56px;
+            width: 58px;
+            height: 58px;
+            bottom: 20px;
+            right: 20px;
           }
           
-          /* Chat widget full-width su mobile */
+          /* Chat widget - mantiene floating ma ottimizzato */
           .chat-widget {
-            bottom: 0;
-            right: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            max-height: 100vh;
-            border-radius: 0;
+            bottom: 90px;
+            right: 12px;
+            width: calc(100% - 24px);
+            max-width: 380px;
+            height: 500px;
+            max-height: calc(100vh - 120px);
           }
           
-          /* Quando collassato su mobile */
-          .chat-widget.collapsed {
-            height: 60px !important;
+          /* Font più leggibili su mobile */
+          .message {
+            font-size: 15px !important;
+            line-height: 1.5 !important;
+          }
+          
+          .message-time {
+            font-size: 11px !important;
+          }
+          
+          input {
+            font-size: 16px !important; /* Previene zoom su iOS */
+            padding: 12px 16px !important;
+          }
+          
+          button {
+            min-height: 44px !important; /* iOS touch target size */
+            font-size: 15px !important;
+          }
+          
+          /* Header più leggibile */
+          .chat-header h3 {
+            font-size: 16px !important;
+          }
+          
+          .chat-header p {
+            font-size: 13px !important;
           }
         }
         
         /* 📱 MOBILE SMALL (iPhone SE, etc.) */
         @media (max-width: 390px) {
           .toggle-button {
-            width: 50px;
-            height: 50px;
-            bottom: 12px;
-            right: 12px;
+            width: 54px;
+            height: 54px;
+            bottom: 16px;
+            right: 16px;
+          }
+          
+          .chat-widget {
+            width: calc(100% - 16px);
+            right: 8px;
+            bottom: 80px;
           }
         }
       </style>

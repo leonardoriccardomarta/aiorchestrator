@@ -140,42 +140,66 @@
           display: none !important;
         }
         
-        /* 📱 MOBILE RESPONSIVE */
-        @media (max-width: 768px) {
-          /* Toggle button più accessibile su mobile */
-          .toggle-button {
-            bottom: 16px;
-            right: 16px;
-            width: 56px;
-            height: 56px;
-          }
-          
-          /* Chat widget full-width su mobile */
-          #${widgetId} .chat-widget {
-            bottom: 0;
-            right: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            max-height: 100vh;
-            border-radius: 0;
-          }
-          
-          /* Quando collassato su mobile */
-          #${widgetId} .chat-widget.collapsed {
-            height: 60px !important;
-          }
+      /* 📱 MOBILE RESPONSIVE - Migliora leggibilità ma mantiene floating design */
+      @media (max-width: 768px) {
+        /* Toggle button leggermente più grande */
+        .toggle-button {
+          width: 58px;
+          height: 58px;
+          bottom: 20px;
+          right: 20px;
         }
         
-        /* 📱 MOBILE SMALL (iPhone SE, etc.) */
-        @media (max-width: 390px) {
-          .toggle-button {
-            width: 50px;
-            height: 50px;
-            bottom: 12px;
-            right: 12px;
-          }
+        /* Chat widget - mantiene floating ma ottimizzato */
+        #${widgetId} .chat-widget {
+          bottom: 90px;
+          right: 12px;
+          width: calc(100% - 24px);
+          max-width: 380px;
+          height: 500px;
+          max-height: calc(100vh - 120px);
         }
+        
+        /* Font più leggibili su mobile */
+        #${widgetId} .text-sm {
+          font-size: 15px !important;
+          line-height: 1.5 !important;
+        }
+        
+        #${widgetId} .text-xs {
+          font-size: 12px !important;
+        }
+        
+        #${widgetId} input {
+          font-size: 16px !important; /* Previene zoom su iOS */
+          padding: 12px 16px !important;
+        }
+        
+        #${widgetId} button {
+          min-height: 44px !important; /* iOS touch target size */
+        }
+        
+        /* Header più leggibile */
+        #${widgetId} .font-bold {
+          font-size: 16px !important;
+        }
+      }
+      
+      /* 📱 MOBILE SMALL (iPhone SE, etc.) */
+      @media (max-width: 390px) {
+        .toggle-button {
+          width: 54px;
+          height: 54px;
+          bottom: 16px;
+          right: 16px;
+        }
+        
+        #${widgetId} .chat-widget {
+          width: calc(100% - 16px);
+          right: 8px;
+          bottom: 80px;
+        }
+      }
       </style>
 
       <div id="${widgetId}">
