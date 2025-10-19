@@ -103,7 +103,7 @@ const Implementation: React.FC = () => {
       const code = `<!-- AI Orchestrator Chatbot Widget -->
 <script 
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
-  data-chatbot-id="${config.chatbotId}"
+  data-ai-orchestrator-id="${config.chatbotId}"
   data-api-key="${config.apiKey}"
   data-theme="${config.theme}"
   data-title="${config.title}"
@@ -111,7 +111,7 @@ const Implementation: React.FC = () => {
   data-show-avatar="${config.showAvatar}"
   data-welcome-message="${config.welcomeMessage}"
   data-primary-language="${config.primaryLanguage}"
-  data-auto-open="true"
+  data-auto-open="false"
   defer>
 </script>`;
       

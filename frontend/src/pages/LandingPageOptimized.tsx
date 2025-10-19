@@ -137,7 +137,7 @@ const LandingPageOptimized: React.FC = () => {
         id: 'professional', 
         name: 'Professional Plan',
         price: 99,
-        features: ['2 AI Chatbots', '25,000 messages/month', '2 Websites', '50+ Languages', 'Priority Support', 'Advanced Analytics', 'Custom Branding']
+        features: ['2 AI Chatbots', '25,000 messages/month', '2 Websites', '50+ Languages', 'Priority Support', 'Advanced Analytics', 'Custom Branding', '🛒 Add to Cart', '🎯 ML Personalization']
       },
       enterprise: {
         id: 'enterprise',

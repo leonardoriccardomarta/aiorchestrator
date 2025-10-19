@@ -284,7 +284,7 @@ const Pricing: React.FC = () => {
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
-                  <span>Advanced Analytics</span>
+                  <span>Advanced Analytics & ML Insights</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
@@ -301,6 +301,14 @@ const Pricing: React.FC = () => {
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
                   <span>25,000 messages/month</span>
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-green-600 mr-3" />
+                  <span>🛒 Add to Cart & Checkout Assistance</span>
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-green-600 mr-3" />
+                  <span>🎯 ML Personalization (5 segments)</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
@@ -346,7 +354,7 @@ const Pricing: React.FC = () => {
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
-                  <span>Enterprise Analytics</span>
+                  <span>Enterprise Analytics & ML</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
@@ -358,7 +366,19 @@ const Pricing: React.FC = () => {
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
-                  <span>All Store Connections</span>
+                  <span>💳 Stripe In-Chat Payments</span>
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-green-600 mr-3" />
+                  <span>🎯 AI Upselling & Cross-selling</span>
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-green-600 mr-3" />
+                  <span>🛒 Abandoned Cart Recovery</span>
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 text-green-600 mr-3" />
+                  <span>🤖 Full ML Personalization Suite</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
