@@ -1164,6 +1164,98 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
   }
 });
 
+// Uninstall widget from Shopify theme
+async function uninstallWidgetFromTheme(shopUrl, accessToken) {
+  try {
+    console.log(`🔧 Uninstalling widget from theme for shop: ${shopUrl}`);
+    
+    // Get active theme
+    const themeResponse = await fetch(`https://${shopUrl}/admin/api/2025-10/themes.json`, {
+      headers: {
+        'X-Shopify-Access-Token': accessToken,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (!themeResponse.ok) {
+      throw new Error(`Failed to fetch themes: ${themeResponse.status}`);
+    }
+    
+    const themes = await themeResponse.json();
+    const activeTheme = themes.themes.find(theme => theme.role === 'main');
+    
+    if (!activeTheme) {
+      throw new Error('No active theme found');
+    }
+    
+    // Get theme.liquid content
+    const apiVersion = '2025-10';
+    const getThemeResponse = await fetch(`https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json?asset[key]=layout/theme.liquid`, {
+      headers: {
+        'X-Shopify-Access-Token': accessToken,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (!getThemeResponse.ok) {
+      throw new Error(`Failed to fetch theme.liquid`);
+    }
+    
+    const themeData = await getThemeResponse.json();
+    let themeContent = themeData.asset.value;
+    
+    // Check if widget exists
+    if (!themeContent.includes('AI Orchestrator')) {
+      console.log('ℹ️ Widget not found in theme (already removed or never installed)');
+      return {
+        success: true,
+        alreadyRemoved: true,
+        message: 'Widget was not found in theme'
+      };
+    }
+    
+    // Remove widget code
+    const originalLength = themeContent.length;
+    themeContent = themeContent.replace(/<!-- AI Orchestrator.*?Widget -->[\s\S]*?shopify-widget-shadowdom\.js.*?<\/script>/g, '');
+    const removedChars = originalLength - themeContent.length;
+    
+    console.log(`♻️ Removing widget code (${removedChars} characters)...`);
+    
+    // Save updated theme.liquid
+    const saveThemeResponse = await fetch(`https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`, {
+      method: 'PUT',
+      headers: {
+        'X-Shopify-Access-Token': accessToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        asset: {
+          key: 'layout/theme.liquid',
+          value: themeContent
+        }
+      })
+    });
+    
+    if (saveThemeResponse.ok) {
+      console.log(`✅ Widget uninstalled successfully!`);
+      return {
+        success: true,
+        uninstalled: true,
+        message: 'Widget removed from theme successfully'
+      };
+    } else {
+      throw new Error(`Failed to save theme: ${saveThemeResponse.status}`);
+    }
+  } catch (error) {
+    console.error('❌ Error uninstalling widget:', error);
+    return {
+      success: false,
+      error: error.message,
+      message: 'Failed to auto-uninstall. Widget code may still be in theme.'
+    };
+  }
+}
+
 // Delete connection
 app.delete('/api/connections/:connectionId', authenticateToken, async (req, res) => {
   try {
@@ -1183,12 +1275,28 @@ app.delete('/api/connections/:connectionId', authenticateToken, async (req, res)
       });
     }
 
+    // 🔧 AUTO-UNINSTALL: Remove widget from Shopify theme if it's a Shopify connection
+    if ((connection.type === 'shopify' || connection.platform === 'shopify') && connection.apiKey) {
+      console.log(`🔧 Auto-uninstalling widget from Shopify theme...`);
+      const uninstallResult = await uninstallWidgetFromTheme(
+        connection.domain || connection.url || connection.shopId,
+        connection.apiKey
+      );
+      
+      if (uninstallResult.uninstalled) {
+        console.log(`✅ Widget auto-uninstalled from theme`);
+      } else {
+        console.warn(`⚠️ Widget uninstall failed (non-critical):`, uninstallResult.message);
+      }
+    }
+
     console.log(`✅ Deleting connection: ${connectionId}`);
     await realDataService.deleteConnection(userId, connectionId);
     
     res.json({
       success: true,
-      message: 'Connection deleted successfully'
+      message: 'Connection deleted successfully',
+      widgetUninstalled: (connection.type === 'shopify' || connection.platform === 'shopify')
     });
   } catch (error) {
     console.error('❌ Error deleting connection:', error);
@@ -2973,8 +3081,37 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
     const themeData = await getThemeResponse.json();
     themeContent = themeData.asset.value;
     
-    // Remove any existing widget code
+    // 💾 BACKUP: Save original theme content before modifying
+    const backupKey = `backup/theme_liquid_${Date.now()}.liquid`;
+    console.log(`💾 Creating backup: ${backupKey}`);
+    
+    try {
+      await fetch(`https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`, {
+        method: 'PUT',
+        headers: {
+          'X-Shopify-Access-Token': accessToken,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          asset: {
+            key: backupKey,
+            value: themeContent
+          }
+        })
+      });
+      console.log(`✅ Backup created successfully`);
+    } catch (backupError) {
+      console.warn(`⚠️ Backup failed (non-critical):`, backupError.message);
+      // Continue anyway - backup is safety measure, not critical
+    }
+    
+    // Remove any existing widget code (evita duplicati)
+    const originalLength = themeContent.length;
     themeContent = themeContent.replace(/<!-- AI Orchestrator Widget[\s\S]*?<\/script>/g, '');
+    
+    if (originalLength !== themeContent.length) {
+      console.log(`♻️ Removed existing widget code (${originalLength - themeContent.length} characters)`);
+    }
     
     // Add widget code before </body>
     if (themeContent.includes('</body>')) {
