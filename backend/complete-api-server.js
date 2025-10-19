@@ -4053,6 +4053,7 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
       shopifyConnection: context.shopifyConnection ? 'present' : 'null',
       primaryLanguage: context.primaryLanguage
     });
+    console.log(`🔍 Full context object:`, JSON.stringify(context, null, 2));
     
     // ============ PERSONALIZATION ============
     const sessionId = context.sessionId || `session_${user.id}_${Date.now()}`;
@@ -4363,6 +4364,8 @@ Keep responses concise (2-3 sentences) and engaging.`;
       language: primaryLanguage,
       systemPrompt
     };
+    
+    console.log(`🎯 Generated system prompt:`, systemPrompt);
     
     // Build AI request options
     const aiOptions = {
