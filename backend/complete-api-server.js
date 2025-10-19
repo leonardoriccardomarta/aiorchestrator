@@ -2940,7 +2940,7 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
       return str.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
     };
     
-        // Use shopify-widget-inline.js with config object for Shopify compatibility
+        // Use shopify-widget-shadowdom.js with config object for Shopify compatibility
         const directWidgetCode = `<!-- AI Orchestrator Widget -->
 <script>
   window.AIOrchestratorConfig = {
@@ -2955,7 +2955,7 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
     autoOpen: ${widgetConfig.autoOpen === true}
   };
 </script>
-<script src="${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}/shopify-widget-inline.js" defer></script>`;
+<script src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js" defer></script>`;
 
     // Get current theme.liquid
     const apiVersion = '2025-10';
