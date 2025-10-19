@@ -170,12 +170,21 @@ const Connections: React.FC = () => {
         throw new Error('Failed to delete connection');
       }
 
+      const result = await response.json();
+      
       await fetchConnections();
       setShowDeleteConfirm(false);
       setConnectionToDelete(null);
+      
+      // Show success message with auto-uninstall info
+      if (result.widgetUninstalled) {
+        alert('✅ Store disconnected successfully!\n\n🔧 Widget automatically removed from your Shopify theme.');
+      } else {
+        alert('✅ Store disconnected successfully!');
+      }
     } catch (error) {
       console.error('Failed to delete connection:', error);
-      alert('Failed to disconnect store');
+      alert('❌ Failed to disconnect store');
     }
   };
 
