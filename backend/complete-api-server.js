@@ -2982,6 +2982,23 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
   try {
     console.log(`🔧 Injecting widget into theme for shop: ${shopUrl}`);
     
+    // First, verify access token permissions
+    console.log(`🔍 Verifying access token permissions...`);
+    const shopResponse = await fetch(`https://${shopUrl}/admin/api/2025-10/shop.json`, {
+      headers: {
+        'X-Shopify-Access-Token': accessToken,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (!shopResponse.ok) {
+      console.error(`❌ Access token verification failed: ${shopResponse.status}`);
+      throw new Error(`Invalid access token: ${shopResponse.status}`);
+    }
+    
+    const shopData = await shopResponse.json();
+    console.log(`✅ Access token valid for shop: ${shopData.shop?.name}`);
+    
     // Get active theme (using 2025-10 - matches Shopify app version)
     const themeResponse = await fetch(`https://${shopUrl}/admin/api/2025-10/themes.json`, {
       headers: {
@@ -3052,22 +3069,20 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
       return str.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
     };
     
-        // Use shopify-widget-shadowdom.js with config object for Shopify compatibility
+        // Use shopify-widget-shadowdom.js with data attributes (matching Quick Embed format)
         const directWidgetCode = `<!-- AI Orchestrator Widget -->
-<script>
-  window.AIOrchestratorConfig = {
-    chatbotId: '${escapeString(chatbotId)}',
-    apiKey: '${escapeString(process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app')}',
-    theme: '${escapeString(widgetConfig.theme || 'teal')}',
-    title: '${escapeString(widgetConfig.title || 'AI Support')}',
-    placeholder: '${escapeString(widgetConfig.placeholder || 'Type your message...')}',
-    showAvatar: ${widgetConfig.showAvatar !== false},
-    welcomeMessage: '${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}',
-    primaryLanguage: '${escapeString(widgetConfig.primaryLanguage || 'en')}',
-    autoOpen: ${widgetConfig.autoOpen === true}
-  };
-</script>
-<script src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js" defer></script>`;
+<script src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js" 
+        data-ai-orchestrator-id="${escapeString(chatbotId)}" 
+        data-api-key="${escapeString(process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app')}" 
+        data-theme="${escapeString(widgetConfig.theme || 'teal')}" 
+        data-title="${escapeString(widgetConfig.title || 'AI Support')}" 
+        data-placeholder="${escapeString(widgetConfig.placeholder || 'Type your message...')}" 
+        data-show-avatar="${widgetConfig.showAvatar !== false ? 'true' : 'false'}" 
+        data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}" 
+        data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}" 
+        data-auto-open="${widgetConfig.autoOpen === true ? 'true' : 'false'}" 
+        defer>
+</script>`;
 
     // Get current theme.liquid
     const apiVersion = '2025-10';
@@ -3125,6 +3140,7 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
     }
     
     console.log(`💾 Saving updated theme.liquid with widget...`);
+    console.log(`🔍 Debug: shopUrl=${shopUrl}, themeId=${activeTheme.id}, apiVersion=${apiVersion}`);
     
     // Save updated theme.liquid
     const saveThemeResponse = await fetch(`https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`, {
@@ -3144,7 +3160,8 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
     console.log(`📊 Save theme response status: ${saveThemeResponse.status}`);
     
     if (saveThemeResponse.ok) {
-      console.log(`🎉 WIDGET INSTALLED DIRECTLY INTO THEME!`);
+      const responseData = await saveThemeResponse.json();
+      console.log(`🎉 WIDGET INSTALLED DIRECTLY INTO THEME!`, responseData);
       return {
         success: true,
         autoInstalled: true,
@@ -3153,6 +3170,7 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
     } else {
       const errorText = await saveThemeResponse.text();
       console.error(`❌ Direct injection failed: ${saveThemeResponse.status} - ${errorText}`);
+      console.error(`🔍 Debug info: shopUrl=${shopUrl}, themeId=${activeTheme.id}, accessToken length=${accessToken?.length}`);
       
       // Fallback: return the code for manual installation
       return {
