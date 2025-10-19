@@ -1871,6 +1871,58 @@ app.get('/api/public/shopify/connection', async (req, res) => {
   }
 });
 
+// DEBUG: List all chatbots (temporary)
+app.get('/api/debug/chatbots', async (req, res) => {
+  try {
+    const chatbots = await prisma.chatbot.findMany({
+      select: {
+        id: true,
+        name: true,
+        userId: true,
+        status: true,
+        user: {
+          select: {
+            id: true,
+            email: true
+          }
+        }
+      }
+    });
+    
+    res.json({
+      success: true,
+      count: chatbots.length,
+      data: chatbots
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// DEBUG: List all connections (temporary)
+app.get('/api/debug/connections', async (req, res) => {
+  try {
+    const connections = await prisma.connection.findMany({
+      select: {
+        id: true,
+        userId: true,
+        type: true,
+        url: true,
+        name: true,
+        status: true
+      }
+    });
+    
+    res.json({
+      success: true,
+      count: connections.length,
+      data: connections
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // ===== PLAN MANAGEMENT API =====
 
 // Get all available plans
