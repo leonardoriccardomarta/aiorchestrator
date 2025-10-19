@@ -26,7 +26,7 @@
         welcomeMessage: script.dataset.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
         placeholder: script.dataset.placeholder || 'Type your message...',
         showAvatar: script.dataset.showAvatar !== 'false',
-        primaryLanguage: script.dataset.primaryLanguage || 'en',
+        primaryLanguage: script.dataset.primaryLanguage || script.dataset['primary-language'] || 'en',
         autoOpen: script.dataset.autoOpen === 'true'
       };
       
@@ -156,8 +156,8 @@
           right: 12px;
           width: calc(100% - 24px);
           max-width: 380px;
-          height: 500px;
-          max-height: calc(100vh - 120px);
+          height: 450px;
+          max-height: calc(100vh - 140px);
         }
         
         /* Font più leggibili su mobile */
@@ -198,6 +198,8 @@
           width: calc(100% - 16px);
           right: 8px;
           bottom: 80px;
+          height: 420px;
+          max-height: calc(100vh - 120px);
         }
       }
       </style>
