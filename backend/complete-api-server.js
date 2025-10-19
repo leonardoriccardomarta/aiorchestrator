@@ -4097,13 +4097,62 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
     const startTime = Date.now();
     
     // Enhanced system prompt with Shopify/Embed context
-    let systemPrompt = user.id === 'demo-user' 
-        ? `You are an AI assistant showcasing an advanced AI Chatbot Platform.
+    let systemPrompt = '';
+    
+    // LANGUAGE ENFORCEMENT
+    if (primaryLanguage && primaryLanguage !== 'auto') {
+      const languageNames = {
+        'en': 'English',
+        'it': 'Italian',
+        'es': 'Spanish',
+        'fr': 'French',
+        'de': 'German',
+        'pt': 'Portuguese',
+        'nl': 'Dutch',
+        'sv': 'Swedish',
+        'zh': 'Chinese',
+        'ja': 'Japanese',
+        'ko': 'Korean',
+        'ar': 'Arabic',
+        'hi': 'Hindi',
+        'ru': 'Russian',
+        'tr': 'Turkish'
+      };
+      const languageName = languageNames[primaryLanguage] || 'English';
+      systemPrompt += `IMPORTANT: You MUST respond ONLY in ${languageName}. Do NOT respond in any other language, even if the user writes in a different language. If the user writes in another language, respond in ${languageName} anyway.\n\n`;
+    } else {
+      // Auto-detect: match user's language
+      systemPrompt += `IMPORTANT: You MUST respond in the SAME LANGUAGE as the user's message. If the user writes in Italian, respond in Italian. If they write in English, respond in English. Match their language exactly.\n\n`;
+    }
+    
+    // BUSINESS CONTEXT
+    if (user.id === 'demo-user') {
+      systemPrompt += `You are an AI assistant showcasing an advanced AI Chatbot Platform.
 Your goal is to demonstrate the platform's capabilities by being helpful, multilingual, and intelligent.
-Always respond in the SAME LANGUAGE as the user's message.
 Be friendly, professional, and highlight features like: multi-language support, ML analytics, e-commerce integration, and automation.
-Keep responses concise (2-3 sentences) and engaging.`
-      : context.systemPrompt || 'You are a helpful AI assistant.';
+Keep responses concise (2-3 sentences) and engaging.`;
+    } else if (context.connectionType === 'shopify' && context.shopifyConnection) {
+      // SHOPIFY STORE ASSISTANT
+      systemPrompt += `You are an AI shopping assistant for this Shopify store.
+Your role is to help customers find products, track orders, and complete purchases.
+You have access to real-time store data including products, inventory, and orders.
+Be helpful, friendly, and focus on helping customers shop and buy.
+NEVER talk about AI Orchestrator or chatbot platforms - you work for THIS store only.
+Keep responses concise (2-3 sentences) and action-oriented.`;
+    } else if (context.websiteUrl) {
+      // WEBSITE ASSISTANT
+      systemPrompt += `You are an AI assistant for the website at ${context.websiteUrl}.
+Your role is to help visitors with information about THIS website and its content.
+You have access to the website's content and can answer questions about it.
+Be helpful, friendly, and focus on THIS website's information.
+NEVER talk about AI Orchestrator or chatbot platforms - you work for THIS website only.
+Keep responses concise (2-3 sentences) and helpful.`;
+    } else {
+      // GENERIC ASSISTANT
+      systemPrompt += `You are a helpful AI assistant.
+Be friendly, professional, and provide accurate information.
+Keep responses concise (2-3 sentences) and engaging.`;
+    }
     
     // Add Shopify context to prompt
     if (shopifyEnhancements) {
