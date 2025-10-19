@@ -62,10 +62,10 @@ async function main() {
 
   // Create sample chatbots
   const chatbot1 = await prisma.chatbot.upsert({
-    where: { id: 'demo-chatbot-1' },
+    where: { id: 'cmgr7ljok0005rop9rc2yd18f' },
     update: {},
     create: {
-      id: 'demo-chatbot-1',
+      id: 'cmgr7ljok0005rop9rc2yd18f',
       name: 'Customer Support Bot',
       description: 'Helps customers with common questions and support issues',
       isActive: true,
