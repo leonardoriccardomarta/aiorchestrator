@@ -235,62 +235,48 @@ class RealDataService {
       });
       
       if (userChatbots.length === 0) {
-        console.log('⚠️ No chatbots found for user, creating conversation without chatbotId');
-        // Create a conversation without chatbotId for now
-        const conversation = await prisma.conversation.create({
-          data: {
-            userId,
-            visitorId: conversationData.visitorId || `visitor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-            message: conversationData.message,
-            response: conversationData.response,
+        console.log('⚠️ No chatbots found for user, cannot create conversation without chatbot');
+        return null; // Cannot create conversation without chatbot
+      }
+      
+      const chatbotId = userChatbots[0].id;
+      
+      // Create conversation in database (using correct schema fields)
+      const conversation = await prisma.conversation.create({
+        data: {
+          chatbotId,
+          visitorId: conversationData.visitorId || `visitor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          visitorEmail: conversationData.visitorEmail || null,
+          visitorName: conversationData.visitorName || null,
+          status: 'bot', // bot-handled conversation
+          priority: 'normal',
+          metadata: JSON.stringify({
             language: conversationData.language || 'en',
             responseTime: conversationData.responseTime || 0,
             platform: conversationData.platform || 'web',
             sentiment: conversationData.sentiment?.score || 0,
             intent: conversationData.intent?.intent || 'general',
             anomaly: conversationData.anomaly || false
-          }
-        });
-        
-        console.log('💬 Conversation saved to database:', conversation.id);
-        return conversation;
-      }
-      
-      const chatbotId = userChatbots[0].id;
-      
-      // Create conversation in database
-      const conversation = await prisma.conversation.create({
-        data: {
-          userId,
-          chatbotId,
-          visitorId: conversationData.visitorId || `visitor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          message: conversationData.message,
-          response: conversationData.response,
-          language: conversationData.language || 'en',
-          responseTime: conversationData.responseTime || 0,
-          platform: conversationData.platform || 'web',
-          sentiment: conversationData.sentiment?.score || 0,
-          intent: conversationData.intent?.intent || 'general',
-          anomaly: conversationData.anomaly || false
+          })
         }
       });
       
-      // Also create conversation messages
+      // Also create conversation messages (using correct schema)
       await prisma.conversationMessage.create({
         data: {
           conversationId: conversation.id,
-          role: 'user',
-          content: conversationData.message,
-          timestamp: new Date()
+          sender: 'visitor', // visitor, bot, agent
+          senderName: conversationData.visitorName || 'Visitor',
+          message: conversationData.message
         }
       });
       
       await prisma.conversationMessage.create({
         data: {
           conversationId: conversation.id,
-          role: 'assistant',
-          content: conversationData.response,
-          timestamp: new Date()
+          sender: 'bot',
+          senderName: 'AI Assistant',
+          message: conversationData.response
         }
       });
       
