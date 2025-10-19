@@ -240,6 +240,7 @@ class RealDataService {
         const conversation = await prisma.conversation.create({
           data: {
             userId,
+            visitorId: conversationData.visitorId || `visitor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
             message: conversationData.message,
             response: conversationData.response,
             language: conversationData.language || 'en',
@@ -262,6 +263,7 @@ class RealDataService {
         data: {
           userId,
           chatbotId,
+          visitorId: conversationData.visitorId || `visitor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
           message: conversationData.message,
           response: conversationData.response,
           language: conversationData.language || 'en',

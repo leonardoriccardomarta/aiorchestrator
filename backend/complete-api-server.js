@@ -1791,7 +1791,10 @@ app.get('/api/public/shopify/connection', async (req, res) => {
       select: { userId: true, status: true }
     });
 
+    console.log('🤖 Chatbot lookup result:', chatbot);
+
     if (!chatbot) {
+      console.log('❌ Chatbot not found in database:', chatbotId);
       return res.status(404).json({
         success: false,
         error: 'Chatbot not found'
@@ -1820,7 +1823,13 @@ app.get('/api/public/shopify/connection', async (req, res) => {
       }
     });
 
+    console.log('🔍 Found Shopify connections:', connections.length);
+    if (connections.length > 0) {
+      console.log('📦 Connection details:', connections.map(c => ({ name: c.name, url: c.url })));
+    }
+
     if (connections.length === 0) {
+      console.log('⚠️ No Shopify connections found for user:', chatbot.userId);
       return res.json({
         success: true,
         data: {
