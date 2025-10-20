@@ -2496,6 +2496,47 @@ app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
   }
 });
 
+// ===== LANGUAGE DETECTION API =====
+app.post('/api/detect-language', async (req, res) => {
+  try {
+    const { message } = req.body;
+    
+    if (!message || typeof message !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Message is required'
+      });
+    }
+    
+    console.log('🌍 Language detection request:', { message: message.substring(0, 100) });
+    
+    // Use AI service to detect language
+    const aiOptions = {
+      language: 'auto', // Let AI auto-detect
+      systemPrompt: 'Detect the language of this message and respond with only the ISO language code (e.g., "en", "de", "it", "es", "fr", "pt", "ru", "zh", "ja", "ko", "ar", "hi", etc.). Respond with only the language code, nothing else.'
+    };
+    
+    const response = await aiService.generateResponse(message, aiOptions);
+    const detectedLanguage = response.response?.trim().toLowerCase() || 'en';
+    
+    console.log('🌍 Detected language:', detectedLanguage);
+    
+    res.json({
+      success: true,
+      language: detectedLanguage,
+      message: message.substring(0, 50) + '...'
+    });
+    
+  } catch (error) {
+    console.error('❌ Language detection error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Language detection failed',
+      language: 'en' // Fallback to English
+    });
+  }
+});
+
 // ===== ANALYTICS API =====
 app.get('/api/analytics', authenticateToken, async (req, res) => {
   try {
