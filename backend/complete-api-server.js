@@ -4264,15 +4264,8 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
           shopifyEnhancements = shopifyEnhancements || {};
           shopifyEnhancements.cartAction = cartResult;
         }
-      } else if (!hasFeature(userPlanId, 'addToCart') && (message.toLowerCase().includes('add to cart') || message.toLowerCase().includes('buy this'))) {
-        // User tried to use feature but doesn't have access
-        shopifyEnhancements = shopifyEnhancements || {};
-        shopifyEnhancements.upgradeMessage = {
-          feature: 'Add to Cart',
-          requiredPlan: 'Professional',
-          message: '🔒 Add to Cart is available on Professional plan and above. Upgrade to unlock this feature!'
-        };
       }
+      // Note: No upgrade message for end customers - features are simply not available
       
       // 💳 CHECKOUT ASSISTANCE (Professional+)
       if (hasFeature(userPlanId, 'checkoutAssistance') && (intent === 'checkout' || message.toLowerCase().includes('checkout') || message.toLowerCase().includes('how to buy'))) {
@@ -4328,15 +4321,8 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
             shopifyEnhancements.payment = paymentResult;
           }
         }
-      } else if (!hasFeature(userPlanId, 'stripePayments') && (message.toLowerCase().includes('pay now') || message.toLowerCase().includes('buy now'))) {
-        // User tried to use Stripe but doesn't have access
-        shopifyEnhancements = shopifyEnhancements || {};
-        shopifyEnhancements.upgradeMessage = {
-          feature: 'Stripe In-Chat Payments',
-          requiredPlan: 'Enterprise',
-          message: '🔒 Stripe Payments are available on Enterprise plan. Upgrade to accept payments directly in chat!'
-        };
       }
+      // Note: No upgrade message - features are simply not available on lower plans
     }
     
     // ============ UNIVERSAL EMBED FEATURES ============

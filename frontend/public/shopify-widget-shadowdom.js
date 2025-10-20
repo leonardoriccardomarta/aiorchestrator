@@ -194,6 +194,18 @@
             const lang = config.primaryLanguage || 'en';
             const t = getTranslations(lang);
             showSuccessMessage(t.addedToCart);
+            
+            // Open cart drawer if available, or redirect to cart
+            setTimeout(() => {
+              // Try to trigger cart drawer (most themes)
+              const cartDrawerTrigger = document.querySelector('[data-cart-drawer], .cart-drawer-trigger, #cart-icon, .js-drawer-open-cart');
+              if (cartDrawerTrigger) {
+                cartDrawerTrigger.click();
+              } else {
+                // Fallback: redirect to cart page
+                window.location.href = '/cart';
+              }
+            }, 1500);
           });
       } else {
         const errorData = await response.text();
@@ -900,15 +912,7 @@
         html += '</div>';
       }
       
-      // 🔒 Upgrade Message (when user tries premium feature)
-      if (enhancements.upgradeMessage) {
-        html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 16px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 12px; color: white; text-align: center;">';
-        html += `<div style="font-size: 24px; margin-bottom: 8px;">🔒</div>`;
-        html += `<div style="font-weight: 700; font-size: 16px; margin-bottom: 8px;">${enhancements.upgradeMessage.feature}</div>`;
-        html += `<div style="font-size: 14px; margin-bottom: 12px;">${enhancements.upgradeMessage.message}</div>`;
-        html += `<a href="/pricing" target="_blank" style="display: inline-block; padding: 10px 24px; background: white; color: #d97706; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 14px;">Upgrade to ${enhancements.upgradeMessage.requiredPlan} →</a>`;
-        html += '</div>';
-      }
+      // No upgrade messages - end customers shouldn't see plan limitations
       
       return html;
     };
