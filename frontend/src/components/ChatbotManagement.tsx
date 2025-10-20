@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API_URL } from '../config/constants';
+import { useChatbot } from '../contexts/ChatbotContext';
 import { 
   Bot, 
   Play, 
@@ -46,46 +47,17 @@ interface Chatbot {
 }
 
 const ChatbotManagement: React.FC = () => {
-  const [chatbots, setChatbots] = useState<Chatbot[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { chatbots, loading } = useChatbot();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedChatbot, setSelectedChatbot] = useState<Chatbot | null>(null);
   const [showEmbedModal, setShowEmbedModal] = useState(false);
   const [embedChatbot, setEmbedChatbot] = useState<Chatbot | null>(null);
 
-  useEffect(() => {
-    fetchChatbots();
-  }, []);
-
-  const fetchChatbots = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${API_URL}/api/chatbots`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setChatbots(data.chatbots || []);
-      } else {
-        // Fallback to empty state for new users
-        setChatbots([]);
-      }
-    } catch (error) {
-      console.error('Error fetching chatbots:', error);
-      setChatbots([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const toggleChatbotStatus = async (chatbotId: string, currentStatus: string) => {
     try {
       const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
-      const response = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${chatbotId}/status`, {
-        method: 'PUT',
+      const response = await fetch(`${API_URL}/api/chatbots/${chatbotId}`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
@@ -94,9 +66,8 @@ const ChatbotManagement: React.FC = () => {
       });
 
       if (response.ok) {
-        setChatbots(prev => prev.map(bot => 
-          bot.id === chatbotId ? { ...bot, status: newStatus as 'active' | 'inactive' } : bot
-        ));
+        // Note: The context will handle the state update
+        console.log('Chatbot status updated successfully');
       }
     } catch (error) {
       console.error('Error updating chatbot status:', error);
@@ -180,7 +151,7 @@ const ChatbotManagement: React.FC = () => {
         {chatbots.map((chatbot) => (
           <div key={chatbot.id} className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 overflow-hidden">
             {/* Header */}
-            <div className="p-4 border-b border-gray-100">
+            <div className="p-3 border-b border-gray-100">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
@@ -211,7 +182,7 @@ const ChatbotManagement: React.FC = () => {
             </div>
 
             {/* Actions */}
-            <div className="p-4">
+            <div className="p-3">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
                   <button
