@@ -1883,7 +1883,8 @@ app.get('/api/debug/chatbots', async (req, res) => {
         user: {
           select: {
             id: true,
-            email: true
+            email: true,
+            planId: true
           }
         }
       }
@@ -1893,6 +1894,26 @@ app.get('/api/debug/chatbots', async (req, res) => {
       success: true,
       count: chatbots.length,
       data: chatbots
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// DEBUG: Change user plan (temporary for testing)
+app.post('/api/debug/change-plan', async (req, res) => {
+  try {
+    const { email, planId } = req.body;
+    
+    const user = await prisma.user.update({
+      where: { email },
+      data: { planId, isPaid: planId !== 'starter' }
+    });
+    
+    res.json({
+      success: true,
+      message: `Plan changed to ${planId}`,
+      user: { email: user.email, planId: user.planId }
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
