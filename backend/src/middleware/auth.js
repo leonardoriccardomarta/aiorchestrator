@@ -62,7 +62,7 @@ var authenticateToken = function (req, res, next) { return __awaiter(void 0, voi
                 }
                 decoded = jsonwebtoken_1.default.verify(token, config_1.config.JWT_SECRET);
                 return [4 /*yield*/, database_1.prisma.user.findUnique({
-                        where: { id: decoded.userId },
+                        where: { id: decoded.id || decoded.userId },
                         include: {
                             tenant: {
                                 select: {
@@ -148,7 +148,7 @@ var optionalAuth = function (req, _res, next) { return __awaiter(void 0, void 0,
                 if (!token) return [3 /*break*/, 2];
                 decoded = jsonwebtoken_1.default.verify(token, config_1.config.JWT_SECRET);
                 return [4 /*yield*/, database_1.prisma.user.findUnique({
-                        where: { id: decoded.userId },
+                        where: { id: decoded.id || decoded.userId },
                         include: {
                             tenant: {
                                 select: {
