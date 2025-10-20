@@ -57,13 +57,13 @@ export const Navigation: React.FC<NavigationProps> = ({
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:ml-6 md:flex md:space-x-8">
+            <div className="hidden md:ml-8 md:flex md:space-x-10">
               {items.map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}
                   className={cn(
-                    'inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 border-b-2 border-transparent transition-colors',
+                    'inline-flex items-center px-2 pt-1 text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 border-b-2 border-transparent transition-colors whitespace-nowrap',
                     location.pathname === item.href && 'text-gray-900 border-primary-500'
                   )}
                 >
@@ -80,7 +80,7 @@ export const Navigation: React.FC<NavigationProps> = ({
           </div>
 
           {/* Right side - Chatbot Selector + Mobile Menu */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-6">
             {/* Chatbot Selector */}
             <ChatbotSelector />
 

@@ -21,7 +21,7 @@ const PlanLimitations: React.FC<PlanLimitationsProps> = ({
     <div className="relative group p-6 text-left bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-xl hover:border-gray-300 transition-all duration-300">
       <div className="relative">
         {/* Content */}
-        <div className="p-6 max-w-sm">
+        <div className="max-w-sm">
           {children}
         </div>
         
