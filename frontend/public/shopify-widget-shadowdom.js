@@ -16,6 +16,71 @@
       return text.replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/\\\\/g, '\\');
     };
 
+    // Function to detect language from user message
+    const detectLanguage = (message) => {
+      const lowerMessage = message.toLowerCase().trim();
+      
+      // Skip very short messages that might be ambiguous
+      if (lowerMessage.length < 3) {
+        return null; // Don't change language for very short messages
+      }
+      
+      // German indicators (strong indicators)
+      if (lowerMessage.includes('hallo') || lowerMessage.includes('guten tag') || 
+          lowerMessage.includes('danke') || lowerMessage.includes('bitte') ||
+          lowerMessage.includes('welche') || lowerMessage.includes('haben') ||
+          lowerMessage.includes('produkte') || lowerMessage.includes('wie') ||
+          lowerMessage.includes('was') || lowerMessage.includes('wo') ||
+          lowerMessage.includes('habt') || lowerMessage.includes('können') ||
+          lowerMessage.includes('möchten') || lowerMessage.includes('suchen')) {
+        return 'de';
+      }
+      
+      // Italian indicators (strong indicators)
+      if (lowerMessage.includes('ciao') || lowerMessage.includes('buongiorno') ||
+          lowerMessage.includes('grazie') || lowerMessage.includes('prego') ||
+          lowerMessage.includes('quali') || lowerMessage.includes('avete') ||
+          lowerMessage.includes('prodotti') || lowerMessage.includes('come') ||
+          lowerMessage.includes('cosa') || lowerMessage.includes('dove') ||
+          lowerMessage.includes('avete') || lowerMessage.includes('potete') ||
+          lowerMessage.includes('cercate') || lowerMessage.includes('trovare')) {
+        return 'it';
+      }
+      
+      // Spanish indicators (strong indicators)
+      if (lowerMessage.includes('hola') || lowerMessage.includes('buenos días') ||
+          lowerMessage.includes('gracias') || lowerMessage.includes('por favor') ||
+          lowerMessage.includes('qué') || lowerMessage.includes('tienen') ||
+          lowerMessage.includes('productos') || lowerMessage.includes('cómo') ||
+          lowerMessage.includes('dónde') || lowerMessage.includes('pueden') ||
+          lowerMessage.includes('buscan') || lowerMessage.includes('encontrar')) {
+        return 'es';
+      }
+      
+      // French indicators (strong indicators)
+      if (lowerMessage.includes('bonjour') || lowerMessage.includes('salut') ||
+          lowerMessage.includes('merci') || lowerMessage.includes('s\'il vous plaît') ||
+          lowerMessage.includes('quels') || lowerMessage.includes('avez') ||
+          lowerMessage.includes('produits') || lowerMessage.includes('comment') ||
+          lowerMessage.includes('où') || lowerMessage.includes('pouvez') ||
+          lowerMessage.includes('cherchez') || lowerMessage.includes('trouver')) {
+        return 'fr';
+      }
+      
+      // English indicators (strong indicators)
+      if (lowerMessage.includes('hello') || lowerMessage.includes('hi') ||
+          lowerMessage.includes('thanks') || lowerMessage.includes('please') ||
+          lowerMessage.includes('what') || lowerMessage.includes('have') ||
+          lowerMessage.includes('products') || lowerMessage.includes('how') ||
+          lowerMessage.includes('where') || lowerMessage.includes('can') ||
+          lowerMessage.includes('looking') || lowerMessage.includes('find')) {
+        return 'en';
+      }
+      
+      // No clear language detected
+      return null;
+    };
+
     // Get configuration from script tag or global config
   function getConfig() {
     // PRIORITY 1: Check window.AIOrchestratorConfig (for Shopify and manual configs)
@@ -962,6 +1027,15 @@
     const sendMessage = async () => {
       const message = inputField.value.trim();
       if (!message) return;
+
+      // Detect language from user message and update config if needed
+      const detectedLang = detectLanguage(message);
+      if (detectedLang && detectedLang !== config.primaryLanguage) {
+        console.log(`🌍 Language detected: ${detectedLang}, updating config from ${config.primaryLanguage}`);
+        config.primaryLanguage = detectedLang;
+      } else if (detectedLang === null) {
+        console.log(`🌍 No clear language detected, keeping current: ${config.primaryLanguage}`);
+      }
 
       // Add user message
       const userMessageDiv = document.createElement('div');
