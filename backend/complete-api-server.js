@@ -2651,6 +2651,12 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
       });
     }
     
+    console.log('📊 Daily messages calculated:', {
+      days: dailyMessages.length,
+      totalCount: dailyMessages.reduce((sum, d) => sum + d.count, 0),
+      sample: dailyMessages.slice(0, 3)
+    });
+    
     // Calculate unique users
     const conversations = await prisma.conversation.findMany({
       where: {

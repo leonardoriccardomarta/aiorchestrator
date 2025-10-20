@@ -161,7 +161,10 @@ class RealDataService {
         activeConnections,
         averageResponseTime,
         satisfactionRate,
-        responseTime: averageResponseTime
+        responseTime: averageResponseTime,
+        uptime: 99.9, // Mock uptime - would need real monitoring
+        languagesActive: 1, // Mock - would need to count unique languages from messages
+        customerSatisfaction: satisfactionRate / 20 // Convert to 0-5 scale
       };
     } catch (error) {
       console.error('❌ Error calculating real metrics:', error);
@@ -173,7 +176,10 @@ class RealDataService {
         activeConnections: 0,
         averageResponseTime: 0,
         satisfactionRate: 0,
-        responseTime: 0
+        responseTime: 0,
+        uptime: 0,
+        languagesActive: 0,
+        customerSatisfaction: 0
       };
     }
   }
