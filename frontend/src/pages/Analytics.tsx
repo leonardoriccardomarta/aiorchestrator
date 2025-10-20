@@ -411,12 +411,17 @@ const Analytics: React.FC = () => {
           ) : (
             <div className="text-center py-12 bg-gray-50 rounded-2xl">
               <Activity className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No AI Insights Yet</h3>
-              <p className="text-gray-600 mb-4">Start using your chatbot to generate real AI insights!</p>
-              <div className="text-sm text-gray-500">
-                <p>• Deploy your chatbot on your website</p>
-                <p>• Collect conversation data</p>
-                <p>• Get AI-powered insights automatically</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Analytics Overview</h3>
+              <p className="text-gray-600 mb-4">Your chatbot analytics are being collected in real-time</p>
+              <div className="grid grid-cols-2 gap-4 text-center">
+                <div className="bg-blue-50 rounded-lg p-3">
+                  <div className="text-2xl font-bold text-blue-600">{data?.overview?.totalMessages || 0}</div>
+                  <div className="text-sm text-blue-600">Total Messages</div>
+                </div>
+                <div className="bg-green-50 rounded-lg p-3">
+                  <div className="text-2xl font-bold text-green-600">{data?.overview?.totalUsers || 0}</div>
+                  <div className="text-sm text-green-600">Unique Users</div>
+                </div>
               </div>
             </div>
           )}
