@@ -37,6 +37,7 @@ const ProtectedChatbot = withAuthProtection(Chatbot);
 const ProtectedAnalytics = withAuthProtection(AnalyticsPage);
 const ProtectedConnections = withAuthProtection(ConnectionsPage);
 const ProtectedSettings = withBasicAuthProtection(SettingsPage);
+const ProtectedPricing = withAuthProtection(PricingPage);
 const ProtectedAffiliateDashboard = withAuthProtection(AffiliateDashboard);
 
 const AppRouter: FC = () => {
@@ -45,9 +46,6 @@ const AppRouter: FC = () => {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
-        
-        {/* Pricing is semi-public - accessible by authenticated users without active plan */}
-        <Route path="/pricing" element={<PricingPage />} />
         
         {/* Footer Pages (Public) */}
         <Route path="/about" element={<AboutUs />} />
@@ -72,6 +70,7 @@ const AppRouter: FC = () => {
           <Route path="/analytics" element={<ProtectedAnalytics />} />
           <Route path="/connections" element={<ProtectedConnections />} />
           <Route path="/settings" element={<ProtectedSettings />} />
+          <Route path="/pricing" element={<ProtectedPricing />} />
           <Route path="/affiliate-dashboard" element={<ProtectedAffiliateDashboard />} />
         </Route>
         
