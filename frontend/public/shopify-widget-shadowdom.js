@@ -11,7 +11,12 @@
 
   console.log('🚀 AI Orchestrator Widget v4.0 - Shadow DOM Edition');
 
-  // Get configuration from script tag or global config
+    // Function to clean escape characters
+    const cleanEscapeChars = (text) => {
+      return text.replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+    };
+
+    // Get configuration from script tag or global config
   function getConfig() {
     // PRIORITY 1: Check window.AIOrchestratorConfig (for Shopify and manual configs)
     if (window.AIOrchestratorConfig) {
@@ -717,7 +722,7 @@
           <div class="messages-container" id="messages">
             <div class="message bot">
               <div class="message-bubble">
-                <div>${config.welcomeMessage.replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/\\\\/g, '\\')}</div>
+                <div>${cleanEscapeChars(config.welcomeMessage)}</div>
                 <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
               </div>
             </div>

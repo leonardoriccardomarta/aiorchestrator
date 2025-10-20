@@ -11,7 +11,12 @@
 
   console.log('🚀 AI Orchestrator Widget v3.0 - Live Preview Match');
 
-  // Get configuration from script tag or global config
+    // Function to clean escape characters
+    const cleanEscapeChars = (text) => {
+      return text.replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+    };
+
+    // Get configuration from script tag or global config
   function getConfig() {
     // Try script tag first
     const script = document.querySelector('script[data-chatbot-id]') || 
@@ -250,7 +255,7 @@
           <div class="h-96 overflow-y-auto p-4 bg-gray-50" id="${widgetId}-messages">
             <div class="mb-4 flex justify-start">
               <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
-                <div class="text-sm">${config.welcomeMessage.replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/\\\\/g, '\\')}</div>
+                <div class="text-sm">${cleanEscapeChars(config.welcomeMessage)}</div>
                 <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
               </div>
             </div>
