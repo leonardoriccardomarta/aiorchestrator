@@ -151,7 +151,7 @@ const Dashboard: React.FC = () => {
             activeUsers: data.data.activeUsers || 0,
             conversionRate: data.data.conversionRate || 0,
             avgResponseTime: data.data.avgResponseTime || 0,
-            languagesSupported: data.data.languagesSupported || 0,
+            languagesSupported: data.data.languagesActive || data.data.languagesSupported || 0,
             uptime: data.data.uptime || 0
           });
           
@@ -537,15 +537,18 @@ const Dashboard: React.FC = () => {
                   <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Activity className="w-8 h-8 text-gray-400" />
                   </div>
-                  <h4 className="text-lg font-semibold text-gray-900 mb-2">No Recent Activity</h4>
-                  <p className="text-gray-600 mb-4">Start using your chatbot to see activity here</p>
-                  <button
-                    onClick={() => navigate('/chatbot')}
-                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    <Bot className="w-4 h-4 mr-2" />
-                    Create Your First Chatbot
-                  </button>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-2">Dashboard Overview</h4>
+                  <p className="text-gray-600 mb-4">Your chatbot is active and ready to help customers</p>
+                  <div className="grid grid-cols-2 gap-4 text-center">
+                    <div className="bg-blue-50 rounded-lg p-3">
+                      <div className="text-2xl font-bold text-blue-600">{stats.totalMessages}</div>
+                      <div className="text-sm text-blue-600">Total Messages</div>
+                    </div>
+                    <div className="bg-green-50 rounded-lg p-3">
+                      <div className="text-2xl font-bold text-green-600">{stats.activeConnections}</div>
+                      <div className="text-sm text-green-600">Active Connections</div>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
