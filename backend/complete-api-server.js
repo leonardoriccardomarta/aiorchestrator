@@ -4490,6 +4490,10 @@ Keep responses concise (2-3 sentences) and engaging.`;
     const response = await aiService.generateResponse(message, aiOptions);
     const responseTime = Date.now() - startTime;
     
+    // Extract detected language from AI service response
+    const detectedLanguage = response.detectedLanguage || response.context?.detectedLanguage || 'en';
+    console.log('🌍 Language detected by AI service:', detectedLanguage);
+    
     // Store conversation in real data service with ML insights
     console.log('💾 Storing conversation for user:', user.id);
     const conversation = await realDataService.addConversation(user.id, {
@@ -4550,7 +4554,7 @@ Keep responses concise (2-3 sentences) and engaging.`;
         features: getPlan(userPlanId).features
       },
       // Language detection for widget translations
-      detectedLanguage: context.primaryLanguage || 'en'
+      detectedLanguage: detectedLanguage
     });
     
   } catch (error) {

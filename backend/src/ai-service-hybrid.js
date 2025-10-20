@@ -128,7 +128,10 @@ class HybridAIService {
       throw new Error('Both AI services failed');
     } catch (error) {
       console.error('AI Service Error:', error);
-      return "I'm sorry, I'm having trouble connecting to the AI service right now. Please try again later.";
+      return {
+        response: "I'm sorry, I'm having trouble connecting to the AI service right now. Please try again later.",
+        detectedLanguage: 'en'
+      };
     }
   }
 
@@ -162,7 +165,10 @@ class HybridAIService {
         }
       );
 
-      return response.data.choices[0].message.content;
+      return {
+        response: response.data.choices[0].message.content,
+        detectedLanguage: context.detectedLanguage
+      };
     } catch (error) {
       console.log('Groq API Error:', error.message);
       return null;
@@ -199,7 +205,10 @@ class HybridAIService {
         }
       );
 
-      return response.data.choices[0].message.content;
+      return {
+        response: response.data.choices[0].message.content,
+        detectedLanguage: context.detectedLanguage
+      };
     } catch (error) {
       console.log('OpenAI API Error:', error.message);
       return null;
