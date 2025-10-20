@@ -180,7 +180,7 @@ const ChatbotManagement: React.FC = () => {
         {chatbots.map((chatbot) => (
           <div key={chatbot.id} className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 overflow-hidden">
             {/* Header */}
-            <div className="p-6 border-b border-gray-100">
+            <div className="p-4 border-b border-gray-100">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
@@ -211,7 +211,7 @@ const ChatbotManagement: React.FC = () => {
             </div>
 
             {/* Actions */}
-            <div className="p-6">
+            <div className="p-4">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
                   <button
@@ -299,7 +299,7 @@ const ChatbotManagement: React.FC = () => {
       {/* Create Chatbot Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-2xl p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold text-gray-900">Create New Chatbot</h3>
               <button
