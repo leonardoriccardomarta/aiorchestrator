@@ -17,8 +17,7 @@ import {
   FileText,
   Users,
   DollarSign,
-  Activity,
-  Gift
+  Activity
 } from 'lucide-react';
 
 export const sidebarItems = [
@@ -53,12 +52,6 @@ export const sidebarItems = [
     href: '/pricing',
     icon: <DollarSign className="w-5 h-5" />,
   },
-  {
-    label: 'Affiliates',
-    href: '/affiliate-dashboard',
-    icon: <Gift className="w-5 h-5" />,
-    badge: 'EARN 50%'
-  },
 ];
 
 export const navigationItems = [
@@ -91,11 +84,6 @@ export const navigationItems = [
     label: 'Pricing',
     href: '/pricing',
     icon: <DollarSign className="w-4 h-4" />,
-  },
-  {
-    label: 'Affiliates',
-    href: '/affiliate-dashboard',
-    icon: <Gift className="w-4 h-4" />,
   },
 ];
 

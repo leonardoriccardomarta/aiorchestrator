@@ -24,7 +24,6 @@ import TermsOfService from '../pages/TermsOfService';
 import Contact from '../pages/Contact';
 import Blog from '../pages/Blog';
 import AffiliateProgram from '../pages/AffiliateProgram';
-import AffiliateDashboard from '../pages/AffiliateDashboard';
 
 // Chatbot components
 const TestChatbotWizard = lazy(() => import('../components/chatbot/TestChatbotWizard'));
@@ -38,7 +37,6 @@ const ProtectedAnalytics = withAuthProtection(AnalyticsPage);
 const ProtectedConnections = withAuthProtection(ConnectionsPage);
 const ProtectedSettings = withBasicAuthProtection(SettingsPage);
 const ProtectedPricing = withAuthProtection(PricingPage);
-const ProtectedAffiliateDashboard = withAuthProtection(AffiliateDashboard);
 
 const AppRouter: FC = () => {
   return (
@@ -71,7 +69,6 @@ const AppRouter: FC = () => {
           <Route path="/connections" element={<ProtectedConnections />} />
           <Route path="/settings" element={<ProtectedSettings />} />
           <Route path="/pricing" element={<ProtectedPricing />} />
-          <Route path="/affiliate-dashboard" element={<ProtectedAffiliateDashboard />} />
         </Route>
         
         {/* 404 Route */}
