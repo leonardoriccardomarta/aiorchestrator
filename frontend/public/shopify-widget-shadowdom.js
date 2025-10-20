@@ -717,7 +717,7 @@
           <div class="messages-container" id="messages">
             <div class="message bot">
               <div class="message-bubble">
-                <div>${config.welcomeMessage}</div>
+                <div>${config.welcomeMessage.replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/\\\\/g, '\\')}</div>
                 <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
               </div>
             </div>

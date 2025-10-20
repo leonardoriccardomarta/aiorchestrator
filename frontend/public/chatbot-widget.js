@@ -250,7 +250,7 @@
           <div class="h-96 overflow-y-auto p-4 bg-gray-50" id="${widgetId}-messages">
             <div class="mb-4 flex justify-start">
               <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
-                <div class="text-sm">${config.welcomeMessage}</div>
+                <div class="text-sm">${config.welcomeMessage.replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/\\\\/g, '\\')}</div>
                 <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
               </div>
             </div>
