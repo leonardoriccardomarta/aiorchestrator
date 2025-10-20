@@ -591,7 +591,7 @@
               message,
               context: {
                 chatbotId: config.chatbotId,
-                primaryLanguage: config.primaryLanguage,
+                primaryLanguage: config.primaryLanguage, // Use detected language
                 connectionType: 'universal',
                 websiteUrl: window.location.origin,
                 customerEmail: extractCustomerEmail(message)

@@ -1095,7 +1095,7 @@
               message,
               context: {
                 chatbotId: config.chatbotId,
-                primaryLanguage: config.primaryLanguage,
+                primaryLanguage: config.primaryLanguage, // Use detected language
                 connectionType: 'shopify',
                 shopifyConnection: shopifyAccessToken ? {
                   shop: window.location.hostname,

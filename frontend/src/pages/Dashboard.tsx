@@ -228,7 +228,7 @@ const Dashboard: React.FC = () => {
       <div>
         <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
         <p className="text-3xl font-bold text-gray-900 mb-1">
-          {prefix}{typeof value === 'number' && value !== undefined && value !== null ? value.toLocaleString() : (value || 0)}{suffix}
+          {prefix}{typeof value === 'number' && !isNaN(value) && value !== undefined && value !== null ? value.toLocaleString() : (value || 0)}{suffix}
         </p>
         {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
       </div>
@@ -311,7 +311,7 @@ const Dashboard: React.FC = () => {
             {activity.value && (
               <span className="text-xs font-medium text-gray-700">
                 {typeof activity.value === 'number' && activity.value > 0 ? '+' : ''}
-                {typeof activity.value === 'number' && activity.value !== undefined && activity.value !== null ? activity.value.toLocaleString() : (activity.value || 0)}
+                {typeof activity.value === 'number' && !isNaN(activity.value) && activity.value !== undefined && activity.value !== null ? activity.value.toLocaleString() : (activity.value || 0)}
               </span>
             )}
           </div>
