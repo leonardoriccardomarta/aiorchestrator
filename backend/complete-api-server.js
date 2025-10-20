@@ -2657,9 +2657,9 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
         chatbotId: { in: chatbotIds },
         createdAt: { gte: startDate }
       },
-      select: { userId: true }
+      select: { visitorId: true }
     });
-    const totalUsers = new Set(conversations.map(c => c.userId)).size;
+    const totalUsers = new Set(conversations.map(c => c.visitorId)).size;
     
     const analyticsData = {
       overview: {
