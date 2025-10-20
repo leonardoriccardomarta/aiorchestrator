@@ -550,18 +550,21 @@ class ShopifyEnhancedService {
    */
   detectIntent(message) {
     const msgLower = message.toLowerCase();
+    console.log('🔍 Intent detection for:', message, '->', msgLower);
     
     // Order tracking - Universal patterns
     // Looks for: order numbers (#1234), emails, or tracking-related context
     if (msgLower.match(/#\d+/) || // Order number like #1234
         msgLower.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/) || // Email
         msgLower.length < 30 && msgLower.match(/order|track|ordine|pedido|commande|bestellung|заказ|注文|주문|الطلب|ऑर्डर/)) {
+      console.log('🎯 Intent: order_tracking');
       return 'order_tracking';
     }
     
     // Inventory check - Universal patterns
     // Looks for: "in stock", "available", "inventory" context
     if (msgLower.match(/stock|availab|inventor|disponibl|magazzin|наличи|在庫|재고|متوفر|स्टॉक/)) {
+      console.log('🎯 Intent: inventory_check');
       return 'inventory_check';
     }
     
@@ -613,9 +616,11 @@ class ShopifyEnhancedService {
       // Long queries without order markers (likely product searches)
       (msgLower.length > 15 && !msgLower.includes('@') && !msgLower.includes('#'))
     ) {
+      console.log('🎯 Intent: product_search');
       return 'product_search';
     }
     
+    console.log('🎯 Intent: general (fallback)');
     return 'general';
   }
 }

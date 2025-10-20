@@ -4548,7 +4548,9 @@ Keep responses concise (2-3 sentences) and engaging.`;
       userPlan: {
         planId: userPlanId,
         features: getPlan(userPlanId).features
-      }
+      },
+      // Language detection for widget translations
+      detectedLanguage: context.primaryLanguage || 'en'
     });
     
   } catch (error) {
