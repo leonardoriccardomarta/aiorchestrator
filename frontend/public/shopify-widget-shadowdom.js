@@ -123,6 +123,21 @@
     }
   };
 
+  // Show success message in chat
+  const showSuccessMessage = (message) => {
+    const messagesContainer = shadowRoot.querySelector('.chat-messages');
+    if (!messagesContainer) return;
+    
+    const successDiv = document.createElement('div');
+    successDiv.style.cssText = 'margin: 8px 0; padding: 12px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border-radius: 8px; text-align: center; font-weight: 600; animation: slideIn 0.3s ease;';
+    successDiv.innerHTML = `✅ ${message}`;
+    messagesContainer.appendChild(successDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    
+    // Remove after 3 seconds
+    setTimeout(() => successDiv.remove(), 3000);
+  };
+
   // Global function for Add to Cart (called from product cards)
   window.addToCartFromChat = async function(productId, variantId) {
     try {
@@ -175,18 +190,20 @@
               console.log('✅ Cart count updated:', cart.item_count);
             }
             
-            // Show success message in chat
-            alert('✅ Product added to cart!');
+            // Show elegant success message in chat (multilingual)
+            const lang = config.primaryLanguage || 'en';
+            const t = getTranslations(lang);
+            showSuccessMessage(t.addedToCart);
           });
       } else {
         const errorData = await response.text();
         console.error('❌ Failed to add to cart - Status:', response.status);
         console.error('❌ Error response:', errorData);
-        alert('❌ Sorry, couldn\'t add to cart. Please try again.');
+        // Don't show error - user sees it's not in cart
       }
     } catch (error) {
       console.error('❌ Add to cart error:', error);
-      alert('❌ Sorry, an error occurred. Please try again.');
+      // Error logged, user can retry
     }
   };
 
@@ -760,9 +777,29 @@
       return match ? match[0] : null;
     };
 
+    // Get translations for UI labels
+    const getTranslations = (lang) => {
+      const translations = {
+        en: { productRecs: 'Product Recommendations', inStock: 'In Stock', outOfStock: 'Out of Stock', viewProduct: 'View Product', addToCart: 'Add to Cart', forYou: 'For You', addedToCart: 'Added to cart!' },
+        it: { productRecs: 'Prodotti Consigliati', inStock: 'Disponibile', outOfStock: 'Non Disponibile', viewProduct: 'Vedi Prodotto', addToCart: 'Aggiungi al Carrello', forYou: 'Per Te', addedToCart: 'Aggiunto al carrello!' },
+        es: { productRecs: 'Productos Recomendados', inStock: 'En Stock', outOfStock: 'Agotado', viewProduct: 'Ver Producto', addToCart: 'Añadir', forYou: 'Para Ti', addedToCart: '¡Añadido al carrito!' },
+        fr: { productRecs: 'Recommandations', inStock: 'En Stock', outOfStock: 'Rupture', viewProduct: 'Voir', addToCart: 'Ajouter', forYou: 'Pour Vous', addedToCart: 'Ajouté au panier!' },
+        de: { productRecs: 'Empfehlungen', inStock: 'Verfügbar', outOfStock: 'Ausverkauft', viewProduct: 'Ansehen', addToCart: 'In Warenkorb', forYou: 'Für Dich', addedToCart: 'In Warenkorb gelegt!' },
+        pt: { productRecs: 'Recomendações', inStock: 'Disponível', outOfStock: 'Esgotado', viewProduct: 'Ver', addToCart: 'Adicionar', forYou: 'Para Você', addedToCart: 'Adicionado!' },
+        ru: { productRecs: 'Рекомендации', inStock: 'Есть', outOfStock: 'Нет', viewProduct: 'Смотреть', addToCart: 'В корзину', forYou: 'Для вас', addedToCart: 'Добавлено!' },
+        zh: { productRecs: '推荐', inStock: '有货', outOfStock: '缺货', viewProduct: '查看', addToCart: '加入', forYou: '推荐', addedToCart: '已加入!' },
+        ja: { productRecs: 'おすすめ', inStock: '在庫あり', outOfStock: '在庫なし', viewProduct: '見る', addToCart: '追加', forYou: 'おすすめ', addedToCart: '追加しました!' },
+        ko: { productRecs: '추천', inStock: '있음', outOfStock: '품절', viewProduct: '보기', addToCart: '추가', forYou: '추천', addedToCart: '추가됨!' },
+        ar: { productRecs: 'توصيات', inStock: 'متوفر', outOfStock: 'نفذ', viewProduct: 'عرض', addToCart: 'أضف', forYou: 'لك', addedToCart: 'تمت الإضافة!' },
+        hi: { productRecs: 'सिफारिशें', inStock: 'उपलब्ध', outOfStock: 'खत्म', viewProduct: 'देखें', addToCart: 'जोड़ें', forYou: 'आपके लिए', addedToCart: 'जोड़ा गया!' }
+      };
+      return translations[lang] || translations.en;
+    };
+
     // Render Shopify Enhanced Features
-    const renderShopifyEnhancements = (enhancements) => {
+    const renderShopifyEnhancements = (enhancements, detectedLanguage = 'en') => {
       let html = '';
+      const t = getTranslations(detectedLanguage);
       
       // Product Recommendations
       if (enhancements.recommendations && enhancements.recommendations.length > 0) {
@@ -773,24 +810,24 @@
           html += `<div style="font-size: 11px; color: #0369a1; margin-bottom: 8px; font-weight: 500;">✨ ${enhancements.personalizationReason}</div>`;
         }
         
-        html += '<h4 style="margin: 0 0 8px 0; color: #0c4a6e; font-size: 14px; font-weight: 600;">🛍️ Product Recommendations</h4>';
+        html += `<h4 style="margin: 0 0 8px 0; color: #0c4a6e; font-size: 14px; font-weight: 600;">🛍️ ${t.productRecs}</h4>`;
         enhancements.recommendations.forEach(product => {
           html += `<div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 6px; border: 1px solid #e0f2fe; position: relative;">`;
           
           // Personalized badge
           if (product.personalizedScore) {
-            html += `<div style="position: absolute; top: 4px; right: 4px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600;">PERFECT FOR YOU</div>`;
+            html += `<div style="position: absolute; top: 4px; right: 4px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600;">✨ ${t.forYou.toUpperCase()}</div>`;
           }
           
           html += `<div style="font-weight: 600; color: #0c4a6e; margin-top: ${product.personalizedScore ? '20px' : '0'};">${product.title}</div>`;
           if (product.description) html += `<div style="font-size: 12px; color: #64748b; margin: 4px 0;">${product.description}</div>`;
           if (product.reason) html += `<div style="font-size: 11px; color: #0369a1; margin: 4px 0; font-style: italic;">💡 ${product.reason}</div>`;
-          html += `<div style="font-weight: 600; color: #059669; margin: 4px 0;">$${product.price} ${product.inStock ? '✅ In Stock' : '❌ Out of Stock'}</div>`;
+          html += `<div style="font-weight: 600; color: #059669; margin: 4px 0;">$${product.price} ${product.inStock ? '✅ ' + t.inStock : '❌ ' + t.outOfStock}</div>`;
           
           // Action buttons
           html += `<div style="display: flex; gap: 8px; margin-top: 8px;">`;
-          if (product.url) html += `<a href="${product.url}" target="_blank" style="flex: 1; text-align: center; padding: 6px 12px; background: #0ea5e9; color: white; text-decoration: none; border-radius: 6px; font-size: 12px; font-weight: 600;">View Product</a>`;
-          html += `<button onclick="window.addToCartFromChat('${product.id}', '${product.variantId || product.id}')" style="flex: 1; padding: 6px 12px; background: #059669; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">🛒 Add to Cart</button>`;
+          if (product.url) html += `<a href="${product.url}" target="_blank" style="flex: 1; text-align: center; padding: 6px 12px; background: #0ea5e9; color: white; text-decoration: none; border-radius: 6px; font-size: 12px; font-weight: 600;">${t.viewProduct}</a>`;
+          html += `<button onclick="window.addToCartFromChat('${product.id}', '${product.variantId || product.id}')" style="flex: 1; padding: 6px 12px; background: #059669; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">🛒 ${t.addToCart}</button>`;
           html += `</div>`;
           html += `</div>`;
         });
@@ -977,7 +1014,9 @@
         
         // Add Shopify Enhanced Features if available
         if (data.shopifyEnhancements) {
-          responseContent += renderShopifyEnhancements(data.shopifyEnhancements);
+          // Detect language from AI response or use config
+          const detectedLang = data.detectedLanguage || config.primaryLanguage || 'en';
+          responseContent += renderShopifyEnhancements(data.shopifyEnhancements, detectedLang);
         }
         
         // Add Universal Embed Features if available
