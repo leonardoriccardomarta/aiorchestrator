@@ -508,7 +508,8 @@ const Pricing: React.FC = () => {
             Start Your Free Trial
             <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
-          </div>
+        </div>
+      </div>
 
       {/* Payment Modal */}
       {selectedPlan && (
@@ -519,6 +520,7 @@ const Pricing: React.FC = () => {
           onSuccess={handlePaymentSuccess}
         />
       )}
+    </div>
   );
 };
 
