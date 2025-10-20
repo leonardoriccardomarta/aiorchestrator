@@ -203,7 +203,8 @@ export interface AuthResponse {
 }
 
 export interface JwtPayload {
-  userId: string;
+  id?: string;
+  userId?: string;
   email: string;
   iat?: number;
   exp?: number;
