@@ -143,10 +143,16 @@ const AffiliateDashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
         <div className="text-center">
-          <RefreshCw className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">Loading your affiliate dashboard...</p>
+          <div className="relative">
+            <div className="animate-spin rounded-full h-20 w-20 border-4 border-blue-600 border-t-transparent mx-auto"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Gift className="w-8 h-8 text-blue-600 animate-pulse" />
+            </div>
+          </div>
+          <p className="mt-6 text-gray-600 text-xl font-medium">Loading affiliate dashboard...</p>
+          <p className="mt-2 text-gray-500">Analyzing your affiliate performance</p>
         </div>
       </div>
     );
