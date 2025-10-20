@@ -107,6 +107,7 @@ class RealDataService {
       const totalConversations = await prisma.conversation.count({
         where: { chatbotId: { in: chatbotIds } }
       });
+      console.log('💬 Total conversations found:', totalConversations);
       
       // Count messages
       const totalMessages = await prisma.conversationMessage.count({
@@ -116,6 +117,7 @@ class RealDataService {
           } 
         }
       });
+      console.log('💬 Total messages found:', totalMessages);
       
       // Count connections
       const activeConnections = await prisma.connection.count({

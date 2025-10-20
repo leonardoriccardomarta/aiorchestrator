@@ -2726,6 +2726,15 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
       activeConnections,
       revenue: monthlyRevenue
     });
+    
+    console.log('📊 Returning analytics data structure:', {
+      hasOverview: !!analyticsData.overview,
+      hasMessages: !!analyticsData.messages,
+      hasPerformance: !!analyticsData.performance,
+      hasInsights: !!analyticsData.insights,
+      dailyCount: analyticsData.messages?.daily?.length || 0,
+      insightsCount: analyticsData.insights?.length || 0
+    });
   
   res.json({
     success: true,
