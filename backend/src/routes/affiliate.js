@@ -35,9 +35,15 @@ router.post('/register', authenticate, async (req, res) => {
     });
   } catch (error) {
     console.error('❌ Affiliate registration error:', error);
+    console.error('❌ Error details:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    });
     res.status(500).json({
       success: false,
-      error: 'Server error'
+      error: 'Server error',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 });
@@ -66,9 +72,15 @@ router.get('/stats', authenticate, async (req, res) => {
     });
   } catch (error) {
     console.error('❌ Error getting affiliate stats:', error);
+    console.error('❌ Error details:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    });
     res.status(500).json({
       success: false,
-      error: 'Server error'
+      error: 'Server error',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 });
