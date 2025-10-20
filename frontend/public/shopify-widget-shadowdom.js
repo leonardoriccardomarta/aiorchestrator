@@ -809,9 +809,12 @@
     };
 
     // Render Shopify Enhanced Features
-    const renderShopifyEnhancements = (enhancements, detectedLanguage = 'en') => {
+    const renderShopifyEnhancements = (enhancements, detectedLanguage = 'en', userPlan = null) => {
       let html = '';
       const t = getTranslations(detectedLanguage);
+      
+      // Check if Add to Cart is available in user's plan
+      const canAddToCart = userPlan?.features?.addToCart === true;
       
       // Product Recommendations
       if (enhancements.recommendations && enhancements.recommendations.length > 0) {
@@ -839,7 +842,10 @@
           // Action buttons
           html += `<div style="display: flex; gap: 8px; margin-top: 8px;">`;
           if (product.url) html += `<a href="${product.url}" target="_blank" style="flex: 1; text-align: center; padding: 6px 12px; background: #0ea5e9; color: white; text-decoration: none; border-radius: 6px; font-size: 12px; font-weight: 600;">${t.viewProduct}</a>`;
-          html += `<button onclick="window.addToCartFromChat('${product.id}', '${product.variantId || product.id}')" style="flex: 1; padding: 6px 12px; background: #059669; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">🛒 ${t.addToCart}</button>`;
+          // Only show Add to Cart button if feature is available in plan
+          if (canAddToCart) {
+            html += `<button onclick="window.addToCartFromChat('${product.id}', '${product.variantId || product.id}')" style="flex: 1; padding: 6px 12px; background: #059669; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">🛒 ${t.addToCart}</button>`;
+          }
           html += `</div>`;
           html += `</div>`;
         });
@@ -1020,7 +1026,7 @@
         if (data.shopifyEnhancements) {
           // Detect language from AI response or use config
           const detectedLang = data.detectedLanguage || config.primaryLanguage || 'en';
-          responseContent += renderShopifyEnhancements(data.shopifyEnhancements, detectedLang);
+          responseContent += renderShopifyEnhancements(data.shopifyEnhancements, detectedLang, data.userPlan);
         }
         
         // Add Universal Embed Features if available

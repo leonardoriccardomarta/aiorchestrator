@@ -4528,6 +4528,11 @@ Keep responses concise (2-3 sentences) and engaging.`;
         greeting: personalizedGreeting,
         discount: personalizedDiscount,
         segment: personalizedGreeting?.segment
+      },
+      // User plan info (so widget knows what features to show)
+      userPlan: {
+        planId: userPlanId,
+        features: getPlan(userPlanId).features
       }
     });
     
