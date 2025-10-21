@@ -79,7 +79,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       if (response.ok) {
-        const userData = await response.json();
+        const result = await response.json();
+        const userData = result.data || result; // Handle both {data: {...}} and direct {...} formats
         const trialStatus = calculateTrialStatus(userData.trialEndDate);
         
         setUser({
