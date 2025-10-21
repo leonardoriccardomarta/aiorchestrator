@@ -53,8 +53,8 @@ const AppRouter: FC = () => {
         <Route path="/blog" element={<Blog />} />
         <Route path="/affiliates" element={<AffiliateProgram />} />
         
-        {/* Onboarding (Protected) */}
-        <Route path="/onboarding" element={<OnboardingPage />} />
+        {/* Onboarding is now integrated into Dashboard - no separate page needed */}
+        {/* <Route path="/onboarding" element={<OnboardingPage />} /> */}
         
         {/* Email Verification (Public) */}
         <Route path="/verify" element={<EmailVerificationPage />} />

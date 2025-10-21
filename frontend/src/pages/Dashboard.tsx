@@ -41,7 +41,6 @@ import { EmptyChatbots, EmptyConnections, EmptyAnalytics, EmptyMessages } from '
 import TrialEnforcement from '../components/TrialEnforcement';
 import ChatbotManagement from '../components/ChatbotManagement';
 import PlanLimitations from '../components/PlanLimitations';
-import TourButton from '../components/TourButton';
 
 interface DashboardStats {
   totalChatbots: number;
@@ -100,7 +99,6 @@ const Dashboard: React.FC = () => {
   });
   const [loading, setLoading] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const [showTour, setShowTour] = useState(false);
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
 
   useEffect(() => {
@@ -387,7 +385,6 @@ const Dashboard: React.FC = () => {
             </div>
             <div className="flex items-center space-x-4">
               <ChatbotSelector />
-              <TourButton onClick={() => setShowTour(true)} />
               <button
                 onClick={() => navigate('/analytics')}
                 className="flex items-center px-6 py-3 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
@@ -693,33 +690,6 @@ const Dashboard: React.FC = () => {
           localStorage.setItem('hasSeenOnboarding', 'true');
         }}
       />
-      
-      {/* Dashboard Tour */}
-      {showTour && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 max-w-md mx-4">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Dashboard Tour</h3>
-            <p className="text-gray-600 mb-6">
-              Welcome to your AI Orchestrator dashboard! Here you can manage your chatbots, 
-              view analytics, and access quick actions to get started.
-            </p>
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={() => setShowTour(false)}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
-              >
-                Skip
-              </button>
-              <button
-                onClick={() => setShowTour(false)}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              >
-                Got it!
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

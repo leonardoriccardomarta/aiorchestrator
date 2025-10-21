@@ -26,8 +26,6 @@ import { useUser } from '../contexts/UserContext';
 import { useChatbot } from '../contexts/ChatbotContext';
 import ChatbotSelector from '../components/ChatbotSelector';
 import PlanLimitations from '../components/PlanLimitations';
-import TourButton from '../components/TourButton';
-import AnalyticsTour from '../components/AnalyticsTour';
 
 interface AnalyticsData {
   overview: {
@@ -67,7 +65,6 @@ const Analytics: React.FC = () => {
   const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d'>('30d');
   const [selectedMetric, setSelectedMetric] = useState<'messages' | 'satisfaction'>('messages');
   const noData = !data || (data?.overview?.totalMessages || 0) === 0;
-  const [showTour, setShowTour] = useState(false);
 
   useEffect(() => {
     fetchAnalyticsData();
@@ -270,7 +267,6 @@ const Analytics: React.FC = () => {
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Refresh
               </button>
-              <TourButton onClick={() => setShowTour(true)} />
             </div>
           </div>
         </div>
@@ -456,9 +452,6 @@ const Analytics: React.FC = () => {
           </div>
         </div>
       </div>
-      
-      {/* Tour Guide */}
-      <AnalyticsTour run={showTour} onClose={() => setShowTour(false)} />
     </div>
   );
 };

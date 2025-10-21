@@ -105,14 +105,9 @@ const LandingPageOptimized: React.FC = () => {
                
                const parsedUserData = JSON.parse(storedUserData);
                
-               // Check if user needs onboarding (new user OR hasn't completed onboarding)
-               if (parsedUserData?.isNewUser || !parsedUserData?.hasCompletedOnboarding) {
-                 console.log('Redirecting to onboarding...');
-                 window.location.href = '/onboarding';
-               } else {
-                 console.log('Redirecting to dashboard...');
-                 window.location.href = '/dashboard';
-               }
+              // Always redirect to dashboard (onboarding happens inside the app)
+              console.log('Redirecting to dashboard...');
+              window.location.href = '/dashboard';
              } catch (error) {
                console.error('Error during redirect:', error);
                // Fallback redirect

@@ -902,8 +902,17 @@ const Chatbot: React.FC = () => {
                     </div>
                   </div>
                   <p className="text-sm text-gray-600 mb-4">
-                    Copy and paste our JavaScript code into your website. Works with any platform.
+                    Copy and paste our JavaScript code into your website. Works with any platform (WordPress, Wix, Squarespace, custom HTML, etc.).
                   </p>
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                    <p className="text-xs text-blue-800 font-medium mb-1">📝 How to install:</p>
+                    <ol className="text-xs text-blue-700 space-y-1 list-decimal list-inside">
+                      <li>Click "Get Embed Code" below</li>
+                      <li>Copy the code snippet</li>
+                      <li>Paste it before the <code className="bg-blue-100 px-1 rounded">&lt;/body&gt;</code> tag in your website</li>
+                      <li>Save and publish your website</li>
+                    </ol>
+                  </div>
                   <button 
                     onClick={() => setActiveTab('embed')}
                     className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
