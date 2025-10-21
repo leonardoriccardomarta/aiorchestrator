@@ -476,6 +476,47 @@ const Settings: React.FC = () => {
               </div>
             )}
 
+            {/* Plan Change */}
+            {user?.isPaid && (
+              <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6">
+                <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-3 lg:mb-4">Change Plan</h3>
+                <div className="space-y-3 lg:space-y-4">
+                  <p className="text-sm lg:text-base text-gray-600">
+                    Change your subscription plan. The new plan will take effect at the end of your current billing period.
+                  </p>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {['starter', 'professional', 'business'].map((plan) => (
+                      <button
+                        key={plan}
+                        onClick={() => window.location.href = `/?pricing=true&plan=${plan}`}
+                        className={`p-3 rounded-lg border-2 transition-all ${
+                          user?.planId === plan
+                            ? 'border-blue-500 bg-blue-50'
+                            : 'border-gray-200 hover:border-gray-300'
+                        }`}
+                      >
+                        <div className="text-center">
+                          <div className="font-semibold text-sm lg:text-base text-gray-900 capitalize">
+                            {plan}
+                          </div>
+                          <div className="text-xs lg:text-sm text-gray-600 mt-1">
+                            {plan === 'starter' ? '$19/mo' : 
+                             plan === 'professional' ? '$79/mo' : '$299/mo'}
+                          </div>
+                          {user?.planId === plan && (
+                            <div className="text-xs text-blue-600 font-medium mt-1">
+                              Current Plan
+                            </div>
+                          )}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Quick Actions */}
             <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6" data-tour="quick-actions">
               <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-3 lg:mb-4">Quick Actions</h3>

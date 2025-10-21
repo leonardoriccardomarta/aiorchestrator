@@ -5088,6 +5088,108 @@ app.post('/api/payments/create-checkout-session', authenticateToken, async (req,
   }
 });
 
+// Change subscription plan
+app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
+  try {
+    const { newPlanId } = req.body;
+    const user = req.user;
+    
+    if (!newPlanId) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required field: newPlanId'
+      });
+    }
+
+    const validPlans = ['starter', 'professional', 'business'];
+    if (!validPlans.includes(newPlanId)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid plan ID'
+      });
+    }
+
+    if (user.planId === newPlanId) {
+      return res.status(400).json({
+        success: false,
+        error: 'Already on this plan'
+      });
+    }
+
+    // Get current subscription
+    const subscriptions = await stripe.subscriptions.list({
+      customer: user.id,
+      status: 'active',
+      limit: 1
+    });
+
+    if (subscriptions.data.length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'No active subscription found'
+      });
+    }
+
+    const subscription = subscriptions.data[0];
+
+    // Get plan details
+    const planDetails = {
+      'starter': { price: 19, name: 'Starter' },
+      'professional': { price: 79, name: 'Professional' },
+      'business': { price: 299, name: 'Business' }
+    };
+
+    const plan = planDetails[newPlanId];
+    if (!plan) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid plan details'
+      });
+    }
+
+    // Create new product and price
+    const product = await stripe.products.create({
+      name: `${plan.name} Plan`,
+      description: `AI Orchestrator ${plan.name} Plan - Monthly Subscription`
+    });
+
+    const price = await stripe.prices.create({
+      product: product.id,
+      unit_amount: plan.price * 100,
+      currency: 'usd',
+      recurring: { interval: 'month' }
+    });
+
+    // Update subscription to new plan (will take effect at next billing cycle)
+    const updatedSubscription = await stripe.subscriptions.update(subscription.id, {
+      items: [{
+        id: subscription.items.data[0].id,
+        price: price.id
+      }],
+      proration_behavior: 'none' // Don't prorate, change at next cycle
+    });
+
+    // Update user plan in our system
+    await planService.setUserPlan(user.id, newPlanId);
+
+    res.json({
+      success: true,
+      data: {
+        subscriptionId: updatedSubscription.id,
+        newPlanId: newPlanId,
+        currentPeriodEnd: new Date(updatedSubscription.current_period_end * 1000).toISOString(),
+        message: `Plan will change to ${plan.name} at the end of current billing period`
+      }
+    });
+  } catch (error) {
+    console.error('Plan change error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to change plan: ' + error.message
+    });
+  }
+});
+
 // Create subscription
 app.post('/api/payments/create-subscription', authenticatePayment, async (req, res) => {
   try {
