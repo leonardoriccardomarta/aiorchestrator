@@ -35,11 +35,29 @@ class PlanService {
     }));
   }
 
-  // Set user plan (mock implementation)
-  setUserPlan(userId, planId) {
+  // Set user plan - REAL implementation
+  async setUserPlan(userId, planId) {
     console.log(`Setting user ${userId} to plan ${planId}`);
-    // In a real implementation, this would update the database
-    return true;
+    
+    try {
+      const { PrismaClient } = require('@prisma/client');
+      const prisma = new PrismaClient();
+      
+      // Update user plan in database
+      await prisma.user.update({
+        where: { id: userId },
+        data: { 
+          planId: planId,
+          isActive: true
+        }
+      });
+      
+      console.log(`✅ User ${userId} updated to plan ${planId} in database`);
+      return true;
+    } catch (error) {
+      console.error(`❌ Failed to update user plan:`, error);
+      return false;
+    }
   }
 
   // Check if user can access feature

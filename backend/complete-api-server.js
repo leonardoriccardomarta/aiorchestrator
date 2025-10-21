@@ -2044,7 +2044,7 @@ app.post('/api/plans/set', (req, res) => {
       });
     }
 
-    planService.setUserPlan(userId, planId);
+    await planService.setUserPlan(userId, planId);
     
     res.json({
       success: true,
@@ -5191,7 +5191,7 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
     });
 
     // Update user plan in our system
-    planService.setUserPlan(user.id, planId);
+    await planService.setUserPlan(user.id, planId);
     
     // Update user trial status
     authService.updateUserTrial(user.id, true, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
