@@ -355,6 +355,22 @@ const Dashboard: React.FC = () => {
     );
   }
 
+  // Safely render stats to avoid undefined errors
+  const safeStats = {
+    ...stats,
+    totalChatbots: stats.totalChatbots ?? 0,
+    totalMessages: stats.totalMessages ?? 0,
+    responseRate: stats.responseRate ?? 0,
+    avgResponseTime: stats.avgResponseTime ?? 0,
+    totalRevenue: stats.totalRevenue ?? 0,
+    conversionRate: stats.conversionRate ?? 0,
+    languagesSupported: stats.languagesSupported ?? 0,
+    uptime: stats.uptime ?? 0,
+    customerSatisfaction: stats.customerSatisfaction ?? 0,
+    activeConnections: stats.activeConnections ?? 0,
+    monthlyMessages: stats.monthlyMessages ?? 0
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Header */}
@@ -390,29 +406,29 @@ const Dashboard: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard
             title="Active Chatbots"
-            value={stats.totalChatbots}
+            value={safeStats.totalChatbots}
             icon={Bot}
             color="bg-gradient-to-r from-blue-500 to-blue-600"
             subtitle="Running smoothly"
           />
           <StatCard
             title="Messages Today"
-            value={stats.totalMessages}
+            value={safeStats.totalMessages}
             icon={MessageSquare}
             color="bg-gradient-to-r from-green-500 to-green-600"
             subtitle="Total conversations"
           />
           <StatCard
             title="Response Rate"
-            value={stats.responseRate}
+            value={safeStats.responseRate}
             icon={TrendingUp}
             color="bg-gradient-to-r from-purple-500 to-purple-600"
-            subtitle={`Avg response: ${stats.avgResponseTime}`}
+            subtitle={`Avg response: ${safeStats.avgResponseTime}`}
             suffix="%"
           />
           <StatCard
             title="Revenue Impact"
-            value={stats.totalRevenue}
+            value={safeStats.totalRevenue}
             icon={DollarSign}
             color="bg-gradient-to-r from-orange-500 to-orange-600"
             subtitle="Total generated"
@@ -559,11 +575,11 @@ const Dashboard: React.FC = () => {
                   <p className="text-gray-600 mb-4">Your chatbot is active and ready to help customers</p>
                   <div className="grid grid-cols-2 gap-4 text-center">
                     <div className="bg-blue-50 rounded-lg p-3">
-                      <div className="text-2xl font-bold text-blue-600">{stats.totalMessages}</div>
+                      <div className="text-2xl font-bold text-blue-600">{safeStats.totalMessages}</div>
                       <div className="text-sm text-blue-600">Total Messages</div>
                     </div>
                     <div className="bg-green-50 rounded-lg p-3">
-                      <div className="text-2xl font-bold text-green-600">{stats.activeConnections}</div>
+                      <div className="text-2xl font-bold text-green-600">{safeStats.activeConnections}</div>
                       <div className="text-sm text-green-600">Active Connections</div>
                     </div>
                   </div>
@@ -586,7 +602,7 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
             <div className="p-6">
-              {stats.totalMessages > 0 ? (
+              {safeStats.totalMessages > 0 ? (
                 <div className="space-y-6">
                   <div className="flex items-center justify-between p-4 bg-green-50 rounded-xl">
                     <div className="flex items-center space-x-3">
@@ -611,7 +627,7 @@ const Dashboard: React.FC = () => {
                         <p className="text-sm text-gray-600">Last 30 days</p>
                       </div>
                     </div>
-                    <span className="text-blue-600 font-bold text-xl">{stats.uptime}%</span>
+                    <span className="text-blue-600 font-bold text-xl">{safeStats.uptime}%</span>
                   </div>
 
                   <div className="flex items-center justify-between p-4 bg-purple-50 rounded-xl">
@@ -621,11 +637,11 @@ const Dashboard: React.FC = () => {
                       </div>
                       <div>
                         <p className="font-semibold text-gray-900">Customer Satisfaction</p>
-                        <p className="text-sm text-gray-600">Based on {stats.totalMessages} conversations</p>
+                        <p className="text-sm text-gray-600">Based on {safeStats.totalMessages} conversations</p>
                       </div>
                     </div>
                     <span className="text-purple-600 font-bold text-xl">
-                      {stats.customerSatisfaction && stats.customerSatisfaction > 0 ? `${stats.customerSatisfaction.toFixed(1)}/5` : 'N/A'}
+                      {safeStats.customerSatisfaction && safeStats.customerSatisfaction > 0 ? `${safeStats.customerSatisfaction.toFixed(1)}/5` : 'N/A'}
                     </span>
                   </div>
 
@@ -640,7 +656,7 @@ const Dashboard: React.FC = () => {
                       </div>
                     </div>
                     <span className="text-orange-600 font-bold text-xl">
-                      {stats.languagesSupported > 0 ? stats.languagesSupported : '0'}
+                      {safeStats.languagesSupported > 0 ? safeStats.languagesSupported : '0'}
                     </span>
                   </div>
                 </div>
