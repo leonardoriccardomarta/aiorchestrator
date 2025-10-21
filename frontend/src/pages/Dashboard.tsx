@@ -376,10 +376,10 @@ const Dashboard: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center py-4 lg:py-6 space-y-3 lg:space-y-0">
             <div>
-              <h1 className="text-2xl lg:text-4xl font-bold text-gray-900 mb-1 lg:mb-2">
+              <h1 className="text-xl lg:text-4xl font-bold text-gray-900 mb-1 lg:mb-2">
                 Welcome back!
               </h1>
-              <p className="text-gray-600 text-sm lg:text-lg hidden sm:block">
+              <p className="text-gray-600 text-xs lg:text-lg hidden sm:block">
                 Here's what's happening with your AI chatbots today.
               </p>
             </div>
@@ -389,16 +389,16 @@ const Dashboard: React.FC = () => {
               </div>
               <button
                 onClick={() => setShowOnboarding(true)}
-                className="flex items-center px-3 lg:px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-sm lg:text-base"
+                className="flex items-center px-2 lg:px-4 py-1.5 lg:py-2 text-gray-700 bg-white border border-gray-300 rounded-md lg:rounded-lg hover:bg-gray-50 transition-colors text-xs lg:text-base"
               >
-                <Zap className="w-4 h-4 mr-1 lg:mr-2" />
+                <Zap className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2" />
                 <span className="hidden sm:inline">Onboarding</span>
               </button>
               <button
                 onClick={() => navigate('/analytics')}
-                className="flex items-center px-4 lg:px-6 py-2 lg:py-3 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold text-sm lg:text-base"
+                className="flex items-center px-3 lg:px-6 py-1.5 lg:py-3 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg lg:rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold text-xs lg:text-base"
               >
-                <BarChart3 className="w-4 lg:w-5 h-4 lg:h-5 mr-1 lg:mr-2" />
+                <BarChart3 className="w-3 h-3 lg:w-5 lg:h-5 mr-1 lg:mr-2" />
                 <span className="hidden sm:inline">View </span>Analytics
               </button>
             </div>
@@ -407,9 +407,9 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-3 md:py-8">
         {/* Stats Grid - Mobile: Single column, Desktop: 4 columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-6 mb-6 lg:mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 lg:gap-6 mb-4 lg:mb-8">
           <StatCard
             title="Active Chatbots"
             value={safeStats.totalChatbots}
@@ -448,9 +448,9 @@ const Dashboard: React.FC = () => {
         />
 
         {/* Quick Actions */}
-        <div className="mb-6 md:mb-8">
-          <div className="flex items-center justify-between mb-4 md:mb-6">
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">Quick Actions</h2>
+        <div className="mb-4 md:mb-8">
+          <div className="flex items-center justify-between mb-3 md:mb-6">
+            <h2 className="text-lg md:text-2xl lg:text-3xl font-bold text-gray-900">Quick Actions</h2>
             <div className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
               <Sparkles className="w-4 h-4" />
               <span>AI-Powered Features</span>
@@ -552,7 +552,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Chatbot Management */}
-        <div className="mb-6 md:mb-8">
+        <div className="mb-4 md:mb-8">
           <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
             <div className="px-4 md:px-6 py-3 md:py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50">
               <div className="flex items-center justify-between">
@@ -561,7 +561,7 @@ const Dashboard: React.FC = () => {
                     <Bot className="w-4 h-4 md:w-5 md:h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-base md:text-xl font-semibold text-gray-900">Chatbot Management</h3>
+                    <h3 className="text-sm md:text-xl font-semibold text-gray-900">Chatbot Management</h3>
                     <p className="text-xs md:text-sm text-gray-600 hidden sm:block">Manage your AI assistants</p>
                   </div>
                 </div>
@@ -581,7 +581,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Recent Activity & Performance - Mobile: Vertical, Desktop: 2 columns */}
-        <div className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-8">
+        <div className="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-8">
           {/* Recent Activity */}
           <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
             <div className="px-4 md:px-6 py-3 md:py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-green-50">
@@ -591,7 +591,7 @@ const Dashboard: React.FC = () => {
                     <Activity className="w-4 h-4 md:w-5 md:h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-base md:text-xl font-semibold text-gray-900">Recent Activity</h3>
+                    <h3 className="text-sm md:text-xl font-semibold text-gray-900">Recent Activity</h3>
                     <p className="text-xs md:text-sm text-gray-600 hidden sm:block">Live updates from your AI</p>
                   </div>
                 </div>
@@ -641,7 +641,7 @@ const Dashboard: React.FC = () => {
                   <Target className="w-4 h-4 md:w-5 md:h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-base md:text-xl font-semibold text-gray-900">Performance Overview</h3>
+                  <h3 className="text-sm md:text-xl font-semibold text-gray-900">Performance Overview</h3>
                   <p className="text-xs md:text-sm text-gray-600 hidden sm:block">System health & metrics</p>
                 </div>
               </div>
