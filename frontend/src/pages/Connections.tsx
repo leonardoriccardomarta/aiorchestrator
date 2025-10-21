@@ -356,7 +356,7 @@ const Connections: React.FC = () => {
               className="flex items-center justify-center gap-2 px-3 lg:px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md lg:rounded-lg hover:bg-gray-50 transition-colors text-sm lg:text-base"
               >
               <RefreshCw className="w-3 h-3 lg:w-4 lg:h-4" />
-                <span className="hidden sm:inline">Refresh</span>
+                <span>Refresh</span>
               </button>
             {!showAddConnection && (
               <button
@@ -407,16 +407,16 @@ const Connections: React.FC = () => {
             </div>
 
             {/* Shopify Connection - Direct Integration */}
-            <div className="text-center space-y-4 lg:space-y-6">
+            <div className="text-center space-y-3 lg:space-y-6">
               <div className="flex justify-center">
-                <div className="p-3 lg:p-4 bg-green-100 rounded-full">
-                  <ShoppingCart className="w-8 h-8 lg:w-12 lg:h-12 text-green-600" />
+                <div className="p-2 lg:p-4 bg-green-100 rounded-full">
+                  <ShoppingCart className="w-6 h-6 lg:w-12 lg:h-12 text-green-600" />
                 </div>
               </div>
 
               <div>
-                <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-2">Connect Your Shopify Store</h3>
-                <p className="text-gray-600 mb-4 lg:mb-6 text-sm lg:text-base">
+                <h3 className="text-lg lg:text-2xl font-bold text-gray-900 mb-2">Connect Your Shopify Store</h3>
+                <p className="text-gray-600 mb-3 lg:mb-6 text-sm lg:text-base">
                   Connect your Shopify store in seconds with our 1-click OAuth integration. 
                   No API keys needed - just authorize and you're ready to go!
                 </p>
@@ -453,10 +453,10 @@ const Connections: React.FC = () => {
           <h2 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Connected Shopify Stores</h2>
 
           {connections.length === 0 ? (
-            <div className="text-center py-8 lg:py-12">
-              <ShoppingCart className="w-12 h-12 lg:w-16 lg:h-16 text-gray-300 mx-auto mb-3 lg:mb-4" />
-              <p className="text-gray-600 text-base lg:text-lg mb-2">No Shopify stores connected yet</p>
-              <p className="text-gray-500 mb-4 lg:mb-6 text-sm lg:text-base">Connect your first Shopify store to get started</p>
+            <div className="text-center py-6 lg:py-12">
+              <ShoppingCart className="w-10 h-10 lg:w-16 lg:h-16 text-gray-300 mx-auto mb-3 lg:mb-4" />
+              <p className="text-gray-600 text-sm lg:text-lg mb-2">No Shopify stores connected yet</p>
+              <p className="text-gray-500 mb-4 lg:mb-6 text-xs lg:text-base">Connect your first Shopify store to get started</p>
                   <button
                 onClick={() => setShowAddConnection(true)}
                 className="px-4 lg:px-6 py-2 lg:py-3 bg-green-600 text-white rounded-md lg:rounded-lg hover:bg-green-700 transition-colors text-sm lg:text-base"

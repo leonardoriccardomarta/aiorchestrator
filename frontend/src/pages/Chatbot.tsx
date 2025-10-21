@@ -951,11 +951,11 @@ const Chatbot: React.FC = () => {
         )}
 
         {activeTab === 'settings' && (
-          <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-3 lg:p-6 w-full" data-tour="chat-settings">
-            <h3 className="text-base lg:text-xl font-semibold text-gray-900 mb-3 lg:mb-6">Chatbot Settings</h3>
-            <div className="space-y-3 lg:space-y-6 w-full">
+          <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6 w-full" data-tour="chat-settings">
+            <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Chatbot Settings</h3>
+            <div className="space-y-4 lg:space-y-6 w-full">
               <div className="w-full">
-                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Chatbot Name</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Chatbot Name</label>
                 <input
                   type="text"
                   value={chatbotName}
@@ -963,37 +963,37 @@ const Chatbot: React.FC = () => {
                     setChatbotName(e.target.value);
                     setWidgetTitle(e.target.value); // Sync with widget title
                   }}
-                  className="w-full px-2 lg:px-4 py-1.5 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm lg:text-base"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                 />
               </div>
               <div className="w-full">
-                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Welcome Message</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Welcome Message</label>
                 <textarea
                   value={welcomeMessage}
                   onChange={(e)=>{
                     setWelcomeMessage(e.target.value);
                     setWidgetMessage(e.target.value); // Sync with widget message
                   }}
-                  rows={2}
-                  className="w-full px-2 lg:px-4 py-1.5 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm lg:text-base resize-none"
+                  rows={3}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none"
                 />
               </div>
               <div className="w-full">
-                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Input Placeholder</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Input Placeholder</label>
                 <input
                   type="text"
                   value={widgetPlaceholder}
                   onChange={(e) => setWidgetPlaceholder(e.target.value)}
-                  className="w-full px-2 lg:px-4 py-1.5 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm lg:text-base"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   placeholder="Type your message..."
                 />
               </div>
               <div className="w-full">
-                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Primary Language</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Primary Language</label>
                 <select
                   value={primaryLanguage}
                   onChange={(e)=> setPrimaryLanguage(e.target.value)}
-                  className="w-full px-2 lg:px-3 py-1.5 lg:py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                 >
                   <option value="auto">Auto-detect</option>
                   <option value="en">English</option>
@@ -1006,7 +1006,7 @@ const Chatbot: React.FC = () => {
                   <option value="ko">한국어</option>
                   <option value="zh">中文</option>
                 </select>
-                <p className="text-[9px] lg:text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
+                <p className="text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
               </div>
               <div className="flex items-center justify-end">
                 <button onClick={async ()=>{
@@ -1044,15 +1044,15 @@ const Chatbot: React.FC = () => {
                       alert('Save failed'); 
                     }
                   }catch(e){ alert('Save failed'); }
-                }} className="px-3 lg:px-6 py-1.5 lg:py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md lg:rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium text-xs lg:text-base">
+                }} className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium text-sm">
                   Save Settings
                 </button>
               </div>
             </div>
 
             {/* Advanced Features */}
-            <div className="mt-4 lg:mt-8 space-y-3 lg:space-y-6">
-              <h4 className="text-sm lg:text-lg font-semibold text-gray-900">Advanced Features</h4>
+            <div className="mt-6 space-y-4">
+              <h4 className="text-base font-semibold text-gray-900">Advanced Features</h4>
               
               {/* Custom Branding */}
               <BrandingSettings />
