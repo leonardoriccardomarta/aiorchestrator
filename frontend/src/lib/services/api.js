@@ -7,7 +7,16 @@ const isTokenExpired = (token) => {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const currentTime = Date.now() / 1000;
-    return payload.exp < currentTime;
+    const isExpired = payload.exp < currentTime;
+    
+    console.log('🔐 Token expiration check:', {
+      exp: payload.exp,
+      currentTime: currentTime,
+      isExpired: isExpired,
+      timeLeft: payload.exp - currentTime
+    });
+    
+    return isExpired;
   } catch (error) {
     console.error('Error checking token expiration:', error);
     return true;
@@ -52,9 +61,11 @@ export const apiRequest = async (endpoint, options = {}) => {
     const errorData = await res.json().catch(() => ({}));
     console.error('🔐 API Error:', errorData);
     
-    // If token is invalid, clear it
+    // If token is invalid or expired, clear it and redirect
     if (res.status === 401) {
+      console.warn('🔐 401 Unauthorized - clearing token and redirecting');
       clearInvalidToken();
+      throw new Error('Session expired. Please login again.');
     }
     
     throw new Error(errorData.error || 'Errore API');

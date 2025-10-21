@@ -7,7 +7,7 @@ import { Badge } from '../components/ui/Badge';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
 import TrialCountdown from '../components/TrialCountdown';
-import PaymentModal from '../components/payment/PaymentModal';
+import PaymentModal from '../components/payment/PaymentModalSimple';
 
 const Pricing: React.FC = () => {
   const navigate = useNavigate();
