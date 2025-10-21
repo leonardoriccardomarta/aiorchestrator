@@ -2449,7 +2449,7 @@ app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
     recentConversations.forEach(conv => {
       activities.push({
         id: `conv_${conv.id}`,
-        type: 'message_received',
+      type: 'message_received',
         message: `New conversation started with ${conv.chatbot.name}`,
         timestamp: conv.createdAt.toISOString(),
         icon: 'message',
@@ -2489,7 +2489,7 @@ app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
   res.json({
     success: true,
     activities: activities.slice(0, 10) // Return top 10
-  });
+    });
   } catch (error) {
     console.error('❌ Dashboard activity error:', error);
     res.status(500).json({
@@ -2562,12 +2562,12 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
         success: true,
         data: {
           overview: {
-            totalMessages: 0,
+          totalMessages: 0,
             totalUsers: 0,
             conversionRate: 0,
             avgResponseTime: 0,
             satisfactionScore: 0,
-            revenue: 0,
+          revenue: 0,
             growthRate: 0
           },
           messages: {
@@ -2713,12 +2713,12 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
     
     const analyticsData = {
       overview: {
-        totalMessages,
+      totalMessages,
         totalUsers,
         conversionRate: totalMessages > 0 ? Math.round((totalMessages * 0.01 / totalMessages) * 100) : 0,
         avgResponseTime: totalMessages > 0 ? Math.floor(Math.random() * 1000) + 500 : 0,
         satisfactionScore: totalMessages > 0 ? parseFloat((Math.random() * 0.5 + 4.5).toFixed(1)) : 0,
-        revenue: monthlyRevenue,
+      revenue: monthlyRevenue,
         growthRate: Math.floor(Math.random() * 30) - 10
       },
       messages: {
@@ -5063,7 +5063,7 @@ app.post('/api/payments/create-subscription', authenticateToken, async (req, res
       });
     }
 
-    // Create subscription
+    // Create subscription WITHOUT trial (user decides to pay immediately)
     const subscription = await stripe.subscriptions.create({
       customer: customer.id,
       items: [{
@@ -5072,18 +5072,22 @@ app.post('/api/payments/create-subscription', authenticateToken, async (req, res
       payment_behavior: 'default_incomplete',
       payment_settings: { save_default_payment_method: 'on_subscription' },
       expand: ['latest_invoice.payment_intent'],
-      trial_period_days: 7, // 7-day free trial
       metadata: {
         userId: user.id,
         planId: planId
       }
     });
 
-    // Update user plan in our system
-    planService.setUserPlan(user.id, planId);
-    
-    // Update user trial status
-    authService.updateUserTrial(user.id, true, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
+    // Update user plan in our system (trial only, no payment yet)
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        planId: planId,
+        isTrialActive: true,
+        trialEndDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        isPaid: false
+      }
+    });
 
     // Get plan price for affiliate commission
     const planAmounts = {
@@ -5113,8 +5117,8 @@ app.post('/api/payments/create-subscription', authenticateToken, async (req, res
         subscriptionId: subscription.id,
         clientSecret: subscription.latest_invoice.payment_intent.client_secret,
         status: subscription.status,
-        trialEnd: new Date(subscription.trial_end * 1000).toISOString(),
-        message: 'Subscription created successfully with 7-day free trial!'
+        trialEnd: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+        message: 'Trial started! You have 7 days to decide if you want to continue with payment.'
       }
     });
   } catch (error) {
@@ -5252,6 +5256,90 @@ app.post('/api/payments/reactivate-subscription', authenticateToken, async (req,
     res.status(500).json({
       success: false,
       error: 'Failed to reactivate subscription'
+    });
+  }
+});
+
+// Activate payment after trial (user decides to pay)
+app.post('/api/payments/activate-after-trial', authenticateToken, async (req, res) => {
+  try {
+    const user = req.user;
+    
+    if (!user.isTrialActive) {
+      return res.status(400).json({
+        success: false,
+        error: 'No active trial found'
+      });
+    }
+
+    // Get user's Stripe customer
+    const customers = await stripe.customers.list({
+      email: user.email,
+      limit: 1
+    });
+    
+    if (customers.data.length === 0) {
+      return res.status(404).json({
+        success: false,
+        error: 'No Stripe customer found'
+      });
+    }
+
+    const customer = customers.data[0];
+    
+    // Get plan price
+    const planPrices = {
+      'starter': 'price_starter_monthly',
+      'professional': 'price_professional_monthly', 
+      'business': 'price_business_monthly'
+    };
+
+    const priceId = planPrices[user.planId];
+    if (!priceId) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid plan ID'
+      });
+    }
+
+    // Create subscription with immediate payment
+    const subscription = await stripe.subscriptions.create({
+      customer: customer.id,
+      items: [{
+        price: priceId,
+      }],
+      payment_behavior: 'default_incomplete',
+      payment_settings: { save_default_payment_method: 'on_subscription' },
+      expand: ['latest_invoice.payment_intent'],
+      metadata: {
+        userId: user.id,
+        planId: user.planId
+      }
+    });
+
+    // Update user to paid status
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        isPaid: true,
+        isTrialActive: false
+      }
+    });
+
+    res.json({
+      success: true,
+      data: {
+        subscriptionId: subscription.id,
+        clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+        status: subscription.status,
+        message: 'Payment activated successfully!'
+      }
+    });
+  } catch (error) {
+    console.error('Activate payment error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to activate payment: ' + error.message
     });
   }
 });

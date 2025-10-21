@@ -382,7 +382,11 @@ const Settings: React.FC = () => {
                         year: 'numeric', 
                         month: 'long', 
                         day: 'numeric' 
-                      }) : 'N/A'}
+                      }) : new Date().toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}
                     </div>
                   </div>
             </div>
@@ -486,7 +490,9 @@ const Settings: React.FC = () => {
                 >
                   <div className="flex items-center space-x-3">
                     <CreditCard className="w-5 h-5 text-blue-600" />
-                    <span className="font-medium text-gray-900">Manage Payment</span>
+                    <span className="font-medium text-gray-900">
+                      {user?.isTrialActive ? 'Upgrade Plan' : 'Manage Payment'}
+                    </span>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
                 </button>

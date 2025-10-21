@@ -150,6 +150,8 @@ class RealDataService {
       const revenueImpact = totalMessages > 0 ? Math.floor(Math.random() * 500) + 100 : 0;
       
       console.log('📊 Real metrics calculated:', {
+        userId,
+        chatbotIds,
         totalChatbots: chatbots.length,
         totalConversations,
         totalMessages,
