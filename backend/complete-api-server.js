@@ -2449,10 +2449,11 @@ app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
     recentConversations.forEach(conv => {
       activities.push({
         id: `conv_${conv.id}`,
-      type: 'message_received',
+        type: 'message_received',
         message: `New conversation started with ${conv.chatbot.name}`,
         timestamp: conv.createdAt.toISOString(),
-      icon: 'message'
+        icon: 'message',
+        value: 1 // Number of conversations
       });
     });
     
@@ -2463,7 +2464,8 @@ app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
         type: 'connection_created',
         message: `${conn.type} store "${conn.name}" connected`,
         timestamp: conn.createdAt.toISOString(),
-        icon: 'connection'
+        icon: 'connection',
+        value: 1 // Number of connections
       });
     });
     
@@ -2474,7 +2476,8 @@ app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
         type: 'chatbot_created',
         message: `Chatbot "${chatbot.name}" created`,
         timestamp: new Date().toISOString(), // Mock timestamp for now
-        icon: 'chatbot'
+        icon: 'chatbot',
+        value: 1 // Number of chatbots
       });
     });
     
