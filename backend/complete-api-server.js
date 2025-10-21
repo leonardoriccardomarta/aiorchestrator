@@ -2033,7 +2033,7 @@ app.get('/api/plans', (req, res) => {
 });
 
 // Set user plan
-app.post('/api/plans/set', (req, res) => {
+app.post('/api/plans/set', async (req, res) => {
   try {
     const { userId, planId } = req.body;
     
