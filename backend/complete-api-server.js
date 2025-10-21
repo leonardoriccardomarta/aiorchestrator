@@ -5167,7 +5167,7 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
       items: [{
         price_data: {
           currency: 'usd',
-          product_data: {
+          product: {
             name: `${plan.name} Plan`,
             description: `AI Orchestrator ${plan.name} Plan - Monthly Subscription`
           },
