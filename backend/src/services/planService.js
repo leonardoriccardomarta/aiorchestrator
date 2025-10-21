@@ -3,20 +3,20 @@ class PlanService {
     this.plans = {
       starter: {
         name: 'Starter',
-        price: { monthly: 29, yearly: 290 },
-        features: ['1 AI Chatbot', '1K messages/month', 'Basic analytics', 'Email support'],
+        price: { monthly: 19, yearly: 190 },
+        features: ['1 AI Chatbot', '5K messages/month', 'Basic analytics', 'Email support'],
         limitations: ['No custom branding', 'No API access', 'Limited to 1 chatbot']
       },
       professional: {
         name: 'Professional',
-        price: { monthly: 99, yearly: 990 },
-        features: ['2 AI Chatbots', '5K messages/month', 'Advanced analytics', 'Priority support', 'Custom branding', 'API access'],
+        price: { monthly: 79, yearly: 790 },
+        features: ['2 AI Chatbots', '25K messages/month', 'Advanced analytics', 'Priority support', 'Custom branding', 'API access'],
         limitations: ['No white-label solution', 'No dedicated account manager', 'Limited to 2 chatbots']
       },
-      enterprise: {
-        name: 'Enterprise',
-        price: { monthly: 199, yearly: 1990 },
-        features: ['3 AI Chatbots', '25K messages/month', 'Enterprise analytics', '24/7 support', 'White-label solution', 'All connections', 'Full API access', 'Dedicated account manager'],
+      business: {
+        name: 'Business',
+        price: { monthly: 299, yearly: 2990 },
+        features: ['3 AI Chatbots', '100K messages/month', 'Enterprise analytics', '24/7 support', 'White-label solution', 'All connections', 'Full API access', 'Dedicated account manager'],
         limitations: ['Limited to 3 chatbots', 'No unlimited conversations']
       }
     };
@@ -100,20 +100,20 @@ class PlanService {
     const limits = {
       starter: {
         chatbots: 1,
-        messages: 1000,
+        messages: 5000,
         websites: 1,
         connections: ['shopify']
       },
       professional: {
         chatbots: 2,
-        messages: 5000,
+        messages: 25000,
         websites: 2,
         connections: ['shopify', 'woocommerce']
       },
-      enterprise: {
+      business: {
         chatbots: 3,
-        messages: 25000,
-        websites: 3,
+        messages: 100000,
+        websites: 5,
         connections: ['shopify', 'woocommerce', 'custom']
       }
     };
