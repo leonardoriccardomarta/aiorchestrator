@@ -920,12 +920,12 @@ const Chatbot: React.FC = () => {
                       <Globe className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">E-commerce Integration</h4>
+                      <h4 className="font-semibold text-gray-900">Shopify Integration</h4>
                       <p className="text-sm text-gray-600">One-click setup</p>
                     </div>
                   </div>
                   <p className="text-sm text-gray-600 mb-4">
-                    Connect directly to Shopify, WooCommerce, or other platforms with one click.
+                    Connect directly to your Shopify store with one click for seamless product and order sync.
                   </p>
                   <button 
                     onClick={() => window.location.href = '/connections'}

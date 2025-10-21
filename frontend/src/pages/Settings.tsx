@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
-import TourButton from '../components/TourButton';
-import SettingsTour from '../components/SettingsTour';
 import { 
   CreditCard, 
   Clock, 
@@ -31,7 +29,6 @@ const Settings: React.FC = () => {
     company: '',
     phone: ''
   });
-  const [showTour, setShowTour] = useState(false);
   const [loading, setLoading] = useState(true);
   const [subscription, setSubscription] = useState<any>(null);
   const [subscriptionLoading, setSubscriptionLoading] = useState(false);
@@ -254,7 +251,6 @@ const Settings: React.FC = () => {
               <SettingsIcon className="w-8 h-8 text-blue-600" />
               <h1 className="text-2xl font-bold text-gray-900">Account Settings</h1>
             </div>
-            <TourButton onClick={() => setShowTour(true)} />
           </div>
           <p className="text-gray-600">Manage your account, plan and preferences</p>
           </div>
@@ -509,10 +505,6 @@ const Settings: React.FC = () => {
           </div>
         </div>
       </div>
-      
-
-      {/* Tour Guide */}
-      <SettingsTour run={showTour} onClose={() => setShowTour(false)} />
     </div>
   );
 };

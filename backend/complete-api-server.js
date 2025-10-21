@@ -1156,15 +1156,15 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
 
     // Redirect back to frontend with success
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5176';
-    console.log('🔄 Redirecting to:', `${frontendUrl}/connections?success=true&platform=shopify&connectionId=${connection.id}`);
+    console.log('🔄 Redirecting to:', `${frontendUrl}/app/connections?success=true&platform=shopify&connectionId=${connection.id}`);
     
-    // Redirect directly to frontend with success
-    res.redirect(`${frontendUrl}/connections?success=true&platform=shopify&connectionId=${connection.id}`);
+    // Redirect directly to app connections page, not landing
+    res.redirect(`${frontendUrl}/app/connections?success=true&platform=shopify&connectionId=${connection.id}`);
   } catch (error) {
     console.error('❌ Shopify OAuth callback error:', error);
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5176';
     
-    res.redirect(`${frontendUrl}/connections?error=${encodeURIComponent(error.message)}`);
+    res.redirect(`${frontendUrl}/app/connections?error=${encodeURIComponent(error.message)}`);
   }
 });
 
