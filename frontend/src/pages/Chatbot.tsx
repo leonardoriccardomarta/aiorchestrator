@@ -951,9 +951,9 @@ const Chatbot: React.FC = () => {
         )}
 
         {activeTab === 'settings' && (
-          <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6 w-full" data-tour="chat-settings">
-            <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Chatbot Settings</h3>
-            <div className="space-y-4 lg:space-y-6 w-full">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 w-full" data-tour="chat-settings">
+            <h3 className="text-xl font-semibold text-gray-900 mb-6">Chatbot Settings</h3>
+            <div className="space-y-6 w-full">
               <div className="w-full">
                 <label className="block text-sm font-medium text-gray-700 mb-2">Chatbot Name</label>
                 <input
@@ -1051,8 +1051,8 @@ const Chatbot: React.FC = () => {
             </div>
 
             {/* Advanced Features */}
-            <div className="mt-6 space-y-4">
-              <h4 className="text-base font-semibold text-gray-900">Advanced Features</h4>
+            <div className="mt-8 space-y-6">
+              <h4 className="text-lg font-semibold text-gray-900">Advanced Features</h4>
               
               {/* Custom Branding */}
               <BrandingSettings />

@@ -395,9 +395,9 @@ const Connections: React.FC = () => {
 
         {/* Add Connection Section */}
         {showAddConnection && (
-          <div className="bg-white rounded-xl shadow-lg p-4 lg:p-6 space-y-4 lg:space-y-6">
+          <div className="bg-white rounded-xl shadow-lg p-4 lg:p-6 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg lg:text-xl font-semibold text-gray-900">Add New Connection</h2>
+              <h2 className="text-lg font-semibold text-gray-900">Add New Connection</h2>
                 <button
                 onClick={() => setShowAddConnection(false)}
                 className="text-gray-400 hover:text-gray-600"
@@ -407,16 +407,16 @@ const Connections: React.FC = () => {
             </div>
 
             {/* Shopify Connection - Direct Integration */}
-            <div className="text-center space-y-3 lg:space-y-6">
+            <div className="text-center space-y-4">
               <div className="flex justify-center">
-                <div className="p-2 lg:p-4 bg-green-100 rounded-full">
-                  <ShoppingCart className="w-6 h-6 lg:w-12 lg:h-12 text-green-600" />
+                <div className="p-3 bg-green-100 rounded-full">
+                  <ShoppingCart className="w-8 h-8 text-green-600" />
                 </div>
               </div>
 
               <div>
-                <h3 className="text-lg lg:text-2xl font-bold text-gray-900 mb-2">Connect Your Shopify Store</h3>
-                <p className="text-gray-600 mb-3 lg:mb-6 text-sm lg:text-base">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Connect Your Shopify Store</h3>
+                <p className="text-gray-600 mb-4 text-sm">
                   Connect your Shopify store in seconds with our 1-click OAuth integration. 
                   No API keys needed - just authorize and you're ready to go!
                 </p>
@@ -431,14 +431,14 @@ const Connections: React.FC = () => {
                 }}
               />
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
-                <div className="flex items-start gap-3">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-4">
+                <div className="flex items-start gap-2">
                   <div className="flex-shrink-0">
-                    <svg className="w-5 h-5 text-blue-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-blue-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <div className="text-sm text-blue-800">
+                  <div className="text-xs text-blue-800">
                     <p className="font-medium mb-1">Other platforms?</p>
                     <p>For WooCommerce, WordPress, or any other website, use our <strong>Universal Embed Code</strong> from the Chatbot page.</p>
                   </div>
