@@ -524,17 +524,17 @@ const Chatbot: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center py-3 lg:py-6 space-y-3 lg:space-y-0">
             <div>
-              <h1 className="text-4xl font-bold text-gray-900 mb-2" data-tour="chatbot-header">My AI Chatbot</h1>
-              <p className="text-gray-600 text-lg">Manage and test your AI assistant</p>
+              <h1 className="text-xl lg:text-4xl font-bold text-gray-900 mb-1 lg:mb-2" data-tour="chatbot-header">My AI Chatbot</h1>
+              <p className="text-gray-600 text-xs lg:text-lg hidden sm:block">Manage and test your AI assistant</p>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 lg:space-x-4">
               <TourButton onClick={() => setShowTour(true)} />
-              <div className="flex items-center space-x-2 px-3 py-2 bg-green-100 text-green-700 rounded-lg">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm font-medium">Live</span>
+              <div className="flex items-center space-x-2 px-2 lg:px-3 py-1.5 lg:py-2 bg-green-100 text-green-700 rounded-md lg:rounded-lg">
+                <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-green-500 rounded-full"></div>
+                <span className="text-xs lg:text-sm font-medium">Live</span>
               </div>
               {/* removed Get Embed Code button (duplicate of Quick Embed) */}
             </div>
@@ -543,111 +543,112 @@ const Chatbot: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-4 lg:py-8">
         {/* Tabs */}
-        <div className="mb-8" data-tour="tour-welcome">
+        <div className="mb-4 lg:mb-8" data-tour="tour-welcome">
           <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
             <button
               onClick={() => setActiveTab('chat')}
               data-tour="tour-test-chat"
-              className={`flex-1 px-4 py-3 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 px-2 lg:px-4 py-2 lg:py-3 rounded-md text-xs lg:text-sm font-medium transition-colors ${
                 activeTab === 'chat' 
                   ? 'bg-white text-gray-900 shadow-sm' 
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <MessageSquare className="w-4 h-4 mr-2 inline" />
-              Test Chat
+              <MessageSquare className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
+              <span className="hidden sm:inline">Test </span>Chat
             </button>
             <button
               onClick={() => setActiveTab('settings')}
               data-tour="tour-settings"
-              className={`flex-1 px-4 py-3 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 px-2 lg:px-4 py-2 lg:py-3 rounded-md text-xs lg:text-sm font-medium transition-colors ${
                 activeTab === 'settings' 
                   ? 'bg-white text-gray-900 shadow-sm' 
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <Settings className="w-4 h-4 mr-2 inline" />
+              <Settings className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
               Settings
             </button>
             <button
               onClick={() => setActiveTab('embed')}
               data-tour="tour-embed"
-              className={`flex-1 px-4 py-3 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 px-2 lg:px-4 py-2 lg:py-3 rounded-md text-xs lg:text-sm font-medium transition-colors ${
                 activeTab === 'embed' 
                   ? 'bg-white text-gray-900 shadow-sm' 
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <Code className="w-4 h-4 mr-2 inline" />
+              <Code className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
               Embed
             </button>
             <button
               onClick={() => setActiveTab('manage')}
               data-tour="tour-manage"
-              className={`flex-1 px-4 py-3 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 px-2 lg:px-4 py-2 lg:py-3 rounded-md text-xs lg:text-sm font-medium transition-colors ${
                 activeTab === 'manage' 
                   ? 'bg-white text-gray-900 shadow-sm' 
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <Bot className="w-4 h-4 mr-2 inline" />
-              My Chatbots
+              <Bot className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
+              <span className="hidden sm:inline">My </span>Chatbots
             </button>
           </div>
         </div>
 
         {/* Tab Content */}
         {activeTab === 'chat' && (
-          <div key={widgetTheme} className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden" data-tour="chat-interface">
+          <div key={widgetTheme} className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 overflow-hidden" data-tour="chat-interface">
             {/* Chat Header */}
-            <div className={`bg-gradient-to-br ${tc.secondary} border-b-2 ${tc.border} p-4`}>
+            <div className={`bg-gradient-to-br ${tc.secondary} border-b-2 ${tc.border} p-3 lg:p-4`}>
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br ${tc.primary}`}>
-                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-center space-x-2 lg:space-x-3">
+                  <div className={`w-8 h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center bg-gradient-to-br ${tc.primary}`}>
+                    <svg className="w-4 h-4 lg:w-5 lg:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
                   </div>
                   <div>
-                    <div className={`font-bold ${tc.text}`}>{widgetTitle}</div>
-                    <div className="text-xs text-gray-600 flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span>Online 24/7</span>
+                    <div className={`font-bold text-sm lg:text-base ${tc.text}`}>{widgetTitle}</div>
+                    <div className="text-xs text-gray-600 flex items-center gap-1 lg:gap-2">
+                      <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-green-500 rounded-full"></div>
+                      <span className="hidden sm:inline">Online 24/7</span>
+                      <span className="sm:hidden">Online</span>
                       {primaryLanguage && primaryLanguage !== 'auto' && (
-                        <span className="px-2 py-0.5 text-[10px] rounded bg-gray-100 text-gray-700">{primaryLanguage.toUpperCase()}</span>
+                        <span className="px-1.5 lg:px-2 py-0.5 text-[9px] lg:text-[10px] rounded bg-gray-100 text-gray-700">{primaryLanguage.toUpperCase()}</span>
                       )}
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <button className="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Minimize">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg>
+                <div className="flex items-center space-x-1 lg:space-x-2">
+                  <button className="text-gray-600 hover:bg-gray-200 rounded-lg p-1.5 lg:p-2 transition-colors" title="Minimize">
+                    <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg>
                   </button>
-                  <button className="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Close">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                  <button className="text-gray-600 hover:bg-gray-200 rounded-lg p-1.5 lg:p-2 transition-colors" title="Close">
+                    <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                   </button>
                 </div>
               </div>
             </div>
 
             {/* Messages */}
-            <div className="h-96 overflow-y-auto p-4 space-y-4 bg-gray-50">
+            <div className="h-80 lg:h-96 overflow-y-auto p-3 lg:p-4 space-y-3 lg:space-y-4 bg-gray-50">
               {messages.map((message) => (
                 <div
                   key={message.id}
                   className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
+                    className={`max-w-xs lg:max-w-md px-3 lg:px-4 py-2 lg:py-3 rounded-xl lg:rounded-2xl ${
                       message.isUser
                         ? `${tc.userMsg} text-white shadow-sm`
                         : 'bg-white text-gray-900 border border-gray-200 shadow-sm'
                     }`}
                   >
-                    <p className={`text-sm whitespace-pre-wrap font-medium ${message.isUser ? 'text-white' : 'text-gray-900'}`}>{message.text}</p>
-                    <p className={`text-xs mt-1 ${
+                    <p className={`text-xs lg:text-sm whitespace-pre-wrap font-medium ${message.isUser ? 'text-white' : 'text-gray-900'}`}>{message.text}</p>
+                    <p className={`text-[10px] lg:text-xs mt-1 ${
                       message.isUser ? 'text-white/70' : 'text-gray-500'
                     }`}>
                       {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
@@ -658,10 +659,10 @@ const Chatbot: React.FC = () => {
               
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-white px-4 py-3 rounded-2xl border border-gray-200 shadow-sm">
+                  <div className="bg-white px-3 lg:px-4 py-2 lg:py-3 rounded-xl lg:rounded-2xl border border-gray-200 shadow-sm">
                     <div className="flex items-center space-x-1">
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span className="text-sm">Typing...</span>
+                      <Loader2 className="w-3 h-3 lg:w-4 lg:h-4 animate-spin" />
+                      <span className="text-xs lg:text-sm">Typing...</span>
                     </div>
                   </div>
                 </div>
@@ -671,7 +672,7 @@ const Chatbot: React.FC = () => {
             </div>
 
             {/* Input */}
-            <div className="p-4 bg-white border-t border-gray-200">
+            <div className="p-3 lg:p-4 bg-white border-t border-gray-200">
               <div className="flex space-x-2">
                 <input
                   type="text"
@@ -679,18 +680,18 @@ const Chatbot: React.FC = () => {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder={widgetPlaceholder}
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-lg lg:rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm lg:text-base"
                   disabled={isLoading}
                 />
                 <button
                   onClick={() => sendMessage(inputValue)}
                   disabled={!inputValue.trim() || isLoading}
-                  className={`text-white px-6 py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 ${tc.send} hover:opacity-90`}
+                  className={`text-white px-4 lg:px-6 py-2 lg:py-3 rounded-lg lg:rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-1 lg:gap-2 ${tc.send} hover:opacity-90`}
                 >
                   {isLoading ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 className="w-4 h-4 lg:w-5 lg:h-5 animate-spin" />
                   ) : (
-                    <Send className="w-5 h-5" />
+                    <Send className="w-4 h-4 lg:w-5 lg:h-5" />
                   )}
                 </button>
               </div>
@@ -700,86 +701,86 @@ const Chatbot: React.FC = () => {
         )}
 
         {activeTab === 'manage' && (
-          <div className="space-y-6" data-tour="chatbot-management">
+          <div className="space-y-4 lg:space-y-6" data-tour="chatbot-management">
             {/* Plan Status */}
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-200">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Your Plan Status</h3>
-                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                  {user?.planId === 'starter' ? 'Starter' : user?.planId === 'professional' ? 'Professional' : 'Enterprise'}
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 lg:p-6 border border-blue-200">
+              <div className="flex items-center justify-between mb-3 lg:mb-4">
+                <h3 className="text-base lg:text-lg font-semibold text-gray-900">Your Plan Status</h3>
+                <span className="px-2 lg:px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs lg:text-sm font-medium">
+                  {user?.planId === 'starter' ? 'Starter' : user?.planId === 'professional' ? 'Professional' : 'Business'}
                 </span>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600 mb-1">
+                  <div className="text-xl lg:text-2xl font-bold text-blue-600 mb-1">
                     {currentChatbotId ? (
-                      user?.planId === 'starter' ? '1/1' : user?.planId === 'professional' ? '1/2' : user?.planId === 'enterprise' ? '1/3' : '1/1'
+                      user?.planId === 'starter' ? '1/1' : user?.planId === 'professional' ? '1/2' : user?.planId === 'business' ? '1/3' : '1/1'
                     ) : (
-                      user?.planId === 'starter' ? '0/1' : user?.planId === 'professional' ? '0/2' : user?.planId === 'enterprise' ? '0/3' : '0/1'
+                      user?.planId === 'starter' ? '0/1' : user?.planId === 'professional' ? '0/2' : user?.planId === 'business' ? '0/3' : '0/1'
                     )}
                   </div>
-                  <div className="text-sm text-gray-600">Chatbots Used</div>
+                  <div className="text-xs lg:text-sm text-gray-600">Chatbots Used</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600 mb-1">
-                    {user?.planId === 'starter' ? '1K' : user?.planId === 'professional' ? '5K' : user?.planId === 'enterprise' ? '25K' : '1K'}
+                  <div className="text-xl lg:text-2xl font-bold text-green-600 mb-1">
+                    {user?.planId === 'starter' ? '1K' : user?.planId === 'professional' ? '5K' : user?.planId === 'business' ? '25K' : '1K'}
                   </div>
-                  <div className="text-sm text-gray-600">Messages/Month</div>
+                  <div className="text-xs lg:text-sm text-gray-600">Messages/Month</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600 mb-1">
-                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : user?.planId === 'enterprise' ? '3' : '1'}
+                  <div className="text-xl lg:text-2xl font-bold text-purple-600 mb-1">
+                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : user?.planId === 'business' ? '3' : '1'}
                   </div>
-                  <div className="text-sm text-gray-600">Websites</div>
+                  <div className="text-xs lg:text-sm text-gray-600">Websites</div>
                 </div>
               </div>
             </div>
 
             {/* Current Chatbot */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6">Your Chatbot</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">
+              <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Your Chatbot</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                 {/* Main Chatbot - Hide if deleted */}
                 {!chatbotDeleted && currentChatbotId && (
-                <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-200">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
-                        <Bot className="w-5 h-5 text-white" />
+                <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 lg:p-6 border border-blue-200">
+                  <div className="flex items-center justify-between mb-3 lg:mb-4">
+                    <div className="flex items-center space-x-2 lg:space-x-3">
+                      <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                        <Bot className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-900">{chatbotName}</h4>
-                        <p className="text-sm text-gray-600">Main chatbot</p>
+                        <h4 className="font-semibold text-sm lg:text-base text-gray-900">{chatbotName}</h4>
+                        <p className="text-xs lg:text-sm text-gray-600">Main chatbot</p>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-xs text-green-600 font-medium">Active</span>
+                    <div className="flex items-center space-x-1 lg:space-x-2">
+                      <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-[10px] lg:text-xs text-green-600 font-medium">Active</span>
                     </div>
                   </div>
-                  <div className="mb-4 p-3 bg-white/50 rounded-lg">
-                    <p className="text-xs text-gray-600 italic">{welcomeMessage}</p>
+                  <div className="mb-3 lg:mb-4 p-2 lg:p-3 bg-white/50 rounded-lg">
+                    <p className="text-[10px] lg:text-xs text-gray-600 italic">{welcomeMessage}</p>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-1 lg:space-x-2">
                     <button 
                       onClick={() => setActiveTab('chat')}
-                      className="flex-1 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                      className="flex-1 px-2 lg:px-3 py-1.5 lg:py-2 bg-blue-600 text-white rounded-md lg:rounded-lg hover:bg-blue-700 transition-colors text-xs lg:text-sm"
                     >
-                      <MessageSquare className="w-4 h-4 mr-1 inline" />
+                      <MessageSquare className="w-3 h-3 lg:w-4 lg:h-4 mr-1 inline" />
                       Test
                     </button>
                     <button 
                       onClick={() => setActiveTab('settings')}
-                      className="flex-1 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
+                      className="flex-1 px-2 lg:px-3 py-1.5 lg:py-2 bg-gray-100 text-gray-700 rounded-md lg:rounded-lg hover:bg-gray-200 transition-colors text-xs lg:text-sm"
                     >
-                      <Settings className="w-4 h-4 mr-1 inline" />
+                      <Settings className="w-3 h-3 lg:w-4 lg:h-4 mr-1 inline" />
                       Edit
                     </button>
                     <button 
                       onClick={() => setShowDeleteConfirm(true)}
-                      className="px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm"
+                      className="px-2 lg:px-3 py-1.5 lg:py-2 bg-red-100 text-red-700 rounded-md lg:rounded-lg hover:bg-red-200 transition-colors text-xs lg:text-sm"
                     >
-                      <X className="w-4 h-4" />
+                      <X className="w-3 h-3 lg:w-4 lg:h-4" />
                     </button>
                   </div>
                 </div>
@@ -827,16 +828,16 @@ const Chatbot: React.FC = () => {
                       await createDefaultChatbot();
                       setChatbotDeleted(false);
                     }}
-                    className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 border-2 border-dashed border-blue-300 hover:border-blue-500 transition-colors cursor-pointer"
+                    className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 lg:p-6 border-2 border-dashed border-blue-300 hover:border-blue-500 transition-colors cursor-pointer"
                   >
                     <div className="text-center">
-                      <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Plus className="w-6 h-6 text-white" />
+                      <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-4">
+                        <Plus className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
                       </div>
-                      <h4 className="font-semibold text-gray-900 mb-2">Create Your First Chatbot</h4>
-                      <p className="text-sm text-gray-600 mb-4">Start building your AI assistant now</p>
-                      <div className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors text-sm inline-block">
-                        <Plus className="w-4 h-4 mr-1 inline" />
+                      <h4 className="font-semibold text-sm lg:text-base text-gray-900 mb-2">Create Your First Chatbot</h4>
+                      <p className="text-xs lg:text-sm text-gray-600 mb-3 lg:mb-4">Start building your AI assistant now</p>
+                      <div className="px-3 lg:px-4 py-1.5 lg:py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md lg:rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors text-xs lg:text-sm inline-block">
+                        <Plus className="w-3 h-3 lg:w-4 lg:h-4 mr-1 inline" />
                         Create Chatbot
                       </div>
                     </div>
@@ -887,26 +888,26 @@ const Chatbot: React.FC = () => {
             </div>
 
             {/* Integration Methods */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6" data-tour="tour-integration">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6">Integration Methods</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6" data-tour="tour-integration">
+              <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Integration Methods</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
                 {/* Embedding Method */}
-                <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-200">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
-                      <Code className="w-5 h-5 text-white" />
+                <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 lg:p-6 border border-blue-200">
+                  <div className="flex items-center space-x-2 lg:space-x-3 mb-3 lg:mb-4">
+                    <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                      <Code className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">Embedding Code</h4>
-                      <p className="text-sm text-gray-600">Add to any website</p>
+                      <h4 className="font-semibold text-sm lg:text-base text-gray-900">Embedding Code</h4>
+                      <p className="text-xs lg:text-sm text-gray-600">Add to any website</p>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-600 mb-4">
+                  <p className="text-xs lg:text-sm text-gray-600 mb-3 lg:mb-4">
                     Copy and paste our JavaScript code into your website. Works with any platform (WordPress, Wix, Squarespace, custom HTML, etc.).
                   </p>
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
-                    <p className="text-xs text-blue-800 font-medium mb-1">📝 How to install:</p>
-                    <ol className="text-xs text-blue-700 space-y-1 list-decimal list-inside">
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-2 lg:p-3 mb-3 lg:mb-4">
+                    <p className="text-[10px] lg:text-xs text-blue-800 font-medium mb-1">📝 How to install:</p>
+                    <ol className="text-[10px] lg:text-xs text-blue-700 space-y-1 list-decimal list-inside">
                       <li>Click "Get Embed Code" below</li>
                       <li>Copy the code snippet</li>
                       <li>Paste it before the <code className="bg-blue-100 px-1 rounded">&lt;/body&gt;</code> tag in your website</li>
@@ -915,32 +916,32 @@ const Chatbot: React.FC = () => {
                   </div>
                   <button 
                     onClick={() => setActiveTab('embed')}
-                    className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                    className="w-full px-3 lg:px-4 py-1.5 lg:py-2 bg-blue-600 text-white rounded-md lg:rounded-lg hover:bg-blue-700 transition-colors text-xs lg:text-sm"
                   >
-                    <Code className="w-4 h-4 mr-2 inline" />
+                    <Code className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
                     Get Embed Code
                   </button>
                 </div>
 
                 {/* E-commerce Connections */}
-                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-green-600 to-emerald-600 rounded-full flex items-center justify-center">
-                      <Globe className="w-5 h-5 text-white" />
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 lg:p-6 border border-green-200">
+                  <div className="flex items-center space-x-2 lg:space-x-3 mb-3 lg:mb-4">
+                    <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-green-600 to-emerald-600 rounded-full flex items-center justify-center">
+                      <Globe className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">Shopify Integration</h4>
-                      <p className="text-sm text-gray-600">One-click setup</p>
+                      <h4 className="font-semibold text-sm lg:text-base text-gray-900">Shopify Integration</h4>
+                      <p className="text-xs lg:text-sm text-gray-600">One-click setup</p>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-600 mb-4">
+                  <p className="text-xs lg:text-sm text-gray-600 mb-3 lg:mb-4">
                     Connect directly to your Shopify store with one click for seamless product and order sync.
                   </p>
                   <button 
                     onClick={() => window.location.href = '/connections'}
-                    className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
+                    className="w-full px-3 lg:px-4 py-1.5 lg:py-2 bg-green-600 text-white rounded-md lg:rounded-lg hover:bg-green-700 transition-colors text-xs lg:text-sm"
                   >
-                    <Globe className="w-4 h-4 mr-2 inline" />
+                    <Globe className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
                     Connect Store
                   </button>
                 </div>
@@ -950,11 +951,11 @@ const Chatbot: React.FC = () => {
         )}
 
         {activeTab === 'settings' && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6" data-tour="chat-settings">
-            <h3 className="text-xl font-semibold text-gray-900 mb-6">Chatbot Settings</h3>
-            <div className="space-y-6">
+          <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6" data-tour="chat-settings">
+            <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Chatbot Settings</h3>
+            <div className="space-y-4 lg:space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Chatbot Name</label>
+                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Chatbot Name</label>
                 <input
                   type="text"
                   value={chatbotName}
@@ -962,11 +963,11 @@ const Chatbot: React.FC = () => {
                     setChatbotName(e.target.value);
                     setWidgetTitle(e.target.value); // Sync with widget title
                   }}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm lg:text-base"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Welcome Message</label>
+                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Welcome Message</label>
                 <textarea
                   value={welcomeMessage}
                   onChange={(e)=>{
@@ -974,25 +975,25 @@ const Chatbot: React.FC = () => {
                     setWidgetMessage(e.target.value); // Sync with widget message
                   }}
                   rows={3}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm lg:text-base"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Input Placeholder</label>
+                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Input Placeholder</label>
                 <input
                   type="text"
                   value={widgetPlaceholder}
                   onChange={(e) => setWidgetPlaceholder(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 lg:px-4 py-2 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm lg:text-base"
                   placeholder="Type your message..."
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Primary Language</label>
+                <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Primary Language</label>
                 <select
                   value={primaryLanguage}
                   onChange={(e)=> setPrimaryLanguage(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
                 >
                   <option value="auto">Auto-detect</option>
                   <option value="en">English</option>
@@ -1005,7 +1006,7 @@ const Chatbot: React.FC = () => {
                   <option value="ko">한국어</option>
                   <option value="zh">中文</option>
                 </select>
-                <p className="text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
+                <p className="text-[10px] lg:text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
               </div>
               <div className="flex items-center justify-end">
                 <button onClick={async ()=>{
@@ -1043,15 +1044,15 @@ const Chatbot: React.FC = () => {
                       alert('Save failed'); 
                     }
                   }catch(e){ alert('Save failed'); }
-                }} className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium">
+                }} className="px-4 lg:px-6 py-2 lg:py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md lg:rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium text-sm lg:text-base">
                   Save Settings
                 </button>
               </div>
             </div>
 
             {/* Advanced Features */}
-            <div className="mt-8 space-y-6">
-              <h4 className="text-lg font-semibold text-gray-900">Advanced Features</h4>
+            <div className="mt-6 lg:mt-8 space-y-4 lg:space-y-6">
+              <h4 className="text-base lg:text-lg font-semibold text-gray-900">Advanced Features</h4>
               
               {/* Custom Branding */}
               <BrandingSettings />
@@ -1064,47 +1065,47 @@ const Chatbot: React.FC = () => {
 
 
         {activeTab === 'embed' && (
-          <div className="space-y-6">
+          <div className="space-y-4 lg:space-y-6">
             {/* Plan Limits */}
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-200">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">Your Plan Limits</h3>
-                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                  {user?.planId === 'starter' ? 'Starter' : user?.planId === 'professional' ? 'Professional' : 'Enterprise'}
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 lg:p-6 border border-blue-200">
+              <div className="flex items-center justify-between mb-3 lg:mb-4">
+                <h3 className="text-base lg:text-lg font-semibold text-gray-900">Your Plan Limits</h3>
+                <span className="px-2 lg:px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs lg:text-sm font-medium">
+                  {user?.planId === 'starter' ? 'Starter' : user?.planId === 'professional' ? 'Professional' : 'Business'}
                 </span>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600 mb-1">
-                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : user?.planId === 'enterprise' ? '3' : '1'}
+                  <div className="text-xl lg:text-2xl font-bold text-blue-600 mb-1">
+                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : user?.planId === 'business' ? '3' : '1'}
                   </div>
-                  <div className="text-sm text-gray-600">Chatbots</div>
+                  <div className="text-xs lg:text-sm text-gray-600">Chatbots</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600 mb-1">
-                    {user?.planId === 'starter' ? '1K' : user?.planId === 'professional' ? '5K' : user?.planId === 'enterprise' ? '25K' : '1K'}
+                  <div className="text-xl lg:text-2xl font-bold text-green-600 mb-1">
+                    {user?.planId === 'starter' ? '1K' : user?.planId === 'professional' ? '5K' : user?.planId === 'business' ? '25K' : '1K'}
                   </div>
-                  <div className="text-sm text-gray-600">Messages/Month</div>
+                  <div className="text-xs lg:text-sm text-gray-600">Messages/Month</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600 mb-1">
-                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : user?.planId === 'enterprise' ? '3' : '1'}
+                  <div className="text-xl lg:text-2xl font-bold text-purple-600 mb-1">
+                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : user?.planId === 'business' ? '3' : '1'}
                   </div>
-                  <div className="text-sm text-gray-600">Websites</div>
+                  <div className="text-xs lg:text-sm text-gray-600">Websites</div>
                 </div>
               </div>
             </div>
 
             {/* Embed Options */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6">Embed Your Chatbot</h3>
+            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">
+              <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Embed Your Chatbot</h3>
               
               {/* Quick Embed */}
-              <div className="bg-gray-50 rounded-lg p-4 mb-6">
-                <h4 className="font-medium text-gray-900 mb-2">Quick Embed</h4>
-                <p className="text-sm text-gray-600 mb-4">Add this code to your website to embed your chatbot:</p>
-                <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                  <code className="text-green-400 text-sm whitespace-pre-wrap">
+              <div className="bg-gray-50 rounded-lg p-3 lg:p-4 mb-4 lg:mb-6">
+                <h4 className="font-medium text-sm lg:text-base text-gray-900 mb-2">Quick Embed</h4>
+                <p className="text-xs lg:text-sm text-gray-600 mb-3 lg:mb-4">Add this code to your website to embed your chatbot:</p>
+                <div className="bg-gray-900 rounded-lg p-3 lg:p-4 overflow-x-auto">
+                  <code className="text-green-400 text-xs lg:text-sm whitespace-pre-wrap">
                     {currentChatbotId ? `<!-- AI Orchestrator Chatbot Widget -->
 <script 
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
@@ -1120,7 +1121,7 @@ const Chatbot: React.FC = () => {
 </script>` : 'Loading chatbot...'}
                   </code>
                 </div>
-                <div className="flex space-x-2 mt-3">
+                <div className="flex space-x-2 mt-2 lg:mt-3">
                   <button onClick={() => {
                     const code = currentChatbotId ? `<!-- AI Orchestrator Chatbot Widget -->
 <script 
@@ -1136,56 +1137,56 @@ const Chatbot: React.FC = () => {
   defer>
 </script>` : 'No chatbot available';
                     navigator.clipboard.writeText(code).then(() => alert('Copied to clipboard!')).catch(() => alert('Copy failed'));
-                  }} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
-                    <Copy className="w-4 h-4 mr-2 inline" />
+                  }} className="px-3 lg:px-4 py-1.5 lg:py-2 bg-blue-600 text-white rounded-md lg:rounded-lg hover:bg-blue-700 transition-colors text-xs lg:text-sm">
+                    <Copy className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
                     Copy Code
                   </button>
                 </div>
               </div>
 
               {/* Customization Options */}
-              <div className="mb-6">
-                <h4 className="font-medium text-gray-900 mb-4">Widget Customization</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="mb-4 lg:mb-6">
+                <h4 className="font-medium text-sm lg:text-base text-gray-900 mb-3 lg:mb-4">Widget Customization</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Theme Color</label>
-                    <div className="flex space-x-2">
+                    <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Theme Color</label>
+                    <div className="flex space-x-1 lg:space-x-2">
                       <div 
-                        className={`w-8 h-8 bg-blue-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'blue' ? 'border-blue-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-blue-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'blue' ? 'border-blue-800' : 'border-transparent'} hover:border-gray-300`}
                         onClick={() => setWidgetTheme('blue')}
                       ></div>
                       <div 
-                        className={`w-8 h-8 bg-purple-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'purple' ? 'border-purple-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-purple-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'purple' ? 'border-purple-800' : 'border-transparent'} hover:border-gray-300`}
                         onClick={() => setWidgetTheme('purple')}
                       ></div>
                       <div 
-                        className={`w-8 h-8 bg-green-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'green' ? 'border-green-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-green-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'green' ? 'border-green-800' : 'border-transparent'} hover:border-gray-300`}
                         onClick={() => setWidgetTheme('green')}
                       ></div>
                       <div 
-                        className={`w-8 h-8 bg-red-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'red' ? 'border-red-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-red-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'red' ? 'border-red-800' : 'border-transparent'} hover:border-gray-300`}
                         onClick={() => setWidgetTheme('red')}
                       ></div>
                       <div 
-                        className={`w-8 h-8 bg-orange-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'orange' ? 'border-orange-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-orange-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'orange' ? 'border-orange-800' : 'border-transparent'} hover:border-gray-300`}
                         onClick={() => setWidgetTheme('orange')}
                       ></div>
                       <div 
-                        className={`w-8 h-8 bg-pink-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'pink' ? 'border-pink-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-pink-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'pink' ? 'border-pink-800' : 'border-transparent'} hover:border-gray-300`}
                         onClick={() => setWidgetTheme('pink')}
                       ></div>
                       <div 
-                        className={`w-8 h-8 bg-indigo-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'indigo' ? 'border-indigo-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-indigo-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'indigo' ? 'border-indigo-800' : 'border-transparent'} hover:border-gray-300`}
                         onClick={() => setWidgetTheme('indigo')}
                       ></div>
                       <div 
-                        className={`w-8 h-8 bg-teal-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'teal' ? 'border-teal-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-teal-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'teal' ? 'border-teal-800' : 'border-transparent'} hover:border-gray-300`}
                         onClick={() => setWidgetTheme('teal')}
                       ></div>
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Widget Title</label>
+                    <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Widget Title</label>
                     <input
                       type="text"
                       value={widgetTitle}
@@ -1193,22 +1194,22 @@ const Chatbot: React.FC = () => {
                         setWidgetTitle(e.target.value);
                         setChatbotName(e.target.value); // Sync with chatbot name
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
                       placeholder="AI Support"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Input Placeholder</label>
+                    <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Input Placeholder</label>
                     <input
                       type="text"
                       value={widgetPlaceholder}
                       onChange={(e) => setWidgetPlaceholder(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
                       placeholder="Type your message..."
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Widget Message</label>
+                    <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Widget Message</label>
                     <textarea
                       value={widgetMessage}
                       onChange={(e) => {
@@ -1216,7 +1217,7 @@ const Chatbot: React.FC = () => {
                         setWelcomeMessage(e.target.value); // Sync with welcome message
                       }}
                       rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
                       placeholder="Hello! I'm your AI assistant. How can I help you today?"
                     />
                   </div>
@@ -1228,16 +1229,16 @@ const Chatbot: React.FC = () => {
                       onChange={(e) => setShowWidgetAvatar(e.target.checked)}
                       className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     />
-                    <label htmlFor="showAvatar" className="ml-2 block text-sm text-gray-700">
+                    <label htmlFor="showAvatar" className="ml-2 block text-xs lg:text-sm text-gray-700">
                       Show Avatar
                     </label>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Primary Language</label>
+                    <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Primary Language</label>
                     <select
                       value={primaryLanguage}
                       onChange={(e) => setPrimaryLanguage(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
                     >
                       <option value="auto">Auto-detect</option>
                       <option value="en">English</option>
@@ -1253,37 +1254,37 @@ const Chatbot: React.FC = () => {
                       <option value="ar">العربية</option>
                       <option value="hi">हिन्दी</option>
                     </select>
-                    <p className="text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
+                    <p className="text-[10px] lg:text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
                   </div>
                 </div>
                 
                 {/* Save Button */}
-                <div className="mt-6 flex justify-end items-center space-x-4">
+                <div className="mt-4 lg:mt-6 flex justify-end items-center space-x-2 lg:space-x-4">
                   {saveStatus === 'success' && (
-                    <span className="text-green-600 text-sm flex items-center space-x-1">
-                      <CheckCircle className="w-4 h-4" />
+                    <span className="text-green-600 text-xs lg:text-sm flex items-center space-x-1">
+                      <CheckCircle className="w-3 h-3 lg:w-4 lg:h-4" />
                       <span>Saved successfully!</span>
                     </span>
                   )}
                   {saveStatus === 'error' && (
-                    <span className="text-red-600 text-sm flex items-center space-x-1">
-                      <AlertCircle className="w-4 h-4" />
+                    <span className="text-red-600 text-xs lg:text-sm flex items-center space-x-1">
+                      <AlertCircle className="w-3 h-3 lg:w-4 lg:h-4" />
                       <span>Save failed. Try again.</span>
                     </span>
                   )}
                   <button
                     onClick={saveWidgetCustomizations}
                     disabled={isSaving}
-                    className={`px-6 py-2 rounded-lg transition-colors flex items-center space-x-2 ${
+                    className={`px-4 lg:px-6 py-1.5 lg:py-2 rounded-md lg:rounded-lg transition-colors flex items-center space-x-1 lg:space-x-2 ${
                       isSaving 
                         ? 'bg-gray-400 cursor-not-allowed' 
                         : 'bg-blue-600 hover:bg-blue-700'
-                    } text-white`}
+                    } text-white text-xs lg:text-sm`}
                   >
                     {isSaving ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <Loader2 className="w-3 h-3 lg:w-4 lg:h-4 animate-spin" />
                     ) : (
-                      <Save className="w-4 h-4" />
+                      <Save className="w-3 h-3 lg:w-4 lg:h-4" />
                     )}
                     <span>{isSaving ? 'Saving...' : 'Save Widget Settings'}</span>
                   </button>
@@ -1291,31 +1292,31 @@ const Chatbot: React.FC = () => {
               </div>
 
               {/* Live Preview */}
-              <div className="mb-6">
-                <h4 className="font-medium text-gray-900 mb-4">Chatbot Preview</h4>
+              <div className="mb-4 lg:mb-6">
+                <h4 className="font-medium text-sm lg:text-base text-gray-900 mb-3 lg:mb-4">Chatbot Preview</h4>
                 <div className="border border-gray-200 rounded-lg overflow-hidden">
-                  <div className="bg-gray-100 px-4 py-2 border-b border-gray-200">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <span className="ml-4 text-sm text-gray-600">Live Preview</span>
+                  <div className="bg-gray-100 px-3 lg:px-4 py-1.5 lg:py-2 border-b border-gray-200">
+                    <div className="flex items-center space-x-1 lg:space-x-2">
+                      <div className="w-2 h-2 lg:w-3 lg:h-3 bg-red-500 rounded-full"></div>
+                      <div className="w-2 h-2 lg:w-3 lg:h-3 bg-yellow-500 rounded-full"></div>
+                      <div className="w-2 h-2 lg:w-3 lg:h-3 bg-green-500 rounded-full"></div>
+                      <span className="ml-2 lg:ml-4 text-xs lg:text-sm text-gray-600">Live Preview</span>
                     </div>
                   </div>
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
                       src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}`}
-                      className="w-full h-[740px] border-0"
+                      className="w-full h-[400px] lg:h-[740px] border-0"
                       title="Live Chatbot Preview"
                     />
                   ) : (
-                    <div className="w-full h-[600px] bg-gray-50 flex items-center justify-center">
+                    <div className="w-full h-[300px] lg:h-[600px] bg-gray-50 flex items-center justify-center">
                       <div className="text-center">
-                        <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-3 animate-pulse">
-                          <Bot className="w-8 h-8 text-white" />
+                        <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-2 lg:mb-3 animate-pulse">
+                          <Bot className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
                         </div>
-                        <p className="text-gray-600">Loading chatbot...</p>
+                        <p className="text-gray-600 text-sm lg:text-base">Loading chatbot...</p>
                       </div>
                     </div>
                   )}
