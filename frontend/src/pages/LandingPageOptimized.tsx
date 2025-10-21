@@ -131,19 +131,19 @@ const LandingPageOptimized: React.FC = () => {
         id: 'starter',
         name: 'Starter Plan',
         price: 29,
-        features: ['1 AI Chatbot', '5,000 messages/month', '1 Website', '50+ Languages', '7-Day Free Trial', 'Email Support']
+        features: ['1 AI Chatbot', '5,000 messages/month', 'Basic Store Connections', '50+ Languages', 'Email Support']
       },
       professional: {
         id: 'professional', 
         name: 'Professional Plan',
         price: 99,
-        features: ['2 AI Chatbots', '25,000 messages/month', '2 Websites', '50+ Languages', 'Priority Support', 'Advanced Analytics', 'Custom Branding', '🛒 Add to Cart', '🎯 ML Personalization']
+        features: ['2 AI Chatbots', '25,000 messages/month', 'Advanced Store Connections', '50+ Languages', 'Priority Support', 'Advanced Analytics', 'Custom Branding', 'Add to Cart', 'ML Personalization']
       },
-      enterprise: {
-        id: 'enterprise',
-        name: 'Enterprise Plan', 
+      business: {
+        id: 'business',
+        name: 'Business Plan', 
         price: 299,
-        features: ['3 AI Chatbots', '100,000 messages/month', '3 Websites', '50+ Languages', 'Dedicated Support', 'API Access', 'White-label Options']
+        features: ['3 AI Chatbots', '100,000 messages/month', 'Full Store Connections', '50+ Languages', 'Dedicated Support', 'API Access', 'White-label Options']
       }
     };
 
@@ -170,8 +170,8 @@ const LandingPageOptimized: React.FC = () => {
       // Logged in - check current plan
       const currentPlan = user.planId || 'free';
       
-      // Plan hierarchy: free < starter < professional < enterprise
-      const planHierarchy = { free: 0, starter: 1, professional: 2, enterprise: 3 };
+      // Plan hierarchy: free < starter < professional < business
+      const planHierarchy = { free: 0, starter: 1, professional: 2, business: 3 };
       const currentLevel = planHierarchy[currentPlan as keyof typeof planHierarchy] || 0;
       const targetLevel = planHierarchy[planName as keyof typeof planHierarchy] || 1;
       
@@ -209,7 +209,7 @@ const LandingPageOptimized: React.FC = () => {
         return isCurrentPlan
           ? 'w-full px-4 py-3 bg-blue-400 text-white rounded-lg cursor-not-allowed'
           : 'w-full px-4 py-3 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold';
-      } else if (planName === 'enterprise') {
+      } else if (planName === 'business') {
         return isCurrentPlan
           ? 'w-full px-4 py-3 bg-gray-600 text-white rounded-lg cursor-not-allowed'
           : 'w-full px-4 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors';
@@ -757,11 +757,7 @@ const LandingPageOptimized: React.FC = () => {
                 </li>
                 <li className="flex items-center">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">1 Website</span>
-                </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">7-Day Free Trial</span>
+                  <span className="text-gray-600 text-sm">Basic Store Connections</span>
                 </li>
               </ul>
               <button
@@ -817,7 +813,7 @@ const LandingPageOptimized: React.FC = () => {
                 </li>
                 <li className="flex items-center">
                   <CheckCircle className="w-4 h-4 text-green-400 mr-2" />
-                  <span className="text-white text-sm">2 Websites</span>
+                  <span className="text-white text-sm">Advanced Store Connections</span>
                 </li>
               </ul>
               <button
@@ -829,14 +825,14 @@ const LandingPageOptimized: React.FC = () => {
               </button>
             </div>
 
-            {/* Enterprise Plan */}
+            {/* Business Plan */}
             <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Enterprise</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Business</h3>
               <div className="mb-4">
                 <span className="text-4xl font-bold text-gray-900">$299</span>
                 <span className="text-gray-600">/month</span>
               </div>
-              <p className="text-gray-600 mb-6">For large organizations with complex needs</p>
+              <p className="text-gray-600 mb-6">Full e-commerce automation for serious businesses</p>
               <ul className="space-y-3 mb-6">
                 <li className="flex items-center">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
@@ -848,7 +844,7 @@ const LandingPageOptimized: React.FC = () => {
                 </li>
                 <li className="flex items-center">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">Enterprise Analytics</span>
+                  <span className="text-gray-600 text-sm">Enterprise Analytics & ML</span>
                 </li>
                 <li className="flex items-center">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
@@ -868,11 +864,11 @@ const LandingPageOptimized: React.FC = () => {
                 </li>
               </ul>
               <button
-                onClick={() => handleSelectPlan('enterprise')}
-                className={getButtonStyle('enterprise')}
-                disabled={user?.planId === 'enterprise'}
+                onClick={() => handleSelectPlan('business')}
+                className={getButtonStyle('business')}
+                disabled={user?.planId === 'business'}
               >
-                {getButtonText('enterprise')}
+                {getButtonText('business')}
               </button>
             </div>
           </div>

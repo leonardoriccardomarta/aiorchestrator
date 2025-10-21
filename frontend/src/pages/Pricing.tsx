@@ -156,19 +156,6 @@ const Pricing: React.FC = () => {
             </div>
           )}
           
-          {/* Trial Countdown */}
-          {user?.isTrialActive && (
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-100 border-2 border-blue-200 rounded-xl p-6 mb-8 shadow-lg">
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <span className="inline-block w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                <span className="font-semibold text-blue-700 text-lg">Free Trial Active</span>
-              </div>
-              <p className="text-sm text-gray-700 mb-3 font-medium">
-                You have {user.trialDaysLeft} days left in your free trial
-              </p>
-              <TrialCountdown />
-            </div>
-          )}
             
             {/* Billing Toggle */}
             <div className="flex items-center justify-center space-x-4 mb-8">
@@ -307,11 +294,11 @@ const Pricing: React.FC = () => {
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
-                  <span>🛒 Add to Cart & Checkout Assistance</span>
+                  <span>Add to Cart & Checkout Assistance</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
-                  <span>🎯 ML Personalization (5 segments)</span>
+                  <span>ML Personalization (5 segments)</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
@@ -377,19 +364,19 @@ const Pricing: React.FC = () => {
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
-                  <span>💳 Stripe In-Chat Payments</span>
+                  <span>Stripe In-Chat Payments</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
-                  <span>🎯 AI Upselling & Cross-selling</span>
+                  <span>AI Upselling & Cross-selling</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
-                  <span>🛒 Abandoned Cart Recovery</span>
+                  <span>Abandoned Cart Recovery</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
-                  <span>🤖 Full ML Personalization Suite</span>
+                  <span>Full ML Personalization Suite</span>
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 text-green-600 mr-3" />
@@ -433,7 +420,7 @@ const Pricing: React.FC = () => {
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Features</th>
                   <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Starter</th>
                   <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Professional</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Enterprise</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">Business</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -445,9 +432,9 @@ const Pricing: React.FC = () => {
                 </tr>
                 <tr className="hover:bg-gray-50">
                   <td className="px-6 py-4 text-sm font-medium text-gray-900">Messages per Month</td>
-                  <td className="px-6 py-4 text-center text-sm text-gray-600">1,000</td>
                   <td className="px-6 py-4 text-center text-sm text-gray-600">5,000</td>
                   <td className="px-6 py-4 text-center text-sm text-gray-600">25,000</td>
+                  <td className="px-6 py-4 text-center text-sm text-gray-600">100,000</td>
                 </tr>
                 <tr className="hover:bg-gray-50">
                   <td className="px-6 py-4 text-sm font-medium text-gray-900">Languages Support</td>
@@ -493,6 +480,44 @@ const Pricing: React.FC = () => {
                 </tr>
                 <tr className="hover:bg-gray-50">
                   <td className="px-6 py-4 text-sm font-medium text-gray-900">White-label Solution</td>
+                  <td className="px-6 py-4 text-center">
+                    <X className="w-5 h-5 text-gray-400 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <X className="w-5 h-5 text-gray-400 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <Check className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">Store Connections</td>
+                  <td className="px-6 py-4 text-center text-sm text-gray-600">Basic</td>
+                  <td className="px-6 py-4 text-center text-sm text-gray-600">Advanced</td>
+                  <td className="px-6 py-4 text-center text-sm text-gray-600">Full</td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">Add to Cart & Checkout</td>
+                  <td className="px-6 py-4 text-center">
+                    <X className="w-5 h-5 text-gray-400 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <Check className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <Check className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">ML Personalization</td>
+                  <td className="px-6 py-4 text-center">
+                    <X className="w-5 h-5 text-gray-400 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center text-sm text-gray-600">5 segments</td>
+                  <td className="px-6 py-4 text-center text-sm text-gray-600">Full Suite</td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">Stripe Payments</td>
                   <td className="px-6 py-4 text-center">
                     <X className="w-5 h-5 text-gray-400 mx-auto" />
                   </td>
