@@ -16,7 +16,7 @@ const Pricing: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const { user: authUser } = useAuth();
-  const { user, isTrialExpired } = useUser();
+  const { user, isTrialExpired, refreshUser } = useUser();
 
   // Loading effect
   useEffect(() => {
@@ -31,11 +31,11 @@ const Pricing: React.FC = () => {
         setShowPaymentModal(true);
   };
 
-  const handlePaymentSuccess = () => {
+  const handlePaymentSuccess = async () => {
     setShowPaymentModal(false);
     setSelectedPlan(null);
-    // Refresh user data or redirect
-    window.location.reload();
+    // Refresh user data from server
+    await refreshUser();
   };
 
   const handleContactSales = () => {
