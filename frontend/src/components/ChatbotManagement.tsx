@@ -253,7 +253,7 @@ const ChatbotManagement: React.FC = () => {
                   </button>
                 </div>
                 <code className="text-xs text-gray-700 bg-white p-2 rounded border block overflow-x-auto">
-                  {chatbot.embedCode.substring(0, 60)}...
+                  {(chatbot.embedCode || '').substring(0, 60)}...
                 </code>
               </div>
 
