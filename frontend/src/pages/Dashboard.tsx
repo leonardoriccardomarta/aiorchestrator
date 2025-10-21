@@ -98,7 +98,7 @@ const Dashboard: React.FC = () => {
     languagesSupported: 0,
     uptime: 0
   });
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Force redeploy
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showTour, setShowTour] = useState(false);
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
