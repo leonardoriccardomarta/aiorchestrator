@@ -951,10 +951,10 @@ const Chatbot: React.FC = () => {
         )}
 
         {activeTab === 'settings' && (
-          <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-3 lg:p-6" data-tour="chat-settings">
+          <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-3 lg:p-6 w-full" data-tour="chat-settings">
             <h3 className="text-base lg:text-xl font-semibold text-gray-900 mb-3 lg:mb-6">Chatbot Settings</h3>
-            <div className="space-y-3 lg:space-y-6">
-              <div>
+            <div className="space-y-3 lg:space-y-6 w-full">
+              <div className="w-full">
                 <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Chatbot Name</label>
                 <input
                   type="text"
@@ -966,7 +966,7 @@ const Chatbot: React.FC = () => {
                   className="w-full px-2 lg:px-4 py-1.5 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm lg:text-base"
                 />
               </div>
-              <div>
+              <div className="w-full">
                 <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Welcome Message</label>
                 <textarea
                   value={welcomeMessage}
@@ -978,7 +978,7 @@ const Chatbot: React.FC = () => {
                   className="w-full px-2 lg:px-4 py-1.5 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm lg:text-base resize-none"
                 />
               </div>
-              <div>
+              <div className="w-full">
                 <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Input Placeholder</label>
                 <input
                   type="text"
@@ -988,7 +988,7 @@ const Chatbot: React.FC = () => {
                   placeholder="Type your message..."
                 />
               </div>
-              <div>
+              <div className="w-full">
                 <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Primary Language</label>
                 <select
                   value={primaryLanguage}
