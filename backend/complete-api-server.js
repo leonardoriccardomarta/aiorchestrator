@@ -5196,36 +5196,13 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
     // Update user trial status
     authService.updateUserTrial(user.id, true, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
 
-    // Get plan price for affiliate commission
-    const planAmounts = {
-      'starter': 0,         // Free plan
-      'professional': 99,   // €99/month
-      'enterprise': 199     // €199/month
-    };
-    
-    const planAmount = planAmounts[planId] || 0;
-    
-    // If user has a referral and is paying, convert it
-    if (planAmount > 0) {
-      console.log(`💰 Converting referral for user ${user.id}, plan amount: €${planAmount}`);
-      
-      const conversionResult = await affiliateService.convertReferral(user.id, planAmount);
-      
-      if (conversionResult.success) {
-        console.log(`✅ Referral converted! Commission: €${conversionResult.data.commissionAmount.toFixed(2)}`);
-      } else {
-        console.log(`ℹ️  No referral to convert (user may not have been referred)`);
-      }
-    }
-
     res.json({
       success: true,
       data: {
         subscriptionId: subscription.id,
-        clientSecret: subscription.latest_invoice.payment_intent.client_secret,
         status: subscription.status,
         trialEnd: new Date(subscription.trial_end * 1000).toISOString(),
-        message: 'Subscription created successfully with 7-day free trial!'
+        message: 'Subscription created successfully!'
       }
     });
   } catch (error) {
