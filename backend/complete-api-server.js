@@ -5325,10 +5325,18 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
     const planUpdateResult = await planService.setUserPlan(user.id, planId);
     console.log(`🔄 Plan update result:`, planUpdateResult);
     
-    // Update user trial status
-    console.log(`🔄 Updating trial status for user ${user.id}...`);
-    const trialUpdateResult = authService.updateUserTrial(user.id, true, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
-    console.log(`🔄 Trial update result:`, trialUpdateResult);
+    // Update user payment and trial status in database
+    console.log(`🔄 Updating payment status for user ${user.id}...`);
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        isPaid: true,
+        isTrialActive: true,
+        trialEndDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        planId: planId
+      }
+    });
+    console.log(`✅ User ${user.id} updated: isPaid=true, planId=${planId}`);
 
     res.json({
       success: true,

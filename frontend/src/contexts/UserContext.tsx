@@ -69,24 +69,40 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const refreshUser = async () => {
     try {
+      console.log('🔄 RefreshUser: Starting...');
       const token = localStorage.getItem('authToken');
-      if (!token) return;
+      if (!token) {
+        console.log('🔄 RefreshUser: No token found');
+        return;
+      }
 
+      console.log('🔄 RefreshUser: Fetching user profile...');
       const response = await fetch(`${API_URL}/api/user/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
 
+      console.log('🔄 RefreshUser: Response status:', response.status);
+
       if (response.ok) {
         const result = await response.json();
+        console.log('🔄 RefreshUser: Raw response:', result);
         const userData = result.data || result; // Handle both {data: {...}} and direct {...} formats
+        console.log('🔄 RefreshUser: User data:', userData);
         const trialStatus = calculateTrialStatus(userData.trialEndDate);
         
-        setUser({
+        const updatedUser = {
           ...userData,
           trialDaysLeft: trialStatus.daysLeft
-        });
+        };
+        
+        console.log('🔄 RefreshUser: Setting user:', updatedUser);
+        setUser(updatedUser);
+        
+        // Update localStorage
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        console.log('✅ RefreshUser: User updated in state and localStorage');
         
         setIsTrialExpired(trialStatus.isExpired);
         setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
