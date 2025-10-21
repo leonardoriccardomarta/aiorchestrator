@@ -374,30 +374,32 @@ const Dashboard: React.FC = () => {
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center py-4 lg:py-6 space-y-3 lg:space-y-0">
             <div>
-              <h1 className="text-4xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl lg:text-4xl font-bold text-gray-900 mb-1 lg:mb-2">
                 Welcome back!
               </h1>
-              <p className="text-gray-600 text-lg">
+              <p className="text-gray-600 text-sm lg:text-lg hidden sm:block">
                 Here's what's happening with your AI chatbots today.
               </p>
             </div>
-            <div className="flex items-center space-x-4">
-              <ChatbotSelector />
+            <div className="flex flex-wrap items-center gap-2 lg:space-x-4 w-full lg:w-auto">
+              <div className="w-full lg:w-auto">
+                <ChatbotSelector />
+              </div>
               <button
                 onClick={() => setShowOnboarding(true)}
-                className="flex items-center px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex items-center px-3 lg:px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-sm lg:text-base"
               >
-                <Zap className="w-4 h-4 mr-2" />
-                Onboarding
+                <Zap className="w-4 h-4 mr-1 lg:mr-2" />
+                <span className="hidden sm:inline">Onboarding</span>
               </button>
               <button
                 onClick={() => navigate('/analytics')}
-                className="flex items-center px-6 py-3 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold"
+                className="flex items-center px-4 lg:px-6 py-2 lg:py-3 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold text-sm lg:text-base"
               >
-                <BarChart3 className="w-5 h-5 mr-2" />
-                View Analytics
+                <BarChart3 className="w-4 lg:w-5 h-4 lg:h-5 mr-1 lg:mr-2" />
+                <span className="hidden sm:inline">View </span>Analytics
               </button>
             </div>
           </div>
@@ -405,9 +407,9 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
           <StatCard
             title="Active Chatbots"
             value={safeStats.totalChatbots}
@@ -446,15 +448,16 @@ const Dashboard: React.FC = () => {
         />
 
         {/* Quick Actions */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-bold text-gray-900">Quick Actions</h2>
-            <div className="flex items-center space-x-2 text-sm text-gray-500">
+        <div className="mb-6 md:mb-8">
+          <div className="flex items-center justify-between mb-4 md:mb-6">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">Quick Actions</h2>
+            <div className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
               <Sparkles className="w-4 h-4" />
               <span>AI-Powered Features</span>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Desktop: Grid | Mobile: Horizontal Scroll */}
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <QuickAction
               title="Create New Chatbot"
               description="Set up a new AI assistant for your store with 50+ languages"
@@ -509,61 +512,109 @@ const Dashboard: React.FC = () => {
               status="active"
             />
           </div>
+          
+          {/* Mobile: Horizontal Scroll */}
+          <div className="md:hidden overflow-x-auto pb-4 -mx-4 px-4">
+            <div className="flex space-x-4 min-w-max">
+              <div className="w-72">
+                <QuickAction
+                  title="Create New Chatbot"
+                  description="Set up a new AI assistant for your store with 50+ languages"
+                  icon={Bot}
+                  onClick={() => navigate('/chatbot')}
+                  color="bg-gradient-to-r from-blue-500 to-blue-600"
+                  status="active"
+                  badge="NEW"
+                />
+              </div>
+              <div className="w-72">
+                <QuickAction
+                  title="Connect Shopify"
+                  description="Integrate with your Shopify store in one click"
+                  icon={ShoppingCart}
+                  onClick={() => navigate('/connections')}
+                  color="bg-gradient-to-r from-green-500 to-green-600"
+                  status="active"
+                />
+              </div>
+              <div className="w-72">
+                <QuickAction
+                  title="View Analytics"
+                  description="See detailed performance insights and analytics"
+                  icon={BarChart3}
+                  onClick={() => navigate('/analytics')}
+                  color="bg-gradient-to-r from-purple-500 to-purple-600"
+                  status="active"
+                />
+              </div>
+              <div className="w-72">
+                <QuickAction
+                  title="Multi-Language Support"
+                  description="Auto-detect 50+ languages in your chatbot"
+                  icon={Globe}
+                  onClick={() => navigate('/chatbot')}
+                  color="bg-gradient-to-r from-teal-500 to-teal-600"
+                  status="active"
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Chatbot Management */}
-        <div className="mb-8">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50">
+        <div className="mb-6 md:mb-8">
+          <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="px-4 md:px-6 py-3 md:py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50">
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
-                    <Bot className="w-5 h-5 text-white" />
+                <div className="flex items-center space-x-2 md:space-x-3">
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg md:rounded-xl flex items-center justify-center">
+                    <Bot className="w-4 h-4 md:w-5 md:h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900">Chatbot Management</h3>
-                    <p className="text-sm text-gray-600">Manage your AI assistants</p>
+                    <h3 className="text-base md:text-xl font-semibold text-gray-900">Chatbot Management</h3>
+                    <p className="text-xs md:text-sm text-gray-600 hidden sm:block">Manage your AI assistants</p>
                   </div>
                 </div>
                 <button
                   onClick={() => navigate('/chatbot')}
-                  className="flex items-center px-4 py-2 text-blue-600 hover:text-blue-700 text-sm font-medium hover:bg-blue-50 rounded-lg transition-colors"
+                  className="flex items-center px-3 md:px-4 py-1.5 md:py-2 text-blue-600 hover:text-blue-700 text-xs md:text-sm font-medium hover:bg-blue-50 rounded-lg transition-colors"
                 >
-                  <span>View All</span>
-                  <ExternalLink className="w-4 h-4 ml-1" />
+                  <span className="hidden sm:inline">View All</span>
+                  <ExternalLink className="w-4 h-4 sm:ml-1" />
                 </button>
               </div>
             </div>
-            <div className="p-6">
+            <div className="p-4 md:p-6">
               <ChatbotManagement />
             </div>
           </div>
         </div>
 
         {/* Recent Activity & Performance */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8">
           {/* Recent Activity */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-green-50">
+          <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="px-4 md:px-6 py-3 md:py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-green-50">
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
-                    <Activity className="w-5 h-5 text-white" />
+                <div className="flex items-center space-x-2 md:space-x-3">
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-green-500 to-green-600 rounded-lg md:rounded-xl flex items-center justify-center">
+                    <Activity className="w-4 h-4 md:w-5 md:h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900">Recent Activity</h3>
-                    <p className="text-sm text-gray-600">Live updates from your AI</p>
+                    <h3 className="text-base md:text-xl font-semibold text-gray-900">Recent Activity</h3>
+                    <p className="text-xs md:text-sm text-gray-600 hidden sm:block">Live updates from your AI</p>
                   </div>
                 </div>
                 <button
                   onClick={() => navigate('/analytics')}
-                  className="text-green-600 hover:text-green-700 text-sm font-medium"
+                  className="text-green-600 hover:text-green-700 text-xs md:text-sm font-medium"
                 >
-                  View All
+                  <span className="hidden sm:inline">View All</span>
+                  <span className="sm:hidden">All</span>
                 </button>
               </div>
             </div>
-            <div className="p-6">
+            <div className="p-4 md:p-6">
               {recentActivity.length > 0 ? (
                 <div className="space-y-1">
                   {recentActivity.map((activity) => (
@@ -593,19 +644,19 @@ const Dashboard: React.FC = () => {
           </div>
 
           {/* Performance Overview */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-purple-50">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
-                  <Target className="w-5 h-5 text-white" />
+          <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="px-4 md:px-6 py-3 md:py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-purple-50">
+              <div className="flex items-center space-x-2 md:space-x-3">
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg md:rounded-xl flex items-center justify-center">
+                  <Target className="w-4 h-4 md:w-5 md:h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">Performance Overview</h3>
-                  <p className="text-sm text-gray-600">System health & metrics</p>
+                  <h3 className="text-base md:text-xl font-semibold text-gray-900">Performance Overview</h3>
+                  <p className="text-xs md:text-sm text-gray-600 hidden sm:block">System health & metrics</p>
                 </div>
               </div>
             </div>
-            <div className="p-6">
+            <div className="p-4 md:p-6">
               {safeStats.totalMessages > 0 ? (
                 <div className="space-y-6">
                   <div className="flex items-center justify-between p-4 bg-green-50 rounded-xl">
