@@ -625,7 +625,7 @@ const Dashboard: React.FC = () => {
                       </div>
                     </div>
                     <span className="text-purple-600 font-bold text-xl">
-                      {stats.customerSatisfaction > 0 ? `${stats.customerSatisfaction.toFixed(1)}/5` : 'N/A'}
+                      {stats.customerSatisfaction && stats.customerSatisfaction > 0 ? `${stats.customerSatisfaction.toFixed(1)}/5` : 'N/A'}
                     </span>
                   </div>
 
