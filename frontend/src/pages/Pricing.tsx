@@ -539,21 +539,6 @@ const Pricing: React.FC = () => {
         </div>
       </div>
 
-      {/* CTA Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 py-16 rounded-2xl">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to Get Started?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Join thousands of businesses using AI Orchestrator to scale their customer support.
-          </p>
-          <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold">
-            Start Your Free Trial
-            <ArrowRight className="ml-2 w-5 h-5" />
-          </Button>
-        </div>
-      </div>
 
       {/* Payment Modal */}
       {selectedPlan && (

@@ -11,17 +11,35 @@ const ChatbotTour: React.FC<ChatbotTourProps> = ({ isOpen, onClose }) => {
     {
       target: '[data-tour="chatbot-header"]',
       content: (
-        <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">🎉 Welcome to Your AI Chatbot!</h3>
-          <p className="text-gray-600 mb-3">
-            This is your chatbot control center. Here you can:
+        <div className="text-center">
+          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <span className="text-2xl">🤖</span>
+          </div>
+          <h3 className="text-xl font-bold text-gray-900 mb-3">🎉 Welcome to Your AI Chatbot!</h3>
+          <p className="text-gray-600 mb-4">
+            Your AI-powered assistant is ready! Let's explore the key features together.
           </p>
-          <ul className="text-sm text-gray-600 space-y-1 list-disc list-inside">
-            <li>Test your chatbot in real-time</li>
-            <li>Customize appearance and behavior</li>
-            <li>Get embed code for your website</li>
-            <li>Connect to your Shopify store</li>
-          </ul>
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4 border border-blue-200">
+            <p className="text-blue-900 font-semibold text-sm mb-2">✨ What you can do:</p>
+            <div className="grid grid-cols-2 gap-2 text-xs text-blue-800">
+              <div className="flex items-center space-x-1">
+                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                <span>Test in real-time</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                <span>Customize design</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                <span>Get embed code</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+                <span>Connect Shopify</span>
+              </div>
+            </div>
+          </div>
         </div>
       ),
       placement: 'bottom',
@@ -30,16 +48,31 @@ const ChatbotTour: React.FC<ChatbotTourProps> = ({ isOpen, onClose }) => {
     {
       target: '[data-tour="chat-interface"]',
       content: (
-        <div>
+        <div className="text-center">
+          <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
+            <span className="text-xl">💬</span>
+          </div>
           <h3 className="text-lg font-semibold text-gray-900 mb-2">💬 Live Chat Preview</h3>
           <p className="text-gray-600 mb-3">
-            Test your chatbot here before deploying it. Try these features:
+            Test your chatbot here before deploying it. This is exactly how your customers will see it!
           </p>
-          <ul className="text-sm text-gray-600 space-y-1 list-disc list-inside">
-            <li><strong>Multi-language:</strong> Type in any of 50+ languages</li>
-            <li><strong>Real-time:</strong> Instant AI responses</li>
-            <li><strong>Smart:</strong> Context-aware conversations</li>
-          </ul>
+          <div className="bg-green-50 rounded-lg p-3 border border-green-200">
+            <p className="text-green-900 font-semibold text-sm mb-2">🚀 Try these features:</p>
+            <div className="space-y-1 text-xs text-green-800">
+              <div className="flex items-center justify-center space-x-2">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                <span><strong>Multi-language:</strong> Type in any of 50+ languages</span>
+              </div>
+              <div className="flex items-center justify-center space-x-2">
+                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                <span><strong>Real-time:</strong> Instant AI responses</span>
+              </div>
+              <div className="flex items-center justify-center space-x-2">
+                <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                <span><strong>Smart:</strong> Context-aware conversations</span>
+              </div>
+            </div>
+          </div>
           <p className="text-xs text-blue-600 mt-2">💡 Tip: Try asking in different languages to see auto-detection!</p>
         </div>
       ),

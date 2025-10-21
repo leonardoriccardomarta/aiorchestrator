@@ -935,8 +935,24 @@ const Chatbot: React.FC = () => {
                     </div>
                   </div>
                   <p className="text-xs lg:text-sm text-gray-600 mb-3 lg:mb-4">
-                    Connect directly to your Shopify store with one click for seamless product and order sync.
+                    Connect directly to your Shopify store with one click for seamless product and order sync. Your chatbot will automatically access your product catalog, handle order inquiries, and provide real-time inventory information.
                   </p>
+                  <div className="bg-green-50 rounded-lg p-3 mb-3 lg:mb-4">
+                    <div className="flex items-start space-x-2">
+                      <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-white text-xs">✓</span>
+                      </div>
+                      <div className="text-xs text-green-800">
+                        <p className="font-medium mb-1">What you get:</p>
+                        <ul className="space-y-1 text-xs">
+                          <li>• Real product recommendations</li>
+                          <li>• Order tracking assistance</li>
+                          <li>• Inventory status updates</li>
+                          <li>• Add to cart functionality</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                   <button 
                     onClick={() => window.location.href = '/connections'}
                     className="w-full px-3 lg:px-4 py-1.5 lg:py-2 bg-green-600 text-white rounded-md lg:rounded-lg hover:bg-green-700 transition-colors text-xs lg:text-sm"

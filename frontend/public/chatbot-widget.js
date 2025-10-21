@@ -636,6 +636,43 @@
             return;
           }
 
+          // Check for message limit reached
+          if (response.status === 429 && data.limitReached) {
+            // Show message limit reached
+            const limitReachedHTML = `
+              <div class="message bot limit-reached">
+                <div style="text-align: center; padding: 20px; background: #fef3c7; border: 1px solid #fbbf24; border-radius: 8px; margin: 10px 0;">
+                  <div style="font-size: 18px; font-weight: 600; color: #d97706; margin-bottom: 10px;">
+                    📊 Monthly Limit Reached
+                  </div>
+                  <div style="color: #92400e; margin-bottom: 15px;">
+                    ${data.error}
+                  </div>
+                  <div style="color: #92400e; font-size: 14px; margin-bottom: 15px;">
+                    Used: ${data.currentUsage}/${data.limit} messages this month
+                  </div>
+                  <a href="/pricing" target="_blank" style="
+                    display: inline-block;
+                    background: #d97706;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 6px;
+                    text-decoration: none;
+                    font-weight: 600;
+                    transition: background 0.2s;
+                  " onmouseover="this.style.background='#b45309'" onmouseout="this.style.background='#d97706'">
+                    Upgrade Plan
+                  </a>
+                </div>
+              </div>
+            `;
+            messagesContainer.innerHTML += limitReachedHTML;
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            inputField.disabled = true;
+            inputField.placeholder = 'Monthly limit reached - upgrade required';
+            return;
+          }
+
           // Add AI response with enhanced features
           let aiResponse = data.response || data.message || 'Sorry, I couldn\'t process that.';
           

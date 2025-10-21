@@ -290,20 +290,20 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
             <h4 className="font-semibold text-orange-900 mb-3">📱 Easy Integration</h4>
             <div className="space-y-4">
               <div className="bg-white rounded-lg p-4 border border-orange-200">
-                <h5 className="font-medium text-gray-900 mb-2">1. Copy the embed code</h5>
+                <h5 className="font-medium text-gray-900 mb-2">1. Customize your chatbot</h5>
+                <p className="text-sm text-gray-600">First, customize colors, name, and welcome message in the Settings tab</p>
+              </div>
+              
+              <div className="bg-white rounded-lg p-4 border border-orange-200">
+                <h5 className="font-medium text-gray-900 mb-2">2. Copy the embed code</h5>
                 <div className="bg-gray-100 rounded p-3 font-mono text-sm">
                   {`<script src="https://your-domain.com/chatbot.js"></script>`}
                 </div>
               </div>
               
               <div className="bg-white rounded-lg p-4 border border-orange-200">
-                <h5 className="font-medium text-gray-900 mb-2">2. Paste in your website</h5>
+                <h5 className="font-medium text-gray-900 mb-2">3. Paste in your website</h5>
                 <p className="text-sm text-gray-600">Add the code before the closing &lt;/body&gt; tag</p>
-              </div>
-              
-              <div className="bg-white rounded-lg p-4 border border-orange-200">
-                <h5 className="font-medium text-gray-900 mb-2">3. Customize appearance</h5>
-                <p className="text-sm text-gray-600">Choose colors, position, and behavior to match your brand</p>
               </div>
             </div>
           </div>
