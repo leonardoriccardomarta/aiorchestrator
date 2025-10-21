@@ -30,11 +30,7 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
   const [error, setError] = useState<string | null>(null);
   const [billingDetails, setBillingDetails] = useState({
     name: '',
-    email: '',
-    address: '',
-    city: '',
-    country: '',
-    postalCode: ''
+    email: ''
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,7 +41,7 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
     }
 
     if (!billingDetails.name || !billingDetails.email) {
-      setError('Please fill in all required fields');
+      setError('Please fill in name and email');
       return;
     }
 
@@ -59,13 +55,7 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
         card: elements.getElement(CardElement)!,
         billing_details: {
           name: billingDetails.name,
-          email: billingDetails.email,
-          address: {
-            line1: billingDetails.address,
-            city: billingDetails.city,
-            country: billingDetails.country,
-            postal_code: billingDetails.postalCode
-          }
+          email: billingDetails.email
         }
       });
 
