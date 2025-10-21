@@ -158,3 +158,4 @@ dist-ssr
 # Critical files backup (to prevent corruption)
 *.backup
 *.bak
+.vercel
