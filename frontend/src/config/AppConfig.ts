@@ -76,7 +76,7 @@ class ConfigService {
         enableAnalytics: process.env.ENABLE_ANALYTICS === 'true',
       },
       security: {
-        jwtSecret: process.env.JWT_SECRET || 'default-jwt-secret',
+        jwtSecret: process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production',
         encryptionKey: process.env.ENCRYPTION_KEY || 'default-encryption-key',
         enableE2eEncryption: process.env.ENABLE_E2E_ENCRYPTION === 'true',
         enableAuditLogging: process.env.ENABLE_AUDIT_LOGGING === 'true',

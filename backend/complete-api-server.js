@@ -131,7 +131,11 @@ const authenticateToken = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
+    console.log('🔐 Auth header:', authHeader ? authHeader.substring(0, 20) + '...' : 'null');
+    console.log('🔐 Extracted token:', token ? token.substring(0, 20) + '...' : 'null');
+
     if (!token) {
+      console.log('🔐 No token provided');
       return res.status(401).json({
         success: false,
         error: 'Access token required'
@@ -139,6 +143,7 @@ const authenticateToken = async (req, res, next) => {
     }
 
     const user = await authService.verifyAccess(token);
+    console.log('🔐 User authenticated successfully:', user.id);
     req.user = user;
     next();
   } catch (error) {

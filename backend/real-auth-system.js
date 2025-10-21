@@ -139,11 +139,17 @@ class AuthService {
 
   async verifyAccess(token) {
     try {
+      console.log('🔐 Verifying token:', token ? token.substring(0, 20) + '...' : 'null');
+      
       const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret');
+      console.log('🔐 Token decoded successfully:', { id: decoded.id, email: decoded.email });
+      
       const user = await prisma.user.findUnique({ 
         where: { id: decoded.id },
         include: { tenant: true }
       });
+      
+      console.log('🔐 User found:', user ? { id: user.id, email: user.email, isActive: user.isActive } : 'null');
       
       if (!user || !user.isActive) {
         throw new Error('User not found or inactive');
@@ -151,7 +157,14 @@ class AuthService {
 
       return user;
     } catch (error) {
-      throw new Error('Invalid token');
+      console.error('🔐 Token verification failed:', error.message);
+      if (error.name === 'TokenExpiredError') {
+        throw new Error('Token expired');
+      } else if (error.name === 'JsonWebTokenError') {
+        throw new Error('Invalid token format');
+      } else {
+        throw new Error('Invalid token');
+      }
     }
   }
 
