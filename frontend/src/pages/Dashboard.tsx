@@ -185,7 +185,15 @@ const Dashboard: React.FC = () => {
       
       if (activityResponse.ok) {
         const activityData = await activityResponse.json();
-        setRecentActivity(activityData.activities || []);
+        console.log('📈 Activity data received:', activityData);
+        console.log('📈 Activities array:', activityData.activities);
+        // Ensure all activities have a value field
+        const activitiesWithValue = (activityData.activities || []).map((activity: any) => ({
+          ...activity,
+          value: activity.value ?? 0 // Use nullish coalescing to set 0 if value is null/undefined
+        }));
+        console.log('📈 Activities with value:', activitiesWithValue);
+        setRecentActivity(activitiesWithValue);
       } else {
         // If no real activity, show empty state
         setRecentActivity([]);
