@@ -2069,6 +2069,7 @@ app.get('/api/user/profile', authenticatePayment, async (req, res) => {
         isTrialActive: freshUser.isTrialActive,
         isPaid: freshUser.isPaid,
         trialEndDate: freshUser.trialEndDate,
+        createdAt: freshUser.createdAt,
         hasCompletedOnboarding: freshUser.hasCompletedOnboarding || false,
         isNewUser: freshUser.isNewUser || false
       }

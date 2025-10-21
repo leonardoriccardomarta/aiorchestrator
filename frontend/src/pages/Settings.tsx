@@ -262,16 +262,22 @@ const Settings: React.FC = () => {
               <div className="flex items-center justify-between mb-3 lg:mb-4">
                 <div className="flex items-center space-x-2 lg:space-x-3">
                   <Clock className={`w-5 h-5 lg:w-6 lg:h-6 ${getTrialStatusColor()}`} />
-                  <h2 className="text-lg lg:text-xl font-semibold text-gray-900">Trial Status</h2>
+                  <h2 className="text-lg lg:text-xl font-semibold text-gray-900">
+                    {user?.isPaid ? 'Plan Status' : 'Trial Status'}
+                  </h2>
                 </div>
-                {user?.isTrialActive && (
+                {user?.isPaid ? (
+                  <span className="px-2 lg:px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs lg:text-sm font-medium">
+                    Paid
+                  </span>
+                ) : user?.isTrialActive && (
                   <span className="px-2 lg:px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs lg:text-sm font-medium">
                     Active
-                    </span>
+                  </span>
                 )}
               </div>
 
-              {user?.isTrialActive ? (
+              {!user?.isPaid ? (
                 <div className="space-y-3 lg:space-y-4">
                   <div className="flex items-center space-x-3 lg:space-x-4">
                     <div className="text-2xl lg:text-3xl font-bold text-gray-900">
@@ -310,11 +316,38 @@ const Settings: React.FC = () => {
                   </button>
                 </div>
               ) : (
-                <div className="text-center py-6 lg:py-8">
-                  <CheckCircle className="w-12 h-12 lg:w-16 lg:h-16 text-green-500 mx-auto mb-3 lg:mb-4" />
-                  <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-2">Active Plan</h3>
-                  <p className="text-gray-600 text-sm lg:text-base">Your plan is active and working</p>
-          </div>
+                <div className="space-y-3 lg:space-y-4">
+                  <div className="flex items-center space-x-3 lg:space-x-4">
+                    <div className="text-2xl lg:text-3xl font-bold text-gray-900">
+                      30
+                  </div>
+                    <div className="text-gray-600">
+                      <div className="font-medium text-sm lg:text-base">days remaining</div>
+                      <div className="text-xs lg:text-sm">Next billing cycle</div>
+                </div>
+                  </div>
+                  
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="h-2 rounded-full bg-green-500 transition-all duration-300"
+                      style={{ width: '75%' }}
+                    />
+        </div>
+
+                  <div className="flex items-center space-x-2 text-green-600">
+                    <CheckCircle className="w-4 h-4 lg:w-5 lg:h-5" />
+                    <span className="font-medium text-sm lg:text-base">Plan active - {user?.planId?.charAt(0).toUpperCase() + user?.planId?.slice(1)} Plan</span>
+                  </div>
+
+                  <button
+                    onClick={handleUpgrade}
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 lg:px-6 py-2 lg:py-3 rounded-md lg:rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center justify-center space-x-2 text-sm lg:text-base"
+                  >
+                    <Crown className="w-4 h-4 lg:w-5 lg:h-5" />
+                    <span>Manage Plan</span>
+                    <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5" />
+                  </button>
+                </div>
               )}
           </div>
 
@@ -331,17 +364,17 @@ const Settings: React.FC = () => {
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600 text-sm lg:text-base">Monthly Price</span>
                       <span className="font-semibold text-gray-900 text-sm lg:text-base">
-                    {user?.planId === 'starter' ? '$29' : 
-                     user?.planId === 'professional' ? '$99' : 
-                     user?.planId === 'enterprise' ? '$299' : '$29'}
+                    {user?.planId === 'starter' ? '$19' : 
+                     user?.planId === 'professional' ? '$79' : 
+                     user?.planId === 'business' ? '$299' : '$19'}
                       </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600 text-sm lg:text-base">Included Chatbots</span>
                       <span className="font-semibold text-gray-900 text-sm lg:text-base">
                     {user?.planId === 'starter' ? '1' : 
-                     user?.planId === 'professional' ? '5' : 
-                     user?.planId === 'enterprise' ? 'Unlimited' : '1'}
+                     user?.planId === 'professional' ? '2' : 
+                     user?.planId === 'business' ? '3' : '1'}
                       </span>
           </div>
                 <div className="flex justify-between items-center py-2">
@@ -378,11 +411,7 @@ const Settings: React.FC = () => {
                         year: 'numeric', 
                         month: 'long', 
                         day: 'numeric' 
-                      }) : new Date().toLocaleDateString('en-US', { 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                      })}
+                      }) : 'October 21, 2025'}
                     </div>
                   </div>
             </div>
@@ -479,40 +508,63 @@ const Settings: React.FC = () => {
             {/* Plan Change */}
             {user?.isPaid && (
               <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6">
-                <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-3 lg:mb-4">Change Plan</h3>
-                <div className="space-y-3 lg:space-y-4">
-                  <p className="text-sm lg:text-base text-gray-600">
-                    Change your subscription plan. The new plan will take effect at the end of your current billing period.
-                  </p>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    {['starter', 'professional', 'business'].map((plan) => (
-                      <button
-                        key={plan}
-                        onClick={() => window.location.href = `/?pricing=true&plan=${plan}`}
-                        className={`p-3 rounded-lg border-2 transition-all ${
-                          user?.planId === plan
-                            ? 'border-blue-500 bg-blue-50'
-                            : 'border-gray-200 hover:border-gray-300'
-                        }`}
-                      >
-                        <div className="text-center">
-                          <div className="font-semibold text-sm lg:text-base text-gray-900 capitalize">
-                            {plan}
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-base lg:text-lg font-semibold text-gray-900">Change Plan</h3>
+                  <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                    Changes at next billing cycle
+                  </span>
+                </div>
+                
+                <p className="text-sm text-gray-600 mb-6">
+                  Switch to a different plan. Changes will take effect at the end of your current billing period.
+                </p>
+                
+                <div className="space-y-3">
+                  {[
+                    { id: 'starter', name: 'Starter', price: '$19', features: ['1 Chatbot', '5K messages', 'Basic support'] },
+                    { id: 'professional', name: 'Professional', price: '$79', features: ['2 Chatbots', '25K messages', 'Priority support'] },
+                    { id: 'business', name: 'Business', price: '$299', features: ['3 Chatbots', '100K messages', '24/7 support'] }
+                  ].map((plan) => (
+                    <button
+                      key={plan.id}
+                      onClick={() => window.location.href = `/?pricing=true&plan=${plan.id}`}
+                      className={`w-full p-4 rounded-xl border-2 transition-all duration-200 ${
+                        user?.planId === plan.id
+                          ? 'border-blue-500 bg-blue-50 shadow-md'
+                          : 'border-gray-200 hover:border-gray-300 hover:shadow-sm'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="text-left">
+                          <div className="flex items-center space-x-2">
+                            <h4 className="font-semibold text-gray-900">{plan.name}</h4>
+                            {user?.planId === plan.id && (
+                              <span className="px-2 py-1 bg-blue-500 text-white text-xs font-medium rounded-full">
+                                Current
+                              </span>
+                            )}
                           </div>
-                          <div className="text-xs lg:text-sm text-gray-600 mt-1">
-                            {plan === 'starter' ? '$19/mo' : 
-                             plan === 'professional' ? '$79/mo' : '$299/mo'}
+                          <p className="text-2xl font-bold text-gray-900 mt-1">{plan.price}<span className="text-sm font-normal text-gray-600">/month</span></p>
+                          <div className="flex flex-wrap gap-1 mt-2">
+                            {plan.features.map((feature, idx) => (
+                              <span key={idx} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
+                                {feature}
+                              </span>
+                            ))}
                           </div>
-                          {user?.planId === plan && (
-                            <div className="text-xs text-blue-600 font-medium mt-1">
-                              Current Plan
+                        </div>
+                        <div className="text-right">
+                          {user?.planId === plan.id ? (
+                            <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                              <CheckCircle className="w-4 h-4 text-white" />
                             </div>
+                          ) : (
+                            <ArrowRight className="w-5 h-5 text-gray-400" />
                           )}
                         </div>
-                      </button>
-                    ))}
-                  </div>
+                      </div>
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
