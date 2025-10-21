@@ -5146,26 +5146,36 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
       },
     });
 
-    // Get plan price from planId
-    const planPrices = {
-      'starter': 'price_starter_monthly',
-      'professional': 'price_professional_monthly', 
-      'enterprise': 'price_enterprise_monthly'
+    // Get plan details
+    const planDetails = {
+      'starter': { price: 19, name: 'Starter' },
+      'professional': { price: 79, name: 'Professional' },
+      'business': { price: 299, name: 'Business' }
     };
 
-    const priceId = planPrices[planId];
-    if (!priceId) {
+    const plan = planDetails[planId];
+    if (!plan) {
       return res.status(400).json({
         success: false,
         error: 'Invalid plan ID'
       });
     }
 
-    // Create subscription with 7-day free trial
+    // Create subscription directly with amount (no pre-configured price needed)
     const subscription = await stripe.subscriptions.create({
       customer: customer.id,
       items: [{
-        price: priceId,
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: `${plan.name} Plan`,
+            description: `AI Orchestrator ${plan.name} Plan - Monthly Subscription`
+          },
+          unit_amount: plan.price * 100, // Convert to cents
+          recurring: {
+            interval: 'month'
+          }
+        }
       }],
       payment_behavior: 'default_incomplete',
       payment_settings: { save_default_payment_method: 'on_subscription' },

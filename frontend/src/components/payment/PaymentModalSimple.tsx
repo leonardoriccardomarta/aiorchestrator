@@ -3,6 +3,7 @@ import { API_URL } from '../../config/constants';
 import { X, CreditCard, CheckCircle, Loader2 } from 'lucide-react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_placeholder');
 
@@ -145,9 +146,11 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
                   },
                 },
               },
+              hidePostalCode: false,
             }}
           />
         </div>
+        <p className="text-xs text-gray-500 mt-1">All fields in English</p>
       </div>
 
       {error && (
@@ -178,6 +181,8 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
 };
 
 const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSuccess, plan }) => {
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'paypal'>('card');
+
   if (!isOpen) return null;
 
   return (
@@ -207,11 +212,72 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSuccess,
           </div>
         </div>
 
+        {/* Payment Method Selection */}
+        <div className="p-4 border-b border-gray-200">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Payment Method
+          </label>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => setPaymentMethod('card')}
+              className={`p-3 rounded-lg border-2 transition-all ${
+                paymentMethod === 'card'
+                  ? 'border-blue-500 bg-blue-50'
+                  : 'border-gray-300 hover:border-gray-400'
+              }`}
+            >
+              <CreditCard className="w-5 h-5 mx-auto mb-1" />
+              <span className="text-xs font-medium">Credit Card</span>
+            </button>
+            <button
+              onClick={() => setPaymentMethod('paypal')}
+              className={`p-3 rounded-lg border-2 transition-all ${
+                paymentMethod === 'paypal'
+                  ? 'border-blue-500 bg-blue-50'
+                  : 'border-gray-300 hover:border-gray-400'
+              }`}
+            >
+              <div className="w-5 h-5 mx-auto mb-1 bg-blue-600 rounded text-white text-xs font-bold flex items-center justify-center">P</div>
+              <span className="text-xs font-medium">PayPal</span>
+            </button>
+          </div>
+        </div>
+
         {/* Payment Form */}
         <div className="p-4">
-          <Elements stripe={stripePromise}>
-            <StripePaymentForm plan={plan} onSuccess={onSuccess} onClose={onClose} />
-          </Elements>
+          {paymentMethod === 'card' ? (
+            <Elements stripe={stripePromise}>
+              <StripePaymentForm plan={plan} onSuccess={onSuccess} onClose={onClose} />
+            </Elements>
+          ) : (
+            <PayPalScriptProvider options={{ 
+              clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID || 'sb',
+              currency: 'USD'
+            }}>
+              <div className="space-y-4">
+                <p className="text-sm text-gray-600 text-center">
+                  Click below to complete payment with PayPal
+                </p>
+                <PayPalButtons
+                  style={{ layout: 'vertical' }}
+                  createSubscription={(data, actions) => {
+                    return actions.subscription.create({
+                      plan_id: plan.id
+                    });
+                  }}
+                  onApprove={async (data, actions) => {
+                    console.log('PayPal subscription approved:', data);
+                    onSuccess();
+                    onClose();
+                  }}
+                  onError={(err) => {
+                    console.error('PayPal error:', err);
+                    alert('PayPal payment failed. Please try again.');
+                  }}
+                />
+              </div>
+            </PayPalScriptProvider>
+          )}
         </div>
       </div>
     </div>
