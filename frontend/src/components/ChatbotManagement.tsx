@@ -171,11 +171,11 @@ const ChatbotManagement: React.FC = () => {
               {/* Stats */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center p-3 bg-gray-50 rounded-lg">
-                  <div className="text-2xl font-bold text-gray-900">{chatbot.messagesCount.toLocaleString()}</div>
+                  <div className="text-2xl font-bold text-gray-900">{(chatbot.messagesCount ?? 0).toLocaleString()}</div>
                   <div className="text-xs text-gray-600">Messages</div>
                 </div>
                 <div className="text-center p-3 bg-gray-50 rounded-lg">
-                  <div className="text-2xl font-bold text-green-600">{chatbot.conversionRate}%</div>
+                  <div className="text-2xl font-bold text-green-600">{chatbot.conversionRate ?? 0}%</div>
                   <div className="text-xs text-gray-600">Conversion</div>
                 </div>
               </div>
