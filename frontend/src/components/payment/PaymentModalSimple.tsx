@@ -85,6 +85,7 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
 
       if (data.success) {
         console.log('✅ Payment successful:', data);
+        alert('✅ Payment successful! Your plan has been updated.');
         onSuccess();
         onClose();
       } else {

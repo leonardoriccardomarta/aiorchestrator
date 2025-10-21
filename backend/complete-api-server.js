@@ -2032,6 +2032,34 @@ app.get('/api/plans', (req, res) => {
   }
 });
 
+// Get user profile
+app.get('/api/user/profile', authenticateToken, async (req, res) => {
+  try {
+    const user = req.user;
+    
+    res.json({
+      success: true,
+      data: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        planId: user.planId,
+        isActive: user.isActive,
+        isTrialActive: user.isTrialActive,
+        trialEndDate: user.trialEndDate,
+        hasCompletedOnboarding: user.hasCompletedOnboarding,
+        isNewUser: user.isNewUser
+      }
+    });
+  } catch (error) {
+    console.error('Error getting user profile:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to get user profile'
+    });
+  }
+});
+
 // Set user plan
 app.post('/api/plans/set', async (req, res) => {
   try {
