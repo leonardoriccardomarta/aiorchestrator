@@ -186,9 +186,11 @@ const Dashboard: React.FC = () => {
       if (activityResponse.ok) {
         const activityData = await activityResponse.json();
         console.log('📈 Activity data received:', activityData);
-        console.log('📈 Activities array:', activityData.activities);
+        // Support both "activities" and "data" fields (backward compatibility)
+        const activitiesArray = activityData.activities || activityData.data || [];
+        console.log('📈 Activities array:', activitiesArray);
         // Ensure all activities have a value field
-        const activitiesWithValue = (activityData.activities || []).map((activity: any) => ({
+        const activitiesWithValue = activitiesArray.map((activity: any) => ({
           ...activity,
           value: activity.value ?? 0 // Use nullish coalescing to set 0 if value is null/undefined
         }));
