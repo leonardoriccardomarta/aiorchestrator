@@ -967,108 +967,149 @@ const Chatbot: React.FC = () => {
         )}
 
         {activeTab === 'settings' && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6" data-tour="chat-settings">
-            <h3 className="text-xl font-semibold text-gray-900 mb-6">Chatbot Settings</h3>
-            <div className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Chatbot Name</label>
-                <input
-                  type="text"
-                  value={chatbotName}
-                  onChange={(e)=>{
-                    setChatbotName(e.target.value);
-                    setWidgetTitle(e.target.value); // Sync with widget title
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                />
+          <div className="space-y-4 lg:space-y-6">
+            {/* Your Plan Limits */}
+            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg lg:text-xl font-semibold text-gray-900">Your Plan Limits</h3>
+                <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs lg:text-sm font-medium rounded-full">
+                  {user?.planId === 'starter' ? 'Starter' : user?.planId === 'professional' ? 'Professional' : 'Business'}
+                </span>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Welcome Message</label>
-                <textarea
-                  value={welcomeMessage}
-                  onChange={(e)=>{
-                    setWelcomeMessage(e.target.value);
-                    setWidgetMessage(e.target.value); // Sync with widget message
-                  }}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none"
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="text-center">
+                  <div className="text-2xl lg:text-3xl font-bold text-blue-600 mb-1">
+                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : '3'}
+                  </div>
+                  <div className="text-xs lg:text-sm text-gray-600">Chatbots</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl lg:text-3xl font-bold text-green-600 mb-1">
+                    {user?.planId === 'starter' ? '5K' : user?.planId === 'professional' ? '25K' : '100K'}
+                  </div>
+                  <div className="text-xs lg:text-sm text-gray-600">Messages/Month</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl lg:text-3xl font-bold text-blue-600 mb-1">
+                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : '5'}
+                  </div>
+                  <div className="text-xs lg:text-sm text-gray-600">Websites</div>
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Input Placeholder</label>
-                <input
-                  type="text"
-                  value={widgetPlaceholder}
-                  onChange={(e) => setWidgetPlaceholder(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                  placeholder="Type your message..."
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Primary Language</label>
-                <select
-                  value={primaryLanguage}
-                  onChange={(e)=> setPrimaryLanguage(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                >
-                  <option value="auto">Auto-detect</option>
-                  <option value="en">English</option>
-                  <option value="it">Italiano</option>
-                  <option value="es">Español</option>
-                  <option value="fr">Français</option>
-                  <option value="de">Deutsch</option>
-                  <option value="pt">Português</option>
-                  <option value="ja">日本語</option>
-                  <option value="ko">한국어</option>
-                  <option value="zh">中文</option>
-                </select>
-                <p className="text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
-              </div>
-              <div className="flex items-center justify-end">
-                <button onClick={async ()=>{
-                  if(!currentChatbotId){ 
-                    alert('No chatbot found. Please reload the page.');
-                    await loadChatbot();
-                    return;
-                  }
-                  try{
-                    const res = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${currentChatbotId}` ,{
-                      method:'PUT',
-                      headers:{ 'Content-Type':'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
-                      body: JSON.stringify({ 
-                        name: chatbotName, 
-                        welcomeMessage, 
-                        language: primaryLanguage,
-                        settings: {
-                          theme: widgetTheme,
-                          placeholder: widgetPlaceholder,
-                          showAvatar: showWidgetAvatar,
-                          title: widgetTitle,
-                          message: widgetMessage
+            </div>
+
+            {/* Chatbot Settings */}
+            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6" data-tour="chat-settings">
+              <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Chatbot Settings</h3>
+              <div className="space-y-4 lg:space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+                  <div>
+                    <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Chatbot Name</label>
+                    <input
+                      type="text"
+                      value={chatbotName}
+                      onChange={(e)=>{
+                        setChatbotName(e.target.value);
+                        setWidgetTitle(e.target.value); // Sync with widget title
+                      }}
+                      className="w-full px-2 lg:px-4 py-1.5 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Input Placeholder</label>
+                    <input
+                      type="text"
+                      value={widgetPlaceholder}
+                      onChange={(e) => setWidgetPlaceholder(e.target.value)}
+                      className="w-full px-2 lg:px-4 py-1.5 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
+                      placeholder="Type your message..."
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Welcome Message</label>
+                  <textarea
+                    value={welcomeMessage}
+                    onChange={(e)=>{
+                      setWelcomeMessage(e.target.value);
+                      setWidgetMessage(e.target.value); // Sync with widget message
+                    }}
+                    rows={2}
+                    className="w-full px-2 lg:px-4 py-1.5 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base resize-none"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Primary Language</label>
+                  <select
+                    value={primaryLanguage}
+                    onChange={(e)=> setPrimaryLanguage(e.target.value)}
+                    className="w-full px-2 lg:px-4 py-1.5 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
+                  >
+                    <option value="auto">Auto-detect</option>
+                    <option value="en">English</option>
+                    <option value="it">Italiano</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="pt">Português</option>
+                    <option value="ja">日本語</option>
+                    <option value="ko">한국어</option>
+                    <option value="zh">中文</option>
+                  </select>
+                  <p className="text-[9px] lg:text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
+                </div>
+                
+                <div className="flex items-center justify-end pt-2">
+                  <button 
+                    onClick={async ()=>{
+                      if(!currentChatbotId){ 
+                        alert('No chatbot found. Please reload the page.');
+                        await loadChatbot();
+                        return;
+                      }
+                      try{
+                        const res = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${currentChatbotId}` ,{
+                          method:'PUT',
+                          headers:{ 'Content-Type':'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
+                          body: JSON.stringify({ 
+                            name: chatbotName, 
+                            welcomeMessage, 
+                            language: primaryLanguage,
+                            settings: {
+                              theme: widgetTheme,
+                              placeholder: widgetPlaceholder,
+                              showAvatar: showWidgetAvatar,
+                              title: widgetTitle,
+                              message: widgetMessage
+                            }
+                          })
+                        });
+                        const j = await res.json();
+                        if(j?.success){ 
+                          setShowSaveSuccess(true);
+                          setTimeout(() => setShowSaveSuccess(false), 3000);
+                          // Reload chatbot to reflect changes
+                          await loadChatbot();
+                          // Switch to chat tab to see changes
+                          setActiveTab('chat');
+                        } else { 
+                          alert('Save failed'); 
                         }
-                      })
-                    });
-                    const j = await res.json();
-                    if(j?.success){ 
-                      setShowSaveSuccess(true);
-                      setTimeout(() => setShowSaveSuccess(false), 3000);
-                      // Reload chatbot to reflect changes
-                      await loadChatbot();
-                      // Switch to chat tab to see changes
-                      setActiveTab('chat');
-                    } else { 
-                      alert('Save failed'); 
-                    }
-                  }catch(e){ alert('Save failed'); }
-                }} className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium text-sm">
-                  Save Settings
-                </button>
+                      }catch(e){ alert('Save failed'); }
+                    }} 
+                    className="px-3 lg:px-6 py-1.5 lg:py-3 bg-blue-600 text-white rounded-md lg:rounded-lg hover:bg-blue-700 transition-colors text-xs lg:text-sm"
+                  >
+                    Save Settings
+                  </button>
+                </div>
               </div>
             </div>
 
             {/* Advanced Features */}
-            <div className="mt-8 space-y-6">
-              <h4 className="text-lg font-semibold text-gray-900">Advanced Features</h4>
+            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">
+              <h4 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Advanced Features</h4>
               
               {/* Custom Branding */}
               <BrandingSettings />
