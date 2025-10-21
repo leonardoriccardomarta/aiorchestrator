@@ -242,44 +242,44 @@ const Settings: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4">
+    <div className="min-h-screen bg-gray-50 py-4 lg:py-8">
+      <div className="max-w-4xl mx-auto px-2 sm:px-4">
         {/* Header */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6 mb-4 lg:mb-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3 mb-4">
-              <SettingsIcon className="w-8 h-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-gray-900">Account Settings</h1>
+            <div className="flex items-center space-x-2 lg:space-x-3 mb-2 lg:mb-4">
+              <SettingsIcon className="w-6 h-6 lg:w-8 lg:h-8 text-blue-600" />
+              <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Account Settings</h1>
             </div>
           </div>
-          <p className="text-gray-600">Manage your account, plan and preferences</p>
+          <p className="text-gray-600 text-sm lg:text-base">Manage your account, plan and preferences</p>
           </div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid lg:grid-cols-3 gap-4 lg:gap-6">
           {/* Trial Status Card */}
           <div className="lg:col-span-2">
-            <div className={`rounded-lg border-2 p-6 mb-6 ${getTrialStatusBg()}`} data-tour="plan-info">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-3">
-                  <Clock className={`w-6 h-6 ${getTrialStatusColor()}`} />
-                  <h2 className="text-xl font-semibold text-gray-900">Trial Status</h2>
+            <div className={`rounded-lg border-2 p-4 lg:p-6 mb-4 lg:mb-6 ${getTrialStatusBg()}`} data-tour="plan-info">
+              <div className="flex items-center justify-between mb-3 lg:mb-4">
+                <div className="flex items-center space-x-2 lg:space-x-3">
+                  <Clock className={`w-5 h-5 lg:w-6 lg:h-6 ${getTrialStatusColor()}`} />
+                  <h2 className="text-lg lg:text-xl font-semibold text-gray-900">Trial Status</h2>
                 </div>
                 {user?.isTrialActive && (
-                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                  <span className="px-2 lg:px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs lg:text-sm font-medium">
                     Active
                     </span>
                 )}
               </div>
 
               {user?.isTrialActive ? (
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="text-3xl font-bold text-gray-900">
+                <div className="space-y-3 lg:space-y-4">
+                  <div className="flex items-center space-x-3 lg:space-x-4">
+                    <div className="text-2xl lg:text-3xl font-bold text-gray-900">
                       {trialDaysLeft}
                   </div>
                     <div className="text-gray-600">
-                      <div className="font-medium">days remaining</div>
-                      <div className="text-sm">{trialHoursLeft} hours</div>
+                      <div className="font-medium text-sm lg:text-base">days remaining</div>
+                      <div className="text-xs lg:text-sm">{trialHoursLeft} hours</div>
                 </div>
                   </div>
                   
@@ -295,58 +295,58 @@ const Settings: React.FC = () => {
 
                   {trialDaysLeft <= 3 && (
                     <div className="flex items-center space-x-2 text-red-600">
-                      <AlertTriangle className="w-5 h-5" />
-                      <span className="font-medium">Trial expiring soon! Upgrade now to continue.</span>
+                      <AlertTriangle className="w-4 h-4 lg:w-5 lg:h-5" />
+                      <span className="font-medium text-sm lg:text-base">Trial expiring soon! Upgrade now to continue.</span>
                     </div>
                   )}
 
                   <button
                     onClick={handleUpgrade}
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center justify-center space-x-2"
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 lg:px-6 py-2 lg:py-3 rounded-md lg:rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center justify-center space-x-2 text-sm lg:text-base"
                   >
-                    <Crown className="w-5 h-5" />
+                    <Crown className="w-4 h-4 lg:w-5 lg:h-5" />
                     <span>Upgrade Plan</span>
-                    <ArrowRight className="w-5 h-5" />
+                    <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5" />
                   </button>
                 </div>
               ) : (
-                <div className="text-center py-8">
-                  <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Active Plan</h3>
-                  <p className="text-gray-600">Your plan is active and working</p>
+                <div className="text-center py-6 lg:py-8">
+                  <CheckCircle className="w-12 h-12 lg:w-16 lg:h-16 text-green-500 mx-auto mb-3 lg:mb-4" />
+                  <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-2">Active Plan</h3>
+                  <p className="text-gray-600 text-sm lg:text-base">Your plan is active and working</p>
           </div>
               )}
           </div>
 
             {/* Plan Details */}
-            <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Plan Details</h3>
-              <div className="space-y-4">
+            <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6 mb-4 lg:mb-6">
+              <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-3 lg:mb-4">Plan Details</h3>
+              <div className="space-y-3 lg:space-y-4">
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-600">Current Plan</span>
-                  <span className="font-semibold text-gray-900">
+                  <span className="text-gray-600 text-sm lg:text-base">Current Plan</span>
+                  <span className="font-semibold text-gray-900 text-sm lg:text-base">
                     {user?.planId?.charAt(0).toUpperCase() + user?.planId?.slice(1) || 'Starter'}
                           </span>
                       </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-600">Monthly Price</span>
-                      <span className="font-semibold text-gray-900">
+                  <span className="text-gray-600 text-sm lg:text-base">Monthly Price</span>
+                      <span className="font-semibold text-gray-900 text-sm lg:text-base">
                     {user?.planId === 'starter' ? '$29' : 
                      user?.planId === 'professional' ? '$99' : 
                      user?.planId === 'enterprise' ? '$299' : '$29'}
                       </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-600">Included Chatbots</span>
-                      <span className="font-semibold text-gray-900">
+                  <span className="text-gray-600 text-sm lg:text-base">Included Chatbots</span>
+                      <span className="font-semibold text-gray-900 text-sm lg:text-base">
                     {user?.planId === 'starter' ? '1' : 
                      user?.planId === 'professional' ? '5' : 
                      user?.planId === 'enterprise' ? 'Unlimited' : '1'}
                       </span>
           </div>
                 <div className="flex justify-between items-center py-2">
-                  <span className="text-gray-600">Payment Status</span>
-                  <span className={`px-2 py-1 rounded-full text-sm font-medium ${
+                  <span className="text-gray-600 text-sm lg:text-base">Payment Status</span>
+                  <span className={`px-2 py-1 rounded-full text-xs lg:text-sm font-medium ${
                     user?.isPaid ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
                   }`}>
                     {user?.isPaid ? 'Paid' : 'Trial'}
@@ -357,23 +357,23 @@ const Settings: React.FC = () => {
         </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-4 lg:space-y-6">
             {/* Account Info */}
-            <div className="bg-white rounded-lg shadow-sm p-6" data-tour="account-info">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Account Information</h3>
+            <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6" data-tour="account-info">
+              <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-3 lg:mb-4">Account Information</h3>
               <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <User className="w-5 h-5 text-gray-400" />
+                <div className="flex items-center space-x-2 lg:space-x-3">
+                  <User className="w-4 h-4 lg:w-5 lg:h-5 text-gray-400" />
             <div>
-                    <div className="font-medium text-gray-900">{user?.name}</div>
-                    <div className="text-sm text-gray-500">{user?.email}</div>
+                    <div className="font-medium text-gray-900 text-sm lg:text-base">{user?.name}</div>
+                    <div className="text-xs lg:text-sm text-gray-500">{user?.email}</div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <Calendar className="w-5 h-5 text-gray-400" />
+                <div className="flex items-center space-x-2 lg:space-x-3">
+                  <Calendar className="w-4 h-4 lg:w-5 lg:h-5 text-gray-400" />
                   <div>
-                    <div className="text-sm text-gray-500">Member since</div>
-                    <div className="font-medium text-gray-900">
+                    <div className="text-xs lg:text-sm text-gray-500">Member since</div>
+                    <div className="font-medium text-gray-900 text-sm lg:text-base">
                       {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { 
                         year: 'numeric', 
                         month: 'long', 
@@ -386,20 +386,20 @@ const Settings: React.FC = () => {
                     </div>
                   </div>
             </div>
-                <div className="flex items-center space-x-3">
-                  <CreditCard className="w-5 h-5 text-gray-400" />
+                <div className="flex items-center space-x-2 lg:space-x-3">
+                  <CreditCard className="w-4 h-4 lg:w-5 lg:h-5 text-gray-400" />
             <div>
-                    <div className="text-sm text-gray-500">Plan</div>
-                    <div className="font-medium text-gray-900">
+                    <div className="text-xs lg:text-sm text-gray-500">Plan</div>
+                    <div className="font-medium text-gray-900 text-sm lg:text-base">
                       {user?.planId?.charAt(0).toUpperCase() + user?.planId?.slice(1) || 'Starter'}
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <Shield className="w-5 h-5 text-gray-400" />
+                <div className="flex items-center space-x-2 lg:space-x-3">
+                  <Shield className="w-4 h-4 lg:w-5 lg:h-5 text-gray-400" />
             <div>
-                    <div className="text-sm text-gray-500">Status</div>
-                    <div className="font-medium text-gray-900">
+                    <div className="text-xs lg:text-sm text-gray-500">Status</div>
+                    <div className="font-medium text-gray-900 text-sm lg:text-base">
                       {user?.isPaid ? 'Paid' : 'Trial Active'}
                     </div>
               </div>
@@ -409,12 +409,12 @@ const Settings: React.FC = () => {
 
             {/* Subscription Management */}
             {user?.isPaid && subscription && (
-              <div className="bg-white rounded-lg shadow-sm p-6" data-tour="subscription-management">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Subscription Management</h3>
-                <div className="space-y-4">
+              <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6" data-tour="subscription-management">
+                <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-3 lg:mb-4">Subscription Management</h3>
+                <div className="space-y-3 lg:space-y-4">
                   <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="text-gray-600">Status</span>
-                    <span className={`px-2 py-1 rounded-full text-sm font-medium ${
+                    <span className="text-gray-600 text-sm lg:text-base">Status</span>
+                    <span className={`px-2 py-1 rounded-full text-xs lg:text-sm font-medium ${
                       subscription.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                     }`}>
                       {subscription.status === 'active' ? 'Active' : 'Inactive'}
@@ -423,8 +423,8 @@ const Settings: React.FC = () => {
                   
                   {subscription.currentPeriodEnd && (
                     <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-600">Next Billing</span>
-                      <span className="font-medium text-gray-900">
+                      <span className="text-gray-600 text-sm lg:text-base">Next Billing</span>
+                      <span className="font-medium text-gray-900 text-sm lg:text-base">
                         {new Date(subscription.currentPeriodEnd).toLocaleDateString()}
                       </span>
                     </div>
@@ -432,8 +432,8 @@ const Settings: React.FC = () => {
                   
                   {subscription.cancelAtPeriodEnd && (
                     <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-600">Cancellation</span>
-                      <span className="font-medium text-red-600">
+                      <span className="text-gray-600 text-sm lg:text-base">Cancellation</span>
+                      <span className="font-medium text-red-600 text-sm lg:text-base">
                         {new Date(subscription.currentPeriodEnd).toLocaleDateString()}
                       </span>
                     </div>
@@ -444,13 +444,13 @@ const Settings: React.FC = () => {
                       <button
                         onClick={handleReactivateSubscription}
                         disabled={subscriptionLoading}
-                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+                        className="w-full flex items-center justify-center space-x-2 px-3 lg:px-4 py-2 bg-green-600 text-white rounded-md lg:rounded-lg hover:bg-green-700 disabled:opacity-50 text-sm lg:text-base"
                       >
                         {subscriptionLoading ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <Loader2 className="w-3 h-3 lg:w-4 lg:h-4 animate-spin" />
                         ) : (
                           <>
-                            <CheckCircle className="w-4 h-4" />
+                            <CheckCircle className="w-3 h-3 lg:w-4 lg:h-4" />
                             <span>Reactivate Subscription</span>
                           </>
                         )}
@@ -459,13 +459,13 @@ const Settings: React.FC = () => {
                       <button
                         onClick={handleCancelSubscription}
                         disabled={subscriptionLoading}
-                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
+                        className="w-full flex items-center justify-center space-x-2 px-3 lg:px-4 py-2 bg-red-600 text-white rounded-md lg:rounded-lg hover:bg-red-700 disabled:opacity-50 text-sm lg:text-base"
                       >
                         {subscriptionLoading ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <Loader2 className="w-3 h-3 lg:w-4 lg:h-4 animate-spin" />
                         ) : (
                           <>
-                            <AlertTriangle className="w-4 h-4" />
+                            <AlertTriangle className="w-3 h-3 lg:w-4 lg:h-4" />
                             <span>Cancel Subscription</span>
                           </>
                         )}
@@ -477,27 +477,27 @@ const Settings: React.FC = () => {
             )}
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-lg shadow-sm p-6" data-tour="quick-actions">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-              <div className="space-y-3">
+            <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6" data-tour="quick-actions">
+              <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-3 lg:mb-4">Quick Actions</h3>
+              <div className="space-y-2 lg:space-y-3">
                 <button
                   onClick={() => window.location.href = '/pricing'}
-                  className="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors group"
+                  className="w-full flex items-center justify-between p-2 lg:p-3 hover:bg-gray-50 rounded-md lg:rounded-lg transition-colors group"
                 >
-                  <div className="flex items-center space-x-3">
-                    <CreditCard className="w-5 h-5 text-blue-600" />
-                    <span className="font-medium text-gray-900">
+                  <div className="flex items-center space-x-2 lg:space-x-3">
+                    <CreditCard className="w-4 h-4 lg:w-5 lg:h-5 text-blue-600" />
+                    <span className="font-medium text-gray-900 text-sm lg:text-base">
                       {user?.isTrialActive ? 'Upgrade Plan' : 'Manage Payment'}
                     </span>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
+                  <ArrowRight className="w-3 h-3 lg:w-4 lg:h-4 text-gray-400 group-hover:text-gray-600" />
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="w-full flex items-center space-x-3 p-3 text-left hover:bg-red-50 rounded-lg transition-colors text-red-600"
+                  className="w-full flex items-center space-x-2 lg:space-x-3 p-2 lg:p-3 text-left hover:bg-red-50 rounded-md lg:rounded-lg transition-colors text-red-600"
                 >
-                  <User className="w-5 h-5" />
-                  <span className="font-medium">Logout</span>
+                  <User className="w-4 h-4 lg:w-5 lg:h-5" />
+                  <span className="font-medium text-sm lg:text-base">Logout</span>
                 </button>
               </div>
             </div>
