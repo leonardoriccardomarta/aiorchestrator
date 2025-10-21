@@ -189,12 +189,20 @@ const Dashboard: React.FC = () => {
         // Support both "activities" and "data" fields (backward compatibility)
         const activitiesArray = activityData.activities || activityData.data || [];
         console.log('📈 Activities array:', activitiesArray);
+        // Log first activity to debug
+        if (activitiesArray.length > 0) {
+          console.log('📈 First activity object:', JSON.stringify(activitiesArray[0], null, 2));
+        }
         // Ensure all activities have a value field
         const activitiesWithValue = activitiesArray.map((activity: any) => ({
           ...activity,
           value: activity.value ?? 0 // Use nullish coalescing to set 0 if value is null/undefined
         }));
         console.log('📈 Activities with value:', activitiesWithValue);
+        // Log first processed activity
+        if (activitiesWithValue.length > 0) {
+          console.log('📈 First processed activity:', JSON.stringify(activitiesWithValue[0], null, 2));
+        }
         setRecentActivity(activitiesWithValue);
       } else {
         // If no real activity, show empty state
