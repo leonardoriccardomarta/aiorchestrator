@@ -2488,8 +2488,8 @@ app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
   
   res.json({
     success: true,
-      data: activities.slice(0, 10) // Return top 10
-    });
+    activities: activities.slice(0, 10) // Return top 10
+  });
   } catch (error) {
     console.error('❌ Dashboard activity error:', error);
     res.status(500).json({
