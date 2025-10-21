@@ -951,10 +951,10 @@ const Chatbot: React.FC = () => {
         )}
 
         {activeTab === 'settings' && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 w-full" data-tour="chat-settings">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6" data-tour="chat-settings">
             <h3 className="text-xl font-semibold text-gray-900 mb-6">Chatbot Settings</h3>
-            <div className="space-y-6 w-full">
-              <div className="w-full">
+            <div className="space-y-6">
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Chatbot Name</label>
                 <input
                   type="text"
@@ -966,7 +966,7 @@ const Chatbot: React.FC = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                 />
               </div>
-              <div className="w-full">
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Welcome Message</label>
                 <textarea
                   value={welcomeMessage}
@@ -978,7 +978,7 @@ const Chatbot: React.FC = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none"
                 />
               </div>
-              <div className="w-full">
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Input Placeholder</label>
                 <input
                   type="text"
@@ -988,7 +988,7 @@ const Chatbot: React.FC = () => {
                   placeholder="Type your message..."
                 />
               </div>
-              <div className="w-full">
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Primary Language</label>
                 <select
                   value={primaryLanguage}
