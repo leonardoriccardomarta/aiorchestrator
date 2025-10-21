@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContextHooks';
+import { useUser } from '../contexts/UserContext';
 import { 
   ArrowRight, 
   CheckCircle, 
@@ -23,7 +24,7 @@ import {
 } from 'lucide-react';
 import InteractiveDemo from '../components/demo/InteractiveDemo';
 import AuthModal from '../components/Auth/AuthModal';
-import PaymentModal from '../components/payment/PaymentModal';
+import PaymentModal from '../components/payment/PaymentModalSimple';
 import LiveChatWidget from '../components/LiveChatWidget';
 
 const LandingPageOptimized: React.FC = () => {
@@ -34,6 +35,7 @@ const LandingPageOptimized: React.FC = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const { user, isAuthenticated, logout } = useAuth();
+  const { user: userContext, isTrialExpired, refreshUser } = useUser();
   const [isScrolled, setIsScrolled] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -163,7 +165,12 @@ const LandingPageOptimized: React.FC = () => {
       }
     } else {
       // Logged in - check current plan
-      const currentPlan = user.planId || 'free';
+      const currentPlan = userContext?.planId || user?.planId || 'free';
+      
+      // If trial is expired, show subscribe for all plans
+      if (isTrialExpired) {
+        return `Subscribe to ${planName.charAt(0).toUpperCase() + planName.slice(1)}`;
+      }
       
       // Plan hierarchy: free < starter < professional < business
       const planHierarchy = { free: 0, starter: 1, professional: 2, business: 3 };
@@ -193,8 +200,19 @@ const LandingPageOptimized: React.FC = () => {
       }
     } else {
       // Logged in - check if current plan
-      const currentPlan = user.planId || 'starter';
+      const currentPlan = userContext?.planId || user?.planId || 'starter';
       const isCurrentPlan = (planName === currentPlan);
+      
+      // If trial is expired, all buttons are active
+      if (isTrialExpired) {
+        if (planName === 'starter') {
+          return 'w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors';
+        } else if (planName === 'professional') {
+          return 'w-full px-4 py-3 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold';
+        } else if (planName === 'business') {
+          return 'w-full px-4 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors';
+        }
+      }
       
       if (planName === 'starter') {
         return isCurrentPlan 
@@ -213,8 +231,10 @@ const LandingPageOptimized: React.FC = () => {
     return 'w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors';
   };
 
-  const handlePaymentSuccess = () => {
+  const handlePaymentSuccess = async () => {
     setShowPaymentModal(false);
+    // Refresh user data from server
+    await refreshUser();
     navigate('/dashboard');
   };
 
