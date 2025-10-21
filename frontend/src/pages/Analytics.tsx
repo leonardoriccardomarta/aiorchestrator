@@ -267,7 +267,7 @@ const Analytics: React.FC = () => {
                 className="flex items-center justify-center px-3 lg:px-4 py-2 text-gray-700 bg-gray-100 rounded-md lg:rounded-lg hover:bg-gray-200 transition-colors font-medium text-sm lg:text-base"
               >
                 <RefreshCw className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2" />
-                <span className="hidden sm:inline">Refresh</span>
+                <span>Refresh</span>
               </button>
             </div>
           </div>
