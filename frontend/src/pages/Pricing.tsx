@@ -51,6 +51,14 @@ const Pricing: React.FC = () => {
     const userPlan = user.planId;
     const isCurrentPlan = userPlan === planId;
     
+    // If trial is expired, allow selection of any plan (including current one)
+    if (isTrialExpired) {
+      if (isCurrentPlan) {
+        return `Subscribe to ${planId.charAt(0).toUpperCase() + planId.slice(1)}`;
+      }
+      return `Subscribe to ${planId.charAt(0).toUpperCase() + planId.slice(1)}`;
+    }
+    
     if (isCurrentPlan) {
       return 'Current Plan';
     }
@@ -76,6 +84,11 @@ const Pricing: React.FC = () => {
     const userPlan = user.planId;
     const isCurrentPlan = userPlan === planId;
     
+    // If trial is expired, allow selection of any plan (including current one)
+    if (isTrialExpired) {
+      return 'w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700';
+    }
+    
     if (isCurrentPlan) {
       return 'w-full bg-gray-100 text-gray-600 cursor-not-allowed';
     }
@@ -86,6 +99,12 @@ const Pricing: React.FC = () => {
   // Check if button should be disabled
   const isButtonDisabled = (planId: string) => {
     if (!user) return false;
+    
+    // If trial is expired, allow selection of any plan (including current one)
+    if (isTrialExpired) {
+      return false;
+    }
+    
     return user.planId === planId;
   };
 
@@ -178,7 +197,7 @@ const Pricing: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {/* Starter Plan */}
           <Card className="relative">
-            {user?.planId === 'starter' && (
+            {user?.planId === 'starter' && !isTrialExpired && (
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-green-600 text-white px-4 py-1">Current Plan</Badge>
               </div>
@@ -241,7 +260,7 @@ const Pricing: React.FC = () => {
                 <Badge className="bg-blue-600 text-white px-4 py-1">Most Popular</Badge>
                   </div>
               )}
-              {user?.planId === 'professional' && (
+              {user?.planId === 'professional' && !isTrialExpired && (
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-green-600 text-white px-4 py-1">Current Plan</Badge>
                   </div>
@@ -311,7 +330,7 @@ const Pricing: React.FC = () => {
 
           {/* Business Plan */}
           <Card className="relative border-purple-500">
-            {user?.planId === 'business' && (
+            {user?.planId === 'business' && !isTrialExpired && (
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                 <Badge className="bg-green-600 text-white px-4 py-1">Current Plan</Badge>
         </div>
