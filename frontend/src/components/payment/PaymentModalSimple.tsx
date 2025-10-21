@@ -85,9 +85,40 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
 
       if (data.success) {
         console.log('✅ Payment successful:', data);
-        alert('✅ Payment successful! Your plan has been updated.');
-        onSuccess();
-        onClose();
+        // Show success message
+        setError(null);
+        setLoading(false);
+        
+        // Show success state
+        const successDiv = document.createElement('div');
+        successDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        successDiv.innerHTML = `
+          <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center shadow-2xl">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Payment Successful!</h3>
+            <p class="text-gray-600 mb-6">Your plan has been updated successfully.</p>
+            <button 
+              onclick="this.closest('.fixed').remove()" 
+              class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors"
+            >
+              Continue
+            </button>
+          </div>
+        `;
+        document.body.appendChild(successDiv);
+        
+        // Auto-close after 3 seconds
+        setTimeout(() => {
+          if (successDiv.parentNode) {
+            successDiv.remove();
+          }
+          onSuccess();
+          onClose();
+        }, 3000);
       } else {
         setError(data.error || 'Payment failed');
       }

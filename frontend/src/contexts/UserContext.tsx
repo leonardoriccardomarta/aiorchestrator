@@ -89,9 +89,39 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         
         setIsTrialExpired(trialStatus.isExpired);
         setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
+      } else if (response.status === 404) {
+        // Endpoint not available yet, use localStorage data
+        console.log('User profile endpoint not available, using localStorage data');
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          const userData = JSON.parse(storedUser);
+          const trialStatus = calculateTrialStatus(userData.trialEndDate);
+          
+          setUser({
+            ...userData,
+            trialDaysLeft: trialStatus.daysLeft
+          });
+          
+          setIsTrialExpired(trialStatus.isExpired);
+          setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
+        }
       }
     } catch (error) {
       console.error('Error refreshing user:', error);
+      // Fallback to localStorage on error
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const userData = JSON.parse(storedUser);
+        const trialStatus = calculateTrialStatus(userData.trialEndDate);
+        
+        setUser({
+          ...userData,
+          trialDaysLeft: trialStatus.daysLeft
+        });
+        
+        setIsTrialExpired(trialStatus.isExpired);
+        setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
+      }
     }
   };
 
