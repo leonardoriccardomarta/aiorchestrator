@@ -62,7 +62,8 @@ export const apiRequest = async (endpoint, options = {}) => {
     console.error('🔐 API Error:', errorData);
     
     // If token is invalid or expired, clear it and redirect
-    if (res.status === 401) {
+    // BUT NOT for payment endpoints - they handle expired tokens differently
+    if (res.status === 401 && !endpoint.includes('/payments/')) {
       console.warn('🔐 401 Unauthorized - clearing token and redirecting');
       clearInvalidToken();
       throw new Error('Session expired. Please login again.');

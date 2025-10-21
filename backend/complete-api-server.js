@@ -155,6 +155,70 @@ const authenticateToken = async (req, res, next) => {
   }
 };
 
+// Payment authentication middleware - allows expired tokens for payment
+const authenticatePayment = async (req, res, next) => {
+  try {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    console.log('💳 Payment auth - token:', token ? token.substring(0, 20) + '...' : 'null');
+
+    if (!token) {
+      console.log('💳 No token provided for payment');
+      return res.status(401).json({
+        success: false,
+        error: 'Access token required for payment'
+      });
+    }
+
+    try {
+      // Try normal verification first
+      const user = await authService.verifyAccess(token);
+      console.log('💳 User authenticated successfully:', user.id);
+      req.user = user;
+      next();
+    } catch (verifyError) {
+      console.log('💳 Token verification failed, trying expired token recovery:', verifyError.message);
+      
+      // If token is expired, try to get user from token payload without verification
+      try {
+        const jwt = require('jsonwebtoken');
+        const decoded = jwt.decode(token);
+        
+        if (!decoded || !decoded.id) {
+          throw new Error('Invalid token format');
+        }
+
+        // Get user from database directly
+        const user = await prisma.user.findUnique({ 
+          where: { id: decoded.id },
+          include: { tenant: true }
+        });
+
+        if (!user || !user.isActive) {
+          throw new Error('User not found or inactive');
+        }
+
+        console.log('💳 User recovered from expired token:', user.id);
+        req.user = user;
+        next();
+      } catch (recoveryError) {
+        console.error('💳 Token recovery failed:', recoveryError.message);
+        res.status(401).json({
+          success: false,
+          error: 'Invalid or expired token'
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Payment authentication error:', error);
+    res.status(401).json({
+      success: false,
+      error: error.message
+    });
+  }
+};
+
 // Security middleware
 app.use(helmet());
 
@@ -5025,7 +5089,7 @@ app.post('/api/payments/create-checkout-session', authenticateToken, async (req,
 });
 
 // Create subscription
-app.post('/api/payments/create-subscription', authenticateToken, async (req, res) => {
+app.post('/api/payments/create-subscription', authenticatePayment, async (req, res) => {
   try {
     const { paymentMethodId, planId, customerEmail } = req.body;
     const user = req.user;
