@@ -5161,16 +5161,19 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
       });
     }
 
-    // Create subscription directly with amount (no pre-configured price needed)
+    // Create product first, then use its ID
+    const product = await stripe.products.create({
+      name: `${plan.name} Plan`,
+      description: `AI Orchestrator ${plan.name} Plan - Monthly Subscription`
+    });
+
+    // Create subscription with the product ID
     const subscription = await stripe.subscriptions.create({
       customer: customer.id,
       items: [{
         price_data: {
           currency: 'usd',
-          product: {
-            name: `${plan.name} Plan`,
-            description: `AI Orchestrator ${plan.name} Plan - Monthly Subscription`
-          },
+          product: product.id, // Use the product ID
           unit_amount: plan.price * 100, // Convert to cents
           recurring: {
             interval: 'month'
