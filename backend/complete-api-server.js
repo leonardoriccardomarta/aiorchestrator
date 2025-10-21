@@ -5222,6 +5222,40 @@ app.post('/api/payments/cancel-subscription', authenticateToken, async (req, res
   }
 });
 
+// Reactivate subscription
+app.post('/api/payments/reactivate-subscription', authenticateToken, async (req, res) => {
+  try {
+    const { subscriptionId } = req.body;
+    const user = req.user;
+    
+    if (!subscriptionId) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing subscription ID'
+      });
+    }
+
+    // Reactivate subscription
+    const subscription = await stripe.subscriptions.update(subscriptionId, {
+      cancel_at_period_end: false
+    });
+
+    res.json({
+      success: true,
+      data: {
+        message: 'Subscription reactivated successfully',
+        cancelAtPeriodEnd: false
+      }
+    });
+  } catch (error) {
+    console.error('Reactivate subscription error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to reactivate subscription'
+    });
+  }
+});
+
 // Get payment history
 app.get('/api/payments/history', authenticateToken, async (req, res) => {
   try {

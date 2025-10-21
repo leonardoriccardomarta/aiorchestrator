@@ -33,6 +33,8 @@ const Settings: React.FC = () => {
   });
   const [showTour, setShowTour] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [subscription, setSubscription] = useState<any>(null);
+  const [subscriptionLoading, setSubscriptionLoading] = useState(false);
 
   // Update profile when user changes
   useEffect(() => {
@@ -53,6 +55,97 @@ const Settings: React.FC = () => {
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Fetch subscription data
+  useEffect(() => {
+    if (user?.isPaid) {
+      fetchSubscription();
+    }
+  }, [user?.isPaid]);
+
+  const fetchSubscription = async () => {
+    try {
+      setSubscriptionLoading(true);
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/payments/subscription', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setSubscription(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching subscription:', error);
+    } finally {
+      setSubscriptionLoading(false);
+    }
+  };
+
+  const handleCancelSubscription = async () => {
+    if (!subscription?.subscriptionId) return;
+    
+    try {
+      setSubscriptionLoading(true);
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/payments/cancel-subscription', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          subscriptionId: subscription.subscriptionId
+        })
+      });
+      
+      if (response.ok) {
+        await fetchSubscription(); // Refresh subscription data
+        alert('Subscription will be cancelled at the end of the current billing period');
+      } else {
+        alert('Failed to cancel subscription');
+      }
+    } catch (error) {
+      console.error('Error cancelling subscription:', error);
+      alert('Failed to cancel subscription');
+    } finally {
+      setSubscriptionLoading(false);
+    }
+  };
+
+  const handleReactivateSubscription = async () => {
+    if (!subscription?.subscriptionId) return;
+    
+    try {
+      setSubscriptionLoading(true);
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/payments/reactivate-subscription', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          subscriptionId: subscription.subscriptionId
+        })
+      });
+      
+      if (response.ok) {
+        await fetchSubscription(); // Refresh subscription data
+        alert('Subscription reactivated successfully');
+      } else {
+        alert('Failed to reactivate subscription');
+      }
+    } catch (error) {
+      console.error('Error reactivating subscription:', error);
+      alert('Failed to reactivate subscription');
+    } finally {
+      setSubscriptionLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (user?.trialEndDate) {
@@ -313,6 +406,75 @@ const Settings: React.FC = () => {
                 </div>
               </div>
                 </div>
+
+            {/* Subscription Management */}
+            {user?.isPaid && subscription && (
+              <div className="bg-white rounded-lg shadow-sm p-6" data-tour="subscription-management">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Subscription Management</h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-gray-600">Status</span>
+                    <span className={`px-2 py-1 rounded-full text-sm font-medium ${
+                      subscription.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                    }`}>
+                      {subscription.status === 'active' ? 'Active' : 'Inactive'}
+                    </span>
+                  </div>
+                  
+                  {subscription.currentPeriodEnd && (
+                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                      <span className="text-gray-600">Next Billing</span>
+                      <span className="font-medium text-gray-900">
+                        {new Date(subscription.currentPeriodEnd).toLocaleDateString()}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {subscription.cancelAtPeriodEnd && (
+                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                      <span className="text-gray-600">Cancellation</span>
+                      <span className="font-medium text-red-600">
+                        {new Date(subscription.currentPeriodEnd).toLocaleDateString()}
+                      </span>
+                    </div>
+                  )}
+                  
+                  <div className="pt-2">
+                    {subscription.cancelAtPeriodEnd ? (
+                      <button
+                        onClick={handleReactivateSubscription}
+                        disabled={subscriptionLoading}
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+                      >
+                        {subscriptionLoading ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <>
+                            <CheckCircle className="w-4 h-4" />
+                            <span>Reactivate Subscription</span>
+                          </>
+                        )}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleCancelSubscription}
+                        disabled={subscriptionLoading}
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
+                      >
+                        {subscriptionLoading ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <>
+                            <AlertTriangle className="w-4 h-4" />
+                            <span>Cancel Subscription</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Quick Actions */}
             <div className="bg-white rounded-lg shadow-sm p-6" data-tour="quick-actions">
