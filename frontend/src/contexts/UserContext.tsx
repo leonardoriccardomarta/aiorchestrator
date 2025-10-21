@@ -108,7 +108,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
       } else if (response.status === 404) {
         // Endpoint not available yet, use localStorage data
-        console.log('User profile endpoint not available, using localStorage data');
+        console.log('⚠️ RefreshUser: Endpoint not available (404), using localStorage data');
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
           const userData = JSON.parse(storedUser);
@@ -122,12 +122,32 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setIsTrialExpired(trialStatus.isExpired);
           setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
         }
+      } else if (response.status === 401) {
+        // Token expired or invalid - this should not happen with authenticatePayment middleware
+        console.error('⚠️ RefreshUser: 401 Unauthorized - token issue');
+        console.log('⚠️ RefreshUser: Using localStorage as fallback');
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          const userData = JSON.parse(storedUser);
+          const trialStatus = calculateTrialStatus(userData.trialEndDate);
+          
+          setUser({
+            ...userData,
+            trialDaysLeft: trialStatus.daysLeft
+          });
+          
+          setIsTrialExpired(trialStatus.isExpired);
+          setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
+        }
+      } else {
+        console.error('⚠️ RefreshUser: Unexpected status:', response.status);
       }
     } catch (error) {
-      console.error('Error refreshing user:', error);
+      console.error('❌ RefreshUser: Error:', error);
       // Fallback to localStorage on error
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
+        console.log('⚠️ RefreshUser: Using localStorage as fallback after error');
         const userData = JSON.parse(storedUser);
         const trialStatus = calculateTrialStatus(userData.trialEndDate);
         

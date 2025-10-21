@@ -2033,22 +2033,44 @@ app.get('/api/plans', (req, res) => {
 });
 
 // Get user profile
-app.get('/api/user/profile', authenticateToken, async (req, res) => {
+app.get('/api/user/profile', authenticatePayment, async (req, res) => {
   try {
     const user = req.user;
+    
+    console.log('👤 Getting user profile for:', user.id);
+    
+    // Fetch fresh user data from database
+    const freshUser = await prisma.user.findUnique({
+      where: { id: user.id }
+    });
+    
+    if (!freshUser) {
+      return res.status(404).json({
+        success: false,
+        error: 'User not found'
+      });
+    }
+    
+    console.log('👤 Fresh user data:', { 
+      id: freshUser.id, 
+      planId: freshUser.planId, 
+      isPaid: freshUser.isPaid,
+      isTrialActive: freshUser.isTrialActive
+    });
     
     res.json({
       success: true,
       data: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        planId: user.planId,
-        isActive: user.isActive,
-        isTrialActive: user.isTrialActive,
-        trialEndDate: user.trialEndDate,
-        hasCompletedOnboarding: user.hasCompletedOnboarding,
-        isNewUser: user.isNewUser
+        id: freshUser.id,
+        email: freshUser.email,
+        name: `${freshUser.firstName} ${freshUser.lastName}`,
+        planId: freshUser.planId,
+        isActive: freshUser.isActive,
+        isTrialActive: freshUser.isTrialActive,
+        isPaid: freshUser.isPaid,
+        trialEndDate: freshUser.trialEndDate,
+        hasCompletedOnboarding: freshUser.hasCompletedOnboarding || false,
+        isNewUser: freshUser.isNewUser || false
       }
     });
   } catch (error) {
