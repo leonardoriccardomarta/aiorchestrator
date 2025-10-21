@@ -5191,10 +5191,14 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
     });
 
     // Update user plan in our system
-    await planService.setUserPlan(user.id, planId);
+    console.log(`🔄 Updating user ${user.id} to plan ${planId}...`);
+    const planUpdateResult = await planService.setUserPlan(user.id, planId);
+    console.log(`🔄 Plan update result:`, planUpdateResult);
     
     // Update user trial status
-    authService.updateUserTrial(user.id, true, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
+    console.log(`🔄 Updating trial status for user ${user.id}...`);
+    const trialUpdateResult = authService.updateUserTrial(user.id, true, new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
+    console.log(`🔄 Trial update result:`, trialUpdateResult);
 
     res.json({
       success: true,

@@ -37,14 +37,26 @@ class PlanService {
 
   // Set user plan - REAL implementation
   async setUserPlan(userId, planId) {
-    console.log(`Setting user ${userId} to plan ${planId}`);
+    console.log(`🔄 Setting user ${userId} to plan ${planId}`);
     
     try {
       const { PrismaClient } = require('@prisma/client');
       const prisma = new PrismaClient();
       
+      // Check if user exists first
+      const existingUser = await prisma.user.findUnique({
+        where: { id: userId }
+      });
+      
+      if (!existingUser) {
+        console.error(`❌ User ${userId} not found in database`);
+        return false;
+      }
+      
+      console.log(`🔄 Current user plan: ${existingUser.planId}, updating to: ${planId}`);
+      
       // Update user plan in database
-      await prisma.user.update({
+      const updatedUser = await prisma.user.update({
         where: { id: userId },
         data: { 
           planId: planId,
@@ -52,7 +64,10 @@ class PlanService {
         }
       });
       
-      console.log(`✅ User ${userId} updated to plan ${planId} in database`);
+      console.log(`✅ User ${userId} updated to plan ${updatedUser.planId} in database`);
+      console.log(`✅ User isActive: ${updatedUser.isActive}`);
+      
+      await prisma.$disconnect();
       return true;
     } catch (error) {
       console.error(`❌ Failed to update user plan:`, error);
