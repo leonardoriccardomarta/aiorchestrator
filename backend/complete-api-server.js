@@ -4154,7 +4154,10 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
             select: {
               id: true,
               planId: true,
-              email: true
+              email: true,
+              isTrialActive: true,
+              trialEndDate: true,
+              isPaid: true
             }
           }
         }
@@ -4163,6 +4166,32 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
       if (chatbot && chatbot.user) {
         user = chatbot.user;
         console.log('✅ Found user from chatbotId:', user.id);
+        
+        // Check if trial has expired
+        if (user.isTrialActive && user.trialEndDate) {
+          const now = new Date();
+          const trialEnd = new Date(user.trialEndDate);
+          
+          if (now > trialEnd) {
+            // Trial expired and user hasn't paid
+            if (!user.isPaid) {
+              return res.status(403).json({
+                success: false,
+                error: 'Trial expired. Please upgrade your plan to continue using the chatbot.',
+                trialExpired: true,
+                upgradeUrl: 'https://www.aiorchestrator.dev/pricing'
+              });
+            }
+          }
+        } else if (!user.isTrialActive && !user.isPaid) {
+          // No trial and not paid
+          return res.status(403).json({
+            success: false,
+            error: 'Please upgrade your plan to continue using the chatbot.',
+            upgradeRequired: true,
+            upgradeUrl: 'https://www.aiorchestrator.dev/pricing'
+          });
+        }
       } else {
         console.log('⚠️ Chatbot not found, using demo user');
         user = { id: 'demo-user', planId: 'professional' };

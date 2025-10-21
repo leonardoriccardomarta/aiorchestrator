@@ -604,6 +604,38 @@
           // Remove typing indicator
           document.getElementById(`${widgetId}-typing`)?.remove();
 
+          // Check for trial expired or upgrade required
+          if (response.status === 403 && (data.trialExpired || data.upgradeRequired)) {
+            // Show trial expired message
+            const trialExpiredHTML = `
+              <div class="message bot trial-expired">
+                <div style="text-align: center; padding: 20px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; margin: 10px 0;">
+                  <div style="font-size: 18px; font-weight: 600; color: #dc2626; margin-bottom: 10px;">
+                    ⏰ Trial Expired
+                  </div>
+                  <div style="color: #7f1d1d; margin-bottom: 15px;">
+                    ${data.error}
+                  </div>
+                  <a href="${data.upgradeUrl}" target="_blank" style="
+                    display: inline-block;
+                    background: #dc2626;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 6px;
+                    text-decoration: none;
+                    font-weight: 600;
+                    transition: background 0.2s;
+                  " onmouseover="this.style.background='#b91c1c'" onmouseout="this.style.background='#dc2626'">
+                    Upgrade Now
+                  </a>
+                </div>
+              </div>
+            `;
+            messagesContainer.innerHTML += trialExpiredHTML;
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            return;
+          }
+
           // Add AI response with enhanced features
           let aiResponse = data.response || data.message || 'Sorry, I couldn\'t process that.';
           
