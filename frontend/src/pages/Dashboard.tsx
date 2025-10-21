@@ -224,10 +224,10 @@ const Dashboard: React.FC = () => {
     prefix?: string;
     suffix?: string;
   }) => (
-    <div className="group bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-xl hover:border-gray-300 transition-all duration-300">
-      <div className="flex items-center justify-between mb-4">
-        <div className={`p-3 rounded-xl ${color} group-hover:scale-110 transition-transform duration-300`}>
-          <Icon className="w-6 h-6 text-white" />
+    <div className="group bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6 hover:shadow-xl hover:border-gray-300 transition-all duration-300">
+      <div className="flex items-center justify-between mb-3 lg:mb-4">
+        <div className={`p-2 lg:p-3 rounded-lg lg:rounded-xl ${color} group-hover:scale-110 transition-transform duration-300`}>
+          <Icon className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
         </div>
         {change !== undefined && (
           <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${
@@ -242,8 +242,8 @@ const Dashboard: React.FC = () => {
         )}
       </div>
       <div>
-        <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
-        <p className="text-3xl font-bold text-gray-900 mb-1">
+        <p className="text-xs lg:text-sm font-medium text-gray-600 mb-1">{title}</p>
+        <p className="text-2xl lg:text-3xl font-bold text-gray-900 mb-1">
           {prefix}{typeof value === 'number' && !isNaN(value) && value !== undefined && value !== null ? value.toLocaleString() : (value || 0)}{suffix}
         </p>
         {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
@@ -262,25 +262,25 @@ const Dashboard: React.FC = () => {
   }) => (
     <button
       onClick={onClick}
-      className="group p-6 text-left bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-xl hover:border-gray-300 transition-all duration-300 hover:scale-105"
+      className="group p-4 lg:p-6 text-left bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 hover:shadow-xl hover:border-gray-300 transition-all duration-300 hover:scale-105 w-full"
     >
-      <div className="flex items-start space-x-4">
-        <div className={`w-12 h-12 ${color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 relative`}>
-          <Icon className="w-6 h-6 text-white" />
+      <div className="flex items-start space-x-3 lg:space-x-4">
+        <div className={`w-10 h-10 lg:w-12 lg:h-12 ${color} rounded-lg lg:rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 relative flex-shrink-0`}>
+          <Icon className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
           {badge && (
-            <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+            <div className="absolute -top-1 -right-1 lg:-top-2 lg:-right-2 bg-red-500 text-white text-xs px-1.5 lg:px-2 py-0.5 lg:py-1 rounded-full font-bold">
               {badge}
             </div>
           )}
         </div>
-        <div className="flex-1">
-          <div className="flex items-center space-x-2 mb-2">
-            <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">{title}</h3>
-            {status === 'active' && <div className="w-2 h-2 bg-green-500 rounded-full"></div>}
-            {status === 'pending' && <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>}
-            {status === 'new' && <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center space-x-2 mb-1 lg:mb-2">
+            <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors truncate">{title}</h3>
+            {status === 'active' && <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>}
+            {status === 'pending' && <div className="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0"></div>}
+            {status === 'new' && <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse flex-shrink-0"></div>}
           </div>
-          <p className="text-gray-600 group-hover:text-gray-700 transition-colors mb-3">{description}</p>
+          <p className="text-sm lg:text-base text-gray-600 group-hover:text-gray-700 transition-colors mb-2 lg:mb-3 line-clamp-2">{description}</p>
           <div className="flex items-center text-blue-600 text-sm font-medium group-hover:text-blue-700">
             <span>Get started</span>
             <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
@@ -408,8 +408,8 @@ const Dashboard: React.FC = () => {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6 mb-6 md:mb-8">
+        {/* Stats Grid - Mobile: Single column, Desktop: 4 columns */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-6 mb-6 lg:mb-8">
           <StatCard
             title="Active Chatbots"
             value={safeStats.totalChatbots}
@@ -456,7 +456,44 @@ const Dashboard: React.FC = () => {
               <span>AI-Powered Features</span>
             </div>
           </div>
-          {/* Desktop: Grid | Mobile: Horizontal Scroll */}
+          {/* Mobile: Vertical Stack | Desktop: Grid */}
+          <div className="space-y-4 md:hidden">
+            <QuickAction
+              title="Create New Chatbot"
+              description="Set up a new AI assistant for your store with 50+ languages"
+              icon={Bot}
+              onClick={() => navigate('/chatbot')}
+              color="bg-gradient-to-r from-blue-500 to-blue-600"
+              status="active"
+              badge="NEW"
+            />
+            <QuickAction
+              title="Connect Shopify"
+              description="Integrate with your Shopify store in one click"
+              icon={ShoppingCart}
+              onClick={() => navigate('/connections')}
+              color="bg-gradient-to-r from-green-500 to-green-600"
+              status="active"
+            />
+            <QuickAction
+              title="View Analytics"
+              description="See detailed performance insights and analytics"
+              icon={BarChart3}
+              onClick={() => navigate('/analytics')}
+              color="bg-gradient-to-r from-purple-500 to-purple-600"
+              status="active"
+            />
+            <QuickAction
+              title="Multi-Language Support"
+              description="Auto-detect 50+ languages in your chatbot"
+              icon={Globe}
+              onClick={() => navigate('/chatbot')}
+              color="bg-gradient-to-r from-teal-500 to-teal-600"
+              status="active"
+            />
+          </div>
+          
+          {/* Desktop: Grid */}
           <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <QuickAction
               title="Create New Chatbot"
@@ -512,53 +549,6 @@ const Dashboard: React.FC = () => {
               status="active"
             />
           </div>
-          
-          {/* Mobile: Horizontal Scroll */}
-          <div className="md:hidden overflow-x-auto pb-4 -mx-4 px-4">
-            <div className="flex space-x-4 min-w-max">
-              <div className="w-72">
-                <QuickAction
-                  title="Create New Chatbot"
-                  description="Set up a new AI assistant for your store with 50+ languages"
-                  icon={Bot}
-                  onClick={() => navigate('/chatbot')}
-                  color="bg-gradient-to-r from-blue-500 to-blue-600"
-                  status="active"
-                  badge="NEW"
-                />
-              </div>
-              <div className="w-72">
-                <QuickAction
-                  title="Connect Shopify"
-                  description="Integrate with your Shopify store in one click"
-                  icon={ShoppingCart}
-                  onClick={() => navigate('/connections')}
-                  color="bg-gradient-to-r from-green-500 to-green-600"
-                  status="active"
-                />
-              </div>
-              <div className="w-72">
-                <QuickAction
-                  title="View Analytics"
-                  description="See detailed performance insights and analytics"
-                  icon={BarChart3}
-                  onClick={() => navigate('/analytics')}
-                  color="bg-gradient-to-r from-purple-500 to-purple-600"
-                  status="active"
-                />
-              </div>
-              <div className="w-72">
-                <QuickAction
-                  title="Multi-Language Support"
-                  description="Auto-detect 50+ languages in your chatbot"
-                  icon={Globe}
-                  onClick={() => navigate('/chatbot')}
-                  color="bg-gradient-to-r from-teal-500 to-teal-600"
-                  status="active"
-                />
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Chatbot Management */}
@@ -590,8 +580,8 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Recent Activity & Performance */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8">
+        {/* Recent Activity & Performance - Mobile: Vertical, Desktop: 2 columns */}
+        <div className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-8">
           {/* Recent Activity */}
           <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
             <div className="px-4 md:px-6 py-3 md:py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-green-50">
