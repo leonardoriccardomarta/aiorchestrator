@@ -43,6 +43,8 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
   const [selectedChatbotId, setSelectedChatbotId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isLoading, setIsLoading] = useState(false); // Prevent multiple simultaneous loads
+  const [retryCount, setRetryCount] = useState(0); // Track retry attempts
+  const [isCircuitOpen, setIsCircuitOpen] = useState(false); // Circuit breaker
 
   const selectedChatbot = chatbots.find(c => c.id === selectedChatbotId) || null;
 
@@ -56,7 +58,36 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
     loadOnce();
   }, []); // Empty dependency array - only run once
 
+  // Fallback: create default chatbot if circuit breaker is open and no chatbots exist
+  useEffect(() => {
+    if (isCircuitOpen && chatbots.length === 0 && !loading) {
+      console.log('🤖 Circuit breaker open, creating fallback chatbot...');
+      const fallbackChatbot = {
+        id: 'fallback-' + Date.now(),
+        name: 'My AI Assistant',
+        description: 'Your personal AI assistant',
+        settings: {
+          language: 'auto',
+          personality: 'professional',
+          welcomeMessage: "Hello! I'm your AI assistant. How can I help you today?"
+        },
+        userId: 'fallback',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      setChatbots([fallbackChatbot]);
+      setSelectedChatbotId(fallbackChatbot.id);
+      setLoading(false);
+    }
+  }, [isCircuitOpen, chatbots.length, loading]);
+
   const loadChatbots = async () => {
+    // Circuit breaker - if too many failures, stop trying
+    if (isCircuitOpen) {
+      console.log('🤖 Circuit breaker open, skipping chatbot load');
+      return;
+    }
+
     // Prevent multiple simultaneous loads
     if (isLoading) {
       console.log('🤖 LoadChatbots: Already loading, skipping...');
@@ -80,14 +111,36 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
 
       if (!response.ok) {
         if (response.status === 429) {
-          console.log('🤖 Rate limited, retrying in 3 seconds...');
-          await new Promise(resolve => setTimeout(resolve, 3000));
-          // Retry once
+          const newRetryCount = retryCount + 1;
+          setRetryCount(newRetryCount);
+          
+          // Circuit breaker: stop after 3 failed attempts
+          if (newRetryCount >= 3) {
+            console.log('🤖 Too many 429 errors, opening circuit breaker');
+            setIsCircuitOpen(true);
+            setChatbots([]);
+            setLoading(false);
+            setIsLoading(false);
+            // Reset circuit breaker after 30 seconds
+            setTimeout(() => {
+              setIsCircuitOpen(false);
+              setRetryCount(0);
+              console.log('🤖 Circuit breaker reset, retrying...');
+            }, 30000);
+            return;
+          }
+          
+          // Exponential backoff: 5s, 10s, 20s
+          const delay = Math.min(5000 * Math.pow(2, newRetryCount - 1), 20000);
+          console.log(`🤖 Rate limited (attempt ${newRetryCount}/3), retrying in ${delay/1000}s...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+          
+          // Retry
           const retryResponse = await fetch(`${API_URL}/api/chatbots`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (!retryResponse.ok) {
-            console.error('Failed to load chatbots after retry:', retryResponse.status);
+            console.error(`Failed to load chatbots after retry ${newRetryCount}:`, retryResponse.status);
             setChatbots([]);
             setLoading(false);
             setIsLoading(false);
@@ -102,6 +155,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
           }
           setLoading(false);
           setIsLoading(false);
+          setRetryCount(0); // Reset on success
           return;
         }
         console.error('Failed to load chatbots:', response.status);
