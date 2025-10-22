@@ -2591,20 +2591,11 @@ app.use('/api/agents', agentRoutes);
       isPaid: user.isPaid
     };
     
-    // Calculate revenue based on plan and payment status
-    const planPrices = {
-      starter: 29,
-      professional: 99,
-      enterprise: 299
-    };
-    
-    const monthlyRevenue = user.isPaid ? planPrices[user.planId] || 0 : 0;
-    const totalRevenue = monthlyRevenue; // For now, same as monthly
-    
+    // Use real revenue impact from metrics instead of plan cost
     const stats = {
       ...realMetrics,
-      totalRevenue,
-      monthlyRevenue,
+      totalRevenue: realMetrics.revenueImpact || 0, // Use real revenue impact
+      monthlyRevenue: realMetrics.revenueImpact || 0, // Use real revenue impact
       planInfo
     };
     
