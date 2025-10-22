@@ -6,12 +6,10 @@ const ChatbotSelector: React.FC = () => {
   const { chatbots, selectedChatbot, selectChatbot, loading } = useChatbot();
   const [isOpen, setIsOpen] = React.useState(false);
 
-  // Debug logging
-  console.log('🤖 ChatbotSelector render:', { 
-    chatbots: chatbots.length, 
-    selectedChatbot: selectedChatbot?.name, 
-    loading 
-  });
+  // Debug logging - only log when state changes significantly
+  if (chatbots.length > 0 && selectedChatbot?.name) {
+    console.log('🤖 ChatbotSelector: Ready with', chatbots.length, 'chatbots, selected:', selectedChatbot.name);
+  }
 
   if (loading) {
     return (

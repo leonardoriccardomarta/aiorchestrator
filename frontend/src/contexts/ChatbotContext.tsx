@@ -41,26 +41,28 @@ interface ChatbotProviderProps {
 export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) => {
   const [chatbots, setChatbots] = useState<Chatbot[]>([]);
   const [selectedChatbotId, setSelectedChatbotId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // Start as false to prevent initial loading state
   const [isLoading, setIsLoading] = useState(false); // Prevent multiple simultaneous loads
   const [retryCount, setRetryCount] = useState(0); // Track retry attempts
   const [isCircuitOpen, setIsCircuitOpen] = useState(false); // Circuit breaker
+  const [hasLoaded, setHasLoaded] = useState(false); // Track if we've attempted to load
 
   const selectedChatbot = chatbots.find(c => c.id === selectedChatbotId) || null;
 
   // Load chatbots on mount - only once
   useEffect(() => {
     const loadOnce = async () => {
-      if (chatbots.length === 0 && !loading) {
+      if (!hasLoaded && !isLoading) {
+        setHasLoaded(true);
         await loadChatbots();
       }
     };
     loadOnce();
-  }, []); // Empty dependency array - only run once
+  }, [hasLoaded, isLoading]); // Only depend on hasLoaded and isLoading
 
   // Fallback: create default chatbot if circuit breaker is open and no chatbots exist
   useEffect(() => {
-    if (isCircuitOpen && chatbots.length === 0 && !loading) {
+    if (isCircuitOpen && chatbots.length === 0 && !isLoading) {
       console.log('🤖 Circuit breaker open, creating fallback chatbot...');
       const fallbackChatbot = {
         id: 'fallback-' + Date.now(),
@@ -77,9 +79,8 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       };
       setChatbots([fallbackChatbot]);
       setSelectedChatbotId(fallbackChatbot.id);
-      setLoading(false);
     }
-  }, [isCircuitOpen, chatbots.length, loading]);
+  }, [isCircuitOpen, chatbots.length, isLoading]);
 
   const loadChatbots = async () => {
     // Circuit breaker - if too many failures, stop trying
@@ -96,11 +97,9 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
 
     try {
       setIsLoading(true);
-      setLoading(true);
       const token = localStorage.getItem('authToken');
       if (!token) {
         console.log('No auth token, skipping chatbot load');
-        setLoading(false);
         setIsLoading(false);
         return;
       }
@@ -119,7 +118,6 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
             console.log('🤖 Too many 429 errors, opening circuit breaker');
             setIsCircuitOpen(true);
             setChatbots([]);
-            setLoading(false);
             setIsLoading(false);
             // Reset circuit breaker after 30 seconds
             setTimeout(() => {
@@ -142,7 +140,6 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
           if (!retryResponse.ok) {
             console.error(`Failed to load chatbots after retry ${newRetryCount}:`, retryResponse.status);
             setChatbots([]);
-            setLoading(false);
             setIsLoading(false);
             return;
           }
@@ -153,14 +150,12 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
           if (loadedChatbots.length > 0 && !selectedChatbotId) {
             setSelectedChatbotId(loadedChatbots[0].id);
           }
-          setLoading(false);
           setIsLoading(false);
           setRetryCount(0); // Reset on success
           return;
         }
         console.error('Failed to load chatbots:', response.status);
         setChatbots([]);
-        setLoading(false);
         setIsLoading(false);
         return;
       }
@@ -187,12 +182,10 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
         });
       }
 
-      setLoading(false);
       setIsLoading(false);
     } catch (error) {
       console.error('Error loading chatbots:', error);
       setChatbots([]);
-      setLoading(false);
       setIsLoading(false);
     }
   };
