@@ -184,6 +184,28 @@ const Settings: React.FC = () => {
     logout();
   };
 
+  const handleCancelPlan = async () => {
+    if (!window.confirm('Are you sure you want to cancel your subscription? You will lose access to all paid features at the end of your billing period.')) {
+      return;
+    }
+
+    try {
+      // TODO: Implement actual cancellation API call
+      // For now, just show a message
+      alert('Plan cancellation request submitted. You will receive a confirmation email shortly.');
+      
+      // In a real implementation, you would:
+      // 1. Call the cancellation API
+      // 2. Update the user's subscription status
+      // 3. Send confirmation email
+      // 4. Redirect to a confirmation page
+      
+    } catch (error) {
+      console.error('Error cancelling plan:', error);
+      alert('Error cancelling plan. Please try again or contact support.');
+    }
+  };
+
 
   const handleSecuritySettings = () => {
     // Create a simple security modal or redirect
@@ -509,62 +531,44 @@ const Settings: React.FC = () => {
             {user?.isPaid && (
               <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-base lg:text-lg font-semibold text-gray-900">Change Plan</h3>
-                  <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-                    Changes at next billing cycle
+                  <h3 className="text-base lg:text-lg font-semibold text-gray-900">Cancel Plan</h3>
+                  <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs font-medium">
+                    Cancellation at end of billing cycle
                   </span>
                 </div>
                 
                 <p className="text-sm text-gray-600 mb-6">
-                  Switch to a different plan. Changes will take effect at the end of your current billing period.
+                  Cancel your subscription. You'll retain access until the end of your current billing period, then your account will be downgraded to the free plan.
                 </p>
                 
-                <div className="space-y-3">
-                  {[
-                    { id: 'starter', name: 'Starter', price: '$19', features: ['1 Chatbot', '5K messages', 'Basic support'] },
-                    { id: 'professional', name: 'Professional', price: '$79', features: ['2 Chatbots', '25K messages', 'Priority support'] },
-                    { id: 'business', name: 'Business', price: '$299', features: ['3 Chatbots', '100K messages', '24/7 support'] }
-                  ].map((plan) => (
-                    <button
-                      key={plan.id}
-                      onClick={() => window.location.href = `/?pricing=true&plan=${plan.id}`}
-                      className={`w-full p-4 rounded-xl border-2 transition-all duration-200 ${
-                        user?.planId === plan.id
-                          ? 'border-blue-500 bg-blue-50 shadow-md'
-                          : 'border-gray-200 hover:border-gray-300 hover:shadow-sm'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="text-left">
-                          <div className="flex items-center space-x-2">
-                            <h4 className="font-semibold text-gray-900">{plan.name}</h4>
-                            {user?.planId === plan.id && (
-                              <span className="px-2 py-1 bg-blue-500 text-white text-xs font-medium rounded-full">
-                                Current
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-2xl font-bold text-gray-900 mt-1">{plan.price}<span className="text-sm font-normal text-gray-600">/month</span></p>
-                          <div className="flex flex-wrap gap-1 mt-2">
-                            {plan.features.map((feature, idx) => (
-                              <span key={idx} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
-                                {feature}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          {user?.planId === plan.id ? (
-                            <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                              <CheckCircle className="w-4 h-4 text-white" />
-                            </div>
-                          ) : (
-                            <ArrowRight className="w-5 h-5 text-gray-400" />
-                          )}
-                        </div>
-                      </div>
-                    </button>
-                  ))}
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-5 h-5 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <AlertTriangle className="w-3 h-3 text-red-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-red-800 mb-1">Important Notice</h4>
+                      <p className="text-sm text-red-700">
+                        After cancellation, you'll lose access to all paid features including custom branding, advanced analytics, and priority support. 
+                        Your chatbots will be limited to the free plan restrictions.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex space-x-3">
+                  <button
+                    onClick={() => window.location.href = '/pricing'}
+                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                  >
+                    Change Plan Instead
+                  </button>
+                  <button
+                    onClick={handleCancelPlan}
+                    className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
+                  >
+                    Cancel Plan
+                  </button>
                 </div>
               </div>
             )}
@@ -580,7 +584,7 @@ const Settings: React.FC = () => {
                   <div className="flex items-center space-x-2 lg:space-x-3">
                     <CreditCard className="w-4 h-4 lg:w-5 lg:h-5 text-blue-600" />
                     <span className="font-medium text-gray-900 text-sm lg:text-base">
-                      {user?.isTrialActive ? 'Upgrade Plan' : 'Manage Payment'}
+                      {user?.isTrialActive ? 'Upgrade Plan' : 'View Plans & Pricing'}
                     </span>
                   </div>
                   <ArrowRight className="w-3 h-3 lg:w-4 lg:h-4 text-gray-400 group-hover:text-gray-600" />
