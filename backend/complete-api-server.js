@@ -2058,6 +2058,21 @@ app.get('/api/user/profile', authenticatePayment, async (req, res) => {
       isTrialActive: freshUser.isTrialActive
     });
     
+    // Generate new JWT token for the user
+    const jwt = require('jsonwebtoken');
+    const newToken = jwt.sign(
+      { 
+        id: freshUser.id, 
+        email: freshUser.email,
+        planId: freshUser.planId,
+        isPaid: freshUser.isPaid
+      },
+      process.env.JWT_SECRET || 'your-super-secret-jwt-key-change-in-production',
+      { expiresIn: '7d' }
+    );
+    
+    console.log('🔑 Generated new token for user profile:', freshUser.id);
+    
     res.json({
       success: true,
       data: {
@@ -2072,7 +2087,8 @@ app.get('/api/user/profile', authenticatePayment, async (req, res) => {
         createdAt: freshUser.createdAt,
         hasCompletedOnboarding: freshUser.hasCompletedOnboarding || false,
         isNewUser: freshUser.isNewUser || false
-      }
+      },
+      token: newToken // Include new token in response
     });
   } catch (error) {
     console.error('Error getting user profile:', error);
