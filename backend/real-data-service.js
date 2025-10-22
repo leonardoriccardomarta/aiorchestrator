@@ -98,6 +98,7 @@ class RealDataService {
           totalChatbots: 0,
           totalConversations: 0,
           totalMessages: 0,
+          totalMessagesAllTime: 0,
           averageResponseTime: 0,
           satisfactionRate: 0,
           activeConnections: 0,
@@ -174,6 +175,7 @@ class RealDataService {
         totalChatbots: chatbots.length,
         totalConversations,
         totalMessages,
+        totalMessagesAllTime: totalMessages, // All time messages (same as totalMessages for now)
         monthlyMessages,
         activeConnections,
         averageResponseTime,
@@ -191,6 +193,7 @@ class RealDataService {
         totalChatbots: 0,
         totalConversations: 0,
         totalMessages: 0,
+        totalMessagesAllTime: 0,
         monthlyMessages: 0,
         activeConnections: 0,
         averageResponseTime: 0,

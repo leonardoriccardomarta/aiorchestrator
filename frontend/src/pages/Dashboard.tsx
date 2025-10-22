@@ -704,6 +704,21 @@ const Dashboard: React.FC = () => {
                       {safeStats.languagesSupported > 0 ? safeStats.languagesSupported : '0'}
                     </span>
                   </div>
+
+                  <div className="flex items-center justify-between p-4 bg-indigo-50 rounded-xl">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
+                        <MessageSquare className="w-6 h-6 text-indigo-600" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900">Total Messages</p>
+                        <p className="text-sm text-gray-600">All time conversations</p>
+                      </div>
+                    </div>
+                    <span className="text-indigo-600 font-bold text-xl">
+                      {safeStats.totalMessagesAllTime || safeStats.totalMessages || '0'}
+                    </span>
+                  </div>
                 </div>
               ) : (
                 <div className="text-center py-8">
