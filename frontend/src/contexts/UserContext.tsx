@@ -2,6 +2,21 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { API_URL } from '../config/constants';
 import { requestThrottle } from '../lib/requestThrottle';
 
+// Check if token is expired
+const isTokenExpired = (token) => {
+  if (!token) return true;
+  
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const currentTime = Date.now() / 1000;
+    const isExpired = payload.exp < currentTime;
+    return isExpired;
+  } catch (error) {
+    console.error('Error checking token expiration:', error);
+    return true;
+  }
+};
+
 interface UserState {
   id: string;
   email: string;
@@ -93,6 +108,13 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.log('🔄 RefreshUser: Raw response:', result);
         const userData = result.data || result; // Handle both {data: {...}} and direct {...} formats
         console.log('🔄 RefreshUser: User data:', userData);
+        
+        // Save new token if provided
+        if (result.token) {
+          localStorage.setItem('authToken', result.token);
+          console.log('🔑 New token saved to localStorage');
+        }
+        
         const trialStatus = calculateTrialStatus(userData.trialEndDate);
         
         const updatedUser = {
@@ -224,9 +246,14 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsTrialExpired(trialStatus.isExpired);
         setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
         
-        // Refresh user data from server to get latest plan info
-        console.log('🔄 Initializing: Refreshing user data from server...');
-        refreshUser();
+        // Only refresh if we don't have a valid token
+        const token = localStorage.getItem('token') || localStorage.getItem('authToken');
+        if (!token || isTokenExpired(token)) {
+          console.log('🔄 Initializing: Token expired, refreshing user data from server...');
+          refreshUser();
+        } else {
+          console.log('🔄 Initializing: Valid token found, skipping refresh');
+        }
       } catch (error) {
         console.error('Error parsing stored user data:', error);
         // Fallback to demo user

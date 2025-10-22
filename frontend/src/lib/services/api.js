@@ -37,6 +37,7 @@ const clearInvalidToken = () => {
 
 export const apiRequest = async (endpoint, options = {}) => {
   return requestThrottle.throttle(endpoint, async () => {
+    // Read token fresh for each request
     const token = localStorage.getItem('token') || localStorage.getItem('authToken');
     
     // Check if token is expired
