@@ -12,8 +12,7 @@ const BrandingSettings: React.FC = () => {
     logo: '',
     primaryColor: '#3B82F6',
     secondaryColor: '#8B5CF6',
-    fontFamily: 'Inter',
-    customCSS: ''
+    fontFamily: 'Inter'
   });
 
   const [isSaving, setIsSaving] = useState(false);
@@ -65,7 +64,6 @@ const BrandingSettings: React.FC = () => {
         window.AIOrchestratorConfig.accentColor = branding.secondaryColor;
         window.AIOrchestratorConfig.textColor = branding.primaryColor;
         window.AIOrchestratorConfig.fontFamily = branding.fontFamily;
-        window.AIOrchestratorConfig.customCSS = branding.customCSS;
       }
       
       setTimeout(() => setSaveStatus('idle'), 2000);
@@ -85,7 +83,6 @@ const BrandingSettings: React.FC = () => {
       window.AIOrchestratorConfig.accentColor = branding.secondaryColor;
       window.AIOrchestratorConfig.textColor = branding.primaryColor;
       window.AIOrchestratorConfig.fontFamily = branding.fontFamily;
-      window.AIOrchestratorConfig.customCSS = branding.customCSS;
     }
     
     // Trigger a custom event for live preview update
@@ -137,44 +134,59 @@ const BrandingSettings: React.FC = () => {
           </div>
 
           {/* Color Scheme */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Primary Color
-              </label>
-              <div className="flex items-center space-x-3">
-                <input
-                  type="color"
-                  value={branding.primaryColor}
-                  onChange={(e) => handleColorChange('primaryColor', e.target.value)}
-                  className="w-12 h-12 rounded-lg border border-gray-300 cursor-pointer"
-                />
-                <input
-                  type="text"
-                  value={branding.primaryColor}
-                  onChange={(e) => handleColorChange('primaryColor', e.target.value)}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+              <h4 className="text-sm font-medium text-gray-700 mb-3">Color Scheme</h4>
+              <p className="text-xs text-gray-500 mb-4">
+                These colors will be applied to your chatbot widget and embed codes
+              </p>
             </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Primary Color
+                </label>
+                <p className="text-xs text-gray-500 mb-2">
+                  Used for: Send button, user messages, main accents
+                </p>
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="color"
+                    value={branding.primaryColor}
+                    onChange={(e) => handleColorChange('primaryColor', e.target.value)}
+                    className="w-12 h-12 rounded-lg border border-gray-300 cursor-pointer"
+                  />
+                  <input
+                    type="text"
+                    value={branding.primaryColor}
+                    onChange={(e) => handleColorChange('primaryColor', e.target.value)}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Secondary Color
-              </label>
-              <div className="flex items-center space-x-3">
-                <input
-                  type="color"
-                  value={branding.secondaryColor}
-                  onChange={(e) => handleColorChange('secondaryColor', e.target.value)}
-                  className="w-12 h-12 rounded-lg border border-gray-300 cursor-pointer"
-                />
-                <input
-                  type="text"
-                  value={branding.secondaryColor}
-                  onChange={(e) => handleColorChange('secondaryColor', e.target.value)}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Secondary Color
+                </label>
+                <p className="text-xs text-gray-500 mb-2">
+                  Used for: Header background, hover states, highlights
+                </p>
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="color"
+                    value={branding.secondaryColor}
+                    onChange={(e) => handleColorChange('secondaryColor', e.target.value)}
+                    className="w-12 h-12 rounded-lg border border-gray-300 cursor-pointer"
+                  />
+                  <input
+                    type="text"
+                    value={branding.secondaryColor}
+                    onChange={(e) => handleColorChange('secondaryColor', e.target.value)}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -197,19 +209,6 @@ const BrandingSettings: React.FC = () => {
             </select>
           </div>
 
-          {/* Custom CSS */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Custom CSS
-            </label>
-            <textarea
-              value={branding.customCSS}
-              onChange={(e) => handleColorChange('customCSS', e.target.value)}
-              placeholder="/* Add your custom CSS here */"
-              rows={6}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
-            />
-          </div>
 
           {/* Preview */}
           <div className="bg-gray-50 rounded-lg p-4">

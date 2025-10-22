@@ -58,15 +58,35 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
         setConfig(prev => ({
           ...prev,
           primaryColor: settings.branding.primaryColor || prev.primaryColor,
-          fontFamily: settings.branding.fontFamily || 'Inter',
-          customCSS: settings.branding.customCSS || ''
+          fontFamily: settings.branding.fontFamily || 'Inter'
         }));
       }
     }
   }, [user?.isPaid, selectedChatbot]);
 
+  // Listen for branding updates from BrandingSettings
+  useEffect(() => {
+    const handleBrandingUpdate = (event: CustomEvent) => {
+      const branding = event.detail;
+      setConfig(prev => ({
+        ...prev,
+        primaryColor: branding.primaryColor || prev.primaryColor,
+        secondaryColor: branding.secondaryColor || prev.secondaryColor,
+        fontFamily: branding.fontFamily || prev.fontFamily
+      }));
+      
+      // Show live update indicator
+      setIsLiveUpdate(true);
+      setTimeout(() => setIsLiveUpdate(false), 2000);
+    };
+
+    window.addEventListener('brandingUpdated', handleBrandingUpdate as EventListener);
+    return () => window.removeEventListener('brandingUpdated', handleBrandingUpdate as EventListener);
+  }, []);
+
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'basic' | 'advanced' | 'preview' | 'shopify'>('basic');
+  const [isLiveUpdate, setIsLiveUpdate] = useState(false);
 
   const generateEmbedCode = () => {
     const { position, theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy, primaryColor, borderRadius, fontSize, width, height } = config;
@@ -115,8 +135,7 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
           width: '${width}',
           height: '${height}',
           fontFamily: '${config.fontFamily || 'Inter'}'
-        },
-        customCSS: \`${config.customCSS || ''}\`
+        }
       });
     };
     document.head.appendChild(script);
@@ -262,7 +281,6 @@ export default {
         height: '${height}',
         fontFamily: '${config.fontFamily || 'Inter'}'
       },
-      customCSS: \`${config.customCSS || ''}\`
     };
   }
 };
@@ -315,8 +333,7 @@ export default {
           width: '${width}',
           height: '${height}',
           fontFamily: '${config.fontFamily || 'Inter'}'
-        },
-        customCSS: \`${config.customCSS || ''}\`
+        }
       });
     };
     document.head.appendChild(script);
@@ -624,12 +641,20 @@ export default {
           <div className="flex-1 flex flex-col">
             <div className="p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
-                <h4 className="text-lg font-semibold text-gray-900">
-                  {activeTab === 'basic' && 'HTML Embed Code'}
-                  {activeTab === 'advanced' && 'Advanced HTML Code'}
-                  {activeTab === 'shopify' && 'Shopify Integration Code'}
-                  {activeTab === 'preview' && 'Live Preview'}
-                </h4>
+                <div className="flex items-center space-x-3">
+                  <h4 className="text-lg font-semibold text-gray-900">
+                    {activeTab === 'basic' && 'HTML Embed Code'}
+                    {activeTab === 'advanced' && 'Advanced HTML Code'}
+                    {activeTab === 'shopify' && 'Shopify Integration Code'}
+                    {activeTab === 'preview' && 'Live Preview'}
+                  </h4>
+                  {isLiveUpdate && (
+                    <div className="flex items-center space-x-1 px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <span>Live Update</span>
+                    </div>
+                  )}
+                </div>
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => {
