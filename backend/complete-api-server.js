@@ -2083,6 +2083,65 @@ app.get('/api/user/profile', authenticatePayment, async (req, res) => {
   }
 });
 
+// Get user profile without authentication (for payment refresh)
+app.get('/api/user/refresh', async (req, res) => {
+  try {
+    // Get user ID from query parameter or session
+    const { userId } = req.query;
+    
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        error: 'User ID required'
+      });
+    }
+    
+    console.log('👤 Refreshing user profile for:', userId);
+    
+    // Fetch fresh user data from database
+    const freshUser = await prisma.user.findUnique({
+      where: { id: userId }
+    });
+    
+    if (!freshUser) {
+      return res.status(404).json({
+        success: false,
+        error: 'User not found'
+      });
+    }
+    
+    console.log('👤 Fresh user data:', { 
+      id: freshUser.id, 
+      planId: freshUser.planId, 
+      isPaid: freshUser.isPaid,
+      isTrialActive: freshUser.isTrialActive
+    });
+    
+    res.json({
+      success: true,
+      data: {
+        id: freshUser.id,
+        email: freshUser.email,
+        name: `${freshUser.firstName} ${freshUser.lastName}`,
+        planId: freshUser.planId,
+        isActive: freshUser.isActive,
+        isTrialActive: freshUser.isTrialActive,
+        isPaid: freshUser.isPaid,
+        trialEndDate: freshUser.trialEndDate,
+        createdAt: freshUser.createdAt,
+        hasCompletedOnboarding: freshUser.hasCompletedOnboarding || false,
+        isNewUser: freshUser.isNewUser || false
+      }
+    });
+  } catch (error) {
+    console.error('Error refreshing user profile:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to refresh user profile'
+    });
+  }
+});
+
 // Set user plan
 app.post('/api/plans/set', async (req, res) => {
   try {

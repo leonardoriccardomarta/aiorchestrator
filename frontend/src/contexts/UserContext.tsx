@@ -123,8 +123,43 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
         }
       } else if (response.status === 401) {
-        // Token expired or invalid - this should not happen with authenticatePayment middleware
-        console.error('⚠️ RefreshUser: 401 Unauthorized - token issue');
+        // Token expired or invalid - try to get fresh data from database
+        console.error('⚠️ RefreshUser: 401 Unauthorized - trying to get fresh data');
+        
+        try {
+          // Try to get fresh user data using the refresh endpoint
+          const currentUser = user || JSON.parse(localStorage.getItem('user') || '{}');
+          if (currentUser.id) {
+            const freshResponse = await fetch(`${API_BASE_URL}/api/user/refresh?userId=${currentUser.id}`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+            
+            if (freshResponse.ok) {
+              const freshResult = await freshResponse.json();
+              const freshUserData = freshResult.data || freshResult;
+              console.log('✅ RefreshUser: Got fresh data from database:', freshUserData);
+              
+              const trialStatus = calculateTrialStatus(freshUserData.trialEndDate);
+              const updatedUser = {
+                ...freshUserData,
+                trialDaysLeft: trialStatus.daysLeft
+              };
+              
+              setUser(updatedUser);
+              localStorage.setItem('user', JSON.stringify(updatedUser));
+              setIsTrialExpired(trialStatus.isExpired);
+              setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
+              return;
+            }
+          }
+        } catch (freshError) {
+          console.error('❌ RefreshUser: Failed to get fresh data:', freshError);
+        }
+        
+        // Fallback to localStorage if fresh data fails
         console.log('⚠️ RefreshUser: Using localStorage as fallback');
         const storedUser = localStorage.getItem('user');
         if (storedUser) {

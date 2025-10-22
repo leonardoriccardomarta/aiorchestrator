@@ -121,15 +121,45 @@ class PlanService {
     return limits[planId] || limits.starter;
   }
 
-  // Get user plan (mock implementation - returns default starter plan)
-  getUserPlan(userId) {
-    console.log(`Getting plan for user ${userId}`);
-    // In a real implementation, this would query the database
-    // For now, return a default starter plan
-    return {
-      planId: 'starter',
-      limits: this.getPlanLimits('starter')
-    };
+  // Get user plan - REAL implementation
+  async getUserPlan(userId) {
+    console.log(`🔄 Getting plan for user ${userId} from database...`);
+    
+    try {
+      const { PrismaClient } = require('@prisma/client');
+      const prisma = new PrismaClient();
+      
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { planId: true, isPaid: true, isTrialActive: true }
+      });
+      
+      await prisma.$disconnect();
+      
+      if (!user) {
+        console.error(`❌ User ${userId} not found in database`);
+        return {
+          planId: 'starter',
+          limits: this.getPlanLimits('starter')
+        };
+      }
+      
+      const planId = user.planId || 'starter';
+      console.log(`✅ User ${userId} plan from database: ${planId}, isPaid: ${user.isPaid}`);
+      
+      return {
+        planId: planId,
+        limits: this.getPlanLimits(planId),
+        isPaid: user.isPaid,
+        isTrialActive: user.isTrialActive
+      };
+    } catch (error) {
+      console.error(`❌ Failed to get user plan:`, error);
+      return {
+        planId: 'starter',
+        limits: this.getPlanLimits('starter')
+      };
+    }
   }
 
   // Get usage stats (mock implementation)
