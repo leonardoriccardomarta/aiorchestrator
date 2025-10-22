@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { API_URL } from '../config/constants';
 
 interface UserState {
@@ -67,7 +67,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   };
 
-  const refreshUser = async () => {
+  const refreshUser = useCallback(async () => {
     try {
       console.log('🔄 RefreshUser: Starting...');
       const token = localStorage.getItem('authToken');
@@ -130,7 +130,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
           // Try to get fresh user data using the refresh endpoint
           const currentUser = user || JSON.parse(localStorage.getItem('user') || '{}');
           if (currentUser.id) {
-            const freshResponse = await fetch(`${API_BASE_URL}/api/user/refresh?userId=${currentUser.id}`, {
+            const freshResponse = await fetch(`${API_URL}/api/user/refresh?userId=${currentUser.id}`, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json'
@@ -201,7 +201,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
       }
     }
-  };
+  }, [user]); // Dipendenze per useCallback
 
   useEffect(() => {
     // Initialize user from localStorage and refresh from server
@@ -231,7 +231,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Initialize demo user if no stored data
       initializeDemoUser();
     }
-  }, [refreshUser]);
+  }, []); // Rimuoviamo refreshUser dalle dipendenze per evitare il loop infinito
 
   const initializeDemoUser = () => {
     const trialEndDate = new Date();
