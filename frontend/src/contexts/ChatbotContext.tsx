@@ -42,21 +42,35 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
   const [chatbots, setChatbots] = useState<Chatbot[]>([]);
   const [selectedChatbotId, setSelectedChatbotId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // Prevent multiple simultaneous loads
 
   const selectedChatbot = chatbots.find(c => c.id === selectedChatbotId) || null;
 
-  // Load chatbots on mount
+  // Load chatbots on mount - only once
   useEffect(() => {
-    loadChatbots();
-  }, []);
+    const loadOnce = async () => {
+      if (chatbots.length === 0 && !loading) {
+        await loadChatbots();
+      }
+    };
+    loadOnce();
+  }, []); // Empty dependency array - only run once
 
   const loadChatbots = async () => {
+    // Prevent multiple simultaneous loads
+    if (isLoading) {
+      console.log('🤖 LoadChatbots: Already loading, skipping...');
+      return;
+    }
+
     try {
+      setIsLoading(true);
       setLoading(true);
       const token = localStorage.getItem('authToken');
       if (!token) {
         console.log('No auth token, skipping chatbot load');
         setLoading(false);
+        setIsLoading(false);
         return;
       }
 
@@ -65,9 +79,35 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       });
 
       if (!response.ok) {
+        if (response.status === 429) {
+          console.log('🤖 Rate limited, retrying in 3 seconds...');
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          // Retry once
+          const retryResponse = await fetch(`${API_URL}/api/chatbots`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (!retryResponse.ok) {
+            console.error('Failed to load chatbots after retry:', retryResponse.status);
+            setChatbots([]);
+            setLoading(false);
+            setIsLoading(false);
+            return;
+          }
+          // Use retry response
+          const retryData = await retryResponse.json();
+          const loadedChatbots = retryData?.data || [];
+          setChatbots(loadedChatbots);
+          if (loadedChatbots.length > 0 && !selectedChatbotId) {
+            setSelectedChatbotId(loadedChatbots[0].id);
+          }
+          setLoading(false);
+          setIsLoading(false);
+          return;
+        }
         console.error('Failed to load chatbots:', response.status);
         setChatbots([]);
         setLoading(false);
+        setIsLoading(false);
         return;
       }
 
@@ -94,10 +134,12 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       }
 
       setLoading(false);
+      setIsLoading(false);
     } catch (error) {
       console.error('Error loading chatbots:', error);
       setChatbots([]);
       setLoading(false);
+      setIsLoading(false);
     }
   };
 

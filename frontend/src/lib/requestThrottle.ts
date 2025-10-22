@@ -1,7 +1,7 @@
 // Request throttling utility to prevent rate limiting
 class RequestThrottle {
   private requestQueue: Map<string, { lastRequest: number; pending: boolean }> = new Map();
-  private readonly minInterval = 1000; // Minimum 1 second between requests to same endpoint
+  private readonly minInterval = 2000; // Minimum 2 seconds between requests to same endpoint
 
   async throttle<T>(endpoint: string, requestFn: () => Promise<T>): Promise<T> {
     const now = Date.now();
