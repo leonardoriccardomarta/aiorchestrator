@@ -142,6 +142,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
               const freshUserData = freshResult.data || freshResult;
               console.log('✅ RefreshUser: Got fresh data from database:', freshUserData);
               
+              // Save new token if provided
+              if (freshResult.token) {
+                localStorage.setItem('authToken', freshResult.token);
+                console.log('🔑 New token saved to localStorage');
+              }
+              
               const trialStatus = calculateTrialStatus(freshUserData.trialEndDate);
               const updatedUser = {
                 ...freshUserData,
@@ -198,8 +204,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   useEffect(() => {
-    // Initialize user from localStorage or create demo user
-    const storedUser = localStorage.getItem('userData');
+    // Initialize user from localStorage and refresh from server
+    const storedUser = localStorage.getItem('user');
     if (storedUser) {
       try {
         const userData = JSON.parse(storedUser);
@@ -212,6 +218,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         
         setIsTrialExpired(trialStatus.isExpired);
         setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
+        
+        // Refresh user data from server to get latest plan info
+        console.log('🔄 Initializing: Refreshing user data from server...');
+        refreshUser();
       } catch (error) {
         console.error('Error parsing stored user data:', error);
         // Fallback to demo user
@@ -221,7 +231,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Initialize demo user if no stored data
       initializeDemoUser();
     }
-  }, []);
+  }, [refreshUser]);
 
   const initializeDemoUser = () => {
     const trialEndDate = new Date();
