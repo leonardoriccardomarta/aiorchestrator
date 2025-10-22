@@ -55,6 +55,7 @@ export const apiRequest = async (endpoint, options = {}) => {
 
     console.log('🔐 Making API request to:', endpoint);
     console.log('🔐 Token present:', !!token);
+    console.log('🔐 Token value:', token ? token.substring(0, 50) + '...' : 'none');
 
     const res = await fetch(`${BASE_URL}${endpoint}`, {
       ...options,

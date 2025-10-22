@@ -106,6 +106,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (response.ok) {
         const result = await response.json();
         console.log('🔄 RefreshUser: Raw response:', result);
+        console.log('🔄 RefreshUser: Has token?', !!result.token);
+        console.log('🔄 RefreshUser: Token value:', result.token ? result.token.substring(0, 50) + '...' : 'none');
+        
         const userData = result.data || result; // Handle both {data: {...}} and direct {...} formats
         console.log('🔄 RefreshUser: User data:', userData);
         
@@ -113,6 +116,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (result.token) {
           localStorage.setItem('authToken', result.token);
           console.log('🔑 New token saved to localStorage');
+        } else {
+          console.log('⚠️ No token in response, keeping existing token');
         }
         
         const trialStatus = calculateTrialStatus(userData.trialEndDate);
