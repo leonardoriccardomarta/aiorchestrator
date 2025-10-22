@@ -88,9 +88,12 @@ class RealDataService {
         select: { id: true, name: true }
       });
       
+      console.log('🤖 Found chatbots:', chatbots.length, chatbots);
+      
       const chatbotIds = chatbotId ? [chatbotId] : chatbots.map(c => c.id);
       
       if (chatbotIds.length === 0) {
+        console.log('⚠️ No chatbots found for user, returning zero data');
         return {
           totalChatbots: 0,
           totalConversations: 0,
@@ -118,6 +121,12 @@ class RealDataService {
         }
       });
       console.log('💬 Total messages found:', totalMessages);
+      
+      // Debug: Check if there are any conversations at all
+      const allConversations = await prisma.conversation.count();
+      const allMessages = await prisma.conversationMessage.count();
+      console.log('🔍 Debug - Total conversations in DB:', allConversations);
+      console.log('🔍 Debug - Total messages in DB:', allMessages);
       
       // Count connections
       const activeConnections = await prisma.connection.count({
