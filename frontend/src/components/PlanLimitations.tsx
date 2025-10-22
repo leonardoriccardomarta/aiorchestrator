@@ -1,11 +1,12 @@
 import React from 'react';
 import { Lock, Crown } from 'lucide-react';
 import { Button } from './ui/Button';
+import { useUser } from '../contexts/UserContext';
 
 interface PlanLimitationsProps {
   feature: string;
   children: React.ReactNode;
-  requiredPlan?: 'professional' | 'enterprise';
+  requiredPlan?: 'professional' | 'business';
   showUpgrade?: boolean;
 }
 
@@ -15,7 +16,36 @@ const PlanLimitations: React.FC<PlanLimitationsProps> = ({
   requiredPlan = 'professional',
   showUpgrade = true,
 }) => {
-  const planName = requiredPlan === 'enterprise' ? 'Enterprise' : 'Professional';
+  const { user } = useUser();
+  
+  // Check if user has the required plan
+  const hasRequiredPlan = () => {
+    if (!user?.isPaid) {
+      console.log('🔒 PlanLimitations: User not paid');
+      return false;
+    }
+    
+    const planHierarchy = { starter: 1, professional: 2, business: 3 };
+    const userLevel = planHierarchy[user.planId as keyof typeof planHierarchy] || 0;
+    const requiredLevel = planHierarchy[requiredPlan as keyof typeof planHierarchy] || 2;
+    
+    console.log('🔒 PlanLimitations:', {
+      userPlan: user.planId,
+      userLevel,
+      requiredPlan,
+      requiredLevel,
+      hasAccess: userLevel >= requiredLevel
+    });
+    
+    return userLevel >= requiredLevel;
+  };
+
+  const planName = requiredPlan === 'business' ? 'Business' : 'Professional';
+  
+  // If user has the required plan, show the content without lock
+  if (hasRequiredPlan()) {
+    return <>{children}</>;
+  }
 
   return (
     <div className="relative group p-4 text-left bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-xl hover:border-gray-300 transition-all duration-300">

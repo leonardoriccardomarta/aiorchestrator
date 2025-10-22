@@ -341,8 +341,8 @@ const Chatbot: React.FC = () => {
           type: 'text'
         }]);
       } else {
-        // Only auto-create for first-time users, not after delete
-        if (autoCreate) {
+        // Auto-create for first-time users or Starter plan users
+        if (autoCreate || user?.planId === 'starter') {
           console.log('⚠️ No chatbots found, creating default chatbot...');
           await createDefaultChatbot();
         } else {
@@ -723,7 +723,7 @@ const Chatbot: React.FC = () => {
                 </div>
                 <div className="text-center">
                   <div className="text-xl lg:text-2xl font-bold text-green-600 mb-1">
-                    {user?.planId === 'starter' ? '1K' : user?.planId === 'professional' ? '5K' : user?.planId === 'business' ? '25K' : '1K'}
+                    {user?.planId === 'starter' ? '5K' : user?.planId === 'professional' ? '25K' : user?.planId === 'business' ? '100K' : '5K'}
                   </div>
                   <div className="text-xs lg:text-sm text-gray-600">Messages/Month</div>
                 </div>
@@ -1140,7 +1140,7 @@ const Chatbot: React.FC = () => {
                 </div>
                 <div className="text-center">
                   <div className="text-xl lg:text-2xl font-bold text-green-600 mb-1">
-                    {user?.planId === 'starter' ? '1K' : user?.planId === 'professional' ? '5K' : user?.planId === 'business' ? '25K' : '1K'}
+                    {user?.planId === 'starter' ? '5K' : user?.planId === 'professional' ? '25K' : user?.planId === 'business' ? '100K' : '5K'}
                   </div>
                   <div className="text-xs lg:text-sm text-gray-600">Messages/Month</div>
                 </div>
