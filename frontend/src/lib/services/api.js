@@ -1,3 +1,5 @@
+import { requestThrottle } from '../requestThrottle';
+
 const BASE_URL = import.meta.env.VITE_API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app/api';
 
 // Check if token is expired
@@ -34,43 +36,45 @@ const clearInvalidToken = () => {
 };
 
 export const apiRequest = async (endpoint, options = {}) => {
-  const token = localStorage.getItem('token') || localStorage.getItem('authToken');
-  
-  // Check if token is expired
-  if (token && isTokenExpired(token)) {
-    console.warn('Token expired, clearing and redirecting to login');
-    clearInvalidToken();
-    throw new Error('Token expired. Please login again.');
-  }
-  
-  const headers = {
-    'Content-Type': 'application/json',
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    ...options.headers,
-  };
-
-  console.log('🔐 Making API request to:', endpoint);
-  console.log('🔐 Token present:', !!token);
-
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
-    ...options,
-    headers,
-  });
-
-  if (!res.ok) {
-    const errorData = await res.json().catch(() => ({}));
-    console.error('🔐 API Error:', errorData);
+  return requestThrottle.throttle(endpoint, async () => {
+    const token = localStorage.getItem('token') || localStorage.getItem('authToken');
     
-    // If token is invalid or expired, clear it and redirect
-    // BUT NOT for payment endpoints - they handle expired tokens differently
-    if (res.status === 401 && !endpoint.includes('/payments/')) {
-      console.warn('🔐 401 Unauthorized - clearing token and redirecting');
+    // Check if token is expired
+    if (token && isTokenExpired(token)) {
+      console.warn('Token expired, clearing and redirecting to login');
       clearInvalidToken();
-      throw new Error('Session expired. Please login again.');
+      throw new Error('Token expired. Please login again.');
     }
     
-    throw new Error(errorData.error || 'Errore API');
-  }
+    const headers = {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...options.headers,
+    };
 
-  return res.json();
+    console.log('🔐 Making API request to:', endpoint);
+    console.log('🔐 Token present:', !!token);
+
+    const res = await fetch(`${BASE_URL}${endpoint}`, {
+      ...options,
+      headers,
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      console.error('🔐 API Error:', errorData);
+      
+      // If token is invalid or expired, clear it and redirect
+      // BUT NOT for payment endpoints - they handle expired tokens differently
+      if (res.status === 401 && !endpoint.includes('/payments/')) {
+        console.warn('🔐 401 Unauthorized - clearing token and redirecting');
+        clearInvalidToken();
+        throw new Error('Session expired. Please login again.');
+      }
+      
+      throw new Error(errorData.error || 'Errore API');
+    }
+
+    return res.json();
+  });
 };

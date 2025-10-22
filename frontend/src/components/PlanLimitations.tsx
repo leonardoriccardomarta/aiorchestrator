@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Lock, Crown } from 'lucide-react';
 import { Button } from './ui/Button';
 import { useUser } from '../contexts/UserContext';
@@ -18,10 +18,9 @@ const PlanLimitations: React.FC<PlanLimitationsProps> = ({
 }) => {
   const { user } = useUser();
   
-  // Check if user has the required plan
-  const hasRequiredPlan = () => {
+  // Check if user has the required plan - memoized to prevent infinite loops
+  const hasRequiredPlan = useMemo(() => {
     if (!user?.isPaid) {
-      console.log('🔒 PlanLimitations: User not paid');
       return false;
     }
     
@@ -29,21 +28,13 @@ const PlanLimitations: React.FC<PlanLimitationsProps> = ({
     const userLevel = planHierarchy[user.planId as keyof typeof planHierarchy] || 0;
     const requiredLevel = planHierarchy[requiredPlan as keyof typeof planHierarchy] || 2;
     
-    console.log('🔒 PlanLimitations:', {
-      userPlan: user.planId,
-      userLevel,
-      requiredPlan,
-      requiredLevel,
-      hasAccess: userLevel >= requiredLevel
-    });
-    
     return userLevel >= requiredLevel;
-  };
+  }, [user?.isPaid, user?.planId, requiredPlan]);
 
   const planName = requiredPlan === 'business' ? 'Business' : 'Professional';
   
   // If user has the required plan, show the content without lock
-  if (hasRequiredPlan()) {
+  if (hasRequiredPlan) {
     return <>{children}</>;
   }
 
