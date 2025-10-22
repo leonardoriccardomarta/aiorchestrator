@@ -6,6 +6,13 @@ const ChatbotSelector: React.FC = () => {
   const { chatbots, selectedChatbot, selectChatbot, loading } = useChatbot();
   const [isOpen, setIsOpen] = React.useState(false);
 
+  // Debug logging
+  console.log('🤖 ChatbotSelector render:', { 
+    chatbots: chatbots.length, 
+    selectedChatbot: selectedChatbot?.name, 
+    loading 
+  });
+
   if (loading) {
     return (
       <div className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg animate-pulse">
@@ -26,7 +33,7 @@ const ChatbotSelector: React.FC = () => {
         <div className="w-6 h-6 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
           <Bot className="w-3 h-3 text-white" />
         </div>
-        <span className="text-sm font-medium text-gray-900">{selectedChatbot?.name || 'My Chatbot'}</span>
+        <span className="text-sm font-medium text-gray-900">{selectedChatbot?.name || chatbots[0]?.name || 'My Chatbot'}</span>
       </div>
     );
   }

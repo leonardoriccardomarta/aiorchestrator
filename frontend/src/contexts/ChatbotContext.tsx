@@ -45,6 +45,11 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
 
   const selectedChatbot = chatbots.find(c => c.id === selectedChatbotId) || null;
 
+  // Load chatbots on mount
+  useEffect(() => {
+    loadChatbots();
+  }, []);
+
   const loadChatbots = async () => {
     try {
       setLoading(true);
@@ -75,6 +80,17 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
         setSelectedChatbotId(loadedChatbots[0].id);
       } else if (loadedChatbots.length === 0) {
         setSelectedChatbotId(null);
+        // Auto-create default chatbot for new users
+        console.log('No chatbots found, creating default chatbot...');
+        await createChatbot({
+          name: 'My AI Assistant',
+          description: 'Your personal AI assistant',
+          settings: {
+            language: 'auto',
+            personality: 'professional',
+            welcomeMessage: "Hello! I'm your AI assistant. How can I help you today?"
+          }
+        });
       }
 
       setLoading(false);
