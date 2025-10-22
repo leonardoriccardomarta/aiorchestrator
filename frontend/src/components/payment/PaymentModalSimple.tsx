@@ -131,8 +131,23 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Billing Details - Simplified */}
+    <div className="space-y-4">
+      {/* Plan Summary */}
+      <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+        <div className="flex items-center justify-between">
+          <div>
+            <h4 className="font-semibold text-gray-900">{plan.name} Plan</h4>
+            <p className="text-sm text-gray-600">Monthly subscription</p>
+          </div>
+          <div className="text-right">
+            <div className="text-2xl font-bold text-gray-900">${plan.price}</div>
+            <div className="text-sm text-gray-600">/month</div>
+          </div>
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Billing Details - Simplified */}
       <div className="grid grid-cols-1 gap-3">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -210,7 +225,8 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
           </>
         )}
       </button>
-    </form>
+      </form>
+    </div>
   );
 };
 

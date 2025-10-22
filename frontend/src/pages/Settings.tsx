@@ -386,9 +386,9 @@ const Settings: React.FC = () => {
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600 text-sm lg:text-base">Monthly Price</span>
                       <span className="font-semibold text-gray-900 text-sm lg:text-base">
-                    {user?.planId === 'starter' ? '$19' : 
-                     user?.planId === 'professional' ? '$79' : 
-                     user?.planId === 'business' ? '$299' : '$19'}
+                    {user?.planId === 'starter' ? '$29' : 
+                     user?.planId === 'professional' ? '$99' : 
+                     user?.planId === 'business' ? '$299' : '$29'}
                       </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">

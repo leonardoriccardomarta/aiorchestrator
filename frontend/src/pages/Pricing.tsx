@@ -151,7 +151,7 @@ const Pricing: React.FC = () => {
                 To continue using AI Orchestrator and access your chatbots, please select a plan below.
               </p>
               <p className="text-gray-600 text-center text-xs lg:text-sm">
-                <strong>Choose from Starter ($19/mo), Professional ($79/mo), or Business ($299/mo)</strong>
+                <strong>Choose from Starter ($29/mo), Professional ($99/mo), or Business ($299/mo)</strong>
               </p>
             </div>
           )}
@@ -193,7 +193,7 @@ const Pricing: React.FC = () => {
               <CardTitle className="text-xl lg:text-2xl font-bold text-gray-900">Starter</CardTitle>
               <div className="flex items-baseline space-x-1">
                 <span className="text-3xl lg:text-4xl font-bold text-gray-900">
-                  ${billingCycle === 'yearly' ? '19' : '19'}
+                  ${billingCycle === 'yearly' ? '24' : '29'}
                 </span>
                 <span className="text-sm lg:text-base text-gray-600">/month</span>
               </div>
@@ -231,7 +231,7 @@ const Pricing: React.FC = () => {
                 </li>
               </ul>
               <Button 
-                onClick={() => handleSelectPlan({ id: 'starter', name: 'Starter', price: billingCycle === 'yearly' ? 19 : 19 })}
+                onClick={() => handleSelectPlan({ id: 'starter', name: 'Starter', price: billingCycle === 'yearly' ? 24 : 29 })}
                 className={`${getButtonStyle('starter')} text-sm lg:text-base py-2 lg:py-3`}
                 disabled={isButtonDisabled('starter')}
               >
@@ -256,7 +256,7 @@ const Pricing: React.FC = () => {
               <CardTitle className="text-xl lg:text-2xl font-bold text-gray-900">Professional</CardTitle>
               <div className="flex items-baseline space-x-1">
                 <span className="text-3xl lg:text-4xl font-bold text-gray-900">
-                  ${billingCycle === 'yearly' ? '79' : '79'}
+                  ${billingCycle === 'yearly' ? '82' : '99'}
                 </span>
                 <span className="text-sm lg:text-base text-gray-600">/month</span>
                   </div>
@@ -306,7 +306,7 @@ const Pricing: React.FC = () => {
                 </li>
               </ul>
               <Button 
-                onClick={() => handleSelectPlan({ id: 'professional', name: 'Professional', price: billingCycle === 'yearly' ? 79 : 79 })}
+                onClick={() => handleSelectPlan({ id: 'professional', name: 'Professional', price: billingCycle === 'yearly' ? 82 : 99 })}
                 className={`${getButtonStyle('professional')} text-sm lg:text-base py-2 lg:py-3`}
                 disabled={isButtonDisabled('professional')}
               >
