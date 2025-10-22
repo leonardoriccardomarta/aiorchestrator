@@ -55,6 +55,7 @@ import WhiteLabelSettings from '../components/advanced/WhiteLabelSettings';
 import PlanLimitations from '../components/PlanLimitations';
 import TourButton from '../components/TourButton';
 import { useUser } from '../contexts/UserContext';
+import { useChatbot } from '../contexts/ChatbotContext';
 
 interface Message {
   id: string;
@@ -66,6 +67,7 @@ interface Message {
 
 const Chatbot: React.FC = () => {
   const { user } = useUser();
+  const { chatbots, selectedChatbot, loadChatbots } = useChatbot();
   const [activeTab, setActiveTab] = useState<'chat' | 'settings' | 'embed' | 'manage'>('chat');
   const [currentChatbotId, setCurrentChatbotId] = useState<string>('');
   const [chatbotName, setChatbotName] = useState<string>('My AI Assistant');
@@ -93,6 +95,26 @@ const Chatbot: React.FC = () => {
   // Save widget customizations manually
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  // Sync with ChatbotContext
+  useEffect(() => {
+    if (selectedChatbot) {
+      setCurrentChatbotId(selectedChatbot.id);
+      setChatbotName(selectedChatbot.name || 'My AI Assistant');
+      setWelcomeMessage(selectedChatbot.welcomeMessage || "Hello! I'm your AI assistant. How can I help you today?");
+      setPrimaryLanguage(selectedChatbot.language || 'auto');
+      
+      // Load widget customization settings
+      if (selectedChatbot.settings) {
+        const settings = typeof selectedChatbot.settings === 'string' ? JSON.parse(selectedChatbot.settings) : selectedChatbot.settings;
+        if (settings.theme) setWidgetTheme(settings.theme);
+        if (settings.placeholder) setWidgetPlaceholder(settings.placeholder);
+        if (settings.showAvatar !== undefined) setShowWidgetAvatar(settings.showAvatar);
+        if (settings.title) setWidgetTitle(settings.title);
+        if (settings.message) setWidgetMessage(settings.message);
+      }
+    }
+  }, [selectedChatbot]);
   
   const saveWidgetCustomizations = async () => {
     if (!currentChatbotId) {
@@ -364,8 +386,9 @@ const Chatbot: React.FC = () => {
       timestamp: new Date(),
       type: 'text'
     }]);
-    loadChatbot();
-  }, []);
+    // Load chatbots from context
+    loadChatbots();
+  }, [loadChatbots]);
 
   // Note: Removed auto-sync useEffects to avoid conflicts
   // Settings and customizations are now saved together when user clicks Save
