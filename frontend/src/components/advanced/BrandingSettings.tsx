@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Palette, Upload, Save, Eye, Download } from 'lucide-react';
 import PlanLimitations from '../PlanLimitations';
+import { useUser } from '../../contexts/UserContext';
+import { useChatbot } from '../../contexts/ChatbotContext';
 
 const BrandingSettings: React.FC = () => {
+  const { user } = useUser();
+  const { selectedChatbot, updateChatbot } = useChatbot();
+  
   const [branding, setBranding] = useState({
     logo: '',
     primaryColor: '#3B82F6',
@@ -11,16 +16,80 @@ const BrandingSettings: React.FC = () => {
     customCSS: ''
   });
 
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  // Load existing branding settings from chatbot
+  useEffect(() => {
+    if (selectedChatbot?.settings) {
+      const settings = typeof selectedChatbot.settings === 'string' 
+        ? JSON.parse(selectedChatbot.settings) 
+        : selectedChatbot.settings;
+      
+      if (settings.branding) {
+        setBranding(prev => ({ ...prev, ...settings.branding }));
+      }
+    }
+  }, [selectedChatbot]);
+
   const handleColorChange = (field: string, color: string) => {
     setBranding(prev => ({ ...prev, [field]: color }));
   };
 
-  const handleSave = () => {
-    alert('Branding settings saved! Your chatbot will now use these custom styles.');
+  const handleSave = async () => {
+    if (!selectedChatbot) return;
+    
+    setIsSaving(true);
+    setSaveStatus('idle');
+    
+    try {
+      // Update chatbot settings with branding
+      const currentSettings = typeof selectedChatbot.settings === 'string' 
+        ? JSON.parse(selectedChatbot.settings) 
+        : selectedChatbot.settings || {};
+      
+      const updatedSettings = {
+        ...currentSettings,
+        branding: branding
+      };
+      
+      await updateChatbot(selectedChatbot.id, {
+        settings: JSON.stringify(updatedSettings)
+      });
+      
+      setSaveStatus('success');
+      
+      // Update global config for live preview
+      if (window.AIOrchestratorConfig) {
+        window.AIOrchestratorConfig.primaryColor = branding.primaryColor;
+        window.AIOrchestratorConfig.accentColor = branding.secondaryColor;
+        window.AIOrchestratorConfig.textColor = branding.primaryColor;
+        window.AIOrchestratorConfig.fontFamily = branding.fontFamily;
+        window.AIOrchestratorConfig.customCSS = branding.customCSS;
+      }
+      
+      setTimeout(() => setSaveStatus('idle'), 2000);
+    } catch (error) {
+      console.error('Error saving branding:', error);
+      setSaveStatus('error');
+      setTimeout(() => setSaveStatus('idle'), 2000);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handlePreview = () => {
-    alert('Preview feature coming soon! You\'ll be able to see how your chatbot looks with these settings.');
+    // Update global config for live preview
+    if (window.AIOrchestratorConfig) {
+      window.AIOrchestratorConfig.primaryColor = branding.primaryColor;
+      window.AIOrchestratorConfig.accentColor = branding.secondaryColor;
+      window.AIOrchestratorConfig.textColor = branding.primaryColor;
+      window.AIOrchestratorConfig.fontFamily = branding.fontFamily;
+      window.AIOrchestratorConfig.customCSS = branding.customCSS;
+    }
+    
+    // Trigger a custom event for live preview update
+    window.dispatchEvent(new CustomEvent('brandingUpdated', { detail: branding }));
   };
 
   return (
@@ -174,17 +243,28 @@ const BrandingSettings: React.FC = () => {
           <div className="flex items-center space-x-4">
             <button
               onClick={handleSave}
-              className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              disabled={isSaving}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                saveStatus === 'success' 
+                  ? 'bg-green-600 text-white' 
+                  : saveStatus === 'error'
+                  ? 'bg-red-600 text-white'
+                  : 'bg-blue-600 text-white hover:bg-blue-700'
+              } ${isSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               <Save className="w-4 h-4" />
-              <span>Save Settings</span>
+              <span>
+                {isSaving ? 'Saving...' : 
+                 saveStatus === 'success' ? 'Saved!' :
+                 saveStatus === 'error' ? 'Error' : 'Save Branding'}
+              </span>
             </button>
             <button
               onClick={handlePreview}
               className="flex items-center space-x-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
             >
               <Eye className="w-4 h-4" />
-              <span>Preview</span>
+              <span>Live Preview</span>
             </button>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Copy, 
   Check, 
@@ -12,6 +12,8 @@ import {
   Zap,
   X
 } from 'lucide-react';
+import { useUser } from '../contexts/UserContext';
+import { useChatbot } from '../contexts/ChatbotContext';
 
 interface EmbedCodeGeneratorProps {
   chatbotId: string;
@@ -24,6 +26,9 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
   apiKey,
   onClose
 }) => {
+  const { user } = useUser();
+  const { selectedChatbot } = useChatbot();
+  
   const [config, setConfig] = useState({
     position: 'bottom-right',
     theme: 'blue',
@@ -42,12 +47,50 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
     opacity: '100'
   });
 
+  // Load branding settings for Professional+ plans
+  useEffect(() => {
+    if (user?.isPaid && selectedChatbot?.settings) {
+      const settings = typeof selectedChatbot.settings === 'string' 
+        ? JSON.parse(selectedChatbot.settings) 
+        : selectedChatbot.settings;
+      
+      if (settings.branding) {
+        setConfig(prev => ({
+          ...prev,
+          primaryColor: settings.branding.primaryColor || prev.primaryColor,
+          fontFamily: settings.branding.fontFamily || 'Inter',
+          customCSS: settings.branding.customCSS || ''
+        }));
+      }
+    }
+  }, [user?.isPaid, selectedChatbot]);
+
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState<'basic' | 'advanced' | 'preview'>('basic');
+  const [activeTab, setActiveTab] = useState<'basic' | 'advanced' | 'preview' | 'shopify'>('basic');
 
   const generateEmbedCode = () => {
     const { position, theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy, primaryColor, borderRadius, fontSize, width, height } = config;
     
+    // Starter plan - basic widget without custom branding
+    if (!user?.isPaid) {
+      return `<!-- AI Orchestrator Chatbot Widget -->
+<script 
+  src="https://www.aiorchestrator.dev/chatbot-widget.js"
+  data-ai-orchestrator-id="${chatbotId}"
+  data-api-key="${apiKey}"
+  data-theme="${theme}"
+  data-title="AI Support"
+  data-placeholder="${placeholder}"
+  data-show-avatar="${showAvatar}"
+  data-welcome-message="${welcomeMessage}"
+  data-primary-language="${language}"
+  data-auto-open="false"
+  defer>
+</script>
+<!-- End AI Orchestrator Chatbot Widget -->`;
+    }
+    
+    // Professional+ plan - advanced widget with custom branding
     return `<!-- AI Orchestrator Chatbot Widget -->
 <script>
   (function() {
@@ -70,8 +113,10 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
           borderRadius: '${borderRadius}',
           fontSize: '${fontSize}',
           width: '${width}',
-          height: '${height}'
-        }
+          height: '${height}',
+          fontFamily: '${config.fontFamily || 'Inter'}'
+        },
+        customCSS: \`${config.customCSS || ''}\`
       });
     };
     document.head.appendChild(script);
@@ -81,8 +126,36 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
   };
 
   const generateReactCode = () => {
-    const { position, theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy } = config;
+    const { position, theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy, primaryColor, borderRadius, fontSize, width, height } = config;
     
+    // Starter plan - basic React component
+    if (!user?.isPaid) {
+      return `import React from 'react';
+import ChatbotWidget from '@aiorchestrator/react-widget';
+
+function App() {
+  return (
+    <div>
+      {/* Your app content */}
+      
+      <ChatbotWidget
+        chatbotId="${chatbotId}"
+        apiKey="${apiKey}"
+        theme="${theme}"
+        language="${language}"
+        welcomeMessage="${welcomeMessage}"
+        placeholder="${placeholder}"
+        showAvatar={${showAvatar}}
+        showPoweredBy={${showPoweredBy}}
+      />
+    </div>
+  );
+}
+
+export default App;`;
+    }
+    
+    // Professional+ plan - advanced React component with custom branding
     return `import React from 'react';
 import ChatbotWidget from '@aiorchestrator/react-widget';
 
@@ -101,6 +174,15 @@ function App() {
         placeholder="${placeholder}"
         showAvatar={${showAvatar}}
         showPoweredBy={${showPoweredBy}}
+        customStyles={{
+          primaryColor: '${primaryColor}',
+          borderRadius: '${borderRadius}',
+          fontSize: '${fontSize}',
+          width: '${width}',
+          height: '${height}',
+          fontFamily: '${config.fontFamily || 'Inter'}'
+        }}
+        customCSS={\`${config.customCSS || ''}\`}
       />
     </div>
   );
@@ -110,16 +192,17 @@ export default App;`;
   };
 
   const generateVueCode = () => {
-    const { position, theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy } = config;
+    const { position, theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy, primaryColor, borderRadius, fontSize, width, height } = config;
     
-    return `<template>
+    // Starter plan - basic Vue component
+    if (!user?.isPaid) {
+      return `<template>
   <div>
     <!-- Your app content -->
     
     <ChatbotWidget
       :chatbot-id="${chatbotId}"
       :api-key="${apiKey}"
-      :position="${position}"
       :theme="${theme}"
       :language="${language}"
       :welcome-message="${welcomeMessage}"
@@ -138,6 +221,106 @@ export default {
     ChatbotWidget
   }
 };
+</script>`;
+    }
+    
+    // Professional+ plan - advanced Vue component with custom branding
+    return `<template>
+  <div>
+    <!-- Your app content -->
+    
+    <ChatbotWidget
+      :chatbot-id="${chatbotId}"
+      :api-key="${apiKey}"
+      :position="${position}"
+      :theme="${theme}"
+      :language="${language}"
+      :welcome-message="${welcomeMessage}"
+      :placeholder="${placeholder}"
+      :show-avatar="${showAvatar}"
+      :show-powered-by="${showPoweredBy}"
+      :custom-styles="customStyles"
+      :custom-css="customCSS"
+    />
+  </div>
+</template>
+
+<script>
+import ChatbotWidget from '@aiorchestrator/vue-widget';
+
+export default {
+  components: {
+    ChatbotWidget
+  },
+  data() {
+    return {
+      customStyles: {
+        primaryColor: '${primaryColor}',
+        borderRadius: '${borderRadius}',
+        fontSize: '${fontSize}',
+        width: '${width}',
+        height: '${height}',
+        fontFamily: '${config.fontFamily || 'Inter'}'
+      },
+      customCSS: \`${config.customCSS || ''}\`
+    };
+  }
+};
+</script>`;
+  };
+
+  const generateShopifyCode = () => {
+    const { theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy, primaryColor, borderRadius, fontSize, width, height } = config;
+    
+    // Starter plan - basic Shopify code
+    if (!user?.isPaid) {
+      return `<!-- Add this to your theme.liquid file before </body> -->
+<script 
+  src="https://www.aiorchestrator.dev/chatbot-widget.js"
+  data-ai-orchestrator-id="${chatbotId}"
+  data-api-key="${apiKey}"
+  data-theme="${theme}"
+  data-title="AI Support"
+  data-placeholder="${placeholder}"
+  data-show-avatar="${showAvatar}"
+  data-welcome-message="${welcomeMessage}"
+  data-primary-language="${language}"
+  data-auto-open="false"
+  defer>
+</script>`;
+    }
+    
+    // Professional+ plan - advanced Shopify code with custom branding
+    return `<!-- Add this to your theme.liquid file before </body> -->
+<script>
+  (function() {
+    var script = document.createElement('script');
+    script.src = '${window.location.origin}/widget.js';
+    script.async = true;
+    script.onload = function() {
+      window.AIOrchestrator.init({
+        chatbotId: '${chatbotId}',
+        apiKey: '${apiKey}',
+        position: 'bottom-right',
+        theme: '${theme}',
+        language: '${language}',
+        welcomeMessage: '${welcomeMessage}',
+        placeholder: '${placeholder}',
+        showAvatar: ${showAvatar},
+        showPoweredBy: ${showPoweredBy},
+        customStyles: {
+          primaryColor: '${primaryColor}',
+          borderRadius: '${borderRadius}',
+          fontSize: '${fontSize}',
+          width: '${width}',
+          height: '${height}',
+          fontFamily: '${config.fontFamily || 'Inter'}'
+        },
+        customCSS: \`${config.customCSS || ''}\`
+      });
+    };
+    document.head.appendChild(script);
+  })();
 </script>`;
   };
 
@@ -208,6 +391,16 @@ export default {
                   }`}
                 >
                   Advanced
+                </button>
+                <button
+                  onClick={() => setActiveTab('shopify')}
+                  className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === 'shopify' 
+                      ? 'bg-white text-gray-900 shadow-sm' 
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Shopify
                 </button>
                 <button
                   onClick={() => setActiveTab('preview')}
@@ -375,6 +568,36 @@ export default {
                 </div>
               )}
 
+              {/* Shopify Configuration */}
+              {activeTab === 'shopify' && (
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-r from-green-100 to-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <Globe className="w-8 h-8 text-green-600" />
+                    </div>
+                    <h4 className="text-lg font-semibold text-gray-900 mb-2">Shopify Integration</h4>
+                    <p className="text-sm text-gray-600">
+                      {!user?.isPaid 
+                        ? 'Basic widget for Starter plan - no custom branding'
+                        : 'Advanced widget with custom branding for Professional+ plans'
+                      }
+                    </p>
+                  </div>
+                  
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <h5 className="text-sm font-medium text-gray-700 mb-3">Installation Steps</h5>
+                    <ol className="text-sm text-gray-600 space-y-2">
+                      <li>1. Go to your Shopify Admin → Online Store → Themes</li>
+                      <li>2. Click "Actions" → "Edit code" on your active theme</li>
+                      <li>3. Open the "theme.liquid" file</li>
+                      <li>4. Find the &lt;/body&gt; tag</li>
+                      <li>5. Paste the code above the &lt;/body&gt; tag</li>
+                      <li>6. Save the file</li>
+                    </ol>
+                  </div>
+                </div>
+              )}
+
               {/* Preview */}
               {activeTab === 'preview' && (
                 <div className="space-y-6">
@@ -401,17 +624,35 @@ export default {
           <div className="flex-1 flex flex-col">
             <div className="p-6 border-b border-gray-200">
               <div className="flex items-center justify-between">
-                <h4 className="text-lg font-semibold text-gray-900">Generated Code</h4>
+                <h4 className="text-lg font-semibold text-gray-900">
+                  {activeTab === 'basic' && 'HTML Embed Code'}
+                  {activeTab === 'advanced' && 'Advanced HTML Code'}
+                  {activeTab === 'shopify' && 'Shopify Integration Code'}
+                  {activeTab === 'preview' && 'Live Preview'}
+                </h4>
                 <div className="flex items-center space-x-2">
                   <button
-                    onClick={() => copyToClipboard(generateEmbedCode())}
+                    onClick={() => {
+                      const code = activeTab === 'shopify' ? generateShopifyCode() : 
+                                  activeTab === 'advanced' ? generateEmbedCode() : 
+                                  generateEmbedCode();
+                      copyToClipboard(code);
+                    }}
                     className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
                   >
                     {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
                     {copied ? 'Copied!' : 'Copy Code'}
                   </button>
                   <button
-                    onClick={() => downloadCode(generateEmbedCode(), 'chatbot-embed.html')}
+                    onClick={() => {
+                      const code = activeTab === 'shopify' ? generateShopifyCode() : 
+                                  activeTab === 'advanced' ? generateEmbedCode() : 
+                                  generateEmbedCode();
+                      const filename = activeTab === 'shopify' ? 'shopify-integration.html' : 
+                                     activeTab === 'advanced' ? 'chatbot-advanced.html' : 
+                                     'chatbot-embed.html';
+                      downloadCode(code, filename);
+                    }}
                     className="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
                   >
                     <Download className="w-4 h-4 mr-2" />
@@ -423,11 +664,30 @@ export default {
 
             <div className="flex-1 overflow-y-auto">
               <div className="p-6">
-                <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                  <pre className="text-green-400 text-sm">
-                    <code>{generateEmbedCode()}</code>
-                  </pre>
-                </div>
+                {activeTab === 'preview' ? (
+                  <div className="text-center py-12">
+                    <div className="w-16 h-16 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <Eye className="w-8 h-8 text-blue-600" />
+                    </div>
+                    <h4 className="text-lg font-semibold text-gray-900 mb-2">Live Preview</h4>
+                    <p className="text-sm text-gray-600 mb-4">Preview your chatbot widget configuration</p>
+                    <div className="bg-gray-50 rounded-lg p-4 max-w-md mx-auto">
+                      <div className="text-sm text-gray-600">
+                        Preview feature coming soon! You'll be able to see how your chatbot looks with these settings.
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                    <pre className="text-green-400 text-sm">
+                      <code>
+                        {activeTab === 'shopify' ? generateShopifyCode() : 
+                         activeTab === 'advanced' ? generateEmbedCode() : 
+                         generateEmbedCode()}
+                      </code>
+                    </pre>
+                  </div>
+                )}
               </div>
             </div>
           </div>
