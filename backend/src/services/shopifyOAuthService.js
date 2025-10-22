@@ -22,7 +22,7 @@ class ShopifyOAuthService {
   /**
    * Generate install URL for Shopify OAuth
    */
-  getInstallUrl(shop, userId) {
+  getInstallUrl(shop, userId, chatbotId = null) {
     // Validate shop format
     if (!shop.includes('.myshopify.com')) {
       shop = `${shop}.myshopify.com`;
@@ -35,10 +35,11 @@ class ShopifyOAuthService {
     const state = crypto.randomBytes(32).toString('hex');
     const nonce = crypto.randomBytes(32).toString('hex');
     
-    // Store state with user info (expires in 10 minutes)
+    // Store state with user info and chatbotId (expires in 10 minutes)
     this.pendingStates.set(state, {
       userId,
       shop,
+      chatbotId,
       nonce,
       createdAt: Date.now()
     });

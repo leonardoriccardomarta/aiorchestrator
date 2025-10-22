@@ -113,13 +113,23 @@ const Connections: React.FC = () => {
     }
   }, [searchParams, selectedChatbotId]);
 
+  // Reload connections when chatbot changes
+  useEffect(() => {
+    fetchConnections();
+  }, [selectedChatbotId]);
+
   const fetchConnections = async () => {
     try {
       setConnectionsLoading(true);
       const token = localStorage.getItem('authToken');
-      console.log('🔄 Fetching connections...');
+      console.log('🔄 Fetching connections for chatbot:', selectedChatbotId);
       
-      const response = await fetch(`${API_URL}/api/connections`, {
+      // Build URL with chatbot filter if a chatbot is selected
+      const url = selectedChatbotId 
+        ? `${API_URL}/api/connections?chatbotId=${selectedChatbotId}`
+        : `${API_URL}/api/connections`;
+      
+      const response = await fetch(url, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -423,6 +433,7 @@ const Connections: React.FC = () => {
               </div>
 
               <ShopifyOAuthButton
+                chatbotId={selectedChatbotId}
                 onSuccess={handleShopifySuccess}
                 onError={(error) => {
                   // Show error notification instead of alert

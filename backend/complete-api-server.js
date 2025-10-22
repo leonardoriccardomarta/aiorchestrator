@@ -969,7 +969,7 @@ app.post('/api/shopify/test-connection', authenticateToken, async (req, res) => 
 // Step 1: Get Shopify OAuth install URL
 app.post('/api/shopify/oauth/install', authenticateToken, async (req, res) => {
   try {
-    const { shop } = req.body;
+    const { shop, chatbotId } = req.body;
     const userId = req.user.userId || req.user.id;
 
     if (!shop) {
@@ -993,8 +993,8 @@ app.post('/api/shopify/oauth/install', authenticateToken, async (req, res) => {
       });
     }
 
-    // Generate install URL
-    const installUrl = shopifyOAuthService.getInstallUrl(shop, userId);
+    // Generate install URL with chatbotId in state
+    const installUrl = shopifyOAuthService.getInstallUrl(shop, userId, chatbotId);
 
     res.json({
       success: true,
@@ -1218,8 +1218,8 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
       revenue: shopifyData.revenue,
       apiKey: accessToken,
       shopId: shop,
-      currency: testResult.shop.currency || 'USD'
-      // chatbotId: firstChatbotId  // Temporarily disabled until migration
+      currency: testResult.shop.currency || 'USD',
+      chatbotId: stateData.chatbotId || null // Associate with specific chatbot
     });
     console.log('✅ Connection stored:', connection.id);
 
@@ -3611,17 +3611,32 @@ app.post('/api/connections/install-widget', authenticateToken, async (req, res) 
 app.get('/api/connections', authenticateToken, async (req, res) => {
   const { chatbotId } = req.query;
   
-  // Note: In production, filter connections by chatbotId from database
-  // For now, return mock data (will be replaced with Prisma query)
-  
   try {
     const userId = req.user.userId || req.user.id;
-    console.log('🔍 Getting connections for user:', userId);
+    console.log('🔍 Getting connections for user:', userId, 'chatbotId:', chatbotId);
     
-    // Get connections from real data service
-    const connections = await realDataService.getConnections(userId);
-    console.log('📋 Found connections:', connections ? connections.length : 'undefined');
-    console.log('📋 Connections data:', connections);
+    // Get connections from database with optional chatbot filter
+    let connections;
+    if (chatbotId) {
+      // Filter connections by specific chatbot
+      connections = await prisma.connection.findMany({
+        where: {
+          userId: userId,
+          chatbotId: chatbotId
+        },
+        orderBy: { createdAt: 'desc' }
+      });
+      console.log(`📋 Found ${connections.length} connections for chatbot ${chatbotId}`);
+    } else {
+      // Get all connections for user
+      connections = await prisma.connection.findMany({
+        where: {
+          userId: userId
+        },
+        orderBy: { createdAt: 'desc' }
+      });
+      console.log(`📋 Found ${connections.length} total connections for user`);
+    }
     
     // Transform connections to match expected format
     const formattedConnections = connections.map(conn => ({

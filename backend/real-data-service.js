@@ -217,6 +217,7 @@ class RealDataService {
         syncedProductsCount: connectionData.syncedProductsCount || 0,
         ordersCount: connectionData.ordersCount || 0,
         syncedOrdersCount: connectionData.syncedOrdersCount || 0,
+        chatbotId: connectionData.chatbotId || null, // Associate with specific chatbot
         userId,
         tenantId: user.tenantId
       }

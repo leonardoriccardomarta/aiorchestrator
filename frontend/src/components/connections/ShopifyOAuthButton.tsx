@@ -5,9 +5,10 @@ import { ShoppingCart, Loader2, ExternalLink } from 'lucide-react';
 interface ShopifyOAuthButtonProps {
   onSuccess?: (connectionId: string) => void;
   onError?: (error: string) => void;
+  chatbotId?: string;
 }
 
-const ShopifyOAuthButton: React.FC<ShopifyOAuthButtonProps> = ({ onSuccess, onError }) => {
+const ShopifyOAuthButton: React.FC<ShopifyOAuthButtonProps> = ({ onSuccess, onError, chatbotId }) => {
   const [shop, setShop] = useState('');
   const [loading, setLoading] = useState(false);
   const [showInput, setShowInput] = useState(false);
@@ -28,7 +29,7 @@ const ShopifyOAuthButton: React.FC<ShopifyOAuthButtonProps> = ({ onSuccess, onEr
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ shop })
+        body: JSON.stringify({ shop, chatbotId })
       });
 
       const data = await response.json();
