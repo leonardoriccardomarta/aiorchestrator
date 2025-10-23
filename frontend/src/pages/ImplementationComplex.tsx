@@ -28,7 +28,7 @@ import { Copy, Check, ExternalLink, Code, Smartphone, Tablet, Monitor, Zap, Shie
 
 const Implementation: React.FC = () => {
   const [selectedChatbot, setSelectedChatbot] = useState<any>(null);
-  const [chatbots, setChatbots] = useState<any[]>([]);
+  const [chatbots] = useState<any[]>([]);
   const [apiKey, setApiKey] = useState<string>('');
   const [implementationCode, setImplementationCode] = useState<string>('');
   const [loading, setLoading] = useState(true);
@@ -38,36 +38,12 @@ const Implementation: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'embed' | 'api' | 'integrations' | 'customize'>('embed');
   const { user } = useAuth();
 
+  // Removed loadChatbots call - chatbots are loaded automatically by ChatbotContext
   useEffect(() => {
-    loadChatbots();
+    // Get API key (in real app, this would come from user settings)
+    setApiKey(`ak_live_${user?.id || 'demo'}_${Date.now()}`);
+    setLoading(false);
   }, []);
-
-  const loadChatbots = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/chatbots`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-        },
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setChatbots(data.data || []);
-        
-        // Set first chatbot as selected by default
-        if (data.data && data.data.length > 0) {
-          setSelectedChatbot(data.data[0]);
-        }
-      }
-      
-      // Get API key (in real app, this would come from user settings)
-      setApiKey(`ak_live_${user?.id || 'demo'}_${Date.now()}`);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error loading chatbots:', error);
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     if (selectedChatbot && apiKey) {

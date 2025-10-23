@@ -221,8 +221,8 @@ const WorkflowManager: React.FC = () => {
 
   useEffect(() => {
     loadWorkflows();
-    loadChatbots();
-  }, [loadWorkflows, loadChatbots]);
+    // Removed loadChatbots call - chatbots are loaded automatically by ChatbotContext
+  }, [loadWorkflows]);
 
   const handleCreateWorkflow = () => {
     setSelectedWorkflow(null);

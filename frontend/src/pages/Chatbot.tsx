@@ -68,7 +68,7 @@ interface Message {
 
 const Chatbot: React.FC = () => {
   const { user } = useUser();
-  const { chatbots, selectedChatbot, loadChatbots } = useChatbot();
+  const { chatbots, selectedChatbot } = useChatbot();
   const [activeTab, setActiveTab] = useState<'chat' | 'settings' | 'embed' | 'manage'>('chat');
   const [currentChatbotId, setCurrentChatbotId] = useState<string>('');
   const [chatbotName, setChatbotName] = useState<string>('My AI Assistant');
@@ -388,9 +388,8 @@ const Chatbot: React.FC = () => {
       timestamp: new Date(),
       type: 'text'
     }]);
-    // Load chatbots from context
-    loadChatbots();
-  }, [loadChatbots]);
+    // Removed loadChatbots call - chatbots are loaded automatically by ChatbotContext
+  }, []);
 
   // Note: Removed auto-sync useEffects to avoid conflicts
   // Settings and customizations are now saved together when user clicks Save
