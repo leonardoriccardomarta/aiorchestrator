@@ -440,8 +440,9 @@ app.get('/api/chatbots', async (req, res) => {
     }
 
     // Verify token
-    const authService = require('./real-auth-system');
-    const decoded = authService.verifyAccess(token);
+    const AuthService = require('./real-auth-system');
+    const authService = new AuthService();
+    const decoded = await authService.verifyAccess(token);
     if (!decoded) {
       return res.status(401).json({ success: false, message: 'Invalid token' });
     }
@@ -475,8 +476,9 @@ app.post('/api/chatbots', async (req, res) => {
       return res.status(401).json({ success: false, message: 'No token provided' });
     }
 
-    const authService = require('./real-auth-system');
-    const decoded = authService.verifyAccess(token);
+    const AuthService = require('./real-auth-system');
+    const authService = new AuthService();
+    const decoded = await authService.verifyAccess(token);
     if (!decoded) {
       return res.status(401).json({ success: false, message: 'Invalid token' });
     }
@@ -519,8 +521,9 @@ app.put('/api/chatbots/:id', async (req, res) => {
       return res.status(401).json({ success: false, message: 'No token provided' });
     }
 
-    const authService = require('./real-auth-system');
-    const decoded = authService.verifyAccess(token);
+    const AuthService = require('./real-auth-system');
+    const authService = new AuthService();
+    const decoded = await authService.verifyAccess(token);
     if (!decoded) {
       return res.status(401).json({ success: false, message: 'Invalid token' });
     }
@@ -559,8 +562,9 @@ app.delete('/api/chatbots/:id', async (req, res) => {
       return res.status(401).json({ success: false, message: 'No token provided' });
     }
 
-    const authService = require('./real-auth-system');
-    const decoded = authService.verifyAccess(token);
+    const AuthService = require('./real-auth-system');
+    const authService = new AuthService();
+    const decoded = await authService.verifyAccess(token);
     if (!decoded) {
       return res.status(401).json({ success: false, message: 'Invalid token' });
     }
