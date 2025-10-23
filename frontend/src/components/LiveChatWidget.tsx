@@ -25,7 +25,10 @@ const LiveChatWidget: React.FC = () => {
   const [widgetConfig, setWidgetConfig] = useState({
     title: 'AI Support',
     placeholder: 'Type your message...',
-    welcomeMessage: 'Hi! I\'m your AI support assistant. How can I help you today? 👋'
+    welcomeMessage: 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
+    primaryColor: '#3B82F6',
+    secondaryColor: '#8B5CF6',
+    fontFamily: 'Inter'
   });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +44,10 @@ const LiveChatWidget: React.FC = () => {
           ...prev,
           title: window.AIOrchestratorConfig.title || 'AI Support',
           placeholder: window.AIOrchestratorConfig.placeholder || 'Type your message...',
-          welcomeMessage: window.AIOrchestratorConfig.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'
+          welcomeMessage: window.AIOrchestratorConfig.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
+          primaryColor: window.AIOrchestratorConfig.primaryColor || '#3B82F6',
+          secondaryColor: window.AIOrchestratorConfig.accentColor || '#8B5CF6',
+          fontFamily: window.AIOrchestratorConfig.fontFamily || 'Inter'
         }));
       }
     };
@@ -139,10 +145,21 @@ const LiveChatWidget: React.FC = () => {
     <div className={`fixed bottom-6 right-6 z-50 transition-all ${isMinimized ? 'w-80' : 'w-96'}`}>
       <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
         {/* Header */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-100 border-b-2 border-blue-200 p-4">
+        <div 
+          className="border-b-2 p-4"
+          style={{
+            background: `linear-gradient(135deg, ${widgetConfig.primaryColor}15, ${widgetConfig.secondaryColor}15)`,
+            borderColor: widgetConfig.primaryColor
+          }}
+        >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+              <div 
+                className="w-10 h-10 rounded-full flex items-center justify-center"
+                style={{
+                  background: `linear-gradient(135deg, ${widgetConfig.primaryColor}, ${widgetConfig.secondaryColor})`
+                }}
+              >
                 <MessageCircle className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -216,13 +233,20 @@ const LiveChatWidget: React.FC = () => {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder={widgetConfig.placeholder}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent"
+                  style={{
+                    fontFamily: widgetConfig.fontFamily,
+                    '--tw-ring-color': widgetConfig.primaryColor
+                  } as React.CSSProperties}
                   disabled={isLoading}
                 />
                 <button
                   onClick={sendMessage}
                   disabled={!inputValue.trim() || isLoading}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="text-white px-4 py-2 rounded-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  style={{
+                    backgroundColor: widgetConfig.primaryColor
+                  }}
                 >
                   <Send className="w-5 h-5" />
                 </button>

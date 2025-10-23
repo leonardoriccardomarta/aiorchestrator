@@ -958,8 +958,8 @@ const Chatbot: React.FC = () => {
                   </div>
                 )}
 
-                {/* Add New Chatbot - Only if plan allows and chatbot exists */}
-                {currentChatbotId && !chatbotDeleted && user?.planId !== 'starter' ? (
+                {/* Add New Chatbot - Show if chatbot exists */}
+                {currentChatbotId && !chatbotDeleted ? (
                   <div 
                     onClick={() => {
                       setIsFirstChatbot(false);
@@ -979,22 +979,6 @@ const Chatbot: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                ) : currentChatbotId && !chatbotDeleted ? (
-                  <PlanLimitations feature="Create Additional Chatbot" requiredPlan="professional">
-                    <div className="bg-gray-50 rounded-xl p-6 border-2 border-dashed border-gray-300">
-                      <div className="text-center">
-                        <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <Plus className="w-6 h-6 text-gray-400" />
-                        </div>
-                        <h4 className="font-semibold text-gray-900 mb-2">Create New Chatbot</h4>
-                        <p className="text-sm text-gray-600 mb-4">Add another AI assistant for different purposes</p>
-                        <div className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm inline-block">
-                          <Plus className="w-4 h-4 mr-1 inline" />
-                          Create
-                        </div>
-                      </div>
-                    </div>
-                  </PlanLimitations>
                 ) : null}
               </div>
             </div>

@@ -80,6 +80,9 @@ const BrandingSettings: React.FC = () => {
         window.AIOrchestratorConfig.fontFamily = branding.fontFamily;
       }
       
+      // Sync with embed section
+      window.dispatchEvent(new CustomEvent('embedBrandingUpdated', { detail: branding }));
+      
       setTimeout(() => setSaveStatus('idle'), 2000);
     } catch (error) {
       console.error('Error saving branding:', error);
@@ -258,7 +261,7 @@ const BrandingSettings: React.FC = () => {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center space-x-4">
+          <div className="flex justify-end">
             <button
               onClick={handleSave}
               disabled={isSaving}
@@ -274,15 +277,8 @@ const BrandingSettings: React.FC = () => {
               <span>
                 {isSaving ? 'Saving...' : 
                  saveStatus === 'success' ? 'Saved!' :
-                 saveStatus === 'error' ? 'Error' : 'Save Branding'}
+                 saveStatus === 'error' ? 'Error' : 'Save'}
               </span>
-            </button>
-            <button
-              onClick={handlePreview}
-              className="flex items-center space-x-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
-            >
-              <Eye className="w-4 h-4" />
-              <span>Live Preview</span>
             </button>
           </div>
         </div>
