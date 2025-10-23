@@ -45,7 +45,8 @@ import {
   Send,
   Loader2,
   Download,
-  HelpCircle
+  HelpCircle,
+  Palette
 } from 'lucide-react';
 import ChatbotManagement from '../components/ChatbotManagement';
 import EmbedCodeGenerator from '../components/EmbedCodeGenerator';
@@ -92,6 +93,14 @@ const Chatbot: React.FC = () => {
   const [widgetPlaceholder, setWidgetPlaceholder] = useState<string>('Type your message...');
   const [widgetMessage, setWidgetMessage] = useState<string>('Hello! I\'m your AI assistant. How can I help you today?');
   const [showWidgetAvatar, setShowWidgetAvatar] = useState<boolean>(true);
+  
+  // Custom branding state (for professional+ plans)
+  const [customBranding, setCustomBranding] = useState({
+    primaryColor: '#3B82F6',
+    secondaryColor: '#8B5CF6',
+    fontFamily: 'Inter',
+    logo: ''
+  });
   // removed detectLanguage; use primaryLanguage only
 
   // Save widget customizations manually
@@ -114,6 +123,11 @@ const Chatbot: React.FC = () => {
         if (settings.showAvatar !== undefined) setShowWidgetAvatar(settings.showAvatar);
         if (settings.title) setWidgetTitle(settings.title);
         if (settings.message) setWidgetMessage(settings.message);
+        
+        // Load custom branding settings (for professional+ plans)
+        if (settings.branding) {
+          setCustomBranding(prev => ({ ...prev, ...settings.branding }));
+        }
       }
     }
   }, [selectedChatbot]);
@@ -157,7 +171,11 @@ const Chatbot: React.FC = () => {
             placeholder: widgetPlaceholder,
             showAvatar: showWidgetAvatar,
             title: widgetTitle,
-            message: widgetMessage
+            message: widgetMessage,
+            // Add custom branding for professional+ plans
+            ...(user?.planId !== 'starter' && {
+              branding: customBranding
+            })
           }
         })
       });
@@ -405,7 +423,7 @@ const Chatbot: React.FC = () => {
   // Expose widget configuration globally for live preview synchronization
   useEffect(() => {
     if (currentChatbotId) {
-      window.AIOrchestratorConfig = {
+      const baseConfig = {
         chatbotId: currentChatbotId,
         apiKey: API_URL,
         theme: widgetTheme,
@@ -421,9 +439,25 @@ const Chatbot: React.FC = () => {
         textColor: '#1f2937',
         accentColor: getThemeColor(widgetTheme)
       };
+
+      // Add custom branding for professional+ plans
+      if (user?.planId !== 'starter') {
+        window.AIOrchestratorConfig = {
+          ...baseConfig,
+          primaryColor: customBranding.primaryColor,
+          secondaryColor: customBranding.secondaryColor,
+          fontFamily: customBranding.fontFamily,
+          logo: customBranding.logo,
+          accentColor: customBranding.secondaryColor,
+          textColor: customBranding.primaryColor
+        };
+      } else {
+        window.AIOrchestratorConfig = baseConfig;
+      }
+      
       console.log('🎯 Widget config exposed globally:', window.AIOrchestratorConfig);
     }
-  }, [currentChatbotId, widgetTheme, widgetTitle, widgetPlaceholder, showWidgetAvatar, widgetMessage, primaryLanguage]);
+  }, [currentChatbotId, widgetTheme, widgetTitle, widgetPlaceholder, showWidgetAvatar, widgetMessage, primaryLanguage, customBranding, user?.planId]);
 
   // Helper function to get theme colors
   const getThemeColor = (theme: string) => {
@@ -438,6 +472,38 @@ const Chatbot: React.FC = () => {
       teal: '#14B8A6'
     };
     return colors[theme] || '#3B82F6';
+  };
+
+  // Generate embed code with custom branding (for professional+ plans)
+  const generateEmbedCode = () => {
+    if (!currentChatbotId) return 'Loading chatbot...';
+    
+    const baseCode = `<!-- AI Orchestrator Chatbot Widget -->
+<script 
+  src="https://www.aiorchestrator.dev/chatbot-widget.js"
+  data-ai-orchestrator-id="${currentChatbotId}"
+  data-api-key="${API_URL}"
+  data-theme="${widgetTheme}"
+  data-title="${widgetTitle}"
+  data-placeholder="${widgetPlaceholder}"
+  data-show-avatar="${showWidgetAvatar}"
+  data-welcome-message="${welcomeMessage}"
+  data-primary-language="${primaryLanguage}"`;
+
+    // Add custom branding for professional+ plans
+    if (user?.planId !== 'starter') {
+      return baseCode + `
+  data-primary-color="${customBranding.primaryColor}"
+  data-secondary-color="${customBranding.secondaryColor}"
+  data-font-family="${customBranding.fontFamily}"
+  data-logo="${customBranding.logo}"
+  defer>
+</script>`;
+    }
+    
+    return baseCode + `
+  defer>
+</script>`;
   };
 
   const getThemeDarkColor = (theme: string) => {
@@ -988,29 +1054,29 @@ const Chatbot: React.FC = () => {
         {activeTab === 'settings' && (
           <div className="space-y-4 lg:space-y-6">
             {/* Your Plan Limits */}
-            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg lg:text-xl font-semibold text-gray-900">Your Plan Limits</h3>
-                <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs lg:text-sm font-medium rounded-full">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 lg:p-6 border border-blue-200">
+              <div className="flex items-center justify-between mb-3 lg:mb-4">
+                <h3 className="text-base lg:text-lg font-semibold text-gray-900">Your Plan Limits</h3>
+                <span className="px-2 lg:px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs lg:text-sm font-medium">
                   {user?.planId === 'starter' ? 'Starter' : user?.planId === 'professional' ? 'Professional' : 'Business'}
                 </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-4">
                 <div className="text-center">
-                  <div className="text-2xl lg:text-3xl font-bold text-blue-600 mb-1">
-                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : '3'}
+                  <div className="text-xl lg:text-2xl font-bold text-blue-600 mb-1">
+                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : user?.planId === 'business' ? '3' : '1'}
                   </div>
                   <div className="text-xs lg:text-sm text-gray-600">Chatbots</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl lg:text-3xl font-bold text-green-600 mb-1">
-                    {user?.planId === 'starter' ? '5K' : user?.planId === 'professional' ? '25K' : '100K'}
+                  <div className="text-xl lg:text-2xl font-bold text-green-600 mb-1">
+                    {user?.planId === 'starter' ? '5K' : user?.planId === 'professional' ? '25K' : user?.planId === 'business' ? '100K' : '5K'}
                   </div>
                   <div className="text-xs lg:text-sm text-gray-600">Messages/Month</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl lg:text-3xl font-bold text-blue-600 mb-1">
-                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : '5'}
+                  <div className="text-xl lg:text-2xl font-bold text-purple-600 mb-1">
+                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : user?.planId === 'business' ? '3' : '1'}
                   </div>
                   <div className="text-xs lg:text-sm text-gray-600">Websites</div>
                 </div>
@@ -1182,36 +1248,12 @@ const Chatbot: React.FC = () => {
                 <p className="text-xs lg:text-sm text-gray-600 mb-3 lg:mb-4">Add this code to your website to embed your chatbot:</p>
                 <div className="bg-gray-900 rounded-lg p-3 lg:p-4 overflow-x-auto">
                   <code className="text-green-400 text-xs lg:text-sm whitespace-pre-wrap">
-                    {currentChatbotId ? `<!-- AI Orchestrator Chatbot Widget -->
-<script 
-  src="https://www.aiorchestrator.dev/chatbot-widget.js"
-  data-ai-orchestrator-id="${currentChatbotId}"
-  data-api-key="${API_URL}"
-  data-theme="${widgetTheme}"
-  data-title="${widgetTitle}"
-  data-placeholder="${widgetPlaceholder}"
-  data-show-avatar="${showWidgetAvatar}"
-  data-welcome-message="${welcomeMessage}"
-  data-primary-language="${primaryLanguage}"
-  defer>
-</script>` : 'Loading chatbot...'}
+                    {generateEmbedCode()}
                   </code>
                 </div>
                 <div className="flex space-x-2 mt-2 lg:mt-3">
                   <button onClick={() => {
-                    const code = currentChatbotId ? `<!-- AI Orchestrator Chatbot Widget -->
-<script 
-  src="https://www.aiorchestrator.dev/chatbot-widget.js"
-  data-ai-orchestrator-id="${currentChatbotId}"
-  data-api-key="${API_URL}"
-  data-theme="${widgetTheme}"
-  data-title="${widgetTitle}"
-  data-placeholder="${widgetPlaceholder}"
-  data-show-avatar="${showWidgetAvatar}"
-  data-welcome-message="${welcomeMessage}"
-  data-primary-language="${primaryLanguage}"
-  defer>
-</script>` : 'No chatbot available';
+                    const code = generateEmbedCode();
                     navigator.clipboard.writeText(code).then(() => alert('Copied to clipboard!')).catch(() => alert('Copy failed'));
                   }} className="px-3 lg:px-4 py-1.5 lg:py-2 bg-blue-600 text-white rounded-md lg:rounded-lg hover:bg-blue-700 transition-colors text-xs lg:text-sm">
                     <Copy className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
@@ -1334,6 +1376,77 @@ const Chatbot: React.FC = () => {
                   </div>
                 </div>
                 
+                {/* Custom Branding Section - Only for Professional+ plans */}
+                {user?.planId !== 'starter' && (
+                  <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
+                    <h4 className="text-sm font-medium text-gray-900 mb-3 flex items-center">
+                      <Palette className="w-4 h-4 mr-2 text-purple-600" />
+                      Custom Branding (Professional+)
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Primary Color</label>
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="color"
+                            value={customBranding.primaryColor}
+                            onChange={(e) => setCustomBranding(prev => ({ ...prev, primaryColor: e.target.value }))}
+                            className="w-8 h-8 rounded border border-gray-300 cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={customBranding.primaryColor}
+                            onChange={(e) => setCustomBranding(prev => ({ ...prev, primaryColor: e.target.value }))}
+                            className="flex-1 px-2 py-1 border border-gray-300 rounded text-xs"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Secondary Color</label>
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="color"
+                            value={customBranding.secondaryColor}
+                            onChange={(e) => setCustomBranding(prev => ({ ...prev, secondaryColor: e.target.value }))}
+                            className="w-8 h-8 rounded border border-gray-300 cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={customBranding.secondaryColor}
+                            onChange={(e) => setCustomBranding(prev => ({ ...prev, secondaryColor: e.target.value }))}
+                            className="flex-1 px-2 py-1 border border-gray-300 rounded text-xs"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Font Family</label>
+                        <select
+                          value={customBranding.fontFamily}
+                          onChange={(e) => setCustomBranding(prev => ({ ...prev, fontFamily: e.target.value }))}
+                          className="w-full px-2 py-1 border border-gray-300 rounded text-xs"
+                        >
+                          <option value="Inter">Inter</option>
+                          <option value="Roboto">Roboto</option>
+                          <option value="Open Sans">Open Sans</option>
+                          <option value="Lato">Lato</option>
+                          <option value="Poppins">Poppins</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Logo URL</label>
+                        <input
+                          type="url"
+                          value={customBranding.logo}
+                          onChange={(e) => setCustomBranding(prev => ({ ...prev, logo: e.target.value }))}
+                          placeholder="https://example.com/logo.png"
+                          className="w-full px-2 py-1 border border-gray-300 rounded text-xs"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+                </div>
+                
                 {/* Save Button */}
                 <div className="mt-4 lg:mt-6 flex justify-end items-center space-x-2 lg:space-x-4">
                   {saveStatus === 'success' && (
@@ -1382,7 +1495,7 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&primaryColor=${encodeURIComponent(customBranding.primaryColor)}&secondaryColor=${encodeURIComponent(customBranding.secondaryColor)}&fontFamily=${encodeURIComponent(customBranding.fontFamily)}&logo=${encodeURIComponent(customBranding.logo)}` : ''}`}
                       className="w-full h-[400px] lg:h-[740px] border-0"
                       title="Live Chatbot Preview"
                     />
