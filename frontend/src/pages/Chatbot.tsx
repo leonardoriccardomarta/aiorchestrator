@@ -56,6 +56,7 @@ import PlanLimitations from '../components/PlanLimitations';
 import TourButton from '../components/TourButton';
 import { useUser } from '../contexts/UserContext';
 import { useChatbot } from '../contexts/ChatbotContext';
+import AddChatbotModal from '../components/AddChatbotModal';
 
 interface Message {
   id: string;
@@ -83,6 +84,7 @@ const Chatbot: React.FC = () => {
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
   const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
   const [chatbotDeleted, setChatbotDeleted] = useState(false);
+  const [showAddChatbotModal, setShowAddChatbotModal] = useState(false);
   
   // Widget customization state
   const [widgetTheme, setWidgetTheme] = useState<'blue' | 'purple' | 'green' | 'red' | 'orange' | 'pink' | 'indigo' | 'teal'>('blue');
@@ -870,21 +872,16 @@ const Chatbot: React.FC = () => {
                 {/* Add New Chatbot - Only if plan allows and chatbot exists */}
                 {currentChatbotId && !chatbotDeleted && user?.planId !== 'starter' ? (
                   <div 
-                    onClick={() => {
-                      const name = prompt('Enter chatbot name:');
-                      if (name) {
-                        alert(`Creating new chatbot: ${name}\n\nIn a real implementation, this would create a new chatbot in your account.`);
-                      }
-                    }}
-                    className="bg-gray-50 rounded-xl p-6 border-2 border-dashed border-gray-300 hover:border-blue-400 transition-colors cursor-pointer"
+                    onClick={() => setShowAddChatbotModal(true)}
+                    className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 border-2 border-dashed border-blue-300 hover:border-blue-400 transition-all cursor-pointer group"
                   >
                     <div className="text-center">
-                      <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Plus className="w-6 h-6 text-gray-400" />
+                      <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <Plus className="w-6 h-6 text-white" />
                       </div>
                       <h4 className="font-semibold text-gray-900 mb-2">Create New Chatbot</h4>
                       <p className="text-sm text-gray-600 mb-4">Add another AI assistant for different purposes</p>
-                      <div className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm inline-block">
+                      <div className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors text-sm inline-block">
                         <Plus className="w-4 h-4 mr-1 inline" />
                         Create
                       </div>
@@ -1470,6 +1467,12 @@ const Chatbot: React.FC = () => {
           animation: slide-in 0.3s ease-out;
         }
       `}</style>
+
+      {/* Add Chatbot Modal */}
+      <AddChatbotModal
+        isOpen={showAddChatbotModal}
+        onClose={() => setShowAddChatbotModal(false)}
+      />
     </div>
   );
 };

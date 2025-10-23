@@ -25,9 +25,9 @@ const ChatbotSelector: React.FC = () => {
   }
 
   if (chatbots.length === 1) {
-    // Only one chatbot - show as static badge
+    // Only one chatbot - show as static badge with better spacing
     return (
-      <div className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg">
+      <div className="flex items-center gap-3 px-4 py-2.5 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg ml-4">
         <div className="w-6 h-6 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
           <Bot className="w-3 h-3 text-white" />
         </div>
@@ -38,10 +38,10 @@ const ChatbotSelector: React.FC = () => {
 
   // Multiple chatbots - show dropdown
   return (
-    <div className="relative">
+    <div className="relative ml-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg hover:border-blue-300 transition-colors"
+        className="flex items-center gap-3 px-4 py-2.5 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg hover:border-blue-300 transition-colors"
       >
         <div className="w-6 h-6 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
           <Bot className="w-3 h-3 text-white" />
