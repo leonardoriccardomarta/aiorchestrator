@@ -61,7 +61,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       }
     };
     loadOnce();
-  }, [hasLoaded, isLoading]); // Only depend on hasLoaded and isLoading
+  }, []); // Empty dependency array to run only once
 
   // Fallback: create default chatbot if circuit breaker is open and no chatbots exist
   useEffect(() => {

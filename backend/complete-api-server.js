@@ -5,6 +5,8 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const multer = require('multer');
+const fs = require('fs');
 
 // Load environment variables FIRST
 require('dotenv').config({ path: path.join(__dirname, '.env') });
@@ -120,6 +122,35 @@ const chatbotService = new ChatbotService();
 
 // Store WooCommerce connections in memory (in production, use database)
 const woocommerceConnections = new Map();
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = path.join(__dirname, 'uploads', 'branding');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 2 * 1024 * 1024 // 2MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed'), false);
+    }
+  }
+});
 
 // Apply security middleware
 app.use(securityHeaders);
@@ -267,10 +298,102 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
+// Serve static files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Serve public embed files
+app.use('/public/embed', express.static(path.join(__dirname, 'public/embed')));
+
+// Fallback chatbot embed endpoint
+app.get('/public/embed/:chatbotId', (req, res) => {
+  // Set CORS headers for embed
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('X-Frame-Options', 'ALLOWALL');
+  res.header('Content-Security-Policy', "frame-ancestors *");
+  
+  const { chatbotId } = req.params;
+  const { theme = 'blue', title = 'AI Support', placeholder = 'Type your message...', message = 'Hello! I\'m your AI assistant. How can I help you today?', showAvatar = 'true', primaryLanguage = 'auto' } = req.query;
+  
+  // Serve the fallback HTML with dynamic parameters
+  res.send(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .chat-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .status {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 10px;
+            padding: 15px;
+            color: #0369a1;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="avatar">🤖</div>
+        <h1>${title}</h1>
+        <p>${message}</p>
+        <div class="status">
+            <strong>Status:</strong> Temporarily unavailable due to high traffic. Please try again in a few minutes.
+        </div>
+    </div>
+</body>
+</html>
+  `);
+});
+
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 1000, // limit each IP to 1000 requests per windowMs
+  max: 5000, // limit each IP to 5000 requests per windowMs (increased from 1000)
   message: 'Too many requests from this IP',
   standardHeaders: true,
   legacyHeaders: false,
@@ -282,6 +405,19 @@ const limiter = rateLimit({
   }
 });
 app.use(limiter);
+
+// More permissive rate limiting for chatbot endpoints
+const chatbotLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10000, // limit each IP to 10000 requests per windowMs for chatbot endpoints
+  message: 'Too many chatbot requests from this IP',
+  standardHeaders: true,
+  legacyHeaders: false,
+  trustProxy: true,
+});
+
+// Apply chatbot-specific rate limiting
+app.use('/api/chatbots', chatbotLimiter);
 
 // ===== SERVE WIDGET FILES WITH CORS =====
 const fs = require('fs');
@@ -645,6 +781,34 @@ app.post('/api/onboarding/complete', authenticateToken, async (req, res) => {
     res.status(500).json({
       success: false,
       error: 'Failed to complete onboarding'
+    });
+  }
+});
+
+// Image upload endpoint for branding
+app.post('/api/upload/branding', authenticateToken, upload.single('logo'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: 'No file uploaded'
+      });
+    }
+
+    const fileUrl = `/uploads/branding/${req.file.filename}`;
+    
+    console.log(`Branding image uploaded: ${req.file.filename}`);
+    
+    res.json({
+      success: true,
+      message: 'Image uploaded successfully',
+      url: fileUrl
+    });
+  } catch (error) {
+    console.error('Image upload error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to upload image'
     });
   }
 });
