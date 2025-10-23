@@ -439,7 +439,8 @@ const Chatbot: React.FC = () => {
         headerLightColor: getThemeColor(widgetTheme),
         headerDarkColor: getThemeDarkColor(widgetTheme),
         textColor: '#1f2937',
-        accentColor: getThemeColor(widgetTheme)
+        accentColor: getThemeColor(widgetTheme),
+        logo: user?.planId !== 'starter' ? customBranding.logo : ''
       };
 
       // Add custom branding for professional+ plans

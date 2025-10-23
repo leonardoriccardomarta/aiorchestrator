@@ -28,7 +28,8 @@ const LiveChatWidget: React.FC = () => {
     welcomeMessage: 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
     primaryColor: '#3B82F6',
     secondaryColor: '#8B5CF6',
-    fontFamily: 'Inter'
+    fontFamily: 'Inter',
+    logo: ''
   });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -36,18 +37,35 @@ const LiveChatWidget: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Get default colors based on theme
+  const getThemeColors = (theme: string) => {
+    const themeColors = {
+      blue: { primary: '#3B82F6', secondary: '#1D4ED8' },
+      purple: { primary: '#8B5CF6', secondary: '#7C3AED' },
+      green: { primary: '#10B981', secondary: '#059669' },
+      red: { primary: '#EF4444', secondary: '#DC2626' },
+      orange: { primary: '#F97316', secondary: '#EA580C' },
+      pink: { primary: '#EC4899', secondary: '#DB2777' },
+      indigo: { primary: '#6366F1', secondary: '#4F46E5' },
+      teal: { primary: '#14B8A6', secondary: '#0D9488' }
+    };
+    return themeColors[theme as keyof typeof themeColors] || themeColors.blue;
+  };
+
   // Listen for global widget configuration updates
   useEffect(() => {
     const handleConfigUpdate = () => {
       if (window.AIOrchestratorConfig) {
+        const themeColors = getThemeColors(window.AIOrchestratorConfig.theme || 'blue');
         setWidgetConfig(prev => ({
           ...prev,
           title: window.AIOrchestratorConfig.title || 'AI Support',
           placeholder: window.AIOrchestratorConfig.placeholder || 'Type your message...',
           welcomeMessage: window.AIOrchestratorConfig.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
-          primaryColor: window.AIOrchestratorConfig.primaryColor || '#3B82F6',
-          secondaryColor: window.AIOrchestratorConfig.accentColor || '#8B5CF6',
-          fontFamily: window.AIOrchestratorConfig.fontFamily || 'Inter'
+          primaryColor: window.AIOrchestratorConfig.primaryColor || themeColors.primary,
+          secondaryColor: window.AIOrchestratorConfig.accentColor || themeColors.secondary,
+          fontFamily: window.AIOrchestratorConfig.fontFamily || 'Inter',
+          logo: window.AIOrchestratorConfig.logo || ''
         }));
       }
     };
@@ -155,16 +173,32 @@ const LiveChatWidget: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div 
-                className="w-10 h-10 rounded-full flex items-center justify-center"
+                className="w-10 h-10 rounded-full flex items-center justify-center overflow-hidden"
                 style={{
-                  background: `linear-gradient(135deg, ${widgetConfig.primaryColor}, ${widgetConfig.secondaryColor})`
+                  background: widgetConfig.logo ? 'transparent' : `linear-gradient(135deg, ${widgetConfig.primaryColor}, ${widgetConfig.secondaryColor})`
                 }}
               >
-                <MessageCircle className="w-5 h-5 text-white" />
+                {widgetConfig.logo ? (
+                  <img 
+                    src={widgetConfig.logo} 
+                    alt="Chatbot Logo" 
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                ) : (
+                  <MessageCircle className="w-5 h-5 text-white" />
+                )}
               </div>
               <div>
-                <div className="font-bold text-gray-900 whitespace-nowrap">{widgetConfig.title}</div>
-                <div className="text-xs text-gray-600 flex items-center gap-1">
+                <div 
+                  className="font-bold text-gray-900 whitespace-nowrap"
+                  style={{ fontFamily: widgetConfig.fontFamily }}
+                >
+                  {widgetConfig.title}
+                </div>
+                <div 
+                  className="text-xs text-gray-600 flex items-center gap-1"
+                  style={{ fontFamily: widgetConfig.fontFamily }}
+                >
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                   Online 24/7
                 </div>
@@ -199,12 +233,18 @@ const LiveChatWidget: React.FC = () => {
                   <div
                     className={`max-w-[80%] rounded-2xl px-4 py-2 ${
                       message.isUser
-                        ? 'bg-blue-600 text-white'
+                        ? 'text-white'
                         : 'bg-white text-gray-900 border border-gray-200'
                     }`}
+                    style={message.isUser ? {
+                      backgroundColor: widgetConfig.primaryColor,
+                      fontFamily: widgetConfig.fontFamily
+                    } : {
+                      fontFamily: widgetConfig.fontFamily
+                    }}
                   >
                     <div className="text-sm">{message.text}</div>
-                    <div className={`text-xs mt-1 ${message.isUser ? 'text-blue-100' : 'text-gray-500'}`}>
+                    <div className={`text-xs mt-1 ${message.isUser ? 'opacity-70' : 'text-gray-500'}`}>
                       {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </div>
