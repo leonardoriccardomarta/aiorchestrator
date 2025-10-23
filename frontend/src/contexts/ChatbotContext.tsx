@@ -17,7 +17,7 @@ interface ChatbotContextType {
   selectedChatbot: Chatbot | null;
   selectedChatbotId: string | null;
   loading: boolean;
-  selectChatbot: (chatbotId: string) => void;
+  selectChatbot: (chatbotId: string | null) => void;
   loadChatbots: () => Promise<void>;
   createChatbot: (data: Partial<Chatbot>) => Promise<Chatbot | null>;
   updateChatbot: (chatbotId: string, data: Partial<Chatbot>) => Promise<boolean>;
@@ -247,9 +247,13 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
     }
   }, [isCircuitOpen, isLoading, retryCount]); // Remove selectedChatbotId from dependencies
 
-  const selectChatbot = React.useCallback((chatbotId: string) => {
+  const selectChatbot = React.useCallback((chatbotId: string | null) => {
     setSelectedChatbotId(chatbotId);
-    localStorage.setItem('selectedChatbotId', chatbotId);
+    if (chatbotId) {
+      localStorage.setItem('selectedChatbotId', chatbotId);
+    } else {
+      localStorage.removeItem('selectedChatbotId');
+    }
   }, []);
 
   const createChatbot = React.useCallback(async (data: Partial<Chatbot>): Promise<Chatbot | null> => {
