@@ -590,6 +590,7 @@ app.delete('/api/chatbots/:id', async (req, res) => {
 });
 
 // ===== SERVE WIDGET FILES WITH CORS =====
+// Fixed duplicate fs declaration issue
 
 // CORS middleware specifically for widget files - DISABLE HELMET FOR THESE ROUTES
 const widgetCorsMiddleware = (req, res, next) => {
