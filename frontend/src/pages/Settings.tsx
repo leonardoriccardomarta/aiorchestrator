@@ -311,13 +311,13 @@ const Settings: React.FC = () => {
                 </div>
                   </div>
                   
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                     <div 
                       className={`h-2 rounded-full transition-all duration-300 ${
                         getTrialStatus() === 'success' ? 'bg-green-500' :
                         getTrialStatus() === 'warning' ? 'bg-yellow-500' : 'bg-red-500'
                       }`}
-                      style={{ width: `${Math.max(0, (trialDaysLeft / 7) * 100)}%` }}
+                      style={{ width: `${Math.min(100, Math.max(0, (trialDaysLeft / 7) * 100))}%` }}
                     />
         </div>
 

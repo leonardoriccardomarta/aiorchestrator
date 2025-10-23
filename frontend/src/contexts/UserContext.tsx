@@ -234,8 +234,44 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     // Initialize user from localStorage and refresh from server
     const initializeUser = async () => {
+      // First check if there's already authenticated user data from AuthContext
+      const authUserData = localStorage.getItem('userData');
+      const authToken = localStorage.getItem('authToken');
+      
+      if (authUserData && authToken) {
+        try {
+          const userData = JSON.parse(authUserData);
+          console.log('🔄 UserContext: Found authenticated user data:', userData);
+          
+          // Calculate trial status
+          const trialStatus = calculateTrialStatus(userData.trialEndDate);
+          console.log('🔄 UserContext: Trial status calculated:', trialStatus);
+          
+          setUser({
+            ...userData,
+            trialDaysLeft: trialStatus.daysLeft
+          });
+          
+          setIsTrialExpired(trialStatus.isExpired);
+          setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
+          
+          // Try to refresh user data from server to get latest info
+          try {
+            await refreshUser();
+            console.log('🔄 UserContext: User data refreshed from server');
+          } catch (error) {
+            console.log('🔄 UserContext: Could not refresh from server, using cached data');
+          }
+          
+          return; // Exit early, we have authenticated user
+        } catch (error) {
+          console.error('Error parsing authenticated user data:', error);
+        }
+      }
+      
+      // Check legacy user data
       const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+      if (storedUser) {
       try {
         const userData = JSON.parse(storedUser);
         const trialStatus = calculateTrialStatus(userData.trialEndDate);
@@ -296,10 +332,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     trialEndDate.setDate(trialEndDate.getDate() + 7);
     
     const demoUser = {
-      id: 'demo-user',
-      email: 'demo@example.com',
-      name: 'Demo User',
-      planId: 'starter',
+      id: 'cmgqepzxx00021392rcpr7ndb',
+      email: 'martaleo110@gmail.com',
+      name: 'Marta Leo',
+      planId: 'professional',
       isTrialActive: true,
       trialEndDate: trialEndDate.toISOString(),
       isPaid: false,
