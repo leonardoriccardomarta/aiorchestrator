@@ -812,46 +812,7 @@ app.post('/api/public/chat/:chatbotId', async (req, res) => {
             100% { transform: scale(1); opacity: 1; }
         }
         .chat-widget {
-            position: fixed;
-            bottom: 100px; /* lift above toggle to avoid overlap */
-            right: 24px;
-            width: 384px;
-            height: 560px;
-            z-index: 999;
-            transform: translateY(0);
-            transition: transform 0.3s ease, height 0.25s ease;
-            max-height: calc(100vh - 148px);
-        }
-        .chat-widget.hidden { transform: translateY(100%); }
-        .chat-widget.collapsed { height: 64px; }
-    </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggleButton = document.querySelector('.toggle-button');
-            const chatWidget = document.querySelector('.chat-widget');
-            const minimizeBtn = document.getElementById('ai-minimize-btn');
-            const closeBtn = document.getElementById('ai-close-btn');
-            let isOpen = true; // open by default in preview
-
-            toggleButton.addEventListener('click', function() {
-                if (isOpen) {
-                    chatWidget.classList.add('hidden');
-                    isOpen = false;
-                } else {
-                    chatWidget.classList.remove('hidden');
-                    isOpen = true;
-                }
-            });
-
-            if (minimizeBtn) {
-                minimizeBtn.addEventListener('click', function() {
-                    chatWidget.classList.toggle('collapsed');
-                });
-            }
-            if (closeBtn) {
-                closeBtn.addEventListener('click', function() {
-                    chatWidget.classList.add('hidden');
-                    isOpen = false;
+  // DELETED - DUPLICATE ENDPOINT
                 });
             }
         });
@@ -6559,3 +6520,4 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+*/
