@@ -251,13 +251,32 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsTrialExpired(trialStatus.isExpired);
         setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
         
-        // Only refresh if we don't have a valid token
+        // Check for data synchronization issues
         const token = localStorage.getItem('token') || localStorage.getItem('authToken');
-        if (!token || isTokenExpired(token)) {
-          console.log('🔄 Initializing: Token expired, refreshing user data from server...');
-          refreshUser();
+        if (token && !isTokenExpired(token)) {
+          // Decode token to check for discrepancies
+          try {
+            const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+            console.log('🔍 Token payload:', tokenPayload);
+            console.log('🔍 Stored user data:', userData);
+            
+            // Check if planId or isPaid are different
+            if (tokenPayload.planId !== userData.planId || tokenPayload.isPaid !== userData.isPaid) {
+              console.log('🔄 Data mismatch detected, refreshing user data from server...');
+              console.log('🔍 Token planId:', tokenPayload.planId, 'vs stored planId:', userData.planId);
+              console.log('🔍 Token isPaid:', tokenPayload.isPaid, 'vs stored isPaid:', userData.isPaid);
+              refreshUser();
+            } else {
+              console.log('🔄 Initializing: Data synchronized, skipping refresh');
+            }
+          } catch (tokenError) {
+            console.error('Error decoding token:', tokenError);
+            console.log('🔄 Initializing: Token decode failed, refreshing user data from server...');
+            refreshUser();
+          }
         } else {
-          console.log('🔄 Initializing: Valid token found, skipping refresh');
+          console.log('🔄 Initializing: Token expired or missing, refreshing user data from server...');
+          refreshUser();
         }
       } catch (error) {
         console.error('Error parsing stored user data:', error);
