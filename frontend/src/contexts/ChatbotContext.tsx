@@ -47,7 +47,10 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
   const [isCircuitOpen, setIsCircuitOpen] = useState(false); // Circuit breaker
   const [hasLoaded, setHasLoaded] = useState(false); // Track if we've attempted to load
 
-  const selectedChatbot = chatbots.find(c => c.id === selectedChatbotId) || null;
+  const selectedChatbot = React.useMemo(() => 
+    chatbots.find(c => c.id === selectedChatbotId) || null, 
+    [chatbots, selectedChatbotId]
+  );
 
   // Load chatbots on mount - only once
   useEffect(() => {
@@ -82,7 +85,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
     }
   }, [isCircuitOpen, chatbots.length, isLoading]);
 
-  const loadChatbots = async () => {
+  const loadChatbots = React.useCallback(async () => {
     // Circuit breaker - if too many failures, stop trying
     if (isCircuitOpen) {
       console.log('🤖 Circuit breaker open, skipping chatbot load');
@@ -188,14 +191,14 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       setChatbots([]);
       setIsLoading(false);
     }
-  };
+  }, [isCircuitOpen, isLoading, retryCount, selectedChatbotId]);
 
-  const selectChatbot = (chatbotId: string) => {
+  const selectChatbot = React.useCallback((chatbotId: string) => {
     setSelectedChatbotId(chatbotId);
     localStorage.setItem('selectedChatbotId', chatbotId);
-  };
+  }, []);
 
-  const createChatbot = async (data: Partial<Chatbot>): Promise<Chatbot | null> => {
+  const createChatbot = React.useCallback(async (data: Partial<Chatbot>): Promise<Chatbot | null> => {
     try {
       const token = localStorage.getItem('authToken');
       const response = await fetch(`${API_URL}/api/chatbots`, {
@@ -226,9 +229,9 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       console.error('Error creating chatbot:', error);
       return null;
     }
-  };
+  }, [loadChatbots]);
 
-  const updateChatbot = async (chatbotId: string, data: Partial<Chatbot>): Promise<boolean> => {
+  const updateChatbot = React.useCallback(async (chatbotId: string, data: Partial<Chatbot>): Promise<boolean> => {
     try {
       const token = localStorage.getItem('authToken');
       const response = await fetch(`${API_URL}/api/chatbots/${chatbotId}`, {
@@ -250,9 +253,9 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       console.error('Error updating chatbot:', error);
       return false;
     }
-  };
+  }, []);
 
-  const deleteChatbot = async (chatbotId: string): Promise<boolean> => {
+  const deleteChatbot = React.useCallback(async (chatbotId: string): Promise<boolean> => {
     try {
       const token = localStorage.getItem('authToken');
       const response = await fetch(`${API_URL}/api/chatbots/${chatbotId}`, {
@@ -275,7 +278,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       console.error('Error deleting chatbot:', error);
       return false;
     }
-  };
+  }, [loadChatbots, selectedChatbotId, chatbots]);
 
   // Load chatbots on mount
   useEffect(() => {

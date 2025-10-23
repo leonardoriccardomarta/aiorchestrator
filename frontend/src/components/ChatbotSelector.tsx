@@ -2,14 +2,11 @@ import React from 'react';
 import { Bot, ChevronDown } from 'lucide-react';
 import { useChatbot } from '../contexts/ChatbotContext';
 
-const ChatbotSelector: React.FC = () => {
+const ChatbotSelector: React.FC = React.memo(() => {
   const { chatbots, selectedChatbot, selectChatbot, loading } = useChatbot();
   const [isOpen, setIsOpen] = React.useState(false);
 
-  // Debug logging - only log when state changes significantly
-  if (chatbots.length > 0 && selectedChatbot?.name) {
-    console.log('🤖 ChatbotSelector: Ready with', chatbots.length, 'chatbots, selected:', selectedChatbot.name);
-  }
+  // Remove debug logging to prevent spam
 
   if (loading) {
     return (
@@ -103,7 +100,9 @@ const ChatbotSelector: React.FC = () => {
       )}
     </div>
   );
-};
+});
+
+ChatbotSelector.displayName = 'ChatbotSelector';
 
 export default ChatbotSelector;
 
