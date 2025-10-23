@@ -62,7 +62,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       }
     };
     loadOnce();
-  }, [hasLoaded, isLoading, loadChatbots]); // Add dependencies
+  }, [hasLoaded, isLoading]); // Remove loadChatbots from dependencies to prevent circular dependency
 
   // Fallback: create default chatbot if circuit breaker is open and no chatbots exist
   useEffect(() => {
@@ -306,15 +306,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
     setIsCircuitOpen(false);
   }, []);
 
-  // Load chatbots on mount
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      loadChatbots();
-    } else {
-      setLoading(false);
-    }
-  }, []);
+  // This useEffect is removed to prevent duplicate loading
 
   // Restore selected chatbot from localStorage
   useEffect(() => {

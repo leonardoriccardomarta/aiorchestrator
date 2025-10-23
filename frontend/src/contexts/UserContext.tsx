@@ -229,7 +229,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
       }
     }
-  }, [user]); // Dipendenze per useCallback
+  }, []); // Remove user dependency to prevent circular dependency
 
   useEffect(() => {
     // Initialize user from localStorage and refresh from server
