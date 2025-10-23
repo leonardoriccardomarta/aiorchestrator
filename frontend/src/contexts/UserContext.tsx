@@ -260,15 +260,16 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             console.log('🔍 Token payload:', tokenPayload);
             console.log('🔍 Stored user data:', userData);
             
-            // Check if planId or isPaid are different
-            if (tokenPayload.planId !== userData.planId || tokenPayload.isPaid !== userData.isPaid) {
-              console.log('🔄 Data mismatch detected, refreshing user data from server...');
-              console.log('🔍 Token planId:', tokenPayload.planId, 'vs stored planId:', userData.planId);
-              console.log('🔍 Token isPaid:', tokenPayload.isPaid, 'vs stored isPaid:', userData.isPaid);
-              refreshUser();
-            } else {
-              console.log('🔄 Initializing: Data synchronized, skipping refresh');
-            }
+              // Check if planId or isPaid are different
+              if (tokenPayload.planId !== userData.planId || tokenPayload.isPaid !== userData.isPaid) {
+                console.log('🔄 Data mismatch detected, refreshing user data from server...');
+                console.log('🔍 Token planId:', tokenPayload.planId, 'vs stored planId:', userData.planId);
+                console.log('🔍 Token isPaid:', tokenPayload.isPaid, 'vs stored isPaid:', userData.isPaid);
+                // Force refresh immediately
+                await refreshUser();
+              } else {
+                console.log('🔄 Initializing: Data synchronized, skipping refresh');
+              }
           } catch (tokenError) {
             console.error('Error decoding token:', tokenError);
             console.log('🔄 Initializing: Token decode failed, refreshing user data from server...');
