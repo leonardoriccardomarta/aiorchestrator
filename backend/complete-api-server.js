@@ -4302,192 +4302,193 @@ app.get('/api/widget/config/:chatbotId', async (req, res) => {
 });
 
 // ===== CHATBOTS API =====
+// COMMENTED OUT - Using new endpoints above that bypass rate limiting
 
 // Get all chatbots for user
-app.get('/api/chatbots', authenticateToken, rateLimitMiddleware, async (req, res) => {
-  try {
-    console.log('🔍 GET /api/chatbots - req.user:', req.user);
-    const userId = req.user.userId || req.user.id;
-    console.log('👤 Extracted userId:', userId);
-    
-    if (!userId) {
-      return res.status(400).json({
-        success: false,
-        error: 'User ID not found in token'
-      });
-    }
-    
-    // Get chatbots from database
-    const chatbots = await prisma.chatbot.findMany({
-      where: { userId: userId },
-      orderBy: { createdAt: 'desc' }
-    });
-    
-    console.log(`📋 Found ${chatbots.length} chatbots for user ${userId}`);
-    
-    res.json({
-      success: true,
-      data: chatbots
-    });
-  } catch (error) {
-    console.error('❌ Get chatbots error:', error);
-    console.error('❌ Error stack:', error.stack);
-    res.status(500).json({
-      success: false,
-      error: 'Internal server error',
-      details: error.message
-    });
-  }
-});
+// app.get('/api/chatbots', authenticateToken, rateLimitMiddleware, async (req, res) => {
+//   try {
+//     console.log('🔍 GET /api/chatbots - req.user:', req.user);
+//     const userId = req.user.userId || req.user.id;
+//     console.log('👤 Extracted userId:', userId);
+//     
+//     if (!userId) {
+//       return res.status(400).json({
+//         success: false,
+//         error: 'User ID not found in token'
+//       });
+//     }
+//     
+//     // Get chatbots from database
+//     const chatbots = await prisma.chatbot.findMany({
+//       where: { userId: userId },
+//       orderBy: { createdAt: 'desc' }
+//     });
+//     
+//     console.log(`📋 Found ${chatbots.length} chatbots for user ${userId}`);
+//     
+//     res.json({
+//       success: true,
+//       data: chatbots
+//     });
+//   } catch (error) {
+//     console.error('❌ Get chatbots error:', error);
+//     console.error('❌ Error stack:', error.stack);
+//     res.status(500).json({
+//       success: false,
+//       error: 'Internal server error',
+//       details: error.message
+//     });
+//   }
+// });
 
 // Create new chatbot
-app.post('/api/chatbots', authenticateToken, rateLimitMiddleware, async (req, res) => {
-  try {
-    const userId = req.user.userId || req.user.id;
-    const chatbotData = req.body;
-    
-    // Get user with chatbots to check limits
-    const userWithChatbots = await prisma.user.findUnique({
-      where: { id: userId },
-      include: { chatbots: true }
-    });
-    
-    // Check plan limits using centralized config
-    const userPlanId = userWithChatbots.planId || 'starter';
-    const currentChatbotCount = userWithChatbots.chatbots.length;
-    
-    if (!canCreateChatbot(userPlanId, currentChatbotCount)) {
-      const plan = getPlan(userPlanId);
-      return res.status(403).json({
-        success: false,
-        error: `Chatbot limit reached. Your ${plan.name} plan allows ${plan.chatbotLimit} chatbot(s). Upgrade to create more.`,
-        upgradeRequired: true,
-        limit: plan.chatbotLimit,
-        current: currentChatbotCount
-      });
-    }
-    
-    // Create chatbot in database
-    const chatbot = await prisma.chatbot.create({
-      data: {
-        name: chatbotData.name || 'My AI Assistant',
-        description: chatbotData.description || '',
-        welcomeMessage: chatbotData.welcomeMessage || "Hello! I'm your AI assistant. How can I help you today?",
-        language: chatbotData.language || 'auto',
-        settings: chatbotData.settings ? JSON.stringify(chatbotData.settings) : '{}',
-        status: 'active',
-        userId: userId,
-        tenantId: userWithChatbots.tenantId || 'default-tenant'
-      }
-    });
-    
-    console.log(`✅ Chatbot ${chatbot.id} created for user ${userId}`);
-    
-    res.json({
-      success: true,
-      data: chatbot,
-      message: 'Chatbot created successfully!'
-    });
-  } catch (error) {
-    console.error('Create chatbot error:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Internal server error'
-    });
-  }
-});
+// app.post('/api/chatbots', authenticateToken, rateLimitMiddleware, async (req, res) => {
+//   try {
+//     const userId = req.user.userId || req.user.id;
+//     const chatbotData = req.body;
+//     
+//     // Get user with chatbots to check limits
+//     const userWithChatbots = await prisma.user.findUnique({
+//       where: { id: userId },
+//       include: { chatbots: true }
+//     });
+//     
+//     // Check plan limits using centralized config
+//     const userPlanId = userWithChatbots.planId || 'starter';
+//     const currentChatbotCount = userWithChatbots.chatbots.length;
+//     
+//     if (!canCreateChatbot(userPlanId, currentChatbotCount)) {
+//       const plan = getPlan(userPlanId);
+//       return res.status(403).json({
+//         success: false,
+//         error: `Chatbot limit reached. Your ${plan.name} plan allows ${plan.chatbotLimit} chatbot(s). Upgrade to create more.`,
+//         upgradeRequired: true,
+//         limit: plan.chatbotLimit,
+//         current: currentChatbotCount
+//       });
+//     }
+//     
+//     // Create chatbot in database
+//     const chatbot = await prisma.chatbot.create({
+//       data: {
+//         name: chatbotData.name || 'My AI Assistant',
+//         description: chatbotData.description || '',
+//         welcomeMessage: chatbotData.welcomeMessage || "Hello! I'm your AI assistant. How can I help you today?",
+//         language: chatbotData.language || 'auto',
+//         settings: chatbotData.settings ? JSON.stringify(chatbotData.settings) : '{}',
+//         status: 'active',
+//         userId: userId,
+//         tenantId: userWithChatbots.tenantId || 'default-tenant'
+//       }
+//     });
+//     
+//     console.log(`✅ Chatbot ${chatbot.id} created for user ${userId}`);
+//     
+//     res.json({
+//       success: true,
+//       data: chatbot,
+//       message: 'Chatbot created successfully!'
+//     });
+//   } catch (error) {
+//     console.error('Create chatbot error:', error);
+//     res.status(500).json({
+//       success: false,
+//       error: 'Internal server error'
+//     });
+//   }
+// });
 
 // Update chatbot
-app.put('/api/chatbots/:chatbotId', authenticateToken, async (req, res) => {
-  try {
-    const userId = req.user.userId || req.user.id;
-    const { chatbotId } = req.params;
-    const updates = req.body;
-    
-    // Verify chatbot belongs to user
-    const existing = await prisma.chatbot.findFirst({
-      where: { 
-        id: chatbotId,
-        userId: userId
-      }
-    });
-    
-    if (!existing) {
-      return res.status(404).json({
-        success: false,
-        error: 'Chatbot not found'
-      });
-    }
-    
-    // Update chatbot in database
-    const chatbot = await prisma.chatbot.update({
-      where: { id: chatbotId },
-      data: {
-        name: updates.name,
-        description: updates.description,
-        welcomeMessage: updates.welcomeMessage,
-        language: updates.language,
-        settings: updates.settings ? JSON.stringify(updates.settings) : existing.settings,
-        updatedAt: new Date()
-      }
-    });
-    
-    console.log(`✅ Chatbot ${chatbotId} updated successfully`);
-    
-      res.json({
-        success: true,
-        data: chatbot,
-        message: 'Chatbot updated successfully!'
-      });
-  } catch (error) {
-    console.error('Update chatbot error:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Internal server error'
-    });
-  }
-});
+// app.put('/api/chatbots/:chatbotId', authenticateToken, async (req, res) => {
+//   try {
+//     const userId = req.user.userId || req.user.id;
+//     const { chatbotId } = req.params;
+//     const updates = req.body;
+//     
+//     // Verify chatbot belongs to user
+//     const existing = await prisma.chatbot.findFirst({
+//       where: { 
+//         id: chatbotId,
+//         userId: userId
+//       }
+//     });
+//     
+//     if (!existing) {
+//       return res.status(404).json({
+//         success: false,
+//         error: 'Chatbot not found'
+//       });
+//     }
+//     
+//     // Update chatbot in database
+//     const chatbot = await prisma.chatbot.update({
+//       where: { id: chatbotId },
+//       data: {
+//         name: updates.name,
+//         description: updates.description,
+//         welcomeMessage: updates.welcomeMessage,
+//         language: updates.language,
+//         settings: updates.settings ? JSON.stringify(updates.settings) : existing.settings,
+//         updatedAt: new Date()
+//       }
+//     });
+//     
+//     console.log(`✅ Chatbot ${chatbotId} updated successfully`);
+//     
+//       res.json({
+//         success: true,
+//         data: chatbot,
+//         message: 'Chatbot updated successfully!'
+//       });
+//   } catch (error) {
+//     console.error('Update chatbot error:', error);
+//     res.status(500).json({
+//       success: false,
+//       error: 'Internal server error'
+//     });
+//   }
+// });
 
 // Delete chatbot
-app.delete('/api/chatbots/:chatbotId', authenticateToken, async (req, res) => {
-  try {
-    const userId = req.user.userId || req.user.id;
-    const { chatbotId } = req.params;
-    
-    // Verify chatbot belongs to user
-    const existing = await prisma.chatbot.findFirst({
-      where: { 
-        id: chatbotId,
-        userId: userId
-      }
-    });
-    
-    if (!existing) {
-      return res.status(404).json({
-        success: false,
-        error: 'Chatbot not found'
-      });
-    }
-    
-    // Delete chatbot from database
-    await prisma.chatbot.delete({
-      where: { id: chatbotId }
-    });
-    
-    console.log(`🗑️  Chatbot ${chatbotId} deleted successfully`);
-    
-    res.json({
-      success: true,
-      message: 'Chatbot deleted successfully!'
-    });
-  } catch (error) {
-    console.error('Delete chatbot error:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Internal server error'
-    });
-  }
-});
+// app.delete('/api/chatbots/:chatbotId', authenticateToken, async (req, res) => {
+//   try {
+//     const userId = req.user.userId || req.user.id;
+//     const { chatbotId } = req.params;
+//     
+//     // Verify chatbot belongs to user
+//     const existing = await prisma.chatbot.findFirst({
+//       where: { 
+//         id: chatbotId,
+//         userId: userId
+//       }
+//     });
+//     
+//     if (!existing) {
+//       return res.status(404).json({
+//         success: false,
+//         error: 'Chatbot not found'
+//       });
+//     }
+//     
+//     // Delete chatbot from database
+//     await prisma.chatbot.delete({
+//       where: { id: chatbotId }
+//     });
+//     
+//     console.log(`🗑️  Chatbot ${chatbotId} deleted successfully`);
+//     
+//     res.json({
+//       success: true,
+//       message: 'Chatbot deleted successfully!'
+//     });
+//   } catch (error) {
+//     console.error('Delete chatbot error:', error);
+//     res.status(500).json({
+//       success: false,
+//       error: 'Internal server error'
+//     });
+//   }
+// });
 
 // Patch chatbot (for partial updates like toggle active status)
 app.patch('/api/chatbots/:chatbotId', authenticateToken, async (req, res) => {
