@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { API_URL } from '../config/constants';
-import { requestThrottle } from '../lib/requestThrottle';
+// import { requestThrottle } from '../lib/requestThrottle';
 
 // Check if token is expired
 const isTokenExpired = (token) => {
@@ -93,12 +93,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       console.log('🔄 RefreshUser: Fetching user profile...');
-      const response = await requestThrottle.throttle('/api/user/profile', async () => {
-        return fetch(`${API_URL}/api/user/profile`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+      const response = await fetch(`${API_URL}/api/user/profile`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       console.log('🔄 RefreshUser: Response status:', response.status);
@@ -160,13 +158,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
           // Try to get fresh user data using the refresh endpoint
           const currentUser = user || JSON.parse(localStorage.getItem('user') || '{}');
           if (currentUser.id) {
-            const freshResponse = await requestThrottle.throttle('/api/user/refresh', async () => {
-              return fetch(`${API_URL}/api/user/refresh?userId=${currentUser.id}`, {
-                method: 'GET',
-                headers: {
-                  'Content-Type': 'application/json'
-                }
-              });
+            const freshResponse = await fetch(`${API_URL}/api/user/refresh?userId=${currentUser.id}`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              }
             });
             
             if (freshResponse.ok) {
