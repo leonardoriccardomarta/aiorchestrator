@@ -31,6 +31,20 @@ const BrandingSettings: React.FC = () => {
     }
   }, [selectedChatbot]);
 
+  // Listen for custom branding updates from embed section
+  useEffect(() => {
+    const handleEmbedBrandingUpdate = (event: CustomEvent) => {
+      const branding = event.detail;
+      setBranding(branding);
+    };
+
+    window.addEventListener('embedBrandingUpdated', handleEmbedBrandingUpdate as EventListener);
+    
+    return () => {
+      window.removeEventListener('embedBrandingUpdated', handleEmbedBrandingUpdate as EventListener);
+    };
+  }, []);
+
   const handleColorChange = (field: string, color: string) => {
     setBranding(prev => ({ ...prev, [field]: color }));
   };
@@ -88,6 +102,11 @@ const BrandingSettings: React.FC = () => {
     // Trigger a custom event for live preview update
     window.dispatchEvent(new CustomEvent('brandingUpdated', { detail: branding }));
   };
+
+  // Auto-preview when branding changes
+  useEffect(() => {
+    handlePreview();
+  }, [branding]);
 
   return (
     <PlanLimitations feature="Custom Branding" requiredPlan="professional">

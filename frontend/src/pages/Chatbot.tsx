@@ -46,7 +46,8 @@ import {
   Loader2,
   Download,
   HelpCircle,
-  Palette
+  Palette,
+  Upload
 } from 'lucide-react';
 import ChatbotManagement from '../components/ChatbotManagement';
 import EmbedCodeGenerator from '../components/EmbedCodeGenerator';
@@ -458,6 +459,27 @@ const Chatbot: React.FC = () => {
       console.log('🎯 Widget config exposed globally:', window.AIOrchestratorConfig);
     }
   }, [currentChatbotId, widgetTheme, widgetTitle, widgetPlaceholder, showWidgetAvatar, widgetMessage, primaryLanguage, customBranding, user?.planId]);
+
+  // Listen for custom branding updates from BrandingSettings component
+  useEffect(() => {
+    const handleBrandingUpdate = (event: CustomEvent) => {
+      const branding = event.detail;
+      setCustomBranding(branding);
+    };
+
+    window.addEventListener('brandingUpdated', handleBrandingUpdate as EventListener);
+    
+    return () => {
+      window.removeEventListener('brandingUpdated', handleBrandingUpdate as EventListener);
+    };
+  }, []);
+
+  // Dispatch custom branding updates to BrandingSettings component
+  useEffect(() => {
+    if (user?.planId !== 'starter') {
+      window.dispatchEvent(new CustomEvent('embedBrandingUpdated', { detail: customBranding }));
+    }
+  }, [customBranding, user?.planId]);
 
   // Helper function to get theme colors
   const getThemeColor = (theme: string) => {
@@ -1265,7 +1287,7 @@ const Chatbot: React.FC = () => {
               {/* Customization Options */}
               <div className="mb-4 lg:mb-6">
                 <h4 className="font-medium text-sm lg:text-base text-gray-900 mb-3 lg:mb-4">Widget Customization</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
                   <div>
                     <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Theme Color</label>
                     <div className="flex space-x-1 lg:space-x-2">
@@ -1339,17 +1361,19 @@ const Chatbot: React.FC = () => {
                       placeholder="Hello! I'm your AI assistant. How can I help you today?"
                     />
                   </div>
-                  <div className="flex items-center">
-                    <input
-                      type="checkbox"
-                      id="showAvatar"
-                      checked={showWidgetAvatar}
-                      onChange={(e) => setShowWidgetAvatar(e.target.checked)}
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor="showAvatar" className="ml-2 block text-xs lg:text-sm text-gray-700">
-                      Show Avatar
-                    </label>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="showAvatar"
+                        checked={showWidgetAvatar}
+                        onChange={(e) => setShowWidgetAvatar(e.target.checked)}
+                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      />
+                      <label htmlFor="showAvatar" className="ml-2 block text-xs lg:text-sm text-gray-700">
+                        Show Avatar
+                      </label>
+                    </div>
                   </div>
                   <div>
                     <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Primary Language</label>
@@ -1382,6 +1406,7 @@ const Chatbot: React.FC = () => {
                     <h4 className="text-sm font-medium text-gray-900 mb-3 flex items-center">
                       <Palette className="w-4 h-4 mr-2 text-purple-600" />
                       Custom Branding (Professional+)
+                      <span className="ml-2 text-xs text-gray-500">• Synced with Settings</span>
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
@@ -1433,14 +1458,44 @@ const Chatbot: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-1">Logo URL</label>
-                        <input
-                          type="url"
-                          value={customBranding.logo}
-                          onChange={(e) => setCustomBranding(prev => ({ ...prev, logo: e.target.value }))}
-                          placeholder="https://example.com/logo.png"
-                          className="w-full px-2 py-1 border border-gray-300 rounded text-xs"
-                        />
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Logo</label>
+                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-3 text-center hover:border-gray-400 transition-colors">
+                          {customBranding.logo ? (
+                            <div className="space-y-2">
+                              <img src={customBranding.logo} alt="Logo preview" className="w-8 h-8 rounded mx-auto" />
+                              <button
+                                onClick={() => setCustomBranding(prev => ({ ...prev, logo: '' }))}
+                                className="text-xs text-red-600 hover:text-red-800"
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          ) : (
+                            <div>
+                              <Upload className="w-4 h-4 text-gray-400 mx-auto mb-1" />
+                              <p className="text-xs text-gray-600 mb-1">Upload logo</p>
+                              <p className="text-[10px] text-gray-500">PNG, JPG up to 2MB</p>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                id="logo-upload-embed"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    setCustomBranding(prev => ({ ...prev, logo: URL.createObjectURL(file) }));
+                                  }
+                                }}
+                              />
+                              <label
+                                htmlFor="logo-upload-embed"
+                                className="mt-1 inline-block bg-blue-600 text-white px-2 py-1 rounded text-xs hover:bg-blue-700 cursor-pointer"
+                              >
+                                Choose File
+                              </label>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
