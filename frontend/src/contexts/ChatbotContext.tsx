@@ -22,6 +22,7 @@ interface ChatbotContextType {
   createChatbot: (data: Partial<Chatbot>) => Promise<Chatbot | null>;
   updateChatbot: (chatbotId: string, data: Partial<Chatbot>) => Promise<boolean>;
   deleteChatbot: (chatbotId: string) => Promise<boolean>;
+  resetLoading: () => void;
 }
 
 const ChatbotContext = createContext<ChatbotContextType | undefined>(undefined);
@@ -98,8 +99,15 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       return;
     }
 
+    // Reset loading state if it's been stuck
+    if (isLoading && Date.now() - (window.lastLoadAttempt || 0) > 10000) {
+      console.log('🤖 LoadChatbots: Resetting stuck loading state');
+      setIsLoading(false);
+    }
+
     try {
       setIsLoading(true);
+      window.lastLoadAttempt = Date.now();
       const token = localStorage.getItem('authToken');
       if (!token) {
         console.log('No auth token, skipping chatbot load');
@@ -107,9 +115,15 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
         return;
       }
 
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
       const response = await fetch(`${API_URL}/api/chatbots`, {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': `Bearer ${token}` },
+        signal: controller.signal
       });
+      
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         if (response.status === 429) {
@@ -188,6 +202,9 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       setIsLoading(false);
     } catch (error) {
       console.error('Error loading chatbots:', error);
+      if (error.name === 'AbortError') {
+        console.log('🤖 LoadChatbots: Request timed out');
+      }
       setChatbots([]);
       setIsLoading(false);
     }
@@ -280,6 +297,13 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
     }
   }, [loadChatbots, selectedChatbotId, chatbots]);
 
+  const resetLoading = React.useCallback(() => {
+    console.log('🤖 Resetting loading state');
+    setIsLoading(false);
+    setRetryCount(0);
+    setIsCircuitOpen(false);
+  }, []);
+
   // Load chatbots on mount
   useEffect(() => {
     const token = localStorage.getItem('authToken');
@@ -307,7 +331,8 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
     loadChatbots,
     createChatbot,
     updateChatbot,
-    deleteChatbot
+    deleteChatbot,
+    resetLoading
   };
 
   return (

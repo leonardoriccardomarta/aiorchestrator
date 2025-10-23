@@ -265,8 +265,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 console.log('🔄 Data mismatch detected, refreshing user data from server...');
                 console.log('🔍 Token planId:', tokenPayload.planId, 'vs stored planId:', userData.planId);
                 console.log('🔍 Token isPaid:', tokenPayload.isPaid, 'vs stored isPaid:', userData.isPaid);
-                // Force refresh immediately
-                await refreshUser();
+                // Force refresh immediately and update localStorage
+                const refreshedUser = await refreshUser();
+                if (refreshedUser) {
+                  console.log('🔄 User data refreshed successfully');
+                }
               } else {
                 console.log('🔄 Initializing: Data synchronized, skipping refresh');
               }
