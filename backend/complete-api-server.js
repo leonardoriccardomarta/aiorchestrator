@@ -449,9 +449,12 @@ app.get('/api/chatbots', async (req, res) => {
       return res.status(401).json({ success: false, message: 'Invalid token' });
     }
 
-    // Get chatbots from database
-    const { PrismaClient } = require('@prisma/client');
-    const prisma = new PrismaClient();
+    // Get chatbots from database - use singleton
+    if (!global.prismaInstance) {
+      const { PrismaClient } = require('@prisma/client');
+      global.prismaInstance = new PrismaClient();
+    }
+    const prisma = global.prismaInstance;
     
     const chatbots = await prisma.chatbot.findMany({
       where: { userId: decoded.id },
@@ -490,8 +493,12 @@ app.post('/api/chatbots', async (req, res) => {
 
     const { name, description, settings } = req.body;
     
-    const { PrismaClient } = require('@prisma/client');
-    const prisma = new PrismaClient();
+    // Use singleton Prisma instance
+    if (!global.prismaInstance) {
+      const { PrismaClient } = require('@prisma/client');
+      global.prismaInstance = new PrismaClient();
+    }
+    const prisma = global.prismaInstance;
     
     const chatbot = await prisma.chatbot.create({
       data: {
@@ -539,8 +546,12 @@ app.put('/api/chatbots/:id', async (req, res) => {
     const { id } = req.params;
     const updateData = req.body;
     
-    const { PrismaClient } = require('@prisma/client');
-    const prisma = new PrismaClient();
+    // Use singleton Prisma instance
+    if (!global.prismaInstance) {
+      const { PrismaClient } = require('@prisma/client');
+      global.prismaInstance = new PrismaClient();
+    }
+    const prisma = global.prismaInstance;
     
     const chatbot = await prisma.chatbot.update({
       where: { 
@@ -582,8 +593,12 @@ app.delete('/api/chatbots/:id', async (req, res) => {
 
     const { id } = req.params;
     
-    const { PrismaClient } = require('@prisma/client');
-    const prisma = new PrismaClient();
+    // Use singleton Prisma instance
+    if (!global.prismaInstance) {
+      const { PrismaClient } = require('@prisma/client');
+      global.prismaInstance = new PrismaClient();
+    }
+    const prisma = global.prismaInstance;
     
     await prisma.chatbot.delete({
       where: { 
@@ -704,7 +719,8 @@ app.options('/chatbot-widget.js', widgetCorsMiddleware);
 app.options('/shopify-app-widget.js', widgetCorsMiddleware);
 
 // ===== PUBLIC EMBED API (NO AUTH REQUIRED) =====
-app.get('/public/embed/:chatbotId', async (req, res) => {
+// COMMENTED OUT - DUPLICATE ENDPOINT
+// app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
     const { chatbotId } = req.params;
     const { theme, title, placeholder, message, showAvatar } = req.query;
@@ -928,6 +944,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     res.status(500).send('Error loading preview');
   }
 });
+*/
 
 // Logging
 app.use(morgan('combined'));
@@ -3409,7 +3426,8 @@ app.post('/api/faqs', authenticateToken, (req, res) => {
 });
 
 // ===== PUBLIC EMBED API (NO AUTH REQUIRED) =====
-app.get('/public/embed/:chatbotId', async (req, res) => {
+// COMMENTED OUT - DUPLICATE ENDPOINT
+// app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
     const { chatbotId } = req.params;
     const { theme, title, placeholder, message, showAvatar } = req.query;
@@ -3664,6 +3682,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     res.status(500).send('Internal server error');
   }
 });
+*/
 
 
 
