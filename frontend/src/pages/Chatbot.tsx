@@ -1411,35 +1411,35 @@ const Chatbot: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-medium text-gray-700 mb-1">Primary Color</label>
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-3">
                           <input
                             type="color"
                             value={customBranding.primaryColor}
                             onChange={(e) => setCustomBranding(prev => ({ ...prev, primaryColor: e.target.value }))}
-                            className="w-8 h-8 rounded border border-gray-300 cursor-pointer"
+                            className="w-12 h-12 rounded-lg border border-gray-300 cursor-pointer"
                           />
                           <input
                             type="text"
                             value={customBranding.primaryColor}
                             onChange={(e) => setCustomBranding(prev => ({ ...prev, primaryColor: e.target.value }))}
-                            className="flex-1 px-2 py-1 border border-gray-300 rounded text-xs"
+                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
                           />
                         </div>
                       </div>
                       <div>
                         <label className="block text-xs font-medium text-gray-700 mb-1">Secondary Color</label>
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-3">
                           <input
                             type="color"
                             value={customBranding.secondaryColor}
                             onChange={(e) => setCustomBranding(prev => ({ ...prev, secondaryColor: e.target.value }))}
-                            className="w-8 h-8 rounded border border-gray-300 cursor-pointer"
+                            className="w-12 h-12 rounded-lg border border-gray-300 cursor-pointer"
                           />
                           <input
                             type="text"
                             value={customBranding.secondaryColor}
                             onChange={(e) => setCustomBranding(prev => ({ ...prev, secondaryColor: e.target.value }))}
-                            className="flex-1 px-2 py-1 border border-gray-300 rounded text-xs"
+                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
                           />
                         </div>
                       </div>
