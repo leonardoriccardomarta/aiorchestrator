@@ -5,33 +5,17 @@ import { useChatbot } from '../contexts/ChatbotContext';
 interface AddChatbotModalProps {
   isOpen: boolean;
   onClose: () => void;
+  isFirstChatbot?: boolean;
 }
 
-const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose }) => {
+const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose, isFirstChatbot = false }) => {
   const { createChatbot } = useChatbot();
   const [isCreating, setIsCreating] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
-    description: '',
-    personality: 'professional',
-    language: 'auto'
+    welcomeMessage: 'Hello! I\'m your AI assistant. How can I help you today?'
   });
 
-  const personalities = [
-    { id: 'professional', name: 'Professional', description: 'Formal and business-focused' },
-    { id: 'friendly', name: 'Friendly', description: 'Warm and approachable' },
-    { id: 'casual', name: 'Casual', description: 'Relaxed and conversational' },
-    { id: 'expert', name: 'Expert', description: 'Technical and knowledgeable' }
-  ];
-
-  const languages = [
-    { id: 'auto', name: 'Auto-detect', description: 'Automatically detect user language' },
-    { id: 'en', name: 'English', description: 'English only' },
-    { id: 'it', name: 'Italian', description: 'Italian only' },
-    { id: 'es', name: 'Spanish', description: 'Spanish only' },
-    { id: 'fr', name: 'French', description: 'French only' },
-    { id: 'de', name: 'German', description: 'German only' }
-  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,11 +25,9 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose }) =>
     try {
       const newChatbot = await createChatbot({
         name: formData.name.trim(),
-        description: formData.description.trim() || `Your ${formData.personality} AI assistant`,
+        description: `Your AI assistant - ${formData.name}`,
         settings: {
-          language: formData.language,
-          personality: formData.personality,
-          welcomeMessage: `Hello! I'm your ${formData.personality} AI assistant. How can I help you today?`
+          welcomeMessage: formData.welcomeMessage.trim()
         }
       });
 
@@ -53,9 +35,7 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose }) =>
         // Reset form
         setFormData({
           name: '',
-          description: '',
-          personality: 'professional',
-          language: 'auto'
+          welcomeMessage: 'Hello! I\'m your AI assistant. How can I help you today?'
         });
         onClose();
       }
@@ -70,9 +50,7 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose }) =>
     if (!isCreating) {
       setFormData({
         name: '',
-        description: '',
-        personality: 'professional',
-        language: 'auto'
+        welcomeMessage: 'Hello! I\'m your AI assistant. How can I help you today?'
       });
       onClose();
     }
@@ -90,8 +68,10 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose }) =>
               <Bot className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">Create New Chatbot</h2>
-              <p className="text-sm text-gray-600">Build your AI assistant</p>
+              <h2 className="text-xl font-semibold text-gray-900">
+                {isFirstChatbot ? 'Create Your First Chatbot' : 'Create New Chatbot'}
+              </h2>
+              <p className="text-sm text-gray-600">Quick setup - customize later in settings</p>
             </div>
           </div>
           <button
@@ -121,69 +101,23 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose }) =>
             />
           </div>
 
-          {/* Description */}
+          {/* Welcome Message */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Description
+              Welcome Message *
             </label>
             <textarea
-              value={formData.description}
-              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-              placeholder="What will this chatbot help with?"
+              value={formData.welcomeMessage}
+              onChange={(e) => setFormData(prev => ({ ...prev, welcomeMessage: e.target.value }))}
+              placeholder="Hello! I'm your AI assistant. How can I help you today?"
               rows={3}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
+              required
               disabled={isCreating}
             />
-          </div>
-
-          {/* Personality */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
-              Personality
-            </label>
-            <div className="grid grid-cols-2 gap-3">
-              {personalities.map((personality) => (
-                <button
-                  key={personality.id}
-                  type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, personality: personality.id }))}
-                  disabled={isCreating}
-                  className={`p-3 rounded-lg border-2 transition-all text-left ${
-                    formData.personality === personality.id
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  } disabled:opacity-50`}
-                >
-                  <div className="font-medium text-sm text-gray-900">{personality.name}</div>
-                  <div className="text-xs text-gray-600 mt-1">{personality.description}</div>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Language */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
-              Language
-            </label>
-            <div className="space-y-2">
-              {languages.map((language) => (
-                <button
-                  key={language.id}
-                  type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, language: language.id }))}
-                  disabled={isCreating}
-                  className={`w-full p-3 rounded-lg border-2 transition-all text-left ${
-                    formData.language === language.id
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  } disabled:opacity-50`}
-                >
-                  <div className="font-medium text-sm text-gray-900">{language.name}</div>
-                  <div className="text-xs text-gray-600 mt-1">{language.description}</div>
-                </button>
-              ))}
-            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              This message will be shown when users first interact with your chatbot
+            </p>
           </div>
 
           {/* Actions */}

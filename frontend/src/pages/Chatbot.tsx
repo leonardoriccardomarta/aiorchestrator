@@ -87,6 +87,7 @@ const Chatbot: React.FC = () => {
   const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
   const [chatbotDeleted, setChatbotDeleted] = useState(false);
   const [showAddChatbotModal, setShowAddChatbotModal] = useState(false);
+  const [isFirstChatbot, setIsFirstChatbot] = useState(false);
   
   // Widget customization state
   const [widgetTheme, setWidgetTheme] = useState<'blue' | 'purple' | 'green' | 'red' | 'orange' | 'pink' | 'indigo' | 'teal'>('blue');
@@ -936,8 +937,9 @@ const Chatbot: React.FC = () => {
                 {/* Create First Chatbot - Show when no chatbot exists */}
                 {(!currentChatbotId || chatbotDeleted) && (
                   <div 
-                    onClick={async () => {
-                      await createDefaultChatbot();
+                    onClick={() => {
+                      setIsFirstChatbot(true);
+                      setShowAddChatbotModal(true);
                       setChatbotDeleted(false);
                     }}
                     className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 lg:p-6 border-2 border-dashed border-blue-300 hover:border-blue-500 transition-colors cursor-pointer"
@@ -959,7 +961,10 @@ const Chatbot: React.FC = () => {
                 {/* Add New Chatbot - Only if plan allows and chatbot exists */}
                 {currentChatbotId && !chatbotDeleted && user?.planId !== 'starter' ? (
                   <div 
-                    onClick={() => setShowAddChatbotModal(true)}
+                    onClick={() => {
+                      setIsFirstChatbot(false);
+                      setShowAddChatbotModal(true);
+                    }}
                     className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 border-2 border-dashed border-blue-300 hover:border-blue-400 transition-all cursor-pointer group"
                   >
                     <div className="text-center">
@@ -1638,6 +1643,7 @@ const Chatbot: React.FC = () => {
       <AddChatbotModal
         isOpen={showAddChatbotModal}
         onClose={() => setShowAddChatbotModal(false)}
+        isFirstChatbot={isFirstChatbot}
       />
     </div>
   );
