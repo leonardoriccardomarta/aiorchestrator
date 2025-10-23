@@ -62,7 +62,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       }
     };
     loadOnce();
-  }, [hasLoaded, isLoading]); // Remove loadChatbots from dependencies to prevent circular dependency
+  }, []); // Empty dependency array to run only once on mount
 
   // Fallback: create default chatbot if circuit breaker is open and no chatbots exist
   useEffect(() => {
@@ -164,8 +164,8 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
           const retryData = await retryResponse.json();
           const loadedChatbots = retryData?.data || [];
           setChatbots(loadedChatbots);
-          if (loadedChatbots.length > 0 && !selectedChatbotId) {
-            setSelectedChatbotId(loadedChatbots[0].id);
+          if (loadedChatbots.length > 0) {
+            setSelectedChatbotId(prev => prev || loadedChatbots[0].id);
           }
           setIsLoading(false);
           setRetryCount(0); // Reset on success
@@ -183,10 +183,15 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       setChatbots(loadedChatbots);
 
       // Auto-select first chatbot if none selected
-      if (loadedChatbots.length > 0 && !selectedChatbotId) {
-        console.log('🤖 Auto-selecting first chatbot:', loadedChatbots[0].id);
-        setSelectedChatbotId(loadedChatbots[0].id);
-      } else if (loadedChatbots.length === 0) {
+      if (loadedChatbots.length > 0) {
+        setSelectedChatbotId(prev => {
+          if (!prev) {
+            console.log('🤖 Auto-selecting first chatbot:', loadedChatbots[0].id);
+            return loadedChatbots[0].id;
+          }
+          return prev;
+        });
+      } else {
         setSelectedChatbotId(null);
         // Auto-create default chatbot for new users
         console.log('No chatbots found, creating default chatbot...');
@@ -210,7 +215,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       setChatbots([]);
       setIsLoading(false);
     }
-  }, [isCircuitOpen, isLoading, retryCount, selectedChatbotId]);
+  }, [isCircuitOpen, isLoading, retryCount]); // Remove selectedChatbotId from dependencies
 
   const selectChatbot = React.useCallback((chatbotId: string) => {
     setSelectedChatbotId(chatbotId);
