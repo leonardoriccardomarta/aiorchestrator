@@ -213,21 +213,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     } catch (error) {
       console.error('❌ RefreshUser: Error:', error);
-      // Fallback to localStorage on error
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        console.log('⚠️ RefreshUser: Using localStorage as fallback after error');
-        const userData = JSON.parse(storedUser);
-        const trialStatus = calculateTrialStatus(userData.trialEndDate);
-        
-        setUser({
-          ...userData,
-          trialDaysLeft: trialStatus.daysLeft
-        });
-        
-        setIsTrialExpired(trialStatus.isExpired);
-        setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
-      }
+      // Clear invalid data on error
+      console.log('⚠️ RefreshUser: Error occurred, clearing user data');
+      localStorage.removeItem('user');
+      localStorage.removeItem('userData');
+      localStorage.removeItem('authToken');
+      setUser(null);
     }
   }, []); // Remove user dependency to prevent circular dependency
 
@@ -315,42 +306,35 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       } catch (error) {
         console.error('Error parsing stored user data:', error);
-        // Fallback to demo user
-        initializeDemoUser();
+        // Clear invalid data and require authentication
+        localStorage.removeItem('user');
+        setUser(null);
+        setIsLoading(false);
       }
-    } else {
-      // Initialize demo user if no stored data
-      initializeDemoUser();
-    }
+      } else {
+        // No user data found, user not authenticated
+        console.log('🔄 UserContext: No user data found, user not authenticated');
+        setUser(null);
+        setIsLoading(false);
+      }
     };
 
     initializeUser();
   }, []); // Rimuoviamo refreshUser dalle dipendenze per evitare il loop infinito
 
-  const initializeDemoUser = () => {
-    const trialEndDate = new Date();
-    trialEndDate.setDate(trialEndDate.getDate() + 7);
-    
-    const demoUser = {
-      id: 'cmgqepzxx00021392rcpr7ndb',
-      email: 'martaleo110@gmail.com',
-      name: 'Marta Leo',
-      planId: 'professional',
-      isTrialActive: true,
-      trialEndDate: trialEndDate.toISOString(),
-      isPaid: false,
-      hasCompletedOnboarding: true,
-      isNewUser: false,
-      trialDaysLeft: 7
-    };
-    
-    setUser(demoUser);
-    setIsTrialExpired(false);
-    setIsTrialExpiringSoon(false);
-    
-    // Store in localStorage
-    localStorage.setItem('userData', JSON.stringify(demoUser));
-  };
+  // Redirect to login if user is not authenticated
+  useEffect(() => {
+    if (!isLoading && !user) {
+      console.log('🔄 UserContext: No authenticated user, redirecting to login');
+      // Clear any invalid data
+      localStorage.removeItem('user');
+      localStorage.removeItem('userData');
+      localStorage.removeItem('authToken');
+      // Redirect to login page
+      window.location.href = '/';
+    }
+  }, [user, isLoading]);
+
 
   const value = {
     user,

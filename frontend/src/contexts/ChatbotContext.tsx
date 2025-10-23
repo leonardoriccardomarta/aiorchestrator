@@ -61,9 +61,10 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
         // Load chatbots directly without calling the callback
         try {
           setIsLoading(true);
-          const token = localStorage.getItem('authToken');
+          // Check for token in multiple locations
+          const token = localStorage.getItem('authToken') || localStorage.getItem('token');
           if (!token) {
-            console.log('No auth token, skipping chatbot load');
+            console.log('No auth token found, skipping chatbot load');
             setIsLoading(false);
             return;
           }
@@ -94,27 +95,6 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
     loadOnce();
   }, []); // Empty dependency array to run only once on mount
 
-  // Fallback: create default chatbot if circuit breaker is open and no chatbots exist
-  useEffect(() => {
-    if (isCircuitOpen && chatbots.length === 0 && !isLoading) {
-      console.log('🤖 Circuit breaker open, creating fallback chatbot...');
-      const fallbackChatbot = {
-        id: 'fallback-' + Date.now(),
-        name: 'My AI Assistant',
-        description: 'Your personal AI assistant',
-        settings: {
-          language: 'auto',
-          personality: 'professional',
-          welcomeMessage: "Hello! I'm your AI assistant. How can I help you today?"
-        },
-        userId: 'fallback',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-      setChatbots([fallbackChatbot]);
-      setSelectedChatbotId(fallbackChatbot.id);
-    }
-  }, [isCircuitOpen, chatbots.length, isLoading]);
 
   const loadChatbots = React.useCallback(async () => {
     // Circuit breaker - if too many failures, stop trying
@@ -138,9 +118,10 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
     try {
       setIsLoading(true);
       window.lastLoadAttempt = Date.now();
-      const token = localStorage.getItem('authToken');
+      // Check for token in multiple locations
+      const token = localStorage.getItem('authToken') || localStorage.getItem('token');
       if (!token) {
-        console.log('No auth token, skipping chatbot load');
+        console.log('No auth token found, skipping chatbot load');
         setIsLoading(false);
         return;
       }
@@ -258,7 +239,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
 
   const createChatbot = React.useCallback(async (data: Partial<Chatbot>): Promise<Chatbot | null> => {
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('authToken') || localStorage.getItem('token');
       const response = await fetch(`${API_URL}/api/chatbots`, {
         method: 'POST',
         headers: {
@@ -292,7 +273,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
 
   const updateChatbot = React.useCallback(async (chatbotId: string, data: Partial<Chatbot>): Promise<boolean> => {
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('authToken') || localStorage.getItem('token');
       const response = await fetch(`${API_URL}/api/chatbots/${chatbotId}`, {
         method: 'PUT',
         headers: {
@@ -317,7 +298,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
 
   const deleteChatbot = React.useCallback(async (chatbotId: string): Promise<boolean> => {
     try {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('authToken') || localStorage.getItem('token');
       const response = await fetch(`${API_URL}/api/chatbots/${chatbotId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
