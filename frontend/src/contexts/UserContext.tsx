@@ -237,7 +237,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     // Initialize user from localStorage and refresh from server
-    const storedUser = localStorage.getItem('user');
+    const initializeUser = async () => {
+      const storedUser = localStorage.getItem('user');
     if (storedUser) {
       try {
         const userData = JSON.parse(storedUser);
@@ -266,10 +267,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 console.log('🔍 Token planId:', tokenPayload.planId, 'vs stored planId:', userData.planId);
                 console.log('🔍 Token isPaid:', tokenPayload.isPaid, 'vs stored isPaid:', userData.isPaid);
                 // Force refresh immediately and update localStorage
-                const refreshedUser = await refreshUser();
-                if (refreshedUser) {
-                  console.log('🔄 User data refreshed successfully');
-                }
+                await refreshUser();
+                console.log('🔄 User data refreshed successfully');
               } else {
                 console.log('🔄 Initializing: Data synchronized, skipping refresh');
               }
@@ -291,6 +290,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Initialize demo user if no stored data
       initializeDemoUser();
     }
+    };
+
+    initializeUser();
   }, []); // Rimuoviamo refreshUser dalle dipendenze per evitare il loop infinito
 
   const initializeDemoUser = () => {
