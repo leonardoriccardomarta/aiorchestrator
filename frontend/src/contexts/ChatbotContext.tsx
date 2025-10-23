@@ -62,7 +62,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       }
     };
     loadOnce();
-  }, []); // Empty dependency array to run only once
+  }, [hasLoaded, isLoading, loadChatbots]); // Add dependencies
 
   // Fallback: create default chatbot if circuit breaker is open and no chatbots exist
   useEffect(() => {
@@ -179,10 +179,12 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
 
       const data = await response.json();
       const loadedChatbots = data?.data || [];
+      console.log('🤖 Loaded chatbots:', loadedChatbots);
       setChatbots(loadedChatbots);
 
       // Auto-select first chatbot if none selected
       if (loadedChatbots.length > 0 && !selectedChatbotId) {
+        console.log('🤖 Auto-selecting first chatbot:', loadedChatbots[0].id);
         setSelectedChatbotId(loadedChatbots[0].id);
       } else if (loadedChatbots.length === 0) {
         setSelectedChatbotId(null);

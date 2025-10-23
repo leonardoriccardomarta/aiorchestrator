@@ -439,10 +439,12 @@ app.get('/api/chatbots', async (req, res) => {
       return res.status(401).json({ success: false, message: 'No token provided' });
     }
 
-    // Verify token
-    const AuthService = require('./real-auth-system');
-    const authService = new AuthService();
-    const decoded = await authService.verifyAccess(token);
+    // Verify token - use singleton to avoid multiple instances
+    if (!global.authServiceInstance) {
+      const AuthService = require('./real-auth-system');
+      global.authServiceInstance = new AuthService();
+    }
+    const decoded = await global.authServiceInstance.verifyAccess(token);
     if (!decoded) {
       return res.status(401).json({ success: false, message: 'Invalid token' });
     }
@@ -476,9 +478,12 @@ app.post('/api/chatbots', async (req, res) => {
       return res.status(401).json({ success: false, message: 'No token provided' });
     }
 
-    const AuthService = require('./real-auth-system');
-    const authService = new AuthService();
-    const decoded = await authService.verifyAccess(token);
+    // Verify token - use singleton to avoid multiple instances
+    if (!global.authServiceInstance) {
+      const AuthService = require('./real-auth-system');
+      global.authServiceInstance = new AuthService();
+    }
+    const decoded = await global.authServiceInstance.verifyAccess(token);
     if (!decoded) {
       return res.status(401).json({ success: false, message: 'Invalid token' });
     }
@@ -521,9 +526,12 @@ app.put('/api/chatbots/:id', async (req, res) => {
       return res.status(401).json({ success: false, message: 'No token provided' });
     }
 
-    const AuthService = require('./real-auth-system');
-    const authService = new AuthService();
-    const decoded = await authService.verifyAccess(token);
+    // Verify token - use singleton to avoid multiple instances
+    if (!global.authServiceInstance) {
+      const AuthService = require('./real-auth-system');
+      global.authServiceInstance = new AuthService();
+    }
+    const decoded = await global.authServiceInstance.verifyAccess(token);
     if (!decoded) {
       return res.status(401).json({ success: false, message: 'Invalid token' });
     }
@@ -562,9 +570,12 @@ app.delete('/api/chatbots/:id', async (req, res) => {
       return res.status(401).json({ success: false, message: 'No token provided' });
     }
 
-    const AuthService = require('./real-auth-system');
-    const authService = new AuthService();
-    const decoded = await authService.verifyAccess(token);
+    // Verify token - use singleton to avoid multiple instances
+    if (!global.authServiceInstance) {
+      const AuthService = require('./real-auth-system');
+      global.authServiceInstance = new AuthService();
+    }
+    const decoded = await global.authServiceInstance.verifyAccess(token);
     if (!decoded) {
       return res.status(401).json({ success: false, message: 'Invalid token' });
     }
