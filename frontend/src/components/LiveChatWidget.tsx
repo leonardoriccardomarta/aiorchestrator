@@ -22,11 +22,40 @@ const LiveChatWidget: React.FC = () => {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [widgetConfig, setWidgetConfig] = useState({
+    title: 'AI Support',
+    placeholder: 'Type your message...',
+    welcomeMessage: 'Hi! I\'m your AI support assistant. How can I help you today? 👋'
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  // Listen for global widget configuration updates
+  useEffect(() => {
+    const handleConfigUpdate = () => {
+      if (window.AIOrchestratorConfig) {
+        setWidgetConfig(prev => ({
+          ...prev,
+          title: window.AIOrchestratorConfig.title || 'AI Support',
+          placeholder: window.AIOrchestratorConfig.placeholder || 'Type your message...',
+          welcomeMessage: window.AIOrchestratorConfig.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'
+        }));
+      }
+    };
+
+    // Check for initial config
+    handleConfigUpdate();
+
+    // Listen for updates
+    window.addEventListener('brandingUpdated', handleConfigUpdate);
+    
+    return () => {
+      window.removeEventListener('brandingUpdated', handleConfigUpdate);
+    };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
@@ -117,7 +146,7 @@ const LiveChatWidget: React.FC = () => {
                 <MessageCircle className="w-5 h-5 text-white" />
               </div>
               <div>
-                <div className="font-bold text-gray-900">AI Support</div>
+                <div className="font-bold text-gray-900 whitespace-nowrap">{widgetConfig.title}</div>
                 <div className="text-xs text-gray-600 flex items-center gap-1">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                   Online 24/7
@@ -186,7 +215,7 @@ const LiveChatWidget: React.FC = () => {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Type your message..."
+                  placeholder={widgetConfig.placeholder}
                   className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   disabled={isLoading}
                 />

@@ -1405,7 +1405,7 @@ const Chatbot: React.FC = () => {
                   <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
                     <h4 className="text-sm font-medium text-gray-900 mb-3 flex items-center">
                       <Palette className="w-4 h-4 mr-2 text-purple-600" />
-                      Custom Branding (Professional+)
+                      Custom Branding
                       <span className="ml-2 text-xs text-gray-500">• Synced with Settings</span>
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
