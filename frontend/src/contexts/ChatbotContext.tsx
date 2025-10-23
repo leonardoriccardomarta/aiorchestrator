@@ -58,7 +58,37 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
     const loadOnce = async () => {
       if (!hasLoaded && !isLoading) {
         setHasLoaded(true);
-        await loadChatbots();
+        // Load chatbots directly without calling the callback
+        try {
+          setIsLoading(true);
+          const token = localStorage.getItem('authToken');
+          if (!token) {
+            console.log('No auth token, skipping chatbot load');
+            setIsLoading(false);
+            return;
+          }
+
+          const response = await fetch(`${API_URL}/api/chatbots`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            const loadedChatbots = data?.data || [];
+            console.log('🤖 Loaded chatbots:', loadedChatbots);
+            setChatbots(loadedChatbots);
+
+            // Auto-select first chatbot if none selected
+            if (loadedChatbots.length > 0) {
+              setSelectedChatbotId(prev => prev || loadedChatbots[0].id);
+            }
+          }
+          setIsLoading(false);
+        } catch (error) {
+          console.error('Error loading chatbots:', error);
+          setChatbots([]);
+          setIsLoading(false);
+        }
       }
     };
     loadOnce();
@@ -244,7 +274,8 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
 
       const result = await response.json();
       if (result.success && result.data) {
-        await loadChatbots(); // Reload to get updated list
+        // Add new chatbot to the list instead of reloading
+        setChatbots(prev => [...prev, result.data]);
         setSelectedChatbotId(result.data.id); // Auto-select new chatbot
         return result.data;
       }
@@ -253,7 +284,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       console.error('Error creating chatbot:', error);
       return null;
     }
-  }, [loadChatbots]);
+  }, []);
 
   const updateChatbot = React.useCallback(async (chatbotId: string, data: Partial<Chatbot>): Promise<boolean> => {
     try {
@@ -269,7 +300,8 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
 
       const result = await response.json();
       if (result.success) {
-        await loadChatbots(); // Reload to get updated data
+        // Update chatbot in the list instead of reloading
+        setChatbots(prev => prev.map(c => c.id === chatbotId ? { ...c, ...data } : c));
         return true;
       }
       return false;
@@ -289,11 +321,15 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
 
       const result = await response.json();
       if (result.success) {
-        await loadChatbots(); // Reload to get updated list
+        // Remove chatbot from the list instead of reloading
+        setChatbots(prev => prev.filter(c => c.id !== chatbotId));
         // If deleted chatbot was selected, select first available or null
         if (selectedChatbotId === chatbotId) {
-          const remaining = chatbots.filter(c => c.id !== chatbotId);
-          setSelectedChatbotId(remaining.length > 0 ? remaining[0].id : null);
+          setChatbots(prev => {
+            const remaining = prev.filter(c => c.id !== chatbotId);
+            setSelectedChatbotId(remaining.length > 0 ? remaining[0].id : null);
+            return remaining;
+          });
         }
         return true;
       }
@@ -302,7 +338,7 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
       console.error('Error deleting chatbot:', error);
       return false;
     }
-  }, [loadChatbots, selectedChatbotId, chatbots]);
+  }, [selectedChatbotId]);
 
   const resetLoading = React.useCallback(() => {
     console.log('🤖 Resetting loading state');
