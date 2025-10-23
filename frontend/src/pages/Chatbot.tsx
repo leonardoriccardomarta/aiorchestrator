@@ -47,7 +47,8 @@ import {
   Download,
   HelpCircle,
   Palette,
-  Upload
+  Upload,
+  RotateCcw
 } from 'lucide-react';
 import ChatbotManagement from '../components/ChatbotManagement';
 import EmbedCodeGenerator from '../components/EmbedCodeGenerator';
@@ -475,6 +476,29 @@ const Chatbot: React.FC = () => {
       window.removeEventListener('brandingUpdated', handleBrandingUpdate as EventListener);
     };
   }, []);
+
+  // Reset custom branding to theme defaults
+  const resetCustomBranding = () => {
+    const themeColors = {
+      blue: { primary: '#3B82F6', secondary: '#1D4ED8' },
+      purple: { primary: '#8B5CF6', secondary: '#7C3AED' },
+      green: { primary: '#10B981', secondary: '#059669' },
+      red: { primary: '#EF4444', secondary: '#DC2626' },
+      orange: { primary: '#F97316', secondary: '#EA580C' },
+      pink: { primary: '#EC4899', secondary: '#DB2777' },
+      indigo: { primary: '#6366F1', secondary: '#4F46E5' },
+      teal: { primary: '#14B8A6', secondary: '#0D9488' }
+    };
+    
+    const currentThemeColors = themeColors[widgetTheme as keyof typeof themeColors] || themeColors.blue;
+    
+    setCustomBranding({
+      primaryColor: currentThemeColors.primary,
+      secondaryColor: currentThemeColors.secondary,
+      fontFamily: 'Inter',
+      logo: ''
+    });
+  };
 
   // Dispatch custom branding updates to BrandingSettings component
   useEffect(() => {
@@ -1393,11 +1417,21 @@ const Chatbot: React.FC = () => {
                 {/* Custom Branding Section - Only for Professional+ plans */}
                 {user?.planId !== 'starter' && (
                   <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
-                    <h4 className="text-sm font-medium text-gray-900 mb-3 flex items-center">
-                      <Palette className="w-4 h-4 mr-2 text-purple-600" />
-                      Custom Branding
-                      <span className="ml-2 text-xs text-gray-500">• Synced with Settings</span>
-                    </h4>
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="text-sm font-medium text-gray-900 flex items-center">
+                        <Palette className="w-4 h-4 mr-2 text-purple-600" />
+                        Custom Branding
+                        <span className="ml-2 text-xs text-gray-500">• Synced with Settings</span>
+                      </h4>
+                      <button
+                        onClick={resetCustomBranding}
+                        className="flex items-center gap-1 px-2 py-1 text-xs text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"
+                        title="Reset to theme defaults"
+                      >
+                        <RotateCcw className="w-3 h-3" />
+                        Reset
+                      </button>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-medium text-gray-700 mb-1">Primary Color</label>

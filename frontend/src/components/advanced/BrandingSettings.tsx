@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Palette, Upload, Save, Eye, Download } from 'lucide-react';
+import { Palette, Upload, Save, Eye, Download, RotateCcw } from 'lucide-react';
 import PlanLimitations from '../PlanLimitations';
 import { useUser } from '../../contexts/UserContext';
 import { useChatbot } from '../../contexts/ChatbotContext';
@@ -47,6 +47,16 @@ const BrandingSettings: React.FC = () => {
 
   const handleColorChange = (field: string, color: string) => {
     setBranding(prev => ({ ...prev, [field]: color }));
+  };
+
+  // Reset branding to defaults
+  const resetBranding = () => {
+    setBranding({
+      logo: '',
+      primaryColor: '#3B82F6',
+      secondaryColor: '#8B5CF6',
+      fontFamily: 'Inter'
+    });
   };
 
   const handleSave = async () => {
@@ -114,14 +124,24 @@ const BrandingSettings: React.FC = () => {
   return (
     <PlanLimitations feature="Custom Branding" requiredPlan="professional">
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-        <div className="flex items-center space-x-3 mb-6">
-          <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
-            <Palette className="w-5 h-5 text-white" />
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+              <Palette className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900">Custom Branding</h3>
+              <p className="text-sm text-gray-600">Customize your chatbot's appearance</p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900">Custom Branding</h3>
-            <p className="text-sm text-gray-600">Customize your chatbot's appearance</p>
-          </div>
+          <button
+            onClick={resetBranding}
+            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+            title="Reset to defaults"
+          >
+            <RotateCcw className="w-4 h-4" />
+            Reset
+          </button>
         </div>
 
         <div className="space-y-6">
