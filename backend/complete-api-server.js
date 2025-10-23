@@ -304,6 +304,16 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Serve public embed files
 app.use('/public/embed', express.static(path.join(__dirname, 'public/embed')));
 
+// Middleware to disable Helmet for embed routes
+app.use('/public/embed', (req, res, next) => {
+  // Disable Helmet for embed routes
+  res.removeHeader('X-Frame-Options');
+  res.removeHeader('Content-Security-Policy');
+  res.removeHeader('X-Content-Type-Options');
+  res.removeHeader('Referrer-Policy');
+  next();
+});
+
 // Fallback chatbot embed endpoint
 app.get('/public/embed/:chatbotId', (req, res) => {
   // Set CORS headers for embed
@@ -311,7 +321,9 @@ app.get('/public/embed/:chatbotId', (req, res) => {
   res.header('Access-Control-Allow-Methods', 'GET');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('X-Frame-Options', 'ALLOWALL');
-  res.header('Content-Security-Policy', "frame-ancestors *");
+  res.header('Content-Security-Policy', "frame-ancestors *; default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob:;");
+  res.header('X-Content-Type-Options', 'nosniff');
+  res.header('Referrer-Policy', 'no-referrer');
   
   const { chatbotId } = req.params;
   const { theme = 'blue', title = 'AI Support', placeholder = 'Type your message...', message = 'Hello! I\'m your AI assistant. How can I help you today?', showAvatar = 'true', primaryLanguage = 'auto' } = req.query;
@@ -416,8 +428,166 @@ const chatbotLimiter = rateLimit({
   trustProxy: true,
 });
 
-// Apply chatbot-specific rate limiting
-app.use('/api/chatbots', chatbotLimiter);
+// Apply chatbot-specific rate limiting - TEMPORARILY DISABLED FOR DEBUGGING
+// app.use('/api/chatbots', chatbotLimiter);
+
+// Special chatbot endpoint that bypasses rate limiting
+app.get('/api/chatbots', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    if (!token) {
+      return res.status(401).json({ success: false, message: 'No token provided' });
+    }
+
+    // Verify token
+    const authService = require('./real-auth-system');
+    const decoded = authService.verifyAccess(token);
+    if (!decoded) {
+      return res.status(401).json({ success: false, message: 'Invalid token' });
+    }
+
+    // Get chatbots from database
+    const { PrismaClient } = require('@prisma/client');
+    const prisma = new PrismaClient();
+    
+    const chatbots = await prisma.chatbot.findMany({
+      where: { userId: decoded.id },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    await prisma.$disconnect();
+
+    res.json({
+      success: true,
+      data: chatbots
+    });
+  } catch (error) {
+    console.error('Error fetching chatbots:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+// POST /api/chatbots - Create new chatbot
+app.post('/api/chatbots', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    if (!token) {
+      return res.status(401).json({ success: false, message: 'No token provided' });
+    }
+
+    const authService = require('./real-auth-system');
+    const decoded = authService.verifyAccess(token);
+    if (!decoded) {
+      return res.status(401).json({ success: false, message: 'Invalid token' });
+    }
+
+    const { name, description, settings } = req.body;
+    
+    const { PrismaClient } = require('@prisma/client');
+    const prisma = new PrismaClient();
+    
+    const chatbot = await prisma.chatbot.create({
+      data: {
+        name: name || 'My AI Assistant',
+        description: description || 'Your personal AI assistant',
+        settings: settings || {
+          language: 'auto',
+          personality: 'professional',
+          welcomeMessage: "Hello! I'm your AI assistant. How can I help you today?"
+        },
+        userId: decoded.id
+      }
+    });
+
+    await prisma.$disconnect();
+
+    res.json({
+      success: true,
+      data: chatbot
+    });
+  } catch (error) {
+    console.error('Error creating chatbot:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+// PUT /api/chatbots/:id - Update chatbot
+app.put('/api/chatbots/:id', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    if (!token) {
+      return res.status(401).json({ success: false, message: 'No token provided' });
+    }
+
+    const authService = require('./real-auth-system');
+    const decoded = authService.verifyAccess(token);
+    if (!decoded) {
+      return res.status(401).json({ success: false, message: 'Invalid token' });
+    }
+
+    const { id } = req.params;
+    const updateData = req.body;
+    
+    const { PrismaClient } = require('@prisma/client');
+    const prisma = new PrismaClient();
+    
+    const chatbot = await prisma.chatbot.update({
+      where: { 
+        id: id,
+        userId: decoded.id // Ensure user owns the chatbot
+      },
+      data: updateData
+    });
+
+    await prisma.$disconnect();
+
+    res.json({
+      success: true,
+      data: chatbot
+    });
+  } catch (error) {
+    console.error('Error updating chatbot:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+// DELETE /api/chatbots/:id - Delete chatbot
+app.delete('/api/chatbots/:id', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    if (!token) {
+      return res.status(401).json({ success: false, message: 'No token provided' });
+    }
+
+    const authService = require('./real-auth-system');
+    const decoded = authService.verifyAccess(token);
+    if (!decoded) {
+      return res.status(401).json({ success: false, message: 'Invalid token' });
+    }
+
+    const { id } = req.params;
+    
+    const { PrismaClient } = require('@prisma/client');
+    const prisma = new PrismaClient();
+    
+    await prisma.chatbot.delete({
+      where: { 
+        id: id,
+        userId: decoded.id // Ensure user owns the chatbot
+      }
+    });
+
+    await prisma.$disconnect();
+
+    res.json({
+      success: true,
+      message: 'Chatbot deleted successfully'
+    });
+  } catch (error) {
+    console.error('Error deleting chatbot:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
 
 // ===== SERVE WIDGET FILES WITH CORS =====
 const fs = require('fs');
