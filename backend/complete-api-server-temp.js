@@ -1,744 +1,6 @@
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const morgan = require('morgan');
-const rateLimit = require('express-rate-limit');
-const cookieParser = require('cookie-parser');
-const path = require('path');
-const multer = require('multer');
-const fs = require('fs');
-
-// Load environment variables FIRST
-require('dotenv').config({ path: path.join(__dirname, '.env') });
-
-// Set environment variables explicitly if not found
-if (!process.env.DATABASE_URL) {
-  process.env.DATABASE_URL = 'file:./prisma/dev.db';
-}
-if (!process.env.JWT_SECRET) {
-  process.env.JWT_SECRET = 'your-super-secret-jwt-key-change-in-production';
-}
-if (!process.env.PORT) {
-  process.env.PORT = '4000';
-}
-if (!process.env.NODE_ENV) {
-  process.env.NODE_ENV = 'development';
-}
-if (!process.env.GROQ_API_KEY) {
-  process.env.GROQ_API_KEY = 'your_groq_api_key_here';
-}
-
-// Stripe configuration
-if (!process.env.STRIPE_SECRET_KEY) {
-  console.error('❌ STRIPE_SECRET_KEY not configured! Payment functionality will not work.');
-}
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
-
-// Import AI Service
-const HybridAIService = require('./src/ai-service-hybrid');
-const MLService = require('./src/ml-service');
-const CronService = require('./src/services/cronService');
-const EmailService = require('./src/services/emailService');
-const EmailFollowUpService = require('./src/services/emailFollowUpService');
-const affiliateService = require('./src/services/affiliateService');
-const { getReferralCode } = require('./src/middleware/referralTracking');
-const ChatbotService = require('./chatbot-service');
-const { rateLimitMiddleware, chatRateLimitMiddleware } = require('./api-rate-limiting');
-const { 
-  validateChatbot, 
-  validateConnection, 
-  validateFAQ,
-  validateWorkflow,
-  validateUserData,
-  handleValidationErrors,
-  sanitizeInput,
-  securityHeaders 
-} = require('./middleware/validation');
-const { 
-  errorHandler, 
-  notFoundHandler, 
-  asyncHandler,
-  ValidationError,
-  UnauthorizedError,
-  ForbiddenError,
-  NotFoundError,
-  PlanLimitError,
-  AIError
-} = require('./middleware/errorHandler');
-const AuthService = require('./real-auth-system');
-const RealDataService = require('./real-data-service');
-const PlanService = require('./src/services/planService');
-const ShopifyOAuthService = require('./src/services/shopifyOAuthService');
-const WooCommerceOAuthService = require('./src/services/woocommerceOAuthService');
-const ShopifyEnhancedService = require('./src/services/shopifyEnhancedService');
-const UniversalEmbedService = require('./src/services/universalEmbedService');
-const ShopifyCartService = require('./src/services/shopifyCartService');
-const StripePaymentService = require('./src/services/stripePaymentService');
-const PersonalizationService = require('./src/services/personalizationService');
-const { canCreateConnection, canCreateChatbot, canSendMessage, getPlan, hasFeature } = require('./config/plans');
-
-const app = express();
-const PORT = process.env.PORT || 4000;
-
-// Trust proxy - required for Digital Ocean App Platform
-app.set('trust proxy', true);
-
-// Initialize AI Service
-const aiService = new HybridAIService();
-
-// Initialize Plan Service
-const planService = new PlanService();
-
-// Initialize OAuth Services
-const shopifyOAuthService = new ShopifyOAuthService();
-console.log('🔍 Shopify OAuth Service scopes after init:', shopifyOAuthService.scopes);
-const woocommerceOAuthService = new WooCommerceOAuthService();
-
-// Initialize Enhanced Services
-const shopifyEnhancedService = new ShopifyEnhancedService();
-const universalEmbedService = new UniversalEmbedService();
-const shopifyCartService = new ShopifyCartService();
-const stripePaymentService = new StripePaymentService();
-const personalizationService = new PersonalizationService();
-
-// Initialize ML Service (Full Machine Learning Suite)
-const mlService = new MLService();
-const cronService = new CronService();
-
-// Initialize Email Services
-const emailService = new EmailService();
-const emailFollowUpService = new EmailFollowUpService();
-
-// Initialize Auth Service
-const authService = new AuthService();
-
-// Initialize Real Data Service
-const realDataService = new RealDataService();
-
-// Initialize Chatbot Service
-const chatbotService = new ChatbotService();
-
-// Store WooCommerce connections in memory (in production, use database)
-const woocommerceConnections = new Map();
-
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadDir = path.join(__dirname, 'uploads', 'branding');
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-  }
-});
-
-const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 2 * 1024 * 1024 // 2MB limit
-  },
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith('image/')) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only image files are allowed'), false);
-    }
-  }
-});
-
-// Apply security middleware
-app.use(securityHeaders);
-app.use(sanitizeInput);
-
-// Verify token middleware
-const authenticateToken = async (req, res, next) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
-    console.log('🔐 Auth header:', authHeader ? authHeader.substring(0, 20) + '...' : 'null');
-    console.log('🔐 Extracted token:', token ? token.substring(0, 20) + '...' : 'null');
-
-    if (!token) {
-      console.log('🔐 No token provided');
-      return res.status(401).json({
-        success: false,
-        error: 'Access token required'
-      });
-    }
-
-    const user = await authService.verifyAccess(token);
-    console.log('🔐 User authenticated successfully:', user.id);
-    req.user = user;
-    next();
-  } catch (error) {
-    console.error('Token verification error:', error);
-    res.status(401).json({
-      success: false,
-      error: error.message
-    });
-  }
-};
-
-// Payment authentication middleware - allows expired tokens for payment
-const authenticatePayment = async (req, res, next) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
-    console.log('💳 Payment auth - token:', token ? token.substring(0, 20) + '...' : 'null');
-
-    if (!token) {
-      console.log('💳 No token provided for payment');
-      return res.status(401).json({
-        success: false,
-        error: 'Access token required for payment'
-      });
-    }
-
-    // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
-      // Try normal verification first
-      const user = await authService.verifyAccess(token);
-      console.log('💳 User authenticated successfully:', user.id);
-      req.user = user;
-      next();
-    } catch (verifyError) {
-      console.log('💳 Token verification failed, trying expired token recovery:', verifyError.message);
-      
-      // If token is expired, try to get user from token payload without verification
-      // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
-        const jwt = require('jsonwebtoken');
-        const decoded = jwt.decode(token);
-        
-        if (!decoded || !decoded.id) {
-          throw new Error('Invalid token format');
-        }
-
-        // Get user from database directly
-        const user = await prisma.user.findUnique({ 
-          where: { id: decoded.id },
-          include: { tenant: true }
-        });
-
-        if (!user || !user.isActive) {
-          throw new Error('User not found or inactive');
-        }
-
-        console.log('💳 User recovered from expired token:', user.id);
-        req.user = user;
-        next();
-      } catch (recoveryError) {
-        console.error('💳 Token recovery failed:', recoveryError.message);
-        res.status(401).json({
-          success: false,
-          error: 'Invalid or expired token'
-        });
-      }
-    }
-  } catch (error) {
-    console.error('Payment authentication error:', error);
-    res.status(401).json({
-      success: false,
-      error: error.message
-    });
-  }
-};
-
-// Security middleware
-app.use(helmet());
-
-// CORS configuration - allow frontend URLs
-const allowedOrigins = [
-  'http://localhost:5176',
-  'http://localhost:5173', 
-  'http://localhost:5177',
-  process.env.FRONTEND_URL, // Production frontend URL
-  // Allow all Shopify stores
-  /^https:\/\/[a-zA-Z0-9-]+\.myshopify\.com$/,
-  /^https:\/\/[a-zA-Z0-9-]+\.myshopify\.io$/,
-  // Allow all domains for widget (temporary for testing)
-  /^https:\/\/.*$/
-].filter(Boolean); // Remove undefined values
-
-app.use(cors({
-  origin: (origin, callback) => {
-    // ALWAYS allow requests with no origin (file://, mobile apps, Postman, widget testing)
-    if (!origin) {
-      console.log(`✅ CORS allowed: No origin (local file/app)`);
-      return callback(null, true);
-    }
-    
-    // Check if origin matches any allowed origin (string or regex)
-    const isAllowed = allowedOrigins.some(allowedOrigin => {
-      if (typeof allowedOrigin === 'string') {
-        return allowedOrigin === origin;
-      } else if (allowedOrigin instanceof RegExp) {
-        return allowedOrigin.test(origin);
-      }
-      return false;
-    });
-    
-    if (isAllowed) {
-      console.log(`✅ CORS allowed origin: ${origin}`);
-      callback(null, true);
-    } else {
-      // For widget testing, allow all origins for /api/chat
-      console.log(`⚠️ CORS origin not in whitelist, but allowing: ${origin}`);
-      callback(null, true); // Allow all for widget compatibility
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
-
-// Serve static files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Serve public embed files
-app.use('/public/embed', express.static(path.join(__dirname, 'public/embed')));
-
-// Middleware to disable Helmet for embed routes
-app.use('/public/embed', (req, res, next) => {
-  // Disable Helmet for embed routes
-  res.removeHeader('X-Frame-Options');
-  res.removeHeader('Content-Security-Policy');
-  res.removeHeader('X-Content-Type-Options');
-  res.removeHeader('Referrer-Policy');
-  next();
-});
-
-// Fallback chatbot embed endpoint
-app.get('/public/embed/:chatbotId', (req, res) => {
-  // Set CORS headers for embed
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('X-Frame-Options', 'ALLOWALL');
-  res.header('Content-Security-Policy', "frame-ancestors *; default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob:;");
-  res.header('X-Content-Type-Options', 'nosniff');
-  res.header('Referrer-Policy', 'no-referrer');
-  
-  const { chatbotId } = req.params;
-  const { theme = 'blue', title = 'AI Support', placeholder = 'Type your message...', message = 'Hello! I\'m your AI assistant. How can I help you today?', showAvatar = 'true', primaryLanguage = 'auto' } = req.query;
-  
-  // Serve the fallback HTML with dynamic parameters
-  res.send(`
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title}</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .chat-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            padding: 30px;
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-        }
-        .avatar {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            color: white;
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 24px;
-        }
-        p {
-            color: #666;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-        .status {
-            background: #f0f9ff;
-            border: 1px solid #0ea5e9;
-            border-radius: 10px;
-            padding: 15px;
-            color: #0369a1;
-            font-size: 14px;
-        }
-    </style>
-</head>
-<body>
-    <div class="chat-container">
-        <div class="avatar">🤖</div>
-        <h1>${title}</h1>
-        <p>${message}</p>
-        <div class="status">
-            <strong>Status:</strong> Temporarily unavailable due to high traffic. Please try again in a few minutes.
-        </div>
-    </div>
-</body>
-</html>
-  `);
-});
-
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5000, // limit each IP to 5000 requests per windowMs (increased from 1000)
-  message: 'Too many requests from this IP',
-  standardHeaders: true,
-  legacyHeaders: false,
-  // Trust the rightmost proxy in the chain (Digital Ocean)
-  trustProxy: true,
-  validate: {
-    trustProxy: false, // Disable the trust proxy warning
-    xForwardedForHeader: false
-  }
-});
-app.use(limiter);
-
-// More permissive rate limiting for chatbot endpoints
-const chatbotLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10000, // limit each IP to 10000 requests per windowMs for chatbot endpoints
-  message: 'Too many chatbot requests from this IP',
-  standardHeaders: true,
-  legacyHeaders: false,
-  trustProxy: true,
-});
-
-// Apply chatbot-specific rate limiting - TEMPORARILY DISABLED FOR DEBUGGING
-// app.use('/api/chatbots', chatbotLimiter);
-
-// Special chatbot endpoint that bypasses rate limiting
-app.get('/api/chatbots', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
-    const token = req.headers.authorization?.replace('Bearer ', '');
-    if (!token) {
-      return res.status(401).json({ success: false, message: 'No token provided' });
-    }
-
-    // Verify token - use singleton to avoid multiple instances
-    if (!global.authServiceInstance) {
-      const AuthService = require('./real-auth-system');
-      global.authServiceInstance = new AuthService();
-    }
-    const decoded = await global.authServiceInstance.verifyAccess(token);
-    if (!decoded) {
-      return res.status(401).json({ success: false, message: 'Invalid token' });
-    }
-
-    // Get chatbots from database - use singleton
-    if (!global.prismaInstance) {
-      const { PrismaClient } = require('@prisma/client');
-      global.prismaInstance = new PrismaClient();
-    }
-    const prisma = global.prismaInstance;
-    
-    const chatbots = await prisma.chatbot.findMany({
-      where: { userId: decoded.id },
-      orderBy: { createdAt: 'desc' }
-    });
-
-    await prisma.$disconnect();
-
-    res.json({
-      success: true,
-      data: chatbots
-    });
-  } catch (error) {
-    console.error('Error fetching chatbots:', error);
-    res.status(500).json({ success: false, message: 'Internal server error' });
-  }
-});
-
-// POST /api/chatbots - Create new chatbot
-app.post('/api/chatbots', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
-    const token = req.headers.authorization?.replace('Bearer ', '');
-    if (!token) {
-      return res.status(401).json({ success: false, message: 'No token provided' });
-    }
-
-    // Verify token - use singleton to avoid multiple instances
-    if (!global.authServiceInstance) {
-      const AuthService = require('./real-auth-system');
-      global.authServiceInstance = new AuthService();
-    }
-    const decoded = await global.authServiceInstance.verifyAccess(token);
-    if (!decoded) {
-      return res.status(401).json({ success: false, message: 'Invalid token' });
-    }
-
-    const { name, description, settings } = req.body;
-    
-    // Use singleton Prisma instance
-    if (!global.prismaInstance) {
-      const { PrismaClient } = require('@prisma/client');
-      global.prismaInstance = new PrismaClient();
-    }
-    const prisma = global.prismaInstance;
-    
-    const chatbot = await prisma.chatbot.create({
-      data: {
-        name: name || 'My AI Assistant',
-        description: description || 'Your personal AI assistant',
-        settings: settings || {
-          language: 'auto',
-          personality: 'professional',
-          welcomeMessage: "Hello! I'm your AI assistant. How can I help you today?"
-        },
-        userId: decoded.id
-      }
-    });
-
-    await prisma.$disconnect();
-
-    res.json({
-      success: true,
-      data: chatbot
-    });
-  } catch (error) {
-    console.error('Error creating chatbot:', error);
-    res.status(500).json({ success: false, message: 'Internal server error' });
-  }
-});
-
-// PUT /api/chatbots/:id - Update chatbot
-app.put('/api/chatbots/:id', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
-    const token = req.headers.authorization?.replace('Bearer ', '');
-    if (!token) {
-      return res.status(401).json({ success: false, message: 'No token provided' });
-    }
-
-    // Verify token - use singleton to avoid multiple instances
-    if (!global.authServiceInstance) {
-      const AuthService = require('./real-auth-system');
-      global.authServiceInstance = new AuthService();
-    }
-    const decoded = await global.authServiceInstance.verifyAccess(token);
-    if (!decoded) {
-      return res.status(401).json({ success: false, message: 'Invalid token' });
-    }
-
-    const { id } = req.params;
-    const updateData = req.body;
-    
-    // Use singleton Prisma instance
-    if (!global.prismaInstance) {
-      const { PrismaClient } = require('@prisma/client');
-      global.prismaInstance = new PrismaClient();
-    }
-    const prisma = global.prismaInstance;
-    
-    const chatbot = await prisma.chatbot.update({
-      where: { 
-        id: id,
-        userId: decoded.id // Ensure user owns the chatbot
-      },
-      data: updateData
-    });
-
-    await prisma.$disconnect();
-
-    res.json({
-      success: true,
-      data: chatbot
-    });
-  } catch (error) {
-    console.error('Error updating chatbot:', error);
-    res.status(500).json({ success: false, message: 'Internal server error' });
-  }
-});
-
-// DELETE /api/chatbots/:id - Delete chatbot
-app.delete('/api/chatbots/:id', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
-    const token = req.headers.authorization?.replace('Bearer ', '');
-    if (!token) {
-      return res.status(401).json({ success: false, message: 'No token provided' });
-    }
-
-    // Verify token - use singleton to avoid multiple instances
-    if (!global.authServiceInstance) {
-      const AuthService = require('./real-auth-system');
-      global.authServiceInstance = new AuthService();
-    }
-    const decoded = await global.authServiceInstance.verifyAccess(token);
-    if (!decoded) {
-      return res.status(401).json({ success: false, message: 'Invalid token' });
-    }
-
-    const { id } = req.params;
-    
-    // Use singleton Prisma instance
-    if (!global.prismaInstance) {
-      const { PrismaClient } = require('@prisma/client');
-      global.prismaInstance = new PrismaClient();
-    }
-    const prisma = global.prismaInstance;
-    
-    await prisma.chatbot.delete({
-      where: { 
-        id: id,
-        userId: decoded.id // Ensure user owns the chatbot
-      }
-    });
-
-    await prisma.$disconnect();
-
-    res.json({
-      success: true,
-      message: 'Chatbot deleted successfully'
-    });
-  } catch (error) {
-    console.error('Error deleting chatbot:', error);
-    res.status(500).json({ success: false, message: 'Internal server error' });
-  }
-});
-
-// ===== SERVE WIDGET FILES WITH CORS =====
-// Fixed duplicate fs declaration issue
-
-// CORS middleware specifically for widget files - DISABLE HELMET FOR THESE ROUTES
-const widgetCorsMiddleware = (req, res, next) => {
-  res.removeHeader('X-Content-Type-Options');
-  res.removeHeader('X-Frame-Options');
-  res.removeHeader('Content-Security-Policy');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.setHeader('Access-Control-Max-Age', '86400');
-  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
-  res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
-  res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-  res.setHeader('Cache-Control', 'public, max-age=3600');
-  
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  }
-  next();
-};
-
-// Serve chatbot-widget.js with aggressive CORS
-app.get('/chatbot-widget.js', widgetCorsMiddleware, (req, res) => {
-  console.log('🔍 Request for chatbot-widget.js from:', req.get('origin') || 'no origin');
-  
-  const possiblePaths = [
-    path.join(__dirname, '../frontend/public/chatbot-widget.js'),
-    path.join(__dirname, 'chatbot-widget.js'),
-    path.join(__dirname, './chatbot-widget.js'),
-    '/app/backend/chatbot-widget.js',
-    '/workspace/backend/chatbot-widget.js'
-  ];
-  
-  let foundPath = null;
-  for (const testPath of possiblePaths) {
-    if (fs.existsSync(testPath)) {
-      foundPath = testPath;
-      console.log('✅ Found chatbot-widget.js at:', testPath);
-      break;
-    }
-  }
-  
-  if (!foundPath) {
-    console.error('❌ chatbot-widget.js not found in any of these paths:', possiblePaths);
-    return res.status(404).send('Widget file not found');
-  }
-  
-  fs.readFile(foundPath, 'utf8', (err, data) => {
-    if (err) {
-      console.error('❌ Error reading chatbot-widget.js:', err);
-      return res.status(500).send('Error reading widget file');
-    }
-    console.log('✅ Sending chatbot-widget.js (${data.length} bytes)');
-    res.send(data);
-  });
-});
-
-// Serve shopify-app-widget.js with aggressive CORS
-app.get('/shopify-app-widget.js', widgetCorsMiddleware, (req, res) => {
-  console.log('🔍 Request for shopify-app-widget.js from:', req.get('origin') || 'no origin');
-  
-  const possiblePaths = [
-    path.join(__dirname, '../frontend/public/shopify-app-widget.js'),
-    path.join(__dirname, 'shopify-app-widget.js'),
-    path.join(__dirname, './shopify-app-widget.js'),
-    '/app/backend/shopify-app-widget.js',
-    '/workspace/backend/shopify-app-widget.js'
-  ];
-  
-  let foundPath = null;
-  for (const testPath of possiblePaths) {
-    if (fs.existsSync(testPath)) {
-      foundPath = testPath;
-      console.log('✅ Found shopify-app-widget.js at:', testPath);
-      break;
-    }
-  }
-  
-  if (!foundPath) {
-    console.error('❌ shopify-app-widget.js not found in any of these paths:', possiblePaths);
-    return res.status(404).send('Widget file not found');
-  }
-  
-  fs.readFile(foundPath, 'utf8', (err, data) => {
-    if (err) {
-      console.error('❌ Error reading shopify-app-widget.js:', err);
-      return res.status(500).send('Error reading widget file');
-    }
-    console.log(`✅ Sending shopify-app-widget.js (${data.length} bytes)`);
-    res.send(data);
-  });
-});
-
-// Handle OPTIONS preflight for widget files
-app.options('/chatbot-widget.js', widgetCorsMiddleware);
-app.options('/shopify-app-widget.js', widgetCorsMiddleware);
-
 // ===== PUBLIC EMBED API (NO AUTH REQUIRED) =====
 // COMMENTED OUT - DUPLICATE ENDPOINT
 // app.get('/public/embed/:chatbotId', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { chatbotId } = req.params;
     const { theme, title, placeholder, message, showAvatar } = req.query;
@@ -976,8 +238,6 @@ app.use(cookieParser());
 
 // Onboarding completion endpoint
 app.post('/api/onboarding/complete', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const user = req.user;
     const { storeData, chatbotData } = req.body;
@@ -1009,8 +269,6 @@ app.post('/api/onboarding/complete', authenticateToken, async (req, res) => {
 
 // Image upload endpoint for branding
 app.post('/api/upload/branding', authenticateToken, upload.single('logo'), async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -1039,8 +297,6 @@ app.post('/api/upload/branding', authenticateToken, upload.single('logo'), async
 
 // Health check
 app.get('/health', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const aiHealth = await aiService.healthCheck();
     const stats = aiService.getStats();
@@ -1080,8 +336,6 @@ app.get('/api/health', (req, res) => {
 
 // Test WooCommerce connection
 app.post('/api/woocommerce/test-connection', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { storeUrl, consumerKey, consumerSecret } = req.body;
     
@@ -1093,9 +347,7 @@ app.post('/api/woocommerce/test-connection', async (req, res) => {
     }
 
     // Validate URL format
-    // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+    try {
       new URL(storeUrl);
     } catch (urlError) {
       return res.status(400).json({
@@ -1135,8 +387,6 @@ app.post('/api/woocommerce/test-connection', async (req, res) => {
 
 // Connect WooCommerce store
 app.post('/api/woocommerce/connect', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { storeUrl, consumerKey, consumerSecret, storeName } = req.body;
     const user = req.user;
@@ -1218,8 +468,6 @@ app.post('/api/woocommerce/connect', authenticateToken, async (req, res) => {
 
 // Sync WooCommerce data
 app.post('/api/woocommerce/sync/:connectionId', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { connectionId } = req.params;
     const connection = woocommerceConnections.get(connectionId);
@@ -1277,8 +525,6 @@ app.post('/api/woocommerce/sync/:connectionId', async (req, res) => {
 
 // Get WooCommerce connection
 app.get('/api/woocommerce/connection/:connectionId', (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { connectionId } = req.params;
     const connection = woocommerceConnections.get(connectionId);
@@ -1305,8 +551,6 @@ app.get('/api/woocommerce/connection/:connectionId', (req, res) => {
 
 // Get all WooCommerce connections
 app.get('/api/woocommerce/connections', (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const connections = Array.from(woocommerceConnections.values());
     
@@ -1327,8 +571,6 @@ app.get('/api/woocommerce/connections', (req, res) => {
 
 // Test Shopify connection
 app.post('/api/shopify/test-connection', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { shop, accessToken } = req.body;
     
@@ -1372,8 +614,6 @@ app.post('/api/shopify/test-connection', authenticateToken, async (req, res) => 
 
 // Step 1: Get Shopify OAuth install URL
 app.post('/api/shopify/oauth/install', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { shop, chatbotId } = req.body;
     const userId = req.user.userId || req.user.id;
@@ -1429,8 +669,6 @@ app.get('/api/shopify/oauth/test', (req, res) => {
 
 // Test endpoint to check connections
 app.get('/api/connections/test', (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const allConnections = [];
     for (const [userId, connections] of realDataService.connections.entries()) {
@@ -1454,8 +692,6 @@ app.get('/api/connections/test', (req, res) => {
 
 // Test endpoint for language detection
 app.post('/api/test/language', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { message, primaryLanguage = 'auto' } = req.body;
     
@@ -1491,8 +727,6 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
   console.log('🚨 Request method:', req.method);
   console.log('🚨 Request headers:', req.headers);
   
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     console.log('🔄 Shopify OAuth callback received:', req.query);
     const { code, hmac, shop, state } = req.query;
@@ -1514,9 +748,7 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
 
     // Validate state and get user info (temporarily disabled for debugging)
     let stateData;
-    // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+    try {
       stateData = shopifyOAuthService.validateState(state);
       console.log('✅ State validated for user:', stateData.userId);
     } catch (error) {
@@ -1548,9 +780,7 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
 
     // Sync data from Shopify
     let shopifyData = { productsCount: 0, ordersCount: 0, customersCount: 0, revenue: 0 };
-    // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+    try {
       console.log('🔄 Syncing data from Shopify...');
       console.log('🔑 Shopify API Key:', process.env.SHOPIFY_API_KEY ? 'configured' : 'missing');
       console.log('🔑 Shopify API Secret:', process.env.SHOPIFY_API_SECRET ? 'configured' : 'missing');
@@ -1655,8 +885,6 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
 
 // Uninstall widget from Shopify theme
 async function uninstallWidgetFromTheme(shopUrl, accessToken) {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     console.log(`🔧 Uninstalling widget from theme for shop: ${shopUrl}`);
     
@@ -1749,8 +977,6 @@ async function uninstallWidgetFromTheme(shopUrl, accessToken) {
 
 // Delete connection
 app.delete('/api/connections/:connectionId', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { connectionId } = req.params;
     const userId = req.user.userId || req.user.id;
@@ -1802,8 +1028,6 @@ app.delete('/api/connections/:connectionId', authenticateToken, async (req, res)
 
 // Get connection details with widget code
 app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { connectionId } = req.params;
     const { chatbotId: selectedChatbotId } = req.query;
@@ -1929,8 +1153,6 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
 
 // WooCommerce connect (validates credentials)
 app.post('/api/woocommerce/oauth/connect', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { storeUrl, consumerKey, consumerSecret } = req.body;
     const userId = req.user.userId || req.user.id;
@@ -1999,8 +1221,6 @@ app.post('/api/woocommerce/oauth/connect', authenticateToken, async (req, res) =
 
 // Connect Shopify store (legacy manual method - keep for backwards compatibility)
 app.post('/api/shopify/connect', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { shop, accessToken, storeName, installWidget, chatbotId, widgetConfig } = req.body;
     const user = req.user;
@@ -2067,9 +1287,7 @@ app.post('/api/shopify/connect', authenticateToken, async (req, res) => {
 
     // Install widget if requested
     if (installWidget && chatbotId && widgetConfig) {
-      // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+      try {
         console.log(`🚀 Installing widget for shop: ${shop}, chatbot: ${chatbotId}`);
         
         const widgetCode = `
@@ -2135,8 +1353,6 @@ app.post('/api/shopify/connect', authenticateToken, async (req, res) => {
 
 // Sync Shopify data
 app.post('/api/shopify/sync/:connectionId', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { connectionId } = req.params;
     const { installWidget, chatbotId, widgetConfig } = req.body;
@@ -2152,9 +1368,7 @@ app.post('/api/shopify/sync/:connectionId', authenticateToken, async (req, res) 
 
     // Install widget if requested
     if (installWidget && chatbotId && widgetConfig) {
-      // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+      try {
         console.log(`🚀 Installing widget for connection: ${connectionId}, chatbot: ${chatbotId}`);
         
         const widgetCode = `
@@ -2228,8 +1442,6 @@ app.post('/api/shopify/sync/:connectionId', authenticateToken, async (req, res) 
 
 // Get single Shopify connection
 app.get('/api/shopify/connection/:connectionId', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { connectionId } = req.params;
     const user = req.user;
@@ -2257,8 +1469,6 @@ app.get('/api/shopify/connection/:connectionId', authenticateToken, async (req, 
 
 // Get all Shopify connections for a user
 app.get('/api/shopify/connections', authenticateToken, (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const user = req.user;
     const connections = realDataService.getConnections(user.id).filter(c => c.platform === 'shopify');
@@ -2278,8 +1488,6 @@ app.get('/api/shopify/connections', authenticateToken, (req, res) => {
 // PUBLIC ENDPOINT: Get Shopify connection for widget (no auth required)
 // Widget uses this to get accessToken when loaded on Shopify store
 app.get('/api/public/shopify/connection', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { chatbotId, shop } = req.query;
     
@@ -2380,8 +1588,6 @@ app.get('/api/public/shopify/connection', async (req, res) => {
 
 // DEBUG: List all chatbots (temporary)
 app.get('/api/debug/chatbots', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const chatbots = await prisma.chatbot.findMany({
       select: {
@@ -2411,8 +1617,6 @@ app.get('/api/debug/chatbots', async (req, res) => {
 
 // DEBUG: Change user plan (temporary for testing)
 app.post('/api/debug/change-plan', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { email, planId } = req.body;
     
@@ -2433,8 +1637,6 @@ app.post('/api/debug/change-plan', async (req, res) => {
 
 // DEBUG: List all connections (temporary)
 app.get('/api/debug/connections', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const connections = await prisma.connection.findMany({
       select: {
@@ -2461,8 +1663,6 @@ app.get('/api/debug/connections', async (req, res) => {
 
 // Get all available plans
 app.get('/api/plans', (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const plans = planService.getAllPlans();
     res.json({
@@ -2480,8 +1680,6 @@ app.get('/api/plans', (req, res) => {
 
 // Get user profile
 app.get('/api/user/profile', authenticatePayment, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const user = req.user;
     
@@ -2549,8 +1747,6 @@ app.get('/api/user/profile', authenticatePayment, async (req, res) => {
 
 // Get user profile without authentication (for payment refresh)
 app.get('/api/user/refresh', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     // Get user ID from query parameter or session
     const { userId } = req.query;
@@ -2626,8 +1822,6 @@ app.get('/api/user/refresh', async (req, res) => {
 
 // Set user plan
 app.post('/api/plans/set', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { userId, planId } = req.body;
     
@@ -2659,8 +1853,6 @@ app.post('/api/plans/set', async (req, res) => {
 
 // Get user plan and usage
 app.get('/api/plans/usage/:userId', (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { userId } = req.params;
     const usage = planService.getUsageStats(userId);
@@ -2687,8 +1879,6 @@ app.get('/api/plans/usage/:userId', (req, res) => {
 
 // Validate action
 app.post('/api/plans/validate', (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { userId, action, count } = req.body;
     
@@ -2716,8 +1906,6 @@ app.post('/api/plans/validate', (req, res) => {
 
 // Record usage
 app.post('/api/plans/usage', (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { userId, action, count } = req.body;
     
@@ -2747,8 +1935,6 @@ app.post('/api/plans/usage', (req, res) => {
 
 // Test Shopify connection
 app.post('/api/shopify/test-connection', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { shop, accessToken } = req.body;
     
@@ -2790,8 +1976,6 @@ app.post('/api/shopify/test-connection', async (req, res) => {
 
 // Connect Shopify store
 app.post('/api/shopify/connect', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { shop, accessToken, storeName } = req.body;
     const user = req.user;
@@ -2884,8 +2068,6 @@ app.get('/api/track-referral', (req, res) => {
 
 // ===== AUTH API =====
 app.post('/api/auth/register', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { email, password, name } = req.body;
     
@@ -2927,8 +2109,6 @@ app.post('/api/auth/register', async (req, res) => {
 });
 
 app.post('/api/auth/login', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { email, password } = req.body;
     
@@ -2958,8 +2138,6 @@ app.post('/api/auth/login', async (req, res) => {
 
 // Verify account endpoint
 app.get('/api/auth/verify', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { token } = req.query;
     
@@ -2995,8 +2173,6 @@ app.get('/api/auth/verify', async (req, res) => {
 
 // ===== CONTACT API =====
 app.post('/api/contact/send', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { name, email, company, subject, message } = req.body;
     
@@ -3041,9 +2217,7 @@ app.use('/api/agents', agentRoutes);
 
     // ===== DASHBOARD API =====
     app.get('/api/dashboard/stats', authenticateToken, async (req, res) => {
-      // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+      try {
         const user = req.user;
         const { chatbotId } = req.query;
         
@@ -3085,8 +2259,6 @@ app.use('/api/agents', agentRoutes);
 });
 
 app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const userId = req.user.userId || req.user.id;
     const { chatbotId } = req.query;
@@ -3177,8 +2349,6 @@ app.get('/api/dashboard/activity', authenticateToken, async (req, res) => {
 
 // ===== LANGUAGE DETECTION API =====
 app.post('/api/detect-language', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { message } = req.body;
     
@@ -3220,8 +2390,6 @@ app.post('/api/detect-language', async (req, res) => {
 
 // ===== ANALYTICS API =====
 app.get('/api/analytics', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const userId = req.user.userId || req.user.id;
     const { range = '30d', chatbotId } = req.query;
@@ -3540,8 +2708,6 @@ app.post('/api/faqs', authenticateToken, (req, res) => {
 // ===== PUBLIC EMBED API (NO AUTH REQUIRED) =====
 // COMMENTED OUT - DUPLICATE ENDPOINT
 // app.get('/public/embed/:chatbotId', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { chatbotId } = req.params;
     const { theme, title, placeholder, message, showAvatar } = req.query;
@@ -3804,8 +2970,6 @@ app.post('/api/faqs', authenticateToken, (req, res) => {
 
 // Function to inject widget into Shopify theme
 async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId, widgetConfig) {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     console.log(`🔧 Injecting widget into theme for shop: ${shopUrl}`);
     
@@ -3932,9 +3096,7 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
     const backupKey = `backup/theme_liquid_${Date.now()}.liquid`;
     console.log(`💾 Creating backup: ${backupKey}`);
     
-    // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+    try {
       await fetch(`https://${shopUrl}/admin/api/${apiVersion}/themes/${activeTheme.id}/assets.json`, {
         method: 'PUT',
         headers: {
@@ -4035,8 +3197,6 @@ app.post('/api/connections/install-widget', authenticateToken, async (req, res) 
   const { connectionId, chatbotId, widgetConfig } = req.body;
   const userId = req.user.userId || req.user.id;
   
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     console.log(`🚀 Installing widget for connection: ${connectionId}, chatbot: ${chatbotId}`);
     
@@ -4122,8 +3282,6 @@ app.post('/api/connections/install-widget', authenticateToken, async (req, res) 
 app.get('/api/connections', authenticateToken, async (req, res) => {
   const { chatbotId } = req.query;
   
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const userId = req.user.userId || req.user.id;
     console.log('🔍 Getting connections for user:', userId, 'chatbotId:', chatbotId);
@@ -4249,8 +3407,6 @@ app.post('/api/workflows', authenticateToken, (req, res) => {
 
 // ===== PAYPAL SUBSCRIPTION API =====
 app.post('/api/payments/paypal/create-subscription', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { planId } = req.body;
     const user = req.user;
@@ -4281,8 +3437,6 @@ app.post('/api/payments/paypal/create-subscription', authenticateToken, async (r
 });
 
 app.post('/api/payments/paypal/confirm-subscription', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { subscriptionId, planId } = req.body;
     const user = req.user;
@@ -4300,9 +3454,7 @@ app.post('/api/payments/paypal/confirm-subscription', authenticateToken, async (
     });
 
     // Trigger affiliate conversion if referral exists
-    // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+    try {
       const planPrices = {
         'starter': 29,
         'professional': 99,
@@ -4370,8 +3522,6 @@ app.get('/api/payments', authenticateToken, (req, res) => {
 
 // Complete onboarding endpoint
 app.post('/api/onboarding/complete', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { storeConnected, platform, storeUrl, completedAt } = req.body;
     const user = req.user;
@@ -4421,8 +3571,6 @@ app.post('/api/onboarding/complete', authenticateToken, async (req, res) => {
 
 // Get widget configuration (public endpoint for embedded widgets)
 app.get('/api/widget/config/:chatbotId', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { chatbotId } = req.params;
     
@@ -4440,9 +3588,7 @@ app.get('/api/widget/config/:chatbotId', async (req, res) => {
     
     // Parse settings if it's a JSON string
     let settings = {};
-    // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+    try {
       settings = typeof chatbot.settings === 'string' ? JSON.parse(chatbot.settings) : chatbot.settings;
     } catch (e) {
       settings = {};
@@ -4474,9 +3620,7 @@ app.get('/api/widget/config/:chatbotId', async (req, res) => {
 
 // Get all chatbots for user
 // app.get('/api/chatbots', authenticateToken, rateLimitMiddleware, async (req, res) => {
-//   // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+//   try {
 //     console.log('🔍 GET /api/chatbots - req.user:', req.user);
 //     const userId = req.user.userId || req.user.id;
 //     console.log('👤 Extracted userId:', userId);
@@ -4513,9 +3657,7 @@ app.get('/api/widget/config/:chatbotId', async (req, res) => {
 
 // Create new chatbot
 // app.post('/api/chatbots', authenticateToken, rateLimitMiddleware, async (req, res) => {
-//   // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+//   try {
 //     const userId = req.user.userId || req.user.id;
 //     const chatbotData = req.body;
 //     
@@ -4572,9 +3714,7 @@ app.get('/api/widget/config/:chatbotId', async (req, res) => {
 
 // Update chatbot
 // app.put('/api/chatbots/:chatbotId', authenticateToken, async (req, res) => {
-//   // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+//   try {
 //     const userId = req.user.userId || req.user.id;
 //     const { chatbotId } = req.params;
 //     const updates = req.body;
@@ -4625,9 +3765,7 @@ app.get('/api/widget/config/:chatbotId', async (req, res) => {
 
 // Delete chatbot
 // app.delete('/api/chatbots/:chatbotId', authenticateToken, async (req, res) => {
-//   // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+//   try {
 //     const userId = req.user.userId || req.user.id;
 //     const { chatbotId } = req.params;
 //     
@@ -4668,8 +3806,6 @@ app.get('/api/widget/config/:chatbotId', async (req, res) => {
 
 // Patch chatbot (for partial updates like toggle active status)
 app.patch('/api/chatbots/:chatbotId', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const user = req.user;
     const { chatbotId } = req.params;
@@ -4710,8 +3846,6 @@ app.patch('/api/chatbots/:chatbotId', authenticateToken, async (req, res) => {
 
 // Get embed code for chatbot
 app.get('/api/chatbots/:chatbotId/embed', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { chatbotId } = req.params;
     
@@ -4739,8 +3873,6 @@ app.get('/api/chatbots/:chatbotId/embed', authenticateToken, async (req, res) =>
 
 // Get chatbot analytics
 app.get('/api/chatbots/:chatbotId/analytics', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { chatbotId } = req.params;
     
@@ -4809,9 +3941,7 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
 
     // ===== ONBOARDING API =====
     app.post('/api/onboarding/complete', authenticateToken, async (req, res) => {
-      // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+      try {
         const user = req.user;
         const { storeData, chatbotData } = req.body;
         
@@ -4873,8 +4003,6 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
 
     // ===== AI CHAT API =====
     app.post('/api/chat', chatRateLimitMiddleware, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { message, context = {} } = req.body;
     const primaryLanguage = context.primaryLanguage || context.language || 'auto';
@@ -5395,8 +4523,6 @@ Keep responses concise (2-3 sentences) and engaging.`;
 
 // ===== AI STATS API =====
 app.get('/api/ai/stats', (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const stats = aiService.getStats();
     
@@ -5437,8 +4563,6 @@ app.get('/api/ai/stats', (req, res) => {
 
 // ===== ML ANALYTICS API =====
 app.get('/api/ml/analytics', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const user = req.user;
     const userPlan = planService.getUserPlan(user.id) || { planId: 'starter' };
@@ -5469,8 +4593,6 @@ app.get('/api/ml/analytics', authenticateToken, async (req, res) => {
 
 // ===== CHURN PREDICTION API =====
 app.get('/api/ml/churn-prediction', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const user = req.user;
     const userPlan = planService.getUserPlan(user.id) || { planId: 'starter' };
@@ -5505,8 +4627,6 @@ app.get('/api/ml/churn-prediction', authenticateToken, async (req, res) => {
 
 // ===== PRODUCT RECOMMENDATIONS API =====
 app.get('/api/ml/recommendations', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const user = req.user;
     const userPlan = planService.getUserPlan(user.id) || { planId: 'starter' };
@@ -5540,8 +4660,6 @@ app.get('/api/ml/recommendations', authenticateToken, async (req, res) => {
 
 // ===== AUTO-FAQ GENERATION API =====
 app.post('/api/ml/generate-faqs', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const user = req.user;
     const userPlan = planService.getUserPlan(user.id) || { planId: 'starter' };
@@ -5623,8 +4741,6 @@ app.use((error, req, res, next) => {
 
 // Create payment intent for subscription
 app.post('/api/payments/create-intent', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { planId, amount } = req.body;
     const user = req.user;
@@ -5668,8 +4784,6 @@ app.post('/api/payments/create-intent', authenticateToken, async (req, res) => {
 
 // Create Stripe Checkout session
 app.post('/api/payments/create-checkout-session', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { planId, successUrl, cancelUrl } = req.body;
     const user = req.user;
@@ -5698,9 +4812,7 @@ app.post('/api/payments/create-checkout-session', authenticateToken, async (req,
 
     // Create or get Stripe customer
     let customer;
-    // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+    try {
       const customers = await stripe.customers.list({
         email: user.email,
         limit: 1
@@ -5775,8 +4887,6 @@ app.post('/api/payments/create-checkout-session', authenticateToken, async (req,
 
 // Change subscription plan
 app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { newPlanId } = req.body;
     const user = req.user;
@@ -5879,8 +4989,6 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
 
 // Create subscription
 app.post('/api/payments/create-subscription', authenticatePayment, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { paymentMethodId, planId, customerEmail } = req.body;
     const user = req.user;
@@ -5901,9 +5009,7 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
 
     // Create or get Stripe customer
     let customer;
-    // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+    try {
       const customers = await stripe.customers.list({
         email: customerEmail || user.email,
         limit: 1
@@ -6021,8 +5127,6 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
 
 // Get subscription status
 app.get('/api/payments/subscription', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const user = req.user;
     
@@ -6085,8 +5189,6 @@ app.get('/api/payments/subscription', authenticateToken, async (req, res) => {
 
 // Cancel subscription
 app.post('/api/payments/cancel-subscription', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { subscriptionId } = req.body;
     const user = req.user;
@@ -6121,8 +5223,6 @@ app.post('/api/payments/cancel-subscription', authenticateToken, async (req, res
 
 // Reactivate subscription
 app.post('/api/payments/reactivate-subscription', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { subscriptionId } = req.body;
     const user = req.user;
@@ -6157,8 +5257,6 @@ app.post('/api/payments/reactivate-subscription', authenticateToken, async (req,
 
 // Get payment history
 app.get('/api/payments/history', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const user = req.user;
     
@@ -6213,8 +5311,6 @@ app.post('/api/payments/webhook', express.raw({type: 'application/json'}), async
   const sig = req.headers['stripe-signature'];
   let event;
 
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
   } catch (err) {
@@ -6222,8 +5318,6 @@ app.post('/api/payments/webhook', express.raw({type: 'application/json'}), async
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     switch (event.type) {
       case 'checkout.session.completed':
@@ -6236,9 +5330,7 @@ app.post('/api/payments/webhook', express.raw({type: 'application/json'}), async
           
           if (userId && planId) {
             // Update user plan in database
-            // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+            try {
               const user = await prisma.user.findUnique({
                 where: { id: userId }
               });
@@ -6275,9 +5367,7 @@ app.post('/api/payments/webhook', express.raw({type: 'application/json'}), async
           const customerId = subscription.customer;
           
           // Find user by Stripe customer ID
-          // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+          try {
             const user = await prisma.user.findFirst({
               where: {
                 email: {
@@ -6305,9 +5395,7 @@ app.post('/api/payments/webhook', express.raw({type: 'application/json'}), async
         
         // Update user subscription status
         if (subscription.metadata?.userId && subscription.metadata?.planId) {
-          // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+          try {
             await prisma.user.update({
               where: { id: subscription.metadata.userId },
               data: {
@@ -6332,9 +5420,7 @@ app.post('/api/payments/webhook', express.raw({type: 'application/json'}), async
         
         // Downgrade user to starter plan
         if (deletedSubscription.metadata?.userId) {
-          // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
+          try {
             await prisma.user.update({
               where: { id: deletedSubscription.metadata.userId },
               data: {
@@ -6392,8 +5478,6 @@ process.on('SIGINT', () => {
 
 // Get product recommendations
 app.post('/api/shopify/recommendations', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { connectionId, query, context = {} } = req.body;
     const userId = req.user.userId || req.user.id;
@@ -6429,8 +5513,6 @@ app.post('/api/shopify/recommendations', authenticateToken, async (req, res) => 
 
 // Track order
 app.post('/api/shopify/track-order', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { connectionId, orderIdentifier } = req.body;
     const userId = req.user.userId || req.user.id;
@@ -6464,8 +5546,6 @@ app.post('/api/shopify/track-order', authenticateToken, async (req, res) => {
 
 // Check inventory
 app.post('/api/shopify/check-inventory', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { connectionId, productQuery } = req.body;
     const userId = req.user.userId || req.user.id;
@@ -6499,8 +5579,6 @@ app.post('/api/shopify/check-inventory', authenticateToken, async (req, res) => 
 
 // Get customer history
 app.post('/api/shopify/customer-history', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
   try {
     const { connectionId, email } = req.body;
     const userId = req.user.userId || req.user.id;
@@ -6533,242 +5611,3 @@ app.post('/api/shopify/customer-history', authenticateToken, async (req, res) =>
 });
 
 // ===== UNIVERSAL EMBED API ENDPOINTS =====
-
-// Scrape website content
-app.post('/api/embed/scrape-website', authenticateToken, async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
-    const { url, options = {} } = req.body;
-    
-    if (!url) {
-      return res.status(400).json({
-        success: false,
-        error: 'URL is required'
-      });
-    }
-    
-    const result = await universalEmbedService.scrapeWebsiteContent(url, options);
-    res.json(result);
-  } catch (error) {
-    console.error('❌ Website scraping error:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to scrape website'
-    });
-  }
-});
-
-// Analyze page context
-app.post('/api/embed/analyze-context', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
-    const { pageUrl, pageTitle, chatHistory = [] } = req.body;
-    
-    if (!pageUrl) {
-      return res.status(400).json({
-        success: false,
-        error: 'Page URL is required'
-      });
-    }
-    
-    const result = await universalEmbedService.analyzePageContext(pageUrl, pageTitle, chatHistory);
-    res.json(result);
-  } catch (error) {
-    console.error('❌ Context analysis error:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to analyze context'
-    });
-  }
-});
-
-// Get lead capture form
-app.post('/api/embed/lead-capture-form', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
-    const { intent, previousMessages = [] } = req.body;
-    
-    const form = universalEmbedService.generateLeadCaptureForm({
-      intent,
-      previousMessages
-    });
-    
-    res.json({
-      success: true,
-      form
-    });
-  } catch (error) {
-    console.error('❌ Lead form generation error:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to generate lead form'
-    });
-  }
-});
-
-// Process lead submission
-app.post('/api/embed/submit-lead', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
-    const { data, chatbotId } = req.body;
-    
-    if (!data || !data.email || !data.name) {
-      return res.status(400).json({
-        success: false,
-        error: 'Name and email are required'
-      });
-    }
-    
-    const result = await universalEmbedService.processLeadSubmission(data, chatbotId);
-    res.json(result);
-  } catch (error) {
-    console.error('❌ Lead submission error:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to process lead submission'
-    });
-  }
-});
-
-// Search website content
-app.post('/api/embed/search-content', async (req, res) => {
-  // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
-    const { websiteUrl, query } = req.body;
-    
-    if (!websiteUrl || !query) {
-      return res.status(400).json({
-        success: false,
-        error: 'Website URL and query are required'
-      });
-    }
-    
-    // First scrape the website (will use cache if available)
-    const websiteData = await universalEmbedService.scrapeWebsiteContent(websiteUrl);
-    
-    if (websiteData.success === false) {
-      return res.json({
-        success: false,
-        results: [],
-        error: 'Failed to access website content'
-      });
-    }
-    
-    // Search the content
-    const result = universalEmbedService.searchWebsiteContent(websiteData, query);
-    res.json(result);
-  } catch (error) {
-    console.error('❌ Content search error:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to search content'
-    });
-  }
-});
-
-// Test endpoint
-app.get('/api/shopify/test', (req, res) => {
-  res.json({ success: true, message: 'Test endpoint working!' });
-});
-
-// Install widget on existing Shopify connection
-app.post('/api/shopify/install-widget', authenticateToken, async (req, res) => {
-  const { connectionId, chatbotId, widgetConfig } = req.body;
-  const user = req.user;
-  
-  // DELETED - DUPLICATE ENDPOINT
-  /*
-  try {
-    console.log(`🚀 Installing widget for connection: ${connectionId}, chatbot: ${chatbotId}`);
-    
-    // Get the existing connection
-    const connections = await realDataService.getConnections(user.id);
-    const connection = connections.find(c => c.id === connectionId);
-    
-    if (!connection) {
-      return res.status(404).json({
-        success: false,
-        error: 'Connection not found'
-      });
-    }
-    
-    if (connection.type !== 'shopify') {
-      return res.status(400).json({
-        success: false,
-        error: 'Connection is not a Shopify store'
-      });
-    }
-    
-    // 🛍️ SHOPIFY SHADOW DOM WIDGET - Coordinato con Live Embed
-    const escapeString = (str) => {
-      if (!str) return '';
-      return str.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
-    };
-    
-    const widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
-<script 
-  src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
-  data-ai-orchestrator-id="${escapeString(chatbotId)}"
-  data-api-key="${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}"
-  data-theme="${escapeString(widgetConfig.theme || 'teal')}"
-  data-title="${escapeString(widgetConfig.title || 'AI Support')}"
-  data-placeholder="${escapeString(widgetConfig.placeholder || 'Type your message...')}"
-  data-show-avatar="${widgetConfig.showAvatar !== false}"
-  data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}"
-  data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}"
-  defer>
-</script>`;
-
-    // Install widget in theme
-    await injectWidgetIntoTheme(connection.url, connection.apiKey, widgetCode);
-    
-    res.json({
-      success: true,
-      message: 'Widget installato con successo!',
-      widgetCode: widgetCode
-    });
-    
-  } catch (error) {
-    console.error('❌ Widget installation error:', error);
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
-});
-
-// Duplicate endpoint removed - using the one above
-
-// Start server
-app.listen(PORT, () => {
-  console.log('🚀 AI Orchestrator Complete API Server Started! v2.1.1');
-  console.log(`📍 Port: ${PORT}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔗 Health: http://localhost:${PORT}/health`);
-  console.log(`📊 Stats: http://localhost:${PORT}/api/ai/stats`);
-  console.log('');
-  console.log('🎯 Complete API Endpoints:');
-  console.log('   ✅ Dashboard: /api/dashboard/*');
-  console.log('   ✅ Analytics: /api/analytics');
-  console.log('   ✅ FAQ Management: /api/faqs');
-  console.log('   ✅ Connections: /api/connections');
-  console.log('   ✅ Workflows: /api/workflows');
-  console.log('   ✅ Payments: /api/payments/*');
-  console.log('   ✅ Stripe Integration: /api/payments/create-subscription');
-  console.log('   ✅ Chatbots: /api/chatbots');
-  console.log('   ✅ AI Chat: POST /api/chat');
-  console.log('');
-  console.log('💰 Ready for customers with 98.5% margins!');
-  
-  // Start cron service for follow-up emails
-  console.log('⏰ Starting follow-up email service...');
-  cronService.start();
-  console.log('✅ Follow-up email service started');
-});
-
-module.exports = app;
