@@ -1445,7 +1445,6 @@ const Chatbot: React.FC = () => {
                     </div>
                   </div>
                 )}
-                </div>
                 
                 {/* Save Button */}
                 <div className="mt-4 lg:mt-6 flex justify-end items-center space-x-2 lg:space-x-4">
