@@ -485,6 +485,15 @@ const Chatbot: React.FC = () => {
     };
   }, []);
 
+  // Helper function to update custom branding and sync with settings
+  const updateCustomBranding = (updates: Partial<typeof customBranding>) => {
+    const newBranding = { ...customBranding, ...updates };
+    setCustomBranding(newBranding);
+    
+    // Sync with settings
+    window.dispatchEvent(new CustomEvent('embedBrandingUpdated', { detail: newBranding }));
+  };
+
   // Reset custom branding to theme defaults
   const resetCustomBranding = () => {
     const themeColors = {
@@ -500,7 +509,7 @@ const Chatbot: React.FC = () => {
     
     const currentThemeColors = themeColors[widgetTheme as keyof typeof themeColors] || themeColors.blue;
     
-    setCustomBranding({
+    updateCustomBranding({
       primaryColor: currentThemeColors.primary,
       secondaryColor: currentThemeColors.secondary,
       fontFamily: 'Inter',
@@ -1447,13 +1456,13 @@ const Chatbot: React.FC = () => {
                           <input
                             type="color"
                             value={customBranding.primaryColor}
-                            onChange={(e) => setCustomBranding(prev => ({ ...prev, primaryColor: e.target.value }))}
+                            onChange={(e) => updateCustomBranding({ primaryColor: e.target.value })}
                             className="w-8 h-8 rounded-lg border border-gray-300 cursor-pointer"
                           />
                           <input
                             type="text"
                             value={customBranding.primaryColor}
-                            onChange={(e) => setCustomBranding(prev => ({ ...prev, primaryColor: e.target.value }))}
+                            onChange={(e) => updateCustomBranding({ primaryColor: e.target.value })}
                             className="flex-1 px-2 py-1 border border-gray-300 rounded-lg text-xs"
                           />
                         </div>
@@ -1464,13 +1473,13 @@ const Chatbot: React.FC = () => {
                           <input
                             type="color"
                             value={customBranding.secondaryColor}
-                            onChange={(e) => setCustomBranding(prev => ({ ...prev, secondaryColor: e.target.value }))}
+                            onChange={(e) => updateCustomBranding({ secondaryColor: e.target.value })}
                             className="w-8 h-8 rounded-lg border border-gray-300 cursor-pointer"
                           />
                           <input
                             type="text"
                             value={customBranding.secondaryColor}
-                            onChange={(e) => setCustomBranding(prev => ({ ...prev, secondaryColor: e.target.value }))}
+                            onChange={(e) => updateCustomBranding({ secondaryColor: e.target.value })}
                             className="flex-1 px-2 py-1 border border-gray-300 rounded-lg text-xs"
                           />
                         </div>
@@ -1479,7 +1488,7 @@ const Chatbot: React.FC = () => {
                         <label className="block text-xs font-medium text-gray-700 mb-1">Font Family</label>
                         <select
                           value={customBranding.fontFamily}
-                          onChange={(e) => setCustomBranding(prev => ({ ...prev, fontFamily: e.target.value }))}
+                          onChange={(e) => updateCustomBranding({ fontFamily: e.target.value })}
                           className="w-full px-2 py-1 border border-gray-300 rounded text-xs"
                         >
                           <option value="Inter">Inter</option>
@@ -1496,7 +1505,7 @@ const Chatbot: React.FC = () => {
                             <div className="space-y-2">
                               <img src={customBranding.logo} alt="Logo preview" className="w-8 h-8 rounded mx-auto" />
                               <button
-                                onClick={() => setCustomBranding(prev => ({ ...prev, logo: '' }))}
+                                onClick={() => updateCustomBranding({ logo: '' })}
                                 className="text-xs text-red-600 hover:text-red-800"
                               >
                                 Remove
@@ -1515,7 +1524,7 @@ const Chatbot: React.FC = () => {
                                 onChange={(e) => {
                                   const file = e.target.files?.[0];
                                   if (file) {
-                                    setCustomBranding(prev => ({ ...prev, logo: URL.createObjectURL(file) }));
+                                    updateCustomBranding({ logo: URL.createObjectURL(file) });
                                   }
                                 }}
                               />
