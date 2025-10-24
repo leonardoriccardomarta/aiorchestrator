@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { API_URL } from '../config/constants';
 
 // Dichiarazione TypeScript per window.AIOrchestratorConfig
@@ -423,6 +423,14 @@ const Chatbot: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Memoize custom branding to prevent unnecessary re-renders
+  const memoizedCustomBranding = useMemo(() => customBranding, [
+    customBranding.primaryColor,
+    customBranding.secondaryColor,
+    customBranding.fontFamily,
+    customBranding.logo
+  ]);
+
   // Expose widget configuration globally for live preview synchronization
   useEffect(() => {
     if (currentChatbotId) {
@@ -441,19 +449,19 @@ const Chatbot: React.FC = () => {
         headerDarkColor: getThemeDarkColor(widgetTheme),
         textColor: '#1f2937',
         accentColor: getThemeColor(widgetTheme),
-        logo: user?.planId !== 'starter' ? customBranding.logo : ''
+        logo: user?.planId !== 'starter' ? memoizedCustomBranding.logo : ''
       };
 
       // Add custom branding for professional+ plans
       if (user?.planId !== 'starter') {
         window.AIOrchestratorConfig = {
           ...baseConfig,
-          primaryColor: customBranding.primaryColor,
-          secondaryColor: customBranding.secondaryColor,
-          fontFamily: customBranding.fontFamily,
-          logo: customBranding.logo,
-          accentColor: customBranding.secondaryColor,
-          textColor: customBranding.primaryColor
+          primaryColor: memoizedCustomBranding.primaryColor,
+          secondaryColor: memoizedCustomBranding.secondaryColor,
+          fontFamily: memoizedCustomBranding.fontFamily,
+          logo: memoizedCustomBranding.logo,
+          accentColor: memoizedCustomBranding.secondaryColor,
+          textColor: memoizedCustomBranding.primaryColor
         };
       } else {
         window.AIOrchestratorConfig = baseConfig;
@@ -461,7 +469,7 @@ const Chatbot: React.FC = () => {
       
       console.log('🎯 Widget config exposed globally:', window.AIOrchestratorConfig);
     }
-  }, [currentChatbotId, widgetTheme, widgetTitle, widgetPlaceholder, showWidgetAvatar, widgetMessage, primaryLanguage, customBranding, user?.planId]);
+  }, [currentChatbotId, widgetTheme, widgetTitle, widgetPlaceholder, showWidgetAvatar, widgetMessage, primaryLanguage, memoizedCustomBranding, user?.planId]);
 
   // Listen for custom branding updates from BrandingSettings component
   useEffect(() => {

@@ -34,8 +34,12 @@ const BrandingSettings: React.FC = () => {
   // Listen for custom branding updates from embed section
   useEffect(() => {
     const handleEmbedBrandingUpdate = (event: CustomEvent) => {
-      const branding = event.detail;
-      setBranding(branding);
+      const newBranding = event.detail;
+      // Only update if the branding is actually different to prevent loops
+      setBranding(prev => {
+        const isDifferent = JSON.stringify(prev) !== JSON.stringify(newBranding);
+        return isDifferent ? newBranding : prev;
+      });
     };
 
     window.addEventListener('embedBrandingUpdated', handleEmbedBrandingUpdate as EventListener);
@@ -116,9 +120,13 @@ const BrandingSettings: React.FC = () => {
     window.dispatchEvent(new CustomEvent('brandingUpdated', { detail: branding }));
   };
 
-  // Auto-preview when branding changes
+  // Auto-preview when branding changes (with debounce to prevent excessive updates)
   useEffect(() => {
-    handlePreview();
+    const timeoutId = setTimeout(() => {
+      handlePreview();
+    }, 100); // 100ms debounce
+
+    return () => clearTimeout(timeoutId);
   }, [branding]);
 
   return (
