@@ -6572,7 +6572,7 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
 
     res.setHeader('Content-Type', 'text/html');
     res.setHeader('X-Frame-Options', 'ALLOWALL');
-    res.setHeader('Content-Security-Policy', "frame-ancestors *;");
+    res.setHeader('Content-Security-Policy', "frame-ancestors *; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com;");
     res.send(html);
   } catch (error) {
     console.error('Live preview error:', error);
