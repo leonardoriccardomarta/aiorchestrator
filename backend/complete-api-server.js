@@ -3260,10 +3260,10 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button id="ai-minimize-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Minimize">
+                    <button id="ai-minimize-btn" class="rounded-lg p-2 transition-colors" style="color: ${customPrimaryColor};" onmouseover="this.style.backgroundColor='${customPrimaryColor}20'" onmouseout="this.style.backgroundColor='transparent'" title="Minimize">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
                     </button>
-                    <button id="ai-close-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Close">
+                    <button id="ai-close-btn" class="rounded-lg p-2 transition-colors" style="color: ${customPrimaryColor};" onmouseover="this.style.backgroundColor='${customPrimaryColor}20'" onmouseout="this.style.backgroundColor='transparent'" title="Close">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
@@ -3301,9 +3301,12 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                 <input
                     type="text"
                     placeholder="${placeholder || 'Type your message...'}"
-                    class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    class="flex-1 px-4 py-2 border rounded-lg focus:outline-none transition-all"
+                    style="border-color: ${customPrimaryColor}; font-family: ${customFontFamily};" 
+                    onfocus="this.style.borderColor='${customPrimaryColor}'; this.style.boxShadow='0 0 0 2px ${customPrimaryColor}20';"
+                    onblur="this.style.borderColor='${customPrimaryColor}'; this.style.boxShadow='none';"
                 />
-                <button class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
+                <button class="text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all" style="background: linear-gradient(135deg, ${customPrimaryColor}, ${customSecondaryColor});">
                     <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                     </svg>
