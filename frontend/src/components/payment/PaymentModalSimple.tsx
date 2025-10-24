@@ -19,12 +19,14 @@ interface PaymentModalProps {
     price: number;
     features: string[];
   };
+  skipTrial?: boolean;
 }
 
-const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: () => void; onClose: () => void }> = ({ 
+const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: () => void; onClose: () => void; skipTrial?: boolean }> = ({ 
   plan, 
   onSuccess,
-  onClose 
+  onClose,
+  skipTrial = false
 }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -67,8 +69,11 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
         return;
       }
 
+      // Choose endpoint based on skip trial
+      const endpoint = skipTrial ? '/api/payments/skip-trial' : '/api/payments/create-subscription';
+      
       // Subscribe to plan
-      const response = await fetch(`${API_URL}/api/payments/create-subscription`, {
+      const response = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -230,7 +235,7 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
   );
 };
 
-const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSuccess, plan }) => {
+const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSuccess, plan, skipTrial = false }) => {
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'paypal'>('card');
 
   if (!isOpen) return null;
@@ -241,7 +246,9 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSuccess,
         {/* Header */}
         <div className="p-4 border-b border-gray-200">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-gray-900">Complete Payment</h2>
+            <h2 className="text-xl font-bold text-gray-900">
+              {skipTrial ? `Skip Trial & Start ${plan.name} Plan` : `Complete Payment`}
+            </h2>
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -297,7 +304,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSuccess,
         <div className="p-4">
           {paymentMethod === 'card' ? (
             <Elements stripe={stripePromise}>
-              <StripePaymentForm plan={plan} onSuccess={onSuccess} onClose={onClose} />
+              <StripePaymentForm plan={plan} onSuccess={onSuccess} onClose={onClose} skipTrial={skipTrial} />
             </Elements>
           ) : (
             <PayPalScriptProvider options={{ 

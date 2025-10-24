@@ -3,13 +3,13 @@ class PlanService {
     this.plans = {
       starter: {
         name: 'Starter',
-        price: { monthly: 19, yearly: 190 },
+        price: { monthly: 29, yearly: 290 },
         features: ['1 AI Chatbot', '5K messages/month', 'Basic analytics', 'Email support'],
         limitations: ['No custom branding', 'No API access', 'Limited to 1 chatbot']
       },
       professional: {
         name: 'Professional',
-        price: { monthly: 79, yearly: 790 },
+        price: { monthly: 99, yearly: 990 },
         features: ['2 AI Chatbots', '25K messages/month', 'Advanced analytics', 'Priority support', 'Custom branding', 'API access'],
         limitations: ['No white-label solution', 'No dedicated account manager', 'Limited to 2 chatbots']
       },

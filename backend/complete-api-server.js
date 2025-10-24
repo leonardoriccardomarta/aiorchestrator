@@ -4384,6 +4384,16 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
         user = chatbot.user;
         console.log('✅ Found user from chatbotId:', user.id);
         
+    // Check if user is blocked (subscription cancelled)
+    if (!user.isActive || !user.planId) {
+      return res.status(403).json({
+        success: false,
+        error: 'Your subscription has been cancelled. Please subscribe to a plan to continue using the chatbot.',
+        subscriptionCancelled: true,
+        upgradeUrl: 'https://www.aiorchestrator.dev/pricing'
+      });
+    }
+        
         // Check if trial has expired
         if (user.isTrialActive && user.trialEndDate) {
           const now = new Date();
@@ -4407,6 +4417,34 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
             error: 'Please upgrade your plan to continue using the chatbot.',
             upgradeRequired: true,
             upgradeUrl: 'https://www.aiorchestrator.dev/pricing'
+      });
+    }
+
+        // Check monthly message limits
+        const userPlanId = user.planId || 'starter';
+        const plan = getPlan(userPlanId);
+        
+        // Get current month's message count
+        const startOfMonth = new Date();
+        startOfMonth.setDate(1);
+        startOfMonth.setHours(0, 0, 0, 0);
+        
+        const messageCount = await prisma.conversation.count({
+          where: {
+            userId: user.id,
+            createdAt: {
+              gte: startOfMonth
+            }
+          }
+        });
+        
+        if (messageCount >= plan.messageLimit) {
+          return res.status(403).json({
+            success: false,
+            error: `Monthly message limit reached. Your ${plan.name} plan allows ${plan.messageLimit} messages per month. Upgrade to continue.`,
+            upgradeRequired: true,
+            limit: plan.messageLimit,
+            current: messageCount
           });
         }
       } else {
@@ -5274,7 +5312,15 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
     if (subscriptions.data.length === 0) {
       return res.status(400).json({
         success: false,
-        error: 'No active subscription found'
+        error: 'No active subscription found. Please subscribe to a plan first.'
+      });
+    }
+
+    // Check if user is on trial (can't change plan during trial)
+    if (user.isTrialActive) {
+      return res.status(400).json({
+        success: false,
+        error: 'Cannot change plan during trial. Please wait for trial to end or skip trial to start a paid plan.'
       });
     }
 
@@ -5282,8 +5328,8 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
 
     // Get plan details
     const planDetails = {
-      'starter': { price: 19, name: 'Starter' },
-      'professional': { price: 79, name: 'Professional' },
+      'starter': { price: 29, name: 'Starter' },
+      'professional': { price: 99, name: 'Professional' },
       'business': { price: 299, name: 'Business' }
     };
 
@@ -5308,17 +5354,55 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
       recurring: { interval: 'month' }
     });
 
-    // Update subscription to new plan (will take effect at next billing cycle)
+    // Calculate price difference for logging
+    const currentPlan = planDetails[user.planId] || { price: 0, name: 'Unknown' };
+    const priceDifference = plan.price - currentPlan.price;
+    
+    console.log(`💰 Plan change: ${currentPlan.name} ($${currentPlan.price}) → ${plan.name} ($${plan.price})`);
+    console.log(`💰 Price difference: $${priceDifference} (${priceDifference > 0 ? 'upgrade - charging difference' : 'downgrade - effective immediately'})`);
+
+    // Update subscription to new plan with immediate billing
     const updatedSubscription = await stripe.subscriptions.update(subscription.id, {
       items: [{
         id: subscription.items.data[0].id,
         price: price.id
       }],
-      proration_behavior: 'none' // Don't prorate, change at next cycle
+      proration_behavior: priceDifference > 0 ? 'create_prorations' : 'none', // Only charge for upgrades, no credit for downgrades
+      billing_cycle_anchor: 'now' // Start new billing cycle immediately - next billing will be in 1 month at new price
     });
 
     // Update user plan in our system
     await planService.setUserPlan(user.id, newPlanId);
+    
+    // Log next billing date
+    const nextBillingDate = new Date(updatedSubscription.current_period_end * 1000);
+    console.log(`📅 Next billing date: ${nextBillingDate.toISOString()} ($${plan.price} for ${plan.name})`);
+
+    // Reset user statistics when changing plan
+    try {
+      // Reset analytics data
+      await prisma.analytics.deleteMany({
+        where: { userId: user.id }
+      });
+      
+      // Reset conversation data
+      await prisma.conversation.deleteMany({
+        where: { userId: user.id }
+      });
+      
+      // Reset chatbot data (keep chatbots but reset stats)
+      await prisma.chatbot.updateMany({
+        where: { userId: user.id },
+        data: {
+          messagesCount: 0,
+          lastActive: new Date()
+        }
+      });
+      
+      console.log(`Reset statistics for user ${user.id} due to plan change`);
+    } catch (error) {
+      console.error('Failed to reset user statistics:', error);
+    }
 
     res.json({
       success: true,
@@ -5326,7 +5410,10 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
         subscriptionId: updatedSubscription.id,
         newPlanId: newPlanId,
         currentPeriodEnd: new Date(updatedSubscription.current_period_end * 1000).toISOString(),
-        message: `Plan will change to ${plan.name} at the end of current billing period`
+        priceDifference: priceDifference,
+        newPrice: plan.price,
+        previousPrice: currentPlan.price,
+        message: `Plan changed from ${currentPlan.name} ($${currentPlan.price}) to ${plan.name} ($${plan.price}). ${priceDifference > 0 ? `You have been charged $${priceDifference} for the upgrade.` : `Downgrade effective immediately.`} Statistics have been reset.`
       }
     });
   } catch (error) {
@@ -5334,6 +5421,118 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
     res.status(500).json({
       success: false,
       error: 'Failed to change plan: ' + error.message
+    });
+  }
+});
+
+// Skip trial and start paid plan immediately
+app.post('/api/payments/skip-trial', authenticateToken, async (req, res) => {
+  try {
+    const { planId, paymentMethodId } = req.body;
+    const user = req.user;
+    
+    if (!planId || !paymentMethodId) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required fields: planId, paymentMethodId'
+      });
+    }
+
+    const validPlans = ['professional', 'business'];
+    if (!validPlans.includes(planId)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Skip trial only available for Professional and Business plans'
+      });
+    }
+
+    // Get plan details
+    const planDetails = {
+      'professional': { price: 99, name: 'Professional' },
+      'business': { price: 299, name: 'Business' }
+    };
+
+    const plan = planDetails[planId];
+    if (!plan) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid plan details'
+      });
+    }
+
+    // Create Stripe customer if not exists
+    let customer;
+    const existingCustomers = await stripe.customers.list({
+      email: user.email,
+      limit: 1
+    });
+
+    if (existingCustomers.data.length > 0) {
+      customer = existingCustomers.data[0];
+    } else {
+      customer = await stripe.customers.create({
+        email: user.email,
+        name: user.name,
+        metadata: { userId: user.id }
+      });
+    }
+
+    // Create product and price
+    const product = await stripe.products.create({
+      name: `${plan.name} Plan`,
+      description: `AI Orchestrator ${plan.name} Plan - Monthly Subscription`
+    });
+
+    const price = await stripe.prices.create({
+      product: product.id,
+      unit_amount: plan.price * 100,
+      currency: 'usd',
+      recurring: { interval: 'month' }
+    });
+
+    // Create subscription with immediate payment
+    const subscription = await stripe.subscriptions.create({
+      customer: customer.id,
+      items: [{ price: price.id }],
+      default_payment_method: paymentMethodId,
+      payment_behavior: 'default_incomplete',
+      payment_settings: { save_default_payment_method: 'on_subscription' },
+      expand: ['latest_invoice.payment_intent'],
+      metadata: {
+        userId: user.id,
+        planId: planId,
+        skipTrial: 'true'
+      }
+    });
+
+    // Update user immediately (no trial)
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        planId: planId,
+        isPaid: true,
+        isTrialActive: false,
+        trialEndDate: null
+      }
+    });
+
+    // Also update RealDataService
+    realDataService.updateUserPlan(user.id, planId, true);
+
+    res.json({
+      success: true,
+      data: {
+        subscriptionId: subscription.id,
+        clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+        planId: planId,
+        message: `Successfully started ${plan.name} plan. Trial skipped.`
+      }
+    });
+  } catch (error) {
+    console.error('Skip trial error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to skip trial: ' + error.message
     });
   }
 });
@@ -5398,8 +5597,8 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
 
     // Get plan details
     const planDetails = {
-      'starter': { price: 19, name: 'Starter' },
-      'professional': { price: 79, name: 'Professional' },
+      'starter': { price: 29, name: 'Starter' },
+      'professional': { price: 99, name: 'Professional' },
       'business': { price: 299, name: 'Business' }
     };
 
@@ -5769,23 +5968,27 @@ app.post('/api/payments/webhook', express.raw({type: 'application/json'}), async
         const deletedSubscription = event.data.object;
         console.log('Subscription cancelled:', deletedSubscription.id);
         
-        // Downgrade user to starter plan
+        // Completely block user access when subscription is cancelled
         if (deletedSubscription.metadata?.userId) {
           try {
             await prisma.user.update({
               where: { id: deletedSubscription.metadata.userId },
               data: {
-                planId: 'starter',
-                isPaid: false
+                planId: null, // Remove plan completely
+                isPaid: false,
+                isTrialActive: false,
+                trialEndDate: null,
+                isActive: false, // Block access to app
+                subscriptionEndDate: new Date()
               }
             });
             
             // Also update RealDataService
-            realDataService.updateUserPlan(deletedSubscription.metadata.userId, 'starter', false);
+            realDataService.updateUserPlan(deletedSubscription.metadata.userId, null, false);
             
-            console.log(`Downgraded user ${deletedSubscription.metadata.userId} to starter plan`);
+            console.log(`Blocked user ${deletedSubscription.metadata.userId} - subscription cancelled`);
           } catch (error) {
-            console.error('Failed to downgrade user:', error);
+            console.error('Failed to block user:', error);
           }
         }
         break;

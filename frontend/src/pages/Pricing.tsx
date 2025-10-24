@@ -27,8 +27,8 @@ const Pricing: React.FC = () => {
   }, []);
 
   const handleSelectPlan = (plan: any) => {
-        setSelectedPlan(plan);
-        setShowPaymentModal(true);
+    setSelectedPlan(plan);
+    setShowPaymentModal(true);
   };
 
   const handlePaymentSuccess = async () => {
@@ -45,7 +45,12 @@ const Pricing: React.FC = () => {
   // Get button text based on user status
   const getButtonText = (planId: string) => {
     if (!user) {
-      return planId === 'starter' ? 'Start 7-Day Free Trial' : 'Get Started';
+      if (planId === 'starter') {
+        return 'Start 7-Day Free Trial';
+      } else if (planId === 'professional' || planId === 'business') {
+        return 'Skip Trial & Start Now';
+      }
+      return 'Get Started';
     }
 
     const userPlan = user.planId;
@@ -547,6 +552,7 @@ const Pricing: React.FC = () => {
           onClose={() => setShowPaymentModal(false)}
           plan={selectedPlan}
           onSuccess={handlePaymentSuccess}
+          skipTrial={!user && (selectedPlan.id === 'professional' || selectedPlan.id === 'business')}
         />
       )}
     </div>

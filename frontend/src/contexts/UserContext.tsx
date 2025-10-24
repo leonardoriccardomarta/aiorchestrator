@@ -36,6 +36,7 @@ interface UserContextType {
   refreshUser: () => Promise<void>;
   isTrialExpired: boolean;
   isTrialExpiringSoon: boolean;
+  isLoading: boolean;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -52,6 +53,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<UserState | null>(null);
   const [isTrialExpired, setIsTrialExpired] = useState(false);
   const [isTrialExpiringSoon, setIsTrialExpiringSoon] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const calculateTrialStatus = (trialEndDate: string) => {
     const now = new Date();
@@ -149,6 +151,20 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
           
           setIsTrialExpired(trialStatus.isExpired);
           setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
+        }
+      } else if (response.status === 403) {
+        // User is blocked (subscription cancelled)
+        const errorData = await response.json();
+        if (errorData.subscriptionCancelled) {
+          console.log('🚫 User subscription cancelled, redirecting to pricing');
+        // Clear user data and redirect to pricing
+        setUser(null);
+        localStorage.removeItem('user');
+        localStorage.removeItem('userData');
+        localStorage.removeItem('authToken');
+        setIsLoading(false);
+        window.location.href = '/pricing';
+        return;
         }
       } else if (response.status === 401) {
         // Token expired or invalid - try to get fresh data from database
@@ -274,6 +290,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         
         setIsTrialExpired(trialStatus.isExpired);
         setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
+        setIsLoading(false);
         
         // Check for data synchronization issues
         const token = localStorage.getItem('token') || localStorage.getItem('authToken');
@@ -330,6 +347,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.removeItem('user');
       localStorage.removeItem('userData');
       localStorage.removeItem('authToken');
+      setIsLoading(false);
       // Redirect to login page
       window.location.href = '/';
     }
@@ -341,7 +359,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     updateUser,
     refreshUser,
     isTrialExpired,
-    isTrialExpiringSoon
+    isTrialExpiringSoon,
+    isLoading
   };
 
   return (
