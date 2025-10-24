@@ -416,8 +416,10 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
 
     const html = `
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot Preview</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -425,24 +427,12 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .preview-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            background: #f3f4f6;
+            height: 100vh;
             overflow: hidden;
-            width: 90%;
-            max-width: 400px;
-            height: 600px;
-            position: relative;
         }
-        .chat-widget {
-            position: absolute;
+        .toggle-button {
+            position: fixed;
             bottom: 24px;
             right: 24px;
             width: 60px;
@@ -454,14 +444,16 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             justify-content: center;
             box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000;
+            border: none;
         }
-        .chat-widget:hover {
-            transform: scale(1.1);
+        .toggle-button:hover {
+            transform: scale(1.05);
             box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
         }
-        .chat-widget .notification-dot {
+        .toggle-button::before {
+            content: '';
             position: absolute;
             top: -4px;
             right: -4px;
@@ -477,35 +469,130 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             50% { transform: scale(1.2); opacity: 0.7; }
             100% { transform: scale(1); opacity: 1; }
         }
+        .chat-widget {
+            position: fixed;
+            bottom: 100px; /* lift above toggle to avoid overlap */
+            right: 24px;
+            width: 384px;
+            height: 560px;
+            z-index: 999;
+            transform: translateY(0);
+            transition: transform 0.3s ease, height 0.25s ease;
+            max-height: calc(100vh - 148px);
+        }
         .chat-widget.hidden { transform: translateY(100%); }
         .chat-widget.collapsed { height: 64px; }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize chatbot widget
-            const widget = document.querySelector('.chat-widget');
-            if (widget) {
-                // Add click handler
-                widget.addEventListener('click', function() {
-                    console.log('Chatbot widget clicked');
-                    // In a real implementation, this would open the chat interface
-                    alert('Chatbot widget clicked! In the live version, this would open the chat interface.');
+            const toggleButton = document.querySelector('.toggle-button');
+            const chatWidget = document.querySelector('.chat-widget');
+            const minimizeBtn = document.getElementById('ai-minimize-btn');
+            const closeBtn = document.getElementById('ai-close-btn');
+            let isOpen = true; // open by default in preview
+
+            toggleButton.addEventListener('click', function() {
+                if (isOpen) {
+                    chatWidget.classList.add('hidden');
+                    isOpen = false;
+                } else {
+                    chatWidget.classList.remove('hidden');
+                    isOpen = true;
+                }
+            });
+
+            if (minimizeBtn) {
+                minimizeBtn.addEventListener('click', function() {
+                    chatWidget.classList.toggle('collapsed');
                 });
-                
-                // Add notification dot
-                const notificationDot = document.createElement('div');
-                notificationDot.className = 'notification-dot';
-                widget.appendChild(notificationDot);
+            }
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    chatWidget.classList.add('hidden');
+                    isOpen = false;
+                });
             }
         });
     </script>
 </head>
 <body>
-    <div class="preview-container">
-        <div class="chat-widget ${themeColors.primary}">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="white"/>
-            </svg>
+    <!-- Toggle Button with Animation -->
+    <div class="toggle-button bg-gradient-to-br ${themeColors.primary}">
+        <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+        </svg>
+    </div>
+    
+    <!-- Chat Widget - POPUP WINDOW -->
+    <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
+        <!-- Header -->
+        <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    ${showAvatar !== 'false' ? `
+                        <div class="w-10 h-10 bg-gradient-to-br ${themeColors.primary} rounded-full flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                        </div>
+                    ` : ''}
+                    <div>
+                        <div class="font-bold ${themeColors.text}">${title || 'AI Support'}</div>
+                        <div class="text-xs text-gray-600 flex items-center gap-2">
+                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span>Online 24/7</span>
+                            ${primaryLanguage && primaryLanguage !== 'auto' ? `<span class="px-2 py-0.5 text-[10px] rounded bg-gray-100 text-gray-700">${primaryLanguage.toUpperCase()}</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="ai-minimize-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Minimize">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                    </button>
+                    <button id="ai-close-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Close">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Messages -->
+        <div class="h-96 overflow-y-auto p-4 bg-gray-50">
+            <div class="mb-4 flex justify-start">
+                <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
+                    <div class="text-sm">${message || chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}</div>
+                    <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                </div>
+            </div>
+            <div class="mb-4 flex justify-end">
+                <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
+                    <div class="text-sm">Hi! Can you help me?</div>
+                    <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                </div>
+            </div>
+            <div class="flex justify-start mb-4">
+                <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
+                    <div class="flex gap-1">
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Input -->
+        <div class="p-4 bg-white border-t border-gray-200">
+            <div class="flex gap-2">
+                <input
+                    type="text"
+                    placeholder="${placeholder || 'Type your message...'}"
+                    class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <button class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
+                    <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 </body>
@@ -3006,8 +3093,10 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
 
     const html = `
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot Preview</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -3015,24 +3104,12 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .preview-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            background: #f3f4f6;
+            height: 100vh;
             overflow: hidden;
-            width: 90%;
-            max-width: 400px;
-            height: 600px;
-            position: relative;
         }
-        .chat-widget {
-            position: absolute;
+        .toggle-button {
+            position: fixed;
             bottom: 24px;
             right: 24px;
             width: 60px;
@@ -3044,14 +3121,16 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             justify-content: center;
             box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000;
+            border: none;
         }
-        .chat-widget:hover {
-            transform: scale(1.1);
+        .toggle-button:hover {
+            transform: scale(1.05);
             box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
         }
-        .chat-widget .notification-dot {
+        .toggle-button::before {
+            content: '';
             position: absolute;
             top: -4px;
             right: -4px;
@@ -3067,40 +3146,166 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             50% { transform: scale(1.2); opacity: 0.7; }
             100% { transform: scale(1); opacity: 1; }
         }
+        .animate-slide-up {
+            animation: slideUp 0.3s ease-out;
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        .animate-bounce {
+            animation: bounce 0.6s ease-out;
+        }
+        .animate-scale {
+            animation: scale 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        @keyframes scale {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        .chat-widget {
+            position: fixed;
+            bottom: 100px; /* lift above toggle to avoid overlap */
+            right: 24px;
+            width: 384px;
+            height: 560px;
+            z-index: 999;
+            transform: translateY(0);
+            transition: transform 0.3s ease, height 0.25s ease;
+            max-height: calc(100vh - 148px);
+        }
         .chat-widget.hidden { transform: translateY(100%); }
         .chat-widget.collapsed { height: 64px; }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize chatbot widget
-            const widget = document.querySelector('.chat-widget');
-            if (widget) {
-                // Add click handler
-                widget.addEventListener('click', function() {
-                    console.log('Chatbot widget clicked');
-                    // In a real implementation, this would open the chat interface
-                    alert('Chatbot widget clicked! In the live version, this would open the chat interface.');
+            const toggleButton = document.querySelector('.toggle-button');
+            const chatWidget = document.querySelector('.chat-widget');
+            const minimizeBtn = document.getElementById('ai-minimize-btn');
+            const closeBtn = document.getElementById('ai-close-btn');
+            let isOpen = true; // open by default in preview
+
+            toggleButton.addEventListener('click', function() {
+                if (isOpen) {
+                    chatWidget.classList.add('hidden');
+                    isOpen = false;
+                } else {
+                    chatWidget.classList.remove('hidden');
+                    isOpen = true;
+                }
+            });
+
+            if (minimizeBtn) {
+                minimizeBtn.addEventListener('click', function() {
+                    chatWidget.classList.toggle('collapsed');
                 });
-                
-                // Add notification dot
-                const notificationDot = document.createElement('div');
-                notificationDot.className = 'notification-dot';
-                widget.appendChild(notificationDot);
+            }
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    chatWidget.classList.add('hidden');
+                    isOpen = false;
+                });
             }
         });
     </script>
 </head>
 <body>
-    <div class="preview-container">
-        <div class="chat-widget ${themeColors.primary}">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="white"/>
-            </svg>
+    <!-- Toggle Button with Animation -->
+    <div class="toggle-button bg-gradient-to-br ${themeColors.primary}">
+        <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+        </svg>
+    </div>
+    
+    <!-- Customer Support Widget with Customizations -->
+    <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200" style="width: 384px; height: 500px;">
+        <!-- Header -->
+        <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    ${showAvatar !== 'false' ? `
+                        <div class="w-10 h-10 bg-gradient-to-br ${themeColors.primary} rounded-full flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                        </div>
+                    ` : ''}
+                    <div>
+                        <div class="font-bold ${themeColors.text}">${title || 'AI Support'}</div>
+                        <div class="text-xs text-gray-600 flex items-center gap-2">
+                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span>Online 24/7</span>
+                            ${primaryLanguage && primaryLanguage !== 'auto' ? `<span class="px-2 py-0.5 text-[10px] rounded bg-gray-100 text-gray-700">${primaryLanguage.toUpperCase()}</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="ai-minimize-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Minimize">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                    </button>
+                    <button id="ai-close-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors" title="Close">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="h-96 overflow-y-auto p-4 bg-gray-50">
+            <div class="mb-4 flex justify-start">
+                <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
+                    <div class="text-sm">${message || chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}</div>
+                    <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                </div>
+            </div>
+            <div class="mb-4 flex justify-end">
+                <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
+                    <div class="text-sm">Hi! Can you help me?</div>
+                    <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                </div>
+            </div>
+            <div class="flex justify-start mb-4">
+                <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
+                    <div class="flex gap-1">
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input -->
+        <div class="p-4 bg-white border-t border-gray-200">
+            <div class="flex gap-2">
+                <input
+                    type="text"
+                    placeholder="${placeholder || 'Type your message...'}"
+                    class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <button class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
+                    <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 </body>
 </html>`;
-
+    
     res.setHeader('Content-Type', 'text/html');
     res.setHeader('X-Frame-Options', 'ALLOWALL');
     res.setHeader('Content-Security-Policy', "frame-ancestors *;");
