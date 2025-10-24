@@ -53,12 +53,12 @@ const ChatbotSelector: React.FC = React.memo(() => {
         <>
           {/* Backdrop */}
           <div 
-            className="fixed inset-0 z-10" 
+            className="fixed inset-0 z-40" 
             onClick={() => setIsOpen(false)}
           />
           
           {/* Dropdown */}
-          <div className="absolute top-full mt-2 left-0 w-64 bg-white border border-gray-200 rounded-lg shadow-xl z-20 overflow-hidden">
+          <div className="absolute top-full mt-2 left-0 w-64 bg-white border border-gray-200 rounded-lg shadow-xl z-50 overflow-hidden">
             <div className="p-2">
               <div className="text-xs font-semibold text-gray-500 uppercase px-3 py-2">
                 Your Chatbots ({chatbots.length})

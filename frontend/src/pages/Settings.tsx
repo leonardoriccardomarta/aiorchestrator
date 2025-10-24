@@ -32,6 +32,7 @@ const Settings: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [subscription, setSubscription] = useState<any>(null);
   const [subscriptionLoading, setSubscriptionLoading] = useState(false);
+  const [resettingStats, setResettingStats] = useState(false);
 
   // Update profile when user changes
   useEffect(() => {
@@ -182,6 +183,33 @@ const Settings: React.FC = () => {
 
   const handleLogout = () => {
     logout();
+  };
+
+  const handleResetStats = async () => {
+    if (!confirm('Are you sure you want to reset all your statistics? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      setResettingStats(true);
+      const response = await fetch(`${API_URL}/api/user/reset-stats`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+      });
+
+      if (response.ok) {
+        alert('Statistics reset successfully!');
+      } else {
+        alert('Failed to reset statistics. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error resetting stats:', error);
+      alert('Failed to reset statistics. Please try again.');
+    } finally {
+      setResettingStats(false);
+    }
   };
 
   const handleCancelPlan = async () => {
@@ -453,6 +481,30 @@ const Settings: React.FC = () => {
                     <div className="font-medium text-gray-900 text-sm lg:text-base">
                       {user?.isPaid ? 'Paid' : 'Trial Active'}
                     </div>
+              </div>
+              
+              {/* Reset Statistics Button */}
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <button
+                  onClick={handleResetStats}
+                  disabled={resettingStats}
+                  className="w-full flex items-center justify-center px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {resettingStats ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Resetting...
+                    </>
+                  ) : (
+                    <>
+                      <AlertTriangle className="w-4 h-4 mr-2" />
+                      Reset All Statistics
+                    </>
+                  )}
+                </button>
+                <p className="text-xs text-gray-500 mt-2 text-center">
+                  This will permanently delete all your analytics data, conversations, and chatbot statistics.
+                </p>
               </div>
                 </div>
               </div>

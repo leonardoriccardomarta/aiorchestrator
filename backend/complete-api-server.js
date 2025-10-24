@@ -5126,6 +5126,51 @@ app.use((error, req, res, next) => {
   });
 });
 
+// ===== USER STATISTICS RESET API =====
+// Reset user statistics (for plan changes)
+app.post('/api/user/reset-stats', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    
+    console.log(`🔄 Resetting statistics for user ${userId}`);
+    
+    // Reset analytics data
+    await prisma.analytics.deleteMany({
+      where: { userId: userId }
+    });
+    
+    // Reset conversation data
+    await prisma.conversation.deleteMany({
+      where: { userId: userId }
+    });
+    
+    // Reset chatbot stats (keep chatbots but reset counters)
+    await prisma.chatbot.updateMany({
+      where: { userId: userId },
+      data: {
+        messagesCount: 0,
+        lastActive: new Date()
+      }
+    });
+    
+    // Reset RealDataService stats
+    realDataService.initializeUserStats(userId, req.user.planId, false);
+    
+    console.log(`✅ Statistics reset for user ${userId}`);
+    
+    res.json({
+      success: true,
+      message: 'Statistics reset successfully'
+    });
+  } catch (error) {
+    console.error('Reset stats error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to reset statistics'
+    });
+  }
+});
+
 // ===== STRIPE PAYMENT API =====
 
 // Create payment intent for subscription
