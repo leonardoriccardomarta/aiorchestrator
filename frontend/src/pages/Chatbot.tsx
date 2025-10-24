@@ -1590,7 +1590,7 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      src={`${API_URL}/public/embed/${currentChatbotId}/preview?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&primaryColor=${encodeURIComponent(customBranding.primaryColor)}&secondaryColor=${encodeURIComponent(customBranding.secondaryColor)}&fontFamily=${encodeURIComponent(customBranding.fontFamily)}&logo=${encodeURIComponent(customBranding.logo)}` : ''}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&primaryColor=${encodeURIComponent(customBranding.primaryColor)}&secondaryColor=${encodeURIComponent(customBranding.secondaryColor)}&fontFamily=${encodeURIComponent(customBranding.fontFamily)}&logo=${encodeURIComponent(customBranding.logo)}` : ''}`}
                       className="w-full h-[400px] lg:h-[740px] border-0"
                       title="Live Chatbot Preview"
                     />
