@@ -389,6 +389,18 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     const { theme, title, placeholder, message, showAvatar, primaryColor, secondaryColor, fontFamily, logo } = req.query;
     const primaryLanguage = typeof req.query.primaryLanguage === 'string' ? req.query.primaryLanguage : 'auto';
     
+    // Debug logging
+    console.log('🔍 Embed request params:', {
+      chatbotId,
+      theme,
+      title,
+      primaryColor,
+      secondaryColor,
+      fontFamily,
+      logo,
+      allQuery: req.query
+    });
+    
     // Get chatbot from database with user info
     const chatbot = await prisma.chatbot.findUnique({
       where: { id: chatbotId },
@@ -402,6 +414,12 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     // Get user plan to determine if custom branding is allowed
     const userPlan = chatbot.user?.planId || 'starter';
     const isProfessionalPlan = userPlan === 'professional' || userPlan === 'business';
+    
+    console.log('🔍 User plan info:', {
+      userPlan,
+      isProfessionalPlan,
+      userEmail: chatbot.user?.email
+    });
     
     // For Starter plan: use normal theme settings (no custom branding)
     // For Professional+ plans: use theme + additional custom branding
@@ -418,6 +436,16 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
       customSecondaryColor = secondaryColor || '#8B5CF6';
       customFontFamily = fontFamily || 'Inter';
       customLogo = logo || '';
+      
+      console.log('🎨 Custom branding applied:', {
+        useCustomBranding,
+        customPrimaryColor,
+        customSecondaryColor,
+        customFontFamily,
+        customLogo
+      });
+    } else {
+      console.log('📝 Starter plan - no custom branding');
     }
     // Starter plan: use theme colors only (no custom branding)
     
@@ -516,6 +544,15 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         .chat-widget .notification-dot {
             background: ${customSecondaryColor} !important;
         }
+        .chat-widget .user-message {
+            background: linear-gradient(135deg, ${customPrimaryColor}, ${customSecondaryColor}) !important;
+        }
+        .chat-widget .send-button {
+            background: linear-gradient(135deg, ${customPrimaryColor}, ${customSecondaryColor}) !important;
+        }
+        .chat-widget .toggle-button {
+            background: linear-gradient(135deg, ${customPrimaryColor}, ${customSecondaryColor}) !important;
+        }
         ` : ''}
     </style>
     <script>
@@ -552,7 +589,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
 </head>
 <body>
     <!-- Toggle Button with Animation -->
-    <div class="toggle-button bg-gradient-to-br ${themeColors.primary}" style="font-family: ${useCustomBranding ? customFontFamily : 'Inter'};">
+    <div class="toggle-button ${useCustomBranding ? 'toggle-button' : `bg-gradient-to-br ${themeColors.primary}`}" style="font-family: ${useCustomBranding ? customFontFamily : 'Inter'};">
         ${useCustomBranding && customLogo ? `
             <img src="${customLogo}" alt="Logo" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
         ` : `
@@ -607,7 +644,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                 </div>
             </div>
             <div class="mb-4 flex justify-end">
-                <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
+                <div class="max-w-[80%] rounded-2xl px-4 py-2 ${useCustomBranding ? 'user-message' : themeColors.userMessage} text-white">
                     <div class="text-sm">Hi! Can you help me?</div>
                     <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                 </div>
@@ -630,7 +667,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                     placeholder="${placeholder || 'Type your message...'}"
                     class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
-                <button class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
+                <button class="${useCustomBranding ? 'send-button' : themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
                     <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                     </svg>
@@ -6366,6 +6403,18 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
     } = req.query;
     const primaryLanguage = typeof req.query.primaryLanguage === 'string' ? req.query.primaryLanguage : 'auto';
     
+    // Debug logging
+    console.log('🔍 Preview request params:', {
+      chatbotId,
+      theme, 
+      title, 
+      primaryColor, 
+      secondaryColor, 
+      fontFamily, 
+      logo,
+      allQuery: req.query
+    });
+    
     // Get chatbot from database with user info
     const chatbot = await prisma.chatbot.findUnique({
       where: { id: chatbotId },
@@ -6379,6 +6428,12 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
     // Get user plan to determine if custom branding is allowed
     const userPlan = chatbot.user?.planId || 'starter';
     const isProfessionalPlan = userPlan === 'professional' || userPlan === 'business';
+    
+    console.log('🔍 Preview user plan info:', {
+      userPlan,
+      isProfessionalPlan,
+      userEmail: chatbot.user?.email
+    });
     
     // For Starter plan: use normal theme settings (no custom branding)
     // For Professional+ plans: use theme + additional custom branding
@@ -6395,6 +6450,16 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
       customSecondaryColor = secondaryColor || '#8B5CF6';
       customFontFamily = fontFamily || 'Inter';
       customLogo = logo || '';
+      
+      console.log('🎨 Preview custom branding applied:', {
+        useCustomBranding,
+        customPrimaryColor,
+        customSecondaryColor,
+        customFontFamily,
+        customLogo
+      });
+    } else {
+      console.log('📝 Preview starter plan - no custom branding');
     }
     // Starter plan: use theme colors only (no custom branding)
 
@@ -6480,7 +6545,7 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
     </style>
 </head>
 <body>
-    <div class="toggle-button bg-gradient-to-br ${themeColors.primary}" style="font-family: ${useCustomBranding ? customFontFamily : 'Inter'};">
+    <div class="toggle-button ${useCustomBranding ? 'toggle-button' : `bg-gradient-to-br ${themeColors.primary}`}" style="font-family: ${useCustomBranding ? customFontFamily : 'Inter'};">
         ${useCustomBranding && customLogo ? `
             <img src="${customLogo}" alt="Logo" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
         ` : `
