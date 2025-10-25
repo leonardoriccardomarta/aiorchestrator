@@ -5531,6 +5531,97 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
   }
 });
 
+// Sync user data endpoint
+app.get('/api/user/sync', authenticateToken, async (req, res) => {
+  try {
+    const user = req.user;
+    
+    // Get fresh user data from database
+    const freshUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        planId: true,
+        isPaid: true,
+        isTrialActive: true,
+        trialEndDate: true,
+        hasCompletedOnboarding: true,
+        isNewUser: true,
+        isActive: true
+      }
+    });
+
+    if (!freshUser) {
+      return res.status(404).json({
+        success: false,
+        error: 'User not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      data: freshUser
+    });
+  } catch (error) {
+    console.error('User sync error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to sync user data'
+    });
+  }
+});
+
+// Update user plan endpoint
+app.post('/api/user/update-plan', authenticateToken, async (req, res) => {
+  try {
+    const { planId, isPaid } = req.body;
+    const user = req.user;
+    
+    if (!planId) {
+      return res.status(400).json({
+        success: false,
+        error: 'planId is required'
+      });
+    }
+
+    // Update user plan in database
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        planId: planId,
+        isPaid: isPaid !== undefined ? isPaid : true,
+        isTrialActive: false
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        planId: true,
+        isPaid: true,
+        isTrialActive: true,
+        trialEndDate: true,
+        hasCompletedOnboarding: true,
+        isNewUser: true,
+        isActive: true
+      }
+    });
+
+    res.json({
+      success: true,
+      data: updatedUser,
+      message: 'User plan updated successfully'
+    });
+  } catch (error) {
+    console.error('Update user plan error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to update user plan'
+    });
+  }
+});
+
 // Get subscription status
 app.get('/api/payments/subscription', authenticateToken, async (req, res) => {
   try {
