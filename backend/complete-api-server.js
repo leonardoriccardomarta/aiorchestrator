@@ -5768,6 +5768,70 @@ app.post('/api/user/update-plan', authenticateToken, async (req, res) => {
   }
 });
 
+// Get plan information from database
+app.get('/api/user/plan-info', authenticateToken, async (req, res) => {
+  try {
+    const user = req.user;
+    
+    // Get fresh user data from database
+    const freshUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: {
+        id: true,
+        planId: true,
+        isTrialActive: true,
+        trialEndDate: true,
+        isPaid: true,
+        createdAt: true
+      }
+    });
+    
+    if (!freshUser) {
+      return res.status(404).json({
+        success: false,
+        error: 'User not found'
+      });
+    }
+    
+    // Calculate days remaining from database
+    let daysRemaining = 0;
+    let subscriptionDate = freshUser.createdAt;
+    
+    if (freshUser.isTrialActive && freshUser.trialEndDate) {
+      const now = new Date();
+      const trialEnd = new Date(freshUser.trialEndDate);
+      daysRemaining = Math.max(0, Math.ceil((trialEnd - now) / (1000 * 60 * 60 * 24)));
+    }
+    
+    console.log(`📅 Plan info from database for user ${user.id}:`, {
+      planId: freshUser.planId,
+      isTrialActive: freshUser.isTrialActive,
+      trialEndDate: freshUser.trialEndDate,
+      daysRemaining,
+      subscriptionDate: subscriptionDate.toISOString()
+    });
+    
+    res.json({
+      success: true,
+      data: {
+        planId: freshUser.planId,
+        isTrialActive: freshUser.isTrialActive,
+        trialEndDate: freshUser.trialEndDate,
+        isPaid: freshUser.isPaid,
+        daysRemaining: daysRemaining,
+        subscriptionDate: subscriptionDate.toISOString(),
+        createdAt: freshUser.createdAt.toISOString()
+      }
+    });
+  } catch (error) {
+    console.error('Get plan info error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to get plan information'
+    });
+  }
+});
+
 // Get subscription status
 app.get('/api/payments/subscription', authenticateToken, async (req, res) => {
   try {
@@ -5808,6 +5872,34 @@ app.get('/api/payments/subscription', authenticateToken, async (req, res) => {
 
     const subscription = subscriptions.data[0];
     
+    // Calculate days remaining
+    const now = new Date();
+    const periodEnd = new Date(subscription.current_period_end * 1000);
+    const trialEnd = subscription.trial_end ? new Date(subscription.trial_end * 1000) : null;
+    
+    // Calculate days remaining based on trial or billing period
+    let daysRemaining = 0;
+    let subscriptionDate = null;
+    
+    if (subscription.status === 'trialing' && trialEnd) {
+      // User is in trial period
+      daysRemaining = Math.max(0, Math.ceil((trialEnd - now) / (1000 * 60 * 60 * 24)));
+      subscriptionDate = new Date(subscription.created * 1000).toISOString();
+    } else if (subscription.status === 'active') {
+      // User is in active billing period
+      daysRemaining = Math.max(0, Math.ceil((periodEnd - now) / (1000 * 60 * 60 * 24)));
+      subscriptionDate = new Date(subscription.created * 1000).toISOString();
+    }
+    
+    console.log(`📅 Subscription info for user ${user.id}:`, {
+      status: subscription.status,
+      daysRemaining,
+      subscriptionDate,
+      trialEnd: trialEnd?.toISOString(),
+      periodEnd: periodEnd.toISOString(),
+      now: now.toISOString()
+    });
+    
     res.json({
       success: true,
       data: {
@@ -5816,9 +5908,12 @@ app.get('/api/payments/subscription', authenticateToken, async (req, res) => {
         status: subscription.status,
         currentPeriodStart: new Date(subscription.current_period_start * 1000).toISOString(),
         currentPeriodEnd: new Date(subscription.current_period_end * 1000).toISOString(),
-        trialEnd: subscription.trial_end ? new Date(subscription.trial_end * 1000).toISOString() : null,
+        trialEnd: trialEnd ? trialEnd.toISOString() : null,
         cancelAtPeriodEnd: subscription.cancel_at_period_end,
-        planId: subscription.metadata.planId
+        planId: subscription.metadata.planId,
+        daysRemaining: daysRemaining,
+        subscriptionDate: subscriptionDate,
+        isTrialActive: subscription.status === 'trialing'
       }
     });
   } catch (error) {
