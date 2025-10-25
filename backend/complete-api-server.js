@@ -386,17 +386,40 @@ app.options('/shopify-app-widget.js', widgetCorsMiddleware);
 app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
     const { chatbotId } = req.params;
-    const { theme, title, placeholder, message, showAvatar } = req.query;
+    const { theme, title, placeholder, message, showAvatar, primaryColor, secondaryColor, fontFamily, logo } = req.query;
     const primaryLanguage = typeof req.query.primaryLanguage === 'string' ? req.query.primaryLanguage : 'auto';
     
-    // Get chatbot from database
+    // Get chatbot from database with user info
     const chatbot = await prisma.chatbot.findUnique({
-      where: { id: chatbotId }
+      where: { id: chatbotId },
+      include: { user: true }
     });
     
     if (!chatbot) {
       return res.status(404).send('Chatbot not found');
     }
+
+    // Get user plan to determine if custom branding is allowed
+    const userPlan = chatbot.user?.planId || 'starter';
+    const isProfessionalPlan = userPlan === 'professional' || userPlan === 'business';
+    
+    // For Starter plan: use normal theme settings (no custom branding)
+    // For Professional+ plans: use theme + additional custom branding
+    let useCustomBranding = false;
+    let customPrimaryColor = '#3B82F6';
+    let customSecondaryColor = '#8B5CF6';
+    let customFontFamily = 'Inter';
+    let customLogo = '';
+    
+    if (isProfessionalPlan) {
+      // Professional+ plans: add custom branding on top of theme
+      useCustomBranding = true;
+      customPrimaryColor = primaryColor || '#3B82F6';
+      customSecondaryColor = secondaryColor || '#8B5CF6';
+      customFontFamily = fontFamily || 'Inter';
+      customLogo = logo || '';
+    }
+    // Starter plan: use theme colors only (no custom branding)
     
     // Return HTML page with chatbot widget
     // Get theme colors with user message colors
@@ -426,7 +449,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         body {
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: ${useCustomBranding ? customFontFamily : 'Inter'}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f3f4f6;
             height: 100vh;
             overflow: hidden;
@@ -450,7 +473,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         }
         .toggle-button:hover {
             transform: scale(1.05);
-            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
+            ${useCustomBranding ? `box-shadow: 0 12px 40px ${customPrimaryColor}40;` : 'box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);'}
         }
         .toggle-button::before {
             content: '';
@@ -482,6 +505,18 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         }
         .chat-widget.hidden { transform: translateY(100%); }
         .chat-widget.collapsed { height: 64px; }
+        ${useCustomBranding ? `
+        .chat-widget input:focus {
+            border-color: ${customPrimaryColor} !important;
+            box-shadow: 0 0 0 2px ${customPrimaryColor}20 !important;
+        }
+        .chat-widget button:hover {
+            box-shadow: 0 4px 12px ${customPrimaryColor}30 !important;
+        }
+        .chat-widget .notification-dot {
+            background: ${customSecondaryColor} !important;
+        }
+        ` : ''}
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -517,23 +552,31 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
 </head>
 <body>
     <!-- Toggle Button with Animation -->
-    <div class="toggle-button bg-gradient-to-br ${themeColors.primary}">
+    <div class="toggle-button bg-gradient-to-br ${themeColors.primary}" style="font-family: ${useCustomBranding ? customFontFamily : 'Inter'};">
+        ${useCustomBranding && customLogo ? `
+            <img src="${customLogo}" alt="Logo" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+        ` : `
         <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
         </svg>
+        `}
     </div>
     
     <!-- Chat Widget - POPUP WINDOW -->
-    <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
+    <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200" style="font-family: ${useCustomBranding ? customFontFamily : 'Inter'};">
         <!-- Header -->
-        <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
+        <div class="p-4 bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border}">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     ${showAvatar !== 'false' ? `
                         <div class="w-10 h-10 bg-gradient-to-br ${themeColors.primary} rounded-full flex items-center justify-center">
+                            ${useCustomBranding && customLogo ? `
+                                <img src="${customLogo}" alt="Logo" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                            ` : `
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                             </svg>
+                            `}
                         </div>
                     ` : ''}
                     <div>
@@ -1420,6 +1463,15 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
       isShopify: connection.type === 'shopify' || connection.platform === 'shopify'
     });
     
+    // Get chatbot and user info for custom branding
+    const chatbot = await prisma.chatbot.findUnique({
+      where: { id: chatbotId },
+      include: { user: true }
+    });
+    
+    const userPlan = chatbot?.user?.planId || 'starter';
+    const isProfessionalPlan = userPlan === 'professional' || userPlan === 'business';
+    
     let widgetCode;
     if (connection.type === 'shopify' || connection.platform === 'shopify') {
       // For Shopify, use Shadow DOM widget (immune to Shopify CSS)
@@ -1434,6 +1486,8 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
   data-show-avatar="${settings.showAvatar !== false}"
   data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"
   data-primary-language="${selectedChatbot?.language || 'auto'}"
+  ${isProfessionalPlan ? `data-font-family="${settings.fontFamily || 'Inter'}"
+  data-logo="${settings.logo || ''}"` : ''}
   defer>
 </script>`;
     } else {
@@ -1449,6 +1503,8 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
   data-show-avatar="${settings.showAvatar !== false}"
   data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"
   data-primary-language="${selectedChatbot?.language || 'auto'}"
+  ${isProfessionalPlan ? `data-font-family="${settings.fontFamily || 'Inter'}"
+  data-logo="${settings.logo || ''}"` : ''}
   defer>
 </script>`;
     }
@@ -3059,273 +3115,6 @@ app.post('/api/faqs', authenticateToken, (req, res) => {
   });
 });
 
-// ===== PUBLIC EMBED API (NO AUTH REQUIRED) =====
-app.get('/public/embed/:chatbotId', async (req, res) => {
-  try {
-    const { chatbotId } = req.params;
-    const { theme, title, placeholder, message, showAvatar } = req.query;
-    const primaryLanguage = typeof req.query.primaryLanguage === 'string' ? req.query.primaryLanguage : 'auto';
-    
-    // Get chatbot from database
-    const chatbot = await prisma.chatbot.findUnique({
-      where: { id: chatbotId }
-    });
-    
-    if (!chatbot) {
-      return res.status(404).send('Chatbot not found');
-    }
-    
-    // Return HTML page with chatbot widget
-    // Get theme colors with user message colors
-    const themes = {
-      blue: { primary: 'from-blue-600 to-blue-700', secondary: 'from-blue-50 to-blue-100', accent: 'bg-blue-600', text: 'text-blue-900', border: 'border-blue-200', userMessage: 'bg-blue-600' },
-      purple: { primary: 'from-purple-600 to-purple-700', secondary: 'from-purple-50 to-purple-100', accent: 'bg-purple-600', text: 'text-purple-900', border: 'border-purple-200', userMessage: 'bg-purple-600' },
-      green: { primary: 'from-green-600 to-green-700', secondary: 'from-green-50 to-green-100', accent: 'bg-green-600', text: 'text-green-900', border: 'border-green-200', userMessage: 'bg-green-600' },
-      red: { primary: 'from-red-600 to-red-700', secondary: 'from-red-50 to-red-100', accent: 'bg-red-600', text: 'text-red-900', border: 'border-red-200', userMessage: 'bg-red-600' },
-      orange: { primary: 'from-orange-600 to-orange-700', secondary: 'from-orange-50 to-orange-100', accent: 'bg-orange-600', text: 'text-orange-900', border: 'border-orange-200', userMessage: 'bg-orange-600' },
-      pink: { primary: 'from-pink-600 to-pink-700', secondary: 'from-pink-50 to-pink-100', accent: 'bg-pink-600', text: 'text-pink-900', border: 'border-pink-200', userMessage: 'bg-pink-600' },
-      indigo: { primary: 'from-indigo-600 to-indigo-700', secondary: 'from-indigo-50 to-indigo-100', accent: 'bg-indigo-600', text: 'text-indigo-900', border: 'border-indigo-200', userMessage: 'bg-indigo-600' },
-      teal: { primary: 'from-teal-600 to-teal-700', secondary: 'from-teal-50 to-teal-100', accent: 'bg-teal-600', text: 'text-teal-900', border: 'border-teal-200', userMessage: 'bg-teal-600' }
-    };
-    
-    
-    const themeColors = themes[theme] || themes.blue;
-
-    const html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Preview</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f3f4f6;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .toggle-button {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 60px;
-            height: 60px;
-            /* gradient now handled by utility classes on element */
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-            border: none;
-        }
-        .toggle-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
-        }
-        .toggle-button::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            width: 12px;
-            height: 12px;
-            background: #10B981;
-            border-radius: 50%;
-            border: 2px solid white;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .animate-slide-up {
-            animation: slideUp 0.3s ease-out;
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.3s ease-out;
-        }
-        .animate-bounce {
-            animation: bounce 0.6s ease-out;
-        }
-        .animate-scale {
-            animation: scale 0.3s ease-out;
-        }
-        @keyframes slideUp {
-            from { transform: translateY(100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-        @keyframes scale {
-            from { transform: scale(0); }
-            to { transform: scale(1); }
-        }
-        .chat-widget {
-            position: fixed;
-            bottom: 100px; /* lift above toggle to avoid overlap */
-            right: 24px;
-            width: 384px;
-            height: 560px;
-            z-index: 999;
-            transform: translateY(0);
-            transition: transform 0.3s ease, height 0.25s ease;
-            max-height: calc(100vh - 148px);
-        }
-        .chat-widget.hidden { transform: translateY(100%); }
-        .chat-widget.collapsed { height: 64px; }
-    </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggleButton = document.querySelector('.toggle-button');
-            const chatWidget = document.querySelector('.chat-widget');
-            const minimizeBtn = document.getElementById('ai-minimize-btn');
-            const closeBtn = document.getElementById('ai-close-btn');
-            let isOpen = true; // open by default in preview
-
-            toggleButton.addEventListener('click', function() {
-                if (isOpen) {
-                    chatWidget.classList.add('hidden');
-                    isOpen = false;
-                } else {
-                    chatWidget.classList.remove('hidden');
-                    isOpen = true;
-                }
-            });
-
-            if (minimizeBtn) {
-                minimizeBtn.addEventListener('click', function() {
-                    chatWidget.classList.toggle('collapsed');
-                });
-            }
-            if (closeBtn) {
-                closeBtn.addEventListener('click', function() {
-                    chatWidget.classList.add('hidden');
-                    isOpen = false;
-                });
-            }
-        });
-    </script>
-</head>
-<body>
-    <!-- Toggle Button with Animation -->
-    <div class="toggle-button" style="background: linear-gradient(135deg, ${customPrimaryColor}, ${customSecondaryColor}); font-family: ${customFontFamily};">
-        ${customLogo ? `
-            <img src="${customLogo}" alt="Logo" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-        ` : `
-            <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-            </svg>
-        `}
-    </div>
-    
-    <!-- Customer Support Widget with Customizations -->
-    <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200" style="width: 384px; height: 500px; font-family: ${customFontFamily};">
-        <!-- Header -->
-        <div class="p-4" style="background: linear-gradient(135deg, ${customSecondaryColor}20, ${customPrimaryColor}20); border-bottom: 2px solid ${customPrimaryColor};">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    ${showAvatar !== 'false' ? `
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, ${customPrimaryColor}, ${customSecondaryColor});">
-                            ${customLogo ? `
-                                <img src="${customLogo}" alt="Logo" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
-                            ` : `
-                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                                </svg>
-                            `}
-                        </div>
-                    ` : ''}
-                    <div>
-                        <div class="font-bold" style="color: ${customPrimaryColor};">${title || 'AI Support'}</div>
-                        <div class="text-xs text-gray-600 flex items-center gap-2">
-                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                            <span>Online 24/7</span>
-                            ${primaryLanguage && primaryLanguage !== 'auto' ? `<span class="px-2 py-0.5 text-[10px] rounded bg-gray-100 text-gray-700">${primaryLanguage.toUpperCase()}</span>` : ''}
-                        </div>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button id="ai-minimize-btn" class="rounded-lg p-2 transition-colors" style="color: ${customPrimaryColor};" onmouseover="this.style.backgroundColor='${customPrimaryColor}20'" onmouseout="this.style.backgroundColor='transparent'" title="Minimize">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
-                    </button>
-                    <button id="ai-close-btn" class="rounded-lg p-2 transition-colors" style="color: ${customPrimaryColor};" onmouseover="this.style.backgroundColor='${customPrimaryColor}20'" onmouseout="this.style.backgroundColor='transparent'" title="Close">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Messages -->
-        <div class="h-96 overflow-y-auto p-4 bg-gray-50">
-            <div class="mb-4 flex justify-start">
-                <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
-                    <div class="text-sm">${message || chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}</div>
-                    <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                </div>
-            </div>
-            <div class="mb-4 flex justify-end">
-                <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
-                    <div class="text-sm">Hi! Can you help me?</div>
-                    <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                </div>
-            </div>
-            <div class="flex justify-start mb-4">
-                <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
-                    <div class="flex gap-1">
-                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Input -->
-        <div class="p-4 bg-white border-t border-gray-200">
-            <div class="flex gap-2">
-                <input
-                    type="text"
-                    placeholder="${placeholder || 'Type your message...'}"
-                    class="flex-1 px-4 py-2 border rounded-lg focus:outline-none transition-all"
-                    style="border-color: ${customPrimaryColor}; font-family: ${customFontFamily};" 
-                    onfocus="this.style.borderColor='${customPrimaryColor}'; this.style.boxShadow='0 0 0 2px ${customPrimaryColor}20';"
-                    onblur="this.style.borderColor='${customPrimaryColor}'; this.style.boxShadow='none';"
-                />
-                <button class="text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all" style="background: linear-gradient(135deg, ${customPrimaryColor}, ${customSecondaryColor});">
-                    <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-</body>
-</html>`;
-    
-    res.setHeader('Content-Type', 'text/html');
-    res.setHeader('X-Frame-Options', 'ALLOWALL');
-    res.setHeader('Content-Security-Policy', "frame-ancestors *;");
-    res.send(html);
-  } catch (error) {
-    console.error('Embed error:', error);
-    res.status(500).send('Internal server error');
-  }
-});
 
 
 
@@ -3606,6 +3395,15 @@ app.post('/api/connections/install-widget', authenticateToken, async (req, res) 
       return str.replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
     };
     
+    // Get chatbot and user info for custom branding
+    const chatbot = await prisma.chatbot.findUnique({
+      where: { id: chatbotId },
+      include: { user: true }
+    });
+    
+    const userPlan = chatbot?.user?.planId || 'starter';
+    const isProfessionalPlan = userPlan === 'professional' || userPlan === 'business';
+    
     // 🛍️ SHOPIFY SHADOW DOM WIDGET - Coordinato con Live Embed
     const widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
 <script 
@@ -3618,6 +3416,8 @@ app.post('/api/connections/install-widget', authenticateToken, async (req, res) 
   data-show-avatar="${widgetConfig.showAvatar !== false}"
   data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}"
   data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}"
+  ${isProfessionalPlan ? `data-font-family="${escapeString(widgetConfig.fontFamily || 'Inter')}"
+  data-logo="${escapeString(widgetConfig.logo || '')}"` : ''}
   defer>
 </script>`;
 
@@ -6380,6 +6180,15 @@ app.post('/api/shopify/install-widget', authenticateToken, async (req, res) => {
       });
     }
     
+    // Get chatbot and user info for custom branding
+    const chatbot = await prisma.chatbot.findUnique({
+      where: { id: chatbotId },
+      include: { user: true }
+    });
+    
+    const userPlan = chatbot?.user?.planId || 'starter';
+    const isProfessionalPlan = userPlan === 'professional' || userPlan === 'business';
+    
     // 🛍️ SHOPIFY SHADOW DOM WIDGET - Coordinato con Live Embed
     const escapeString = (str) => {
       if (!str) return '';
@@ -6397,6 +6206,8 @@ app.post('/api/shopify/install-widget', authenticateToken, async (req, res) => {
   data-show-avatar="${widgetConfig.showAvatar !== false}"
   data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}"
   data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}"
+  ${isProfessionalPlan ? `data-font-family="${escapeString(widgetConfig.fontFamily || 'Inter')}"
+  data-logo="${escapeString(widgetConfig.logo || '')}"` : ''}
   defer>
 </script>`;
 
@@ -6447,7 +6258,7 @@ app.listen(PORT, () => {
   console.log('✅ Follow-up email service started');
 });
 
-// ===== LIVE PREVIEW WITH CUSTOM BRANDING =====
+// ===== LIVE PREVIEW WITH PLAN-BASED CUSTOM BRANDING =====
 app.get('/public/embed/:chatbotId/preview', async (req, res) => {
   try {
     const { chatbotId } = req.params;
@@ -6464,20 +6275,37 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
     } = req.query;
     const primaryLanguage = typeof req.query.primaryLanguage === 'string' ? req.query.primaryLanguage : 'auto';
     
-    // Get chatbot from database
+    // Get chatbot from database with user info
     const chatbot = await prisma.chatbot.findUnique({
-      where: { id: chatbotId }
+      where: { id: chatbotId },
+      include: { user: true }
     });
     
     if (!chatbot) {
       return res.status(404).send('Chatbot not found');
     }
 
-    // Use custom branding from query params if available, otherwise use defaults
-    const customPrimaryColor = primaryColor || '#3B82F6';
-    const customSecondaryColor = secondaryColor || '#8B5CF6';
-    const customFontFamily = fontFamily || 'Inter';
-    const customLogo = logo || '';
+    // Get user plan to determine if custom branding is allowed
+    const userPlan = chatbot.user?.planId || 'starter';
+    const isProfessionalPlan = userPlan === 'professional' || userPlan === 'business';
+    
+    // For Starter plan: use normal theme settings (no custom branding)
+    // For Professional+ plans: use theme + additional custom branding
+    let useCustomBranding = false;
+    let customPrimaryColor = '#3B82F6';
+    let customSecondaryColor = '#8B5CF6';
+    let customFontFamily = 'Inter';
+    let customLogo = '';
+    
+    if (isProfessionalPlan) {
+      // Professional+ plans: add custom branding on top of theme
+      useCustomBranding = true;
+      customPrimaryColor = primaryColor || '#3B82F6';
+      customSecondaryColor = secondaryColor || '#8B5CF6';
+      customFontFamily = fontFamily || 'Inter';
+      customLogo = logo || '';
+    }
+    // Starter plan: use theme colors only (no custom branding)
 
     const html = `
 <!DOCTYPE html>
@@ -6491,7 +6319,7 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
         body {
             margin: 0;
             padding: 0;
-            font-family: ${customFontFamily}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: ${useCustomBranding ? customFontFamily : 'Inter'}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f3f4f6;
             height: 100vh;
             overflow: hidden;
@@ -6502,7 +6330,6 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
             right: 24px;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, ${customPrimaryColor}, ${customSecondaryColor});
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -6551,157 +6378,23 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
             display: none;
         }
         ` : ''}
-    </style>
-</head>
-<body>
-    <div class="toggle-button">
-        ${customLogo ? '' : `
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="white"/>
-        </svg>
-        `}
-        <div class="notification-dot"></div>
-    </div>
-    
-    <!-- Include the actual chatbot widget with custom branding -->
-    <script src="${process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app'}/chatbot-widget.js" 
-            data-ai-orchestrator-id="${chatbotId}"
-            data-api-key="support-widget"
-            data-theme="${theme || 'blue'}"
-            data-title="${title || chatbot.name || 'AI Support'}"
-            data-placeholder="${placeholder || 'Type your message...'}"
-            data-welcome-message="${message || chatbot.welcomeMessage || "Hi! I'm your AI support assistant. How can I help you today? 👋"}"
-            data-primary-language="${primaryLanguage}"
-            data-primary-color="${customPrimaryColor}"
-            data-secondary-color="${customSecondaryColor}"
-            data-font-family="${customFontFamily}"
-            data-logo="${customLogo}"
-            defer>
-    </script>
-</body>
-</html>`;
-
-    res.setHeader('Content-Type', 'text/html');
-    res.setHeader('X-Frame-Options', 'ALLOWALL');
-    res.setHeader('Content-Security-Policy', "frame-ancestors *; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com;");
-    res.send(html);
-  } catch (error) {
-    console.error('Live preview error:', error);
-    res.status(500).send('Error loading preview');
-  }
-});
-
-// ===== LIVE PREVIEW WITH CUSTOM BRANDING =====
-app.get('/public/embed/:chatbotId/preview', async (req, res) => {
-  try {
-    const { chatbotId } = req.params;
-    const { 
-      theme, 
-      title, 
-      placeholder, 
-      message, 
-      showAvatar, 
-      primaryColor, 
-      secondaryColor, 
-      fontFamily, 
-      logo 
-    } = req.query;
-    const primaryLanguage = typeof req.query.primaryLanguage === 'string' ? req.query.primaryLanguage : 'auto';
-    
-    // Get chatbot from database
-    const chatbot = await prisma.chatbot.findUnique({
-      where: { id: chatbotId }
-    });
-    
-    if (!chatbot) {
-      return res.status(404).send('Chatbot not found');
-    }
-
-    // Use custom branding from query params if available, otherwise use defaults
-    const customPrimaryColor = primaryColor || '#3B82F6';
-    const customSecondaryColor = secondaryColor || '#8B5CF6';
-    const customFontFamily = fontFamily || 'Inter';
-    const customLogo = logo || '';
-
-    const html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Preview</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: ${customFontFamily}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f3f4f6;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .toggle-button {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, ${customPrimaryColor}, ${customSecondaryColor});
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-            border: none;
-        }
+        ${useCustomBranding ? `
         .toggle-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
+            box-shadow: 0 12px 40px ${customPrimaryColor}40 !important;
         }
-        .toggle-button .notification-dot {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            width: 12px;
-            height: 12px;
-            background: #10B981;
-            border-radius: 50%;
-            border: 2px solid white;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        ${customLogo ? `
-        .toggle-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 32px;
-            height: 32px;
-            background-image: url('${customLogo}');
-            background-size: cover;
-            background-position: center;
-            border-radius: 50%;
-        }
-        .toggle-button svg {
-            display: none;
+        .notification-dot {
+            background: ${customSecondaryColor} !important;
         }
         ` : ''}
     </style>
 </head>
 <body>
-    <div class="toggle-button">
-        ${customLogo ? '' : `
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z" fill="white"/>
+    <div class="toggle-button bg-gradient-to-br ${themeColors.primary}" style="font-family: ${useCustomBranding ? customFontFamily : 'Inter'};">
+        ${useCustomBranding && customLogo ? `
+            <img src="${customLogo}" alt="Logo" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+        ` : `
+        <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
         </svg>
         `}
         <div class="notification-dot"></div>
@@ -6716,14 +6409,13 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
             data-placeholder="${placeholder || 'Type your message...'}"
             data-welcome-message="${message || chatbot.welcomeMessage || "Hi! I'm your AI support assistant. How can I help you today? 👋"}"
             data-primary-language="${primaryLanguage}"
-            data-primary-color="${customPrimaryColor}"
-            data-secondary-color="${customSecondaryColor}"
-            data-font-family="${customFontFamily}"
-            data-logo="${customLogo}"
+            ${useCustomBranding ? `data-font-family="${customFontFamily}"
+            data-logo="${customLogo}"` : ''}
             defer>
     </script>
 </body>
 </html>`;
+
     res.setHeader('Content-Type', 'text/html');
     res.setHeader('X-Frame-Options', 'ALLOWALL');
     res.setHeader('Content-Security-Policy', "frame-ancestors *; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com;");
@@ -6733,5 +6425,6 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
     res.status(500).send('Error loading preview');
   }
 });
+
 
 module.exports = app;

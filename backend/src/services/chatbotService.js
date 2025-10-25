@@ -425,6 +425,49 @@ var ChatbotService = /** @class */ (function () {
             });
         });
     };
+    ChatbotService.prototype.getEmbedCode = function (chatbotId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var chatbot, user, userPlan, isProfessionalPlan, baseUrl, embedCode, error_10;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.prisma.chatbot.findUnique({
+                                where: { id: chatbotId },
+                                include: { user: true }
+                            })];
+                    case 1:
+                        chatbot = _a.sent();
+                        if (!chatbot) {
+                            throw new errorHandler_1.AppError('Chatbot not found', 404);
+                        }
+                        user = chatbot.user;
+                        userPlan = user?.planId || 'starter';
+                        isProfessionalPlan = userPlan === 'professional' || userPlan === 'business';
+                        baseUrl = process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app';
+                        embedCode = "<!-- AI Orchestrator Chatbot Widget -->\n<script \n  src=\"".concat(baseUrl, "/chatbot-widget.js\"\n  data-ai-orchestrator-id=\"").concat(chatbotId, "\"\n  data-api-key=\"support-widget\"\n  data-theme=\"").concat(chatbot.theme || 'blue', "\"\n  data-title=\"").concat(chatbot.title || 'AI Support', "\"\n  data-placeholder=\"").concat(chatbot.placeholder || 'Type your message...', "\"\n  data-welcome-message=\"").concat(chatbot.welcomeMessage || 'Hello! How can I help you today?', "\"\n  data-primary-language=\"").concat(chatbot.primaryLanguage || 'auto', "\"\n  data-show-avatar=\"").concat(chatbot.showAvatar !== false, "\"");
+                        if (isProfessionalPlan) {
+                            embedCode += "\n  data-font-family=\"".concat(chatbot.fontFamily || 'Inter', "\"\n  data-logo=\"").concat(chatbot.logo || '', "\"');
+                        }
+                        embedCode += '\n  defer>\n</script>';
+                        return [2 /*return*/, {
+                                success: true,
+                                data: {
+                                    embedCode: embedCode,
+                                    chatbotId: chatbotId,
+                                    plan: userPlan,
+                                    hasCustomBranding: isProfessionalPlan
+                                }
+                            }];
+                    case 2:
+                        error_10 = _a.sent();
+                        logger_1.logger.error('Failed to get embed code:', error_10);
+                        throw error_10;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     return ChatbotService;
 }());
 exports.ChatbotService = ChatbotService;
