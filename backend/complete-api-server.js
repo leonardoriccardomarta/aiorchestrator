@@ -392,13 +392,20 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     // Debug logging
     console.log('🔍 Embed request params:', {
       chatbotId,
-      theme,
-      title,
-      primaryColor,
-      secondaryColor,
-      fontFamily,
+      theme, 
+      title, 
+      primaryColor, 
+      secondaryColor, 
+      fontFamily, 
       logo,
       allQuery: req.query
+    });
+    
+    console.log('🔍 Logo parameter details:', {
+      logo: logo,
+      logoType: typeof logo,
+      logoLength: logo ? logo.length : 0,
+      logoStartsWith: logo ? logo.substring(0, 50) : 'none'
     });
     
     // Get chatbot from database with user info
@@ -418,7 +425,10 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     console.log('🔍 User plan info:', {
       userPlan,
       isProfessionalPlan,
-      userEmail: chatbot.user?.email
+      userEmail: chatbot.user?.email,
+      userId: chatbot.user?.id,
+      userIsPaid: chatbot.user?.isPaid,
+      userIsTrialActive: chatbot.user?.isTrialActive
     });
     
     // For Starter plan: use normal theme settings (no custom branding)
@@ -5675,6 +5685,57 @@ app.get('/api/user/sync', authenticateToken, async (req, res) => {
     res.status(500).json({
       success: false,
       error: 'Failed to sync user data'
+    });
+  }
+});
+
+// Force update user plan (for debugging)
+app.post('/api/debug/force-update-plan', authenticateToken, async (req, res) => {
+  try {
+    const { planId, isPaid } = req.body;
+    const user = req.user;
+    
+    console.log('🔧 Force updating user plan:', {
+      userId: user.id,
+      currentPlanId: user.planId,
+      newPlanId: planId,
+      isPaid: isPaid
+    });
+    
+    // Update user plan in database
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        planId: planId || 'professional',
+        isPaid: isPaid !== undefined ? isPaid : true,
+        isTrialActive: false
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        planId: true,
+        isPaid: true,
+        isTrialActive: true,
+        trialEndDate: true,
+        hasCompletedOnboarding: true,
+        isNewUser: true,
+        isActive: true
+      }
+    });
+    
+    console.log('✅ User plan force updated:', updatedUser);
+    
+    res.json({
+      success: true,
+      data: updatedUser,
+      message: 'User plan force updated successfully'
+    });
+  } catch (error) {
+    console.error('Force update user plan error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to force update user plan'
     });
   }
 });
