@@ -3842,13 +3842,32 @@ app.get('/api/chatbots', authenticateToken, rateLimitMiddleware, async (req, res
       });
     }
     
-    // Get chatbots from database
+    // Get chatbots from database with user info for debugging
     const chatbots = await prisma.chatbot.findMany({
       where: { userId: userId },
+      include: { user: true },
       orderBy: { createdAt: 'desc' }
     });
     
     console.log(`📋 Found ${chatbots.length} chatbots for user ${userId}`);
+    console.log('📋 Chatbot details:', chatbots.map(c => ({ 
+      id: c.id, 
+      name: c.name, 
+      userId: c.userId, 
+      userEmail: c.user?.email 
+    })));
+    
+    // Double-check filtering
+    const allChatbots = await prisma.chatbot.findMany({
+      include: { user: true }
+    });
+    console.log(`📋 Total chatbots in database: ${allChatbots.length}`);
+    console.log('📋 All chatbot users:', allChatbots.map(c => ({ 
+      id: c.id, 
+      name: c.name, 
+      userId: c.userId, 
+      userEmail: c.user?.email 
+    })));
     
     res.json({
       success: true,
@@ -5561,13 +5580,47 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
     });
     console.log(`✅ User ${user.id} updated: isPaid=true, planId=${planId}`);
 
+    // Reset user statistics when creating new subscription
+    try {
+      console.log(`🔄 Resetting statistics for user ${user.id} due to new subscription`);
+      
+      // Reset analytics data
+      await prisma.analytics.deleteMany({
+        where: { userId: user.id }
+      });
+      
+      // Reset conversation data
+      await prisma.conversation.deleteMany({
+        where: { userId: user.id }
+      });
+      
+      // Reset chatbot data (keep chatbots but reset stats)
+      await prisma.chatbot.updateMany({
+        where: { userId: user.id },
+        data: {
+          messagesCount: 0,
+          lastActive: new Date()
+        }
+      });
+      
+      // Reset connections data
+      await prisma.connection.deleteMany({
+        where: { userId: user.id }
+      });
+      
+      console.log(`✅ Statistics reset completed for user ${user.id}`);
+    } catch (error) {
+      console.error('❌ Error resetting statistics:', error);
+      // Don't fail the request if reset fails
+    }
+
     res.json({
       success: true,
       data: {
         subscriptionId: subscription.id,
         status: subscription.status,
         trialEnd: new Date(subscription.trial_end * 1000).toISOString(),
-        message: 'Subscription created successfully!'
+        message: 'Subscription created and statistics reset successfully!'
       }
     });
   } catch (error) {
@@ -5634,6 +5687,15 @@ app.post('/api/user/update-plan', authenticateToken, async (req, res) => {
       });
     }
 
+    // Check if plan is actually changing
+    const currentUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: { planId: true }
+    });
+    
+    const planChanged = currentUser?.planId !== planId;
+    console.log(`🔄 Plan change check: ${currentUser?.planId} → ${planId} (changed: ${planChanged})`);
+
     // Update user plan in database
     const updatedUser = await prisma.user.update({
       where: { id: user.id },
@@ -5656,10 +5718,46 @@ app.post('/api/user/update-plan', authenticateToken, async (req, res) => {
       }
     });
 
+    // Reset user statistics when plan changes
+    if (planChanged) {
+      try {
+        console.log(`🔄 Resetting statistics for user ${user.id} due to plan change`);
+        
+        // Reset analytics data
+        await prisma.analytics.deleteMany({
+          where: { userId: user.id }
+        });
+        
+        // Reset conversation data
+        await prisma.conversation.deleteMany({
+          where: { userId: user.id }
+        });
+        
+        // Reset chatbot data (keep chatbots but reset stats)
+        await prisma.chatbot.updateMany({
+          where: { userId: user.id },
+          data: {
+            messagesCount: 0,
+            lastActive: new Date()
+          }
+        });
+        
+        // Reset connections data
+        await prisma.connection.deleteMany({
+          where: { userId: user.id }
+        });
+        
+        console.log(`✅ Statistics reset completed for user ${user.id}`);
+      } catch (error) {
+        console.error('❌ Error resetting statistics:', error);
+        // Don't fail the request if reset fails
+      }
+    }
+
     res.json({
       success: true,
       data: updatedUser,
-      message: 'User plan updated successfully'
+      message: planChanged ? 'User plan updated and statistics reset successfully' : 'User plan updated successfully'
     });
   } catch (error) {
     console.error('Update user plan error:', error);
