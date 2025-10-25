@@ -5573,12 +5573,12 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
       where: { id: user.id },
       data: {
         isPaid: true,
-        isTrialActive: true,
+        isTrialActive: true, // Start with trial for new subscriptions
         trialEndDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         planId: planId
       }
     });
-    console.log(`✅ User ${user.id} updated: isPaid=true, planId=${planId}`);
+    console.log(`✅ User ${user.id} updated: isPaid=true, isTrialActive=true, planId=${planId}`);
 
     // Reset user statistics when creating new subscription
     try {
@@ -5872,6 +5872,20 @@ app.get('/api/payments/subscription', authenticateToken, async (req, res) => {
 
     const subscription = subscriptions.data[0];
     
+    // Get user's current status from database
+    const userFromDb = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: {
+        isTrialActive: true,
+        trialEndDate: true,
+        isPaid: true,
+        planId: true
+      }
+    });
+    
+    console.log(`📅 User DB status:`, userFromDb);
+    console.log(`📅 Stripe subscription status:`, subscription.status);
+    
     // Calculate days remaining
     const now = new Date();
     const periodEnd = new Date(subscription.current_period_end * 1000);
@@ -5880,21 +5894,37 @@ app.get('/api/payments/subscription', authenticateToken, async (req, res) => {
     // Calculate days remaining based on trial or billing period
     let daysRemaining = 0;
     let subscriptionDate = null;
+    let isTrialActive = false;
     
-    if (subscription.status === 'trialing' && trialEnd) {
-      // User is in trial period
-      daysRemaining = Math.max(0, Math.ceil((trialEnd - now) / (1000 * 60 * 60 * 24)));
+    // Use database status as primary source of truth
+    if (userFromDb?.isTrialActive && userFromDb?.trialEndDate) {
+      // User is in trial according to database
+      const dbTrialEnd = new Date(userFromDb.trialEndDate);
+      daysRemaining = Math.max(0, Math.ceil((dbTrialEnd - now) / (1000 * 60 * 60 * 24)));
       subscriptionDate = new Date(subscription.created * 1000).toISOString();
-    } else if (subscription.status === 'active') {
-      // User is in active billing period
+      isTrialActive = true;
+    } else if (userFromDb?.isPaid && !userFromDb?.isTrialActive) {
+      // User has active paid plan according to database
       daysRemaining = Math.max(0, Math.ceil((periodEnd - now) / (1000 * 60 * 60 * 24)));
       subscriptionDate = new Date(subscription.created * 1000).toISOString();
+      isTrialActive = false;
+    } else if (subscription.status === 'trialing' && trialEnd) {
+      // Fallback to Stripe status
+      daysRemaining = Math.max(0, Math.ceil((trialEnd - now) / (1000 * 60 * 60 * 24)));
+      subscriptionDate = new Date(subscription.created * 1000).toISOString();
+      isTrialActive = true;
+    } else if (subscription.status === 'active') {
+      // Fallback to Stripe status
+      daysRemaining = Math.max(0, Math.ceil((periodEnd - now) / (1000 * 60 * 60 * 24)));
+      subscriptionDate = new Date(subscription.created * 1000).toISOString();
+      isTrialActive = false;
     }
     
     console.log(`📅 Subscription info for user ${user.id}:`, {
       status: subscription.status,
       daysRemaining,
       subscriptionDate,
+      isTrialActive,
       trialEnd: trialEnd?.toISOString(),
       periodEnd: periodEnd.toISOString(),
       now: now.toISOString()
@@ -5910,10 +5940,11 @@ app.get('/api/payments/subscription', authenticateToken, async (req, res) => {
         currentPeriodEnd: new Date(subscription.current_period_end * 1000).toISOString(),
         trialEnd: trialEnd ? trialEnd.toISOString() : null,
         cancelAtPeriodEnd: subscription.cancel_at_period_end,
-        planId: subscription.metadata.planId,
+        planId: subscription.metadata.planId || userFromDb?.planId,
         daysRemaining: daysRemaining,
         subscriptionDate: subscriptionDate,
-        isTrialActive: subscription.status === 'trialing'
+        isTrialActive: isTrialActive,
+        isPaid: userFromDb?.isPaid || false
       }
     });
   } catch (error) {

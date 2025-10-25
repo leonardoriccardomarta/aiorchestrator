@@ -56,15 +56,15 @@ const Settings: React.FC = () => {
 
   // Fetch subscription data
   useEffect(() => {
-    if (user?.isPaid) {
+    if (user) {
       fetchSubscription();
     }
-  }, [user?.isPaid]);
+  }, [user]);
 
   const fetchSubscription = async () => {
     try {
       setSubscriptionLoading(true);
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('authToken');
       const response = await fetch('/api/payments/subscription', {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -74,7 +74,22 @@ const Settings: React.FC = () => {
       
       if (response.ok) {
         const data = await response.json();
+        console.log('📅 Subscription data from API:', data);
         setSubscription(data.data);
+        
+        // Update trial days from API data
+        if (data.data.daysRemaining !== undefined) {
+          setTrialDaysLeft(data.data.daysRemaining);
+          console.log('📅 Updated trial days from API:', data.data.daysRemaining);
+        }
+        
+        // Log subscription status for debugging
+        console.log('📅 Subscription status:', {
+          isTrialActive: data.data.isTrialActive,
+          isPaid: data.data.isPaid,
+          daysRemaining: data.data.daysRemaining,
+          planId: data.data.planId
+        });
       }
     } catch (error) {
       console.error('Error fetching subscription:', error);
@@ -146,7 +161,8 @@ const Settings: React.FC = () => {
   };
 
   useEffect(() => {
-    if (user?.trialEndDate) {
+    // Only calculate locally if we don't have API data yet
+    if (user?.trialEndDate && !subscription) {
       const trialEnd = new Date(user.trialEndDate);
       const now = new Date();
       const diffTime = trialEnd.getTime() - now.getTime();
@@ -156,7 +172,7 @@ const Settings: React.FC = () => {
       setTrialDaysLeft(Math.max(0, diffDays));
       setTrialHoursLeft(Math.max(0, diffHours));
     }
-  }, [user]);
+  }, [user, subscription]);
 
   // Update timer every minute
   useEffect(() => {
@@ -327,7 +343,7 @@ const Settings: React.FC = () => {
                 )}
               </div>
 
-              {!user?.isPaid ? (
+              {!user?.isPaid || (subscription?.isTrialActive && !subscription?.isPaid) ? (
                 <div className="space-y-3 lg:space-y-4">
                   <div className="flex items-center space-x-3 lg:space-x-4">
                     <div className="text-2xl lg:text-3xl font-bold text-gray-900">
@@ -417,8 +433,24 @@ const Settings: React.FC = () => {
                     {user?.planId === 'starter' ? '$29' : 
                      user?.planId === 'professional' ? '$99' : 
                      user?.planId === 'business' ? '$299' : '$29'}
-                      </span>
+                  </span>
                 </div>
+                {subscription?.subscriptionDate && (
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-gray-600 text-sm lg:text-base">Subscription Date</span>
+                    <span className="font-semibold text-gray-900 text-sm lg:text-base">
+                      {new Date(subscription.subscriptionDate).toLocaleDateString()}
+                    </span>
+                  </div>
+                )}
+                {subscription?.currentPeriodEnd && (
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-gray-600 text-sm lg:text-base">Next Billing</span>
+                    <span className="font-semibold text-gray-900 text-sm lg:text-base">
+                      {new Date(subscription.currentPeriodEnd).toLocaleDateString()}
+                    </span>
+                  </div>
+                )}
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600 text-sm lg:text-base">Included Chatbots</span>
                       <span className="font-semibold text-gray-900 text-sm lg:text-base">
