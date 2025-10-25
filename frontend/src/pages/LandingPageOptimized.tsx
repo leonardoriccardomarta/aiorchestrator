@@ -58,6 +58,29 @@ const LandingPageOptimized: React.FC = () => {
   }, [mobileMenuOpen]);
 
   // Auth status is now managed by AuthContext
+  
+  // Refresh user data when landing page loads
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      console.log('🔄 LandingPage: Refreshing user data...');
+      refreshUser();
+    }
+  }, [isAuthenticated, user, refreshUser]);
+
+  // Listen for subscription changes
+  useEffect(() => {
+    const handleSubscriptionChange = () => {
+      console.log('🔄 LandingPage: Subscription changed, refreshing user data...');
+      refreshUser();
+    };
+
+    // Listen for custom events (can be triggered from payment modals)
+    window.addEventListener('subscriptionUpdated', handleSubscriptionChange);
+    
+    return () => {
+      window.removeEventListener('subscriptionUpdated', handleSubscriptionChange);
+    };
+  }, [refreshUser]);
 
   const handleGetStarted = () => {
     setAuthMode('register');
@@ -235,6 +258,10 @@ const LandingPageOptimized: React.FC = () => {
     setShowPaymentModal(false);
     // Refresh user data from server
     await refreshUser();
+    
+    // Emit custom event to notify other components
+    window.dispatchEvent(new CustomEvent('subscriptionUpdated'));
+    
     navigate('/dashboard');
   };
 
@@ -359,11 +386,16 @@ const LandingPageOptimized: React.FC = () => {
                         <p className="text-xs text-gray-500">{user.email}</p>
                         <div className="mt-1">
                           <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                            {user.planId.charAt(0).toUpperCase() + user.planId.slice(1)} Plan
+                            {(userContext?.planId || user.planId).charAt(0).toUpperCase() + (userContext?.planId || user.planId).slice(1)} Plan
                           </span>
-                          {user.isTrialActive && (
+                          {(userContext?.isTrialActive || user.isTrialActive) && !(userContext?.isPaid || user.isPaid) && (
                             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 ml-1">
                               Trial Active
+                            </span>
+                          )}
+                          {(userContext?.isPaid || user.isPaid) && !(userContext?.isTrialActive || user.isTrialActive) && (
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 ml-1">
+                              Active
                             </span>
                           )}
                         </div>
@@ -371,7 +403,8 @@ const LandingPageOptimized: React.FC = () => {
                       <button
                         onClick={() => {
                           // Check if user has active plan or trial
-                          if (user.isTrialActive || user.isPaid) {
+                          const hasActivePlan = (userContext?.isTrialActive || user.isTrialActive) || (userContext?.isPaid || user.isPaid);
+                          if (hasActivePlan) {
                             navigate('/dashboard');
                           } else {
                             // Redirect to pricing if no active plan
