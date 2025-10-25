@@ -442,7 +442,9 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         customPrimaryColor,
         customSecondaryColor,
         customFontFamily,
-        customLogo
+        customLogo,
+        logoFromQuery: logo,
+        logoLength: logo ? logo.length : 0
       });
     } else {
       console.log('📝 Starter plan - no custom branding');
@@ -547,8 +549,11 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         .chat-widget .online-status {
             color: ${customSecondaryColor} !important;
         }
-        .chat-widget .timestamp {
+        .chat-widget .ai-message .timestamp {
             color: ${customPrimaryColor} !important;
+        }
+        .chat-widget .user-message .timestamp {
+            color: white !important;
         }
         .chat-widget .notification-dot {
             background: ${customSecondaryColor} !important;
@@ -651,13 +656,13 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             <div class="mb-4 flex justify-start">
                 <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
                     <div class="text-sm ${useCustomBranding ? 'ai-message-text' : ''}">${message || chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}</div>
-                    <div class="text-xs mt-1 text-gray-500 ${useCustomBranding ? 'timestamp' : ''}">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                    <div class="text-xs mt-1 text-gray-500 ${useCustomBranding ? 'timestamp ai-message' : ''}">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                 </div>
             </div>
             <div class="mb-4 flex justify-end">
                 <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
                     <div class="text-sm ${useCustomBranding ? 'user-message-text' : ''}">Hi! Can you help me?</div>
-                    <div class="text-xs mt-1 text-white opacity-80 ${useCustomBranding ? 'timestamp' : ''}">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                    <div class="text-xs mt-1 text-white opacity-80 ${useCustomBranding ? 'timestamp user-message' : ''}">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                 </div>
             </div>
             <div class="flex justify-start mb-4">
@@ -6783,8 +6788,11 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
         .chat-widget .online-status {
             color: ${customSecondaryColor} !important;
         }
-        .chat-widget .timestamp {
+        .chat-widget .ai-message .timestamp {
             color: ${customPrimaryColor} !important;
+        }
+        .chat-widget .user-message .timestamp {
+            color: white !important;
         }
         .chat-widget .notification-dot {
             background: ${customSecondaryColor} !important;
