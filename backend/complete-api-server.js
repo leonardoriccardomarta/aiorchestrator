@@ -696,7 +696,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         </div>
         <!-- Input -->
         <div class="p-4 bg-white border-t border-gray-200">
-            <div class="flex gap-2">
+            <div class="flex gap-2 mb-2">
                 <input
                     type="text"
                     placeholder="${placeholder || 'Type your message...'}"
@@ -708,6 +708,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                     </svg>
                 </button>
             </div>
+            <p class="text-xs text-gray-400 text-center">Powered by AI Orchestrator</p>
         </div>
     </div>
 </body>
