@@ -26,19 +26,26 @@ const BrandingSettings: React.FC = () => {
         : selectedChatbot.settings;
       
       if (settings.branding) {
-        setBranding(prev => ({ ...prev, ...settings.branding }));
+        console.log('🔄 BrandingSettings: Loading branding from database');
+        // Always update branding when chatbot settings load (to sync with embed changes)
+        setBranding(settings.branding);
       }
     }
-  }, [selectedChatbot]);
+  }, [selectedChatbot?.settings]);
 
   // Listen for custom branding updates from embed section
   useEffect(() => {
     const handleEmbedBrandingUpdate = (event: CustomEvent) => {
       const newBranding = event.detail;
+      console.log('🔄 BrandingSettings: Received branding update from embed:', newBranding);
       // Only update if the branding is actually different to prevent loops
       setBranding(prev => {
         const isDifferent = JSON.stringify(prev) !== JSON.stringify(newBranding);
-        return isDifferent ? newBranding : prev;
+        if (isDifferent) {
+          console.log('✅ BrandingSettings: Updating branding from embed');
+          return newBranding;
+        }
+        return prev;
       });
     };
 

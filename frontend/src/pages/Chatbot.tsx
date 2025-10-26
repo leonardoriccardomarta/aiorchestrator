@@ -109,6 +109,9 @@ const Chatbot: React.FC = () => {
   // Save widget customizations manually
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  
+  // Track if branding has been loaded from database to prevent overwrites
+  const brandingLoadedRef = React.useRef(false);
 
   // Helper function to resize and compress logo to reduce file size
   const resizeLogo = (dataUrl: string, maxSize = 100): Promise<string> => {
@@ -179,6 +182,8 @@ const Chatbot: React.FC = () => {
   // Sync with ChatbotContext
   useEffect(() => {
     if (selectedChatbot) {
+      // Reset branding loaded flag when chatbot changes
+      brandingLoadedRef.current = false;
       setCurrentChatbotId(selectedChatbot.id);
       setChatbotName(selectedChatbot.name || 'My AI Assistant');
       setWelcomeMessage(selectedChatbot.welcomeMessage || "Hello! I'm your AI assistant. How can I help you today?");
@@ -194,7 +199,10 @@ const Chatbot: React.FC = () => {
         if (settings.message) setWidgetMessage(settings.message);
         
         // Load custom branding settings (for professional+ plans)
-        if (settings.branding) {
+        // Only reload branding if it hasn't been loaded yet
+        if (settings.branding && !brandingLoadedRef.current) {
+          console.log('🔄 Initializing branding from database');
+          brandingLoadedRef.current = true;
           // Check if logo is a blob URL
           const brandingToLoad = { ...settings.branding };
           console.log('🖼️ Loading branding from settings, logo:', brandingToLoad.logo ? brandingToLoad.logo.substring(0, 50) + '...' : 'empty');
@@ -334,6 +342,11 @@ const Chatbot: React.FC = () => {
         
         // Reload chatbot to ensure everything is in sync
         await loadChatbot(false);
+        
+        // Update BrandingSettings component with the new branding
+        if (user?.planId !== 'starter') {
+          window.dispatchEvent(new CustomEvent('embedBrandingUpdated', { detail: brandingToSave }));
+        }
         
         setTimeout(() => setSaveStatus('idle'), 3000);
       } else {
@@ -615,12 +628,15 @@ const Chatbot: React.FC = () => {
   useEffect(() => {
     const handleBrandingUpdate = (event: CustomEvent) => {
       const branding = event.detail;
+      console.log('🔄 Received branding update from BrandingSettings:', branding);
       setCustomBranding(branding);
     };
 
+    window.addEventListener('embedBrandingUpdated', handleBrandingUpdate as EventListener);
     window.addEventListener('brandingUpdated', handleBrandingUpdate as EventListener);
     
     return () => {
+      window.removeEventListener('embedBrandingUpdated', handleBrandingUpdate as EventListener);
       window.removeEventListener('brandingUpdated', handleBrandingUpdate as EventListener);
     };
   }, []);
@@ -685,12 +701,7 @@ const Chatbot: React.FC = () => {
     });
   };
 
-  // Dispatch custom branding updates to BrandingSettings component
-  useEffect(() => {
-    if (user?.planId !== 'starter') {
-      window.dispatchEvent(new CustomEvent('embedBrandingUpdated', { detail: customBranding }));
-    }
-  }, [customBranding, user?.planId]);
+  // Don't dispatch automatically to avoid loops - let updateCustomBranding handle it
 
   // Helper function to get theme colors
   const getThemeColor = (theme: string) => {
