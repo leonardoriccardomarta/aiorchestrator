@@ -3905,9 +3905,30 @@ app.get('/api/chatbots', authenticateToken, rateLimitMiddleware, async (req, res
       userEmail: c.user?.email 
     })));
     
+    // Clean blob URLs from settings to prevent expired URLs
+    const cleanedChatbots = chatbots.map(chatbot => {
+      if (chatbot.settings) {
+        try {
+          const settings = typeof chatbot.settings === 'string' ? JSON.parse(chatbot.settings) : chatbot.settings;
+          if (settings.branding && settings.branding.logo && typeof settings.branding.logo === 'string') {
+            // Remove blob URLs - they expire and cause errors
+            if (settings.branding.logo.startsWith('blob:')) {
+              console.log(`🧹 Removing expired blob URL from chatbot ${chatbot.id}`);
+              settings.branding.logo = '';
+              // Save back to cleaned format
+              chatbot.settings = settings;
+            }
+          }
+        } catch (e) {
+          console.error('Error cleaning blob URL from settings:', e);
+        }
+      }
+      return chatbot;
+    });
+    
     res.json({
       success: true,
-      data: chatbots
+      data: cleanedChatbots
     });
   } catch (error) {
     console.error('❌ Get chatbots error:', error);
@@ -6680,6 +6701,58 @@ app.post('/api/shopify/install-widget', authenticateToken, async (req, res) => {
 });
 
 // Duplicate endpoint removed - using the one above
+
+// ===== CLEANUP ENDPOINT - Remove expired blob URLs from database =====
+app.post('/api/admin/cleanup-blob-urls', authenticateToken, async (req, res) => {
+  try {
+    console.log('🧹 Starting blob URL cleanup...');
+    
+    // Get all chatbots
+    const chatbots = await prisma.chatbot.findMany({
+      select: { id: true, settings: true }
+    });
+    
+    let cleanedCount = 0;
+    
+    for (const chatbot of chatbots) {
+      if (!chatbot.settings) continue;
+      
+      try {
+        const settings = typeof chatbot.settings === 'string' ? JSON.parse(chatbot.settings) : chatbot.settings;
+        
+        if (settings.branding && settings.branding.logo && typeof settings.branding.logo === 'string') {
+          // Remove blob URLs - they expire and cause errors
+          if (settings.branding.logo.startsWith('blob:')) {
+            console.log(`🧹 Removing expired blob URL from chatbot ${chatbot.id}`);
+            settings.branding.logo = '';
+            
+            // Update in database
+            await prisma.chatbot.update({
+              where: { id: chatbot.id },
+              data: { settings: settings }
+            });
+            
+            cleanedCount++;
+          }
+        }
+      } catch (e) {
+        console.error(`Error cleaning chatbot ${chatbot.id}:`, e);
+      }
+    }
+    
+    res.json({
+      success: true,
+      message: `Cleaned ${cleanedCount} blob URLs from ${chatbots.length} chatbots`,
+      cleanedCount
+    });
+  } catch (error) {
+    console.error('Error cleaning blob URLs:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error'
+    });
+  }
+});
 
 // Start server
 app.listen(PORT, () => {
