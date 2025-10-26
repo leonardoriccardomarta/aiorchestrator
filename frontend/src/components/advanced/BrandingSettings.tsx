@@ -169,6 +169,9 @@ const BrandingSettings: React.FC = () => {
               <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
               <p className="text-sm text-gray-600 mb-2">Upload your logo</p>
               <p className="text-xs text-gray-500">PNG, JPG up to 2MB</p>
+              <p className="text-xs text-blue-600 mt-1 mb-3">
+                💡 Consigliato: minimo 200x200px (quadrato) per qualità ottimale
+              </p>
               <input
                 type="file"
                 accept="image/*"

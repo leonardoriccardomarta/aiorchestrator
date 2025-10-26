@@ -1709,6 +1709,9 @@ const Chatbot: React.FC = () => {
                               <Upload className="w-4 h-4 text-gray-400 mx-auto mb-1" />
                               <p className="text-xs text-gray-600 mb-1">Upload logo</p>
                               <p className="text-[10px] text-gray-500">PNG, JPG up to 2MB</p>
+                              <p className="text-[9px] text-blue-600 mb-1 mt-1">
+                                💡 Minimo 200x200px
+                              </p>
                               <input
                                 type="file"
                                 accept="image/*"
