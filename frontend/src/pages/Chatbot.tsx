@@ -1524,7 +1524,12 @@ const Chatbot: React.FC = () => {
                                 onChange={(e) => {
                                   const file = e.target.files?.[0];
                                   if (file) {
-                                    updateCustomBranding({ logo: URL.createObjectURL(file) });
+                                    // Convert file to base64 instead of blob URL
+                                    const reader = new FileReader();
+                                    reader.onloadend = () => {
+                                      updateCustomBranding({ logo: reader.result as string });
+                                    };
+                                    reader.readAsDataURL(file);
                                   }
                                 }}
                               />
