@@ -615,7 +615,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
 </head>
 <body>
     <!-- Toggle Button with Animation -->
-    <div class="toggle-button ${useCustomBranding ? 'toggle-button' : `bg-gradient-to-br ${themeColors.primary}`}" style="font-family: ${useCustomBranding ? customFontFamily : 'Inter'};">
+    <div class="toggle-button ${useCustomBranding && customLogo ? 'toggle-button' : `bg-gradient-to-br ${themeColors.primary}`}" style="font-family: ${useCustomBranding ? customFontFamily : 'Inter'};">
         ${useCustomBranding && customLogo ? `
             <img src="${customLogo}" alt="Logo" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
         ` : `
@@ -6895,7 +6895,7 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
     </style>
 </head>
 <body>
-    <div class="toggle-button ${useCustomBranding ? 'toggle-button' : `bg-gradient-to-br ${themeColors.primary}`}" style="font-family: ${useCustomBranding ? customFontFamily : 'Inter'};">
+    <div class="toggle-button ${useCustomBranding && customLogo ? 'toggle-button' : `bg-gradient-to-br ${themeColors.primary}`}" style="font-family: ${useCustomBranding ? customFontFamily : 'Inter'};">
         ${useCustomBranding && customLogo ? `
             <img src="${customLogo}" alt="Logo" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
         ` : `
