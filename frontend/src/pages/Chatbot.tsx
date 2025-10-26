@@ -101,7 +101,7 @@ const Chatbot: React.FC = () => {
   const [customBranding, setCustomBranding] = useState({
     primaryColor: '#3B82F6',
     secondaryColor: '#8B5CF6',
-    fontFamily: 'Inter',
+    fontFamily: 'Open Sans',
     logo: ''
   });
   // removed detectLanguage; use primaryLanguage only
@@ -715,7 +715,7 @@ const Chatbot: React.FC = () => {
     const resetBranding = {
       primaryColor: currentThemeColors.primary,
       secondaryColor: currentThemeColors.secondary,
-      fontFamily: 'Inter',
+      fontFamily: 'Open Sans',
       logo: ''
     };
     
@@ -1751,7 +1751,7 @@ const Chatbot: React.FC = () => {
                               <p className="text-xs text-gray-600 mb-1">Upload logo</p>
                               <p className="text-[10px] text-gray-500">PNG, JPG up to 2MB</p>
                               <p className="text-[9px] text-blue-600 mb-1 mt-1">
-                                💡 Minimo 200x200px
+                                💡 Minimum 200x200px
                               </p>
                               <input
                                 type="file"
