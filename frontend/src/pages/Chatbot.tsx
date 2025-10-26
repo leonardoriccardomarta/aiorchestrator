@@ -110,6 +110,44 @@ const Chatbot: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
+  // Helper function to resize and compress logo to reduce file size
+  const resizeLogo = (dataUrl: string, maxSize = 800): Promise<string> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        
+        // Calculate new dimensions
+        if (width > height) {
+          if (width > maxSize) {
+            height = Math.round((height * maxSize) / width);
+            width = maxSize;
+          }
+        } else {
+          if (height > maxSize) {
+            width = Math.round((width * maxSize) / height);
+            height = maxSize;
+          }
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+        
+        // Convert to base64 with compression
+        const resizedDataUrl = canvas.toDataURL('image/png', 0.8);
+        console.log(`📦 Logo resized: ${dataUrl.length} -> ${resizedDataUrl.length} chars`);
+        resolve(resizedDataUrl);
+      };
+      img.onerror = () => resolve(dataUrl);
+      img.src = dataUrl;
+    });
+  };
+
   // Helper function to check if a URL is a blob URL and convert it to base64 if needed
   const convertBlobToBase64 = async (url: string): Promise<string> => {
     // If it's already a data URL or not a blob URL, return as is
@@ -123,7 +161,12 @@ const Chatbot: React.FC = () => {
       const blob = await response.blob();
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result as string);
+        reader.onloadend = async () => {
+          const base64 = reader.result as string;
+          // Resize and compress to keep URL short
+          const resized = await resizeLogo(base64);
+          resolve(resized);
+        };
         reader.onerror = reject;
         reader.readAsDataURL(blob);
       });
@@ -1612,8 +1655,11 @@ const Chatbot: React.FC = () => {
                                   if (file) {
                                     // Convert file to base64 instead of blob URL
                                     const reader = new FileReader();
-                                    reader.onloadend = () => {
-                                      updateCustomBranding({ logo: reader.result as string });
+                                    reader.onloadend = async () => {
+                                      const base64 = reader.result as string;
+                                      // Compress logo to reduce size
+                                      const compressed = await resizeLogo(base64);
+                                      updateCustomBranding({ logo: compressed });
                                     };
                                     reader.readAsDataURL(file);
                                   }
@@ -1681,7 +1727,7 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&primaryColor=${encodeURIComponent(customBranding.primaryColor)}&secondaryColor=${encodeURIComponent(customBranding.secondaryColor)}&fontFamily=${encodeURIComponent(customBranding.fontFamily)}${customBranding.logo && !customBranding.logo.startsWith('blob:') ? `&logo=${encodeURIComponent(customBranding.logo)}` : ''}` : ''}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&primaryColor=${encodeURIComponent(customBranding.primaryColor)}&secondaryColor=${encodeURIComponent(customBranding.secondaryColor)}&fontFamily=${encodeURIComponent(customBranding.fontFamily)}${customBranding.logo && !customBranding.logo.startsWith('blob:') && customBranding.logo.length < 100000 ? `&logo=${encodeURIComponent(customBranding.logo)}` : ''}` : ''}`}
                       className="w-full h-[400px] lg:h-[740px] border-0"
                       title="Live Chatbot Preview"
                       onLoad={() => console.log('🖼️ iframe loaded, logo:', customBranding.logo ? customBranding.logo.substring(0, 100) : 'none')}
