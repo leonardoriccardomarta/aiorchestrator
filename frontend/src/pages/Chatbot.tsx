@@ -110,6 +110,29 @@ const Chatbot: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
+  // Helper function to check if a URL is a blob URL and convert it to base64 if needed
+  const convertBlobToBase64 = async (url: string): Promise<string> => {
+    // If it's already a data URL or not a blob URL, return as is
+    if (!url.startsWith('blob:')) {
+      return url;
+    }
+    
+    try {
+      // Convert blob URL to base64
+      const response = await fetch(url);
+      const blob = await response.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch (error) {
+      console.error('❌ Error converting blob to base64:', error);
+      return url; // Return original if conversion fails
+    }
+  };
+
   // Sync with ChatbotContext
   useEffect(() => {
     if (selectedChatbot) {
@@ -129,7 +152,18 @@ const Chatbot: React.FC = () => {
         
         // Load custom branding settings (for professional+ plans)
         if (settings.branding) {
-          setCustomBranding(prev => ({ ...prev, ...settings.branding }));
+          // Check if logo is a blob URL and convert it
+          const brandingToLoad = { ...settings.branding };
+          if (brandingToLoad.logo && brandingToLoad.logo.startsWith('blob:')) {
+            convertBlobToBase64(brandingToLoad.logo).then(base64Logo => {
+              setCustomBranding(prev => ({ ...prev, ...settings.branding, logo: base64Logo }));
+            }).catch(error => {
+              console.error('❌ Error converting blob URL on load:', error);
+              setCustomBranding(prev => ({ ...prev, ...settings.branding }));
+            });
+          } else {
+            setCustomBranding(prev => ({ ...prev, ...settings.branding }));
+          }
         }
       }
     }
@@ -143,6 +177,20 @@ const Chatbot: React.FC = () => {
     
     setIsSaving(true);
     setSaveStatus('idle');
+    
+    // Convert blob URL to base64 before saving if needed
+    let brandingToSave = customBranding;
+    if (user?.planId !== 'starter' && customBranding.logo && customBranding.logo.startsWith('blob:')) {
+      console.log('🔄 Converting blob URL to base64 before saving...');
+      try {
+        const base64Logo = await convertBlobToBase64(customBranding.logo);
+        brandingToSave = { ...customBranding, logo: base64Logo };
+        // Update state with converted logo
+        setCustomBranding(brandingToSave);
+      } catch (error) {
+        console.error('❌ Error converting blob URL before save:', error);
+      }
+    }
     
     console.log('💾 Saving all chatbot settings (main + widget customizations)...', {
       chatbotId: currentChatbotId,
@@ -177,7 +225,7 @@ const Chatbot: React.FC = () => {
             message: widgetMessage,
             // Add custom branding for professional+ plans
             ...(user?.planId !== 'starter' && {
-              branding: customBranding
+              branding: brandingToSave
             })
           }
         })
@@ -485,6 +533,17 @@ const Chatbot: React.FC = () => {
     };
   }, []);
 
+  // Convert blob URLs to base64 automatically
+  useEffect(() => {
+    if (customBranding.logo && customBranding.logo.startsWith('blob:')) {
+      convertBlobToBase64(customBranding.logo).then(base64Logo => {
+        setCustomBranding(prev => ({ ...prev, logo: base64Logo }));
+      }).catch(error => {
+        console.error('❌ Error converting blob URL:', error);
+      });
+    }
+  }, [customBranding.logo]);
+
   // Helper function to update custom branding and sync with settings
   const updateCustomBranding = (updates: Partial<typeof customBranding>) => {
     const newBranding = { ...customBranding, ...updates };
@@ -492,6 +551,21 @@ const Chatbot: React.FC = () => {
     
     // Sync with settings
     window.dispatchEvent(new CustomEvent('embedBrandingUpdated', { detail: newBranding }));
+  };
+
+  // Helper function to update custom branding with logo blob conversion if needed
+  const updateCustomBrandingWithLogo = async (updates: Partial<typeof customBranding>) => {
+    // Check if logo is a blob URL and convert it
+    if (updates.logo && updates.logo.startsWith('blob:')) {
+      try {
+        const base64Logo = await convertBlobToBase64(updates.logo);
+        updates.logo = base64Logo;
+      } catch (error) {
+        console.error('❌ Error converting blob URL:', error);
+      }
+    }
+    
+    updateCustomBranding(updates);
   };
 
   // Reset custom branding to theme defaults
@@ -1595,7 +1669,7 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&primaryColor=${encodeURIComponent(customBranding.primaryColor)}&secondaryColor=${encodeURIComponent(customBranding.secondaryColor)}&fontFamily=${encodeURIComponent(customBranding.fontFamily)}${customBranding.logo ? `&logo=${encodeURIComponent(customBranding.logo)}` : ''}` : ''}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&primaryColor=${encodeURIComponent(customBranding.primaryColor)}&secondaryColor=${encodeURIComponent(customBranding.secondaryColor)}&fontFamily=${encodeURIComponent(customBranding.fontFamily)}${customBranding.logo && !customBranding.logo.startsWith('blob:') ? `&logo=${encodeURIComponent(customBranding.logo)}` : ''}` : ''}`}
                       className="w-full h-[400px] lg:h-[740px] border-0"
                       title="Live Chatbot Preview"
                       onLoad={() => console.log('🖼️ iframe loaded, logo:', customBranding.logo ? customBranding.logo.substring(0, 100) : 'none')}
