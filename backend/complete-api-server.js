@@ -548,6 +548,9 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         }
         .chat-widget.hidden { transform: translateY(100%); }
         .chat-widget.collapsed { height: 64px; }
+        .chat-widget button {
+            min-width: 48px;
+        }
         ${useCustomBranding ? `
         /* Custom branding - elements NOT touched by theme */
         .chat-widget .ai-message-text {
@@ -576,6 +579,10 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         }
         .chat-widget .input-placeholder {
             color: ${customPrimaryColor} !important;
+        }
+        .chat-widget .send-button {
+            background: ${customPrimaryColor} !important;
+            color: white !important;
         }
         .chat-widget .minimize-btn:hover,
         .chat-widget .close-btn:hover {
@@ -6958,6 +6965,10 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
         }
         .chat-widget .input-placeholder {
             color: ${customPrimaryColor} !important;
+        }
+        .chat-widget .send-button {
+            background: ${customPrimaryColor} !important;
+            color: white !important;
         }
         .chat-widget .minimize-btn:hover,
         .chat-widget .close-btn:hover {
