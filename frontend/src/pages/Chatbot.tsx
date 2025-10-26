@@ -215,9 +215,43 @@ const Chatbot: React.FC = () => {
               // Logo already set to '' above, nothing to do
             });
           } else {
-            // Non-blob URL logo - load normally
-            console.log('✅ Loading logo as base64, length:', brandingToLoad.logo ? brandingToLoad.logo.length : 0);
-            setCustomBranding(prev => ({ ...prev, ...settings.branding }));
+            // Non-blob URL logo - load and resize if too large
+            if (brandingToLoad.logo && brandingToLoad.logo.length > 50000) {
+              console.log(`⚠️ Logo too large (${brandingToLoad.logo.length} chars), resizing...`);
+              resizeLogo(brandingToLoad.logo).then(async (resized) => {
+                console.log(`✅ Logo resized from ${brandingToLoad.logo.length} to ${resized.length} chars`);
+                setCustomBranding(prev => ({ ...prev, ...settings.branding, logo: resized }));
+                // Auto-save the resized logo to database
+                try {
+                  await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${selectedChatbot.id}`, {
+                    method: 'PATCH',
+                    headers: { 
+                      'Content-Type': 'application/json', 
+                      'Authorization': `Bearer ${localStorage.getItem('authToken')}` 
+                    },
+                    body: JSON.stringify({
+                      settings: {
+                        ...settings,
+                        branding: {
+                          ...settings.branding,
+                          logo: resized
+                        }
+                      }
+                    })
+                  });
+                  console.log('✅ Resized logo saved to database');
+                } catch (e) {
+                  console.error('Failed to save resized logo:', e);
+                }
+              }).catch(err => {
+                console.error('Error resizing logo:', err);
+                setCustomBranding(prev => ({ ...prev, ...settings.branding }));
+              });
+            } else {
+              // Logo is small enough, load normally
+              console.log('✅ Loading logo as base64, length:', brandingToLoad.logo ? brandingToLoad.logo.length : 0);
+              setCustomBranding(prev => ({ ...prev, ...settings.branding }));
+            }
           }
         }
       }
