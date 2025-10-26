@@ -197,7 +197,10 @@ const Chatbot: React.FC = () => {
         if (settings.branding) {
           // Check if logo is a blob URL
           const brandingToLoad = { ...settings.branding };
+          console.log('🖼️ Loading branding from settings, logo:', brandingToLoad.logo ? brandingToLoad.logo.substring(0, 50) + '...' : 'empty');
+          
           if (brandingToLoad.logo && brandingToLoad.logo.startsWith('blob:')) {
+            console.log('⚠️ Logo is blob URL, converting...');
             // Blob URLs are temporary and expire - don't load them immediately
             // Load branding WITHOUT logo, then try to convert in background
             const brandingWithoutLogo = { ...brandingToLoad, logo: '' };
@@ -205,6 +208,7 @@ const Chatbot: React.FC = () => {
             
             // Try to convert blob URL to base64 in background
             convertBlobToBase64(brandingToLoad.logo).then(base64Logo => {
+              console.log('✅ Logo converted from blob to base64, length:', base64Logo.length);
               setCustomBranding(prev => ({ ...prev, logo: base64Logo }));
             }).catch(error => {
               console.error('❌ Error converting blob URL on load (expired):', error);
@@ -212,6 +216,7 @@ const Chatbot: React.FC = () => {
             });
           } else {
             // Non-blob URL logo - load normally
+            console.log('✅ Loading logo as base64, length:', brandingToLoad.logo ? brandingToLoad.logo.length : 0);
             setCustomBranding(prev => ({ ...prev, ...settings.branding }));
           }
         }
