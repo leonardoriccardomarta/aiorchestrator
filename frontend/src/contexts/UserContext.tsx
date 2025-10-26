@@ -112,6 +112,13 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const userData = result.data || result; // Handle both {data: {...}} and direct {...} formats
         console.log('🔄 RefreshUser: User data:', userData);
         
+        // Prioritize server data over localStorage
+        console.log('🔍 Comparing server vs localStorage data:', {
+          serverPlanId: userData.planId,
+          serverIsPaid: userData.isPaid,
+          serverIsTrialActive: userData.isTrialActive
+        });
+        
         // Save new token if provided
         if (result.token) {
           localStorage.setItem('authToken', result.token);
