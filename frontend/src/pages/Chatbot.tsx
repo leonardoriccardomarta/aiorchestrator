@@ -152,18 +152,23 @@ const Chatbot: React.FC = () => {
         
         // Load custom branding settings (for professional+ plans)
         if (settings.branding) {
-          // Check if logo is a blob URL and convert it
+          // Check if logo is a blob URL
           const brandingToLoad = { ...settings.branding };
           if (brandingToLoad.logo && brandingToLoad.logo.startsWith('blob:')) {
-            // Try to convert blob URL to base64
+            // Blob URLs are temporary and expire - don't load them immediately
+            // Load branding WITHOUT logo, then try to convert in background
+            const brandingWithoutLogo = { ...brandingToLoad, logo: '' };
+            setCustomBranding(prev => ({ ...prev, ...brandingWithoutLogo }));
+            
+            // Try to convert blob URL to base64 in background
             convertBlobToBase64(brandingToLoad.logo).then(base64Logo => {
-              setCustomBranding(prev => ({ ...prev, ...settings.branding, logo: base64Logo }));
+              setCustomBranding(prev => ({ ...prev, logo: base64Logo }));
             }).catch(error => {
-              console.error('❌ Error converting blob URL on load (expired), removing:', error);
-              // Remove the expired blob URL - it's no longer valid
-              setCustomBranding(prev => ({ ...prev, ...settings.branding, logo: '' }));
+              console.error('❌ Error converting blob URL on load (expired):', error);
+              // Logo already set to '' above, nothing to do
             });
           } else {
+            // Non-blob URL logo - load normally
             setCustomBranding(prev => ({ ...prev, ...settings.branding }));
           }
         }
