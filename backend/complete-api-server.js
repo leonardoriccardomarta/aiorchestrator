@@ -452,11 +452,12 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         customPrimaryColor,
         customSecondaryColor,
         customFontFamily,
-        customLogo,
-        logoFromQuery: logo,
+        customLogo: customLogo ? customLogo.substring(0, 50) + '...' : 'EMPTY',
+        logoFromQuery: logo ? logo.substring(0, 50) + '...' : 'EMPTY',
         logoLength: logo ? logo.length : 0,
         logoIsBlob: logo && logo.startsWith('blob:'),
-        logoIsBase64: logo && logo.startsWith('data:image')
+        logoIsBase64: logo && logo.startsWith('data:image'),
+        hasLogoParam: !!logo
       });
     } else {
       console.log('📝 Starter plan - no custom branding');
