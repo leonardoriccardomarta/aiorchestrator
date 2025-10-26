@@ -114,7 +114,7 @@ const Chatbot: React.FC = () => {
   const brandingLoadedRef = React.useRef(false);
 
   // Helper function to resize and compress logo to reduce file size
-  const resizeLogo = (dataUrl: string, maxSize = 100): Promise<string> => {
+  const resizeLogo = (dataUrl: string, maxSize = 200): Promise<string> => {
     return new Promise((resolve) => {
       const img = new Image();
       img.onload = () => {
@@ -122,7 +122,7 @@ const Chatbot: React.FC = () => {
         let width = img.width;
         let height = img.height;
         
-        // Calculate new dimensions
+        // Calculate new dimensions - ensure we maintain quality for display
         if (width > height) {
           if (width > maxSize) {
             height = Math.round((height * maxSize) / width);
@@ -139,10 +139,13 @@ const Chatbot: React.FC = () => {
         canvas.height = height;
         
         const ctx = canvas.getContext('2d');
+        // Use high-quality rendering
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
         ctx?.drawImage(img, 0, 0, width, height);
         
-        // Convert to base64 with higher compression (jpg is smaller than png)
-        const resizedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        // Convert to base64 with good quality (0.85 instead of 0.7 for less sgranamento)
+        const resizedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
         console.log(`📦 Logo resized: ${dataUrl.length} -> ${resizedDataUrl.length} chars`);
         resolve(resizedDataUrl);
       };
@@ -199,10 +202,8 @@ const Chatbot: React.FC = () => {
         if (settings.message) setWidgetMessage(settings.message);
         
         // Load custom branding settings (for professional+ plans)
-        // Only reload branding if it hasn't been loaded yet
-        if (settings.branding && !brandingLoadedRef.current) {
-          console.log('🔄 Initializing branding from database');
-          brandingLoadedRef.current = true;
+        if (settings.branding) {
+          console.log('🔄 Loading branding from database');
           // Check if logo is a blob URL
           const brandingToLoad = { ...settings.branding };
           console.log('🖼️ Loading branding from settings, logo:', brandingToLoad.logo ? brandingToLoad.logo.substring(0, 50) + '...' : 'empty');
@@ -222,11 +223,11 @@ const Chatbot: React.FC = () => {
               console.error('❌ Error converting blob URL on load (expired):', error);
               // Logo already set to '' above, nothing to do
             });
-          } else {
-            // Non-blob URL logo - load and resize if too large
-            if (brandingToLoad.logo && brandingToLoad.logo.length > 50000) {
+          } else if (brandingToLoad.logo && brandingToLoad.logo.length > 0) {
+            // Non-blob URL logo - check if it needs resizing
+            if (brandingToLoad.logo.length > 150000) {
               console.log(`⚠️ Logo too large (${brandingToLoad.logo.length} chars), resizing...`);
-              resizeLogo(brandingToLoad.logo).then(async (resized) => {
+              resizeLogo(brandingToLoad.logo, 200).then(async (resized) => {
                 console.log(`✅ Logo resized from ${brandingToLoad.logo.length} to ${resized.length} chars`);
                 setCustomBranding(prev => ({ ...prev, ...settings.branding, logo: resized }));
                 // Auto-save the resized logo to database
@@ -256,10 +257,13 @@ const Chatbot: React.FC = () => {
                 setCustomBranding(prev => ({ ...prev, ...settings.branding }));
               });
             } else {
-              // Logo is small enough, load normally
-              console.log('✅ Loading logo as base64, length:', brandingToLoad.logo ? brandingToLoad.logo.length : 0);
+              // Logo is good, load normally
+              console.log('✅ Loading logo as base64, length:', brandingToLoad.logo.length);
               setCustomBranding(prev => ({ ...prev, ...settings.branding }));
             }
+          } else {
+            // No logo, just load branding
+            setCustomBranding(prev => ({ ...prev, ...settings.branding }));
           }
         }
       }
@@ -275,21 +279,31 @@ const Chatbot: React.FC = () => {
     setIsSaving(true);
     setSaveStatus('idle');
     
-    // Convert blob URL to base64 before saving if needed
+    // Convert blob URL to base64 and resize before saving if needed
     let brandingToSave = customBranding;
-    if (user?.planId !== 'starter' && customBranding.logo && customBranding.logo.startsWith('blob:')) {
-      console.log('🔄 Converting blob URL to base64 before saving...');
-      try {
-        const base64Logo = await convertBlobToBase64(customBranding.logo);
-        brandingToSave = { ...customBranding, logo: base64Logo };
-        // Update state with converted logo
-        setCustomBranding(brandingToSave);
-      } catch (error) {
-        console.error('❌ Error converting blob URL before save (expired), removing:', error);
-        // Remove expired blob URL
-        brandingToSave = { ...customBranding, logo: '' };
-        setCustomBranding(brandingToSave);
+    if (user?.planId !== 'starter' && customBranding.logo) {
+      let logoToSave = customBranding.logo;
+      
+      // Convert blob URL to base64 if needed
+      if (customBranding.logo.startsWith('blob:')) {
+        console.log('🔄 Converting blob URL to base64 before saving...');
+        try {
+          logoToSave = await convertBlobToBase64(customBranding.logo);
+        } catch (error) {
+          console.error('❌ Error converting blob URL before save (expired), removing:', error);
+          logoToSave = '';
+        }
       }
+      
+      // Always resize logo to 200px for quality (max size for crisp display)
+      if (logoToSave && logoToSave.startsWith('data:')) {
+        console.log('📐 Resizing logo to 200px for quality...');
+        logoToSave = await resizeLogo(logoToSave, 200);
+      }
+      
+      brandingToSave = { ...customBranding, logo: logoToSave };
+      // Update state with converted/resized logo
+      setCustomBranding(brandingToSave);
     }
     
     console.log('💾 Saving all chatbot settings (main + widget customizations)...', {
