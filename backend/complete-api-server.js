@@ -583,10 +583,6 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         .chat-widget .input-placeholder {
             color: ${customPrimaryColor} !important;
         }
-        .chat-widget .send-button {
-            background: ${customPrimaryColor} !important;
-            color: white !important;
-        }
         .chat-widget .minimize-btn:hover,
         .chat-widget .close-btn:hover {
             color: ${customPrimaryColor} !important;
@@ -706,7 +702,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                     placeholder="${placeholder || 'Type your message...'}"
                     class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${useCustomBranding ? 'input-placeholder' : ''}"
                 />
-                <button class="${useCustomBranding ? 'send-button' : `${themeColors.accent} text-white`} px-4 py-2 rounded-lg hover:opacity-90 transition-all">
+                <button class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
                     <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                     </svg>
