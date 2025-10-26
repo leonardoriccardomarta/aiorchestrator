@@ -2177,6 +2177,25 @@ app.get('/api/user/profile', authenticatePayment, async (req, res) => {
       isTrialActive: freshUser.isTrialActive
     });
     
+    // Auto-fix if planId is professional/business but isTrialActive is true or isPaid is false
+    if ((freshUser.planId === 'professional' || freshUser.planId === 'business') && (freshUser.isTrialActive || !freshUser.isPaid)) {
+      console.log('🔧 Auto-fixing user plan status...');
+      const updatedUser = await prisma.user.update({
+        where: { id: freshUser.id },
+        data: {
+          isTrialActive: false,
+          isPaid: true
+        }
+      });
+      freshUser.isTrialActive = updatedUser.isTrialActive;
+      freshUser.isPaid = updatedUser.isPaid;
+      console.log('✅ User plan status auto-fixed:', {
+        planId: updatedUser.planId,
+        isPaid: updatedUser.isPaid,
+        isTrialActive: updatedUser.isTrialActive
+      });
+    }
+    
     // Generate new JWT token for the user
     const jwt = require('jsonwebtoken');
     const newToken = jwt.sign(
