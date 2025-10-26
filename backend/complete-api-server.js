@@ -454,7 +454,9 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         customFontFamily,
         customLogo,
         logoFromQuery: logo,
-        logoLength: logo ? logo.length : 0
+        logoLength: logo ? logo.length : 0,
+        logoIsBlob: logo && logo.startsWith('blob:'),
+        logoIsBase64: logo && logo.startsWith('data:image')
       });
     } else {
       console.log('📝 Starter plan - no custom branding');
