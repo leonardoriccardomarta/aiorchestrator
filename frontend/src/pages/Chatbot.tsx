@@ -111,7 +111,7 @@ const Chatbot: React.FC = () => {
   const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   // Helper function to resize and compress logo to reduce file size
-  const resizeLogo = (dataUrl: string, maxSize = 200): Promise<string> => {
+  const resizeLogo = (dataUrl: string, maxSize = 100): Promise<string> => {
     return new Promise((resolve) => {
       const img = new Image();
       img.onload = () => {
@@ -138,8 +138,8 @@ const Chatbot: React.FC = () => {
         const ctx = canvas.getContext('2d');
         ctx?.drawImage(img, 0, 0, width, height);
         
-        // Convert to base64 with compression
-        const resizedDataUrl = canvas.toDataURL('image/png', 0.8);
+        // Convert to base64 with higher compression (jpg is smaller than png)
+        const resizedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
         console.log(`📦 Logo resized: ${dataUrl.length} -> ${resizedDataUrl.length} chars`);
         resolve(resizedDataUrl);
       };
