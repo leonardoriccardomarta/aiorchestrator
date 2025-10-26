@@ -708,7 +708,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                     </svg>
                 </button>
             </div>
-            <p class="text-xs text-gray-400 text-center">Powered by AI Orchestrator</p>
+            ${useCustomBranding && customLogo ? '' : '<p class="text-xs text-gray-400 text-center">Powered by AI Orchestrator</p>'}
         </div>
     </div>
 </body>
