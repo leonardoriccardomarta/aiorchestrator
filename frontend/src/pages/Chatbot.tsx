@@ -693,7 +693,7 @@ const Chatbot: React.FC = () => {
   };
 
   // Reset custom branding to theme defaults
-  const resetCustomBranding = () => {
+  const resetCustomBranding = async () => {
     const themeColors = {
       blue: { primary: '#3B82F6', secondary: '#1D4ED8' },
       purple: { primary: '#8B5CF6', secondary: '#7C3AED' },
@@ -707,12 +707,48 @@ const Chatbot: React.FC = () => {
     
     const currentThemeColors = themeColors[widgetTheme as keyof typeof themeColors] || themeColors.blue;
     
-    updateCustomBranding({
+    const resetBranding = {
       primaryColor: currentThemeColors.primary,
       secondaryColor: currentThemeColors.secondary,
       fontFamily: 'Inter',
       logo: ''
-    });
+    };
+    
+    // Update local state first
+    updateCustomBranding(resetBranding);
+    
+    // Save to database immediately
+    if (currentChatbotId) {
+      try {
+        const response = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${currentChatbotId}`, {
+          method: 'PATCH',
+          headers: { 
+            'Content-Type': 'application/json', 
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}` 
+          },
+          body: JSON.stringify({
+            settings: {
+              theme: widgetTheme,
+              placeholder: widgetPlaceholder,
+              showAvatar: showWidgetAvatar,
+              title: widgetTitle,
+              message: widgetMessage,
+              branding: resetBranding
+            }
+          })
+        });
+        
+        if (response.ok) {
+          console.log('✅ Custom branding reset saved to database');
+          // Reload chatbot to reflect changes
+          await loadChatbot(false);
+        } else {
+          console.error('❌ Failed to save reset branding');
+        }
+      } catch (error) {
+        console.error('❌ Error saving reset branding:', error);
+      }
+    }
   };
 
   // Don't dispatch automatically to avoid loops - let updateCustomBranding handle it
