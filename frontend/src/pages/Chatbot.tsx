@@ -112,6 +112,7 @@ const Chatbot: React.FC = () => {
   
   // Track if branding has been loaded from database to prevent overwrites
   const brandingLoadedRef = React.useRef(false);
+  const brandingModifiedRef = React.useRef(false);
 
   // Helper function to resize and compress logo to reduce file size
   const resizeLogo = (dataUrl: string, maxSize = 200): Promise<string> => {
@@ -202,7 +203,8 @@ const Chatbot: React.FC = () => {
         if (settings.message) setWidgetMessage(settings.message);
         
         // Load custom branding settings (for professional+ plans)
-        if (settings.branding) {
+        // Only load if branding hasn't been modified by user
+        if (settings.branding && !brandingModifiedRef.current) {
           console.log('🔄 Loading branding from database');
           // Check if logo is a blob URL
           const brandingToLoad = { ...settings.branding };
@@ -672,6 +674,9 @@ const Chatbot: React.FC = () => {
   const updateCustomBranding = (updates: Partial<typeof customBranding>) => {
     const newBranding = { ...customBranding, ...updates };
     setCustomBranding(newBranding);
+    
+    // Mark as modified to prevent database overwrite
+    brandingModifiedRef.current = true;
     
     // Sync with settings
     window.dispatchEvent(new CustomEvent('embedBrandingUpdated', { detail: newBranding }));
