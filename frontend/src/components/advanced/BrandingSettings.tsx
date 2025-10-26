@@ -170,7 +170,12 @@ const BrandingSettings: React.FC = () => {
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) {
-                    setBranding(prev => ({ ...prev, logo: URL.createObjectURL(file) }));
+                    // Convert file to base64
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      setBranding(prev => ({ ...prev, logo: reader.result as string }));
+                    };
+                    reader.readAsDataURL(file);
                   }
                 }}
               />
