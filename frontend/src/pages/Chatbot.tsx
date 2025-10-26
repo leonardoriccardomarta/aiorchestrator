@@ -155,11 +155,13 @@ const Chatbot: React.FC = () => {
           // Check if logo is a blob URL and convert it
           const brandingToLoad = { ...settings.branding };
           if (brandingToLoad.logo && brandingToLoad.logo.startsWith('blob:')) {
+            // Try to convert blob URL to base64
             convertBlobToBase64(brandingToLoad.logo).then(base64Logo => {
               setCustomBranding(prev => ({ ...prev, ...settings.branding, logo: base64Logo }));
             }).catch(error => {
-              console.error('❌ Error converting blob URL on load:', error);
-              setCustomBranding(prev => ({ ...prev, ...settings.branding }));
+              console.error('❌ Error converting blob URL on load (expired), removing:', error);
+              // Remove the expired blob URL - it's no longer valid
+              setCustomBranding(prev => ({ ...prev, ...settings.branding, logo: '' }));
             });
           } else {
             setCustomBranding(prev => ({ ...prev, ...settings.branding }));
@@ -188,7 +190,10 @@ const Chatbot: React.FC = () => {
         // Update state with converted logo
         setCustomBranding(brandingToSave);
       } catch (error) {
-        console.error('❌ Error converting blob URL before save:', error);
+        console.error('❌ Error converting blob URL before save (expired), removing:', error);
+        // Remove expired blob URL
+        brandingToSave = { ...customBranding, logo: '' };
+        setCustomBranding(brandingToSave);
       }
     }
     
@@ -539,7 +544,9 @@ const Chatbot: React.FC = () => {
       convertBlobToBase64(customBranding.logo).then(base64Logo => {
         setCustomBranding(prev => ({ ...prev, logo: base64Logo }));
       }).catch(error => {
-        console.error('❌ Error converting blob URL:', error);
+        console.error('❌ Error converting blob URL (likely expired), removing logo:', error);
+        // Remove the expired blob URL - it can't be used anymore
+        setCustomBranding(prev => ({ ...prev, logo: '' }));
       });
     }
   }, [customBranding.logo]);
