@@ -184,9 +184,12 @@ const Chatbot: React.FC = () => {
     }
   };
 
-  // Sync with ChatbotContext
+  // Sync with ChatbotContext - IMPORTANT: This runs every time selectedChatbot changes
   useEffect(() => {
     if (selectedChatbot) {
+      console.log('🔄 Chatbot changed, loading data for:', selectedChatbot.id);
+      console.log('🔄 Chatbot data:', selectedChatbot);
+      
       // Reset branding loaded flag when chatbot changes
       brandingLoadedRef.current = false;
       setCurrentChatbotId(selectedChatbot.id);
