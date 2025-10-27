@@ -60,6 +60,7 @@ import TourButton from '../components/TourButton';
 import { useUser } from '../contexts/UserContext';
 import { useChatbot } from '../contexts/ChatbotContext';
 import AddChatbotModal from '../components/AddChatbotModal';
+import ChatbotSelector from '../components/ChatbotSelector';
 
 interface Message {
   id: string;
@@ -1127,6 +1128,12 @@ const Chatbot: React.FC = () => {
 
         {activeTab === 'manage' && (
           <div className="space-y-4 lg:space-y-6" data-tour="chatbot-management">
+            {/* Chatbot Selector */}
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Select Chatbot</h3>
+              <ChatbotSelector />
+            </div>
+            
             {/* Plan Status */}
             <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 lg:p-6 border border-blue-200">
               <div className="flex items-center justify-between mb-3 lg:mb-4">
