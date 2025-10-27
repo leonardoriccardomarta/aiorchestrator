@@ -351,20 +351,21 @@ const Pricing: React.FC = () => {
             )}
             <CardHeader className="p-4 lg:p-6">
               <CardTitle className="text-xl lg:text-2xl font-bold text-gray-900">Business</CardTitle>
-              <div className="flex items-baseline space-x-1">
+              <div className="flex flex-col">
+                <div className="flex items-baseline space-x-1">
                   <span className="text-3xl lg:text-4xl font-bold text-gray-900">
                   ${billingCycle === 'yearly' ? '249' : '299'}
                   </span>
-                <span className="text-sm lg:text-base text-gray-600">/month</span>
-              </div>
-              {billingCycle === 'yearly' && (
-                <div className="text-xs lg:text-sm text-gray-500 mt-1">
-                  Billed annually: ${249 * 12}
+                  <span className="text-sm lg:text-base text-gray-600">/month</span>
                 </div>
-              )}
+                {billingCycle === 'yearly' && (
+                  <div className="text-xs lg:text-sm text-gray-500 mt-1">
+                    Billed annually: ${249 * 12}
+                  </div>
+                )}
               </div>
               <p className="text-sm lg:text-base text-gray-600 mt-2">Full e-commerce automation for serious businesses</p>
-              </CardHeader>
+            </CardHeader>
             <CardContent className="p-4 lg:p-6">
               <ul className="space-y-2 lg:space-y-3 mb-4 lg:mb-6">
                 <li className="flex items-center">
