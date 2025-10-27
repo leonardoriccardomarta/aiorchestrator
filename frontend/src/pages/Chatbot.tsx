@@ -932,11 +932,12 @@ const Chatbot: React.FC = () => {
     setIsLoading(true);
 
     try {
+      const token = localStorage.getItem('authToken') || localStorage.getItem('token');
       const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer demo-token'
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           message: userMessage.text,
