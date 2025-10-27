@@ -72,7 +72,7 @@ interface Message {
 
 const Chatbot: React.FC = () => {
   const { user } = useUser();
-  const { chatbots, selectedChatbot } = useChatbot();
+  const { chatbots, selectedChatbot, selectChatbot } = useChatbot();
   const [activeTab, setActiveTab] = useState<'chat' | 'settings' | 'embed' | 'manage'>('chat');
   const [currentChatbotId, setCurrentChatbotId] = useState<string>('');
   const [chatbotName, setChatbotName] = useState<string>('My AI Assistant');
@@ -183,6 +183,14 @@ const Chatbot: React.FC = () => {
       return url; // Return original if conversion fails
     }
   };
+
+  // Auto-select chatbot when entering Chatbot page if none selected
+  useEffect(() => {
+    if (chatbots.length > 0 && !selectedChatbot) {
+      console.log('🎯 Auto-selecting first chatbot');
+      selectChatbot(chatbots[0].id);
+    }
+  }, [chatbots.length]);
 
   // Sync with ChatbotContext - IMPORTANT: This runs every time selectedChatbot changes
   useEffect(() => {
