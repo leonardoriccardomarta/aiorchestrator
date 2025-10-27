@@ -400,13 +400,6 @@ const Dashboard: React.FC = () => {
                 <Zap className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2" />
                 <span className="hidden sm:inline">Onboarding</span>
               </button>
-              <button
-                onClick={() => navigate('/analytics')}
-                className="flex items-center px-3 lg:px-6 py-1.5 lg:py-3 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg lg:rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl font-semibold text-xs lg:text-base"
-              >
-                <BarChart3 className="w-3 h-3 lg:w-5 lg:h-5 mr-1 lg:mr-2" />
-                <span className="hidden sm:inline">View </span>Analytics
-              </button>
             </div>
           </div>
         </div>
