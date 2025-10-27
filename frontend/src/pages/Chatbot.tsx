@@ -661,7 +661,7 @@ const Chatbot: React.FC = () => {
 
   // Auto-update custom colors when theme changes (only if branding hasn't been manually modified)
   useEffect(() => {
-    if (user?.planId !== 'starter' && !brandingModifiedRef.current) {
+    if (user?.planId !== 'starter') {
       const themeColors = {
         blue: { primary: '#3B82F6', secondary: '#1D4ED8' },
         purple: { primary: '#8B5CF6', secondary: '#7C3AED' },
@@ -677,11 +677,17 @@ const Chatbot: React.FC = () => {
       console.log(`🔄 Auto-updating custom colors for theme ${widgetTheme}:`, currentThemeColors);
       
       // Update custom colors but preserve logo and fontFamily
-      setCustomBranding(prev => ({
-        ...prev,
-        primaryColor: currentThemeColors.primary,
-        secondaryColor: currentThemeColors.secondary
-      }));
+      // Only update if colors are different from current theme (to avoid infinite loops)
+      setCustomBranding(prev => {
+        if (prev.primaryColor !== currentThemeColors.primary || prev.secondaryColor !== currentThemeColors.secondary) {
+          return {
+            ...prev,
+            primaryColor: currentThemeColors.primary,
+            secondaryColor: currentThemeColors.secondary
+          };
+        }
+        return prev;
+      });
     }
   }, [widgetTheme, user?.planId]);
 
@@ -1878,6 +1884,7 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
+                      key={`${currentChatbotId}-${customBranding.logo ? customBranding.logo.substring(0, 50) : 'no-logo'}-${customBranding.primaryColor}-${customBranding.secondaryColor}`}
                       src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&primaryColor=${encodeURIComponent(customBranding.primaryColor)}&secondaryColor=${encodeURIComponent(customBranding.secondaryColor)}&fontFamily=${encodeURIComponent(customBranding.fontFamily)}${customBranding.logo && !customBranding.logo.startsWith('blob:') ? `&logo=${encodeURIComponent(customBranding.logo)}` : ''}` : ''}`}
                       className="w-full h-[400px] lg:h-[740px] border-0"
                       title="Live Chatbot Preview"
