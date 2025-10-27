@@ -635,7 +635,7 @@ const Chatbot: React.FC = () => {
         // Update chat welcome message
         setMessages([{
           id: '1',
-          text: first.welcomeMessage || "Hello! I'm your AI assistant. How can I help you today?",
+          text: targetChatbot.welcomeMessage || "Hello! I'm your AI assistant. How can I help you today?",
           isUser: false,
           timestamp: new Date(),
           type: 'text'
