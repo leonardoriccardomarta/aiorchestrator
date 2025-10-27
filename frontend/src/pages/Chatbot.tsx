@@ -187,16 +187,16 @@ const Chatbot: React.FC = () => {
 
   // Auto-select chatbot when entering Chatbot page if none selected (ONLY on mount)
   const hasAutoSelectedRef = React.useRef(false);
+  const pageMountRef = React.useRef(true);
+  
   useEffect(() => {
-    // When page first loads (and chatbots are loaded), ensure we have a selected chatbot
-    if (chatbots.length > 0 && !hasAutoSelectedRef.current) {
-      if (!selectedChatbot) {
-        console.log('🎯 Auto-selecting first chatbot on page mount');
-        selectChatbot(chatbots[0].id);
-        hasAutoSelectedRef.current = true;
-      }
+    // Only run auto-selection on initial page mount, not when chatbots change
+    if (pageMountRef.current && chatbots.length > 0 && !selectedChatbot) {
+      console.log('🎯 Auto-selecting first chatbot on initial page mount');
+      selectChatbot(chatbots[0].id);
+      pageMountRef.current = false; // Only run once
     }
-  }, [chatbots.length, selectChatbot]); // Only trigger when chatbots list changes, NOT when selectedChatbot changes
+  }, []); // Empty deps - only run once on mount
 
   // Sync with ChatbotContext - IMPORTANT: This runs every time selectedChatbot changes
   useEffect(() => {
