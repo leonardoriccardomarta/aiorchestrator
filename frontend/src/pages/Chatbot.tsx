@@ -957,9 +957,11 @@ const Chatbot: React.FC = () => {
 
       const data = await response.json();
       
+      console.log('📨 Chat response:', data);
+      
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: data.data?.response || data.response || data.message || 'Sorry, I could not process your request.',
+        text: data.data || data.response || data.message || 'Sorry, I could not process your request.',
         isUser: false,
         timestamp: new Date(),
         type: 'text'
