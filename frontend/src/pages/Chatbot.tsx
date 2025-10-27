@@ -205,6 +205,7 @@ const Chatbot: React.FC = () => {
         // Load custom branding settings (for professional+ plans)
         // Only load if branding hasn't been modified by user
         if (settings.branding && !brandingModifiedRef.current) {
+          // Update branding with logo handling
           console.log('🔄 Loading branding from database');
           // Check if logo is a blob URL
           const brandingToLoad = { ...settings.branding };
@@ -657,6 +658,37 @@ const Chatbot: React.FC = () => {
     };
   }, []);
 
+  // Auto-update custom colors when theme changes (only if branding hasn't been manually modified)
+  useEffect(() => {
+    if (user?.planId !== 'starter' && !brandingModifiedRef.current) {
+      const themeColors = {
+        blue: { primary: '#3B82F6', secondary: '#1D4ED8' },
+        purple: { primary: '#8B5CF6', secondary: '#7C3AED' },
+        green: { primary: '#10B981', secondary: '#059669' },
+        red: { primary: '#EF4444', secondary: '#DC2626' },
+        orange: { primary: '#F97316', secondary: '#EA580C' },
+        pink: { primary: '#EC4899', secondary: '#DB2777' },
+        indigo: { primary: '#6366F1', secondary: '#4F46E5' },
+        teal: { primary: '#14B8A6', secondary: '#0D9488' }
+      };
+      
+      const currentThemeColors = themeColors[widgetTheme as keyof typeof themeColors] || themeColors.blue;
+      console.log(`🔄 Auto-updating custom colors for theme ${widgetTheme}:`, currentThemeColors);
+      
+      // Update custom colors but preserve logo and fontFamily
+      setCustomBranding(prev => ({
+        ...prev,
+        primaryColor: currentThemeColors.primary,
+        secondaryColor: currentThemeColors.secondary
+      }));
+    }
+  }, [widgetTheme, user?.planId]);
+
+  // Reset branding loaded flag when theme changes (so auto-update works on first theme change)
+  useEffect(() => {
+    brandingLoadedRef.current = false;
+  }, [widgetTheme]);
+
   // Convert blob URLs to base64 automatically
   useEffect(() => {
     if (customBranding.logo && customBranding.logo.startsWith('blob:')) {
@@ -791,11 +823,15 @@ const Chatbot: React.FC = () => {
 
     // Add custom branding for professional+ plans
     if (user?.planId !== 'starter') {
+      // Only include logo if it's not empty and not a blob URL
+      const logoAttribute = customBranding.logo && !customBranding.logo.startsWith('blob:') 
+        ? `\n  data-logo="${customBranding.logo}"` 
+        : '';
+      
       return baseCode + `
   data-primary-color="${customBranding.primaryColor}"
   data-secondary-color="${customBranding.secondaryColor}"
-  data-font-family="${customBranding.fontFamily}"
-  data-logo="${customBranding.logo}"
+  data-font-family="${customBranding.fontFamily}"${logoAttribute}
   defer>
 </script>`;
     }
