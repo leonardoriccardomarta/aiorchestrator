@@ -585,18 +585,28 @@ const Chatbot: React.FC = () => {
       console.log('📊 Response data:', json);
       
       if (json?.data && json.data.length > 0) {
-        const first = json.data[0];
-        console.log('✅ Found chatbot:', first.id);
-        setCurrentChatbotId(first.id);
-        setChatbotName(first.name || 'My AI Assistant');
-        setWelcomeMessage(first.welcomeMessage || "Hello! I'm your AI assistant. How can I help you today?");
-        setPrimaryLanguage(first.language || 'auto');
+        // If we have a currentChatbotId, find that specific chatbot
+        // Otherwise, use the first one
+        let targetChatbot = currentChatbotId 
+          ? json.data.find((c: any) => c.id === currentChatbotId) 
+          : json.data[0];
+        
+        // If currentChatbotId doesn't exist in data, fall back to first
+        if (!targetChatbot) {
+          targetChatbot = json.data[0];
+        }
+        
+        console.log('✅ Found chatbot:', targetChatbot.id);
+        setCurrentChatbotId(targetChatbot.id);
+        setChatbotName(targetChatbot.name || 'My AI Assistant');
+        setWelcomeMessage(targetChatbot.welcomeMessage || "Hello! I'm your AI assistant. How can I help you today?");
+        setPrimaryLanguage(targetChatbot.language || 'auto');
         setChatbotDeleted(false);
         
         // Load widget customization settings
-        console.log('🔧 Loading chatbot settings:', first.settings);
-        if (first.settings) {
-          const settings = typeof first.settings === 'string' ? JSON.parse(first.settings) : first.settings;
+        console.log('🔧 Loading chatbot settings:', targetChatbot.settings);
+        if (targetChatbot.settings) {
+          const settings = typeof targetChatbot.settings === 'string' ? JSON.parse(targetChatbot.settings) : targetChatbot.settings;
           console.log('🔧 Parsed settings:', settings);
           if (settings.theme) {
             console.log('🔧 Setting theme:', settings.theme);
