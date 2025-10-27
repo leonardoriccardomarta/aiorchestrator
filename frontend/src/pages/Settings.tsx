@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useUser } from '../contexts/UserContext';
 import { useAuth } from '../contexts/AuthContext';
+import { API_URL } from '../config/constants';
 import { 
   CreditCard, 
   Clock, 
@@ -205,13 +206,9 @@ const Settings: React.FC = () => {
   };
 
   const handleResetStats = async () => {
-    if (!confirm('Are you sure you want to reset all your statistics? This action cannot be undone.')) {
-      return;
-    }
-
     try {
       setResettingStats(true);
-      const response = await fetch(`${API_URL}/api/user/reset-stats`, {
+      const response = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/user/reset-stats`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
@@ -220,6 +217,7 @@ const Settings: React.FC = () => {
 
       if (response.ok) {
         alert('Statistics reset successfully!');
+        setShowResetConfirm(false);
       } else {
         alert('Failed to reset statistics. Please try again.');
       }
@@ -232,14 +230,11 @@ const Settings: React.FC = () => {
   };
 
   const handleCancelPlan = async () => {
-    if (!window.confirm('Are you sure you want to cancel your subscription? You will lose access to all paid features at the end of your billing period.')) {
-      return;
-    }
-
     try {
       // TODO: Implement actual cancellation API call
       // For now, just show a message
       alert('Plan cancellation request submitted. You will receive a confirmation email shortly.');
+      setShowCancelConfirm(false);
       
       // In a real implementation, you would:
       // 1. Call the cancellation API
