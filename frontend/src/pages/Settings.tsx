@@ -33,6 +33,8 @@ const Settings: React.FC = () => {
   const [subscription, setSubscription] = useState<any>(null);
   const [subscriptionLoading, setSubscriptionLoading] = useState(false);
   const [resettingStats, setResettingStats] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
   // Update profile when user changes
   useEffect(() => {
@@ -384,13 +386,23 @@ const Settings: React.FC = () => {
               ) : (
                 <div className="space-y-3 lg:space-y-4">
                   <div className="flex items-center space-x-3 lg:space-x-4">
-                    <div className="text-2xl lg:text-3xl font-bold text-gray-900">
-                      30
-                  </div>
-                    <div className="text-gray-600">
-                      <div className="font-medium text-sm lg:text-base">days remaining</div>
-                      <div className="text-xs lg:text-sm">Next billing cycle</div>
-                </div>
+                    {subscription?.subscriptionDate ? (
+                      <div className="text-gray-600">
+                        <div className="font-medium text-sm lg:text-base">Started on {new Date(subscription.subscriptionDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+                        {subscription?.currentPeriodEnd && (
+                          <div className="text-xs lg:text-sm">Next billing: {new Date(subscription.currentPeriodEnd).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="text-gray-600">
+                        <div className="font-medium text-sm lg:text-base">
+                          {subscription?.daysRemaining || trialDaysLeft} days remaining
+                        </div>
+                        {subscription?.currentPeriodEnd && (
+                          <div className="text-xs lg:text-sm">Next billing: {new Date(subscription.currentPeriodEnd).toLocaleDateString()}</div>
+                        )}
+                      </div>
+                    )}
                   </div>
                   
                   <div className="w-full bg-gray-200 rounded-full h-2">
@@ -514,148 +526,9 @@ const Settings: React.FC = () => {
                       {user?.isPaid ? 'Paid' : 'Trial Active'}
                     </div>
               </div>
-              
-              {/* Reset Statistics Button */}
-              <div className="mt-4 pt-4 border-t border-gray-200">
-                <button
-                  onClick={handleResetStats}
-                  disabled={resettingStats}
-                  className="w-full flex items-center justify-center px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {resettingStats ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Resetting...
-                    </>
-                  ) : (
-                    <>
-                      <AlertTriangle className="w-4 h-4 mr-2" />
-                      Reset All Statistics
-                    </>
-                  )}
-                </button>
-                <p className="text-xs text-gray-500 mt-2 text-center">
-                  This will permanently delete all your analytics data, conversations, and chatbot statistics.
-                </p>
-              </div>
                 </div>
               </div>
                 </div>
-
-            {/* Subscription Management */}
-            {user?.isPaid && subscription && (
-              <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6" data-tour="subscription-management">
-                <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-3 lg:mb-4">Subscription Management</h3>
-                <div className="space-y-3 lg:space-y-4">
-                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="text-gray-600 text-sm lg:text-base">Status</span>
-                    <span className={`px-2 py-1 rounded-full text-xs lg:text-sm font-medium ${
-                      subscription.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                    }`}>
-                      {subscription.status === 'active' ? 'Active' : 'Inactive'}
-                    </span>
-                  </div>
-                  
-                  {subscription.currentPeriodEnd && (
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-600 text-sm lg:text-base">Next Billing</span>
-                      <span className="font-medium text-gray-900 text-sm lg:text-base">
-                        {new Date(subscription.currentPeriodEnd).toLocaleDateString()}
-                      </span>
-                    </div>
-                  )}
-                  
-                  {subscription.cancelAtPeriodEnd && (
-                    <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                      <span className="text-gray-600 text-sm lg:text-base">Cancellation</span>
-                      <span className="font-medium text-red-600 text-sm lg:text-base">
-                        {new Date(subscription.currentPeriodEnd).toLocaleDateString()}
-                      </span>
-                    </div>
-                  )}
-                  
-                  <div className="pt-2">
-                    {subscription.cancelAtPeriodEnd ? (
-                      <button
-                        onClick={handleReactivateSubscription}
-                        disabled={subscriptionLoading}
-                        className="w-full flex items-center justify-center space-x-2 px-3 lg:px-4 py-2 bg-green-600 text-white rounded-md lg:rounded-lg hover:bg-green-700 disabled:opacity-50 text-sm lg:text-base"
-                      >
-                        {subscriptionLoading ? (
-                          <Loader2 className="w-3 h-3 lg:w-4 lg:h-4 animate-spin" />
-                        ) : (
-                          <>
-                            <CheckCircle className="w-3 h-3 lg:w-4 lg:h-4" />
-                            <span>Reactivate Subscription</span>
-                          </>
-                        )}
-                      </button>
-                    ) : (
-                      <button
-                        onClick={handleCancelSubscription}
-                        disabled={subscriptionLoading}
-                        className="w-full flex items-center justify-center space-x-2 px-3 lg:px-4 py-2 bg-red-600 text-white rounded-md lg:rounded-lg hover:bg-red-700 disabled:opacity-50 text-sm lg:text-base"
-                      >
-                        {subscriptionLoading ? (
-                          <Loader2 className="w-3 h-3 lg:w-4 lg:h-4 animate-spin" />
-                        ) : (
-                          <>
-                            <AlertTriangle className="w-3 h-3 lg:w-4 lg:h-4" />
-                            <span>Cancel Subscription</span>
-                          </>
-                        )}
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Plan Change */}
-            {user?.isPaid && (
-              <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-base lg:text-lg font-semibold text-gray-900">Cancel Plan</h3>
-                  <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs font-medium">
-                    Cancellation at end of billing cycle
-                  </span>
-                </div>
-                
-                <p className="text-sm text-gray-600 mb-6">
-                  Cancel your subscription. You'll retain access until the end of your current billing period, then your account will be downgraded to the free plan.
-                </p>
-                
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-                  <div className="flex items-start space-x-3">
-                    <div className="w-5 h-5 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <AlertTriangle className="w-3 h-3 text-red-600" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-medium text-red-800 mb-1">Important Notice</h4>
-                      <p className="text-sm text-red-700">
-                        After cancellation, you'll lose access to all paid features including custom branding, advanced analytics, and priority support. 
-                        Your chatbots will be limited to the free plan restrictions.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="flex space-x-3">
-                  <button
-                    onClick={() => window.location.href = '/pricing'}
-                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
-                  >
-                    Change Plan Instead
-                  </button>
-                  <button
-                    onClick={handleCancelPlan}
-                    className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
-                  >
-                    Cancel Plan
-                  </button>
-                </div>
-              </div>
-            )}
 
             {/* Quick Actions */}
             <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6" data-tour="quick-actions">
@@ -674,14 +547,113 @@ const Settings: React.FC = () => {
                   <ArrowRight className="w-3 h-3 lg:w-4 lg:h-4 text-gray-400 group-hover:text-gray-600" />
                 </button>
                 <button
-                  onClick={handleLogout}
+                  onClick={() => setShowResetConfirm(true)}
                   className="w-full flex items-center space-x-2 lg:space-x-3 p-2 lg:p-3 text-left hover:bg-red-50 rounded-md lg:rounded-lg transition-colors text-red-600"
+                >
+                  <AlertTriangle className="w-4 h-4 lg:w-5 lg:h-5" />
+                  <span className="font-medium text-sm lg:text-base">Reset All Statistics</span>
+                </button>
+                {user?.isPaid && (
+                  <button
+                    onClick={() => setShowCancelConfirm(true)}
+                    className="w-full flex items-center space-x-2 lg:space-x-3 p-2 lg:p-3 text-left hover:bg-red-50 rounded-md lg:rounded-lg transition-colors text-red-600"
+                  >
+                    <X className="w-4 h-4 lg:w-5 lg:h-5" />
+                    <span className="font-medium text-sm lg:text-base">Cancel Subscription</span>
+                  </button>
+                )}
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center space-x-2 lg:space-x-3 p-2 lg:p-3 text-left hover:bg-gray-50 rounded-md lg:rounded-lg transition-colors text-gray-600"
                 >
                   <User className="w-4 h-4 lg:w-5 lg:h-5" />
                   <span className="font-medium text-sm lg:text-base">Logout</span>
                 </button>
               </div>
             </div>
+
+            {/* Reset Statistics Confirmation Modal */}
+            {showResetConfirm && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                      <AlertTriangle className="w-5 h-5 text-red-600" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900">Reset All Statistics</h3>
+                  </div>
+                  <p className="text-gray-600 mb-6">
+                    Are you sure you want to reset all your statistics? This action cannot be undone and will permanently delete:
+                  </p>
+                  <ul className="list-disc list-inside space-y-2 text-gray-600 mb-6">
+                    <li>All analytics data</li>
+                    <li>All conversations</li>
+                    <li>All chatbot statistics</li>
+                  </ul>
+                  <div className="flex space-x-3">
+                    <button
+                      onClick={() => setShowResetConfirm(false)}
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowResetConfirm(false);
+                        handleResetStats();
+                      }}
+                      className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                    >
+                      Reset Statistics
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Cancel Subscription Confirmation Modal */}
+            {showCancelConfirm && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                      <AlertTriangle className="w-5 h-5 text-red-600" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900">Cancel Subscription</h3>
+                  </div>
+                  <p className="text-gray-600 mb-4">
+                    Are you sure you want to cancel your subscription?
+                  </p>
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-yellow-800">
+                      You'll retain access to all paid features until {subscription?.currentPeriodEnd ? new Date(subscription.currentPeriodEnd).toLocaleDateString() : 'the end of your billing period'}. After that, your account will be downgraded to the free plan.
+                    </p>
+                  </div>
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                    <p className="text-sm text-red-800">
+                      You'll lose access to custom branding, advanced analytics, priority support, and other paid features after the billing period ends.
+                    </p>
+                  </div>
+                  <div className="flex space-x-3">
+                    <button
+                      onClick={() => setShowCancelConfirm(false)}
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      Keep Subscription
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowCancelConfirm(false);
+                        handleCancelPlan();
+                      }}
+                      className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                    >
+                      Cancel Subscription
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
           </div>
         </div>
