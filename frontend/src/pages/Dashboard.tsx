@@ -55,6 +55,8 @@ interface DashboardStats {
   avgResponseTime: number;
   languagesSupported: number;
   uptime: number;
+  monthlyMessages: number;
+  totalMessagesAllTime: number;
 }
 
 interface UserData {
@@ -366,7 +368,8 @@ const Dashboard: React.FC = () => {
     uptime: stats.uptime ?? 0,
     customerSatisfaction: stats.customerSatisfaction ?? 0,
     activeConnections: stats.activeConnections ?? 0,
-    monthlyMessages: stats.monthlyMessages ?? 0
+    monthlyMessages: stats.monthlyMessages ?? 0,
+    totalMessagesAllTime: stats.totalMessagesAllTime ?? stats.totalMessages ?? 0
   };
 
   return (
