@@ -5076,17 +5076,19 @@ app.post('/api/user/reset-stats', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const planId = req.user.planId || 'starter';
     
-    console.log(`🔄 Resetting statistics for user ${userId}`);
+    console.log(`🔄 Resetting statistics for user ${userId} with plan ${planId}`);
     
     // Reset analytics data
     await prisma.analytics.deleteMany({
       where: { userId: userId }
     });
+    console.log('✅ Analytics reset');
     
     // Reset conversation data
     await prisma.conversation.deleteMany({
       where: { userId: userId }
     });
+    console.log('✅ Conversations reset');
     
     // Reset chatbot stats (keep chatbots but reset counters)
     await prisma.chatbot.updateMany({
@@ -5096,18 +5098,24 @@ app.post('/api/user/reset-stats', authenticateToken, async (req, res) => {
         lastActive: new Date()
       }
     });
+    console.log('✅ Chatbot stats reset');
     
-    // Reset RealDataService stats
-    realDataService.initializeUserStats(userId, planId, false);
+    // Reset RealDataService stats (this is synchronous, just call it)
+    if (realDataService && typeof realDataService.initializeUserStats === 'function') {
+      realDataService.initializeUserStats(userId, planId, false);
+      console.log('✅ RealDataService stats reset');
+    } else {
+      console.log('⚠️ RealDataService not available, skipping in-memory stats reset');
+    }
     
-    console.log(`✅ Statistics reset for user ${userId}`);
+    console.log(`✅ Statistics reset completed for user ${userId}`);
     
     res.json({
       success: true,
       message: 'Statistics reset successfully'
     });
   } catch (error) {
-    console.error('Reset stats error:', error);
+    console.error('❌ Reset stats error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to reset statistics',
