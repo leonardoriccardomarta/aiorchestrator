@@ -647,6 +647,10 @@ const Chatbot: React.FC = () => {
       const branding = event.detail;
       console.log('🔄 Received branding update from BrandingSettings:', branding);
       setCustomBranding(branding);
+      // Force reload to ensure everything is in sync
+      if (selectedChatbot) {
+        loadChatbot(false);
+      }
     };
 
     window.addEventListener('embedBrandingUpdated', handleBrandingUpdate as EventListener);
@@ -656,7 +660,7 @@ const Chatbot: React.FC = () => {
       window.removeEventListener('embedBrandingUpdated', handleBrandingUpdate as EventListener);
       window.removeEventListener('brandingUpdated', handleBrandingUpdate as EventListener);
     };
-  }, []);
+  }, [selectedChatbot]);
 
   // Auto-update custom colors when theme changes (only if branding hasn't been manually modified)
   useEffect(() => {
