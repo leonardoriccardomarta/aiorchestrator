@@ -197,6 +197,9 @@ const Chatbot: React.FC = () => {
       setWelcomeMessage(selectedChatbot.welcomeMessage || "Hello! I'm your AI assistant. How can I help you today?");
       setPrimaryLanguage(selectedChatbot.language || 'auto');
       
+      // CRITICAL: Reset local state when chatbot changes to prevent data bleeding
+      setMessages([]); // Clear messages when switching chatbots
+      
       // Load widget customization settings
       if (selectedChatbot.settings) {
         const settings = typeof selectedChatbot.settings === 'string' ? JSON.parse(selectedChatbot.settings) : selectedChatbot.settings;
