@@ -5074,6 +5074,7 @@ app.use((error, req, res, next) => {
 app.post('/api/user/reset-stats', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
+    const planId = req.user.planId || 'starter';
     
     console.log(`🔄 Resetting statistics for user ${userId}`);
     
@@ -5097,7 +5098,7 @@ app.post('/api/user/reset-stats', authenticateToken, async (req, res) => {
     });
     
     // Reset RealDataService stats
-    realDataService.initializeUserStats(userId, req.user.planId, false);
+    realDataService.initializeUserStats(userId, planId, false);
     
     console.log(`✅ Statistics reset for user ${userId}`);
     
@@ -5109,7 +5110,8 @@ app.post('/api/user/reset-stats', authenticateToken, async (req, res) => {
     console.error('Reset stats error:', error);
     res.status(500).json({
       success: false,
-      error: 'Failed to reset statistics'
+      error: 'Failed to reset statistics',
+      details: error.message
     });
   }
 });
