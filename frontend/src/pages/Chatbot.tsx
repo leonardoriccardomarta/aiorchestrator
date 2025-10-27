@@ -186,11 +186,14 @@ const Chatbot: React.FC = () => {
 
   // Auto-select chatbot when entering Chatbot page if none selected
   useEffect(() => {
-    if (chatbots.length > 0 && !selectedChatbot) {
-      console.log('🎯 Auto-selecting first chatbot');
-      selectChatbot(chatbots[0].id);
+    // When page loads or chatbots change, ensure we have a selected chatbot
+    if (chatbots.length > 0) {
+      if (!selectedChatbot) {
+        console.log('🎯 Auto-selecting first chatbot');
+        selectChatbot(chatbots[0].id);
+      }
     }
-  }, [chatbots.length]);
+  }, [chatbots, selectedChatbot, selectChatbot]);
 
   // Sync with ChatbotContext - IMPORTANT: This runs every time selectedChatbot changes
   useEffect(() => {
