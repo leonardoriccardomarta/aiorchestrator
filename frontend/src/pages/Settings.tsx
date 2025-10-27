@@ -15,7 +15,8 @@ import {
   Settings as SettingsIcon,
   ArrowRight,
   Crown,
-  Loader2
+  Loader2,
+  X
 } from 'lucide-react';
 
 const Settings: React.FC = () => {

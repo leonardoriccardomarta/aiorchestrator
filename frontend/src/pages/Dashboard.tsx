@@ -482,14 +482,6 @@ const Dashboard: React.FC = () => {
               status="active"
             />
             <QuickAction
-              title="View Analytics"
-              description="See detailed performance insights and analytics"
-              icon={BarChart3}
-              onClick={() => navigate('/analytics')}
-              color="bg-gradient-to-r from-purple-500 to-purple-600"
-              status="active"
-            />
-            <QuickAction
               title="Multi-Language Support"
               description="Auto-detect 50+ languages in your chatbot"
               icon={Globe}
@@ -516,14 +508,6 @@ const Dashboard: React.FC = () => {
               icon={ShoppingCart}
               onClick={() => navigate('/connections')}
               color="bg-gradient-to-r from-green-500 to-green-600"
-              status="active"
-            />
-            <QuickAction
-              title="View Analytics"
-              description="See detailed performance insights and analytics"
-              icon={BarChart3}
-              onClick={() => navigate('/analytics')}
-              color="bg-gradient-to-r from-purple-500 to-purple-600"
               status="active"
             />
             <PlanLimitations feature="WooCommerce Setup" requiredPlan="professional">

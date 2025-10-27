@@ -963,12 +963,12 @@ const Chatbot: React.FC = () => {
               <p className="text-gray-600 text-xs lg:text-lg hidden sm:block">Manage and test your AI assistant</p>
             </div>
             <div className="flex items-center space-x-2 lg:space-x-4">
+              <ChatbotSelector showAllOption={false} />
               <TourButton onClick={() => setShowTour(true)} />
               <div className="flex items-center space-x-2 px-2 lg:px-3 py-1.5 lg:py-2 bg-green-100 text-green-700 rounded-md lg:rounded-lg">
                 <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-green-500 rounded-full"></div>
                 <span className="text-xs lg:text-sm font-medium">Live</span>
               </div>
-              {/* removed Get Embed Code button (duplicate of Quick Embed) */}
             </div>
           </div>
         </div>
@@ -1134,12 +1134,6 @@ const Chatbot: React.FC = () => {
 
         {activeTab === 'manage' && (
           <div className="space-y-4 lg:space-y-6" data-tour="chatbot-management">
-            {/* Chatbot Selector */}
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Select Chatbot</h3>
-              <ChatbotSelector showAllOption={false} />
-            </div>
-            
             {/* Plan Status */}
             <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 lg:p-6 border border-blue-200">
               <div className="flex items-center justify-between mb-3 lg:mb-4">
