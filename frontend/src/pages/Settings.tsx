@@ -198,7 +198,9 @@ const Settings: React.FC = () => {
 
   const handleUpgrade = () => {
     // Navigate to pricing page
-    window.location.href = '/pricing';
+    if (typeof window !== 'undefined' && window.location) {
+      window.location.href = '/pricing';
+    }
   };
 
   const handleLogout = () => {
