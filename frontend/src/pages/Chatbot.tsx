@@ -1131,7 +1131,7 @@ const Chatbot: React.FC = () => {
             {/* Chatbot Selector */}
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">Select Chatbot</h3>
-              <ChatbotSelector />
+              <ChatbotSelector showAllOption={false} />
             </div>
             
             {/* Plan Status */}
