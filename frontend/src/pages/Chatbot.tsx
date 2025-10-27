@@ -14,6 +14,7 @@ declare global {
       welcomeMessage: string;
       primaryLanguage: string;
       primaryColor: string;
+      secondaryColor?: string;
       primaryDarkColor: string;
       headerLightColor: string;
       headerDarkColor: string;
@@ -409,11 +410,14 @@ const Chatbot: React.FC = () => {
             title: widgetTitle,
             message: widgetMessage,
             // Add custom branding for professional+ plans (preserve existing branding if any)
-            ...(user?.planId !== 'starter' && {
+            ...(user?.planId !== 'starter' && existingSettings.branding && {
               branding: {
                 ...existingSettings.branding,
                 ...brandingToSave
               }
+            }),
+            ...(user?.planId !== 'starter' && !existingSettings.branding && {
+              branding: brandingToSave
             })
           }
         })

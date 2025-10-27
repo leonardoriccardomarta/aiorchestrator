@@ -97,7 +97,9 @@ const Dashboard: React.FC = () => {
     conversionRate: 0,
     avgResponseTime: 0,
     languagesSupported: 0,
-    uptime: 0
+    uptime: 0,
+    monthlyMessages: 0,
+    totalMessagesAllTime: 0
   });
   const [loading, setLoading] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -152,7 +154,9 @@ const Dashboard: React.FC = () => {
             conversionRate: data.data.conversionRate || 0,
             avgResponseTime: data.data.avgResponseTime || 0,
             languagesSupported: data.data.languagesActive || data.data.languagesSupported || 0,
-            uptime: data.data.uptime || 0
+            uptime: data.data.uptime || 0,
+            monthlyMessages: data.data.monthlyMessages || 0,
+            totalMessagesAllTime: data.data.totalMessagesAllTime || data.data.totalMessages || 0
           });
           
           setUserPlan(data.data.planInfo?.planId || 'starter');
@@ -172,7 +176,9 @@ const Dashboard: React.FC = () => {
           conversionRate: 0,
           avgResponseTime: 0,
           languagesSupported: 0,
-          uptime: 0
+          uptime: 0,
+          monthlyMessages: 0,
+          totalMessagesAllTime: 0
         });
       }
 
