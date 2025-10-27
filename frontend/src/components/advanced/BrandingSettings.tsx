@@ -18,20 +18,28 @@ const BrandingSettings: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  // Load existing branding settings from chatbot
+  // Load existing branding settings from chatbot (only when selectedChatbot ID changes)
+  const previousChatbotIdRef = React.useRef<string | null>(null);
+  
   useEffect(() => {
-    if (selectedChatbot?.settings) {
-      const settings = typeof selectedChatbot.settings === 'string' 
-        ? JSON.parse(selectedChatbot.settings) 
-        : selectedChatbot.settings;
-      
-      if (settings.branding) {
-        console.log('🔄 BrandingSettings: Loading branding from database');
-        // Always update branding when chatbot settings load (to sync with embed changes)
-        setBranding(settings.branding);
+    const currentChatbotId = selectedChatbot?.id;
+    const previousChatbotId = previousChatbotIdRef.current;
+    
+    // Only reload branding if the chatbot ID actually changed
+    if (currentChatbotId && currentChatbotId !== previousChatbotId) {
+      if (selectedChatbot?.settings) {
+        const settings = typeof selectedChatbot.settings === 'string' 
+          ? JSON.parse(selectedChatbot.settings) 
+          : selectedChatbot.settings;
+        
+        if (settings.branding) {
+          console.log('🔄 BrandingSettings: Loading branding from database for new chatbot');
+          setBranding(settings.branding);
+        }
       }
+      previousChatbotIdRef.current = currentChatbotId;
     }
-  }, [selectedChatbot?.settings]);
+  }, [selectedChatbot]);
 
   // Listen for custom branding updates from embed section
   useEffect(() => {
