@@ -48,7 +48,7 @@ const ChatbotSelector: React.FC<ChatbotSelectorProps> = React.memo(({ showAllOpt
           <Bot className="w-3 h-3 text-white" />
         </div>
         <span className="text-sm font-medium text-gray-900">
-          {selectedChatbot?.name || chatbots[0]?.name || 'Select Chatbot'}
+          {!selectedChatbot && showAllOption ? 'All Chatbots' : selectedChatbot?.name || chatbots[0]?.name || 'Select Chatbot'}
         </span>
         <ChevronDown className={`w-4 h-4 text-gray-600 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
