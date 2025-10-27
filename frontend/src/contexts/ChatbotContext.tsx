@@ -285,8 +285,21 @@ export const ChatbotProvider: React.FC<ChatbotProviderProps> = ({ children }) =>
 
       const result = await response.json();
       if (result.success) {
-        // Update chatbot in the list instead of reloading
-        setChatbots(prev => prev.map(c => c.id === chatbotId ? { ...c, ...data } : c));
+        // Reload chatbots from API to ensure we have the latest data from database
+        console.log('🔄 Updating chatbot, reloading from API...');
+        const reloadResponse = await fetch(`${API_URL}/api/chatbots`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (reloadResponse.ok) {
+          const reloadData = await reloadResponse.json();
+          const reloadedChatbots = reloadData?.data || [];
+          console.log('🔄 Reloaded chatbots from API:', reloadedChatbots);
+          setChatbots(reloadedChatbots);
+        } else {
+          // Fallback to local update if reload fails
+          setChatbots(prev => prev.map(c => c.id === chatbotId ? { ...c, ...result.data } : c));
+        }
         return true;
       }
       return false;
