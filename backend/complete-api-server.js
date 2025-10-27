@@ -6221,19 +6221,24 @@ app.post('/api/payments/webhook', express.raw({type: 'application/json'}), async
               });
               
               if (user) {
+                // Calculate subscription end date (30 days for monthly plans)
+                const subscriptionEndDate = new Date();
+                subscriptionEndDate.setDate(subscriptionEndDate.getDate() + 30);
+                
                 await prisma.user.update({
                   where: { id: userId },
                   data: {
                     planId: planId,
                     isPaid: true,
-                    isTrialActive: false
+                    isTrialActive: false,
+                    trialEndDate: subscriptionEndDate
                   }
                 });
                 
                 // Also update RealDataService
                 realDataService.updateUserPlan(userId, planId, true);
                 
-                console.log(`Updated user ${userId} to plan ${planId}`);
+                console.log(`Updated user ${userId} to plan ${planId} with trialEndDate ${subscriptionEndDate.toISOString()}`);
               }
             } catch (error) {
               console.error('Failed to update user plan:', error);
