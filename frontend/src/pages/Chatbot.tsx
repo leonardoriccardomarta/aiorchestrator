@@ -197,11 +197,42 @@ const Chatbot: React.FC = () => {
       // Load widget customization settings
       if (selectedChatbot.settings) {
         const settings = typeof selectedChatbot.settings === 'string' ? JSON.parse(selectedChatbot.settings) : selectedChatbot.settings;
-        if (settings.theme) setWidgetTheme(settings.theme);
-        if (settings.placeholder) setWidgetPlaceholder(settings.placeholder);
-        if (settings.showAvatar !== undefined) setShowWidgetAvatar(settings.showAvatar);
-        if (settings.title) setWidgetTitle(settings.title);
-        if (settings.message) setWidgetMessage(settings.message);
+        
+        // Load theme
+        if (settings.theme) {
+          console.log('🔄 Loading theme from database:', settings.theme);
+          setWidgetTheme(settings.theme);
+        }
+        
+        // Load placeholder
+        if (settings.placeholder) {
+          console.log('🔄 Loading placeholder from database:', settings.placeholder);
+          setWidgetPlaceholder(settings.placeholder);
+        }
+        
+        // Load avatar
+        if (settings.showAvatar !== undefined) {
+          console.log('🔄 Loading showAvatar from database:', settings.showAvatar);
+          setShowWidgetAvatar(settings.showAvatar);
+        }
+        
+        // Load title
+        if (settings.title) {
+          console.log('🔄 Loading title from database:', settings.title);
+          setWidgetTitle(settings.title);
+        } else {
+          // Fallback to chatbot name if no title in settings
+          setWidgetTitle(selectedChatbot.name || 'My AI Assistant');
+        }
+        
+        // Load message
+        if (settings.message) {
+          console.log('🔄 Loading message from database:', settings.message);
+          setWidgetMessage(settings.message);
+        } else {
+          // Fallback to welcome message if no message in settings
+          setWidgetMessage(selectedChatbot.welcomeMessage || "Hello! I'm your AI assistant. How can I help you today?");
+        }
         
         // Load custom branding settings (for professional+ plans)
         if (settings.branding) {
@@ -324,6 +355,14 @@ const Chatbot: React.FC = () => {
     });
     
     try {
+      // Get existing settings to preserve any values not being updated
+      let existingSettings = {};
+      if (selectedChatbot?.settings) {
+        existingSettings = typeof selectedChatbot.settings === 'string' 
+          ? JSON.parse(selectedChatbot.settings) 
+          : selectedChatbot.settings;
+      }
+      
       const response = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${currentChatbotId}`, {
         method: 'PUT',
         headers: { 
@@ -335,14 +374,20 @@ const Chatbot: React.FC = () => {
           welcomeMessage: widgetMessage, // Save widgetMessage as chatbot welcomeMessage
           language: primaryLanguage,
           settings: {
+            // Preserve existing settings first
+            ...existingSettings,
+            // Then update with new values
             theme: widgetTheme,
             placeholder: widgetPlaceholder,
             showAvatar: showWidgetAvatar,
             title: widgetTitle,
             message: widgetMessage,
-            // Add custom branding for professional+ plans
+            // Add custom branding for professional+ plans (preserve existing branding if any)
             ...(user?.planId !== 'starter' && {
-              branding: brandingToSave
+              branding: {
+                ...existingSettings.branding,
+                ...brandingToSave
+              }
             })
           }
         })
