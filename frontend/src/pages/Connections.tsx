@@ -361,12 +361,6 @@ const Connections: React.FC = () => {
               <div className="w-full sm:w-auto">
                 <ChatbotSelector />
               </div>
-              {!selectedChatbotId && (
-                <div className="flex items-center gap-2 px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm text-blue-700 font-medium">All Connections</span>
-                </div>
-              )}
               <button
                 onClick={fetchConnections}
               className="flex items-center justify-center gap-2 px-3 lg:px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md lg:rounded-lg hover:bg-gray-50 transition-colors text-sm lg:text-base"

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { X, Bot, Plus, Sparkles } from 'lucide-react';
 import { useChatbot } from '../contexts/ChatbotContext';
+import { useUser } from '../contexts/UserContext';
+import { PLANS } from '../config/plans';
 
 interface AddChatbotModalProps {
   isOpen: boolean;
@@ -9,12 +11,17 @@ interface AddChatbotModalProps {
 }
 
 const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose, isFirstChatbot = false }) => {
-  const { createChatbot } = useChatbot();
+  const { createChatbot, chatbots } = useChatbot();
+  const { user } = useUser();
   const [isCreating, setIsCreating] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     welcomeMessage: 'Hello! I\'m your AI assistant. How can I help you today?'
   });
+
+  // Check if user has reached chatbot limit
+  const plan = user?.planId ? PLANS[user.planId] : PLANS.starter;
+  const hasReachedLimit = chatbots.length >= plan.chatbotLimit;
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -84,7 +91,31 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose, isFi
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        {hasReachedLimit ? (
+          <div className="p-6">
+            <div className="bg-red-50 border-2 border-red-200 rounded-lg p-4 mb-6">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Bot className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-red-900 mb-1">Chatbot Limit Reached</h3>
+                  <p className="text-sm text-red-700">
+                    Your <strong>{plan.name}</strong> plan allows up to <strong>{plan.chatbotLimit} chatbot{plan.chatbotLimit !== 1 ? 's' : ''}</strong>. 
+                    Please upgrade your plan to create more chatbots.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={handleClose}
+              className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors"
+            >
+              Close
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -149,6 +180,7 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose, isFi
             </button>
           </div>
         </form>
+        )}
       </div>
     </div>
   );
