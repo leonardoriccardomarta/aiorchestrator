@@ -204,8 +204,7 @@ const Chatbot: React.FC = () => {
         if (settings.message) setWidgetMessage(settings.message);
         
         // Load custom branding settings (for professional+ plans)
-        // Only load if branding hasn't been modified by user
-        if (settings.branding && !brandingModifiedRef.current) {
+        if (settings.branding) {
           // Update branding with logo handling
           console.log('🔄 Loading branding from database');
           // Check if logo is a blob URL
