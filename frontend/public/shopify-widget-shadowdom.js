@@ -397,14 +397,35 @@
     // Attach shadow DOM
     const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
 
+    // Add Google Fonts link to the document head if it doesn't exist
+    if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+      const fontLink = document.createElement('link');
+      fontLink.rel = 'preconnect';
+      fontLink.href = 'https://fonts.googleapis.com';
+      document.head.appendChild(fontLink);
+      
+      const fontLink2 = document.createElement('link');
+      fontLink2.rel = 'preconnect';
+      fontLink2.href = 'https://fonts.gstatic.com';
+      fontLink2.crossOrigin = 'anonymous';
+      document.head.appendChild(fontLink2);
+      
+      const fontStyle = document.createElement('link');
+      fontStyle.href = 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap';
+      fontStyle.rel = 'stylesheet';
+      document.head.appendChild(fontStyle);
+    }
+
     // Complete widget HTML with ALL styles inline
     const widgetHTML = `
       <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
         /* Reset all styles */
         * {
           margin: 0;
           padding: 0;
           box-sizing: border-box;
+          font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         /* Toggle Button */
@@ -464,7 +485,7 @@
           height: 560px;
           z-index: 2147483646;
           max-height: calc(100vh - 148px);
-          font-family: ${customFontFamily};
+          font-family: ${customFontFamily || "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
           background: white;
           border-radius: 16px;
           box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);

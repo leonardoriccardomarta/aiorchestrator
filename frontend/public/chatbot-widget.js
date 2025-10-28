@@ -186,6 +186,9 @@
     // Create widget HTML - RESPONSIVE for Desktop & Mobile
     const widgetHTML = `
       <style>
+        * {
+          font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
         /* Toggle Button */
         .toggle-button {
             position: fixed;
@@ -222,7 +225,7 @@
           height: 560px;
           z-index: 999;
           max-height: calc(100vh - 148px);
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         #${widgetId} .chat-widget.hidden { 
           display: none !important;
@@ -563,7 +566,7 @@
     // Add user message
         const userMessageHTML = `
           <div class="mb-4 flex justify-end">
-            <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+            <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white" style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
               <div class="text-sm">${message}</div>
               <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
             </div>
@@ -698,7 +701,7 @@
           
           const aiMessageHTML = `
             <div class="mb-4 flex justify-start">
-              <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+              <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200" style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
                 <div class="text-sm">${aiResponse}</div>
                 <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
                 ${data.suggestions ? `
