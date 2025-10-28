@@ -585,13 +585,16 @@ const Chatbot: React.FC = () => {
       console.log('📊 Response data:', json);
       
       if (json?.data && json.data.length > 0) {
-        // If we have a currentChatbotId, find that specific chatbot
+        // Use selectedChatbot from context as source of truth
+        const sourceChatbotId = selectedChatbot?.id || currentChatbotId;
+        
+        // If we have a specific chatbot ID, find that specific chatbot
         // Otherwise, use the first one
-        let targetChatbot = currentChatbotId 
-          ? json.data.find((c: any) => c.id === currentChatbotId) 
+        let targetChatbot = sourceChatbotId 
+          ? json.data.find((c: any) => c.id === sourceChatbotId) 
           : json.data[0];
         
-        // If currentChatbotId doesn't exist in data, fall back to first
+        // If chatbot doesn't exist in data, fall back to first
         if (!targetChatbot) {
           targetChatbot = json.data[0];
         }
