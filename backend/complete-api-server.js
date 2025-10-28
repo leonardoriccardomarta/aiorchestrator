@@ -3305,6 +3305,16 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
     };
     
         // Use shopify-widget-shadowdom.js with data attributes (matching Quick Embed format)
+        // Optional professional branding attributes
+        const branding = widgetConfig && widgetConfig.branding ? widgetConfig.branding : {};
+        const primaryColorAttr = branding.primaryColor ? `\n  data-primary-color="${escapeString(branding.primaryColor)}"` : '';
+        const secondaryColorAttr = branding.secondaryColor ? `\n  data-secondary-color="${escapeString(branding.secondaryColor)}"` : '';
+        const fontFamilyAttr = branding.fontFamily ? `\n  data-font-family="${escapeString(branding.fontFamily)}"` : '';
+        // Include logo only if present and not a blob URL
+        const logoAttr = branding.logo && !String(branding.logo).startsWith('blob:') && String(branding.logo).trim() !== ''
+          ? `\n  data-logo="${escapeString(branding.logo)}"`
+          : '';
+
         const directWidgetCode = `<!-- AI Orchestrator Chatbot Widget -->
 <script 
   src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
@@ -3316,7 +3326,7 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
   data-show-avatar="${widgetConfig.showAvatar !== false ? 'true' : 'false'}"
   data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}"
   data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}"
-  data-auto-open="${widgetConfig.autoOpen === true ? 'true' : 'false'}"
+  data-auto-open="${widgetConfig.autoOpen === true ? 'true' : 'false'}"${primaryColorAttr}${secondaryColorAttr}${fontFamilyAttr}${logoAttr}
   defer>
 </script>`;
 
