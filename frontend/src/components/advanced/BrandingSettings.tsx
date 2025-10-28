@@ -85,6 +85,8 @@ const BrandingSettings: React.FC = () => {
     setSaveStatus('idle');
     
     try {
+      console.log('💾 BrandingSettings: Saving branding:', branding);
+      
       // Update chatbot settings with branding
       const currentSettings = typeof selectedChatbot.settings === 'string' 
         ? JSON.parse(selectedChatbot.settings) 
@@ -94,6 +96,8 @@ const BrandingSettings: React.FC = () => {
         ...currentSettings,
         branding: branding
       };
+      
+      console.log('💾 BrandingSettings: Updated settings:', updatedSettings);
       
       await updateChatbot(selectedChatbot.id, {
         settings: JSON.stringify(updatedSettings)
