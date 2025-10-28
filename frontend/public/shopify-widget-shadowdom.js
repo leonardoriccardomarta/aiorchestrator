@@ -158,20 +158,6 @@
     return null;
   }
 
-  // Helper function to get theme colors
-  const getThemeColor = (theme) => {
-    const colors = {
-      blue: '#2563eb',
-      purple: '#7c3aed',
-      green: '#059669',
-      red: '#dc2626',
-      orange: '#ea580c',
-      pink: '#db2777',
-      indigo: '#4f46e5',
-      teal: '#0d9488'
-    };
-    return colors[theme] || '#0d9488';
-  };
 
   // Theme colors - hardcoded CSS values
   const themeColors = {
@@ -384,17 +370,11 @@
 
     const theme = themeColors[config.theme] || themeColors.teal;
     
-    // Override with custom branding colors ONLY if they're different from theme defaults
+    // Override with custom branding colors if provided
     if (config.primaryColor && config.primaryColor.trim() !== '') {
-      // Get the default theme color for comparison
-      const defaultThemeColor = getThemeColor(config.theme);
-      
-      // Only apply custom colors if they're actually different from theme default
-      if (config.primaryColor !== defaultThemeColor) {
-        theme.primary = `linear-gradient(135deg, ${config.primaryColor}, ${config.secondaryColor || config.primaryColor})`;
-        theme.accent = config.primaryColor;
-        theme.userMessage = config.primaryColor;
-      }
+      theme.primary = `linear-gradient(135deg, ${config.primaryColor}, ${config.secondaryColor || config.primaryColor})`;
+      theme.accent = config.primaryColor;
+      theme.userMessage = config.primaryColor;
     }
     
     // Apply custom font family if available
