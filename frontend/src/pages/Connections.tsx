@@ -1,28 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { API_URL } from '../config/constants';
-
-// Dichiarazione TypeScript per window.AIOrchestratorConfig
-declare global {
-  interface Window {
-    AIOrchestratorConfig?: {
-      chatbotId: string;
-      apiKey: string;
-      theme: string;
-      title: string;
-      placeholder: string;
-      showAvatar: boolean;
-      welcomeMessage: string;
-      primaryLanguage: string;
-      primaryColor: string;
-      primaryDarkColor: string;
-      headerLightColor: string;
-      headerDarkColor: string;
-      textColor: string;
-      accentColor: string;
-    };
-  }
-}
 import ShopifyOAuthButton from '../components/connections/ShopifyOAuthButton';
 import WidgetInstructions from '../components/connections/WidgetInstructions';
 import { 
@@ -272,7 +250,27 @@ const Connections: React.FC = () => {
         autoOpen: false
       };
 
-      console.log('🚀 Configurazione widget finale:', widgetConfig);
+      // Include professional branding attributes when available
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const anyLive: any = liveConfig || {};
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const anyWidget: any = widgetConfig as any;
+        // Attach branding only for non-starter plans
+        if ((user?.planId || 'starter') !== 'starter') {
+          anyWidget.branding = {
+            primaryColor: anyLive.primaryColor || anyWidget.primaryColor,
+            secondaryColor: anyLive.secondaryColor || anyWidget.primaryDarkColor,
+            fontFamily: anyLive.fontFamily || 'Open Sans',
+            ...(anyLive.logo && !String(anyLive.logo).startsWith('blob:') && String(anyLive.logo).trim() !== ''
+              ? { logo: anyLive.logo }
+              : {})
+          };
+        }
+        console.log('🚀 Configurazione widget finale:', anyWidget);
+      } catch (e) {
+        console.warn('branding attach skipped:', e);
+      }
 
       const response = await fetch(`${API_URL}/api/connections/install-widget`, {
         method: 'POST',
