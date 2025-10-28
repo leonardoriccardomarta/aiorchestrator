@@ -847,6 +847,41 @@ app.get('/api/widget/status/:chatbotId', async (req, res) => {
       }
     }
     
+    // Check if downgrade requires widget update (check for pro features in installed widget)
+    if (status === 'active') {
+      // Check if chatbot has custom branding (professional+ feature)
+      if (chatbot.settings) {
+        const settings = typeof chatbot.settings === 'string' ? JSON.parse(chatbot.settings) : chatbot.settings;
+        const hasCustomBranding = settings?.branding?.primaryColor || settings?.branding?.logo;
+        const hasCustomLogo = settings?.branding?.logo && settings.branding.logo.trim() !== '';
+        
+        // If user downgraded from professional to starter, and has custom branding
+        if (user.planId === 'starter' && hasCustomBranding) {
+          status = 'downgrade_requires_update';
+          message = 'Your plan was downgraded. Please update your widget code to remove Professional features (custom branding).';
+          requiresAction = true;
+          actionUrl = '/connections';
+        }
+        // If user downgraded from business/professional and has more than allowed chatbots
+        else if (user.planId === 'professional') {
+          // Check chatbot count
+          const chatbotCount = await prisma.chatbot.count({
+            where: {
+              userId: user.id
+            }
+          });
+          
+          const plan = getPlan('professional');
+          if (plan && plan.limits && chatbotCount > plan.limits.chatbots) {
+            status = 'downgrade_requires_update';
+            message = `Your plan was downgraded. You have ${chatbotCount} chatbots but Professional plan allows only ${plan.limits.chatbots}. Please remove or upgrade.`;
+            requiresAction = true;
+            actionUrl = '/chatbot';
+          }
+        }
+      }
+    }
+    
     res.json({
       success: true,
       data: {

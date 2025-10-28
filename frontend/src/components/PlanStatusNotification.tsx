@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AlertTriangle, X, ExternalLink } from 'lucide-react';
+import { X, ExternalLink } from 'lucide-react';
 import { API_URL } from '../config/constants';
 import { useChatbot } from '../contexts/ChatbotContext';
 
@@ -8,7 +8,7 @@ interface PlanStatusNotificationProps {
 }
 
 interface WidgetStatus {
-  status: 'active' | 'cancelled' | 'trial_expired' | 'upgrade_required' | 'limit_reached';
+  status: 'active' | 'cancelled' | 'trial_expired' | 'upgrade_required' | 'limit_reached' | 'downgrade_requires_update';
   message: string;
   requiresAction: boolean;
   actionUrl: string;
@@ -61,8 +61,8 @@ const PlanStatusNotification: React.FC<PlanStatusNotificationProps> = ({ classNa
     setIsVisible(false);
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
+  const getStatusColor = (statusType: string) => {
+    switch (statusType) {
       case 'cancelled':
         return 'bg-red-50 border-red-200 text-red-800';
       case 'trial_expired':
@@ -71,13 +71,15 @@ const PlanStatusNotification: React.FC<PlanStatusNotificationProps> = ({ classNa
         return 'bg-yellow-50 border-yellow-200 text-yellow-800';
       case 'limit_reached':
         return 'bg-purple-50 border-purple-200 text-purple-800';
+      case 'downgrade_requires_update':
+        return 'bg-blue-50 border-blue-200 text-blue-800';
       default:
         return 'bg-blue-50 border-blue-200 text-blue-800';
     }
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
+  const getStatusIcon = (statusType: string) => {
+    switch (statusType) {
       case 'cancelled':
         return '🚫';
       case 'trial_expired':
@@ -86,6 +88,8 @@ const PlanStatusNotification: React.FC<PlanStatusNotificationProps> = ({ classNa
         return '⚠️';
       case 'limit_reached':
         return '📊';
+      case 'downgrade_requires_update':
+        return '⬇️';
       default:
         return 'ℹ️';
     }
@@ -107,25 +111,20 @@ const PlanStatusNotification: React.FC<PlanStatusNotificationProps> = ({ classNa
                 {status.status === 'trial_expired' && 'Trial Expired'}
                 {status.status === 'upgrade_required' && 'Upgrade Required'}
                 {status.status === 'limit_reached' && 'Message Limit Reached'}
+                {status.status === 'downgrade_requires_update' && 'Plan Downgraded'}
               </h3>
               <p className="text-sm mb-3">{status.message}</p>
               {status.requiresAction && (
                 <div className="flex space-x-2">
                   <a
-                    href={status.actionUrl}
+                    href={status.actionUrl.startsWith('http') ? status.actionUrl : `https://www.aiorchestrator.dev${status.actionUrl}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center px-3 py-1.5 bg-white border border-current rounded-md text-xs font-medium hover:bg-gray-50 transition-colors"
                   >
                     <ExternalLink className="w-3 h-3 mr-1" />
-                    Upgrade Plan
+                    {status.status === 'downgrade_requires_update' ? 'Update Widget' : 'Upgrade Plan'}
                   </a>
-                  <button
-                    onClick={() => window.location.href = '/connections'}
-                    className="inline-flex items-center px-3 py-1.5 bg-white border border-current rounded-md text-xs font-medium hover:bg-gray-50 transition-colors"
-                  >
-                    Update Widget
-                  </button>
                 </div>
               )}
             </div>
