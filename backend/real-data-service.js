@@ -29,14 +29,18 @@ class RealDataService {
   }
 
   async updateChatbot(id, data) {
-    // Handle settings field - convert to JSON string if it's an object
-    // If it's already a string, keep it as is (handles case where frontend sends JSON.stringify(settings))
-    if (data.settings && typeof data.settings === 'object') {
-      data.settings = JSON.stringify(data.settings);
+    // Handle settings field properly
+    // If settings is an object, stringify it
+    // If settings is already a string, use it as-is
+    if (data.settings !== undefined) {
+      if (typeof data.settings === 'object') {
+        data.settings = JSON.stringify(data.settings);
+      }
+      // If it's already a string, keep it as is (no double stringify)
     }
     
     console.log('🔧 updateChatbot: settings type:', typeof data.settings);
-    console.log('🔧 updateChatbot: settings value:', data.settings ? (typeof data.settings === 'string' ? data.settings.substring(0, 100) : 'object') : 'null');
+    console.log('🔧 updateChatbot: settings value (first 100 chars):', data.settings ? (typeof data.settings === 'string' ? data.settings.substring(0, 100) : JSON.stringify(data.settings).substring(0, 100)) : 'null');
     
     return await prisma.chatbot.update({
       where: { id },
