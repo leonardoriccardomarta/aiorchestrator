@@ -401,37 +401,41 @@ const Chatbot: React.FC = () => {
           : selectedChatbot.settings;
       }
       
+      const payload = {
+        name: widgetTitle, // Save widgetTitle as chatbot name
+        welcomeMessage: widgetMessage, // Save widgetMessage as chatbot welcomeMessage
+        language: primaryLanguage,
+        settings: {
+          // Preserve existing settings first
+          ...existingSettings,
+          // Then update with new values
+          theme: widgetTheme,
+          placeholder: widgetPlaceholder,
+          showAvatar: showWidgetAvatar,
+          title: widgetTitle,
+          message: widgetMessage,
+          // Add custom branding for professional+ plans (preserve existing branding if any)
+          ...(user?.planId !== 'starter' && (existingSettings as any).branding && {
+            branding: {
+              ...(existingSettings as any).branding,
+              ...brandingToSave
+            }
+          }),
+          ...(user?.planId !== 'starter' && !(existingSettings as any).branding && {
+            branding: brandingToSave
+          })
+        }
+      };
+      
+      console.log('📤 Sending save request with payload:', JSON.stringify(payload).substring(0, 500) + '...');
+      
       const response = await fetch(`${API_URL}/api/chatbots/${currentChatbotId}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json', 
           'Authorization': `Bearer ${localStorage.getItem('authToken')}` 
         },
-        body: JSON.stringify({
-          name: widgetTitle, // Save widgetTitle as chatbot name
-          welcomeMessage: widgetMessage, // Save widgetMessage as chatbot welcomeMessage
-          language: primaryLanguage,
-          settings: {
-            // Preserve existing settings first
-            ...existingSettings,
-            // Then update with new values
-            theme: widgetTheme,
-            placeholder: widgetPlaceholder,
-            showAvatar: showWidgetAvatar,
-            title: widgetTitle,
-            message: widgetMessage,
-            // Add custom branding for professional+ plans (preserve existing branding if any)
-            ...(user?.planId !== 'starter' && (existingSettings as any).branding && {
-              branding: {
-                ...(existingSettings as any).branding,
-                ...brandingToSave
-              }
-            }),
-            ...(user?.planId !== 'starter' && !(existingSettings as any).branding && {
-              branding: brandingToSave
-            })
-          }
-        })
+        body: JSON.stringify(payload)
       });
       
       if (response.ok) {
