@@ -393,38 +393,25 @@ const Chatbot: React.FC = () => {
     });
     
     try {
-      // Get existing settings to preserve any values not being updated
-      let existingSettings: any = {};
-      if (selectedChatbot?.settings) {
-        existingSettings = typeof selectedChatbot.settings === 'string' 
-          ? JSON.parse(selectedChatbot.settings) 
-          : selectedChatbot.settings;
+      // Build new settings object without preserving old settings (to avoid double stringification issues)
+      const newSettings: any = {
+        theme: widgetTheme,
+        placeholder: widgetPlaceholder,
+        showAvatar: showWidgetAvatar,
+        title: widgetTitle,
+        message: widgetMessage
+      };
+      
+      // Only add branding if user has professional+ plan
+      if (user?.planId !== 'starter') {
+        newSettings.branding = brandingToSave;
       }
       
       const payload = {
         name: widgetTitle, // Save widgetTitle as chatbot name
         welcomeMessage: widgetMessage, // Save widgetMessage as chatbot welcomeMessage
         language: primaryLanguage,
-        settings: {
-          // Preserve existing settings first
-          ...existingSettings,
-          // Then update with new values
-          theme: widgetTheme,
-          placeholder: widgetPlaceholder,
-          showAvatar: showWidgetAvatar,
-          title: widgetTitle,
-          message: widgetMessage,
-          // Add custom branding for professional+ plans (preserve existing branding if any)
-          ...(user?.planId !== 'starter' && (existingSettings as any).branding && {
-            branding: {
-              ...(existingSettings as any).branding,
-              ...brandingToSave
-            }
-          }),
-          ...(user?.planId !== 'starter' && !(existingSettings as any).branding && {
-            branding: brandingToSave
-          })
-        }
+        settings: newSettings
       };
       
       console.log('📤 Sending save request with payload:', JSON.stringify(payload).substring(0, 500) + '...');
