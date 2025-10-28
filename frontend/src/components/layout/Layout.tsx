@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { cn } from '../../utils/cn';
 import Navigation from './Navigation';
 import Sidebar from './Sidebar';
+import PlanStatusNotification from '../PlanStatusNotification';
 import { useResponsive } from '../../hooks/useResponsive';
 import { sidebarItems, navigationItems } from '../../config/sidebarConfig';
 
@@ -79,6 +80,9 @@ export const Layout: React.FC<LayoutProps> = ({
           </div>
         </main>
       </div>
+      
+      {/* Plan Status Notifications */}
+      <PlanStatusNotification />
     </div>
   );
 };

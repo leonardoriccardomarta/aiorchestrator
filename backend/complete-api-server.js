@@ -765,6 +765,119 @@ app.post('/api/onboarding/complete', authenticateToken, async (req, res) => {
   }
 });
 
+// Widget status check endpoint (for notifications)
+app.get('/api/widget/status/:chatbotId', async (req, res) => {
+  try {
+    const { chatbotId } = req.params;
+    
+    // Get chatbot and user info
+    const chatbot = await prisma.chatbot.findUnique({
+      where: { id: chatbotId },
+      include: { user: true }
+    });
+    
+    if (!chatbot || !chatbot.user) {
+      return res.status(404).json({
+        success: false,
+        error: 'Chatbot not found'
+      });
+    }
+    
+    const user = chatbot.user;
+    const now = new Date();
+    
+    // Check subscription status
+    let status = 'active';
+    let message = '';
+    let requiresAction = false;
+    let actionUrl = '';
+    
+    // Check if user is blocked (subscription cancelled)
+    if (!user.isActive || !user.planId) {
+      status = 'cancelled';
+      message = 'Your subscription has been cancelled. Please subscribe to a plan to continue using the chatbot.';
+      requiresAction = true;
+      actionUrl = 'https://www.aiorchestrator.dev/pricing';
+    }
+    // Check if trial has expired
+    else if (user.isTrialActive && user.trialEndDate) {
+      const trialEnd = new Date(user.trialEndDate);
+      
+      if (now > trialEnd) {
+        if (!user.isPaid) {
+          status = 'trial_expired';
+          message = 'Trial expired. Please upgrade your plan to continue using the chatbot.';
+          requiresAction = true;
+          actionUrl = 'https://www.aiorchestrator.dev/pricing';
+        }
+      }
+    } 
+    // Check if no trial and not paid
+    else if (!user.isTrialActive && !user.isPaid) {
+      status = 'upgrade_required';
+      message = 'Please upgrade your plan to continue using the chatbot.';
+      requiresAction = true;
+      actionUrl = 'https://www.aiorchestrator.dev/pricing';
+    }
+    // Check monthly message limits
+    else {
+      const userPlanId = user.planId || 'starter';
+      const plan = getPlan(userPlanId);
+      
+      if (plan && plan.messageLimit) {
+        const startOfMonth = new Date();
+        startOfMonth.setDate(1);
+        startOfMonth.setHours(0, 0, 0, 0);
+        
+        const messageCount = await prisma.conversation.count({
+          where: {
+            userId: user.id,
+            createdAt: {
+              gte: startOfMonth
+            }
+          }
+        });
+        
+        if (messageCount >= plan.messageLimit) {
+          status = 'limit_reached';
+          message = `Monthly message limit reached (${messageCount}/${plan.messageLimit}). Upgrade your plan to continue.`;
+          requiresAction = true;
+          actionUrl = 'https://www.aiorchestrator.dev/pricing';
+        }
+      }
+    }
+    
+    res.json({
+      success: true,
+      data: {
+        status,
+        message,
+        requiresAction,
+        actionUrl,
+        user: {
+          id: user.id,
+          planId: user.planId,
+          isActive: user.isActive,
+          isPaid: user.isPaid,
+          isTrialActive: user.isTrialActive,
+          trialEndDate: user.trialEndDate
+        },
+        chatbot: {
+          id: chatbot.id,
+          name: chatbot.name
+        }
+      }
+    });
+    
+  } catch (error) {
+    console.error('Widget status check error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error'
+    });
+  }
+});
+
 // Health check
 app.get('/health', async (req, res) => {
   try {
