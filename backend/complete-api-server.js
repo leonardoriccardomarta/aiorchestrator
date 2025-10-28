@@ -716,7 +716,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
 
     res.setHeader('Content-Type', 'text/html');
     res.setHeader('X-Frame-Options', 'ALLOWALL');
-    res.setHeader('Content-Security-Policy', "frame-ancestors *; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com;");
+    res.setHeader('Content-Security-Policy', "frame-ancestors *; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;");
     res.send(html);
   } catch (error) {
     console.error('Embed preview error:', error);
