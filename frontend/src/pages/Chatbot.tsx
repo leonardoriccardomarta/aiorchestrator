@@ -76,7 +76,7 @@ interface Message {
 const Chatbot: React.FC = () => {
   const { user } = useUser();
   const { chatbots, selectedChatbot, selectChatbot } = useChatbot();
-  const [activeTab, setActiveTab] = useState<'chat' | 'settings' | 'embed' | 'manage'>('chat');
+  const [activeTab, setActiveTab] = useState<'chat' | 'embed' | 'manage'>('chat');
   const [currentChatbotId, setCurrentChatbotId] = useState<string>('');
   const [chatbotName, setChatbotName] = useState<string>('My AI Assistant');
   const [welcomeMessage, setWelcomeMessage] = useState<string>("Hello! I'm your AI assistant. How can I help you today?");
@@ -1095,18 +1095,6 @@ const Chatbot: React.FC = () => {
               <span className="hidden sm:inline">Test </span>Chat
             </button>
             <button
-              onClick={() => setActiveTab('settings')}
-              data-tour="tour-settings"
-              className={`flex-1 px-2 lg:px-4 py-2 lg:py-3 rounded-md text-xs lg:text-sm font-medium transition-colors ${
-                activeTab === 'settings' 
-                  ? 'bg-white text-gray-900 shadow-sm' 
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              <Settings className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
-              Settings
-            </button>
-            <button
               onClick={() => setActiveTab('embed')}
               data-tour="tour-embed"
               className={`flex-1 px-2 lg:px-4 py-2 lg:py-3 rounded-md text-xs lg:text-sm font-medium transition-colors ${
@@ -1116,7 +1104,7 @@ const Chatbot: React.FC = () => {
               }`}
             >
               <Code className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
-              Embed
+              Configure
             </button>
             <button
               onClick={() => setActiveTab('manage')}
@@ -1305,11 +1293,11 @@ const Chatbot: React.FC = () => {
                       Test
                     </button>
                     <button 
-                      onClick={() => setActiveTab('settings')}
+                      onClick={() => setActiveTab('embed')}
                       className="flex-1 px-2 lg:px-3 py-1.5 lg:py-2 bg-gray-100 text-gray-700 rounded-md lg:rounded-lg hover:bg-gray-200 transition-colors text-xs lg:text-sm"
                     >
                       <Settings className="w-3 h-3 lg:w-4 lg:h-4 mr-1 inline" />
-                      Edit
+                      Configure
                     </button>
                     <button 
                       onClick={() => setShowDeleteConfirm(true)}
@@ -1484,9 +1472,11 @@ const Chatbot: React.FC = () => {
           </div>
         )}
 
-        {activeTab === 'settings' && (
+
+
+        {activeTab === 'embed' && (
           <div className="space-y-4 lg:space-y-6">
-            {/* Your Plan Limits */}
+            {/* Plan Limits */}
             <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 lg:p-6 border border-blue-200">
               <div className="flex items-center justify-between mb-3 lg:mb-4">
                 <h3 className="text-base lg:text-lg font-semibold text-gray-900">Your Plan Limits</h3>
@@ -1576,7 +1566,7 @@ const Chatbot: React.FC = () => {
                     <option value="ko">한국어</option>
                     <option value="zh">中文</option>
                   </select>
-                  <p className="text-[9px] lg:text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
+                  <p className="text-[9px] lg:text-xs text-gray-500 mt-1">Used as default; auto-detect when 'Auto-detect' selected.</p>
                 </div>
                 
                 <div className="flex items-center justify-end pt-2">
@@ -1608,8 +1598,6 @@ const Chatbot: React.FC = () => {
                         if(j?.success){ 
                           setShowSaveSuccess(true);
                           setTimeout(() => setShowSaveSuccess(false), 3000);
-                          // Switch to chat tab to see changes
-                          setActiveTab('chat');
                         } else { 
                           alert('Save failed'); 
                         }
@@ -1624,50 +1612,17 @@ const Chatbot: React.FC = () => {
             </div>
 
             {/* Advanced Features */}
-            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">
-              <h4 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Advanced Features</h4>
-              
-              {/* Custom Branding */}
-              <BrandingSettings />
-              
-              {/* White-Label Solution */}
-              <WhiteLabelSettings />
-            </div>
-          </div>
-        )}
-
-
-        {activeTab === 'embed' && (
-          <div className="space-y-4 lg:space-y-6">
-            {/* Plan Limits */}
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 lg:p-6 border border-blue-200">
-              <div className="flex items-center justify-between mb-3 lg:mb-4">
-                <h3 className="text-base lg:text-lg font-semibold text-gray-900">Your Plan Limits</h3>
-                <span className="px-2 lg:px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs lg:text-sm font-medium">
-                  {user?.planId === 'starter' ? 'Starter' : user?.planId === 'professional' ? 'Professional' : 'Business'}
-                </span>
+            {user?.planId !== 'starter' && (
+              <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">
+                <h4 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Advanced Features</h4>
+                
+                {/* Custom Branding */}
+                <BrandingSettings />
+                
+                {/* White-Label Solution */}
+                <WhiteLabelSettings />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-4">
-                <div className="text-center">
-                  <div className="text-xl lg:text-2xl font-bold text-blue-600 mb-1">
-                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : user?.planId === 'business' ? '3' : '1'}
-                  </div>
-                  <div className="text-xs lg:text-sm text-gray-600">Chatbots</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-xl lg:text-2xl font-bold text-green-600 mb-1">
-                    {user?.planId === 'starter' ? '5K' : user?.planId === 'professional' ? '25K' : user?.planId === 'business' ? '100K' : '5K'}
-                  </div>
-                  <div className="text-xs lg:text-sm text-gray-600">Messages/Month</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-xl lg:text-2xl font-bold text-purple-600 mb-1">
-                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : user?.planId === 'business' ? '3' : '1'}
-                  </div>
-                  <div className="text-xs lg:text-sm text-gray-600">Websites</div>
-                </div>
-              </div>
-            </div>
+            )}
 
             {/* Embed Options */}
             <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">
