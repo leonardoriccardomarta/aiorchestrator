@@ -1789,13 +1789,6 @@ const Chatbot: React.FC = () => {
                 </div>
               </div>
 
-              {/* White-Label Solution (only for Business) */}
-              {user?.planId === 'business' && (
-                <div className="mb-4 lg:mb-6">
-                  <WhiteLabelSettings />
-                </div>
-              )}
-
               {/* Live Preview */}
               <div className="mb-4 lg:mb-6">
                 <h4 className="font-medium text-sm lg:text-base text-gray-900 mb-3 lg:mb-4">Chatbot Preview</h4>
