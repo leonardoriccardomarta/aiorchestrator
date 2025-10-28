@@ -157,6 +157,21 @@
     return null;
   }
 
+  // Helper function to get theme colors
+  const getThemeColor = (theme) => {
+    const colors = {
+      blue: '#3B82F6',
+      purple: '#8B5CF6',
+      green: '#10B981',
+      red: '#EF4444',
+      orange: '#F97316',
+      pink: '#EC4899',
+      indigo: '#6366F1',
+      teal: '#14B8A6'
+    };
+    return colors[theme] || '#14B8A6';
+  };
+
   // Theme colors matching live preview
   const themes = {
     blue: { primary: 'from-blue-600 to-blue-700', secondary: 'from-blue-50 to-blue-100', accent: 'bg-blue-600', text: 'text-blue-900', border: 'border-blue-200', userMessage: 'bg-blue-600' },
@@ -187,11 +202,17 @@
 
     const themeColors = themes[config.theme] || themes.teal;
     
-    // Override with custom branding colors if available
-    if (config.primaryColor) {
-      themeColors.primary = `from-[${config.primaryColor}] to-[${config.secondaryColor || config.primaryColor}]`;
-      themeColors.accent = `bg-[${config.primaryColor}]`;
-      themeColors.userMessage = `bg-[${config.primaryColor}]`;
+    // Override with custom branding colors ONLY if they're different from theme defaults
+    if (config.primaryColor && config.primaryColor.trim() !== '') {
+      // Get the default theme color for comparison
+      const defaultThemeColor = getThemeColor(config.theme);
+      
+      // Only apply custom colors if they're actually different from theme default
+      if (config.primaryColor !== defaultThemeColor) {
+        themeColors.primary = `from-[${config.primaryColor}] to-[${config.secondaryColor || config.primaryColor}]`;
+        themeColors.accent = `bg-[${config.primaryColor}]`;
+        themeColors.userMessage = `bg-[${config.primaryColor}]`;
+      }
     }
     
     // Apply custom font family if available
@@ -339,7 +360,7 @@
             ${config.showAvatar ? `
                   <div class="w-10 h-10 bg-gradient-to-br ${themeColors.primary} rounded-full flex items-center justify-center overflow-hidden">
                     ${config.logo ? `
-                      <img src="${config.logo}" alt="Logo" class="w-full h-full object-cover rounded-full" />
+                      <img src="${config.logo}" alt="Logo" style="width: 20px; height: 20px; border-radius: 50%; object-fit: cover;" />
                     ` : `
                       <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
