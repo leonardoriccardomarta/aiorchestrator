@@ -118,7 +118,12 @@
         placeholder: window.AIOrchestratorConfig.placeholder || 'Type your message...',
         showAvatar: window.AIOrchestratorConfig.showAvatar !== false,
         primaryLanguage: window.AIOrchestratorConfig.primaryLanguage || 'en',
-        autoOpen: window.AIOrchestratorConfig.autoOpen === true // Default: false (chiuso)
+        autoOpen: window.AIOrchestratorConfig.autoOpen === true, // Default: false (chiuso)
+        // Custom branding attributes
+        primaryColor: window.AIOrchestratorConfig.primaryColor,
+        secondaryColor: window.AIOrchestratorConfig.secondaryColor,
+        fontFamily: window.AIOrchestratorConfig.fontFamily,
+        logo: window.AIOrchestratorConfig.logo
       };
     }
 
@@ -137,7 +142,12 @@
         placeholder: script.dataset.placeholder || 'Type your message...',
         showAvatar: script.dataset.showAvatar !== 'false',
         primaryLanguage: script.dataset.primaryLanguage || script.dataset['primary-language'] || 'en',
-        autoOpen: script.dataset.autoOpen === 'true' // Default: false (chiuso)
+        autoOpen: script.dataset.autoOpen === 'true', // Default: false (chiuso)
+        // Custom branding attributes
+        primaryColor: script.dataset.primaryColor,
+        secondaryColor: script.dataset.secondaryColor,
+        fontFamily: script.dataset.fontFamily,
+        logo: script.dataset.logo
       };
       
       console.log('✅ Config loaded from script tag:', config);
@@ -358,6 +368,16 @@
     }
 
     const theme = themeColors[config.theme] || themeColors.teal;
+    
+    // Override with custom branding colors if available
+    if (config.primaryColor) {
+      theme.primary = `linear-gradient(135deg, ${config.primaryColor}, ${config.secondaryColor || config.primaryColor})`;
+      theme.accent = config.primaryColor;
+      theme.userMessage = config.primaryColor;
+    }
+    
+    // Apply custom font family if available
+    const customFontFamily = config.fontFamily || '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
     const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
     
   // Get Shopify access token for enhanced features
@@ -443,7 +463,7 @@
           height: 560px;
           z-index: 2147483646;
           max-height: calc(100vh - 148px);
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          font-family: ${customFontFamily};
           background: white;
           border-radius: 16px;
           box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -765,9 +785,13 @@
       <div class="widget-root">
         <!-- Toggle Button -->
         <div class="toggle-button" id="toggle">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-          </svg>
+          ${config.logo ? `
+            <img src="${config.logo}" alt="Logo" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;" />
+          ` : `
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+          `}
           <div class="online-dot"></div>
         </div>
 
@@ -778,9 +802,13 @@
             <div class="chat-header-left">
               ${config.showAvatar ? `
                 <div class="avatar">
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                  </svg>
+                  ${config.logo ? `
+                    <img src="${config.logo}" alt="Logo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;" />
+                  ` : `
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                  `}
                 </div>
               ` : ''}
               <div class="header-info">

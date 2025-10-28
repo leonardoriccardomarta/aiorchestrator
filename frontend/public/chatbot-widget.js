@@ -120,7 +120,12 @@
         placeholder: script.dataset.placeholder || 'Type your message...',
         showAvatar: script.dataset.showAvatar !== 'false',
         primaryLanguage: script.dataset.primaryLanguage || script.dataset['primary-language'] || 'en',
-        autoOpen: script.dataset.autoOpen === 'true'
+        autoOpen: script.dataset.autoOpen === 'true',
+        // Custom branding attributes
+        primaryColor: script.dataset.primaryColor,
+        secondaryColor: script.dataset.secondaryColor,
+        fontFamily: script.dataset.fontFamily,
+        logo: script.dataset.logo
       };
       
       console.log('✅ Config loaded from script tag:', config);
@@ -139,7 +144,12 @@
         placeholder: window.AIChatbotConfig.placeholder || 'Type your message...',
         showAvatar: window.AIChatbotConfig.showAvatar !== false,
         primaryLanguage: window.AIChatbotConfig.primaryLanguage || 'en',
-        autoOpen: window.AIChatbotConfig.autoOpen === true
+        autoOpen: window.AIChatbotConfig.autoOpen === true,
+        // Custom branding attributes
+        primaryColor: window.AIChatbotConfig.primaryColor,
+        secondaryColor: window.AIChatbotConfig.secondaryColor,
+        fontFamily: window.AIChatbotConfig.fontFamily,
+        logo: window.AIChatbotConfig.logo
       };
     }
 
@@ -176,6 +186,16 @@
     }
 
     const themeColors = themes[config.theme] || themes.teal;
+    
+    // Override with custom branding colors if available
+    if (config.primaryColor) {
+      themeColors.primary = `from-[${config.primaryColor}] to-[${config.secondaryColor || config.primaryColor}]`;
+      themeColors.accent = `bg-[${config.primaryColor}]`;
+      themeColors.userMessage = `bg-[${config.primaryColor}]`;
+    }
+    
+    // Apply custom font family if available
+    const customFontFamily = config.fontFamily || '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
     const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
 
     // Create widget HTML - RESPONSIVE for Desktop & Mobile
@@ -217,7 +237,7 @@
           height: 560px;
           z-index: 999;
           max-height: calc(100vh - 148px);
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          font-family: ${customFontFamily};
         }
         #${widgetId} .chat-widget.hidden { 
           display: none !important;
@@ -300,9 +320,13 @@
       <div id="${widgetId}">
       <!-- Toggle Button -->
         <div class="toggle-button bg-gradient-to-br ${themeColors.primary}" id="${widgetId}-toggle">
-          <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-          </svg>
+          ${config.logo ? `
+            <img src="${config.logo}" alt="Logo" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;" />
+          ` : `
+            <svg style="color: white; width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+          `}
           <div style="position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; background: #10B981; border-radius: 50%; border: 2px solid white; animation: pulse 2s infinite;"></div>
         </div>
 
@@ -313,11 +337,15 @@
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
             ${config.showAvatar ? `
-                  <div class="w-10 h-10 bg-gradient-to-br ${themeColors.primary} rounded-full flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                </svg>
-              </div>
+                  <div class="w-10 h-10 bg-gradient-to-br ${themeColors.primary} rounded-full flex items-center justify-center overflow-hidden">
+                    ${config.logo ? `
+                      <img src="${config.logo}" alt="Logo" class="w-full h-full object-cover rounded-full" />
+                    ` : `
+                      <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                      </svg>
+                    `}
+                  </div>
             ` : ''}
               <div>
                   <div class="font-bold ${themeColors.text}">${config.title}</div>
