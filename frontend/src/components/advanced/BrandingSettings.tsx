@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Palette, Upload, Save, Eye, Download, RotateCcw } from 'lucide-react';
-import PlanLimitations from '../PlanLimitations';
 import { useUser } from '../../contexts/UserContext';
 import { useChatbot } from '../../contexts/ChatbotContext';
 
@@ -148,9 +147,13 @@ const BrandingSettings: React.FC = () => {
     return () => clearTimeout(timeoutId);
   }, [branding]);
 
+  // Only show for Professional+ plans
+  if (user?.planId === 'starter') {
+    return null;
+  }
+
   return (
-    <PlanLimitations feature="Custom Branding" requiredPlan="professional">
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 lg:p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
@@ -338,7 +341,6 @@ const BrandingSettings: React.FC = () => {
           </div>
         </div>
       </div>
-    </PlanLimitations>
   );
 };
 
