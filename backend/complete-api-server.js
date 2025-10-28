@@ -6996,7 +6996,9 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
     console.log('🔍 Preview user plan info:', {
       userPlan,
       isProfessionalPlan,
-      userEmail: chatbot.user?.email
+      userEmail: chatbot.user?.email,
+      chatbotUserId: chatbot.user?.id,
+      chatbotSettings: chatbot.settings
     });
     
     // For Starter plan: use normal theme settings (no custom branding)
@@ -7025,6 +7027,14 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
     } else {
       console.log('📝 Preview starter plan - no custom branding');
     }
+    
+    console.log('🎯 Preview final branding state:', {
+      useCustomBranding,
+      customPrimaryColor,
+      customSecondaryColor,
+      customFontFamily,
+      customLogo: customLogo ? 'present' : 'empty'
+    });
     // Starter plan: use theme colors only (no custom branding)
     
     // Define theme colors for the toggle button
