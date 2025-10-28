@@ -51,13 +51,16 @@ import {
   HelpCircle,
   Palette,
   Upload,
-  RotateCcw
+  RotateCcw,
+  Lock
 } from 'lucide-react';
 import ChatbotManagement from '../components/ChatbotManagement';
 import EmbedCodeGenerator from '../components/EmbedCodeGenerator';
 import ChatbotTour from '../components/ChatbotTour';
 import PlanLimitations from '../components/PlanLimitations';
 import TourButton from '../components/TourButton';
+import BrandingSettings from '../components/advanced/BrandingSettings';
+import WhiteLabelSettings from '../components/advanced/WhiteLabelSettings';
 import { useUser } from '../contexts/UserContext';
 import { useChatbot } from '../contexts/ChatbotContext';
 import AddChatbotModal from '../components/AddChatbotModal';
@@ -1799,6 +1802,20 @@ const Chatbot: React.FC = () => {
                 </div>
               </div>
 
+              {/* Custom Branding */}
+              <div className="mb-4 lg:mb-6">
+                <PlanLimitations feature="branding" requiredPlan="professional">
+                  <BrandingSettings />
+                </PlanLimitations>
+              </div>
+
+              {/* White-Label Solution */}
+              <div className="mb-4 lg:mb-6">
+                <PlanLimitations feature="whitelabel" requiredPlan="business">
+                  <WhiteLabelSettings />
+                </PlanLimitations>
+              </div>
+
               {/* Live Preview */}
               <div className="mb-4 lg:mb-6">
                 <h4 className="font-medium text-sm lg:text-base text-gray-900 mb-3 lg:mb-4">Chatbot Preview</h4>
@@ -1833,39 +1850,32 @@ const Chatbot: React.FC = () => {
                 </div>
               </div>
 
-              {/* Locked Features */}
-              <div className="mt-4 lg:mt-6 p-4 lg:p-6 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200">
-                <h4 className="font-medium text-sm lg:text-base text-gray-900 mb-3 lg:mb-4 flex items-center">
-                  <Zap className="w-4 h-4 mr-2 text-amber-600" />
-                  Advanced Features
-                </h4>
-                <div className="space-y-2 lg:space-y-3">
-                  {user?.planId === 'starter' && (
-                    <div className="flex items-center justify-between p-2 lg:p-3 bg-white rounded-lg border border-amber-200">
-                      <div className="flex items-center space-x-2">
-                        <Settings className="w-4 h-4 text-amber-600" />
-                        <span className="text-xs lg:text-sm text-gray-700">Custom Branding & Logo</span>
+              {/* Visual Lock Indicators */}
+              <div className="mt-4 lg:mt-6 flex flex-wrap gap-2 lg:gap-3">
+                {user?.planId === 'starter' && (
+                  <>
+                    <PlanLimitations feature="branding" requiredPlan="professional">
+                      <div className="p-3 lg:p-4 bg-white rounded-lg border border-amber-200 text-center">
+                        <Lock className="w-5 h-5 lg:w-6 lg:h-6 text-amber-500 mx-auto mb-1" />
+                        <p className="text-xs text-gray-600">Custom Branding</p>
                       </div>
-                      <span className="px-2 lg:px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">
-                        Professional+
-                      </span>
-                    </div>
-                  )}
-                  {user?.planId === 'professional' && (
-                    <div className="flex items-center justify-between p-2 lg:p-3 bg-white rounded-lg border border-amber-200">
-                      <div className="flex items-center space-x-2">
-                        <Palette className="w-4 h-4 text-amber-600" />
-                        <span className="text-xs lg:text-sm text-gray-700">White-Label Solution</span>
+                    </PlanLimitations>
+                    <PlanLimitations feature="whitelabel" requiredPlan="business">
+                      <div className="p-3 lg:p-4 bg-white rounded-lg border border-amber-200 text-center">
+                        <Lock className="w-5 h-5 lg:w-6 lg:h-6 text-amber-500 mx-auto mb-1" />
+                        <p className="text-xs text-gray-600">White-Label</p>
                       </div>
-                      <span className="px-2 lg:px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">
-                        Business+
-                      </span>
+                    </PlanLimitations>
+                  </>
+                )}
+                {user?.planId === 'professional' && (
+                  <PlanLimitations feature="whitelabel" requiredPlan="business">
+                    <div className="p-3 lg:p-4 bg-white rounded-lg border border-amber-200 text-center">
+                      <Lock className="w-5 h-5 lg:w-6 lg:h-6 text-amber-500 mx-auto mb-1" />
+                      <p className="text-xs text-gray-600">White-Label</p>
                     </div>
-                  )}
-                </div>
-                <p className="text-xs lg:text-sm text-gray-600 mt-3 lg:mt-4">
-                  Unlock these features by upgrading your plan in Settings.
-                </p>
+                  </PlanLimitations>
+                )}
               </div>
             </div>
           </div>
