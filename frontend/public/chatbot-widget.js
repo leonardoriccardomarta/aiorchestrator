@@ -372,6 +372,7 @@
             </svg>
           </button>
             </div>
+            <p class="text-xs text-gray-400 text-center mt-2">Powered by AI Orchestrator</p>
           </div>
         </div>
       </div>
