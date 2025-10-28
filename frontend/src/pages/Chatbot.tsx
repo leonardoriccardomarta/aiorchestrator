@@ -878,8 +878,7 @@ const Chatbot: React.FC = () => {
         
         if (response.ok) {
           console.log('✅ Custom branding reset saved to database');
-          // Reload chatbot to reflect changes
-          await loadChatbot(false);
+          // No need to reload - local state is already updated
         } else {
           console.error('❌ Failed to save reset branding');
         }
@@ -1324,8 +1323,7 @@ const Chatbot: React.FC = () => {
                               setShowDeleteSuccess(true);
                               setTimeout(() => setShowDeleteSuccess(false), 3000);
                               
-                              // Ricarica senza auto-create per mostrare stato vuoto
-                              await loadChatbot(false);
+                              // No need to reload - chatbot is deleted from context
                             } else { 
                               alert('Delete failed'); 
                             }
