@@ -56,8 +56,6 @@ import {
 import ChatbotManagement from '../components/ChatbotManagement';
 import EmbedCodeGenerator from '../components/EmbedCodeGenerator';
 import ChatbotTour from '../components/ChatbotTour';
-import BrandingSettings from '../components/advanced/BrandingSettings';
-import WhiteLabelSettings from '../components/advanced/WhiteLabelSettings';
 import PlanLimitations from '../components/PlanLimitations';
 import TourButton from '../components/TourButton';
 import { useUser } from '../contexts/UserContext';
@@ -1506,124 +1504,6 @@ const Chatbot: React.FC = () => {
               </div>
             </div>
 
-            {/* Chatbot Settings */}
-            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6" data-tour="chat-settings">
-              <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Chatbot Settings</h3>
-              <div className="space-y-4 lg:space-y-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
-                  <div>
-                    <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Chatbot Name</label>
-                    <input
-                      type="text"
-                      value={chatbotName}
-                      onChange={(e)=>{
-                        setChatbotName(e.target.value);
-                        setWidgetTitle(e.target.value); // Sync with widget title
-                      }}
-                      className="w-full px-2 lg:px-4 py-1.5 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Input Placeholder</label>
-                    <input
-                      type="text"
-                      value={widgetPlaceholder}
-                      onChange={(e) => setWidgetPlaceholder(e.target.value)}
-                      className="w-full px-2 lg:px-4 py-1.5 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
-                      placeholder="Type your message..."
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Welcome Message</label>
-                  <textarea
-                    value={welcomeMessage}
-                    onChange={(e)=>{
-                      setWelcomeMessage(e.target.value);
-                      setWidgetMessage(e.target.value); // Sync with widget message
-                    }}
-                    rows={2}
-                    className="w-full px-2 lg:px-4 py-1.5 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base resize-none"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Primary Language</label>
-                  <select
-                    value={primaryLanguage}
-                    onChange={(e)=> setPrimaryLanguage(e.target.value)}
-                    className="w-full px-2 lg:px-4 py-1.5 lg:py-3 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
-                  >
-                    <option value="auto">Auto-detect</option>
-                    <option value="en">English</option>
-                    <option value="it">Italiano</option>
-                    <option value="es">Español</option>
-                    <option value="fr">Français</option>
-                    <option value="de">Deutsch</option>
-                    <option value="pt">Português</option>
-                    <option value="ja">日本語</option>
-                    <option value="ko">한국어</option>
-                    <option value="zh">中文</option>
-                  </select>
-                  <p className="text-[9px] lg:text-xs text-gray-500 mt-1">Used as default; auto-detect when 'Auto-detect' selected.</p>
-                </div>
-                
-                <div className="flex items-center justify-end pt-2">
-                  <button 
-                    onClick={async ()=>{
-                      if(!currentChatbotId){ 
-                        alert('No chatbot found. Please reload the page.');
-                        await loadChatbot();
-                        return;
-                      }
-                      try{
-                        const res = await fetch(`${API_URL}/api/chatbots/${currentChatbotId}` ,{
-                          method:'PUT',
-                          headers:{ 'Content-Type':'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
-                          body: JSON.stringify({ 
-                            name: chatbotName, 
-                            welcomeMessage, 
-                            language: primaryLanguage,
-                            settings: {
-                              theme: widgetTheme,
-                              placeholder: widgetPlaceholder,
-                              showAvatar: showWidgetAvatar,
-                              title: widgetTitle,
-                              message: widgetMessage
-                            }
-                          })
-                        });
-                        const j = await res.json();
-                        if(j?.success){ 
-                          setShowSaveSuccess(true);
-                          setTimeout(() => setShowSaveSuccess(false), 3000);
-                        } else { 
-                          alert('Save failed'); 
-                        }
-                      }catch(e){ alert('Save failed'); }
-                    }} 
-                    className="px-3 lg:px-6 py-1.5 lg:py-3 bg-blue-600 text-white rounded-md lg:rounded-lg hover:bg-blue-700 transition-colors text-xs lg:text-sm"
-                  >
-                    Save Settings
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Advanced Features */}
-            {user?.planId !== 'starter' && (
-              <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">
-                <h4 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Advanced Features</h4>
-                
-                {/* Custom Branding */}
-                <BrandingSettings />
-                
-                {/* White-Label Solution */}
-                <WhiteLabelSettings />
-              </div>
-            )}
-
             {/* Embed Options */}
             <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">
               <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Embed Your Chatbot</h3>
@@ -1953,8 +1833,39 @@ const Chatbot: React.FC = () => {
                 </div>
               </div>
 
-              {/* Advanced Options */}
-              <div className="text-center">
+              {/* Locked Features */}
+              <div className="mt-4 lg:mt-6 p-4 lg:p-6 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200">
+                <h4 className="font-medium text-sm lg:text-base text-gray-900 mb-3 lg:mb-4 flex items-center">
+                  <Zap className="w-4 h-4 mr-2 text-amber-600" />
+                  Advanced Features
+                </h4>
+                <div className="space-y-2 lg:space-y-3">
+                  {user?.planId === 'starter' && (
+                    <div className="flex items-center justify-between p-2 lg:p-3 bg-white rounded-lg border border-amber-200">
+                      <div className="flex items-center space-x-2">
+                        <Settings className="w-4 h-4 text-amber-600" />
+                        <span className="text-xs lg:text-sm text-gray-700">Custom Branding & Logo</span>
+                      </div>
+                      <span className="px-2 lg:px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">
+                        Professional+
+                      </span>
+                    </div>
+                  )}
+                  {user?.planId === 'professional' && (
+                    <div className="flex items-center justify-between p-2 lg:p-3 bg-white rounded-lg border border-amber-200">
+                      <div className="flex items-center space-x-2">
+                        <Palette className="w-4 h-4 text-amber-600" />
+                        <span className="text-xs lg:text-sm text-gray-700">White-Label Solution</span>
+                      </div>
+                      <span className="px-2 lg:px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">
+                        Business+
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <p className="text-xs lg:text-sm text-gray-600 mt-3 lg:mt-4">
+                  Unlock these features by upgrading your plan in Settings.
+                </p>
               </div>
             </div>
           </div>
