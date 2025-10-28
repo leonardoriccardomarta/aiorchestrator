@@ -59,8 +59,6 @@ import EmbedCodeGenerator from '../components/EmbedCodeGenerator';
 import ChatbotTour from '../components/ChatbotTour';
 import PlanLimitations from '../components/PlanLimitations';
 import TourButton from '../components/TourButton';
-import BrandingSettings from '../components/advanced/BrandingSettings';
-import WhiteLabelSettings from '../components/advanced/WhiteLabelSettings';
 import { useUser } from '../contexts/UserContext';
 import { useChatbot } from '../contexts/ChatbotContext';
 import AddChatbotModal from '../components/AddChatbotModal';
@@ -445,10 +443,7 @@ const Chatbot: React.FC = () => {
         setChatbotName(widgetTitle);
         setWelcomeMessage(widgetMessage);
         
-        // Update BrandingSettings component with the new branding
-        if (user?.planId !== 'starter') {
-          window.dispatchEvent(new CustomEvent('embedBrandingUpdated', { detail: brandingToSave }));
-        }
+        // Dispatch event for sync (no external component to update)
         
         setTimeout(() => setSaveStatus('idle'), 3000);
       } else {
@@ -739,26 +734,20 @@ const Chatbot: React.FC = () => {
     }
   }, [currentChatbotId, widgetTheme, widgetTitle, widgetPlaceholder, showWidgetAvatar, widgetMessage, primaryLanguage, memoizedCustomBranding, user?.planId]);
 
-  // Listen for custom branding updates from BrandingSettings component
+  // Listen for custom branding updates (removed BrandingSettings, only for sync now)
   useEffect(() => {
     const handleBrandingUpdate = (event: CustomEvent) => {
       const branding = event.detail;
-      console.log('🔄 Received branding update from BrandingSettings:', branding);
+      console.log('🔄 Received branding update:', branding);
       setCustomBranding(branding);
-      // Force reload to ensure everything is in sync
-      if (selectedChatbot) {
-        loadChatbot(false);
-      }
     };
 
     window.addEventListener('embedBrandingUpdated', handleBrandingUpdate as EventListener);
-    window.addEventListener('brandingUpdated', handleBrandingUpdate as EventListener);
     
     return () => {
       window.removeEventListener('embedBrandingUpdated', handleBrandingUpdate as EventListener);
-      window.removeEventListener('brandingUpdated', handleBrandingUpdate as EventListener);
     };
-  }, [selectedChatbot]);
+  }, []);
 
   // Auto-update custom colors when theme changes (only if branding hasn't been manually modified)
   useEffect(() => {
