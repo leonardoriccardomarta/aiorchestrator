@@ -432,9 +432,6 @@ const Chatbot: React.FC = () => {
         setChatbotName(widgetTitle);
         setWelcomeMessage(widgetMessage);
         
-        // Reload chatbot to ensure everything is in sync
-        await loadChatbot(false);
-        
         // Update BrandingSettings component with the new branding
         if (user?.planId !== 'starter') {
           window.dispatchEvent(new CustomEvent('embedBrandingUpdated', { detail: brandingToSave }));
@@ -1599,8 +1596,6 @@ const Chatbot: React.FC = () => {
                         if(j?.success){ 
                           setShowSaveSuccess(true);
                           setTimeout(() => setShowSaveSuccess(false), 3000);
-                          // Reload chatbot to reflect changes
-                          await loadChatbot();
                           // Switch to chat tab to see changes
                           setActiveTab('chat');
                         } else { 
