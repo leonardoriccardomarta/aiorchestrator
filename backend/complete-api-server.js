@@ -6868,6 +6868,21 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
       console.log('📝 Preview starter plan - no custom branding');
     }
     // Starter plan: use theme colors only (no custom branding)
+    
+    // Define theme colors for the toggle button
+    const themeColorMap = {
+      blue: 'from-blue-600 to-blue-700',
+      purple: 'from-purple-600 to-purple-700',
+      green: 'from-green-600 to-green-700',
+      red: 'from-red-600 to-red-700',
+      orange: 'from-orange-600 to-orange-700',
+      pink: 'from-pink-600 to-pink-700',
+      indigo: 'from-indigo-600 to-indigo-700',
+      teal: 'from-teal-600 to-teal-700'
+    };
+    
+    const selectedTheme = theme || 'blue';
+    const themeClass = themeColorMap[selectedTheme] || themeColorMap.blue;
 
     const html = `
 <!DOCTYPE html>
