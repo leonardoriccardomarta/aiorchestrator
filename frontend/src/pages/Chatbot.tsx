@@ -1647,6 +1647,126 @@ const Chatbot: React.FC = () => {
                   </div>
                 </div>
                 
+                {/* Custom Branding Section - Only for Professional+ plans */}
+                {user?.planId !== 'starter' && (
+                  <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="text-sm font-medium text-gray-900 flex items-center">
+                        <Palette className="w-4 h-4 mr-2 text-purple-600" />
+                        Custom Branding
+                        <span className="ml-2 text-xs text-gray-500">• Synced with Settings</span>
+                      </h4>
+                      <button
+                        onClick={resetCustomBranding}
+                        className="flex items-center gap-1 px-2 py-1 text-xs text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"
+                        title="Reset to theme defaults"
+                      >
+                        <RotateCcw className="w-3 h-3" />
+                        Reset
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Primary Color</label>
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="color"
+                            value={customBranding.primaryColor}
+                            onChange={(e) => updateCustomBranding({ primaryColor: e.target.value })}
+                            className="w-8 h-8 rounded-lg border border-gray-300 cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={customBranding.primaryColor}
+                            onChange={(e) => updateCustomBranding({ primaryColor: e.target.value })}
+                            className="flex-1 px-2 py-1 border border-gray-300 rounded-lg text-xs"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Secondary Color</label>
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="color"
+                            value={customBranding.secondaryColor}
+                            onChange={(e) => updateCustomBranding({ secondaryColor: e.target.value })}
+                            className="w-8 h-8 rounded-lg border border-gray-300 cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={customBranding.secondaryColor}
+                            onChange={(e) => updateCustomBranding({ secondaryColor: e.target.value })}
+                            className="flex-1 px-2 py-1 border border-gray-300 rounded-lg text-xs"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Font Family</label>
+                        <select
+                          value={customBranding.fontFamily}
+                          onChange={(e) => updateCustomBranding({ fontFamily: e.target.value })}
+                          className="w-full px-2 py-1 border border-gray-300 rounded text-xs"
+                        >
+                          <option value="Inter">Inter</option>
+                          <option value="Roboto">Roboto</option>
+                          <option value="Open Sans">Open Sans</option>
+                          <option value="Lato">Lato</option>
+                          <option value="Poppins">Poppins</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Logo</label>
+                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-3 text-center hover:border-gray-400 transition-colors">
+                          {customBranding.logo ? (
+                            <div className="space-y-2">
+                              <img src={customBranding.logo} alt="Logo preview" className="w-8 h-8 rounded mx-auto" />
+                              <button
+                                onClick={() => updateCustomBranding({ logo: '' })}
+                                className="text-xs text-red-600 hover:text-red-800"
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          ) : (
+                            <div>
+                              <Upload className="w-4 h-4 text-gray-400 mx-auto mb-1" />
+                              <p className="text-xs text-gray-600 mb-1">Upload logo</p>
+                              <p className="text-[10px] text-gray-500">PNG, JPG up to 2MB</p>
+                              <p className="text-[9px] text-blue-600 mb-1 mt-1">
+                                💡 Minimum 200x200px
+                              </p>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                id="logo-upload-embed"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    const reader = new FileReader();
+                                    reader.onloadend = async () => {
+                                      const base64 = reader.result as string;
+                                      const compressed = await resizeLogo(base64);
+                                      updateCustomBranding({ logo: compressed });
+                                    };
+                                    reader.readAsDataURL(file);
+                                  }
+                                }}
+                              />
+                              <label
+                                htmlFor="logo-upload-embed"
+                                className="mt-1 inline-block bg-blue-600 text-white px-2 py-1 rounded text-xs hover:bg-blue-700 cursor-pointer"
+                              >
+                                Choose File
+                              </label>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
                 {/* Save Button */}
                 <div className="mt-4 lg:mt-6 flex justify-end items-center space-x-2 lg:space-x-4">
                   {saveStatus === 'success' && (
@@ -1678,11 +1798,6 @@ const Chatbot: React.FC = () => {
                     <span>{isSaving ? 'Saving...' : 'Save Widget Settings'}</span>
                   </button>
                 </div>
-              </div>
-
-              {/* Custom Branding */}
-              <div className="mb-4 lg:mb-6">
-                <BrandingSettings />
               </div>
 
               {/* White-Label Solution (only for Business) */}
