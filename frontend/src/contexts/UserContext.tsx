@@ -137,8 +137,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.log('🔄 RefreshUser: Setting user:', updatedUser);
         setUser(updatedUser);
         
-        // Update localStorage
+        // Update localStorage with server data (prioritize server over cached data)
         localStorage.setItem('user', JSON.stringify(updatedUser));
+        localStorage.setItem('userData', JSON.stringify(updatedUser));
         console.log('✅ RefreshUser: User updated in state and localStorage');
         
         setIsTrialExpired(trialStatus.isExpired);
