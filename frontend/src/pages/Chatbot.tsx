@@ -20,6 +20,8 @@ declare global {
       headerDarkColor: string;
       textColor: string;
       accentColor: string;
+      fontFamily?: string;
+      logo?: string;
     };
   }
 }
@@ -303,7 +305,7 @@ const Chatbot: React.FC = () => {
                 setCustomBranding(prev => ({ ...prev, ...settings.branding, logo: resized }));
                 // Auto-save the resized logo to database
                 try {
-                  await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${selectedChatbot.id}`, {
+                  await fetch(`${API_URL}/api/chatbots/${selectedChatbot.id}`, {
                     method: 'PATCH',
                     headers: { 
                       'Content-Type': 'application/json', 
@@ -393,14 +395,14 @@ const Chatbot: React.FC = () => {
     
     try {
       // Get existing settings to preserve any values not being updated
-      let existingSettings = {};
+      let existingSettings: any = {};
       if (selectedChatbot?.settings) {
         existingSettings = typeof selectedChatbot.settings === 'string' 
           ? JSON.parse(selectedChatbot.settings) 
           : selectedChatbot.settings;
       }
       
-      const response = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${currentChatbotId}`, {
+      const response = await fetch(`${API_URL}/api/chatbots/${currentChatbotId}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json', 
@@ -420,13 +422,13 @@ const Chatbot: React.FC = () => {
             title: widgetTitle,
             message: widgetMessage,
             // Add custom branding for professional+ plans (preserve existing branding if any)
-            ...(user?.planId !== 'starter' && existingSettings.branding && {
+            ...(user?.planId !== 'starter' && (existingSettings as any).branding && {
               branding: {
-                ...existingSettings.branding,
+                ...(existingSettings as any).branding,
                 ...brandingToSave
               }
             }),
-            ...(user?.planId !== 'starter' && !existingSettings.branding && {
+            ...(user?.planId !== 'starter' && !(existingSettings as any).branding && {
               branding: brandingToSave
             })
           }
@@ -583,7 +585,7 @@ const Chatbot: React.FC = () => {
       const token = localStorage.getItem('authToken');
       console.log('🔑 Token:', token ? 'exists' : 'missing');
       
-      const res = await fetch('https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots', {
+      const res = await fetch(`${API_URL}/api/chatbots`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       
@@ -727,7 +729,7 @@ const Chatbot: React.FC = () => {
           logo: memoizedCustomBranding.logo,
           accentColor: memoizedCustomBranding.secondaryColor,
           textColor: memoizedCustomBranding.primaryColor
-        };
+        } as Window['AIOrchestratorConfig'];
       } else {
         window.AIOrchestratorConfig = baseConfig;
       }
@@ -862,7 +864,7 @@ const Chatbot: React.FC = () => {
     // Save to database immediately
     if (currentChatbotId) {
       try {
-        const response = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${currentChatbotId}`, {
+        const response = await fetch(`${API_URL}/api/chatbots/${currentChatbotId}`, {
           method: 'PATCH',
           headers: { 
             'Content-Type': 'application/json', 
@@ -1586,7 +1588,7 @@ const Chatbot: React.FC = () => {
                         return;
                       }
                       try{
-                        const res = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/chatbots/${currentChatbotId}` ,{
+                        const res = await fetch(`${API_URL}/api/chatbots/${currentChatbotId}` ,{
                           method:'PUT',
                           headers:{ 'Content-Type':'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
                           body: JSON.stringify({ 

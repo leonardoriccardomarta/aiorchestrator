@@ -210,7 +210,7 @@ const Settings: React.FC = () => {
   const handleResetStats = async () => {
     try {
       setResettingStats(true);
-      const response = await fetch(`https://aiorchestrator-vtihz.ondigitalocean.app/api/user/reset-stats`, {
+      const response = await fetch(`${API_URL}/api/user/reset-stats`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`

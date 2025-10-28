@@ -4013,33 +4013,21 @@ app.put('/api/chatbots/:chatbotId', authenticateToken, async (req, res) => {
     const { chatbotId } = req.params;
     const updates = req.body;
     
-    // Verify chatbot belongs to user
-    const existing = await prisma.chatbot.findFirst({
-      where: { 
-        id: chatbotId,
-        userId: userId
-      }
+    console.log('🔧 PUT chatbot request:', {
+      userId,
+      chatbotId,
+      updates
     });
     
-    if (!existing) {
+    // Update chatbot using RealDataService (handles settings properly)
+    const chatbot = await realDataService.updateChatbot(chatbotId, updates);
+    
+    if (!chatbot) {
       return res.status(404).json({
         success: false,
         error: 'Chatbot not found'
       });
     }
-    
-    // Update chatbot in database
-    const chatbot = await prisma.chatbot.update({
-      where: { id: chatbotId },
-      data: {
-        name: updates.name,
-        description: updates.description,
-        welcomeMessage: updates.welcomeMessage,
-        language: updates.language,
-        settings: updates.settings ? JSON.stringify(updates.settings) : existing.settings,
-        updatedAt: new Date()
-      }
-    });
     
     console.log(`✅ Chatbot ${chatbotId} updated successfully`);
     
