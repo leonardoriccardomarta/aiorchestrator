@@ -1047,6 +1047,14 @@ const Chatbot: React.FC = () => {
             </div>
             <div className="flex items-center space-x-2 lg:space-x-4">
               <ChatbotSelector showAllOption={false} />
+              <button
+                onClick={() => loadChatbot()}
+                className="flex items-center space-x-1 px-2 lg:px-3 py-1.5 lg:py-2 bg-gray-100 text-gray-700 rounded-md lg:rounded-lg hover:bg-gray-200 transition-colors text-xs lg:text-sm"
+                title="Refresh chatbot data"
+              >
+                <RotateCcw className="w-3 h-3 lg:w-4 lg:h-4" />
+                <span className="hidden sm:inline">Refresh</span>
+              </button>
               <TourButton onClick={() => setShowTour(true)} />
               <div className="flex items-center space-x-2 px-2 lg:px-3 py-1.5 lg:py-2 bg-green-100 text-green-700 rounded-md lg:rounded-lg">
                 <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-green-500 rounded-full"></div>
