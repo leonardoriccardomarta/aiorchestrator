@@ -7003,7 +7003,7 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
     </style>
 </head>
 <body>
-    <div class="toggle-button ${useCustomBranding && customLogo ? 'toggle-button' : `bg-gradient-to-br ${themeColors.primary}`}" style="font-family: ${useCustomBranding ? customFontFamily : 'Inter'};">
+    <div class="toggle-button ${useCustomBranding && customLogo ? '' : `bg-gradient-to-br ${themeClass}`}" style="font-family: ${useCustomBranding ? customFontFamily : 'Inter'};">
         ${useCustomBranding && customLogo ? `
             <img src="${customLogo}" alt="Logo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
         ` : `
