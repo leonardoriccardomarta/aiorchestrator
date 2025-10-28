@@ -39,33 +39,31 @@ const PlanLimitations: React.FC<PlanLimitationsProps> = ({
   }
 
   return (
-    <div className="relative group p-4 text-left bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-xl hover:border-gray-300 transition-all duration-300">
+    <div className="relative group p-2 text-left bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-xl hover:border-gray-300 transition-all duration-300">
       <div className="relative">
         {/* Content */}
-        <div className="max-w-sm">
-          {children}
-        </div>
+        {children}
         
-        {/* Lock Overlay */}
-        <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center p-4">
+        {/* Lock Overlay - Smaller */}
+        <div className="absolute inset-0 bg-white/85 backdrop-blur-sm rounded-xl flex flex-col items-center justify-center p-3">
           <div className="text-center">
-            <div className="relative mb-3">
-              <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto shadow-lg">
-                <Lock className="w-6 h-6 text-white" />
+            <div className="relative mb-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto shadow-md">
+                <Lock className="w-4 h-4 text-white" />
               </div>
             </div>
-            <h3 className="text-base font-semibold text-gray-900 mb-1">
+            <h3 className="text-sm font-semibold text-gray-900 mb-1">
               {planName} Feature
             </h3>
-            <p className="text-xs text-gray-600 mb-3">
-              This feature is available in the {planName} plan and above.
+            <p className="text-[10px] text-gray-600 mb-2">
+              Upgrade to unlock
             </p>
             {showUpgrade && (
               <Button 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 text-sm px-4 py-2"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 text-xs px-3 py-1.5"
                 onClick={() => window.location.href = '/pricing'}
               >
-                Upgrade to {planName}
+                Upgrade
               </Button>
             )}
           </div>

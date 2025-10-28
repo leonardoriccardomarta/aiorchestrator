@@ -1809,12 +1809,12 @@ const Chatbot: React.FC = () => {
                 </PlanLimitations>
               </div>
 
-              {/* White-Label Solution */}
-              <div className="mb-4 lg:mb-6">
-                <PlanLimitations feature="whitelabel" requiredPlan="business">
+              {/* White-Label Solution (only for Business) */}
+              {user?.planId === 'business' && (
+                <div className="mb-4 lg:mb-6">
                   <WhiteLabelSettings />
-                </PlanLimitations>
-              </div>
+                </div>
+              )}
 
               {/* Live Preview */}
               <div className="mb-4 lg:mb-6">
