@@ -1804,9 +1804,7 @@ const Chatbot: React.FC = () => {
 
               {/* Custom Branding */}
               <div className="mb-4 lg:mb-6">
-                <PlanLimitations feature="branding" requiredPlan="professional">
-                  <BrandingSettings />
-                </PlanLimitations>
+                <BrandingSettings />
               </div>
 
               {/* White-Label Solution (only for Business) */}

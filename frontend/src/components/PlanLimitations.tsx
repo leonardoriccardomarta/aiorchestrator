@@ -55,17 +55,9 @@ const PlanLimitations: React.FC<PlanLimitationsProps> = ({
             <h3 className="text-sm font-semibold text-gray-900 mb-1">
               {planName} Feature
             </h3>
-            <p className="text-[10px] text-gray-600 mb-2">
-              Upgrade to unlock
+            <p className="text-[10px] text-gray-600">
+              Available in {planName} plan
             </p>
-            {showUpgrade && (
-              <Button 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 text-xs px-3 py-1.5"
-                onClick={() => window.location.href = '/pricing'}
-              >
-                Upgrade
-              </Button>
-            )}
           </div>
         </div>
       </div>
