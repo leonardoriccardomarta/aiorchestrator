@@ -198,14 +198,24 @@ const Chatbot: React.FC = () => {
     }
   }, []); // Empty deps - only run once on mount
 
+  // Track previous chatbot ID to only load when chatbot actually changes
+  const previousChatbotRef = React.useRef<string | null>(null);
+  
   // Sync with ChatbotContext - IMPORTANT: This runs every time selectedChatbot changes
   useEffect(() => {
     if (selectedChatbot) {
+      // Only reload if chatbot ID actually changed
+      if (previousChatbotRef.current === selectedChatbot.id) {
+        console.log('🔄 Chatbot unchanged, skipping reload');
+        return;
+      }
+      
       console.log('🔄 Chatbot changed, loading data for:', selectedChatbot.id);
       console.log('🔄 Chatbot data:', selectedChatbot);
       
       // Reset branding loaded flag when chatbot changes
       brandingLoadedRef.current = false;
+      previousChatbotRef.current = selectedChatbot.id;
       setCurrentChatbotId(selectedChatbot.id);
       setChatbotName(selectedChatbot.name || 'My AI Assistant');
       setWelcomeMessage(selectedChatbot.welcomeMessage || "Hello! I'm your AI assistant. How can I help you today?");
