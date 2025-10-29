@@ -394,8 +394,9 @@ try {
 const theme = themeColors[config.theme] || themeColors.teal;
 
 // Determine if any branding is present (logo/font/colors)
+const hasLogo = Boolean(config.logo && String(config.logo).trim() !== '');
 const hasCustomBranding = Boolean(
-  (config.logo && String(config.logo).trim() !== '') ||
+  hasLogo ||
   (config.fontFamily && String(config.fontFamily).trim() !== '') ||
   (config.primaryColor && String(config.primaryColor).trim() !== '')
 );
@@ -988,8 +989,8 @@ ${config.logo ? `
   <div class="chat-header-left">
     ${config.showAvatar ? `
       <div class="avatar">
-        ${hasCustomBranding && config.logo ? `
-          <img src="${config.logo}" alt="Logo" style="width: 20px; height: 20px; border-radius: 50%; object-fit: cover;" />
+        ${hasLogo ? `
+          <img src="${config.logo}" alt="Logo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;" />
         ` : `
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
@@ -1045,7 +1046,7 @@ ${config.logo ? `
       </svg>
     </button>
   </div>
-  ${config.logo ? '' : `<p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 8px 0 0 0; padding: 0; font-family: var(--ai-font);">Powered by AI Orchestrator</p>`}
+  ${hasLogo ? '' : `<p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 8px 0 0 0; padding: 0; font-family: var(--ai-font);">Powered by AI Orchestrator</p>`}
 </div>
 </div>
 </div>
