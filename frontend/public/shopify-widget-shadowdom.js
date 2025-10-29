@@ -168,33 +168,37 @@ text: '#1e3a8a',
 border: '#bfdbfe',
 userMessage: '#2563eb'
 },
+purple: {
   primary: 'linear-gradient(to bottom right, #7c3aed, #6d28d9)',
   secondary: 'linear-gradient(to bottom right, #faf5ff, #f3e8ff)',
-accent: '#7c3aed',
-text: '#581c87',
-border: '#d8b4fe',
-userMessage: '#7c3aed'
+  accent: '#7c3aed',
+  text: '#581c87',
+  border: '#d8b4fe',
+  userMessage: '#7c3aed'
 },
+green: {
   primary: 'linear-gradient(to bottom right, #059669, #047857)',
   secondary: 'linear-gradient(to bottom right, #f0fdf4, #dcfce7)',
-accent: '#059669',
-text: '#065f46',
-border: '#bbf7d0',
-userMessage: '#059669'
+  accent: '#059669',
+  text: '#065f46',
+  border: '#bbf7d0',
+  userMessage: '#059669'
 },
+red: {
   primary: 'linear-gradient(to bottom right, #dc2626, #b91c1c)',
   secondary: 'linear-gradient(to bottom right, #fef2f2, #fee2e2)',
-accent: '#dc2626',
-text: '#7f1d1d',
-border: '#fecaca',
-userMessage: '#dc2626'
+  accent: '#dc2626',
+  text: '#7f1d1d',
+  border: '#fecaca',
+  userMessage: '#dc2626'
 },
+orange: {
   primary: 'linear-gradient(to bottom right, #ea580c, #c2410c)',
   secondary: 'linear-gradient(to bottom right, #fff7ed, #ffedd5)',
-accent: '#ea580c',
-text: '#7c2d12',
-border: '#fed7aa',
-userMessage: '#ea580c'
+  accent: '#ea580c',
+  text: '#7c2d12',
+  border: '#fed7aa',
+  userMessage: '#ea580c'
 },
 pink: {
   primary: 'linear-gradient(to bottom right, #db2777, #be185d)',
@@ -204,12 +208,13 @@ text: '#831843',
 border: '#fbcfe8',
 userMessage: '#db2777'
 },
+indigo: {
   primary: 'linear-gradient(to bottom right, #4f46e5, #4338ca)',
   secondary: 'linear-gradient(to bottom right, #eef2ff, #e0e7ff)',
-accent: '#4f46e5',
-text: '#3730a3',
-border: '#c7d2fe',
-userMessage: '#4f46e5'
+  accent: '#4f46e5',
+  text: '#3730a3',
+  border: '#c7d2fe',
+  userMessage: '#4f46e5'
 },
 teal: {
   primary: 'linear-gradient(to bottom right, #0d9488, #0f766e)',
