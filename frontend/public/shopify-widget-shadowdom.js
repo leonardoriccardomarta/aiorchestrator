@@ -728,7 +728,7 @@ font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
 .status-dot {
 width: 8px;
 height: 8px;
-background: ${hasCustomBranding ? brandingSecondary : '#10b981'};
+background: #10b981;
 border-radius: 50%;
 }
 
@@ -881,7 +881,7 @@ transition: border-color 0.2s;
 border-color: ${hasCustomBranding ? brandingPrimary : theme.accent};
 box-shadow: 0 0 0 3px ${hasCustomBranding ? `${brandingPrimary}22` : `${theme.accent}22`};
 }
-.message-input::placeholder { color: ${hasCustomBranding ? brandingPrimary : '#9ca3af'}; }
+.message-input::placeholder { color: #9ca3af; }
 
 .send-button {
 background: ${hasCustomBranding ? brandingPrimary : theme.accent};
@@ -995,13 +995,9 @@ ${config.logo ? `
   <div class="chat-header-left">
     ${config.showAvatar ? `
       <div class="avatar">
-        ${config.logo ? `
-          <img src="${config.logo}" alt="Logo" style="width: 20px; height: 20px; border-radius: 50%; object-fit: cover;" />
-        ` : `
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-          </svg>
-        `}
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+        </svg>
       </div>
     ` : ''}
     <div class="header-info">
