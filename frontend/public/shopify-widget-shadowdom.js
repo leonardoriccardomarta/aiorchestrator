@@ -406,11 +406,8 @@ const hasBrandingColors = Boolean(config.primaryColor && String(config.primaryCo
 let brandingPrimary = hasBrandingColors ? config.primaryColor : theme.accent;
 let brandingSecondary = hasBrandingColors ? (config.secondaryColor || config.primaryColor) : theme.accent;
 
-// Title color identical to preview rules:
-// - Starter: themed text color
-// - Professional+: primary branding color
-// Align Starter title color with live embed: uses theme.text (Tailwind -900 variant)
-const headerTitleColor = hasCustomBranding ? brandingPrimary : theme.text;
+// Title color: match live preview (always theme text color)
+const headerTitleColor = theme.text;
 const headerStatusColor = hasCustomBranding ? brandingSecondary : '#6b7280';
 const headerButtonHoverBg = hasCustomBranding ? `${brandingPrimary}20` : '#e5e7eb';
 const headerButtonColor = hasCustomBranding ? brandingPrimary : '#6b7280';
@@ -881,12 +878,13 @@ box-shadow: 0 0 0 3px ${hasCustomBranding ? `${brandingPrimary}22` : `${theme.ac
 background: ${hasCustomBranding ? brandingPrimary : theme.accent};
 color: white;
 border: none;
-width: 40px;
+padding: 8px 14px;
 height: 40px;
-border-radius: 10px;
+border-radius: 8px;
 flex-shrink: 0;
-display: grid;
-place-items: center;
+display: inline-flex;
+align-items: center;
+justify-content: center;
 cursor: pointer;
 }
 
