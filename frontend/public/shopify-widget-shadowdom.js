@@ -622,7 +622,7 @@ top: -4px;
 right: -4px;
 width: 12px;
 height: 12px;
-background: ${hasCustomBranding ? brandingSecondary : '#10B981'};
+background: #10B981;
 border-radius: 50%;
 border: 2px solid white;
 animation: pulse 2s infinite;
@@ -643,7 +643,7 @@ width: 384px;
 height: 560px;
 z-index: 2147483646;
 max-height: calc(100vh - 148px);
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-family: var(--ai-font) !important;
 background: white;
 border-radius: 16px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -679,7 +679,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 flex-shrink: 0;
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-family: var(--ai-font) !important;
 }
 
 .chat-header-left {
@@ -772,7 +772,7 @@ flex: 1;
 overflow-y: auto;
 padding: 16px;
 background: #f9fafb;
- font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+ font-family: var(--ai-font) !important;
 }
 
 .message {
@@ -794,7 +794,7 @@ border-radius: 16px;
 padding: 12px 16px;
 font-size: 14px;
   /* Match quick embed: force Open Sans in message bubbles */
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-family: var(--ai-font) !important;
 }
 
 .message.bot .message-bubble {
@@ -1048,7 +1048,7 @@ ${config.logo ? `
       </svg>
     </button>
   </div>
-  <p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 8px 0 0 0; padding: 0; font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Powered by AI Orchestrator</p>
+  ${config.logo ? '' : `<p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 8px 0 0 0; padding: 0; font-family: var(--ai-font);">Powered by AI Orchestrator</p>`}
 </div>
 </div>
 </div>
