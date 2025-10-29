@@ -577,15 +577,17 @@ const widgetHTML = `
 }
 /* Reset all styles */
 :host {
-  --ai-font: ${customFontFamily || "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
+  --ai-font: ${customFontFamily || "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"} !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: var(--ai-font) !important;
+  isolation: isolate;
 }
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: var(--ai-font);
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  font-family: var(--ai-font) !important;
 }
 .widget-root { font-family: var(--ai-font); }
 
@@ -675,19 +677,22 @@ display: none !important;
 
 /* Header */
 .chat-header {
-background: ${theme.secondary};
-border-bottom: 2px solid ${theme.border};
-padding: 16px;
-display: flex;
-align-items: center;
-justify-content: space-between;
+background: ${theme.secondary} !important;
+border-bottom: 2px solid ${theme.border} !important;
+padding: 16px !important;
+display: flex !important;
+align-items: center !important;
+justify-content: space-between !important;
 flex-shrink: 0;
+position: relative;
 }
 
 .chat-header-left {
-display: flex;
-align-items: center;
-gap: 12px;
+display: flex !important;
+align-items: center !important;
+gap: 12px !important;
+flex: 1 !important;
+min-width: 0 !important;
 }
 
 .avatar {
@@ -712,19 +717,24 @@ flex-direction: column;
 }
 
 .header-title {
-  font-weight: 700;
-  font-size: 16px;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  line-height: 1.2 !important;
   color: ${headerTitleColor} !important;
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .header-status {
-font-size: 12px;
-color: ${headerStatusColor};
-display: flex;
-align-items: center;
-gap: 8px;
-font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+font-size: 12px !important;
+color: ${headerStatusColor} !important;
+display: flex !important;
+align-items: center !important;
+gap: 8px !important;
+font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+margin: 0 !important;
+padding: 0 !important;
 }
 
 .status-dot {
@@ -744,28 +754,35 @@ font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
 }
 
 .chat-header-right {
-display: flex;
-align-items: center;
-gap: 8px;
+display: flex !important;
+align-items: center !important;
+gap: 8px !important;
+flex-shrink: 0;
+position: relative;
 }
 
 .header-button {
-background: transparent;
-border: none;
-padding: 8px;
-border-radius: 8px;
-cursor: pointer;
-transition: background 0.2s;
-color: ${headerButtonColor};
+background: transparent !important;
+border: none !important;
+padding: 8px !important;
+border-radius: 8px !important;
+cursor: pointer !important;
+transition: background 0.2s !important;
+color: ${headerButtonColor} !important;
+display: flex !important;
+align-items: center !important;
+justify-content: center !important;
+flex-shrink: 0 !important;
 }
 
 .header-button:hover {
-background: ${headerButtonHoverBg};
+background: ${headerButtonHoverBg} !important;
 }
 
 .header-button svg {
-width: 16px;
-height: 16px;
+width: 16px !important;
+height: 16px !important;
+display: block !important;
 }
 
 /* Messages Container */
@@ -791,12 +808,13 @@ justify-content: flex-start;
 }
 
 .message-bubble {
-max-width: 80%;
-border-radius: 16px;
-padding: 12px 16px;
-font-size: 14px;
+max-width: 80% !important;
+border-radius: 16px !important;
+padding: 12px 16px !important;
+font-size: 14px !important;
   /* Match quick embed: force Open Sans in message bubbles */
   font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  margin: 0 0 8px 0 !important;
 }
 
 .message.bot .message-bubble {
@@ -869,14 +887,16 @@ animation-delay: -0.16s;
 }
 
 .message-input {
-flex: 1;
-padding: 10px 16px;
-border: 1px solid #d1d5db;
-border-radius: 8px;
-font-size: 14px;
-font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-outline: none;
-transition: border-color 0.2s;
+flex: 1 !important;
+padding: 10px 16px !important;
+border: 1px solid #d1d5db !important;
+border-radius: 8px !important;
+font-size: 14px !important;
+background: white !important;
+resize: none !important;
+font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+outline: none !important;
+transition: border-color 0.2s !important;
 }
 
 .message-input:focus {
@@ -1007,7 +1027,7 @@ ${config.logo ? `
       </div>
     ` : ''}
     <div class="header-info">
-      <div class="header-title" style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">${config.title}</div>
+      <div class="header-title" style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important; font-size: 16px !important; font-weight: 700 !important;">${config.title}</div>
       <div class="header-status">
         <div class="status-dot"></div>
         <span>Online 24/7</span>
