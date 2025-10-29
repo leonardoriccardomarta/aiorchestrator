@@ -1026,7 +1026,7 @@ ${config.logo ? `
 <!-- Messages -->
 <div class="messages-container" id="messages">
   <div class="message bot">
-    <div class="message-bubble">
+    <div class="message-bubble" style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
       <div>${cleanEscapeChars(config.welcomeMessage)}</div>
       <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
     </div>
@@ -1284,7 +1284,7 @@ console.log(`🌍 No clear language detected, keeping current: ${config.primaryL
 const userMessageDiv = document.createElement('div');
 userMessageDiv.className = 'message user';
 userMessageDiv.innerHTML = `
-<div class="message-bubble">
+<div class="message-bubble" style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
 <div>${message}</div>
 <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
 </div>
@@ -1440,7 +1440,7 @@ responseContent += renderMLAnalysis(data.mlAnalysis);
 }
 
 aiMessageDiv.innerHTML = `
-<div class="message-bubble">
+<div class="message-bubble" style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
   <div>${responseContent}</div>
   <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
 </div>
