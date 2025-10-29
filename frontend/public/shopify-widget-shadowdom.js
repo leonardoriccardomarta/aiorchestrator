@@ -715,6 +715,7 @@ flex-direction: column;
   font-weight: 700;
   font-size: 16px;
   color: ${headerTitleColor} !important;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .header-status {
@@ -723,6 +724,7 @@ color: ${headerStatusColor};
 display: flex;
 align-items: center;
 gap: 8px;
+font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .status-dot {
@@ -868,7 +870,7 @@ padding: 10px 16px;
 border: 1px solid #d1d5db;
 border-radius: 8px;
 font-size: 14px;
-font-family: inherit;
+font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 outline: none;
 transition: border-color 0.2s;
 }
@@ -1001,7 +1003,7 @@ ${config.logo ? `
       </div>
     ` : ''}
     <div class="header-info">
-      <div class="header-title">${config.title}</div>
+      <div class="header-title" style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">${config.title}</div>
       <div class="header-status">
         <div class="status-dot"></div>
         <span>Online 24/7</span>
