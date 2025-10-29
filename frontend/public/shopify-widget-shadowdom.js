@@ -1,7 +1,7 @@
 // Apply custom font family if available
 // Starter (no custom): use Open Sans to match live embed
 // Professional+: use provided custom font
-const customFontFamily = config.fontFamily || "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+// customFontFamily is defined after getConfig() to avoid referencing config before initialization
 (function() {
   'use strict';
 
