@@ -402,10 +402,15 @@ const hasCustomBranding = config.primaryColor && config.primaryColor.trim() !== 
 
 // Override with custom branding colors ONLY if provided (Professional+ plans)
 if (hasCustomBranding) {
-theme.primary = `linear-gradient(135deg, ${config.primaryColor}, ${config.secondaryColor || config.primaryColor})`;
-theme.accent = config.primaryColor;
-theme.userMessage = config.primaryColor;
+  theme.primary = `linear-gradient(135deg, ${config.primaryColor}, ${config.secondaryColor || config.primaryColor})`;
+  theme.accent = config.primaryColor;
+  theme.userMessage = config.primaryColor;
 }
+
+// Title color rule aligned with live embed:
+// - Starter (no custom branding): neutral dark gray for maximum contrast
+// - Professional (custom branding): themed text color
+const headerTitleColor = hasCustomBranding ? theme.text : '#111827';
 
 // Apply custom font family if available
 const customFontFamily = config.fontFamily || '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
@@ -569,7 +574,7 @@ flex-direction: column;
 .header-title {
   font-weight: 700;
   font-size: 14px;
-  color: ${theme.text} !important;
+  color: ${headerTitleColor} !important;
 }
 
 .header-status {
