@@ -393,24 +393,17 @@ try {
 
 const theme = themeColors[config.theme] || themeColors.teal;
 
-// Determine if custom branding should be applied (Professional+ plans)
-// Consider branding only when explicit branding inputs are present
+// Determine if any branding is present (logo/font/colors)
 const hasCustomBranding = Boolean(
   (config.logo && String(config.logo).trim() !== '') ||
   (config.fontFamily && String(config.fontFamily).trim() !== '') ||
-  (config.primaryColor && config.secondaryColor && String(config.primaryColor).trim() !== '')
+  (config.primaryColor && String(config.primaryColor).trim() !== '')
 );
 
-// Override with custom branding colors ONLY if provided (Professional+ plans)
-let brandingPrimary = theme.accent;
-let brandingSecondary = theme.accent;
-if (hasCustomBranding) {
-  brandingPrimary = config.primaryColor;
-  brandingSecondary = config.secondaryColor || config.primaryColor;
-  theme.primary = `linear-gradient(135deg, ${brandingPrimary}, ${brandingSecondary})`;
-  theme.accent = brandingPrimary;
-  theme.userMessage = brandingPrimary;
-}
+// Colors for Professional accents: do NOT override theme gradients
+const hasBrandingColors = Boolean(config.primaryColor && String(config.primaryColor).trim() !== '');
+let brandingPrimary = hasBrandingColors ? config.primaryColor : theme.accent;
+let brandingSecondary = hasBrandingColors ? (config.secondaryColor || config.primaryColor) : theme.accent;
 
 // Title color identical to preview rules:
 // - Starter: themed text color
@@ -713,7 +706,7 @@ flex-direction: column;
   font-weight: 700;
   font-size: 16px;
   color: ${headerTitleColor} !important;
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--ai-font);
 }
 
 .header-status {
@@ -722,7 +715,7 @@ color: ${headerStatusColor};
 display: flex;
 align-items: center;
 gap: 8px;
-font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+ font-family: var(--ai-font);
 }
 
 .status-dot {
