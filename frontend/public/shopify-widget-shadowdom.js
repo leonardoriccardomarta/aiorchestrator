@@ -161,64 +161,59 @@ return null;
 // Theme colors - hardcoded CSS values
 const themeColors = {
 blue: {
-primary: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
-secondary: 'linear-gradient(135deg, #eff6ff, #dbeafe)',
+primary: 'linear-gradient(to bottom right, #2563eb, #1d4ed8)',
+secondary: 'linear-gradient(to bottom right, #eff6ff, #dbeafe)',
 accent: '#2563eb',
 text: '#1e3a8a',
 border: '#bfdbfe',
 userMessage: '#2563eb'
 },
-purple: {
-primary: 'linear-gradient(135deg, #7c3aed, #6d28d9)',
-secondary: 'linear-gradient(135deg, #faf5ff, #f3e8ff)',
+  primary: 'linear-gradient(to bottom right, #7c3aed, #6d28d9)',
+  secondary: 'linear-gradient(to bottom right, #faf5ff, #f3e8ff)',
 accent: '#7c3aed',
 text: '#581c87',
 border: '#d8b4fe',
 userMessage: '#7c3aed'
 },
-green: {
-primary: 'linear-gradient(135deg, #059669, #047857)',
-secondary: 'linear-gradient(135deg, #f0fdf4, #dcfce7)',
+  primary: 'linear-gradient(to bottom right, #059669, #047857)',
+  secondary: 'linear-gradient(to bottom right, #f0fdf4, #dcfce7)',
 accent: '#059669',
 text: '#065f46',
 border: '#bbf7d0',
 userMessage: '#059669'
 },
-red: {
-primary: 'linear-gradient(135deg, #dc2626, #b91c1c)',
-secondary: 'linear-gradient(135deg, #fef2f2, #fee2e2)',
+  primary: 'linear-gradient(to bottom right, #dc2626, #b91c1c)',
+  secondary: 'linear-gradient(to bottom right, #fef2f2, #fee2e2)',
 accent: '#dc2626',
 text: '#7f1d1d',
 border: '#fecaca',
 userMessage: '#dc2626'
 },
-orange: {
-primary: 'linear-gradient(135deg, #ea580c, #c2410c)',
-secondary: 'linear-gradient(135deg, #fff7ed, #ffedd5)',
+  primary: 'linear-gradient(to bottom right, #ea580c, #c2410c)',
+  secondary: 'linear-gradient(to bottom right, #fff7ed, #ffedd5)',
 accent: '#ea580c',
 text: '#7c2d12',
 border: '#fed7aa',
 userMessage: '#ea580c'
 },
 pink: {
-primary: 'linear-gradient(135deg, #db2777, #be185d)',
-secondary: 'linear-gradient(135deg, #fdf2f8, #fce7f3)',
+  primary: 'linear-gradient(to bottom right, #db2777, #be185d)',
+  secondary: 'linear-gradient(to bottom right, #fdf2f8, #fce7f3)',
 accent: '#db2777',
 text: '#831843',
 border: '#fbcfe8',
 userMessage: '#db2777'
 },
-indigo: {
-primary: 'linear-gradient(135deg, #4f46e5, #4338ca)',
-secondary: 'linear-gradient(135deg, #eef2ff, #e0e7ff)',
+  primary: 'linear-gradient(to bottom right, #4f46e5, #4338ca)',
+  secondary: 'linear-gradient(to bottom right, #eef2ff, #e0e7ff)',
 accent: '#4f46e5',
 text: '#3730a3',
 border: '#c7d2fe',
 userMessage: '#4f46e5'
 },
 teal: {
-primary: 'linear-gradient(135deg, #0d9488, #0f766e)',
-secondary: 'linear-gradient(135deg, #f0fdfa, #ccfbf1)',
+  primary: 'linear-gradient(to bottom right, #0d9488, #0f766e)',
+  secondary: 'linear-gradient(to bottom right, #f0fdfa, #ccfbf1)',
 accent: '#0d9488',
 text: '#134e4a',
 border: '#99f6e4',
@@ -478,6 +473,9 @@ const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
 
 // Complete widget HTML with ALL styles inline
 const widgetHTML = `
+<link rel="preconnect" href="https://fonts.googleapis.com" data-aiorch-font="open-sans-shadow" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin data-aiorch-font="open-sans-shadow" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" data-aiorch-font="open-sans-shadow" />
 <style>
 /* Reset all styles */
 :host {
