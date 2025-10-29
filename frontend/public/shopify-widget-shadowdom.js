@@ -1,10 +1,7 @@
-/**
- * AI Orchestrator Chatbot Widget - Shopify Shadow DOM Edition
- * Version: 4.0.0 - ISOLATED WITH SHADOW DOM
- * 
- * This widget uses Shadow DOM to completely isolate styles from the host page.
- * Perfect for Shopify and other platforms with aggressive global CSS.
- */
+// Apply custom font family if available
+// Starter (no custom): use Open Sans to match live embed
+// Professional+: use provided custom font
+const customFontFamily = config.fontFamily || "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";/
 (function() {
   'use strict';
 
@@ -577,17 +574,15 @@ const widgetHTML = `
 }
 /* Reset all styles */
 :host {
-  --ai-font: ${customFontFamily || "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"} !important;
+  --ai-font: ${customFontFamily || "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: var(--ai-font) !important;
-  isolation: isolate;
 }
 * {
-  margin: 0 !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-  font-family: var(--ai-font) !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--ai-font);
 }
 .widget-root { font-family: var(--ai-font); }
 
@@ -677,22 +672,19 @@ display: none !important;
 
 /* Header */
 .chat-header {
-background: ${theme.secondary} !important;
-border-bottom: 2px solid ${theme.border} !important;
-padding: 16px !important;
-display: flex !important;
-align-items: center !important;
-justify-content: space-between !important;
+background: ${theme.secondary};
+border-bottom: 2px solid ${theme.border};
+padding: 16px;
+display: flex;
+align-items: center;
+justify-content: space-between;
 flex-shrink: 0;
-position: relative;
 }
 
 .chat-header-left {
-display: flex !important;
-align-items: center !important;
-gap: 12px !important;
-flex: 1 !important;
-min-width: 0 !important;
+display: flex;
+align-items: center;
+gap: 12px;
 }
 
 .avatar {
@@ -717,24 +709,19 @@ flex-direction: column;
 }
 
 .header-title {
-  font-weight: 700 !important;
-  font-size: 16px !important;
-  line-height: 1.2 !important;
+  font-weight: 700;
+  font-size: 16px;
   color: ${headerTitleColor} !important;
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .header-status {
-font-size: 12px !important;
-color: ${headerStatusColor} !important;
-display: flex !important;
-align-items: center !important;
-gap: 8px !important;
-font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-margin: 0 !important;
-padding: 0 !important;
+font-size: 12px;
+color: ${headerStatusColor};
+display: flex;
+align-items: center;
+gap: 8px;
+font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .status-dot {
@@ -754,35 +741,28 @@ font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
 }
 
 .chat-header-right {
-display: flex !important;
-align-items: center !important;
-gap: 8px !important;
-flex-shrink: 0;
-position: relative;
+display: flex;
+align-items: center;
+gap: 8px;
 }
 
 .header-button {
-background: transparent !important;
-border: none !important;
-padding: 8px !important;
-border-radius: 8px !important;
-cursor: pointer !important;
-transition: background 0.2s !important;
-color: ${headerButtonColor} !important;
-display: flex !important;
-align-items: center !important;
-justify-content: center !important;
-flex-shrink: 0 !important;
+background: transparent;
+border: none;
+padding: 8px;
+border-radius: 8px;
+cursor: pointer;
+transition: background 0.2s;
+color: ${headerButtonColor};
 }
 
 .header-button:hover {
-background: ${headerButtonHoverBg} !important;
+background: ${headerButtonHoverBg};
 }
 
 .header-button svg {
-width: 16px !important;
-height: 16px !important;
-display: block !important;
+width: 16px;
+height: 16px;
 }
 
 /* Messages Container */
@@ -808,13 +788,12 @@ justify-content: flex-start;
 }
 
 .message-bubble {
-max-width: 80% !important;
-border-radius: 16px !important;
-padding: 12px 16px !important;
-font-size: 14px !important;
+max-width: 80%;
+border-radius: 16px;
+padding: 12px 16px;
+font-size: 14px;
   /* Match quick embed: force Open Sans in message bubbles */
   font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-  margin: 0 0 8px 0 !important;
 }
 
 .message.bot .message-bubble {
@@ -841,7 +820,7 @@ display: flex;
 align-items: center;
 gap: 4px;
 padding: 12px 16px;
-background: ${hasCustomBranding ? brandingSecondary : 'white'};
+background: white;
 border: 1px solid #e5e7eb;
 border-radius: 16px;
 max-width: 80px;
@@ -887,16 +866,14 @@ animation-delay: -0.16s;
 }
 
 .message-input {
-flex: 1 !important;
-padding: 10px 16px !important;
-border: 1px solid #d1d5db !important;
-border-radius: 8px !important;
-font-size: 14px !important;
-background: white !important;
-resize: none !important;
-font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-outline: none !important;
-transition: border-color 0.2s !important;
+flex: 1;
+padding: 10px 16px;
+border: 1px solid #d1d5db;
+border-radius: 8px;
+font-size: 14px;
+font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+outline: none;
+transition: border-color 0.2s;
 }
 
 .message-input:focus {
@@ -909,13 +886,13 @@ box-shadow: 0 0 0 3px ${hasCustomBranding ? `${brandingPrimary}22` : `${theme.ac
 background: ${hasCustomBranding ? brandingPrimary : theme.accent};
 color: white;
 border: none;
-padding: 10px 16px;
-border-radius: 8px;
+width: 44px;
+height: 44px;
+border-radius: 12px;
+flex-shrink: 0;
+display: grid;
+place-items: center;
 cursor: pointer;
-transition: opacity 0.2s;
-display: flex;
-align-items: center;
-justify-content: center;
 }
 
 .send-button:hover {
@@ -1027,7 +1004,7 @@ ${config.logo ? `
       </div>
     ` : ''}
     <div class="header-info">
-      <div class="header-title" style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important; font-size: 16px !important; font-weight: 700 !important;">${config.title}</div>
+      <div class="header-title" style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">${config.title}</div>
       <div class="header-status">
         <div class="status-dot"></div>
         <span>Online 24/7</span>
