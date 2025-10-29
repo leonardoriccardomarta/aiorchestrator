@@ -405,10 +405,10 @@ const widgetHTML = `
 <style>
 /* Reset all styles */
 * {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Toggle Button */
@@ -468,7 +468,7 @@ width: 384px;
 height: 560px;
 z-index: 2147483646;
 max-height: calc(100vh - 148px);
-font-family: ${customFontFamily || "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
+  font-family: ${customFontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
 background: white;
 border-radius: 16px;
 box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -534,9 +534,9 @@ flex-direction: column;
 }
 
 .header-title {
-font-weight: 700;
-font-size: 14px;
-color: ${theme.text} !important;
+  font-weight: 700;
+  font-size: 16px;
+  color: ${theme.text} !important;
 }
 
 .header-status {
