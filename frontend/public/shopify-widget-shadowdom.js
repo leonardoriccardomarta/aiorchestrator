@@ -370,8 +370,12 @@
 
     const theme = themeColors[config.theme] || themeColors.teal;
     
-    // Override with custom branding colors if provided
-    if (config.primaryColor && config.primaryColor.trim() !== '') {
+    // Determine if custom branding should be applied (only for Professional+ plans)
+    // For now, we'll check if custom branding is provided and assume it's Professional+
+    const hasCustomBranding = config.primaryColor && config.primaryColor.trim() !== '';
+    
+    // Override with custom branding colors ONLY if provided (Professional+ plans)
+    if (hasCustomBranding) {
       theme.primary = `linear-gradient(135deg, ${config.primaryColor}, ${config.secondaryColor || config.primaryColor})`;
       theme.accent = config.primaryColor;
       theme.userMessage = config.primaryColor;
@@ -397,35 +401,15 @@
     // Attach shadow DOM
     const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
 
-    // Add Google Fonts link to the document head if it doesn't exist
-    if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
-      const fontLink = document.createElement('link');
-      fontLink.rel = 'preconnect';
-      fontLink.href = 'https://fonts.googleapis.com';
-      document.head.appendChild(fontLink);
-      
-      const fontLink2 = document.createElement('link');
-      fontLink2.rel = 'preconnect';
-      fontLink2.href = 'https://fonts.gstatic.com';
-      fontLink2.crossOrigin = 'anonymous';
-      document.head.appendChild(fontLink2);
-      
-      const fontStyle = document.createElement('link');
-      fontStyle.href = 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap';
-      fontStyle.rel = 'stylesheet';
-      document.head.appendChild(fontStyle);
-    }
-
     // Complete widget HTML with ALL styles inline
     const widgetHTML = `
       <style>
-        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
         /* Reset all styles */
         * {
           margin: 0;
           padding: 0;
           box-sizing: border-box;
-          font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         /* Toggle Button */
@@ -553,7 +537,7 @@
         .header-title {
           font-weight: 700;
           font-size: 14px;
-          color: ${theme.text};
+          color: ${theme.text} !important;
         }
 
         .header-status {
@@ -880,7 +864,7 @@
               </svg>
             </button>
           </div>
-          <p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 8px 0 0 0; font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Powered by AI Orchestrator</p>
+          <p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 0;">Powered by AI Orchestrator</p>
         </div>
       </div>
     `;

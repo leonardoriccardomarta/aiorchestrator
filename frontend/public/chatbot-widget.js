@@ -183,37 +183,9 @@
     const themeColors = themes[config.theme] || themes.teal;
     const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
 
-    // Load Google Fonts if not already loaded
-    if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
-      const fontLink = document.createElement('link');
-      fontLink.rel = 'preconnect';
-      fontLink.href = 'https://fonts.googleapis.com';
-      document.head.appendChild(fontLink);
-      
-      const fontLink2 = document.createElement('link');
-      fontLink2.rel = 'preconnect';
-      fontLink2.href = 'https://fonts.gstatic.com';
-      fontLink2.crossOrigin = 'anonymous';
-      document.head.appendChild(fontLink2);
-      
-      const fontStyle = document.createElement('link');
-      fontStyle.href = 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap';
-      fontStyle.rel = 'stylesheet';
-      document.head.appendChild(fontStyle);
-      
-      // Wait for font to load
-      fontStyle.onload = () => {
-        console.log('✅ Open Sans font loaded');
-      };
-    }
-
     // Create widget HTML - RESPONSIVE for Desktop & Mobile
     const widgetHTML = `
       <style>
-        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
-        * {
-          font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
         /* Toggle Button */
         .toggle-button {
             position: fixed;
@@ -250,7 +222,7 @@
           height: 560px;
           z-index: 999;
           max-height: calc(100vh - 148px);
-          font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         #${widgetId} .chat-widget.hidden { 
           display: none !important;
@@ -384,7 +356,7 @@
           
         <!-- Input -->
           <div class="p-4 bg-white border-t border-gray-200">
-            <div class="flex gap-2">
+            <div class="flex gap-2 mb-2">
           <input
             type="text"
                 id="${widgetId}-input"
