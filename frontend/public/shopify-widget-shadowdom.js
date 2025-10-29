@@ -740,6 +740,7 @@ font-size: 10px;
 border-radius: 4px;
 background: #f3f4f6;
 color: #374151;
+font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .chat-header-right {
@@ -773,6 +774,7 @@ flex: 1;
 overflow-y: auto;
 padding: 16px;
 background: #f9fafb;
+font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .message {
@@ -812,6 +814,7 @@ color: white;
 font-size: 11px;
 margin-top: 4px;
 opacity: 0.7;
+font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Typing Indicator */
@@ -857,6 +860,7 @@ animation-delay: -0.16s;
   background: white;
   border-top: 1px solid #e5e7eb;
   flex-shrink: 0;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .input-row {
@@ -1050,7 +1054,7 @@ ${config.logo ? `
       </svg>
     </button>
   </div>
-  <p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 8px 0 0 0; padding: 0;">Powered by AI Orchestrator</p>
+  <p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 8px 0 0 0; padding: 0; font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Powered by AI Orchestrator</p>
 </div>
 </div>
 </div>
