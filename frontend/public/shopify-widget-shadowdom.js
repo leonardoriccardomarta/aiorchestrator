@@ -573,7 +573,7 @@ flex-direction: column;
 
 .header-title {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 16px;
   color: ${headerTitleColor} !important;
 }
 
