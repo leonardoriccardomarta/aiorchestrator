@@ -711,7 +711,7 @@ flex-direction: column;
 
 .header-status {
 font-size: 12px;
-color: #6b7280; /* text-gray-500 Tailwind (preview uses text-gray-600 which maps to this) */
+color: #4b5563; /* text-gray-600 Tailwind (exact match) */
 display: flex;
 align-items: center;
 gap: 8px;
