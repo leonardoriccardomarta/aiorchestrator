@@ -418,7 +418,8 @@ if (hasCustomBranding) {
 // Title color identical to preview rules:
 // - Starter: themed text color
 // - Professional+: primary branding color
-const headerTitleColor = hasCustomBranding ? brandingPrimary : theme.text;
+// Align Starter title color with accent to match live embed visuals
+const headerTitleColor = hasCustomBranding ? brandingPrimary : theme.accent;
 const headerStatusColor = hasCustomBranding ? brandingSecondary : '#6b7280';
 const headerButtonHoverBg = hasCustomBranding ? `${brandingPrimary}20` : '#e5e7eb';
 const headerButtonColor = hasCustomBranding ? brandingPrimary : '#6b7280';
