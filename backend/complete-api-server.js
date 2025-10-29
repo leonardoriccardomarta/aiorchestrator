@@ -652,19 +652,19 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                         </div>
                     ` : ''}
                     <div>
-                        <div class="font-bold ${themeColors.text} ${useCustomBranding ? 'chat-title' : ''}">${title || 'AI Support'}</div>
+                        <div class="font-bold ${themeColors.text} ${useCustomBranding && isProfessionalPlan ? 'chat-title' : ''}">${title || 'AI Support'}</div>
                         <div class="text-xs text-gray-600 flex items-center gap-2">
                             <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                            <span class="${useCustomBranding ? 'online-status' : ''}">Online 24/7</span>
+                            <span class="${useCustomBranding && isProfessionalPlan ? 'online-status' : ''}">Online 24/7</span>
                             ${primaryLanguage && primaryLanguage !== 'auto' ? `<span class="px-2 py-0.5 text-[10px] rounded bg-gray-100 text-gray-700">${primaryLanguage.toUpperCase()}</span>` : ''}
                         </div>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button id="ai-minimize-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors ${useCustomBranding ? 'minimize-btn' : ''}" title="Minimize">
+                    <button id="ai-minimize-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors ${useCustomBranding && isProfessionalPlan ? 'minimize-btn' : ''}" title="Minimize">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
                     </button>
-                    <button id="ai-close-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors ${useCustomBranding ? 'close-btn' : ''}" title="Close">
+                    <button id="ai-close-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors ${useCustomBranding && isProfessionalPlan ? 'close-btn' : ''}" title="Close">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
@@ -674,22 +674,22 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         <div class="h-96 overflow-y-auto p-4 bg-gray-50">
             <div class="mb-4 flex justify-start">
                 <div class="max-w-[80%] rounded-2xl px-4 py-2 bg-white text-gray-900 border border-gray-200">
-                    <div class="text-sm ${useCustomBranding ? 'ai-message-text' : ''}">${message || chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}</div>
-                    <div class="text-xs mt-1 text-gray-500 ${useCustomBranding ? 'timestamp ai-message' : ''}">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                    <div class="text-sm ${useCustomBranding && isProfessionalPlan ? 'ai-message-text' : ''}">${message || chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}</div>
+                    <div class="text-xs mt-1 text-gray-500 ${useCustomBranding && isProfessionalPlan ? 'timestamp ai-message' : ''}">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                 </div>
             </div>
             <div class="mb-4 flex justify-end">
                 <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
-                    <div class="text-sm ${useCustomBranding ? 'user-message-text' : ''}">Hi! Can you help me?</div>
-                    <div class="text-xs mt-1 text-white opacity-80 ${useCustomBranding ? 'timestamp user-message' : ''}">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                    <div class="text-sm ${useCustomBranding && isProfessionalPlan ? 'user-message-text' : ''}">Hi! Can you help me?</div>
+                    <div class="text-xs mt-1 text-white opacity-80 ${useCustomBranding && isProfessionalPlan ? 'timestamp user-message' : ''}">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                 </div>
             </div>
             <div class="flex justify-start mb-4">
                 <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3">
                     <div class="flex gap-1">
-                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce ${useCustomBranding ? 'typing-indicator' : ''}"></div>
-                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce ${useCustomBranding ? 'typing-indicator' : ''}" style="animation-delay: 0.1s"></div>
-                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce ${useCustomBranding ? 'typing-indicator' : ''}" style="animation-delay: 0.2s"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce ${useCustomBranding && isProfessionalPlan ? 'typing-indicator' : ''}"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce ${useCustomBranding && isProfessionalPlan ? 'typing-indicator' : ''}" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce ${useCustomBranding && isProfessionalPlan ? 'typing-indicator' : ''}" style="animation-delay: 0.2s"></div>
                     </div>
                 </div>
             </div>
@@ -700,7 +700,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                 <input
                     type="text"
                     placeholder="${placeholder || 'Type your message...'}"
-                    class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${useCustomBranding ? 'input-placeholder' : ''}"
+                    class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${useCustomBranding && isProfessionalPlan ? 'input-placeholder' : ''}"
                 />
                 <button class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
                     <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
