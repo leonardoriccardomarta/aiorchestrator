@@ -367,6 +367,33 @@ console.error('❌ Widget initialization failed: No config');
 return;
 }
 
+// Load Google Font when requested (e.g., Open Sans) for pixel-perfect parity
+try {
+  const requestedFont = (config.fontFamily || '').trim().toLowerCase();
+  if (requestedFont === 'open sans') {
+    if (!document.querySelector('link[data-aiorch-font="open-sans"]')) {
+      const pre1 = document.createElement('link');
+      pre1.rel = 'preconnect';
+      pre1.href = 'https://fonts.googleapis.com';
+      pre1.setAttribute('data-aiorch-font', 'open-sans');
+      document.head.appendChild(pre1);
+
+      const pre2 = document.createElement('link');
+      pre2.rel = 'preconnect';
+      pre2.href = 'https://fonts.gstatic.com';
+      pre2.crossOrigin = 'anonymous';
+      pre2.setAttribute('data-aiorch-font', 'open-sans');
+      document.head.appendChild(pre2);
+
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap';
+      link.setAttribute('data-aiorch-font', 'open-sans');
+      document.head.appendChild(link);
+    }
+  }
+} catch {}
+
 const theme = themeColors[config.theme] || themeColors.teal;
 
 // Determine if custom branding should be applied (only for Professional+ plans)
