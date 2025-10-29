@@ -140,9 +140,9 @@ showAvatar: script.dataset.showAvatar !== 'false',
 primaryLanguage: script.dataset.primaryLanguage || script.dataset['primary-language'] || 'en',
 autoOpen: script.dataset.autoOpen === 'true', // Default: false (chiuso)
 // Custom branding attributes
-primaryColor: script.dataset.primaryColor,
-secondaryColor: script.dataset.secondaryColor,
-fontFamily: script.dataset.fontFamily,
+primaryColor: script.dataset.primaryColor || script.dataset['primary-color'],
+secondaryColor: script.dataset.secondaryColor || script.dataset['secondary-color'],
+fontFamily: script.dataset.fontFamily || script.dataset['font-family'],
 logo: script.dataset.logo
 };
 
@@ -881,9 +881,9 @@ box-shadow: 0 0 0 3px ${hasCustomBranding ? `${brandingPrimary}22` : `${theme.ac
 background: ${hasCustomBranding ? brandingPrimary : theme.accent};
 color: white;
 border: none;
-width: 44px;
-height: 44px;
-border-radius: 12px;
+width: 40px;
+height: 40px;
+border-radius: 10px;
 flex-shrink: 0;
 display: grid;
 place-items: center;
