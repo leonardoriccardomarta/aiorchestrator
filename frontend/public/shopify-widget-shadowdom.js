@@ -435,6 +435,16 @@ const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
 try {
   const scriptEl = document.querySelector('script[data-chatbot-id], script[data-ai-orchestrator-id], script[src*="shopify-widget-shadowdom"]');
   const scriptDataset = scriptEl ? { ...scriptEl.dataset } : null;
+  
+  // Check if Open Sans font is loaded
+  const openSansLoaded = document.fonts ? document.fonts.check('1em "Open Sans"') : false;
+  const fontLinks = Array.from(document.querySelectorAll('link[href*="fonts.googleapis.com"], link[href*="Open+Sans"]'));
+  const fontImports = Array.from(document.styleSheets).some(sheet => {
+    try {
+      return Array.from(sheet.cssRules || []).some(rule => rule.type === CSSRule.IMPORT_RULE && rule.href && rule.href.includes('Open+Sans'));
+    } catch { return false; }
+  });
+  
   console.groupCollapsed('🧪 AI Orchestrator Shopify Widget Debug');
   console.log('Config (final):', JSON.parse(JSON.stringify(config)));
   console.log('Script dataset:', scriptDataset);
@@ -455,8 +465,40 @@ try {
     accent: theme.accent,
     primaryGradient: theme.primary
   });
-  console.log('Fonts:', { customFontFamily, cssVarFont: customFontFamily });
+  console.log('🔤 Font Debug:', {
+    customFontFamily,
+    cssVarFont: customFontFamily,
+    openSansInDocument: openSansLoaded,
+    fontLinksInHead: fontLinks.length,
+    fontLinks: fontLinks.map(l => l.href),
+    fontImportsFound: fontImports,
+    documentFonts: document.fonts ? Array.from(document.fonts).map(f => f.family).filter(f => f.includes('Open') || f.includes('Sans')) : 'Font API not available'
+  });
   console.log('Widget ID:', widgetId);
+  
+  // After widget renders, check computed font in message bubbles
+  setTimeout(() => {
+    try {
+      const shadowEl = document.getElementById(widgetId);
+      if (shadowEl?.shadowRoot) {
+        const testBubble = shadowEl.shadowRoot.querySelector('.message-bubble');
+        if (testBubble) {
+          const computed = window.getComputedStyle(testBubble);
+          console.log('📝 Message bubble computed font:', {
+            fontFamily: computed.fontFamily,
+            fontSize: computed.fontSize,
+            fontWeight: computed.fontWeight,
+            openSansApplied: computed.fontFamily.toLowerCase().includes('open sans')
+          });
+        } else {
+          console.warn('⚠️ Message bubble not found in shadow root for font check');
+        }
+      }
+    } catch (e) {
+      console.warn('⚠️ Could not check computed font:', e);
+    }
+  }, 500);
+  
   console.groupEnd();
 } catch (e) { console.warn('Debug dump failed:', e); }
 
