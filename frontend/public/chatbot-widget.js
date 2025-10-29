@@ -200,6 +200,11 @@
       fontStyle.href = 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap';
       fontStyle.rel = 'stylesheet';
       document.head.appendChild(fontStyle);
+      
+      // Wait for font to load
+      fontStyle.onload = () => {
+        console.log('✅ Open Sans font loaded');
+      };
     }
 
     // Create widget HTML - RESPONSIVE for Desktop & Mobile
@@ -392,9 +397,7 @@
             </svg>
           </button>
             </div>
-            <div class="text-center mt-2">
-              <p class="text-xs text-gray-400" style="font-size: 11px; color: #9ca3af; margin: 0; padding: 0;">Powered by AI Orchestrator</p>
-            </div>
+            <p class="text-xs text-gray-400 text-center">Powered by AI Orchestrator</p>
           </div>
         </div>
       </div>

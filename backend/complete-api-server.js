@@ -7034,10 +7034,12 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
     
     console.log('🎯 Preview final branding state:', {
       useCustomBranding,
+      isProfessionalPlan,
       customPrimaryColor,
       customSecondaryColor,
       customFontFamily,
-      customLogo: customLogo ? 'present' : 'empty'
+      customLogo: customLogo ? 'present' : 'empty',
+      willApplyCustomCSS: useCustomBranding && isProfessionalPlan
     });
     // Starter plan: use theme colors only (no custom branding)
     
