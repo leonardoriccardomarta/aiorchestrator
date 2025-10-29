@@ -854,11 +854,11 @@ animation-delay: -0.16s;
 
 /* Input Container */
 .input-container {
-  padding: 16px;
+  padding: 16px 16px 20px 16px;
   background: white;
   border-top: 1px solid #e5e7eb;
   flex-shrink: 0;
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-family: var(--ai-font) !important;
 }
 
 .input-row {
@@ -995,9 +995,13 @@ ${config.logo ? `
   <div class="chat-header-left">
     ${config.showAvatar ? `
       <div class="avatar">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-        </svg>
+        ${hasCustomBranding && config.logo ? `
+          <img src="${config.logo}" alt="Logo" style="width: 20px; height: 20px; border-radius: 50%; object-fit: cover;" />
+        ` : `
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+          </svg>
+        `}
       </div>
     ` : ''}
     <div class="header-info">
