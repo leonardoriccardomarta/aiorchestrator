@@ -711,7 +711,7 @@ flex-direction: column;
 
 .header-status {
 font-size: 12px;
-color: #4b5563; /* gray-600 like preview */
+color: #6b7280; /* text-gray-500 Tailwind (preview uses text-gray-600 which maps to this) */
 display: flex;
 align-items: center;
 gap: 8px;
@@ -1005,7 +1005,7 @@ ${config.logo ? `
       </div>
     ` : ''}
     <div class="header-info">
-      <div class="header-title" style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">${config.title}</div>
+      <div class="header-title">${config.title}</div>
       <div class="header-status">
         <div class="status-dot"></div>
         <span>Online 24/7</span>
