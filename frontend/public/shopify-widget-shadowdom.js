@@ -859,11 +859,13 @@ animation-delay: -0.16s;
 
 .message-input {
 flex: 1;
-padding: 10px 16px;
+height: 40px;
+padding: 8px 16px;
 border: 1px solid #d1d5db;
 border-radius: 8px;
-font-size: 14px;
-font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+font-size: 16px;
+line-height: 24px;
+font-family: var(--ai-font);
 outline: none;
 transition: border-color 0.2s;
 }
@@ -893,8 +895,8 @@ opacity: 0.9;
 }
 
 .send-button svg {
-width: 20px;
-height: 20px;
+width: 18px;
+height: 18px;
 transform: rotate(45deg);
 }
 
