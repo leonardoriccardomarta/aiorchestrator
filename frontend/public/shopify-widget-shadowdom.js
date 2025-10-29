@@ -484,12 +484,44 @@ try {
         const testBubble = shadowEl.shadowRoot.querySelector('.message-bubble');
         if (testBubble) {
           const computed = window.getComputedStyle(testBubble);
+          const headerTitle = shadowEl.shadowRoot.querySelector('.header-title');
+          const headerComputed = headerTitle ? window.getComputedStyle(headerTitle) : null;
+          
           console.log('📝 Message bubble computed font:', {
             fontFamily: computed.fontFamily,
             fontSize: computed.fontSize,
             fontWeight: computed.fontWeight,
             openSansApplied: computed.fontFamily.toLowerCase().includes('open sans')
           });
+          
+          if (headerComputed) {
+            console.log('📝 Header title computed font:', {
+              fontFamily: headerComputed.fontFamily,
+              fontSize: headerComputed.fontSize,
+              fontWeight: headerComputed.fontWeight,
+              color: headerComputed.color
+            });
+          }
+          
+          // Check @font-face declarations
+          const styleSheet = shadowEl.shadowRoot.querySelector('style')?.sheet;
+          if (styleSheet) {
+            const fontFaces = [];
+            try {
+              for (let rule of styleSheet.cssRules) {
+                if (rule.type === CSSRule.FONT_FACE_RULE) {
+                  fontFaces.push({
+                    family: rule.style.fontFamily,
+                    src: rule.style.src,
+                    weight: rule.style.fontWeight
+                  });
+                }
+              }
+              console.log('🔤 @font-face rules in Shadow DOM:', fontFaces.length > 0 ? fontFaces : 'None found');
+            } catch (e) {
+              console.warn('⚠️ Could not read font-face rules (CSP?):', e.message);
+            }
+          }
         } else {
           console.warn('⚠️ Message bubble not found in shadow root for font check');
         }
@@ -497,7 +529,7 @@ try {
     } catch (e) {
       console.warn('⚠️ Could not check computed font:', e);
     }
-  }, 500);
+  }, 1000);
   
   console.groupEnd();
 } catch (e) { console.warn('Debug dump failed:', e); }
