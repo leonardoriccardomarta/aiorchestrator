@@ -671,12 +671,15 @@ animation-delay: -0.16s;
 
 /* Input Container */
 .input-container {
-padding: 16px;
-background: white;
-border-top: 1px solid #e5e7eb;
-flex-shrink: 0;
-display: flex;
-gap: 8px;
+  padding: 16px;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
 }
 
 .message-input {
@@ -851,19 +854,21 @@ ${config.logo ? `
 
 <!-- Input -->
 <div class="input-container">
-  <input
-    type="text"
-    class="message-input"
-    id="input"
-    placeholder="${config.placeholder}"
-  />
-  <button class="send-button" id="send">
-    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-    </svg>
-  </button>
+  <div class="input-row">
+    <input
+      type="text"
+      class="message-input"
+      id="input"
+      placeholder="${config.placeholder}"
+    />
+    <button class="send-button" id="send">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+      </svg>
+    </button>
+  </div>
+  <p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 8px 0 0 0; padding: 0;">Powered by AI Orchestrator</p>
 </div>
-<p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 0;">Powered by AI Orchestrator</p>
 </div>
 </div>
 `;
