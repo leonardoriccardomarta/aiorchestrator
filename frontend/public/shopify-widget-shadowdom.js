@@ -370,15 +370,17 @@
 
     const theme = themeColors[config.theme] || themeColors.teal;
     
-    // Determine if custom branding should be applied (only for Professional+ plans)
-    // For now, we'll check if custom branding is provided and assume it's Professional+
-    const hasCustomBranding = config.primaryColor && config.primaryColor.trim() !== '';
-    
-    // Override with custom branding colors ONLY if provided (Professional+ plans)
-    if (hasCustomBranding) {
-      theme.primary = `linear-gradient(135deg, ${config.primaryColor}, ${config.secondaryColor || config.primaryColor})`;
-      theme.accent = config.primaryColor;
-      theme.userMessage = config.primaryColor;
+    // Override with custom branding colors ONLY if they're different from theme defaults
+    if (config.primaryColor && config.primaryColor.trim() !== '') {
+      // Get the default theme color for comparison
+      const defaultThemeColor = getThemeColor(config.theme);
+      
+      // Only apply custom colors if they're actually different from theme default
+      if (config.primaryColor !== defaultThemeColor) {
+        theme.primary = `linear-gradient(135deg, ${config.primaryColor}, ${config.secondaryColor || config.primaryColor})`;
+        theme.accent = config.primaryColor;
+        theme.userMessage = config.primaryColor;
+      }
     }
     
     // Apply custom font family if available
@@ -409,7 +411,6 @@
           margin: 0;
           padding: 0;
           box-sizing: border-box;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         /* Toggle Button */
@@ -469,7 +470,7 @@
           height: 560px;
           z-index: 2147483646;
           max-height: calc(100vh - 148px);
-          font-family: ${customFontFamily || "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
+          font-family: ${customFontFamily};
           background: white;
           border-radius: 16px;
           box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -537,7 +538,7 @@
         .header-title {
           font-weight: 700;
           font-size: 14px;
-          color: ${theme.text} !important;
+          color: ${theme.text};
         }
 
         .header-status {
@@ -864,7 +865,6 @@
               </svg>
             </button>
           </div>
-          <p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 0;">Powered by AI Orchestrator</p>
         </div>
       </div>
     `;
