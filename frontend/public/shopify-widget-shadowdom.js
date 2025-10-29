@@ -438,6 +438,14 @@ const widgetHTML = `
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+/* Ensure font inheritance across the entire Shadow DOM */
+:host {
+  font-family: ${customFontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.widget-root { font-family: inherit; }
+
 /* Toggle Button */
 .toggle-button {
 position: fixed;
@@ -562,7 +570,7 @@ flex-direction: column;
 
 .header-title {
   font-weight: 700;
-  font-size: 16px;
+  font-size: 14px;
   color: ${theme.text} !important;
 }
 
