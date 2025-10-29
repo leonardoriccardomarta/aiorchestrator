@@ -678,6 +678,12 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                     <div class="text-xs mt-1 text-gray-500">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
                 </div>
             </div>
+            <div class="mb-4 flex justify-end">
+                <div class="max-w-[80%] rounded-2xl px-4 py-2 ${themeColors.userMessage} text-white">
+                    <div class="text-sm">Hi! Can you help me?</div>
+                    <div class="text-xs mt-1 text-white opacity-80">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+                </div>
+            </div>
         </div>
         <!-- Input -->
         <div class="p-4 bg-white border-t border-gray-200">
