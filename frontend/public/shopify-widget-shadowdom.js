@@ -577,7 +577,7 @@ const widgetHTML = `
 }
 /* Reset all styles */
 :host {
-  --ai-font: ${customFontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
+  --ai-font: ${customFontFamily || "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
