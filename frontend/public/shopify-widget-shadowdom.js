@@ -396,9 +396,13 @@ try {
 
 const theme = themeColors[config.theme] || themeColors.teal;
 
-// Determine if custom branding should be applied (only for Professional+ plans)
-// For now, we'll check if custom branding is provided and assume it's Professional+
-const hasCustomBranding = config.primaryColor && config.primaryColor.trim() !== '';
+// Determine if custom branding should be applied (Professional+ plans)
+// Consider branding only when explicit branding inputs are present
+const hasCustomBranding = Boolean(
+  (config.logo && String(config.logo).trim() !== '') ||
+  (config.fontFamily && String(config.fontFamily).trim() !== '') ||
+  (config.primaryColor && config.secondaryColor && String(config.primaryColor).trim() !== '')
+);
 
 // Override with custom branding colors ONLY if provided (Professional+ plans)
 let brandingPrimary = theme.accent;
@@ -420,8 +424,10 @@ const headerButtonHoverBg = hasCustomBranding ? `${brandingPrimary}20` : '#e5e7e
 const headerButtonColor = hasCustomBranding ? brandingPrimary : '#6b7280';
 const typingDotColor = hasCustomBranding ? brandingSecondary : '#9ca3af';
 
-// Apply custom font family if available (default to Open Sans for parity with preview)
-const customFontFamily = config.fontFamily || "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+// Apply custom font family if available
+// Starter (no custom): match quick embed base font (system stack)
+// Professional+: use provided custom font
+const customFontFamily = config.fontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
 const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
 
 // Get Shopify access token for enhanced features
@@ -659,6 +665,8 @@ max-width: 80%;
 border-radius: 16px;
 padding: 12px 16px;
 font-size: 14px;
+  /* Match quick embed which uses Open Sans inside bubbles */
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .message.bot .message-bubble {
