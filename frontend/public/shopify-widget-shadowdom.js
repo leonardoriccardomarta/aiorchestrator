@@ -705,6 +705,8 @@ flex-direction: column;
   font-size: 16px;
   color: ${headerTitleColor} !important;
   font-family: var(--ai-font);
+  line-height: 1.25;
+  letter-spacing: 0;
 }
 
 .header-status {
@@ -871,13 +873,14 @@ line-height: 24px;
 font-family: var(--ai-font);
 outline: none;
 transition: border-color 0.2s;
+ letter-spacing: 0;
 }
 
 .message-input:focus {
 border-color: ${hasCustomBranding ? brandingPrimary : theme.accent};
 box-shadow: 0 0 0 3px ${hasCustomBranding ? `${brandingPrimary}22` : `${theme.accent}22`};
 }
-.message-input::placeholder { color: #9ca3af; }
+.message-input::placeholder { color: #9ca3af; font-size: 16px; }
 
 .send-button {
 background: ${hasCustomBranding ? brandingPrimary : theme.accent};
