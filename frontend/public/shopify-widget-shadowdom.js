@@ -477,11 +477,10 @@ document.body.appendChild(shadowHost);
 const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
 
 // Complete widget HTML with ALL styles inline
+// Note: Open Sans is loaded in document.head (not in Shadow DOM - links don't work here)
 const widgetHTML = `
-<link rel="preconnect" href="https://fonts.googleapis.com" data-aiorch-font="open-sans-shadow" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin data-aiorch-font="open-sans-shadow" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" data-aiorch-font="open-sans-shadow" />
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
 /* Reset all styles */
 :host {
   --ai-font: ${customFontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
@@ -698,8 +697,8 @@ max-width: 80%;
 border-radius: 16px;
 padding: 12px 16px;
 font-size: 14px;
-  /* Match quick embed which uses Open Sans inside bubbles */
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Match quick embed: force Open Sans in message bubbles */
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
 
 .message.bot .message-bubble {
