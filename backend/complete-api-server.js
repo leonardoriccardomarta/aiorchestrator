@@ -6998,7 +6998,11 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
       isProfessionalPlan,
       userEmail: chatbot.user?.email,
       chatbotUserId: chatbot.user?.id,
-      chatbotSettings: chatbot.settings
+      chatbotSettings: chatbot.settings,
+      primaryColor,
+      secondaryColor,
+      fontFamily,
+      logo: logo ? 'present' : 'empty'
     });
     
     // For Starter plan: use normal theme settings (no custom branding)
