@@ -610,7 +610,7 @@ border: none;
 
 .toggle-button:hover {
 transform: scale(1.05);
-box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+box-shadow: ${hasCustomBranding ? `0 12px 40px ${brandingPrimary}40` : '0 12px 40px rgba(0, 0, 0, 0.3)'};
 }
 
 .toggle-button svg {
@@ -625,7 +625,7 @@ top: -4px;
 right: -4px;
 width: 12px;
 height: 12px;
-background: #10B981;
+background: ${hasCustomBranding ? brandingSecondary : '#10B981'};
 border-radius: 50%;
 border: 2px solid white;
 animation: pulse 2s infinite;
@@ -730,7 +730,7 @@ font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
 .status-dot {
 width: 8px;
 height: 8px;
-background: #10b981;
+background: ${hasCustomBranding ? brandingSecondary : '#10b981'};
 border-radius: 50%;
 }
 
@@ -823,7 +823,7 @@ display: flex;
 align-items: center;
 gap: 4px;
 padding: 12px 16px;
-background: white;
+background: ${hasCustomBranding ? brandingSecondary : 'white'};
 border: 1px solid #e5e7eb;
 border-radius: 16px;
 max-width: 80px;
@@ -880,13 +880,13 @@ transition: border-color 0.2s;
 }
 
 .message-input:focus {
-border-color: ${theme.accent};
-box-shadow: 0 0 0 3px ${theme.accent}22;
+border-color: ${hasCustomBranding ? brandingPrimary : theme.accent};
+box-shadow: 0 0 0 3px ${hasCustomBranding ? `${brandingPrimary}22` : `${theme.accent}22`};
 }
 .message-input::placeholder { color: ${hasCustomBranding ? brandingPrimary : '#9ca3af'}; }
 
 .send-button {
-background: ${theme.accent};
+background: ${hasCustomBranding ? brandingPrimary : theme.accent};
 color: white;
 border: none;
 padding: 10px 16px;
@@ -981,7 +981,7 @@ button {
 <!-- Toggle Button -->
 <div class="toggle-button" id="toggle">
 ${config.logo ? `
-  <img src="${config.logo}" alt="Logo" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;" />
+  <img src="${config.logo}" alt="Logo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;" />
 ` : `
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
     <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
