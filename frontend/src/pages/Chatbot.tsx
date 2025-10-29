@@ -896,11 +896,14 @@ const Chatbot: React.FC = () => {
   const generateEmbedCode = () => {
     if (!currentChatbotId) return 'Loading chatbot...';
     
+    const apiUrl = process.env.API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app';
+    const isProfessionalPlan = user?.planId === 'professional' || user?.planId === 'business';
+    
     const baseCode = `<!-- AI Orchestrator Chatbot Widget -->
 <script 
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
   data-ai-orchestrator-id="${currentChatbotId}"
-  data-api-key="${API_URL}"
+  data-api-key="${apiUrl}"
   data-theme="${widgetTheme}"
   data-title="${widgetTitle}"
   data-placeholder="${widgetPlaceholder}"
@@ -909,7 +912,7 @@ const Chatbot: React.FC = () => {
   data-primary-language="${primaryLanguage}"`;
 
     // Add custom branding for professional+ plans
-    if (user?.planId !== 'starter') {
+    if (isProfessionalPlan) {
       // Only include logo if it's not empty and not a blob URL
       const logoAttribute = customBranding.logo && !customBranding.logo.startsWith('blob:') 
         ? `\n  data-logo="${customBranding.logo}"` 
@@ -918,7 +921,7 @@ const Chatbot: React.FC = () => {
       return baseCode + `
   data-primary-color="${customBranding.primaryColor}"
   data-secondary-color="${customBranding.secondaryColor}"
-  data-font-family="${customBranding.fontFamily}"${logoAttribute}
+  data-font-family="${customBranding.fontFamily || 'Inter'}"${logoAttribute}
   defer>
 </script>`;
     }
