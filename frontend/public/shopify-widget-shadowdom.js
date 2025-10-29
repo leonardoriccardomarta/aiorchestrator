@@ -880,7 +880,9 @@
               </svg>
             </button>
           </div>
-          <p class="text-xs text-gray-400 text-center mt-2" style="font-size: 11px; color: #9ca3af; text-align: center; margin-top: 8px; padding: 0 16px;">Powered by AI Orchestrator</p>
+          <div style="text-align: center; margin-top: 8px;">
+            <p style="font-size: 11px; color: #9ca3af; margin: 0; padding: 0; font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Powered by AI Orchestrator</p>
+          </div>
         </div>
       </div>
     `;

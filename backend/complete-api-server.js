@@ -7130,8 +7130,8 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
             display: none;
         }
         ` : ''}
-        ${useCustomBranding ? `
-        /* Custom branding - elements NOT touched by theme */
+        ${useCustomBranding && isProfessionalPlan ? `
+        /* Custom branding - elements NOT touched by theme - ONLY for Professional+ plans */
         .chat-widget .ai-message-text {
             color: ${customPrimaryColor} !important;
         }

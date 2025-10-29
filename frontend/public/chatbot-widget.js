@@ -183,9 +183,29 @@
     const themeColors = themes[config.theme] || themes.teal;
     const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
 
+    // Load Google Fonts if not already loaded
+    if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+      const fontLink = document.createElement('link');
+      fontLink.rel = 'preconnect';
+      fontLink.href = 'https://fonts.googleapis.com';
+      document.head.appendChild(fontLink);
+      
+      const fontLink2 = document.createElement('link');
+      fontLink2.rel = 'preconnect';
+      fontLink2.href = 'https://fonts.gstatic.com';
+      fontLink2.crossOrigin = 'anonymous';
+      document.head.appendChild(fontLink2);
+      
+      const fontStyle = document.createElement('link');
+      fontStyle.href = 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap';
+      fontStyle.rel = 'stylesheet';
+      document.head.appendChild(fontStyle);
+    }
+
     // Create widget HTML - RESPONSIVE for Desktop & Mobile
     const widgetHTML = `
       <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
         * {
           font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
@@ -372,7 +392,9 @@
             </svg>
           </button>
             </div>
-            <p class="text-xs text-gray-400 text-center mt-2">Powered by AI Orchestrator</p>
+            <div class="text-center mt-2">
+              <p class="text-xs text-gray-400" style="font-size: 11px; color: #9ca3af; margin: 0; padding: 0;">Powered by AI Orchestrator</p>
+            </div>
           </div>
         </div>
       </div>
