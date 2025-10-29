@@ -831,7 +831,9 @@ app.get('/api/widget/status/:chatbotId', async (req, res) => {
         
         const messageCount = await prisma.conversation.count({
           where: {
-            userId: user.id,
+            chatbot: {
+              userId: user.id,
+            },
             createdAt: {
               gte: startOfMonth
             }
@@ -5202,7 +5204,7 @@ app.get('/', (req, res) => {
       faqs: '/api/faqs',
       connections: '/api/connections',
       workflows: '/api/workflows',
-      payments: '/api/payments',
+      payments: '/api/payments/*',
       chatbots: '/api/chatbots',
       chat: 'POST /api/chat',
       stats: '/api/ai/stats'
