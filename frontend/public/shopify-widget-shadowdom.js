@@ -430,6 +430,35 @@ const typingDotColor = hasCustomBranding ? brandingSecondary : '#9ca3af';
 const customFontFamily = config.fontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
 const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
 
+// ===== RUNTIME DEBUG: dump all inputs and computed styles =====
+try {
+  const scriptEl = document.querySelector('script[data-chatbot-id], script[data-ai-orchestrator-id], script[src*="shopify-widget-shadowdom"]');
+  const scriptDataset = scriptEl ? { ...scriptEl.dataset } : null;
+  console.groupCollapsed('🧪 AI Orchestrator Shopify Widget Debug');
+  console.log('Config (final):', JSON.parse(JSON.stringify(config)));
+  console.log('Script dataset:', scriptDataset);
+  console.log('Theme key:', config.theme, 'Theme colors:', JSON.parse(JSON.stringify(theme)));
+  console.log('Branding present:', hasCustomBranding, {
+    primaryColor: config.primaryColor || null,
+    secondaryColor: config.secondaryColor || null,
+    fontFamily: config.fontFamily || null,
+    logo: config.logo ? 'present' : 'empty'
+  });
+  console.log('Computed colors:', {
+    headerTitleColor,
+    headerStatusColor,
+    headerButtonHoverBg,
+    headerButtonColor,
+    typingDotColor,
+    userMessage: theme.userMessage,
+    accent: theme.accent,
+    primaryGradient: theme.primary
+  });
+  console.log('Fonts:', { customFontFamily, cssVarFont: customFontFamily });
+  console.log('Widget ID:', widgetId);
+  console.groupEnd();
+} catch (e) { console.warn('Debug dump failed:', e); }
+
 // Get Shopify access token for enhanced features
 const shopifyAccessToken = await getShopifyAccessToken(config.chatbotId, config.apiKey);
 console.log('🔑 Shopify access token:', shopifyAccessToken ? 'found ✅' : 'not found (widget will work without Shopify features)');
