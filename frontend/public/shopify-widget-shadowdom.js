@@ -406,8 +406,8 @@ const hasBrandingColors = Boolean(config.primaryColor && String(config.primaryCo
 let brandingPrimary = hasBrandingColors ? config.primaryColor : theme.accent;
 let brandingSecondary = hasBrandingColors ? (config.secondaryColor || config.primaryColor) : theme.accent;
 
-// Title color: match live preview (always theme text color)
-const headerTitleColor = theme.text;
+// Title color: Starter uses theme text, Professional uses branding primary
+const headerTitleColor = hasBrandingColors ? brandingPrimary : theme.text;
 const headerStatusColor = hasCustomBranding ? brandingSecondary : '#6b7280';
 const headerButtonHoverBg = hasCustomBranding ? `${brandingPrimary}20` : '#e5e7eb';
 const headerButtonColor = hasCustomBranding ? brandingPrimary : '#6b7280';
@@ -613,7 +613,7 @@ top: -4px;
 right: -4px;
 width: 12px;
 height: 12px;
-background: #10B981;
+background: ${hasBrandingColors ? brandingSecondary : '#10B981'};
 border-radius: 50%;
 border: 2px solid white;
 animation: pulse 2s infinite;
@@ -721,7 +721,7 @@ gap: 8px;
 .status-dot {
 width: 8px;
 height: 8px;
-background: #10b981;
+background: ${hasBrandingColors ? brandingSecondary : '#10b981'};
 border-radius: 50%;
 }
 
@@ -793,9 +793,9 @@ font-size: 14px;
 }
 
 .message.bot .message-bubble {
-background: white;
-color: #111827;
-border: 1px solid #e5e7eb;
+background: ${hasBrandingColors ? brandingPrimary : 'white'};
+color: ${hasBrandingColors ? 'white' : '#111827'};
+border: ${hasBrandingColors ? 'none' : '1px solid #e5e7eb'};
 }
 
 .message.user .message-bubble {
