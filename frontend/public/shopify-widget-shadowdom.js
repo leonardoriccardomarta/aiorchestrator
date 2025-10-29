@@ -155,72 +155,95 @@ return null;
 }
 
 
-// Theme colors - hardcoded CSS values
-const themeColors = {
-blue: {
-primary: 'linear-gradient(to bottom right, #2563eb, #1d4ed8)',
-secondary: 'linear-gradient(to bottom right, #eff6ff, #dbeafe)',
-accent: '#2563eb',
-text: '#1e3a8a', // Tailwind blue-900
-border: '#bfdbfe',
-userMessage: '#2563eb'
-},
-purple: {
-  primary: 'linear-gradient(to bottom right, #7c3aed, #6d28d9)',
-  secondary: 'linear-gradient(to bottom right, #faf5ff, #f3e8ff)',
-  accent: '#7c3aed',
-  text: '#581c87', // Tailwind purple-900
-  border: '#d8b4fe',
-  userMessage: '#7c3aed'
-},
-green: {
-  primary: 'linear-gradient(to bottom right, #059669, #047857)',
-  secondary: 'linear-gradient(to bottom right, #f0fdf4, #dcfce7)',
-  accent: '#059669',
-  text: '#064e3b', // Tailwind green-900
-  border: '#bbf7d0',
-  userMessage: '#059669'
-},
-red: {
-  primary: 'linear-gradient(to bottom right, #dc2626, #b91c1c)',
-  secondary: 'linear-gradient(to bottom right, #fef2f2, #fee2e2)',
-  accent: '#dc2626',
-  text: '#7f1d1d', // Tailwind red-900
-  border: '#fecaca',
-  userMessage: '#dc2626'
-},
-orange: {
-  primary: 'linear-gradient(to bottom right, #ea580c, #c2410c)',
-  secondary: 'linear-gradient(to bottom right, #fff7ed, #ffedd5)',
-  accent: '#ea580c',
-  text: '#7c2d12', // Tailwind orange-900
-  border: '#fed7aa',
-  userMessage: '#ea580c'
-},
-pink: {
-  primary: 'linear-gradient(to bottom right, #db2777, #be185d)',
-  secondary: 'linear-gradient(to bottom right, #fdf2f8, #fce7f3)',
-  accent: '#db2777',
-  text: '#831843', // Tailwind pink-900
-  border: '#fbcfe8',
-  userMessage: '#db2777'
-},
-indigo: {
-  primary: 'linear-gradient(to bottom right, #4f46e5, #4338ca)',
-  secondary: 'linear-gradient(to bottom right, #eef2ff, #e0e7ff)',
-  accent: '#4f46e5',
-  text: '#312e81', // Tailwind indigo-900 (not -700)
-  border: '#c7d2fe',
-  userMessage: '#4f46e5'
-},
-teal: {
-  primary: 'linear-gradient(to bottom right, #0d9488, #0f766e)',
-  secondary: 'linear-gradient(to bottom right, #f0fdfa, #ccfbf1)',
-  accent: '#0d9488',
-  text: '#134e4a', // Tailwind teal-900
-  border: '#99f6e4',
-  userMessage: '#0d9488'
+// Theme colors - matching chatbot-widget.js exactly
+// Helper function to convert Tailwind gradient classes to CSS
+function getGradientFromTailwind(tailwindClass) {
+  const gradientMap = {
+    'from-blue-600 to-blue-700': 'linear-gradient(to bottom right, #2563eb, #1d4ed8)',
+    'from-blue-50 to-blue-100': 'linear-gradient(to bottom right, #eff6ff, #dbeafe)',
+    'from-purple-600 to-purple-700': 'linear-gradient(to bottom right, #7c3aed, #6d28d9)',
+    'from-purple-50 to-purple-100': 'linear-gradient(to bottom right, #faf5ff, #f3e8ff)',
+    'from-green-600 to-green-700': 'linear-gradient(to bottom right, #059669, #047857)',
+    'from-green-50 to-green-100': 'linear-gradient(to bottom right, #f0fdf4, #dcfce7)',
+    'from-red-600 to-red-700': 'linear-gradient(to bottom right, #dc2626, #b91c1c)',
+    'from-red-50 to-red-100': 'linear-gradient(to bottom right, #fef2f2, #fee2e2)',
+    'from-orange-600 to-orange-700': 'linear-gradient(to bottom right, #ea580c, #c2410c)',
+    'from-orange-50 to-orange-100': 'linear-gradient(to bottom right, #fff7ed, #ffedd5)',
+    'from-pink-600 to-pink-700': 'linear-gradient(to bottom right, #db2777, #be185d)',
+    'from-pink-50 to-pink-100': 'linear-gradient(to bottom right, #fdf2f8, #fce7f3)',
+    'from-indigo-600 to-indigo-700': 'linear-gradient(to bottom right, #4f46e5, #4338ca)',
+    'from-indigo-50 to-indigo-100': 'linear-gradient(to bottom right, #eef2ff, #e0e7ff)',
+    'from-teal-600 to-teal-700': 'linear-gradient(to bottom right, #0d9488, #0f766e)',
+    'from-teal-50 to-teal-100': 'linear-gradient(to bottom right, #f0fdfa, #ccfbf1)'
+  };
+  return gradientMap[tailwindClass] || tailwindClass;
 }
+
+const themeColors = {
+  blue: { 
+    primary: 'from-blue-600 to-blue-700', 
+    secondary: 'from-blue-50 to-blue-100', 
+    accent: '#2563eb', 
+    text: '#1e3a8a', 
+    border: '#bfdbfe', 
+    userMessage: '#2563eb' 
+  },
+  purple: { 
+    primary: 'from-purple-600 to-purple-700', 
+    secondary: 'from-purple-50 to-purple-100', 
+    accent: '#7c3aed', 
+    text: '#581c87', 
+    border: '#d8b4fe', 
+    userMessage: '#7c3aed' 
+  },
+  green: { 
+    primary: 'from-green-600 to-green-700', 
+    secondary: 'from-green-50 to-green-100', 
+    accent: '#059669', 
+    text: '#064e3b', 
+    border: '#bbf7d0', 
+    userMessage: '#059669' 
+  },
+  red: { 
+    primary: 'from-red-600 to-red-700', 
+    secondary: 'from-red-50 to-red-100', 
+    accent: '#dc2626', 
+    text: '#7f1d1d', 
+    border: '#fecaca', 
+    userMessage: '#dc2626' 
+  },
+  orange: { 
+    primary: 'from-orange-600 to-orange-700', 
+    secondary: 'from-orange-50 to-orange-100', 
+    accent: '#ea580c', 
+    text: '#7c2d12', 
+    border: '#fed7aa', 
+    userMessage: '#ea580c' 
+  },
+  pink: { 
+    primary: 'from-pink-600 to-pink-700', 
+    secondary: 'from-pink-50 to-pink-100', 
+    accent: '#db2777', 
+    text: '#831843', 
+    border: '#fbcfe8', 
+    userMessage: '#db2777' 
+  },
+  indigo: { 
+    primary: 'from-indigo-600 to-indigo-700', 
+    secondary: 'from-indigo-50 to-indigo-100', 
+    accent: '#4f46e5', 
+    text: '#312e81', 
+    border: '#c7d2fe', 
+    userMessage: '#4f46e5' 
+  },
+  teal: { 
+    primary: 'from-teal-600 to-teal-700', 
+    secondary: 'from-teal-50 to-teal-100', 
+    accent: '#0d9488', 
+    text: '#134e4a', 
+    border: '#99f6e4', 
+    userMessage: '#0d9488' 
+  }
 };
 
 // Show success message in chat
@@ -393,6 +416,16 @@ try {
 
 const theme = themeColors[config.theme] || themeColors.teal;
 
+// Convert Tailwind classes to CSS for Shadow DOM
+const themeCSS = {
+  primary: getGradientFromTailwind(theme.primary),
+  secondary: getGradientFromTailwind(theme.secondary),
+  accent: theme.accent,
+  text: theme.text,
+  border: theme.border,
+  userMessage: theme.userMessage
+};
+
 // Determine if any branding is present (logo/font/colors)
 const hasLogo = Boolean(config.logo && String(config.logo).trim() !== '');
 const hasCustomBranding = Boolean(
@@ -403,11 +436,11 @@ const hasCustomBranding = Boolean(
 
 // Colors for Professional accents: do NOT override theme gradients
 const hasBrandingColors = Boolean(config.primaryColor && String(config.primaryColor).trim() !== '');
-let brandingPrimary = hasBrandingColors ? config.primaryColor : theme.accent;
-let brandingSecondary = hasBrandingColors ? (config.secondaryColor || config.primaryColor) : theme.accent;
+let brandingPrimary = hasBrandingColors ? config.primaryColor : themeCSS.accent;
+let brandingSecondary = hasBrandingColors ? (config.secondaryColor || config.primaryColor) : themeCSS.accent;
 
 // Title color: Starter uses theme text, Professional uses branding primary
-const headerTitleColor = hasBrandingColors ? brandingPrimary : theme.text;
+const headerTitleColor = hasBrandingColors ? brandingPrimary : themeCSS.text;
 const headerStatusColor = hasCustomBranding ? brandingSecondary : '#6b7280';
 const headerButtonHoverBg = hasCustomBranding ? `${brandingPrimary}20` : '#e5e7eb';
 const headerButtonColor = hasCustomBranding ? brandingPrimary : '#6b7280';
@@ -449,9 +482,9 @@ try {
     headerButtonHoverBg,
     headerButtonColor,
     typingDotColor,
-    userMessage: theme.userMessage,
-    accent: theme.accent,
-    primaryGradient: theme.primary
+    userMessage: themeCSS.userMessage,
+    accent: themeCSS.accent,
+    primaryGradient: themeCSS.primary
   });
   console.log('🔤 Font Debug:', {
     customFontFamily,
@@ -584,7 +617,7 @@ bottom: 24px;
 right: 24px;
 width: 60px;
 height: 60px;
-background: ${theme.primary};
+background: ${themeCSS.primary};
 border-radius: 50%;
 display: flex;
 align-items: center;
@@ -663,8 +696,8 @@ display: none !important;
 
 /* Header */
 .chat-header {
-background: ${theme.secondary};
-border-bottom: 2px solid ${theme.border};
+background: ${themeCSS.secondary};
+border-bottom: 2px solid ${themeCSS.border};
 padding: 16px;
 display: flex;
 align-items: center;
@@ -682,7 +715,7 @@ gap: 12px;
 .avatar {
 width: 40px;
 height: 40px;
-background: ${theme.primary};
+background: ${themeCSS.primary};
 border-radius: 50%;
 display: flex;
 align-items: center;
@@ -703,7 +736,7 @@ flex-direction: column;
 .header-title {
   font-weight: 700;
   font-size: 16px;
-  color: ${headerTitleColor} !important;
+  color: ${themeCSS.text} !important;
   font-family: var(--ai-font);
   line-height: 1.25;
   letter-spacing: 0;
@@ -711,7 +744,7 @@ flex-direction: column;
 
 .header-status {
 font-size: 12px;
-color: #4b5563; /* text-gray-600 Tailwind (exact match) */
+color: #6b7280; /* text-gray-600 Tailwind (exact match) */
 display: flex;
 align-items: center;
 gap: 8px;
@@ -721,7 +754,7 @@ gap: 8px;
 .status-dot {
 width: 8px;
 height: 8px;
-background: #10b981;
+background: #10b981; /* green-500 */
 border-radius: 50%;
 }
 
@@ -729,9 +762,9 @@ border-radius: 50%;
 padding: 2px 8px;
 font-size: 10px;
 border-radius: 4px;
-background: #f3f4f6;
-color: #374151;
-font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+background: #f3f4f6; /* bg-gray-100 */
+color: #374151; /* text-gray-700 */
+font-family: var(--ai-font);
 }
 
 .chat-header-right {
@@ -755,6 +788,16 @@ background: ${headerButtonHoverBg};
 }
 
 .header-button svg {
+width: 16px;
+height: 16px;
+}
+
+.header-button[title="Minimize"] svg {
+width: 16px;
+height: 16px;
+}
+
+.header-button[title="Close"] svg {
 width: 16px;
 height: 16px;
 }
@@ -793,20 +836,20 @@ font-size: 14px;
 }
 
 .message.bot .message-bubble {
-background: ${hasBrandingColors ? brandingPrimary : 'white'};
-color: ${hasBrandingColors ? 'white' : '#111827'};
-border: ${hasBrandingColors ? 'none' : '1px solid #e5e7eb'};
+background: white;
+color: #111827; /* text-gray-900 */
+border: 1px solid #e5e7eb; /* border-gray-200 */
 }
 
 .message.user .message-bubble {
-background: ${theme.userMessage};
+background: ${themeCSS.userMessage};
 color: white;
 }
 
 .message-time {
 font-size: 12px; /* text-xs */
 margin-top: 4px;
-color: #6b7280; /* gray-500 */
+color: #6b7280; /* text-gray-500 */
 font-weight: 400;
 font-family: var(--ai-font);
 }
@@ -877,13 +920,13 @@ transition: border-color 0.2s;
 }
 
 .message-input:focus {
-border-color: ${hasCustomBranding ? brandingPrimary : theme.accent};
-box-shadow: 0 0 0 3px ${hasCustomBranding ? `${brandingPrimary}22` : `${theme.accent}22`};
+border-color: ${hasCustomBranding ? brandingPrimary : themeCSS.accent};
+box-shadow: 0 0 0 3px ${hasCustomBranding ? `${brandingPrimary}22` : `${themeCSS.accent}22`};
 }
 .message-input::placeholder { color: #9ca3af; font-size: 16px; }
 
 .send-button {
-background: ${hasCustomBranding ? brandingPrimary : theme.accent};
+background: ${hasCustomBranding ? brandingPrimary : themeCSS.accent};
 color: white;
 border: none;
 padding: 8px 14px;
@@ -1052,7 +1095,7 @@ ${config.logo ? `
       </svg>
     </button>
   </div>
-  ${hasLogo ? '' : `<p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 8px 0 0 0; padding: 0; font-family: var(--ai-font);">Powered by AI Orchestrator</p>`}
+  <p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 0; font-family: var(--ai-font);">Powered by AI Orchestrator</p>
 </div>
 </div>
 </div>
