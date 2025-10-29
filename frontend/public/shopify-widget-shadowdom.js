@@ -431,20 +431,18 @@ const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
 const widgetHTML = `
 <style>
 /* Reset all styles */
+:host {
+  --ai-font: ${customFontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--ai-font);
 }
-
-/* Ensure font inheritance across the entire Shadow DOM */
-:host {
-  font-family: ${customFontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.widget-root { font-family: inherit; }
+.widget-root { font-family: var(--ai-font); }
 
 /* Toggle Button */
 .toggle-button {
@@ -503,7 +501,7 @@ width: 384px;
 height: 560px;
 z-index: 2147483646;
 max-height: calc(100vh - 148px);
-  font-family: ${customFontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
+  font-family: var(--ai-font);
 background: white;
 border-radius: 16px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
