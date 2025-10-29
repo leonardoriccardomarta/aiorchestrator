@@ -643,7 +643,7 @@ width: 384px;
 height: 560px;
 z-index: 2147483646;
 max-height: calc(100vh - 148px);
-  font-family: var(--ai-font);
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 background: white;
 border-radius: 16px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -679,6 +679,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 flex-shrink: 0;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
 
 .chat-header-left {
@@ -771,7 +772,7 @@ flex: 1;
 overflow-y: auto;
 padding: 16px;
 background: #f9fafb;
-font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+ font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
 
 .message {
@@ -857,7 +858,7 @@ animation-delay: -0.16s;
   background: white;
   border-top: 1px solid #e5e7eb;
   flex-shrink: 0;
-  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
 
 .input-row {
