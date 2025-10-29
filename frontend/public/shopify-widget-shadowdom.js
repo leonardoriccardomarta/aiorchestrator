@@ -613,7 +613,7 @@ top: -4px;
 right: -4px;
 width: 12px;
 height: 12px;
-background: ${hasBrandingColors ? brandingSecondary : '#10B981'};
+background: #10B981;
 border-radius: 50%;
 border: 2px solid white;
 animation: pulse 2s infinite;
@@ -721,7 +721,7 @@ gap: 8px;
 .status-dot {
 width: 8px;
 height: 8px;
-background: ${hasBrandingColors ? brandingSecondary : '#10b981'};
+background: #10b981;
 border-radius: 50%;
 }
 
