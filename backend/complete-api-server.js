@@ -1696,6 +1696,9 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
     let widgetCode;
     if (connection.type === 'shopify' || connection.platform === 'shopify') {
       // For Shopify, use Shadow DOM widget (immune to Shopify CSS)
+      // Get custom branding for Professional+ plans
+      const customBranding = settings.branding || {};
+      
       widgetCode = `<!-- AI Orchestrator Chatbot Widget for Shopify -->
 <script 
   src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
@@ -1707,8 +1710,10 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
   data-show-avatar="${settings.showAvatar !== false}"
   data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"
   data-primary-language="${selectedChatbot?.language || 'auto'}"
-  ${isProfessionalPlan ? `data-font-family="${settings.fontFamily || 'Inter'}"
-  data-logo="${settings.logo || ''}"` : ''}
+  ${isProfessionalPlan ? `data-primary-color="${customBranding.primaryColor || '#3B82F6'}"
+  data-secondary-color="${customBranding.secondaryColor || '#8B5CF6'}"
+  data-font-family="${customBranding.fontFamily || settings.fontFamily || 'Open Sans'}"
+  data-logo="${customBranding.logo || settings.logo || ''}"` : ''}
   defer>
 </script>`;
     } else {

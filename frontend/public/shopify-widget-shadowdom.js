@@ -367,10 +367,10 @@ console.error('❌ Widget initialization failed: No config');
 return;
 }
 
-// Load Google Font when requested (e.g., Open Sans) for pixel-perfect parity
+// Load Google Font when requested or by default (Open Sans) for pixel-perfect parity
 try {
   const requestedFont = (config.fontFamily || '').trim().toLowerCase();
-  if (requestedFont === 'open sans') {
+  if (!requestedFont || requestedFont === 'open sans') {
     if (!document.querySelector('link[data-aiorch-font="open-sans"]')) {
       const pre1 = document.createElement('link');
       pre1.rel = 'preconnect';
@@ -401,19 +401,27 @@ const theme = themeColors[config.theme] || themeColors.teal;
 const hasCustomBranding = config.primaryColor && config.primaryColor.trim() !== '';
 
 // Override with custom branding colors ONLY if provided (Professional+ plans)
+let brandingPrimary = theme.accent;
+let brandingSecondary = theme.accent;
 if (hasCustomBranding) {
-  theme.primary = `linear-gradient(135deg, ${config.primaryColor}, ${config.secondaryColor || config.primaryColor})`;
-  theme.accent = config.primaryColor;
-  theme.userMessage = config.primaryColor;
+  brandingPrimary = config.primaryColor;
+  brandingSecondary = config.secondaryColor || config.primaryColor;
+  theme.primary = `linear-gradient(135deg, ${brandingPrimary}, ${brandingSecondary})`;
+  theme.accent = brandingPrimary;
+  theme.userMessage = brandingPrimary;
 }
 
-// Title color rule aligned with live embed:
-// - Starter (no custom branding): neutral dark gray for maximum contrast
-// - Professional (custom branding): themed text color
-const headerTitleColor = hasCustomBranding ? theme.text : '#111827';
+// Title color identical to preview rules:
+// - Starter: themed text color
+// - Professional+: primary branding color
+const headerTitleColor = hasCustomBranding ? brandingPrimary : theme.text;
+const headerStatusColor = hasCustomBranding ? brandingSecondary : '#6b7280';
+const headerButtonHoverBg = hasCustomBranding ? `${brandingPrimary}20` : '#e5e7eb';
+const headerButtonColor = hasCustomBranding ? brandingPrimary : '#6b7280';
+const typingDotColor = hasCustomBranding ? brandingSecondary : '#9ca3af';
 
-// Apply custom font family if available
-const customFontFamily = config.fontFamily || '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+// Apply custom font family if available (default to Open Sans for parity with preview)
+const customFontFamily = config.fontFamily || "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
 const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
 
 // Get Shopify access token for enhanced features
@@ -579,7 +587,7 @@ flex-direction: column;
 
 .header-status {
 font-size: 12px;
-color: #6b7280;
+color: ${headerStatusColor};
 display: flex;
 align-items: center;
 gap: 8px;
@@ -613,11 +621,11 @@ padding: 8px;
 border-radius: 8px;
 cursor: pointer;
 transition: background 0.2s;
-color: #6b7280;
+color: ${headerButtonColor};
 }
 
 .header-button:hover {
-background: #e5e7eb;
+background: ${headerButtonHoverBg};
 }
 
 .header-button svg {
@@ -685,7 +693,7 @@ max-width: 80px;
 .typing-dot {
 width: 8px;
 height: 8px;
-background: #9ca3af;
+background: ${typingDotColor};
 border-radius: 50%;
 animation: bounce 1.4s infinite ease-in-out both;
 }
@@ -735,6 +743,7 @@ transition: border-color 0.2s;
 border-color: ${theme.accent};
 box-shadow: 0 0 0 3px ${theme.accent}22;
 }
+.message-input::placeholder { color: ${hasCustomBranding ? brandingPrimary : '#9ca3af'}; }
 
 .send-button {
 background: ${theme.accent};
