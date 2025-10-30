@@ -325,7 +325,7 @@
               </div>
             ` : ''}
               <div>
-                  <div class="font-bold ${themeColors.text}">${config.title}</div>
+                  <div class="font-bold ${themeColors.text}" style="${(config.primaryColor || config.fontFamily) ? `${config.fontFamily ? `font-family:${config.fontFamily};` : ''}${config.primaryColor ? `color:${config.primaryColor};` : ''}` : ''}">${config.title}</div>
                   <div class="text-xs text-gray-600 flex items-center gap-2">
                     <div class="w-2 h-2 bg-green-500 rounded-full"></div>
                     <span>Online 24/7</span>
@@ -369,7 +369,7 @@
             </svg>
           </button>
             </div>
-            <p class="text-xs text-gray-400 text-center">Powered by AI Orchestrator</p>
+            ${config.logo ? '' : '<p class="text-xs text-gray-400 text-center">Powered by AI Orchestrator</p>'}
           </div>
         </div>
       </div>

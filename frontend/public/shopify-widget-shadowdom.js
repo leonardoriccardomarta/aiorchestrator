@@ -710,6 +710,7 @@ flex-shrink: 0;
 display: flex;
 align-items: center;
 gap: 12px;
+flex: 1; /* ensure actions sit flush right */
 }
 
 .avatar {
@@ -771,6 +772,7 @@ font-family: var(--ai-font);
 display: flex;
 align-items: center;
 gap: 8px;
+margin-left: auto; /* push buttons to the far right */
 }
 
 .header-button {
