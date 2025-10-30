@@ -827,7 +827,7 @@ justify-content: flex-start;
 .message-bubble {
 max-width: 80%;
 border-radius: 16px;
-padding: 12px 16px;
+padding: 8px 16px;
 font-size: 14px;
   color: #111827; /* gray-900 */
   font-weight: 400;
@@ -852,6 +852,11 @@ margin-top: 4px;
 color: #6b7280; /* text-gray-500 */
 font-weight: 400;
 font-family: var(--ai-font);
+}
+
+/* Timestamp color for user messages matches quick embed (white, 80% opacity) */
+.message.user .message-time {
+  color: rgba(255,255,255,0.8);
 }
 
 /* Typing Indicator */
@@ -1074,7 +1079,7 @@ ${config.logo ? `
 <!-- Messages -->
 <div class="messages-container" id="messages">
   <div class="message bot">
-    <div class="message-bubble">
+  <div class="message-bubble">
       <div>${cleanEscapeChars(config.welcomeMessage)}</div>
       <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
     </div>
@@ -1332,7 +1337,7 @@ console.log(`🌍 No clear language detected, keeping current: ${config.primaryL
 const userMessageDiv = document.createElement('div');
 userMessageDiv.className = 'message user';
 userMessageDiv.innerHTML = `
-<div class="message-bubble" style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+<div class="message-bubble">
 <div>${message}</div>
 <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
 </div>
@@ -1488,7 +1493,7 @@ responseContent += renderMLAnalysis(data.mlAnalysis);
 }
 
 aiMessageDiv.innerHTML = `
-<div class="message-bubble" style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+<div class="message-bubble">
   <div>${responseContent}</div>
   <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
 </div>
