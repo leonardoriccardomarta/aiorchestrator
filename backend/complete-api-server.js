@@ -554,6 +554,9 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         .chat-widget button {
             min-width: 48px;
         }
+        /* Match Shopify header actions layout exactly */
+        .chat-header-right { display: flex; align-items: center; gap: 8px; }
+        .chat-header-right .header-button { min-width: auto; }
         /* Align header action buttons positions with Shopify widget */
         .header-button { background: transparent; border: none; padding: 8px; border-radius: 8px; cursor: pointer; transition: background 0.2s; color: #6b7280; }
         .header-button:hover { background: #e5e7eb; }
