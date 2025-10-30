@@ -554,6 +554,10 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         .chat-widget button {
             min-width: 48px;
         }
+        /* Align header action buttons positions with Shopify widget */
+        .header-button { background: transparent; border: none; padding: 8px; border-radius: 8px; cursor: pointer; transition: background 0.2s; color: #6b7280; }
+        .header-button:hover { background: #e5e7eb; }
+        .header-button svg { width: 16px; height: 16px; }
         ${useCustomBranding ? `
         /* Custom branding - elements NOT touched by theme */
         .chat-widget .ai-message-text {
@@ -660,12 +664,12 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button id="ai-minimize-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors ${useCustomBranding && isProfessionalPlan ? 'minimize-btn' : ''}" title="Minimize">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                <div class="chat-header-right flex items-center gap-2">
+                    <button id="ai-minimize-btn" class="header-button ${useCustomBranding && isProfessionalPlan ? 'minimize-btn' : ''}" title="Minimize">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
                     </button>
-                    <button id="ai-close-btn" class="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors ${useCustomBranding && isProfessionalPlan ? 'close-btn' : ''}" title="Close">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    <button id="ai-close-btn" class="header-button ${useCustomBranding && isProfessionalPlan ? 'close-btn' : ''}" title="Close">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
             </div>
