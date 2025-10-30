@@ -312,7 +312,7 @@
         </div>
 
       <!-- Chat Widget -->
-        <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 ${config.autoOpen ? '' : 'hidden'}" id="${widgetId}-chat">
+        <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 ${config.autoOpen ? '' : 'hidden'}" id="${widgetId}-chat" style="${config.fontFamily ? `font-family:${config.fontFamily};` : ''}">
         <!-- Header -->
           <div class="bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border} p-4">
             <div class="flex items-center justify-between">
@@ -363,7 +363,7 @@
             placeholder="${config.placeholder}"
                 class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
-              <button id="${widgetId}-send" class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
+              <button id="${widgetId}-send" class="text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all ${config.primaryColor ? '' : themeColors.accent}" style="${config.primaryColor ? `background:${config.primaryColor};` : ''}">
                 <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
             </svg>
