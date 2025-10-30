@@ -635,7 +635,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     </div>
     
     <!-- Chat Widget - POPUP WINDOW -->
-    <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200" style="font-family: ${useCustomBranding ? customFontFamily : 'Inter'};">
+    <div class="chat-widget bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200" style="font-family: ${useCustomBranding ? customFontFamily : '-apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, sans-serif'};">
         <!-- Header -->
         <div class="p-4 bg-gradient-to-br ${themeColors.secondary} border-b-2 ${themeColors.border}">
             <div class="flex items-center justify-between">
