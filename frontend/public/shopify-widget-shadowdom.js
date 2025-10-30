@@ -737,7 +737,7 @@ flex-direction: column;
 .header-title {
   font-weight: 700;
   font-size: 16px;
-  color: ${themeCSS.text} !important;
+  color: ${headerTitleColor} !important;
   font-family: var(--ai-font);
   line-height: 1.25;
   letter-spacing: 0;
