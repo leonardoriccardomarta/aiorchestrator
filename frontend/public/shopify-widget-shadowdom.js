@@ -935,7 +935,7 @@ box-shadow: 0 0 0 3px ${hasCustomBranding ? `${brandingPrimary}22` : `${themeCSS
 background: ${hasCustomBranding ? brandingPrimary : themeCSS.accent};
 color: white;
 border: none;
-padding: 8px 14px;
+ padding: 8px 16px; /* match px-4 py-2 from quick embed */
 height: 40px;
 border-radius: 8px;
 flex-shrink: 0;
