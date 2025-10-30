@@ -495,7 +495,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         body {
             margin: 0;
             padding: 0;
-            font-family: ${useCustomBranding ? customFontFamily : 'Open Sans'}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: ${useCustomBranding ? customFontFamily : '-apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, sans-serif'};
             background: #f3f4f6;
             height: 100vh;
             overflow: hidden;
@@ -7080,7 +7080,7 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
         body {
             margin: 0;
             padding: 0;
-            font-family: ${useCustomBranding ? customFontFamily : 'Open Sans'}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: ${useCustomBranding ? customFontFamily : '-apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, sans-serif'};
             background: #f3f4f6;
             height: 100vh;
             overflow: hidden;
