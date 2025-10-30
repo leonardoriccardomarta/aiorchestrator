@@ -447,9 +447,9 @@ const headerButtonColor = hasCustomBranding ? brandingPrimary : '#6b7280';
 const typingDotColor = hasCustomBranding ? brandingSecondary : '#9ca3af';
 
 // Apply custom font family if available
-// Starter (no custom): use Open Sans to match live embed
+// Starter (no custom): use system fonts to match live embed
 // Professional+: use provided custom font
-const customFontFamily = config.fontFamily || "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+const customFontFamily = config.fontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
 const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
 
 // ===== RUNTIME DEBUG: dump all inputs and computed styles =====
@@ -598,7 +598,7 @@ const widgetHTML = `
 }
 /* Reset all styles */
 :host {
-  --ai-font: ${customFontFamily || "'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
+  --ai-font: ${customFontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1074,7 +1074,7 @@ ${config.logo ? `
 <!-- Messages -->
 <div class="messages-container" id="messages">
   <div class="message bot">
-    <div class="message-bubble" style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+    <div class="message-bubble">
       <div>${cleanEscapeChars(config.welcomeMessage)}</div>
       <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
     </div>
