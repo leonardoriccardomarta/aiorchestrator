@@ -903,6 +903,7 @@ animation-delay: -0.16s;
 .input-row {
   display: flex;
   gap: 8px;
+  margin-bottom: 8px;
 }
 
 .message-input {
@@ -944,8 +945,8 @@ opacity: 0.9;
 }
 
 .send-button svg {
-width: 18px;
-height: 18px;
+width: 20px;
+height: 20px;
 transform: rotate(45deg);
 }
 
@@ -1090,12 +1091,12 @@ ${config.logo ? `
       placeholder="${config.placeholder}"
     />
     <button class="send-button" id="send">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
       </svg>
     </button>
   </div>
-  <p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 0; font-family: var(--ai-font);">Powered by AI Orchestrator</p>
+  <p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 0;">Powered by AI Orchestrator</p>
 </div>
 </div>
 </div>
