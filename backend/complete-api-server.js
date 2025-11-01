@@ -5169,10 +5169,18 @@ app.post('/api/user/reset-stats', authenticateToken, async (req, res) => {
     });
     console.log('✅ Analytics reset');
     
-    // Reset conversation data
-    await prisma.conversation.deleteMany({
-      where: { userId: userId }
+    // Reset conversation data (get chatbots first, then delete their conversations)
+    const userChatbots = await prisma.chatbot.findMany({
+      where: { userId: userId },
+      select: { id: true }
     });
+    const chatbotIds = userChatbots.map(c => c.id);
+    
+    if (chatbotIds.length > 0) {
+      await prisma.conversation.deleteMany({
+        where: { chatbotId: { in: chatbotIds } }
+      });
+    }
     console.log('✅ Conversations reset');
     
     // Reset chatbot stats (keep chatbots but reset counters)
