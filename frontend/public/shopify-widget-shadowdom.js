@@ -1132,18 +1132,18 @@ return match ? match[0] : null;
 // Get translations for UI labels
 const getTranslations = (lang) => {
 const translations = {
-en: { productRecs: 'Product Recommendations', inStock: 'In Stock', outOfStock: 'Out of Stock', viewProduct: 'View Product', addToCart: 'Add to Cart', forYou: 'For You', addedToCart: 'Added to cart!' },
-it: { productRecs: 'Prodotti Consigliati', inStock: 'Disponibile', outOfStock: 'Non Disponibile', viewProduct: 'Vedi Prodotto', addToCart: 'Aggiungi al Carrello', forYou: 'Per Te', addedToCart: 'Aggiunto al carrello!' },
-es: { productRecs: 'Productos Recomendados', inStock: 'En Stock', outOfStock: 'Agotado', viewProduct: 'Ver Producto', addToCart: 'Añadir', forYou: 'Para Ti', addedToCart: '¡Añadido al carrito!' },
-fr: { productRecs: 'Recommandations', inStock: 'En Stock', outOfStock: 'Rupture', viewProduct: 'Voir', addToCart: 'Ajouter', forYou: 'Pour Vous', addedToCart: 'Ajouté au panier!' },
-de: { productRecs: 'Empfehlungen', inStock: 'Verfügbar', outOfStock: 'Ausverkauft', viewProduct: 'Ansehen', addToCart: 'In Warenkorb', forYou: 'Für Dich', addedToCart: 'In Warenkorb gelegt!' },
-pt: { productRecs: 'Recomendações', inStock: 'Disponível', outOfStock: 'Esgotado', viewProduct: 'Ver', addToCart: 'Adicionar', forYou: 'Para Você', addedToCart: 'Adicionado!' },
-ru: { productRecs: 'Рекомендации', inStock: 'Есть', outOfStock: 'Нет', viewProduct: 'Смотреть', addToCart: 'В корзину', forYou: 'Для вас', addedToCart: 'Добавлено!' },
-zh: { productRecs: '推荐', inStock: '有货', outOfStock: '缺货', viewProduct: '查看', addToCart: '加入', forYou: '推荐', addedToCart: '已加入!' },
-ja: { productRecs: 'おすすめ', inStock: '在庫あり', outOfStock: '在庫なし', viewProduct: '見る', addToCart: '追加', forYou: 'おすすめ', addedToCart: '追加しました!' },
-ko: { productRecs: '추천', inStock: '있음', outOfStock: '품절', viewProduct: '보기', addToCart: '추가', forYou: '추천', addedToCart: '추가됨!' },
-ar: { productRecs: 'توصيات', inStock: 'متوفر', outOfStock: 'نفذ', viewProduct: 'عرض', addToCart: 'أضف', forYou: 'لك', addedToCart: 'تمت الإضافة!' },
-hi: { productRecs: 'सिफारिशें', inStock: 'उपलब्ध', outOfStock: 'खत्म', viewProduct: 'देखें', addToCart: 'जोड़ें', forYou: 'आपके लिए', addedToCart: 'जोड़ा गया!' }
+en: { productRecs: 'Product Recommendations', inStock: 'In Stock', outOfStock: 'Out of Stock', viewProduct: 'View Product', addToCart: 'Add to Cart', forYou: 'For You', addedToCart: 'Added to cart!', orderStatus: 'Order Status', totalOrders: 'Total Orders', totalSpent: 'Total Spent', processing: 'Processing' },
+it: { productRecs: 'Prodotti Consigliati', inStock: 'Disponibile', outOfStock: 'Non Disponibile', viewProduct: 'Vedi Prodotto', addToCart: 'Aggiungi al Carrello', forYou: 'Per Te', addedToCart: 'Aggiunto al carrello!', orderStatus: 'Stato Ordine', totalOrders: 'Ordini Totali', totalSpent: 'Spesa Totale', processing: 'In Elaborazione' },
+es: { productRecs: 'Productos Recomendados', inStock: 'En Stock', outOfStock: 'Agotado', viewProduct: 'Ver Producto', addToCart: 'Añadir', forYou: 'Para Ti', addedToCart: '¡Añadido al carrito!', orderStatus: 'Estado del Pedido', totalOrders: 'Pedidos Totales', totalSpent: 'Total Gastado', processing: 'Procesando' },
+fr: { productRecs: 'Recommandations', inStock: 'En Stock', outOfStock: 'Rupture', viewProduct: 'Voir', addToCart: 'Ajouter', forYou: 'Pour Vous', addedToCart: 'Ajouté au panier!', orderStatus: 'Statut de Commande', totalOrders: 'Commandes Totales', totalSpent: 'Total Dépensé', processing: 'En Traitement' },
+de: { productRecs: 'Empfehlungen', inStock: 'Verfügbar', outOfStock: 'Ausverkauft', viewProduct: 'Ansehen', addToCart: 'In Warenkorb', forYou: 'Für Dich', addedToCart: 'In Warenkorb gelegt!', orderStatus: 'Bestellstatus', totalOrders: 'Gesamtbestellungen', totalSpent: 'Gesamtausgaben', processing: 'In Bearbeitung' },
+pt: { productRecs: 'Recomendações', inStock: 'Disponível', outOfStock: 'Esgotado', viewProduct: 'Ver', addToCart: 'Adicionar', forYou: 'Para Você', addedToCart: 'Adicionado!', orderStatus: 'Status do Pedido', totalOrders: 'Pedidos Totais', totalSpent: 'Total Gasto', processing: 'Processando' },
+ru: { productRecs: 'Рекомендации', inStock: 'Есть', outOfStock: 'Нет', viewProduct: 'Смотреть', addToCart: 'В корзину', forYou: 'Для вас', addedToCart: 'Добавлено!', orderStatus: 'Статус Заказа', totalOrders: 'Всего Заказов', totalSpent: 'Всего Потрачено', processing: 'В Обработке' },
+zh: { productRecs: '推荐', inStock: '有货', outOfStock: '缺货', viewProduct: '查看', addToCart: '加入', forYou: '推荐', addedToCart: '已加入!', orderStatus: '订单状态', totalOrders: '总订单', totalSpent: '总花费', processing: '处理中' },
+ja: { productRecs: 'おすすめ', inStock: '在庫あり', outOfStock: '在庫なし', viewProduct: '見る', addToCart: '追加', forYou: 'おすすめ', addedToCart: '追加しました!', orderStatus: '注文ステータス', totalOrders: '総注文数', totalSpent: '総支出', processing: '処理中' },
+ko: { productRecs: '추천', inStock: '있음', outOfStock: '품절', viewProduct: '보기', addToCart: '추가', forYou: '추천', addedToCart: '추가됨!', orderStatus: '주문 상태', totalOrders: '총 주문', totalSpent: '총 지출', processing: '처리 중' },
+ar: { productRecs: 'توصيات', inStock: 'متوفر', outOfStock: 'نفذ', viewProduct: 'عرض', addToCart: 'أضف', forYou: 'لك', addedToCart: 'تمت الإضافة!', orderStatus: 'حالة الطلب', totalOrders: 'إجمالي الطلبات', totalSpent: 'إجمالي الإنفاق', processing: 'قيد المعالجة' },
+hi: { productRecs: 'सिफारिशें', inStock: 'उपलब्ध', outOfStock: 'खत्म', viewProduct: 'देखें', addToCart: 'जोड़ें', forYou: 'आपके लिए', addedToCart: 'जोड़ा गया!', orderStatus: 'ऑर्डर स्थिति', totalOrders: 'कुल आदेश', totalSpent: 'कुल खर्च', processing: 'प्रसंस्करण' }
 };
 return translations[lang] || translations.en;
 };
@@ -1195,9 +1195,9 @@ html += '</div>';
 // Order Tracking
 if (enhancements.order) {
 html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #22c55e;">';
-html += '<h4 style="margin: 0 0 8px 0; color: #166534; font-size: 14px; font-weight: 600;">📦 Order Status</h4>';
+html += `<h4 style="margin: 0 0 8px 0; color: #166534; font-size: 14px; font-weight: 600;">📦 ${t.orderStatus}</h4>`;
 html += `<div style="font-weight: 600; color: #166534;">Order #${enhancements.order.name}</div>`;
-html += `<div style="color: #16a34a; margin: 4px 0;">Status: ${enhancements.order.fulfillment_status || 'Processing'}</div>`;
+html += `<div style="color: #16a34a; margin: 4px 0;">Status: ${enhancements.order.fulfillment_status || t.processing}</div>`;
 html += `<div style="font-size: 12px; color: #64748b;">Total: $${enhancements.order.total_price}</div>`;
 html += '</div>';
 }
@@ -1205,9 +1205,9 @@ html += '</div>';
 // Customer History
 if (enhancements.customerHistory) {
 html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #fefce8; border-radius: 8px; border-left: 4px solid #eab308;">';
-html += '<h4 style="margin: 0 0 8px 0; color: #a16207; font-size: 14px; font-weight: 600;">👤 Customer History</h4>';
-html += `<div style="color: #a16207;">Total Orders: ${enhancements.customerHistory.totalOrders || 0}</div>`;
-html += `<div style="color: #a16207;">Total Spent: $${enhancements.customerHistory.totalSpent || 0}</div>`;
+html += `<h4 style="margin: 0 0 8px 0; color: #a16207; font-size: 14px; font-weight: 600;">👤 ${t.totalOrders}</h4>`;
+html += `<div style="color: #a16207;">${t.totalOrders}: ${enhancements.customerHistory.totalOrders || 0}</div>`;
+html += `<div style="color: #a16207;">${t.totalSpent}: $${enhancements.customerHistory.totalSpent || 0}</div>`;
 html += '</div>';
 }
 
