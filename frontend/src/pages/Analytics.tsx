@@ -25,7 +25,6 @@ import {
 import { useUser } from '../contexts/UserContext';
 import { useChatbot } from '../contexts/ChatbotContext';
 import ChatbotSelector from '../components/ChatbotSelector';
-import PlanLimitations from '../components/PlanLimitations';
 
 interface AnalyticsData {
   overview: {
@@ -396,9 +395,9 @@ const Analytics: React.FC = () => {
           </div>
         </div>
 
-        {/* AI Insights - REAL DATA */}
-        <PlanLimitations feature="AI Insights" requiredPlan="professional" data-tour="ai-insights">
-          <div className="mb-6 lg:mb-8">
+        {/* AI Insights - Only for Professional+ plans */}
+        {(user?.planId === 'professional' || user?.planId === 'business') && (
+          <div className="mb-6 lg:mb-8" data-tour="ai-insights">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 lg:mb-6 space-y-2 sm:space-y-0">
               <h2 className="text-xl lg:text-3xl font-bold text-gray-900">AI Insights</h2>
               <div className="flex items-center space-x-2 text-xs lg:text-sm text-gray-500">
@@ -430,7 +429,7 @@ const Analytics: React.FC = () => {
             </div>
           )}
           </div>
-        </PlanLimitations>
+        )}
 
         {/* Performance Trends - REAL DATA */}
         <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">
