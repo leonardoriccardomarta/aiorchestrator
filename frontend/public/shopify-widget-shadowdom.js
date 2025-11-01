@@ -389,6 +389,30 @@ return;
 
 const theme = themeColors[config.theme] || themeColors.teal;
 
+// Load custom font in document head if provided (for Shadow DOM compatibility)
+if (config.fontFamily) {
+  const fontFamilyName = config.fontFamily;
+  const existingLink = document.querySelector(`link[href*="${encodeURIComponent(fontFamilyName)}"]`);
+  if (!existingLink) {
+    const link = document.createElement('link');
+    link.rel = 'preconnect';
+    link.href = 'https://fonts.googleapis.com';
+    document.head.appendChild(link);
+    
+    const link2 = document.createElement('link');
+    link2.rel = 'preconnect';
+    link2.href = 'https://fonts.gstatic.com';
+    link2.crossOrigin = 'anonymous';
+    document.head.appendChild(link2);
+    
+    const link3 = document.createElement('link');
+    link3.rel = 'stylesheet';
+    link3.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(fontFamilyName)}:wght@400;500;600;700&display=swap`;
+    document.head.appendChild(link3);
+    console.log('✅ Font loaded in document head:', fontFamilyName);
+  }
+}
+
 // Convert Tailwind classes to CSS for Shadow DOM
 const themeCSS = {
   primary: getGradientFromTailwind(theme.primary),
@@ -542,13 +566,8 @@ document.body.appendChild(shadowHost);
 const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
 
 // Complete widget HTML with ALL styles inline
-// Load custom font if provided, otherwise use system fonts
-const fontFamilyName = config.fontFamily || 'Inter';
-const fontImport = config.fontFamily ? `@import url('https://fonts.googleapis.com/css2?family=${encodeURIComponent(fontFamilyName)}:wght@400;500;600;700&display=swap');` : '';
-
 const widgetHTML = `
 <style>
-${fontImport}
 /* Reset all styles */
 :host {
   --ai-font: ${customFontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
