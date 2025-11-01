@@ -1058,7 +1058,7 @@ ${config.logo ? `
       </svg>
     </button>
   </div>
-  <p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 0;">Powered by AI Orchestrator</p>
+  ${config.logo ? '' : '<p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 0;">Powered by AI Orchestrator</p>'}
 </div>
 </div>
 </div>
