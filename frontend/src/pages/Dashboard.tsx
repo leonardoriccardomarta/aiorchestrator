@@ -512,26 +512,6 @@ const Dashboard: React.FC = () => {
               color="bg-gradient-to-r from-green-500 to-green-600"
               status="active"
             />
-            <PlanLimitations feature="WooCommerce Setup" requiredPlan="professional">
-              <QuickAction
-                title="WooCommerce Setup"
-                description="Connect your WooCommerce store for seamless integration"
-                icon={Database}
-                onClick={() => navigate('/connections')}
-                color="bg-gradient-to-r from-orange-500 to-orange-600"
-                status="pending"
-              />
-            </PlanLimitations>
-            <PlanLimitations feature="AI Insights" requiredPlan="professional">
-              <QuickAction
-                title="AI Insights"
-                description="Advanced sentiment analysis and customer insights"
-                icon={Cpu}
-                onClick={() => navigate('/analytics')}
-                color="bg-gradient-to-r from-indigo-500 to-indigo-600"
-                status="new"
-              />
-            </PlanLimitations>
             <QuickAction
               title="Multi-Language Support"
               description="Auto-detect 50+ languages in your chatbot"
@@ -540,6 +520,26 @@ const Dashboard: React.FC = () => {
               color="bg-gradient-to-r from-teal-500 to-teal-600"
               status="active"
             />
+            {(user?.planId === 'professional' || user?.planId === 'business') && (
+              <QuickAction
+                title="AI Insights"
+                description="Advanced sentiment analysis and customer insights"
+                icon={Cpu}
+                onClick={() => navigate('/analytics')}
+                color="bg-gradient-to-r from-indigo-500 to-indigo-600"
+                status="new"
+              />
+            )}
+            {user?.planId === 'business' && (
+              <QuickAction
+                title="Custom Branding"
+                description="Personalize your chatbot with custom colors and fonts"
+                icon={Layers}
+                onClick={() => navigate('/chatbot')}
+                color="bg-gradient-to-r from-purple-500 to-purple-600"
+                status="active"
+              />
+            )}
           </div>
         </div>
 
@@ -587,13 +587,6 @@ const Dashboard: React.FC = () => {
                     <p className="text-xs md:text-sm text-gray-600 hidden sm:block">Live updates from your AI</p>
                   </div>
                 </div>
-                <button
-                  onClick={() => navigate('/analytics')}
-                  className="text-green-600 hover:text-green-700 text-xs md:text-sm font-medium"
-                >
-                  <span className="hidden sm:inline">View All</span>
-                  <span className="sm:hidden">All</span>
-                </button>
               </div>
             </div>
             <div className="p-4 md:p-6">
