@@ -4432,6 +4432,7 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
               id: true,
               planId: true,
               email: true,
+              isActive: true,
               isTrialActive: true,
               trialEndDate: true,
               isPaid: true
