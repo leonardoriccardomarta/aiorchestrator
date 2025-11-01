@@ -4445,15 +4445,15 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
         user = chatbot.user;
         console.log('✅ Found user from chatbotId:', user.id);
         
-    // Check if user is blocked (subscription cancelled)
-    if (!user.isActive || !user.planId) {
-      return res.status(403).json({
-        success: false,
-        error: 'Your subscription has been cancelled. Please subscribe to a plan to continue using the chatbot.',
-        subscriptionCancelled: true,
-        upgradeUrl: 'https://www.aiorchestrator.dev/pricing'
-      });
-    }
+        // Check if user is blocked (subscription cancelled)
+        if (!user.isActive || !user.planId) {
+          return res.status(403).json({
+            success: false,
+            error: 'Your subscription has been cancelled. Please subscribe to a plan to continue using the chatbot.',
+            subscriptionCancelled: true,
+            upgradeUrl: 'https://www.aiorchestrator.dev/pricing'
+          });
+        }
         
         // Check if trial has expired
         if (user.isTrialActive && user.trialEndDate) {
@@ -4478,34 +4478,6 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
             error: 'Please upgrade your plan to continue using the chatbot.',
             upgradeRequired: true,
             upgradeUrl: 'https://www.aiorchestrator.dev/pricing'
-      });
-    }
-
-        // Check monthly message limits
-        const userPlanId = user.planId || 'starter';
-        const plan = getPlan(userPlanId);
-        
-        // Get current month's message count
-        const startOfMonth = new Date();
-        startOfMonth.setDate(1);
-        startOfMonth.setHours(0, 0, 0, 0);
-        
-        const messageCount = await prisma.conversation.count({
-          where: {
-            userId: user.id,
-            createdAt: {
-              gte: startOfMonth
-            }
-          }
-        });
-        
-        if (messageCount >= plan.messageLimit) {
-          return res.status(403).json({
-            success: false,
-            error: `Monthly message limit reached. Your ${plan.name} plan allows ${plan.messageLimit} messages per month. Upgrade to continue.`,
-            upgradeRequired: true,
-            limit: plan.messageLimit,
-            current: messageCount
           });
         }
       } else {
@@ -4537,9 +4509,11 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
     const chatbotIds = userChatbots.map(c => c.id);
     
     // Count messages for current month across all user's chatbots
-    const monthlyMessageCount = await prisma.conversation.count({
+    const monthlyMessageCount = await prisma.conversationMessage.count({
       where: {
-        chatbotId: { in: chatbotIds },
+        conversation: {
+          chatbotId: { in: chatbotIds }
+        },
         createdAt: {
           gte: new Date(`${currentMonth}-01`)
         }
