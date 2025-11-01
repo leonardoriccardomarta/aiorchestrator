@@ -386,7 +386,7 @@ app.options('/shopify-app-widget.js', widgetCorsMiddleware);
 app.get('/public/embed/:chatbotId', async (req, res) => {
   try {
     const { chatbotId } = req.params;
-    const { theme, title, placeholder, message, showAvatar, primaryColor, secondaryColor, fontFamily, logo } = req.query;
+    const { theme, title, placeholder, message, showAvatar, fontFamily, logo } = req.query;
     const primaryLanguage = typeof req.query.primaryLanguage === 'string' ? req.query.primaryLanguage : 'auto';
     
     // Debug logging
@@ -394,8 +394,6 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
       chatbotId,
       theme, 
       title, 
-      primaryColor, 
-      secondaryColor, 
       fontFamily, 
       logo,
       allQuery: req.query
@@ -434,23 +432,17 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     // For Starter plan: use normal theme settings (no custom branding)
     // For Professional+ plans: use theme + additional custom branding
     let useCustomBranding = false;
-    let customPrimaryColor = '#3B82F6';
-    let customSecondaryColor = '#8B5CF6';
     let customFontFamily = 'Inter';
     let customLogo = '';
     
     if (isProfessionalPlan) {
       // Professional+ plans: add custom branding on top of theme
       useCustomBranding = true;
-      customPrimaryColor = primaryColor || '#3B82F6';
-      customSecondaryColor = secondaryColor || '#8B5CF6';
       customFontFamily = fontFamily || 'Inter';
       customLogo = logo || '';
       
       console.log('🎨 Custom branding applied:', {
         useCustomBranding,
-        customPrimaryColor,
-        customSecondaryColor,
         customFontFamily,
         customLogo: customLogo ? customLogo.substring(0, 50) + '...' : 'EMPTY',
         logoFromQuery: logo ? logo.substring(0, 50) + '...' : 'EMPTY',
@@ -519,7 +511,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         }
         .toggle-button:hover {
             transform: scale(1.05);
-            ${useCustomBranding ? `box-shadow: 0 12px 40px ${customPrimaryColor}40;` : 'box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);'}
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.6);
         }
         .toggle-button::before {
             content: '';
@@ -563,38 +555,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         .header-button svg { width: 16px; height: 16px; }
         ${useCustomBranding ? `
         /* Custom branding - elements NOT touched by theme */
-        .chat-widget .ai-message-text {
-            color: ${customPrimaryColor} !important;
-        }
-        .chat-widget .user-message-text {
-            color: white !important;
-        }
-        .chat-widget .chat-title {
-            color: ${customPrimaryColor} !important;
-        }
-        .chat-widget .online-status {
-            color: ${customSecondaryColor} !important;
-        }
-        .chat-widget .ai-message .timestamp {
-            color: ${customPrimaryColor} !important;
-        }
-        .chat-widget .user-message .timestamp {
-            color: white !important;
-        }
-        .chat-widget .notification-dot {
-            background: ${customSecondaryColor} !important;
-        }
-        .chat-widget .typing-indicator {
-            background: ${customSecondaryColor} !important;
-        }
-        .chat-widget .input-placeholder {
-            color: ${customPrimaryColor} !important;
-        }
-        .chat-widget .minimize-btn:hover,
-        .chat-widget .close-btn:hover {
-            color: ${customPrimaryColor} !important;
-            background: ${customPrimaryColor}20 !important;
-        }
+        /* Professional: colors from theme only; keep font/logo if provided */
         ` : ''}
     </style>
     <script>
@@ -861,7 +822,7 @@ app.get('/api/widget/status/:chatbotId', async (req, res) => {
       // Check if chatbot has custom branding (professional+ feature)
       if (chatbot.settings) {
         const settings = typeof chatbot.settings === 'string' ? JSON.parse(chatbot.settings) : chatbot.settings;
-        const hasCustomBranding = settings?.branding?.primaryColor || settings?.branding?.logo;
+        const hasCustomBranding = settings?.branding?.logo || settings?.branding?.fontFamily;
         const hasCustomLogo = settings?.branding?.logo && settings.branding.logo.trim() !== '';
         
         // If user downgraded from professional to starter, and has custom branding
@@ -1719,9 +1680,7 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
   data-show-avatar="${settings.showAvatar !== false}"
   data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"
   data-primary-language="${selectedChatbot?.language || 'auto'}"
-  ${isProfessionalPlan ? `data-primary-color="${customBranding.primaryColor || '#3B82F6'}"
-  data-secondary-color="${customBranding.secondaryColor || '#8B5CF6'}"
-  data-font-family="${customBranding.fontFamily || settings.fontFamily || 'Open Sans'}"
+  ${isProfessionalPlan ? `data-font-family="${customBranding.fontFamily || settings.fontFamily || 'Open Sans'}"
   data-logo="${customBranding.logo || settings.logo || ''}"` : ''}
   defer>
 </script>`;
@@ -3469,8 +3428,6 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
         // Use shopify-widget-shadowdom.js with data attributes (matching Quick Embed format)
         // Optional professional branding attributes
         const branding = widgetConfig && widgetConfig.branding ? widgetConfig.branding : {};
-        const primaryColorAttr = branding.primaryColor ? `\n  data-primary-color="${escapeString(branding.primaryColor)}"` : '';
-        const secondaryColorAttr = branding.secondaryColor ? `\n  data-secondary-color="${escapeString(branding.secondaryColor)}"` : '';
         const fontFamilyAttr = branding.fontFamily ? `\n  data-font-family="${escapeString(branding.fontFamily)}"` : '';
         // Include logo only if present and not a blob URL
         const logoAttr = branding.logo && !String(branding.logo).startsWith('blob:') && String(branding.logo).trim() !== ''
@@ -3488,7 +3445,7 @@ async function injectWidgetIntoTheme(shopUrl, accessToken, widgetCode, chatbotId
   data-show-avatar="${widgetConfig.showAvatar !== false ? 'true' : 'false'}"
   data-welcome-message="${escapeString(widgetConfig.welcomeMessage || 'Hello! How can I help you today?')}"
   data-primary-language="${escapeString(widgetConfig.primaryLanguage || 'en')}"
-  data-auto-open="${widgetConfig.autoOpen === true ? 'true' : 'false'}"${primaryColorAttr}${secondaryColorAttr}${fontFamilyAttr}${logoAttr}
+  data-auto-open="${widgetConfig.autoOpen === true ? 'true' : 'false'}"${fontFamilyAttr}${logoAttr}
   defer>
 </script>`;
 
@@ -6974,8 +6931,6 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
       placeholder, 
       message, 
       showAvatar, 
-      primaryColor, 
-      secondaryColor, 
       fontFamily, 
       logo 
     } = req.query;
@@ -6986,8 +6941,6 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
       chatbotId,
       theme, 
       title, 
-      primaryColor, 
-      secondaryColor, 
       fontFamily, 
       logo,
       allQuery: req.query
@@ -7013,32 +6966,24 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
       userEmail: chatbot.user?.email,
       chatbotUserId: chatbot.user?.id,
       chatbotSettings: chatbot.settings,
-      primaryColor,
-      secondaryColor,
       fontFamily,
       logo: logo ? 'present' : 'empty'
     });
     
     // For Starter plan: use normal theme settings (no custom branding)
-    // For Professional+ plans: use theme + additional custom branding
+    // For Professional+ plans: use theme + fontFamily/logo only (no custom colors)
     let useCustomBranding = false;
-    let customPrimaryColor = '#3B82F6';
-    let customSecondaryColor = '#8B5CF6';
     let customFontFamily = 'Inter';
     let customLogo = '';
     
     if (isProfessionalPlan) {
-      // Professional+ plans: add custom branding on top of theme
+      // Professional+ plans: only fontFamily and logo (colors from theme)
       useCustomBranding = true;
-      customPrimaryColor = primaryColor || '#3B82F6';
-      customSecondaryColor = secondaryColor || '#8B5CF6';
       customFontFamily = fontFamily || 'Inter';
       customLogo = logo || '';
       
       console.log('🎨 Preview custom branding applied:', {
         useCustomBranding,
-        customPrimaryColor,
-        customSecondaryColor,
         customFontFamily,
         customLogo
       });
@@ -7049,8 +6994,6 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
     console.log('🎯 Preview final branding state:', {
       useCustomBranding,
       isProfessionalPlan,
-      customPrimaryColor,
-      customSecondaryColor,
       customFontFamily,
       customLogo: customLogo ? 'present' : 'empty',
       willApplyCustomCSS: useCustomBranding && isProfessionalPlan
@@ -7146,48 +7089,7 @@ app.get('/public/embed/:chatbotId/preview', async (req, res) => {
             display: none;
         }
         ` : ''}
-        ${useCustomBranding && isProfessionalPlan ? `
-        /* Custom branding - elements NOT touched by theme - ONLY for Professional+ plans */
-        .chat-widget .ai-message-text {
-            color: ${customPrimaryColor} !important;
-        }
-        .chat-widget .user-message-text {
-            color: white !important;
-        }
-        .chat-widget .chat-title {
-            color: ${customPrimaryColor} !important;
-        }
-        .chat-widget .online-status {
-            color: ${customSecondaryColor} !important;
-        }
-        .chat-widget .ai-message .timestamp {
-            color: ${customPrimaryColor} !important;
-        }
-        .chat-widget .user-message .timestamp {
-            color: white !important;
-        }
-        .chat-widget .notification-dot {
-            background: ${customSecondaryColor} !important;
-        }
-        .chat-widget .typing-indicator {
-            background: ${customSecondaryColor} !important;
-        }
-        .chat-widget .input-placeholder {
-            color: ${customPrimaryColor} !important;
-        }
-        .chat-widget .send-button {
-            background: ${customPrimaryColor} !important;
-            color: white !important;
-        }
-        .chat-widget .minimize-btn:hover,
-        .chat-widget .close-btn:hover {
-            color: ${customPrimaryColor} !important;
-            background: ${customPrimaryColor}20 !important;
-        }
-        .toggle-button:hover {
-            box-shadow: 0 12px 40px ${customPrimaryColor}40 !important;
-        }
-        ` : ''}
+        /* Professional plan: colors come from theme only; fontFamily/logo if provided */
     </style>
 </head>
 <body>

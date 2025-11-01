@@ -37,7 +37,6 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
     placeholder: 'Type your message...',
     showAvatar: true,
     showPoweredBy: true,
-    primaryColor: '#3B82F6',
     borderRadius: '12px',
     fontSize: '14px',
     width: '320px',
@@ -57,7 +56,6 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
       if (settings.branding) {
         setConfig(prev => ({
           ...prev,
-          primaryColor: settings.branding.primaryColor || prev.primaryColor,
           fontFamily: settings.branding.fontFamily || 'Inter'
         }));
       }
@@ -70,8 +68,6 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
       const branding = event.detail;
       setConfig(prev => ({
         ...prev,
-        primaryColor: branding.primaryColor || prev.primaryColor,
-        secondaryColor: branding.secondaryColor || prev.secondaryColor,
         fontFamily: branding.fontFamily || prev.fontFamily
       }));
       
@@ -89,7 +85,7 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
   const [isLiveUpdate, setIsLiveUpdate] = useState(false);
 
   const generateEmbedCode = () => {
-    const { position, theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy, primaryColor, borderRadius, fontSize, width, height } = config;
+    const { position, theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy, borderRadius, fontSize, width, height } = config;
     
     // Starter plan - basic widget without custom branding
     if (!user?.isPaid) {
@@ -129,7 +125,6 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
         showAvatar: ${showAvatar},
         showPoweredBy: ${showPoweredBy},
         customStyles: {
-          primaryColor: '${primaryColor}',
           borderRadius: '${borderRadius}',
           fontSize: '${fontSize}',
           width: '${width}',
@@ -145,7 +140,7 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
   };
 
   const generateReactCode = () => {
-    const { position, theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy, primaryColor, borderRadius, fontSize, width, height } = config;
+    const { position, theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy, borderRadius, fontSize, width, height } = config;
     
     // Starter plan - basic React component
     if (!user?.isPaid) {
@@ -211,7 +206,7 @@ export default App;`;
   };
 
   const generateVueCode = () => {
-    const { position, theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy, primaryColor, borderRadius, fontSize, width, height } = config;
+    const { position, theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy, borderRadius, fontSize, width, height } = config;
     
     // Starter plan - basic Vue component
     if (!user?.isPaid) {
@@ -327,7 +322,6 @@ export default {
         showAvatar: ${showAvatar},
         showPoweredBy: ${showPoweredBy},
         customStyles: {
-          primaryColor: '${primaryColor}',
           borderRadius: '${borderRadius}',
           fontSize: '${fontSize}',
           width: '${width}',
@@ -524,24 +518,6 @@ export default {
               {/* Advanced Configuration */}
               {activeTab === 'advanced' && (
                 <div className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Primary Color</label>
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="color"
-                        value={config.primaryColor}
-                        onChange={(e) => setConfig({ ...config, primaryColor: e.target.value })}
-                        className="w-12 h-10 border border-gray-300 rounded-lg cursor-pointer"
-                      />
-                      <input
-                        type="text"
-                        value={config.primaryColor}
-                        onChange={(e) => setConfig({ ...config, primaryColor: e.target.value })}
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                    </div>
-                  </div>
-
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Border Radius</label>
                     <input

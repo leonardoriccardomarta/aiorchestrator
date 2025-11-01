@@ -121,9 +121,7 @@
         showAvatar: script.dataset.showAvatar !== 'false',
         primaryLanguage: script.dataset.primaryLanguage || script.dataset['primary-language'] || 'en',
         autoOpen: script.dataset.autoOpen === 'true',
-        // Custom branding attributes
-        primaryColor: script.dataset.primaryColor,
-        secondaryColor: script.dataset.secondaryColor,
+        // Custom branding attributes (only fontFamily and logo; colors from theme)
         fontFamily: script.dataset.fontFamily,
         logo: script.dataset.logo
       };
@@ -325,7 +323,7 @@
               </div>
             ` : ''}
               <div>
-                  <div class="font-bold ${themeColors.text}" style="${(config.primaryColor || config.fontFamily) ? `${config.fontFamily ? `font-family:${config.fontFamily};` : ''}${config.primaryColor ? `color:${config.primaryColor};` : ''}` : ''}">${config.title}</div>
+                  <div class="font-bold ${themeColors.text}" style="${config.fontFamily ? `font-family:${config.fontFamily};` : ''}">${config.title}</div>
                   <div class="text-xs text-gray-600 flex items-center gap-2">
                     <div class="w-2 h-2 bg-green-500 rounded-full"></div>
                     <span>Online 24/7</span>
@@ -363,7 +361,7 @@
             placeholder="${config.placeholder}"
                 class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
-              <button id="${widgetId}-send" class="text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all ${config.primaryColor ? '' : themeColors.accent}" style="${config.primaryColor ? `background:${config.primaryColor};` : ''}">
+              <button id="${widgetId}-send" class="text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all ${themeColors.accent}">
                 <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
             </svg>

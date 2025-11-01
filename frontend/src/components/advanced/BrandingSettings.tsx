@@ -9,8 +9,6 @@ const BrandingSettings: React.FC = () => {
   
   const [branding, setBranding] = useState({
     logo: '',
-    primaryColor: '#3B82F6',
-    secondaryColor: '#8B5CF6',
     fontFamily: 'Inter'
   });
 
@@ -71,8 +69,6 @@ const BrandingSettings: React.FC = () => {
   const resetBranding = () => {
     setBranding({
       logo: '',
-      primaryColor: '#3B82F6',
-      secondaryColor: '#8B5CF6',
       fontFamily: 'Inter'
     });
   };
@@ -104,11 +100,8 @@ const BrandingSettings: React.FC = () => {
       
       setSaveStatus('success');
       
-      // Update global config for live preview
+      // Update global config for live preview (only fontFamily, colors from theme)
       if (window.AIOrchestratorConfig) {
-        window.AIOrchestratorConfig.primaryColor = branding.primaryColor;
-        window.AIOrchestratorConfig.accentColor = branding.secondaryColor;
-        window.AIOrchestratorConfig.textColor = branding.primaryColor;
         window.AIOrchestratorConfig.fontFamily = branding.fontFamily;
       }
       
@@ -126,11 +119,8 @@ const BrandingSettings: React.FC = () => {
   };
 
   const handlePreview = () => {
-    // Update global config for live preview
+    // Update global config for live preview (only fontFamily, colors from theme)
     if (window.AIOrchestratorConfig) {
-      window.AIOrchestratorConfig.primaryColor = branding.primaryColor;
-      window.AIOrchestratorConfig.accentColor = branding.secondaryColor;
-      window.AIOrchestratorConfig.textColor = branding.primaryColor;
       window.AIOrchestratorConfig.fontFamily = branding.fontFamily;
     }
     
@@ -213,64 +203,6 @@ const BrandingSettings: React.FC = () => {
             </div>
           </div>
 
-          {/* Color Scheme */}
-          <div className="space-y-6">
-            <div>
-              <h4 className="text-sm font-medium text-gray-700 mb-3">Color Scheme</h4>
-              <p className="text-xs text-gray-500 mb-4">
-                These colors will be applied to your chatbot widget and embed codes
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Primary Color
-                </label>
-                <p className="text-xs text-gray-500 mb-2">
-                  Used for: Send button, user messages, main accents
-                </p>
-                <div className="flex items-center space-x-3">
-                  <input
-                    type="color"
-                    value={branding.primaryColor}
-                    onChange={(e) => handleColorChange('primaryColor', e.target.value)}
-                    className="w-12 h-12 rounded-lg border border-gray-300 cursor-pointer"
-                  />
-                  <input
-                    type="text"
-                    value={branding.primaryColor}
-                    onChange={(e) => handleColorChange('primaryColor', e.target.value)}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Secondary Color
-                </label>
-                <p className="text-xs text-gray-500 mb-2">
-                  Used for: Header background, hover states, highlights
-                </p>
-                <div className="flex items-center space-x-3">
-                  <input
-                    type="color"
-                    value={branding.secondaryColor}
-                    onChange={(e) => handleColorChange('secondaryColor', e.target.value)}
-                    className="w-12 h-12 rounded-lg border border-gray-300 cursor-pointer"
-                  />
-                  <input
-                    type="text"
-                    value={branding.secondaryColor}
-                    onChange={(e) => handleColorChange('secondaryColor', e.target.value)}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* Font Family */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -294,10 +226,8 @@ const BrandingSettings: React.FC = () => {
           <div className="bg-gray-50 rounded-lg p-4">
             <h4 className="text-sm font-medium text-gray-700 mb-3">Preview</h4>
             <div 
-              className="bg-white rounded-lg p-4 shadow-sm"
+              className="bg-white rounded-lg p-4 shadow-sm border border-gray-200"
               style={{
-                backgroundColor: branding.primaryColor + '10',
-                borderColor: branding.primaryColor,
                 fontFamily: branding.fontFamily
               }}
             >
@@ -305,10 +235,7 @@ const BrandingSettings: React.FC = () => {
                 {branding.logo && (
                   <img src={branding.logo} alt="Logo" className="w-8 h-8 rounded" />
                 )}
-                <div 
-                  className="text-sm font-medium"
-                  style={{ color: branding.primaryColor }}
-                >
+                <div className="text-sm font-medium text-gray-900">
                   Your Chatbot
                 </div>
               </div>

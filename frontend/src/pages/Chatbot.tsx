@@ -100,10 +100,8 @@ const Chatbot: React.FC = () => {
   const [widgetMessage, setWidgetMessage] = useState<string>('Hello! I\'m your AI assistant. How can I help you today?');
   const [showWidgetAvatar, setShowWidgetAvatar] = useState<boolean>(true);
   
-  // Custom branding state (for professional+ plans)
+  // Custom branding state (for professional+ plans) - only fontFamily and logo
   const [customBranding, setCustomBranding] = useState({
-    primaryColor: '#3B82F6',
-    secondaryColor: '#8B5CF6',
     fontFamily: 'Open Sans',
     logo: ''
   });
@@ -679,8 +677,6 @@ const Chatbot: React.FC = () => {
 
   // Memoize custom branding to prevent unnecessary re-renders
   const memoizedCustomBranding = useMemo(() => customBranding, [
-    customBranding.primaryColor,
-    customBranding.secondaryColor,
     customBranding.fontFamily,
     customBranding.logo
   ]);
@@ -706,16 +702,12 @@ const Chatbot: React.FC = () => {
         logo: user?.planId !== 'starter' ? memoizedCustomBranding.logo : ''
       };
 
-      // Add custom branding for professional+ plans
+      // Add custom branding for professional+ plans (only fontFamily and logo)
       if (user?.planId !== 'starter') {
         window.AIOrchestratorConfig = {
           ...baseConfig,
-          primaryColor: memoizedCustomBranding.primaryColor,
-          secondaryColor: memoizedCustomBranding.secondaryColor,
           fontFamily: memoizedCustomBranding.fontFamily,
-          logo: memoizedCustomBranding.logo,
-          accentColor: memoizedCustomBranding.secondaryColor,
-          textColor: memoizedCustomBranding.primaryColor
+          logo: memoizedCustomBranding.logo
         } as Window['AIOrchestratorConfig'];
       } else {
         window.AIOrchestratorConfig = baseConfig;
@@ -740,37 +732,7 @@ const Chatbot: React.FC = () => {
     };
   }, []);
 
-  // Auto-update custom colors when theme changes (only if branding hasn't been manually modified)
-  useEffect(() => {
-    if (user?.planId !== 'starter') {
-      const themeColors = {
-        blue: { primary: '#3B82F6', secondary: '#1D4ED8' },
-        purple: { primary: '#8B5CF6', secondary: '#7C3AED' },
-        green: { primary: '#10B981', secondary: '#059669' },
-        red: { primary: '#EF4444', secondary: '#DC2626' },
-        orange: { primary: '#F97316', secondary: '#EA580C' },
-        pink: { primary: '#EC4899', secondary: '#DB2777' },
-        indigo: { primary: '#6366F1', secondary: '#4F46E5' },
-        teal: { primary: '#14B8A6', secondary: '#0D9488' }
-      };
-      
-      const currentThemeColors = themeColors[widgetTheme as keyof typeof themeColors] || themeColors.blue;
-      console.log(`🔄 Auto-updating custom colors for theme ${widgetTheme}:`, currentThemeColors);
-      
-      // Update custom colors but preserve logo and fontFamily
-      // Only update if colors are different from current theme (to avoid infinite loops)
-      setCustomBranding(prev => {
-        if (prev.primaryColor !== currentThemeColors.primary || prev.secondaryColor !== currentThemeColors.secondary) {
-          return {
-            ...prev,
-            primaryColor: currentThemeColors.primary,
-            secondaryColor: currentThemeColors.secondary
-          };
-        }
-        return prev;
-      });
-    }
-  }, [widgetTheme, user?.planId]);
+  // Note: No auto-update needed - colors come from theme, we only store fontFamily and logo
 
   // Reset branding loaded flag when theme changes (so auto-update works on first theme change)
   useEffect(() => {
@@ -819,22 +781,7 @@ const Chatbot: React.FC = () => {
 
   // Reset custom branding to theme defaults
   const resetCustomBranding = async () => {
-    const themeColors = {
-      blue: { primary: '#3B82F6', secondary: '#1D4ED8' },
-      purple: { primary: '#8B5CF6', secondary: '#7C3AED' },
-      green: { primary: '#10B981', secondary: '#059669' },
-      red: { primary: '#EF4444', secondary: '#DC2626' },
-      orange: { primary: '#F97316', secondary: '#EA580C' },
-      pink: { primary: '#EC4899', secondary: '#DB2777' },
-      indigo: { primary: '#6366F1', secondary: '#4F46E5' },
-      teal: { primary: '#14B8A6', secondary: '#0D9488' }
-    };
-    
-    const currentThemeColors = themeColors[widgetTheme as keyof typeof themeColors] || themeColors.blue;
-    
     const resetBranding = {
-      primaryColor: currentThemeColors.primary,
-      secondaryColor: currentThemeColors.secondary,
       fontFamily: 'Open Sans',
       logo: ''
     };
@@ -919,8 +866,6 @@ const Chatbot: React.FC = () => {
         : '';
       
       return baseCode + `
-  data-primary-color="${customBranding.primaryColor}"
-  data-secondary-color="${customBranding.secondaryColor}"
   data-font-family="${customBranding.fontFamily || 'Inter'}"${logoAttribute}
   defer>
 </script>`;
@@ -1656,40 +1601,6 @@ const Chatbot: React.FC = () => {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-1">Primary Color</label>
-                        <div className="flex items-center space-x-2">
-                          <input
-                            type="color"
-                            value={customBranding.primaryColor}
-                            onChange={(e) => updateCustomBranding({ primaryColor: e.target.value })}
-                            className="w-8 h-8 rounded-lg border border-gray-300 cursor-pointer"
-                          />
-                          <input
-                            type="text"
-                            value={customBranding.primaryColor}
-                            onChange={(e) => updateCustomBranding({ primaryColor: e.target.value })}
-                            className="flex-1 px-2 py-1 border border-gray-300 rounded-lg text-xs"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-1">Secondary Color</label>
-                        <div className="flex items-center space-x-2">
-                          <input
-                            type="color"
-                            value={customBranding.secondaryColor}
-                            onChange={(e) => updateCustomBranding({ secondaryColor: e.target.value })}
-                            className="w-8 h-8 rounded-lg border border-gray-300 cursor-pointer"
-                          />
-                          <input
-                            type="text"
-                            value={customBranding.secondaryColor}
-                            onChange={(e) => updateCustomBranding({ secondaryColor: e.target.value })}
-                            className="flex-1 px-2 py-1 border border-gray-300 rounded-lg text-xs"
-                          />
-                        </div>
-                      </div>
-                      <div>
                         <label className="block text-xs font-medium text-gray-700 mb-1">Font Family</label>
                         <select
                           value={customBranding.fontFamily}
@@ -1804,8 +1715,8 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      key={`${currentChatbotId}-${customBranding.logo ? customBranding.logo.substring(0, 50) : 'no-logo'}-${customBranding.primaryColor}-${customBranding.secondaryColor}`}
-                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&primaryColor=${encodeURIComponent(customBranding.primaryColor)}&secondaryColor=${encodeURIComponent(customBranding.secondaryColor)}&fontFamily=${encodeURIComponent(customBranding.fontFamily)}${customBranding.logo && !customBranding.logo.startsWith('blob:') ? `&logo=${encodeURIComponent(customBranding.logo)}` : ''}` : ''}`}
+                      key={`${currentChatbotId}-${customBranding.logo ? customBranding.logo.substring(0, 50) : 'no-logo'}-${customBranding.fontFamily}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&fontFamily=${encodeURIComponent(customBranding.fontFamily)}${customBranding.logo && !customBranding.logo.startsWith('blob:') ? `&logo=${encodeURIComponent(customBranding.logo)}` : ''}` : ''}`}
                       className="w-full h-[400px] lg:h-[740px] border-0"
                       title="Live Chatbot Preview"
                       onLoad={() => console.log('🖼️ iframe loaded, logo:', customBranding.logo ? customBranding.logo.substring(0, 100) : 'none')}

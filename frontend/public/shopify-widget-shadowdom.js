@@ -387,32 +387,7 @@ console.error('❌ Widget initialization failed: No config');
 return;
 }
 
-// Load Google Font when requested or by default (Open Sans) for pixel-perfect parity
-try {
-  const requestedFont = (config.fontFamily || '').trim().toLowerCase();
-  if (!requestedFont || requestedFont === 'open sans') {
-    if (!document.querySelector('link[data-aiorch-font="open-sans"]')) {
-      const pre1 = document.createElement('link');
-      pre1.rel = 'preconnect';
-      pre1.href = 'https://fonts.googleapis.com';
-      pre1.setAttribute('data-aiorch-font', 'open-sans');
-      document.head.appendChild(pre1);
-
-      const pre2 = document.createElement('link');
-      pre2.rel = 'preconnect';
-      pre2.href = 'https://fonts.gstatic.com';
-      pre2.crossOrigin = 'anonymous';
-      pre2.setAttribute('data-aiorch-font', 'open-sans');
-      document.head.appendChild(pre2);
-
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap';
-      link.setAttribute('data-aiorch-font', 'open-sans');
-      document.head.appendChild(link);
-    }
-  }
-} catch {}
+// Do not auto-load external fonts; use system fonts unless user provides fontFamily
 
 const theme = themeColors[config.theme] || themeColors.teal;
 
@@ -426,25 +401,24 @@ const themeCSS = {
   userMessage: theme.userMessage
 };
 
-// Determine if any branding is present (logo/font/colors)
+// Determine if any branding is present (ONLY font/logo; colors from theme)
 const hasLogo = Boolean(config.logo && String(config.logo).trim() !== '');
 const hasCustomBranding = Boolean(
   hasLogo ||
-  (config.fontFamily && String(config.fontFamily).trim() !== '') ||
-  (config.primaryColor && String(config.primaryColor).trim() !== '')
+  (config.fontFamily && String(config.fontFamily).trim() !== '')
 );
 
-// Colors for Professional accents: do NOT override theme gradients
-const hasBrandingColors = Boolean(config.primaryColor && String(config.primaryColor).trim() !== '');
-let brandingPrimary = hasBrandingColors ? config.primaryColor : themeCSS.accent;
-let brandingSecondary = hasBrandingColors ? (config.secondaryColor || config.primaryColor) : themeCSS.accent;
+// Colors: ignore primary/secondary custom; keep theme only
+const hasBrandingColors = false;
+let brandingPrimary = themeCSS.accent;
+let brandingSecondary = '#6b7280';
 
-// Title color: Starter uses theme text, Professional uses branding primary
-const headerTitleColor = hasBrandingColors ? brandingPrimary : themeCSS.text;
-const headerStatusColor = hasCustomBranding ? brandingSecondary : '#6b7280';
-const headerButtonHoverBg = hasCustomBranding ? `${brandingPrimary}20` : '#e5e7eb';
-const headerButtonColor = hasCustomBranding ? brandingPrimary : '#6b7280';
-const typingDotColor = hasCustomBranding ? brandingSecondary : '#9ca3af';
+// Title/status/colors strictly from theme for Professional
+const headerTitleColor = themeCSS.text;
+const headerStatusColor = '#6b7280';
+const headerButtonHoverBg = '#e5e7eb';
+const headerButtonColor = '#6b7280';
+const typingDotColor = '#9ca3af';
 
 // Apply custom font family if available
 // Starter (no custom): use system fonts to match live embed
@@ -745,7 +719,7 @@ flex-direction: column;
 
 .header-status {
 font-size: 12px;
-color: #6b7280; /* text-gray-600 Tailwind (exact match) */
+color: ${headerStatusColor};
 display: flex;
 align-items: center;
 gap: 8px;
@@ -928,13 +902,13 @@ transition: border-color 0.2s;
 }
 
 .message-input:focus {
-border-color: ${hasCustomBranding ? brandingPrimary : themeCSS.accent};
-box-shadow: 0 0 0 3px ${hasCustomBranding ? `${brandingPrimary}22` : `${themeCSS.accent}22`};
+border-color: ${themeCSS.accent};
+box-shadow: 0 0 0 3px ${`${themeCSS.accent}22`};
 }
 .message-input::placeholder { color: #9ca3af; font-size: 16px; }
 
 .send-button {
-background: ${hasCustomBranding ? brandingPrimary : themeCSS.accent};
+background: ${themeCSS.accent};
 color: white;
 border: none;
  padding: 8px 16px; /* match px-4 py-2 from quick embed */
