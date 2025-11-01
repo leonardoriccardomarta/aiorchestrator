@@ -139,9 +139,7 @@ placeholder: script.dataset.placeholder || 'Type your message...',
 showAvatar: script.dataset.showAvatar !== 'false',
 primaryLanguage: script.dataset.primaryLanguage || script.dataset['primary-language'] || 'en',
 autoOpen: script.dataset.autoOpen === 'true', // Default: false (chiuso)
-// Custom branding attributes
-primaryColor: script.dataset.primaryColor || script.dataset['primary-color'],
-secondaryColor: script.dataset.secondaryColor || script.dataset['secondary-color'],
+// Custom branding attributes (only fontFamily and logo; colors from theme)
 fontFamily: script.dataset.fontFamily || script.dataset['font-family'],
 logo: script.dataset.logo
 };
@@ -445,8 +443,6 @@ try {
   console.log('Script dataset:', scriptDataset);
   console.log('Theme key:', config.theme, 'Theme colors:', JSON.parse(JSON.stringify(theme)));
   console.log('Branding present:', hasCustomBranding, {
-    primaryColor: config.primaryColor || null,
-    secondaryColor: config.secondaryColor || null,
     fontFamily: config.fontFamily || null,
     logo: config.logo ? 'present' : 'empty'
   });
