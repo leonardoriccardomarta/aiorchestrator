@@ -93,6 +93,7 @@ const Chatbot: React.FC = () => {
   const [chatbotDeleted, setChatbotDeleted] = useState(false);
   const [showAddChatbotModal, setShowAddChatbotModal] = useState(false);
   const [isFirstChatbot, setIsFirstChatbot] = useState(false);
+  const [copied, setCopied] = useState(false);
   
   // Widget customization state
   const [widgetTheme, setWidgetTheme] = useState<'blue' | 'purple' | 'green' | 'red' | 'orange' | 'pink' | 'indigo' | 'teal'>('blue');
@@ -1457,10 +1458,15 @@ const Chatbot: React.FC = () => {
                 <div className="flex space-x-2 mt-2 lg:mt-3">
                   <button onClick={() => {
                     const code = generateEmbedCode();
-                    navigator.clipboard.writeText(code).then(() => alert('Copied to clipboard!')).catch(() => alert('Copy failed'));
+                    navigator.clipboard.writeText(code).then(() => {
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 2000);
+                    }).catch(() => {
+                      setCopied(false);
+                    });
                   }} className="px-3 lg:px-4 py-1.5 lg:py-2 bg-blue-600 text-white rounded-md lg:rounded-lg hover:bg-blue-700 transition-colors text-xs lg:text-sm">
                     <Copy className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
-                    Copy Code
+                    {copied ? 'Copied!' : 'Copy Code'}
                   </button>
                 </div>
               </div>
