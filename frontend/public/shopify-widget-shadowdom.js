@@ -544,13 +544,11 @@ const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
 // Complete widget HTML with ALL styles inline
 // Load custom font if provided, otherwise use system fonts
 const fontFamilyName = config.fontFamily || 'Inter';
-const fontStyle = config.fontFamily ? `<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=${encodeURIComponent(fontFamilyName)}:wght@400;500;600;700&display=swap" rel="stylesheet">` : '';
+const fontImport = config.fontFamily ? `@import url('https://fonts.googleapis.com/css2?family=${encodeURIComponent(fontFamilyName)}:wght@400;500;600;700&display=swap');` : '';
 
 const widgetHTML = `
-${fontStyle}
 <style>
+${fontImport}
 /* Reset all styles */
 :host {
   --ai-font: ${customFontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
