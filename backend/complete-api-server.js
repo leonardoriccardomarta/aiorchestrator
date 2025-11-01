@@ -2120,13 +2120,6 @@ app.get('/api/public/shopify/connection', async (req, res) => {
       });
     }
 
-    if (chatbot.status !== 'active') {
-      return res.status(403).json({
-        success: false,
-        error: 'Chatbot is not active'
-      });
-    }
-
     // Get all Shopify connections for this user
     const connections = await prisma.connection.findMany({
       where: {
