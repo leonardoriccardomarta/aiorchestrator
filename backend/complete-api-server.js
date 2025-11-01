@@ -2107,7 +2107,7 @@ app.get('/api/public/shopify/connection', async (req, res) => {
     // Get chatbot to find userId
     const chatbot = await prisma.chatbot.findUnique({
       where: { id: chatbotId },
-      select: { userId: true, status: true }
+      select: { userId: true }
     });
 
     console.log('🤖 Chatbot lookup result:', chatbot);
