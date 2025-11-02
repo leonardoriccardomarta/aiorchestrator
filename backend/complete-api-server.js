@@ -2018,13 +2018,15 @@ app.post('/api/shopify/sync/:connectionId', authenticateToken, async (req, res) 
       // Normal sync operation
       await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call delay
 
+      // Get REAL stats from connection's actual data
+      // These would need to be fetched from the actual Shopify API or stored in sync
       const updatedConnection = await realDataService.updateConnection(user.id, connectionId, {
         lastSync: new Date().toISOString(),
-        productsCount: Math.floor(Math.random() * 1000),
-        ordersCount: Math.floor(Math.random() * 500),
-        customersCount: Math.floor(Math.random() * 200),
-        revenue: parseFloat((Math.random() * 10000).toFixed(2)),
-        monthlyRevenue: parseFloat((Math.random() * 2000).toFixed(2))
+        productsCount: 0, // Would need to sync from Shopify
+        ordersCount: 0, // Would need to sync from Shopify
+        customersCount: 0, // Would need to sync from Shopify
+        revenue: 0, // Would need to calculate from orders
+        monthlyRevenue: 0 // Would need to calculate from orders
       });
 
       res.json({
@@ -3214,13 +3216,9 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
       });
     }
     
-    // Mock top keywords (would need message analysis)
-    const topKeywords = [
-      { keyword: 'product', count: Math.floor(totalMessages * 0.1), trend: '+12%' },
-      { keyword: 'shipping', count: Math.floor(totalMessages * 0.05), trend: '+5%' },
-      { keyword: 'return', count: Math.floor(totalMessages * 0.03), trend: '-3%' },
-      { keyword: 'price', count: Math.floor(totalMessages * 0.02), trend: '+8%' }
-    ];
+    // Top keywords would require NLP analysis of messages
+    // For now, return empty array - real implementation would analyze message content
+    const topKeywords = [];
     
     // Calculate daily/hourly messages for charts
     const days = timeRange === '7d' ? 7 : timeRange === '30d' ? 30 : 90;
