@@ -6362,10 +6362,23 @@ app.post('/api/payments/cancel-subscription', authenticateToken, async (req, res
       });
     }
 
-    // Cancel subscription at period end
+    // Cancel subscription at period end in Stripe
     const subscription = await stripe.subscriptions.update(subscriptionId, {
       cancel_at_period_end: true
     });
+
+    // Update DB subscription record
+    await prisma.subscription.updateMany({
+      where: {
+        userId: user.id,
+        stripeSubscriptionId: subscriptionId
+      },
+      data: {
+        cancelAtPeriodEnd: true
+      }
+    });
+
+    console.log(`✅ Subscription ${subscriptionId} marked for cancellation at period end`);
 
     res.json({
       success: true,
@@ -6396,10 +6409,23 @@ app.post('/api/payments/reactivate-subscription', authenticateToken, async (req,
       });
     }
 
-    // Reactivate subscription
+    // Reactivate subscription in Stripe
     const subscription = await stripe.subscriptions.update(subscriptionId, {
       cancel_at_period_end: false
     });
+
+    // Update DB subscription record
+    await prisma.subscription.updateMany({
+      where: {
+        userId: user.id,
+        stripeSubscriptionId: subscriptionId
+      },
+      data: {
+        cancelAtPeriodEnd: false
+      }
+    });
+
+    console.log(`✅ Subscription ${subscriptionId} reactivated`);
 
     res.json({
       success: true,

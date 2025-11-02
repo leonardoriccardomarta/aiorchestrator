@@ -69,7 +69,7 @@ const Settings: React.FC = () => {
     try {
       setSubscriptionLoading(true);
       const token = localStorage.getItem('authToken');
-      const response = await fetch('/api/payments/subscription', {
+      const response = await fetch(`${API_URL}/api/payments/subscription`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -107,8 +107,8 @@ const Settings: React.FC = () => {
     
     try {
       setSubscriptionLoading(true);
-      const token = localStorage.getItem('token');
-      const response = await fetch('/api/payments/cancel-subscription', {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${API_URL}/api/payments/cancel-subscription`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -138,8 +138,8 @@ const Settings: React.FC = () => {
     
     try {
       setSubscriptionLoading(true);
-      const token = localStorage.getItem('token');
-      const response = await fetch('/api/payments/reactivate-subscription', {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(`${API_URL}/api/payments/reactivate-subscription`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -201,7 +201,7 @@ const Settings: React.FC = () => {
     if (user?.isPaid && subscription?.subscriptionId) {
       try {
         setSubscriptionLoading(true);
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('authToken');
         const response = await fetch(`${API_URL}/api/payments/create-portal-session`, {
           method: 'POST',
           headers: {
