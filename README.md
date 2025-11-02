@@ -1,6 +1,6 @@
 # AI Orchestrator - E-commerce AI Chatbot Platform
 
-AI Orchestrator is a SaaS platform for creating intelligent, multilingual AI chatbots for e-commerce stores with Shopify integration, real-time analytics, and white-label capabilities.
+AI Orchestrator is a **complete production-ready SaaS platform** (not an MVP) for creating intelligent, multilingual AI chatbots for e-commerce stores with Shopify integration, real-time analytics, and white-label capabilities. Includes professional landing page and full-featured application.
 
 ## 🎯 Key Features
 
