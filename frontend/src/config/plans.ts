@@ -34,7 +34,7 @@ export const PLANS: Record<string, Plan> = {
       customization: true,
       emailSupport: true,
       advancedAnalytics: false,
-      multiLanguage: false,
+      multiLanguage: true,
       prioritySupport: false,
       whiteLabel: false,
       apiAccess: false,
@@ -66,7 +66,7 @@ export const PLANS: Record<string, Plan> = {
     price: 299,
     chatbotLimit: 3,
     messageLimit: 100000,
-    connectionLimit: 3, // same as chatbot limit
+    connectionLimit: 5, // Business plan gets 5 connections
     features: {
       basicAnalytics: true,
       customization: true,
