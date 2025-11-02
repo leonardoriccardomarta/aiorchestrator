@@ -5566,9 +5566,25 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
       });
     }
 
+    // Get or create Stripe customer
+    let customer;
+    const customers = await stripe.customers.list({
+      email: user.email,
+      limit: 1
+    });
+    
+    if (customers.data.length > 0) {
+      customer = customers.data[0];
+    } else {
+      return res.status(400).json({
+        success: false,
+        error: 'No Stripe customer found. Please subscribe to a plan first.'
+      });
+    }
+
     // Get current subscription
     const subscriptions = await stripe.subscriptions.list({
-      customer: user.id,
+      customer: customer.id,
       status: 'active',
       limit: 1
     });
@@ -5632,11 +5648,28 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
         price: price.id
       }],
       proration_behavior: priceDifference > 0 ? 'create_prorations' : 'none', // Only charge for upgrades, no credit for downgrades
-      billing_cycle_anchor: 'now' // Start new billing cycle immediately - next billing will be in 1 month at new price
+      billing_cycle_anchor: 'now', // Start new billing cycle immediately - next billing will be in 1 month at new price
+      metadata: {
+        userId: user.id,
+        planId: newPlanId
+      }
     });
 
     // Update user plan in our system
     await planService.setUserPlan(user.id, newPlanId);
+    
+    // Also update DB directly to ensure isPaid stays true
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        planId: newPlanId,
+        isPaid: true,
+        isTrialActive: false
+      }
+    });
+    
+    // Also update RealDataService
+    realDataService.updateUserPlan(user.id, newPlanId, true);
     
     // Log next billing date
     const nextBillingDate = new Date(updatedSubscription.current_period_end * 1000);
@@ -6598,30 +6631,24 @@ app.post('/api/payments/webhook', express.raw({type: 'application/json'}), async
         const invoice = event.data.object;
         console.log('Payment succeeded for invoice:', invoice.id);
         
-        // Update user payment status if needed
+        // Update user payment status when invoice is paid
         if (invoice.subscription) {
           const subscription = await stripe.subscriptions.retrieve(invoice.subscription);
-          const customerId = subscription.customer;
           
-          // Find user by Stripe customer ID
-          try {
-            const user = await prisma.user.findFirst({
-              where: {
-                email: {
-                  contains: '@' // This is a placeholder - we'd need to store customer ID
-                }
-              }
-            });
-            
-            if (user) {
+          // Use metadata to find user
+          if (subscription.metadata?.userId) {
+            try {
               await prisma.user.update({
-                where: { id: user.id },
-                data: { isPaid: true }
+                where: { id: subscription.metadata.userId },
+                data: { 
+                  isPaid: true 
+                }
               });
-              console.log(`Updated payment status for user ${user.id}`);
+              
+              console.log(`Updated payment status for user ${subscription.metadata.userId} - invoice paid`);
+            } catch (error) {
+              console.error('Failed to update payment status:', error);
             }
-          } catch (error) {
-            console.error('Failed to update payment status:', error);
           }
         }
         break;
@@ -6676,6 +6703,35 @@ app.post('/api/payments/webhook', express.raw({type: 'application/json'}), async
             console.log(`Downgraded user ${deletedSubscription.metadata.userId} to starter - subscription cancelled`);
           } catch (error) {
             console.error('Failed to downgrade user:', error);
+          }
+        }
+        break;
+        
+      case 'invoice.payment_failed':
+        const failedInvoice = event.data.object;
+        console.log('Payment failed for invoice:', failedInvoice.id);
+        
+        // When payment fails, user should be notified and eventually lose access
+        // We wait for Stripe to retry automatically before blocking
+        if (failedInvoice.subscription) {
+          const subscription = await stripe.subscriptions.retrieve(failedInvoice.subscription);
+          
+          // If subscription is unpaid or past_due, mark user as unpaid
+          if (subscription.status === 'past_due' || subscription.status === 'unpaid') {
+            if (subscription.metadata?.userId) {
+              try {
+                await prisma.user.update({
+                  where: { id: subscription.metadata.userId },
+                  data: {
+                    isPaid: false
+                  }
+                });
+                
+                console.log(`Marked user ${subscription.metadata.userId} as unpaid due to payment failure`);
+              } catch (error) {
+                console.error('Failed to update user payment status:', error);
+              }
+            }
           }
         }
         break;
