@@ -6619,6 +6619,36 @@ app.post('/api/payments/webhook', express.raw({type: 'application/json'}), async
                 realDataService.updateUserPlan(userId, planId, true);
                 
                 console.log(`Updated user ${userId} to plan ${planId} with trialEndDate ${subscriptionEndDate.toISOString()}`);
+                
+                // Check if this user was referred by an affiliate and convert referral
+                try {
+                  const referral = await prisma.referral.findUnique({
+                    where: { referredUserId: userId }
+                  });
+                  
+                  if (referral && referral.status === 'pending') {
+                    console.log(`🎯 Found pending referral for user ${userId}, converting to commission...`);
+                    
+                    // Get plan price for commission calculation
+                    const planPrices = {
+                      'starter': 29,
+                      'professional': 99,
+                      'business': 299
+                    };
+                    const planPrice = planPrices[planId] || 29;
+                    
+                    // Convert referral and calculate commission
+                    const conversionResult = await affiliateService.convertReferral(userId, planPrice);
+                    
+                    if (conversionResult.success) {
+                      console.log(`✅ Referral converted! Commission: €${conversionResult.data.commissionAmount}`);
+                    } else {
+                      console.log(`⚠️ Failed to convert referral: ${conversionResult.error}`);
+                    }
+                  }
+                } catch (affiliateError) {
+                  console.error('Failed to process affiliate conversion:', affiliateError);
+                }
               }
             } catch (error) {
               console.error('Failed to update user plan:', error);

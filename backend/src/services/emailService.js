@@ -26,7 +26,8 @@ class EmailService {
   }
 
   async sendVerificationEmail(email, token, name) {
-    const verificationLink = `http://localhost:5176/verify?token=${token}`;
+    const frontendUrl = process.env.FRONTEND_URL || 'https://www.aiorchestrator.dev';
+    const verificationLink = `${frontendUrl}/verify?token=${token}`;
     
     const mailOptions = {
       from: process.env.SMTP_USER || 'AI Orchestrator <aiorchestratoor@gmail.com>',
@@ -242,7 +243,7 @@ class EmailService {
               <p>Fantastic! Your account has been verified and you're ready to start using AI Orchestrator.</p>
               
               <div style="text-align: center;">
-                <a href="http://localhost:5176/dashboard" class="button">🚀 Go to Dashboard</a>
+                <a href="${process.env.FRONTEND_URL || 'https://www.aiorchestrator.dev'}/dashboard" class="button">🚀 Go to Dashboard</a>
               </div>
               
               <h3>🎯 Next steps:</h3>
@@ -328,7 +329,7 @@ class EmailService {
               </div>
               
               <div style="text-align: center; margin: 30px 0;">
-                <a href="http://localhost:5176/affiliates" style="display: inline-block; padding: 15px 30px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                <a href="${process.env.FRONTEND_URL || 'https://www.aiorchestrator.dev'}/affiliates" style="display: inline-block; padding: 15px 30px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
                   View Your Dashboard
                 </a>
               </div>
