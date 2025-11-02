@@ -3381,7 +3381,7 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
         }
         
         return performance;
-      })()
+      })(),
       insights: [
         {
           id: '1',
@@ -4612,17 +4612,16 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
         user = chatbot.user;
         console.log('✅ Found user from chatbotId:', user.id);
         
-        // Check if user is blocked (subscription cancelled)
-        if (!user.isActive || !user.planId) {
+        // Check if user is blocked (account disabled)
+        if (!user.isActive) {
           return res.status(403).json({
             success: false,
-            error: 'Your subscription has been cancelled. Please subscribe to a plan to continue using the chatbot.',
-            subscriptionCancelled: true,
-            upgradeUrl: 'https://www.aiorchestrator.dev/pricing'
+            error: 'Your account has been disabled. Please contact support.',
+            accountDisabled: true
           });
         }
         
-        // Check if trial has expired
+        // Check if trial has expired or subscription cancelled
         if (user.isTrialActive && user.trialEndDate) {
           const now = new Date();
           const trialEnd = new Date(user.trialEndDate);
@@ -4639,7 +4638,7 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
             }
           }
         } else if (!user.isTrialActive && !user.isPaid) {
-          // No trial and not paid
+          // No trial and not paid - block access
           return res.status(403).json({
             success: false,
             error: 'Please upgrade your plan to continue using the chatbot.',
@@ -6656,27 +6655,27 @@ app.post('/api/payments/webhook', express.raw({type: 'application/json'}), async
         const deletedSubscription = event.data.object;
         console.log('Subscription cancelled:', deletedSubscription.id);
         
-        // Completely block user access when subscription is cancelled
+        // When subscription is cancelled, user should lose access
+        // They can still log in but cannot use chatbots without paying
         if (deletedSubscription.metadata?.userId) {
           try {
             await prisma.user.update({
               where: { id: deletedSubscription.metadata.userId },
               data: {
-                planId: null, // Remove plan completely
+                planId: 'starter', // Downgrade to starter (free tier)
                 isPaid: false,
                 isTrialActive: false,
-                trialEndDate: null,
-                isActive: false, // Block access to app
-                subscriptionEndDate: new Date()
+                trialEndDate: null
+                // Note: NOT setting isActive: false - user can still log in to resubscribe
               }
             });
             
             // Also update RealDataService
-            realDataService.updateUserPlan(deletedSubscription.metadata.userId, null, false);
+            realDataService.updateUserPlan(deletedSubscription.metadata.userId, 'starter', false);
             
-            console.log(`Blocked user ${deletedSubscription.metadata.userId} - subscription cancelled`);
+            console.log(`Downgraded user ${deletedSubscription.metadata.userId} to starter - subscription cancelled`);
           } catch (error) {
-            console.error('Failed to block user:', error);
+            console.error('Failed to downgrade user:', error);
           }
         }
         break;
