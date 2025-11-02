@@ -6417,6 +6417,51 @@ app.post('/api/payments/reactivate-subscription', authenticateToken, async (req,
   }
 });
 
+// Create Stripe Customer Portal session for managing billing
+app.post('/api/payments/create-portal-session', authenticateToken, async (req, res) => {
+  try {
+    const user = req.user;
+    const returnUrl = req.body.returnUrl || `${req.protocol}://${req.get('host')}/settings`;
+    
+    // Get or create Stripe customer
+    let customer;
+    const customers = await stripe.customers.list({
+      email: user.email,
+      limit: 1
+    });
+    
+    if (customers.data.length > 0) {
+      customer = customers.data[0];
+    } else {
+      // Create customer if doesn't exist
+      customer = await stripe.customers.create({
+        email: user.email,
+        name: user.name,
+        metadata: { userId: user.id }
+      });
+    }
+
+    // Create portal session
+    const session = await stripe.billingPortal.sessions.create({
+      customer: customer.id,
+      return_url: returnUrl,
+    });
+
+    res.json({
+      success: true,
+      data: {
+        url: session.url
+      }
+    });
+  } catch (error) {
+    console.error('Create portal session error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to create portal session'
+    });
+  }
+});
+
 // Get payment history
 app.get('/api/payments/history', authenticateToken, async (req, res) => {
   try {

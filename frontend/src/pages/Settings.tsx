@@ -196,10 +196,42 @@ const Settings: React.FC = () => {
     return () => clearInterval(interval);
   }, [user]);
 
-  const handleUpgrade = () => {
-    // Navigate to pricing page
-    if (typeof window !== 'undefined' && window.location) {
-      window.location.href = '/pricing';
+  const handleUpgrade = async () => {
+    // For paid users, open Stripe Customer Portal; otherwise navigate to pricing
+    if (user?.isPaid && subscription?.subscriptionId) {
+      try {
+        setSubscriptionLoading(true);
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_URL}/api/payments/create-portal-session`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            returnUrl: window.location.href
+          })
+        });
+        
+        const data = await response.json();
+        if (data.success && data.data?.url) {
+          window.location.href = data.data.url;
+        } else {
+          alert('Failed to open billing portal. Redirecting to pricing page...');
+          window.location.href = '/pricing';
+        }
+      } catch (error) {
+        console.error('Error opening portal:', error);
+        alert('Failed to open billing portal. Redirecting to pricing page...');
+        window.location.href = '/pricing';
+      } finally {
+        setSubscriptionLoading(false);
+      }
+    } else {
+      // Navigate to pricing page for trial/non-paid users
+      if (typeof window !== 'undefined' && window.location) {
+        window.location.href = '/pricing';
+      }
     }
   };
 
