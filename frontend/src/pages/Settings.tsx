@@ -391,6 +391,11 @@ const Settings: React.FC = () => {
                           <div className="text-xs lg:text-sm">Next billing: {new Date(subscription.currentPeriodEnd).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
                         )}
                       </div>
+                    ) : user?.isPaid ? (
+                      <div className="text-gray-600">
+                        <div className="font-medium text-sm lg:text-base">Plan active since {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'now'}</div>
+                        <div className="text-xs lg:text-sm">Billed monthly</div>
+                      </div>
                     ) : (
                       <div className="text-gray-600">
                         <div className="font-medium text-sm lg:text-base">

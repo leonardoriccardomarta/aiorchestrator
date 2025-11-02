@@ -3,7 +3,6 @@ import { API_URL } from '../../config/constants';
 import { X, CreditCard, CheckCircle, Loader2 } from 'lucide-react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_placeholder');
 
@@ -305,74 +304,7 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
   );
 };
 
-const PayPalPaymentButton: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: () => void; onError: (err: string) => void }> = ({ 
-  plan,
-  onSuccess,
-  onError
-}) => {
-  return (
-    <PayPalButtons
-      style={{ layout: 'vertical', label: 'subscribe' }}
-      createSubscription={async (data, actions) => {
-        try {
-          const response = await fetch(`${API_URL}/api/payments/paypal/create-subscription`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-            },
-            body: JSON.stringify({
-              planId: plan.id
-            })
-          });
-
-          const result = await response.json();
-          
-          if (result.subscriptionId) {
-            return result.subscriptionId;
-          } else {
-            throw new Error('Failed to create subscription');
-          }
-        } catch (err) {
-          onError('Failed to create PayPal subscription');
-          throw err;
-        }
-      }}
-      onApprove={async (data, actions) => {
-        try {
-          const response = await fetch(`${API_URL}/api/payments/paypal/confirm-subscription`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-            },
-            body: JSON.stringify({
-              subscriptionId: data.subscriptionID,
-              planId: plan.id
-            })
-          });
-
-          const result = await response.json();
-          
-          if (result.success) {
-            onSuccess();
-          } else {
-            onError('Failed to confirm subscription');
-          }
-        } catch (err) {
-          onError('Payment verification failed');
-        }
-      }}
-      onError={(err) => {
-        onError('PayPal payment failed');
-      }}
-    />
-  );
-};
-
 const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSuccess, plan }) => {
-  const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'paypal'>('stripe');
-  const [paypalError, setPaypalError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
@@ -412,101 +344,37 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSuccess,
           </ul>
         </div>
 
-        {/* Payment Method Selector */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-3">
-            Choose Payment Method
-          </label>
-          <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={() => setPaymentMethod('stripe')}
-              className={`flex-1 px-4 py-3 rounded-lg border-2 transition-colors ${
-                paymentMethod === 'stripe'
-                  ? 'border-blue-600 bg-blue-50 text-blue-700'
-                  : 'border-gray-300 hover:border-gray-400'
-              }`}
-            >
-              <CreditCard className="w-5 h-5 mx-auto mb-1" />
-              <div className="text-sm font-semibold">Credit Card</div>
-            </button>
-            <button
-              type="button"
-              onClick={() => setPaymentMethod('paypal')}
-              className={`flex-1 px-4 py-3 rounded-lg border-2 transition-colors ${
-                paymentMethod === 'paypal'
-                  ? 'border-blue-600 bg-blue-50 text-blue-700'
-                  : 'border-gray-300 hover:border-gray-400'
-              }`}
-            >
-              <div className="text-2xl mb-1">💳</div>
-              <div className="text-sm font-semibold">PayPal</div>
-            </button>
-          </div>
-        </div>
-
-        {paymentMethod === 'stripe' ? (
-      <Elements stripe={stripePromise} options={{
-        locale: 'en',
-        appearance: {
-          theme: 'stripe',
-          variables: {
-            colorPrimary: '#3b82f6',
-            colorBackground: '#ffffff',
-            colorText: '#1f2937',
-            colorDanger: '#dc2626',
-            fontFamily: 'Inter, system-ui, sans-serif',
-            spacingUnit: '4px',
-            borderRadius: '8px'
-          },
-          rules: {
-            '.Input': {
-              color: '#1f2937',
-              fontSize: '16px'
+        <Elements stripe={stripePromise} options={{
+          locale: 'en',
+          appearance: {
+            theme: 'stripe',
+            variables: {
+              colorPrimary: '#3b82f6',
+              colorBackground: '#ffffff',
+              colorText: '#1f2937',
+              colorDanger: '#dc2626',
+              fontFamily: 'Inter, system-ui, sans-serif',
+              spacingUnit: '4px',
+              borderRadius: '8px'
             },
-            '.Label': {
-              color: '#374151',
-              fontSize: '14px'
+            rules: {
+              '.Input': {
+                color: '#1f2937',
+                fontSize: '16px'
+              },
+              '.Label': {
+                color: '#374151',
+                fontSize: '14px'
+              }
             }
           }
-        }
-      }}>
+        }}>
           <StripePaymentForm plan={plan} onSuccess={onSuccess} onClose={onClose} />
         </Elements>
-        ) : (
-          <div>
-            <PayPalScriptProvider options={{ 
-              clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID || 'test',
-              vault: true,
-              intent: 'subscription',
-              locale: 'en_US',
-              currency: 'EUR'
-            }}>
-              <PayPalPaymentButton 
-                plan={plan} 
-                onSuccess={onSuccess} 
-                onError={setPaypalError}
-              />
-            </PayPalScriptProvider>
-            
-            {paypalError && (
-              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm mt-3">
-                {paypalError}
-              </div>
-            )}
-
-            <button
-              onClick={onClose}
-              className="w-full mt-3 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              Cancel
-            </button>
-
+        
         <p className="text-xs text-center text-gray-500 mt-4">
-              Invoices will be sent to your email after each payment
+          Invoices will be sent to your email after each payment
         </p>
-          </div>
-        )}
       </div>
     </div>
   );
