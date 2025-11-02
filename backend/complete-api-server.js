@@ -3084,10 +3084,28 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
       where: { userId, status: 'connected' }
     });
     
-    // Calculate revenue (mock for now - would need payment tracking)
-    const planPrices = { starter: 29, professional: 99, enterprise: 299 };
-    const userPlan = req.user.planId || 'starter';
-    const monthlyRevenue = req.user.isPaid ? planPrices[userPlan] || 0 : 0;
+    // Calculate REAL revenue from Order data
+    let monthlyRevenue = 0;
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { tenantId: true }
+      });
+      
+      if (user?.tenantId) {
+        const orders = await prisma.order.findMany({
+          where: {
+            tenantId: user.tenantId,
+            createdAt: { gte: startDate }
+          },
+          select: { total: true }
+        });
+        
+        monthlyRevenue = Math.round(orders.reduce((sum, o) => sum + o.total, 0));
+      }
+    } catch (error) {
+      console.log('⚠️ Could not fetch orders for revenue calculation:', error.message);
+    }
     
     // Get message trend (hourly for 24h, daily for 7d/30d)
     const messageTrend = [];
@@ -3105,15 +3123,38 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
           }
         });
         
+        // Calculate real revenue for this hour
+        let hourRevenue = 0;
+        try {
+          const user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: { tenantId: true }
+          });
+          
+          if (user?.tenantId) {
+            const hourOrders = await prisma.order.findMany({
+              where: {
+                tenantId: user.tenantId,
+                createdAt: { gte: hourStart, lt: hourEnd }
+              },
+              select: { total: true }
+            });
+            
+            hourRevenue = Math.round(hourOrders.reduce((sum, o) => sum + o.total, 0));
+          }
+        } catch (error) {
+          // Revenue calculation failed for this hour
+        }
+        
         messageTrend.push({
-      hour: i,
+          hour: i,
           messages: hourMessages,
-          revenue: Math.floor(hourMessages * 0.1) // Mock revenue calculation
+          revenue: hourRevenue
         });
       }
     }
     
-    // Get chatbot performance
+    // Get REAL chatbot performance
     const chatbotPerformance = [];
     for (const chatbot of chatbots) {
       const chatbotMessages = await prisma.conversationMessage.count({
@@ -3123,11 +3164,53 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
         }
       });
       
+      // Calculate REAL satisfaction from ratings
+      const conversations = await prisma.conversation.findMany({
+        where: {
+          chatbotId: chatbot.id,
+          rating: { not: null },
+          createdAt: { gte: startDate }
+        },
+        select: { rating: true }
+      });
+      
+      const satisfaction = conversations.length > 0
+        ? Math.round((conversations.reduce((sum, c) => sum + (c.rating || 0), 0) / conversations.length) * 20) // Convert 1-5 to 0-100
+        : 0;
+      
+      // Calculate REAL response time
+      const convsWithMessages = await prisma.conversation.findMany({
+        where: { chatbotId: chatbot.id },
+        include: {
+          messages: {
+            where: { createdAt: { gte: startDate } },
+            orderBy: { createdAt: 'asc' }
+          }
+        }
+      });
+      
+      const responseTimes = [];
+      for (const conv of convsWithMessages) {
+        const messages = conv.messages;
+        for (let i = 0; i < messages.length - 1; i++) {
+          if (messages[i].sender === 'visitor' && messages[i + 1].sender === 'bot') {
+            const responseTime = messages[i + 1].createdAt.getTime() - messages[i].createdAt.getTime();
+            if (responseTime > 0 && responseTime < 60000) {
+              responseTimes.push(responseTime);
+            }
+          }
+        }
+      }
+      
+      const responseTime = responseTimes.length > 0
+        ? Math.round(responseTimes.reduce((sum, t) => sum + t, 0) / responseTimes.length)
+        : 0;
+      
       chatbotPerformance.push({
         name: chatbot.name,
         messages: chatbotMessages,
-        satisfaction: Math.floor(Math.random() * 20) + 80, // Mock satisfaction
-        responseTime: Math.floor(Math.random() * 2000) + 500 // Mock response time
+        satisfaction: satisfaction,
+        responseTime: responseTime
       });
     }
     
@@ -3180,34 +3263,127 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
       totalMessages,
         totalUsers,
         conversionRate: totalMessages > 0 ? Math.round((totalMessages * 0.01 / totalMessages) * 100) : 0,
-        avgResponseTime: totalMessages > 0 ? Math.floor(Math.random() * 1000) + 500 : 0,
-        satisfactionScore: totalMessages > 0 ? parseFloat((Math.random() * 0.5 + 4.5).toFixed(1)) : 0,
-      revenue: monthlyRevenue,
-        growthRate: Math.floor(Math.random() * 30) - 10
+        avgResponseTime: chatbotPerformance.length > 0
+          ? Math.round(chatbotPerformance.reduce((sum, p) => sum + p.responseTime, 0) / chatbotPerformance.length / 1000) // Convert ms to seconds
+          : 0,
+        satisfactionScore: chatbotPerformance.length > 0
+          ? parseFloat((chatbotPerformance.reduce((sum, p) => sum + (p.satisfaction / 20), 0) / chatbotPerformance.length).toFixed(1)) // Convert 0-100 to 1-5
+          : 0,
+        revenue: monthlyRevenue,
+        growthRate: 0 // Growth rate would require historical comparison
       },
       messages: {
         daily: dailyMessages,
         hourly: messageTrend,
-        byLanguage: [
-          { language: 'English', count: Math.floor(totalMessages * 0.6), percentage: 60 },
-          { language: 'Italian', count: Math.floor(totalMessages * 0.25), percentage: 25 },
-          { language: 'Spanish', count: Math.floor(totalMessages * 0.15), percentage: 15 }
-        ]
+        byLanguage: await (async () => {
+          // Calculate REAL language distribution from message metadata
+          const messages = await prisma.conversationMessage.findMany({
+            where: {
+              conversation: { chatbotId: { in: chatbotIds } },
+              createdAt: { gte: startDate }
+            },
+            select: { metadata: true }
+          });
+          
+          const languageCounts = {};
+          let totalLangMessages = 0;
+          
+          for (const msg of messages) {
+            if (msg.metadata) {
+              try {
+                const metadata = JSON.parse(msg.metadata);
+                if (metadata.language) {
+                  languageCounts[metadata.language] = (languageCounts[metadata.language] || 0) + 1;
+                  totalLangMessages++;
+                }
+              } catch (e) {
+                // Metadata parsing failed
+              }
+            }
+          }
+          
+          // Convert to array format
+          const languages = Object.entries(languageCounts)
+            .map(([language, count]) => ({
+              language,
+              count,
+              percentage: totalLangMessages > 0 ? Math.round((count / totalLangMessages) * 100) : 0
+            }))
+            .sort((a, b) => b.count - a.count);
+          
+          return languages.length > 0 ? languages : [
+            { language: 'English', count: 0, percentage: 0 }
+          ];
+        })()
       },
-      performance: {
-        responseTime: dailyMessages.map(d => ({
-          date: d.date,
-          avgTime: Math.floor(Math.random() * 1000) + 500
-        })),
-        satisfaction: dailyMessages.map(d => ({
-          date: d.date,
-          score: parseFloat((Math.random() * 0.5 + 4.5).toFixed(1))
-        })),
-        conversion: dailyMessages.map(d => ({
-          date: d.date,
-          rate: Math.floor(Math.random() * 5) + 1
-        }))
-      },
+      performance: await (async () => {
+        // Calculate REAL performance metrics per day
+        const performance = {
+          responseTime: [],
+          satisfaction: [],
+          conversion: []
+        };
+        
+        for (const dayData of dailyMessages) {
+          const dayStart = new Date(dayData.date);
+          const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
+          
+          // Get conversations for this day
+          const dayConvs = await prisma.conversation.findMany({
+            where: {
+              chatbotId: { in: chatbotIds },
+              createdAt: { gte: dayStart, lt: dayEnd }
+            },
+            include: {
+              messages: {
+                where: { createdAt: { gte: dayStart, lt: dayEnd } },
+                orderBy: { createdAt: 'asc' }
+              }
+            }
+          });
+          
+          // Calculate response time
+          const dayResponseTimes = [];
+          for (const conv of dayConvs) {
+            const messages = conv.messages;
+            for (let i = 0; i < messages.length - 1; i++) {
+              if (messages[i].sender === 'visitor' && messages[i + 1].sender === 'bot') {
+                const responseTime = messages[i + 1].createdAt.getTime() - messages[i].createdAt.getTime();
+                if (responseTime > 0 && responseTime < 60000) {
+                  dayResponseTimes.push(responseTime);
+                }
+              }
+            }
+          }
+          
+          const avgResponseTime = dayResponseTimes.length > 0
+            ? Math.round(dayResponseTimes.reduce((sum, t) => sum + t, 0) / dayResponseTimes.length / 1000) // Convert to seconds
+            : 0;
+          
+          // Calculate satisfaction
+          const dayRatings = await prisma.conversation.findMany({
+            where: {
+              chatbotId: { in: chatbotIds },
+              rating: { not: null },
+              createdAt: { gte: dayStart, lt: dayEnd }
+            },
+            select: { rating: true }
+          });
+          
+          const satisfaction = dayRatings.length > 0
+            ? parseFloat((dayRatings.reduce((sum, c) => sum + (c.rating || 0), 0) / dayRatings.length).toFixed(1))
+            : 0;
+          
+          // Conversion rate (simplified - would need order tracking)
+          const conversion = 0; // Would require order-message correlation
+          
+          performance.responseTime.push({ date: dayData.date, avgTime: avgResponseTime });
+          performance.satisfaction.push({ date: dayData.date, score: satisfaction });
+          performance.conversion.push({ date: dayData.date, rate: conversion });
+        }
+        
+        return performance;
+      })()
       insights: [
         {
           id: '1',

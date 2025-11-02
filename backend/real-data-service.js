@@ -155,21 +155,122 @@ class RealDataService {
         }
       });
       
-      // Calculate average response time (mock for now - would need to track this)
-      const averageResponseTime = totalMessages > 0 ? Math.floor(Math.random() * 2000) + 500 : 0;
+      // Calculate REAL average response time from message timestamps
+      const conversationsWithMessages = await prisma.conversation.findMany({
+        where: { chatbotId: { in: chatbotIds } },
+        include: {
+          messages: {
+            orderBy: { createdAt: 'asc' }
+          }
+        }
+      });
       
-      // Calculate satisfaction rate (mock for now - would need rating system)
-      const satisfactionRate = totalConversations > 0 ? Math.floor(Math.random() * 20) + 80 : 0;
+      const responseTimes = [];
+      for (const conv of conversationsWithMessages) {
+        const messages = conv.messages;
+        for (let i = 0; i < messages.length - 1; i++) {
+          // If user message followed by bot message, calculate response time
+          if (messages[i].sender === 'visitor' && messages[i + 1].sender === 'bot') {
+            const responseTime = messages[i + 1].createdAt.getTime() - messages[i].createdAt.getTime();
+            if (responseTime > 0 && responseTime < 60000) { // Valid response time under 60 seconds
+              responseTimes.push(responseTime);
+            }
+          }
+        }
+      }
       
-      // Calculate Response Rate (percentage of messages that got responses)
-      // More realistic: 85-98% response rate based on message volume
-      const responseRate = totalMessages > 0 ? Math.min(98, Math.max(85, 90 + (totalMessages * 0.01))) : 0;
+      const averageResponseTime = responseTimes.length > 0
+        ? Math.round(responseTimes.reduce((sum, t) => sum + t, 0) / responseTimes.length)
+        : 0;
       
-      // Calculate Revenue Impact based on conversations and conversion rate
-      // Assuming 2-5% conversion rate and average order value of $50-200
-      const conversionRate = totalConversations > 0 ? Math.min(0.05, Math.max(0.02, totalConversations * 0.001)) : 0;
-      const averageOrderValue = 75 + (totalMessages * 0.1); // Higher message volume = higher AOV
-      const revenueImpact = Math.floor(totalConversations * conversionRate * averageOrderValue);
+      // Calculate REAL satisfaction rate from conversation ratings
+      const conversationsWithRatings = await prisma.conversation.findMany({
+        where: {
+          chatbotId: { in: chatbotIds },
+          rating: { not: null }
+        },
+        select: { rating: true }
+      });
+      
+      const satisfactionRate = conversationsWithRatings.length > 0
+        ? Math.round((conversationsWithRatings.reduce((sum, c) => sum + (c.rating || 0), 0) / conversationsWithRatings.length) * 20) // Convert 1-5 to 0-100
+        : 0;
+      
+      // Calculate REAL Response Rate (percentage of visitor messages that got bot responses)
+      let visitorMessages = 0;
+      let respondedMessages = 0;
+      
+      for (const conv of conversationsWithMessages) {
+        const messages = conv.messages;
+        for (let i = 0; i < messages.length; i++) {
+          if (messages[i].sender === 'visitor') {
+            visitorMessages++;
+            // Check if next message is from bot
+            if (i < messages.length - 1 && messages[i + 1].sender === 'bot') {
+              respondedMessages++;
+            }
+          }
+        }
+      }
+      
+      const responseRate = visitorMessages > 0
+        ? Math.round((respondedMessages / visitorMessages) * 100)
+        : 0;
+      
+      // Calculate REAL Revenue Impact from Order data
+      let revenueImpact = 0;
+      try {
+        const user = await prisma.user.findUnique({
+          where: { id: userId },
+          select: { tenantId: true }
+        });
+        
+        if (user?.tenantId) {
+          const orders = await prisma.order.findMany({
+            where: {
+              tenantId: user.tenantId,
+              createdAt: {
+                gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1) // Current month
+              }
+            },
+            select: { total: true }
+          });
+          
+          revenueImpact = Math.round(orders.reduce((sum, o) => sum + o.total, 0));
+        }
+      } catch (error) {
+        console.log('⚠️ Could not fetch orders for revenue calculation:', error.message);
+      }
+      
+      // Calculate REAL active languages from message metadata or message content
+      const allMessages = await prisma.conversationMessage.findMany({
+        where: {
+          conversation: {
+            chatbotId: { in: chatbotIds }
+          }
+        },
+        select: {
+          metadata: true,
+          message: true
+        }
+      });
+      
+      // Try to extract language from metadata, otherwise use a simple heuristic
+      const languagesSet = new Set();
+      for (const msg of allMessages) {
+        if (msg.metadata) {
+          try {
+            const metadata = JSON.parse(msg.metadata);
+            if (metadata.language) {
+              languagesSet.add(metadata.language);
+            }
+          } catch (e) {
+            // Metadata parsing failed, skip
+          }
+        }
+      }
+      
+      const languagesActive = languagesSet.size > 0 ? languagesSet.size : 1; // Default to 1 if no language detected
       
       console.log('📊 Real metrics calculated:', {
         userId,
@@ -195,9 +296,11 @@ class RealDataService {
         responseTime: averageResponseTime,
         responseRate: responseRate,
         revenueImpact: revenueImpact,
-        uptime: 99.9, // Mock uptime - would need real monitoring
-        languagesActive: 1, // Mock - would need to count unique languages from messages
-        customerSatisfaction: satisfactionRate / 20 // Convert to 0-5 scale
+        uptime: 99.9, // Uptime would require external monitoring service
+        languagesActive: languagesActive,
+        customerSatisfaction: conversationsWithRatings.length > 0
+          ? (conversationsWithRatings.reduce((sum, c) => sum + (c.rating || 0), 0) / conversationsWithRatings.length) // Average rating 1-5
+          : 0
       };
     } catch (error) {
       console.error('❌ Error calculating real metrics:', error);
