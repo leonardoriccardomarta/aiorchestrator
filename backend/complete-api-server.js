@@ -5970,7 +5970,6 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
       await prisma.chatbot.updateMany({
         where: { userId: user.id },
         data: {
-          messagesCount: 0,
           lastActive: new Date()
         }
       });
@@ -6160,7 +6159,6 @@ app.post('/api/user/update-plan', authenticateToken, async (req, res) => {
         await prisma.chatbot.updateMany({
           where: { userId: user.id },
           data: {
-            messagesCount: 0,
             lastActive: new Date()
           }
         });
