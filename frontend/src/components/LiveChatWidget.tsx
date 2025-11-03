@@ -104,12 +104,14 @@ const LiveChatWidget: React.FC = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer support-widget'
         },
         body: JSON.stringify({
           message: userMessage.text,
           userId: 'support-chat',
-          context: 'customer_support'
+          context: {
+            primaryLanguage: 'en',
+            websiteUrl: window?.location?.origin || null
+          }
         })
       });
 

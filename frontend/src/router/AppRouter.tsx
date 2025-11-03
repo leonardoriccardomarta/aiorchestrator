@@ -23,6 +23,7 @@ import PrivacyPolicy from '../pages/PrivacyPolicy';
 import TermsOfService from '../pages/TermsOfService';
 import Contact from '../pages/Contact';
 import Blog from '../pages/Blog';
+import BlogPost from '../pages/BlogPost';
 import AffiliateProgram from '../pages/AffiliateProgram';
 
 // Chatbot components
@@ -51,6 +52,7 @@ const AppRouter: FC = () => {
         <Route path="/terms" element={<TermsOfService />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/affiliates" element={<AffiliateProgram />} />
         
         {/* Onboarding is now integrated into Dashboard - no separate page needed */}

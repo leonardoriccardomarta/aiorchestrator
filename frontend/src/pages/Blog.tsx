@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Calendar, User, ArrowRight, Search, Tag, Clock } from 'lucide-react';
 import LiveChatWidget from '../components/LiveChatWidget';
+import { useNavigate } from 'react-router-dom';
 
 const Blog: React.FC = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState('all');
 
@@ -17,6 +19,7 @@ const Blog: React.FC = () => {
   const blogPosts = [
     {
       id: 1,
+      slug: 'ai-chatbots-revolutionizing-customer-service-2025',
       title: 'How AI Chatbots Are Revolutionizing Customer Service in 2025',
       excerpt: 'Discover the latest trends in AI-powered customer service and how businesses are using chatbots to improve customer satisfaction.',
       author: 'AI Orchestrator Team',
@@ -28,6 +31,7 @@ const Blog: React.FC = () => {
     },
     {
       id: 2,
+      slug: 'multi-language-chatbot-setup-guide',
       title: 'Complete Guide to Multi-Language Chatbot Setup',
       excerpt: 'Step-by-step tutorial on configuring your chatbot to support multiple languages and reach global customers.',
       author: 'Sarah Johnson',
@@ -39,6 +43,7 @@ const Blog: React.FC = () => {
     },
     {
       id: 3,
+      slug: 'case-study-fashion-store-increased-sales-40',
       title: 'Case Study: How Fashion Store Increased Sales by 40% with AI',
       excerpt: 'Learn how a leading fashion retailer used AI Orchestrator to boost conversion rates and customer engagement.',
       author: 'Marketing Team',
@@ -50,6 +55,7 @@ const Blog: React.FC = () => {
     },
     {
       id: 4,
+      slug: 'understanding-sentiment-analysis-customer-conversations',
       title: 'Understanding Sentiment Analysis in Customer Conversations',
       excerpt: 'Deep dive into how AI analyzes customer emotions and intent to provide better support experiences.',
       author: 'AI Research Team',
@@ -61,6 +67,7 @@ const Blog: React.FC = () => {
     },
     {
       id: 5,
+      slug: 'new-features-advanced-analytics-dashboard-released',
       title: 'New Features: Advanced Analytics Dashboard Released',
       excerpt: 'Introducing our new analytics dashboard with real-time insights, custom reports, and performance metrics.',
       author: 'Product Team',
@@ -72,6 +79,7 @@ const Blog: React.FC = () => {
     },
     {
       id: 6,
+      slug: 'building-your-first-e-commerce-chatbot-beginners-guide',
       title: 'Building Your First E-commerce Chatbot: A Beginner\'s Guide',
       excerpt: 'Everything you need to know to create and deploy your first e-commerce chatbot from scratch.',
       author: 'Technical Team',
@@ -190,7 +198,7 @@ const Blog: React.FC = () => {
                       <Clock className="w-4 h-4 mr-1" />
                       <span>{featuredPost.readTime}</span>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4 hover:text-blue-600 transition-colors cursor-pointer">
+                    <h3 onClick={() => navigate(`/blog/${featuredPost.slug}`)} className="text-2xl font-bold text-gray-900 mb-4 hover:text-blue-600 transition-colors cursor-pointer">
                       {featuredPost.title}
                     </h3>
                     <p className="text-gray-600 mb-6">{featuredPost.excerpt}</p>
@@ -199,7 +207,7 @@ const Blog: React.FC = () => {
                         <User className="w-5 h-5 text-gray-400 mr-2" />
                         <span className="text-gray-600">{featuredPost.author}</span>
                       </div>
-                      <button className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold">
+                      <button onClick={() => navigate(`/blog/${featuredPost.slug}`)} className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold">
                         Read More
                         <ArrowRight className="w-4 h-4 ml-1" />
                       </button>
@@ -212,7 +220,7 @@ const Blog: React.FC = () => {
             {/* Regular Posts */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {regularPosts.map((post) => (
-                <article key={post.id} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
+                <article key={post.id} onClick={() => navigate(`/blog/${post.slug}`)} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
                   <div className="aspect-video bg-gradient-to-r from-gray-400 to-gray-500"></div>
                   <div className="p-6">
                     <div className="flex items-center text-sm text-gray-500 mb-3">
@@ -233,7 +241,7 @@ const Blog: React.FC = () => {
                         <User className="w-4 h-4 text-gray-400 mr-2" />
                         <span className="text-gray-600 text-sm">{post.author}</span>
                       </div>
-                      <button className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold text-sm">
+                      <button onClick={(e) => { e.stopPropagation(); navigate(`/blog/${post.slug}`); }} className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold text-sm">
                         Read More
                         <ArrowRight className="w-4 h-4 ml-1" />
                       </button>
