@@ -877,7 +877,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
                 <div className="flex items-center gap-3">
                   <input
                     type="text"
-                    value={`http://localhost:5176/?ref=${stats.affiliateCode}`}
+                    value={`${FRONTEND_URL}/?ref=${stats.affiliateCode}`}
                     readOnly
                     className="flex-1 bg-transparent border-none outline-none text-gray-700 font-mono text-sm"
                   />
@@ -1021,7 +1021,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
                   {selectedMaterial.text ? 'Post Text:' : 'Email Body:'}
                 </label>
                 <div className="bg-gray-50 p-4 rounded-lg text-gray-700 whitespace-pre-wrap">
-                  {(selectedMaterial.body || selectedMaterial.text || '').replace(/\[YOUR_REFERRAL_LINK\]/g, `http://localhost:5176/?ref=${stats?.affiliateCode || 'YOUR_CODE'}`)}
+                  {(selectedMaterial.body || selectedMaterial.text || '').replace(/\[YOUR_REFERRAL_LINK\]/g, `${FRONTEND_URL}/?ref=${stats?.affiliateCode || 'YOUR_CODE'}`)}
                 </div>
               </div>
               
