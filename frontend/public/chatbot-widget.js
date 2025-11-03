@@ -305,11 +305,36 @@ fetch('/cart.js')
 .then(r => r.json())
 .then(cart => {
   console.log('🛒 Current cart:', cart);
-  const cartCount = document.querySelector('.cart-count, [data-cart-count], .cart__count');
-  if (cartCount) {
-    cartCount.textContent = cart.item_count;
-    console.log('✅ Cart count updated:', cart.item_count);
-  }
+        const cartCount = document.querySelector('.cart-count, [data-cart-count], .cart__count');
+        if (cartCount) {
+          cartCount.textContent = cart.item_count;
+          if ('dataset' in cartCount) {
+            cartCount.setAttribute('data-cart-count', String(cart.item_count));
+          }
+          console.log('✅ Cart count updated:', cart.item_count);
+        }
+
+        // Dawn/OS2.0 badge bubble
+        const bubble = document.querySelector('[data-cart-count-bubble]');
+        if (bubble) {
+          const bubbleCount = bubble.querySelector('span');
+          if (bubbleCount) bubbleCount.textContent = String(cart.item_count);
+          if (cart.item_count > 0) {
+            bubble.removeAttribute('hidden');
+          } else {
+            bubble.setAttribute('hidden', 'true');
+          }
+        }
+
+        // Dispatch common cart update events used by many themes
+        try { document.dispatchEvent(new CustomEvent('cart:refresh', { detail: { cart } })); } catch {}
+        try { document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } })); } catch {}
+        try { document.dispatchEvent(new CustomEvent('ajaxProduct:added', { detail: { cart, item: data } })); } catch {}
+        try { window.dispatchEvent(new CustomEvent('cart:refresh', { detail: { cart } })); } catch {}
+
+        // Try theme-specific hooks if present
+        try { window.Shopify && window.Shopify.theme && window.Shopify.theme.cart && typeof window.Shopify.theme.cart.update === 'function' && window.Shopify.theme.cart.update(cart); } catch {}
+        try { window.theme && window.theme.cart && typeof window.theme.cart.update === 'function' && window.theme.cart.update(cart); } catch {}
   
   // Show elegant success message in chat (multilingual)
   const lang = config.primaryLanguage || 'en';
@@ -319,10 +344,14 @@ fetch('/cart.js')
   // Open cart drawer if available, or redirect to cart
   setTimeout(() => {
     // Try to trigger cart drawer (most themes)
-    const cartDrawerTrigger = document.querySelector('[data-cart-drawer], .cart-drawer-trigger, #cart-icon, .js-drawer-open-cart');
+          const cartDrawerTrigger = document.querySelector('[data-cart-drawer], .cart-drawer-trigger, #cart-icon, .js-drawer-open-cart, [data-drawer-trigger="cart"]');
     if (cartDrawerTrigger) {
       cartDrawerTrigger.click();
     } else {
+            // Try programmatic drawer open if available
+            try { window.CartDrawer && typeof window.CartDrawer.open === 'function' && window.CartDrawer.open(); } catch {}
+            try { window.cartDrawer && typeof window.cartDrawer.open === 'function' && window.cartDrawer.open(); } catch {}
+            
       // Fallback: redirect to cart page
       window.location.href = '/cart';
     }
