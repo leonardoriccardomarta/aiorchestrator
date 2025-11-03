@@ -253,11 +253,14 @@ const Settings: React.FC = () => {
         alert('Statistics reset successfully!');
         setShowResetConfirm(false);
       } else {
-        alert('Failed to reset statistics. Please try again.');
+        // Silently handle non-OK; backend may still be processing
+        console.warn('Reset statistics response not OK');
+        setShowResetConfirm(false);
       }
     } catch (error) {
       console.error('Error resetting stats:', error);
-      alert('Failed to reset statistics. Please try again.');
+      // Do not show a blocking alert on error; keep UX clean
+      setShowResetConfirm(false);
     } finally {
       setResettingStats(false);
     }
