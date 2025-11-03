@@ -916,13 +916,23 @@ const LandingPageOptimized: React.FC = () => {
           <p className="text-xl text-blue-200 mb-8">
             Join thousands of businesses already using AI Orchestrator to increase sales and improve customer satisfaction.
           </p>
-          <button
-            onClick={handleGetStarted}
-            className="inline-flex items-center px-8 py-4 bg-white text-blue-600 text-lg font-semibold rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
-          >
-            Start Your Free Trial Today
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </button>
+          {user && (user.planId === 'professional' || user.planId === 'business' || user.isPaid) ? (
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="inline-flex items-center px-8 py-4 bg-white text-blue-600 text-lg font-semibold rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+            >
+              Go to Dashboard
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </button>
+          ) : (
+            <button
+              onClick={handleGetStarted}
+              className="inline-flex items-center px-8 py-4 bg-white text-blue-600 text-lg font-semibold rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+            >
+              Start Your Free Trial Today
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </button>
+          )}
         </div>
       </section>
 
@@ -952,13 +962,7 @@ const LandingPageOptimized: React.FC = () => {
               </ul>
             </div>
             
-            <div>
-              <h3 className="font-semibold text-white mb-4">Company</h3>
-              <ul className="space-y-2">
-                <li><a href="/about" className="text-gray-300 hover:text-white transition-colors">About Us</a></li>
-                <li><a href="/blog" className="text-gray-300 hover:text-white transition-colors">Blog</a></li>
-              </ul>
-            </div>
+            {/* Company section removed per request */}
             
             <div>
               <h3 className="font-semibold text-white mb-4">Support</h3>
