@@ -347,17 +347,33 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initializeUser();
   }, []); // Rimuoviamo refreshUser dalle dipendenze per evitare il loop infinito
 
-  // Redirect to login if user is not authenticated
+  // Only redirect to login if user is not authenticated AND trying to access protected routes
+  // Don't redirect if already on a public page (landing, blog, etc.)
   useEffect(() => {
     if (!isLoading && !user) {
-      console.log('🔄 UserContext: No authenticated user, redirecting to login');
-      // Clear any invalid data
-      localStorage.removeItem('user');
-      localStorage.removeItem('userData');
-      localStorage.removeItem('authToken');
+      const currentPath = window.location.pathname;
+      const publicRoutes = ['/', '/blog', '/about', '/privacy', '/terms', '/contact', '/affiliates', '/verify'];
+      const isPublicRoute = publicRoutes.includes(currentPath) || currentPath.startsWith('/blog/');
+      
+      // Only redirect if on a protected route
+      if (!isPublicRoute) {
+        console.log('🔄 UserContext: No authenticated user on protected route, redirecting to landing');
+        // Clear any invalid data
+        localStorage.removeItem('user');
+        localStorage.removeItem('userData');
+        localStorage.removeItem('authToken');
+        setIsLoading(false);
+        // Redirect to landing page
+        window.location.href = '/';
+      } else {
+        // On public route, just set loading to false
+        setIsLoading(false);
+      }
+    } else if (isLoading) {
+      // Still loading, don't do anything
+    } else {
+      // User is authenticated, set loading to false
       setIsLoading(false);
-      // Redirect to login page
-      window.location.href = '/';
     }
   }, [user, isLoading]);
 
