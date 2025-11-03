@@ -1,5 +1,6 @@
 const EmailFollowUpService = require('./emailFollowUpService');
 const { PrismaClient } = require('@prisma/client');
+const affiliateService = require('./affiliateService');
 
 const prisma = new PrismaClient();
 const emailFollowUpService = new EmailFollowUpService();
@@ -7,6 +8,7 @@ const emailFollowUpService = new EmailFollowUpService();
 class CronService {
   constructor() {
     this.isRunning = false;
+    this.lastPayoutCheckDay = null; // Track last day we checked for payouts
     console.log('⏰ Cron Service initialized');
   }
 
@@ -151,19 +153,49 @@ class CronService {
     }
   }
 
+  // Check if we should run monthly payout processing
+  async checkMonthlyPayouts() {
+    const now = new Date();
+    const today = now.getDate();
+    
+    // Only run on the 1st of the month, and only once per day
+    if (today === 1 && this.lastPayoutCheckDay !== today) {
+      this.lastPayoutCheckDay = today;
+      console.log('💰 First of month detected - processing affiliate payouts...');
+      
+      try {
+        const result = await affiliateService.processMonthlyPayouts();
+        if (result.success) {
+          console.log(`✅ Monthly payouts processed: ${result.processed} success, ${result.failed} failed`);
+        } else {
+          console.error('❌ Failed to process monthly payouts:', result.error);
+        }
+      } catch (error) {
+        console.error('❌ Error in monthly payout check:', error);
+      }
+    }
+    
+    // Reset lastPayoutCheckDay if we're past the 1st
+    if (today !== 1) {
+      this.lastPayoutCheckDay = null;
+    }
+  }
+
   // Start the cron job (runs every hour)
   start() {
     console.log('⏰ Starting cron service...');
     
     // Run immediately
     this.checkFollowUpEmails();
+    this.checkMonthlyPayouts();
     
     // Then run every hour
     setInterval(() => {
       this.checkFollowUpEmails();
+      this.checkMonthlyPayouts();
     }, 60 * 60 * 1000); // 1 hour
 
-    console.log('✅ Cron service started - running every hour');
+    console.log('✅ Cron service started - running every hour (follow-ups) + monthly payouts on 1st');
   }
 
   // Stop the cron job

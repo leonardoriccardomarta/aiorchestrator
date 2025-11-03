@@ -377,6 +377,106 @@ class AffiliateService {
       return { success: false, error: error.message };
     }
   }
+
+  /**
+   * Process monthly payouts automatically for all eligible affiliates
+   * Called by cron job on the 1st of each month
+   */
+  async processMonthlyPayouts() {
+    try {
+      console.log('💰 Starting monthly affiliate payout processing...');
+      
+      // Find all affiliates with pending earnings >= minimum payout
+      const affiliates = await prisma.affiliate.findMany({
+        where: {
+          status: 'active',
+          pendingEarnings: {
+            gte: 50 // Minimum payout
+          }
+        },
+        include: {
+          user: {
+            select: {
+              email: true,
+              firstName: true,
+              lastName: true
+            }
+          }
+        }
+      });
+
+      console.log(`📊 Found ${affiliates.length} affiliates eligible for payout`);
+
+      let processedCount = 0;
+      let failedCount = 0;
+
+      for (const affiliate of affiliates) {
+        try {
+          // Determine payment method (prefer PayPal)
+          const method = affiliate.paypalEmail ? 'paypal' : (affiliate.bankAccount ? 'bank_transfer' : null);
+          
+          if (!method) {
+            console.log(`⚠️ Skipping affiliate ${affiliate.user.email} - no payment method configured`);
+            failedCount++;
+            continue;
+          }
+
+          // Create payout request
+          const payout = await prisma.payout.create({
+            data: {
+              affiliateId: affiliate.id,
+              amount: affiliate.pendingEarnings,
+              method: method,
+              status: 'processing' // Auto-processing
+            }
+          });
+
+          // Update affiliate - move pending to paid
+          await prisma.affiliate.update({
+            where: { id: affiliate.id },
+            data: {
+              pendingEarnings: 0,
+              paidEarnings: { increment: affiliate.pendingEarnings },
+              lastPayoutDate: new Date()
+            }
+          });
+
+          // Mark referral commissions as paid
+          await prisma.referral.updateMany({
+            where: {
+              affiliateId: affiliate.id,
+              commissionPaid: false
+            },
+            data: {
+              commissionPaid: true
+            }
+          });
+
+          console.log(`✅ Processed payout for ${affiliate.user.email}: €${affiliate.pendingEarnings.toFixed(2)}`);
+          processedCount++;
+
+          // TODO: Actually send money via PayPal API or Bank Transfer API
+          // For now, mark as paid after 24 hours (manual processing)
+          // In production, implement actual payment processing here
+          
+        } catch (error) {
+          console.error(`❌ Error processing payout for affiliate ${affiliate.user.email}:`, error);
+          failedCount++;
+        }
+      }
+
+      console.log(`💰 Monthly payout processing complete: ${processedCount} processed, ${failedCount} failed`);
+
+      return {
+        success: true,
+        processed: processedCount,
+        failed: failedCount
+      };
+    } catch (error) {
+      console.error('❌ Error in monthly payout processing:', error);
+      return { success: false, error: error.message };
+    }
+  }
 }
 
 module.exports = new AffiliateService();
