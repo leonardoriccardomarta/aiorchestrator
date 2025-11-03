@@ -56,14 +56,7 @@ const Pricing: React.FC = () => {
     const userPlan = user.planId;
     const isCurrentPlan = userPlan === planId;
     
-    // If trial is expired, allow selection of any plan (including current one)
-    if (isTrialExpired) {
-      if (isCurrentPlan) {
-        return `Subscribe to ${planId.charAt(0).toUpperCase() + planId.slice(1)}`;
-      }
-      return `Subscribe to ${planId.charAt(0).toUpperCase() + planId.slice(1)}`;
-    }
-    
+    // Always show Current Plan if it matches server plan
     if (isCurrentPlan) {
       return 'Current Plan';
     }
@@ -89,11 +82,6 @@ const Pricing: React.FC = () => {
     const userPlan = user.planId;
     const isCurrentPlan = userPlan === planId;
     
-    // If trial is expired, allow selection of any plan (including current one)
-    if (isTrialExpired) {
-      return 'w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700';
-    }
-    
     if (isCurrentPlan) {
       return 'w-full bg-gray-100 text-gray-600 cursor-not-allowed';
     }
@@ -104,11 +92,6 @@ const Pricing: React.FC = () => {
   // Check if button should be disabled
   const isButtonDisabled = (planId: string) => {
     if (!user) return false;
-    
-    // If trial is expired, allow selection of any plan (including current one)
-    if (isTrialExpired) {
-      return false;
-    }
     
     return user.planId === planId;
   };

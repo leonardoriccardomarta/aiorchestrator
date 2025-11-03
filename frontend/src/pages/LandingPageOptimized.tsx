@@ -190,11 +190,6 @@ const LandingPageOptimized: React.FC = () => {
       // Logged in - check current plan
       const currentPlan = userContext?.planId || user?.planId || 'free';
       
-      // If trial is expired, show subscribe for all plans
-      if (isTrialExpired) {
-        return `Subscribe to ${planName.charAt(0).toUpperCase() + planName.slice(1)}`;
-      }
-      
       // Plan hierarchy: free < starter < professional < business
       const planHierarchy = { free: 0, starter: 1, professional: 2, business: 3 };
       const currentLevel = planHierarchy[currentPlan as keyof typeof planHierarchy] || 0;
@@ -225,17 +220,6 @@ const LandingPageOptimized: React.FC = () => {
       // Logged in - check if current plan
       const currentPlan = userContext?.planId || user?.planId || 'starter';
       const isCurrentPlan = (planName === currentPlan);
-      
-      // If trial is expired, all buttons are active
-      if (isTrialExpired) {
-        if (planName === 'starter') {
-          return 'w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors';
-        } else if (planName === 'professional') {
-          return 'w-full px-4 py-3 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition-colors font-semibold';
-        } else if (planName === 'business') {
-          return 'w-full px-4 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors';
-        }
-      }
       
       if (planName === 'starter') {
         return isCurrentPlan 
