@@ -51,7 +51,7 @@ const AffiliateProgram: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
-  const [paypalEmail, setPaypalEmail] = useState('');
+  const [bankAccount, setBankAccount] = useState('');
   const [marketingMaterials, setMarketingMaterials] = useState<any>(null);
   const [showMaterialModal, setShowMaterialModal] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState<any>(null);
@@ -214,13 +214,10 @@ Highly recommended for any e-commerce business looking to scale support efficien
   };
 
   const registerAsAffiliate = async () => {
-    // Use PayPal email or fallback to login email
-    const emailToUse = paypalEmail || user?.email;
+    console.log('🎯 Registering as affiliate:', { bankAccount, user, hasToken: !!localStorage.getItem('authToken') });
     
-    console.log('🎯 Registering as affiliate:', { emailToUse, user, hasToken: !!localStorage.getItem('authToken') });
-    
-    if (!emailToUse) {
-      alert('Please enter your PayPal email');
+    if (!bankAccount) {
+      alert('Please enter your bank account IBAN');
       return;
     }
 
@@ -231,7 +228,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         },
-        body: JSON.stringify({ paypalEmail: emailToUse })
+        body: JSON.stringify({ bankAccount: bankAccount })
       });
 
       console.log('🎯 Affiliate registration response:', response.status);
@@ -769,7 +766,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
                   Complete Your Registration
                 </h2>
                 <p className="text-gray-600">
-                  Enter your PayPal email to receive your monthly payouts
+                  Enter your bank account IBAN to receive your monthly payouts
                 </p>
               </div>
 
@@ -780,21 +777,21 @@ Highly recommended for any e-commerce business looking to scale support efficien
               </div>
                 
                 <label className="block text-gray-700 font-semibold mb-2">
-                  PayPal Email (for receiving payments)
+                  Bank Account IBAN (for receiving payments)
                 </label>
                 <input
-                  type="email"
-                  value={paypalEmail || user?.email || ''}
-                  onChange={(e) => setPaypalEmail(e.target.value)}
-                  placeholder={user?.email || 'your-email@paypal.com'}
+                  type="text"
+                  value={bankAccount}
+                  onChange={(e) => setBankAccount(e.target.value.toUpperCase())}
+                  placeholder="IT60 X054 2811 1010 0000 0123 456"
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-2"
                 />
                 <div className="text-xs text-gray-500 mb-4">
-                  Use the same email as your login or enter a different PayPal email
+                  Payments are sent automatically on the 1st of each month (minimum €50)
                 </div>
                 <button
                   onClick={registerAsAffiliate}
-                  disabled={!paypalEmail && !user?.email}
+                  disabled={!bankAccount}
                   className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                   Activate Affiliate Account

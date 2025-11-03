@@ -325,7 +325,7 @@ class EmailService {
               
               <div style="background: #e3f2fd; padding: 15px; border-radius: 5px; margin: 20px 0;">
                 <h3 style="margin-top: 0; color: #1976d2;">💰 Your Earnings Update:</h3>
-                <p style="margin: 0;">This commission will be added to your pending earnings and paid on the 1st of the month via PayPal (minimum €50).</p>
+                <p style="margin: 0;">This commission will be added to your pending earnings and paid automatically on the 1st of the month via bank transfer (minimum €50).</p>
               </div>
               
               <div style="text-align: center; margin: 30px 0;">

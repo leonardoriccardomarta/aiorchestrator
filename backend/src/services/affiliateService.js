@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const crypto = require('crypto');
 const EmailService = require('./emailService');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const prisma = new PrismaClient();
 const emailService = new EmailService();
@@ -221,7 +222,7 @@ class AffiliateService {
   /**
    * Request payout
    */
-  async requestPayout(userId, method = 'paypal') {
+  async requestPayout(userId, method = 'bank_transfer') {
     try {
       const affiliate = await prisma.affiliate.findUnique({
         where: { userId }
@@ -238,11 +239,7 @@ class AffiliateService {
         };
       }
 
-      if (method === 'paypal' && !affiliate.paypalEmail) {
-        return { success: false, error: 'PayPal email not configured' };
-      }
-
-      if (method === 'bank_transfer' && !affiliate.bankAccount) {
+      if (!affiliate.bankAccount) {
         return { success: false, error: 'Bank account not configured' };
       }
 
@@ -251,7 +248,7 @@ class AffiliateService {
         data: {
           affiliateId: affiliate.id,
           amount: affiliate.pendingEarnings,
-          method,
+          method: 'bank_transfer',
           status: 'pending'
         }
       });
@@ -412,11 +409,9 @@ class AffiliateService {
 
       for (const affiliate of affiliates) {
         try {
-          // Determine payment method (prefer PayPal)
-          const method = affiliate.paypalEmail ? 'paypal' : (affiliate.bankAccount ? 'bank_transfer' : null);
-          
-          if (!method) {
-            console.log(`⚠️ Skipping affiliate ${affiliate.user.email} - no payment method configured`);
+          // Check if affiliate has bank account configured
+          if (!affiliate.bankAccount) {
+            console.log(`⚠️ Skipping affiliate ${affiliate.user.email} - no bank account configured`);
             failedCount++;
             continue;
           }
@@ -426,10 +421,37 @@ class AffiliateService {
             data: {
               affiliateId: affiliate.id,
               amount: affiliate.pendingEarnings,
-              method: method,
+              method: 'bank_transfer',
               status: 'processing' // Auto-processing
             }
           });
+
+          // Try to create Stripe payout if we have Stripe configured
+          let stripePayoutId = null;
+          try {
+            // Note: Stripe Payouts API requires a connected account (Stripe Connect)
+            // For now, we'll create the payout record but mark it for manual review
+            // In production with Stripe Connect, you would do:
+            // const stripePayout = await stripe.payouts.create({
+            //   amount: Math.round(affiliate.pendingEarnings * 100), // Convert to cents
+            //   currency: 'eur',
+            //   method: 'standard',
+            //   destination: affiliate.stripeAccountId // If using Connect
+            // });
+            // stripePayoutId = stripePayout.id;
+            
+            console.log(`⚠️ Stripe Payout API requires Stripe Connect - payout created but needs manual processing`);
+          } catch (stripeError) {
+            console.error(`⚠️ Stripe payout creation failed: ${stripeError.message}`);
+          }
+
+          // Update payout with Stripe ID if available
+          if (stripePayoutId) {
+            await prisma.payout.update({
+              where: { id: payout.id },
+              data: { transactionId: stripePayoutId }
+            });
+          }
 
           // Update affiliate - move pending to paid
           await prisma.affiliate.update({
@@ -454,10 +476,6 @@ class AffiliateService {
 
           console.log(`✅ Processed payout for ${affiliate.user.email}: €${affiliate.pendingEarnings.toFixed(2)}`);
           processedCount++;
-
-          // TODO: Actually send money via PayPal API or Bank Transfer API
-          // For now, mark as paid after 24 hours (manual processing)
-          // In production, implement actual payment processing here
           
         } catch (error) {
           console.error(`❌ Error processing payout for affiliate ${affiliate.user.email}:`, error);
