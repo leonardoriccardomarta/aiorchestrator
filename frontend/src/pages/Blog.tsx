@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Calendar, User, ArrowRight, Search, Tag, Clock } from 'lucide-react';
 import LiveChatWidget from '../components/LiveChatWidget';
 import { useNavigate } from 'react-router-dom';
@@ -8,13 +8,14 @@ const Blog: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState('all');
 
-  const tags = [
-    { id: 'all', name: 'All Posts', count: 12 },
-    { id: 'ai', name: 'AI & Machine Learning', count: 5 },
-    { id: 'tutorials', name: 'Tutorials', count: 4 },
-    { id: 'case-studies', name: 'Case Studies', count: 2 },
-    { id: 'updates', name: 'Product Updates', count: 1 }
-  ];
+  const tags = useMemo(() => {
+    const counts: Record<string, number> = {};
+    blogPosts.forEach(p => p.tags.forEach(t => { counts[t] = (counts[t] || 0) + 1; }));
+    return [
+      { id: 'all', name: 'All Posts', count: blogPosts.length },
+      { id: 'ai', name: 'AI & Machine Learning', count: counts['ai'] || 0 }
+    ];
+  }, []);
 
   const blogPosts = [
     {
@@ -187,7 +188,7 @@ const Blog: React.FC = () => {
               <div className="mb-12">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Featured Post</h2>
                 <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-                  <div className="aspect-video bg-gradient-to-r from-blue-500 to-purple-500"></div>
+                  <div className="aspect-video bg-gradient-to-r from-blue-600 to-purple-600"></div>
                   <div className="p-8">
                     <div className="flex items-center text-sm text-gray-500 mb-4">
                       <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full mr-3">
@@ -217,39 +218,7 @@ const Blog: React.FC = () => {
               </div>
             )}
 
-            {/* Regular Posts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {regularPosts.map((post) => (
-                <article key={post.id} onClick={() => navigate(`/blog/${post.slug}`)} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
-                  <div className="aspect-video bg-gradient-to-r from-gray-400 to-gray-500"></div>
-                  <div className="p-6">
-                    <div className="flex items-center text-sm text-gray-500 mb-3">
-                      <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full mr-3">
-                        {tags.find(t => t.id === post.tags[0])?.name}
-                      </span>
-                      <Calendar className="w-4 h-4 mr-1" />
-                      <span className="mr-4">{new Date(post.date).toLocaleDateString()}</span>
-                      <Clock className="w-4 h-4 mr-1" />
-                      <span>{post.readTime}</span>
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-blue-600 transition-colors">
-                      {post.title}
-                    </h3>
-                    <p className="text-gray-600 mb-4 text-sm">{post.excerpt}</p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <User className="w-4 h-4 text-gray-400 mr-2" />
-                        <span className="text-gray-600 text-sm">{post.author}</span>
-                      </div>
-                      <button onClick={(e) => { e.stopPropagation(); navigate(`/blog/${post.slug}`); }} className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold text-sm">
-                        Read More
-                        <ArrowRight className="w-4 h-4 ml-1" />
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+            {/* No additional posts yet */}
 
             {regularPosts.length === 0 && (
               <div className="text-center py-12">

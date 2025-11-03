@@ -61,12 +61,15 @@ const InteractiveDemo: React.FC = () => {
       const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer demo-token'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           message: textToSend,
-          userId: 'demo-user'
+          userId: 'demo-user',
+          context: {
+            primaryLanguage: 'en',
+            websiteUrl: typeof window !== 'undefined' ? window.location.origin : null
+          }
         })
       });
 
