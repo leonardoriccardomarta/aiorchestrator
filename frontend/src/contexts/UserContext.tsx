@@ -237,12 +237,25 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     } catch (error) {
       console.error('❌ RefreshUser: Error:', error);
-      // Clear invalid data on error
-      console.log('⚠️ RefreshUser: Error occurred, clearing user data');
-      localStorage.removeItem('user');
-      localStorage.removeItem('userData');
-      localStorage.removeItem('authToken');
-      setUser(null);
+      // Don't clear data on network errors - use cached data instead
+      console.log('⚠️ RefreshUser: Error occurred, using cached data');
+      const storedUser = localStorage.getItem('user') || localStorage.getItem('userData');
+      if (storedUser) {
+        try {
+          const userData = JSON.parse(storedUser);
+          const trialStatus = calculateTrialStatus(userData.trialEndDate);
+          setUser({
+            ...userData,
+            trialDaysLeft: trialStatus.daysLeft
+          });
+          setIsTrialExpired(trialStatus.isExpired);
+          setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
+        } catch (parseError) {
+          console.error('❌ RefreshUser: Failed to parse cached data:', parseError);
+          // Only clear data if cached data is also invalid
+          setUser(null);
+        }
+      }
     }
   }, []); // Remove user dependency to prevent circular dependency
 
@@ -355,8 +368,32 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const publicRoutes = ['/', '/blog', '/about', '/privacy', '/terms', '/contact', '/affiliates', '/verify'];
       const isPublicRoute = publicRoutes.includes(currentPath) || currentPath.startsWith('/blog/');
       
-      // Only redirect if on a protected route
-      if (!isPublicRoute) {
+      // Check if user data exists in localStorage (might be logged in but user state not loaded yet)
+      const hasAuthData = localStorage.getItem('authToken') && localStorage.getItem('userData');
+      
+      if (hasAuthData && !user) {
+        // User has auth data but state not loaded - try to restore from localStorage
+        console.log('🔄 UserContext: Found auth data in localStorage, restoring user state');
+        try {
+          const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+          if (userData.id) {
+            const trialStatus = calculateTrialStatus(userData.trialEndDate);
+            setUser({
+              ...userData,
+              trialDaysLeft: trialStatus.daysLeft
+            });
+            setIsTrialExpired(trialStatus.isExpired);
+            setIsTrialExpiringSoon(trialStatus.isExpiringSoon);
+            setIsLoading(false);
+            return;
+          }
+        } catch (error) {
+          console.error('Error restoring user from localStorage:', error);
+        }
+      }
+      
+      // Only redirect if on a protected route AND no auth data exists
+      if (!isPublicRoute && !hasAuthData) {
         console.log('🔄 UserContext: No authenticated user on protected route, redirecting to landing');
         // Clear any invalid data
         localStorage.removeItem('user');
@@ -366,7 +403,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Redirect to landing page
         window.location.href = '/';
       } else {
-        // On public route, just set loading to false
+        // On public route or has auth data, just set loading to false
         setIsLoading(false);
       }
     } else if (isLoading) {
