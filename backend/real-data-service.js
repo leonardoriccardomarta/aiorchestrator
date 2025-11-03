@@ -133,9 +133,9 @@ class RealDataService {
       
       // Debug: Check if there are any conversations at all
       const allConversations = await prisma.conversation.count();
-      const allMessages = await prisma.conversationMessage.count();
+      const allMessagesCount = await prisma.conversationMessage.count();
       console.log('🔍 Debug - Total conversations in DB:', allConversations);
-      console.log('🔍 Debug - Total messages in DB:', allMessages);
+      console.log('🔍 Debug - Total messages in DB:', allMessagesCount);
       
       // Count connections
       const activeConnections = await prisma.connection.count({
