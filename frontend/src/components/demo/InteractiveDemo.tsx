@@ -220,7 +220,7 @@ const InteractiveDemo: React.FC = () => {
                   <div
                     className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
                       message.type === 'user'
-                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                        ? 'bg-blue-50 text-gray-900 border border-blue-200'
                         : 'bg-white text-gray-900 border border-gray-200 shadow-sm'
                     }`}
                   >

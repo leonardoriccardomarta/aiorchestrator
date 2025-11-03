@@ -83,6 +83,11 @@ const LandingPageOptimized: React.FC = () => {
   }, [refreshUser]);
 
   const handleGetStarted = () => {
+    const demoEl = document.getElementById('demo');
+    if (demoEl) {
+      demoEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
     setAuthMode('register');
     setShowAuthModal(true);
   };
