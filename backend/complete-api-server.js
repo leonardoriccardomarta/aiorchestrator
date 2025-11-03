@@ -5360,7 +5360,6 @@ app.post('/api/user/reset-stats', authenticateToken, async (req, res) => {
     await prisma.chatbot.updateMany({
       where: { userId: userId },
       data: {
-        messagesCount: 0,
         lastActive: new Date()
       }
     });
@@ -5515,7 +5514,7 @@ app.post('/api/payments/create-checkout-session', authenticateToken, async (req,
         planId: planId
       },
       subscription_data: {
-        trial_period_days: user.isTrialActive ? 0 : 7, // No trial if already in trial
+        trial_period_days: 0, // Paid plans bill monthly; trial handled via dedicated flow
         metadata: {
           userId: user.id,
           planId: planId
@@ -5691,7 +5690,6 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
       await prisma.chatbot.updateMany({
         where: { userId: user.id },
         data: {
-          messagesCount: 0,
           lastActive: new Date()
         }
       });
@@ -5929,7 +5927,7 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
       payment_behavior: 'default_incomplete',
       payment_settings: { save_default_payment_method: 'on_subscription' },
       expand: ['latest_invoice.payment_intent'],
-      trial_period_days: 7, // 7-day free trial
+      trial_period_days: 0,
       metadata: {
         userId: user.id,
         planId: planId
@@ -5947,8 +5945,8 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
       where: { id: user.id },
       data: {
         isPaid: true,
-        isTrialActive: true, // Start with trial for new subscriptions
-        trialEndDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        isTrialActive: false,
+        trialEndDate: null,
         planId: planId
       }
     });
@@ -5993,7 +5991,7 @@ app.post('/api/payments/create-subscription', authenticatePayment, async (req, r
       data: {
         subscriptionId: subscription.id,
         status: subscription.status,
-        trialEnd: new Date(subscription.trial_end * 1000).toISOString(),
+        trialEnd: null,
         message: 'Subscription created and statistics reset successfully!'
       }
     });
