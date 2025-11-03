@@ -51,7 +51,6 @@ const AffiliateProgram: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
-  const [bankAccount, setBankAccount] = useState('');
   const [marketingMaterials, setMarketingMaterials] = useState<any>(null);
   const [showMaterialModal, setShowMaterialModal] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState<any>(null);
@@ -214,12 +213,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
   };
 
   const registerAsAffiliate = async () => {
-    console.log('🎯 Registering as affiliate:', { bankAccount, user, hasToken: !!localStorage.getItem('authToken') });
-    
-    if (!bankAccount) {
-      alert('Please enter your bank account IBAN');
-      return;
-    }
+    console.log('🎯 Registering as affiliate:', { user, hasToken: !!localStorage.getItem('authToken') });
 
     try {
       const response = await fetch(`${API_URL}/api/affiliate/register`, {
@@ -228,7 +222,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         },
-        body: JSON.stringify({ bankAccount: bankAccount })
+        body: JSON.stringify({})
       });
 
       console.log('🎯 Affiliate registration response:', response.status);
@@ -279,6 +273,35 @@ Highly recommended for any e-commerce business looking to scale support efficien
     setShowMaterialModal(false);
     setShowCopySuccess(true);
     setTimeout(() => setShowCopySuccess(false), 3000);
+  };
+
+  const handleRequestPayout = async () => {
+    if (!stats || !stats.canRequestPayout) return;
+    
+    if (!confirm(`Request payout of €${stats.pendingEarnings.toFixed(2)}?`)) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/affiliate/payout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        },
+        body: JSON.stringify({ method: 'bank_transfer' })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        alert(`Payout request created successfully! You'll receive €${stats.pendingEarnings.toFixed(2)} within 5-7 business days.`);
+        await loadAffiliateStats();
+      } else {
+        alert(data.error || 'Failed to request payout');
+      }
+    } catch (error) {
+      console.error('Error requesting payout:', error);
+      alert('Failed to request payout');
+    }
   };
 
   const downloadMaterial = (materialName: string) => {
@@ -748,7 +771,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
             <ArrowRight className="w-5 h-5 ml-2" />
           </button>
           <p className="mt-4 text-gray-600 text-sm">
-            No credit card required • Paid on the 1st of every month
+            No credit card required • Request payouts anytime
           </p>
         </div>
       </section>
@@ -763,39 +786,24 @@ Highly recommended for any e-commerce business looking to scale support efficien
                   <Gift className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                  Complete Your Registration
+                  Activate Your Affiliate Account
                 </h2>
                 <p className="text-gray-600">
-                  Enter your bank account IBAN to receive your monthly payouts
+                  Start earning 50% commission on every sale you refer
                 </p>
               </div>
 
               <div className="bg-white rounded-xl p-6 shadow-lg">
-                <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                  <div className="text-sm text-gray-600 mb-1">Your login email:</div>
-                  <div className="font-semibold text-gray-900">{user?.email}</div>
-              </div>
-                
-                <label className="block text-gray-700 font-semibold mb-2">
-                  Bank Account IBAN (for receiving payments)
-                </label>
-                <input
-                  type="text"
-                  value={bankAccount}
-                  onChange={(e) => setBankAccount(e.target.value.toUpperCase())}
-                  placeholder="IT60 X054 2811 1010 0000 0123 456"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-2"
-                />
-                <div className="text-xs text-gray-500 mb-4">
-                  Payments are sent automatically on the 1st of each month (minimum €50)
-                </div>
                 <button
                   onClick={registerAsAffiliate}
-                  disabled={!bankAccount}
-                  className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  disabled={false}
+                  className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all"
                 >
                   Activate Affiliate Account
                 </button>
+                <p className="text-xs text-gray-500 text-center mt-4">
+                  You can request payouts (minimum €50) anytime from your dashboard
+                </p>
               </div>
             </div>
           </div>
@@ -838,7 +846,15 @@ Highly recommended for any e-commerce business looking to scale support efficien
                 <div className="text-3xl font-bold text-gray-900 mb-1">
                   €{stats.pendingEarnings.toFixed(2)}
                 </div>
-                <div className="text-gray-600 text-sm">Pending (paid 1st of month)</div>
+                <div className="text-gray-600 text-sm mb-3">Pending Earnings</div>
+                {stats.canRequestPayout && (
+                  <button 
+                    onClick={handleRequestPayout}
+                    className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-all text-sm"
+                  >
+                    Request Payout
+                  </button>
+                )}
         </div>
 
               <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border border-green-200">

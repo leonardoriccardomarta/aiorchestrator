@@ -187,15 +187,13 @@ class CronService {
     
     // Run immediately
     this.checkFollowUpEmails();
-    this.checkMonthlyPayouts();
     
     // Then run every hour
     setInterval(() => {
       this.checkFollowUpEmails();
-      this.checkMonthlyPayouts();
     }, 60 * 60 * 1000); // 1 hour
 
-    console.log('✅ Cron service started - running every hour (follow-ups) + monthly payouts on 1st');
+    console.log('✅ Cron service started - running every hour (follow-ups)');
   }
 
   // Stop the cron job

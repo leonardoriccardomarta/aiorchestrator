@@ -407,81 +407,9 @@ class AffiliateService {
       let processedCount = 0;
       let failedCount = 0;
 
-      for (const affiliate of affiliates) {
-        try {
-          // Check if affiliate has bank account configured
-          if (!affiliate.bankAccount) {
-            console.log(`⚠️ Skipping affiliate ${affiliate.user.email} - no bank account configured`);
-            failedCount++;
-            continue;
-          }
-
-          // Create payout request
-          const payout = await prisma.payout.create({
-            data: {
-              affiliateId: affiliate.id,
-              amount: affiliate.pendingEarnings,
-              method: 'bank_transfer',
-              status: 'processing' // Auto-processing
-            }
-          });
-
-          // Try to create Stripe payout if we have Stripe configured
-          let stripePayoutId = null;
-          try {
-            // Note: Stripe Payouts API requires a connected account (Stripe Connect)
-            // For now, we'll create the payout record but mark it for manual review
-            // In production with Stripe Connect, you would do:
-            // const stripePayout = await stripe.payouts.create({
-            //   amount: Math.round(affiliate.pendingEarnings * 100), // Convert to cents
-            //   currency: 'eur',
-            //   method: 'standard',
-            //   destination: affiliate.stripeAccountId // If using Connect
-            // });
-            // stripePayoutId = stripePayout.id;
-            
-            console.log(`⚠️ Stripe Payout API requires Stripe Connect - payout created but needs manual processing`);
-          } catch (stripeError) {
-            console.error(`⚠️ Stripe payout creation failed: ${stripeError.message}`);
-          }
-
-          // Update payout with Stripe ID if available
-          if (stripePayoutId) {
-            await prisma.payout.update({
-              where: { id: payout.id },
-              data: { transactionId: stripePayoutId }
-            });
-          }
-
-          // Update affiliate - move pending to paid
-          await prisma.affiliate.update({
-            where: { id: affiliate.id },
-            data: {
-              pendingEarnings: 0,
-              paidEarnings: { increment: affiliate.pendingEarnings },
-              lastPayoutDate: new Date()
-            }
-          });
-
-          // Mark referral commissions as paid
-          await prisma.referral.updateMany({
-            where: {
-              affiliateId: affiliate.id,
-              commissionPaid: false
-            },
-            data: {
-              commissionPaid: true
-            }
-          });
-
-          console.log(`✅ Processed payout for ${affiliate.user.email}: €${affiliate.pendingEarnings.toFixed(2)}`);
-          processedCount++;
-          
-        } catch (error) {
-          console.error(`❌ Error processing payout for affiliate ${affiliate.user.email}:`, error);
-          failedCount++;
-        }
-      }
+      // NOTE: Monthly automatic payouts are disabled - affiliates must request payouts manually
+      // This function is kept for potential future Stripe Connect integration
+      console.log('💰 Automatic monthly payouts are disabled - affiliates must request payouts manually via dashboard');
 
       console.log(`💰 Monthly payout processing complete: ${processedCount} processed, ${failedCount} failed`);
 
