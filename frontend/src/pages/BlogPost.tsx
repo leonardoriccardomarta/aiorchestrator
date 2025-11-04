@@ -9,7 +9,7 @@ const POSTS: Record<string, any> = {
     author: 'AI Orchestrator Team',
     date: '2025-11-04',
     readTime: '8 min read',
-    heroGradient: 'from-slate-900 to-slate-800',
+    heroGradient: 'from-blue-50 to-indigo-50',
     coverImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=600&fit=crop',
     intro:
       'In 2025, AI chatbots have moved from simple FAQs to becoming strategic growth drivers. Here\'s how leading brands are using AI to boost revenue, cut support costs, and deliver 24/7 experiences customers love.',
@@ -70,19 +70,19 @@ const BlogPost: React.FC = () => {
       <LiveChatWidget />
 
       {/* Hero Section */}
-      <header className={`bg-gradient-to-br ${post.heroGradient} py-16 md:py-20 text-white relative overflow-hidden`}>
-        <div className="absolute inset-0 bg-black/10"></div>
+      <header className={`bg-gradient-to-br ${post.heroGradient} py-16 md:py-20 text-gray-900 relative overflow-hidden`}>
+        <div className="absolute inset-0 bg-white/20"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <button
             onClick={() => navigate('/blog')}
-            className="inline-flex items-center text-white/90 hover:text-white mb-6 transition-colors"
+            className="inline-flex items-center text-gray-700 hover:text-gray-900 mb-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-2" /> Back to Blog
           </button>
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-6">
             {post.title}
           </h1>
-          <div className="flex flex-wrap items-center text-white/90 gap-4 text-sm">
+          <div className="flex flex-wrap items-center text-gray-700 gap-4 text-sm">
             <div className="flex items-center">
               <User className="w-4 h-4 mr-2" /> {post.author}
             </div>
