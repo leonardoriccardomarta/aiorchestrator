@@ -474,12 +474,12 @@ Highly recommended for any e-commerce business looking to scale support efficien
 
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
-              <div className="relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border-2 border-gray-100 hover:border-purple-200">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
-                  <TrendingUp className="w-8 h-8 text-white" />
+              <div className="relative bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border-2 border-gray-100 hover:border-purple-200">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 shadow-lg">
+                  <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </div>
-                <div className="text-3xl font-bold mb-2 text-gray-900">2. Share</div>
-                <p className="text-gray-600 text-lg">
+                <div className="text-2xl sm:text-3xl font-bold mb-2 text-gray-900">2. Share</div>
+                <p className="text-sm sm:text-base md:text-lg text-gray-600">
                   Share your link on social media, blog, or directly with your network
                 </p>
               </div>
@@ -487,12 +487,12 @@ Highly recommended for any e-commerce business looking to scale support efficien
 
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-teal-600 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
-              <div className="relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border-2 border-gray-100 hover:border-green-200">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-teal-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
-                  <DollarSign className="w-8 h-8 text-white" />
+              <div className="relative bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border-2 border-gray-100 hover:border-green-200">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-green-600 to-teal-600 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 shadow-lg">
+                  <DollarSign className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </div>
-                <div className="text-3xl font-bold mb-2 text-gray-900">3. Earn</div>
-                <p className="text-gray-600 text-lg">
+                <div className="text-2xl sm:text-3xl font-bold mb-2 text-gray-900">3. Earn</div>
+                <p className="text-sm sm:text-base md:text-lg text-gray-600">
                   Get 50% commission on every sale. Paid on the 1st of each month via PayPal
                 </p>
               </div>
@@ -502,23 +502,23 @@ Highly recommended for any e-commerce business looking to scale support efficien
       </section>
 
       {/* Earning Potential */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-12 sm:py-16 md:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 px-2 sm:px-0">
               Your Earning Potential
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 px-4 sm:px-0">
               Based on our average plan price of €99/month
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-2xl shadow-lg border-2 border-blue-100 hover:shadow-2xl transition-all">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border-2 border-blue-100 hover:shadow-2xl transition-all">
               <div className="text-center">
-                <div className="text-lg font-semibold text-blue-600 mb-2">Starter</div>
-                <div className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">€150</div>
-                <div className="text-gray-600 mb-6">/month</div>
+                <div className="text-base sm:text-lg font-semibold text-blue-600 mb-2">Starter</div>
+                <div className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3 sm:mb-4">€150</div>
+                <div className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">/month</div>
                 <div className="space-y-3 text-left">
                   <div className="flex items-center gap-2">
                     <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
@@ -536,16 +536,16 @@ Highly recommended for any e-commerce business looking to scale support efficien
           </div>
         </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-xl border-2 border-blue-500 relative transform hover:scale-105 transition-all">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
+            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl border-2 border-blue-500 relative transform hover:scale-105 transition-all">
+              <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-blue-600 text-white px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-bold shadow-lg">
                   Most Popular
                 </span>
                 </div>
               <div className="text-center">
-                <div className="text-lg font-semibold text-blue-600 mb-2">Professional</div>
-                <div className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">€500</div>
-                <div className="text-gray-600 mb-6">/month</div>
+                <div className="text-base sm:text-lg font-semibold text-blue-600 mb-2">Professional</div>
+                <div className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3 sm:mb-4">€500</div>
+                <div className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">/month</div>
                 <div className="space-y-3 text-left">
                   <div className="flex items-center gap-2">
                     <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />

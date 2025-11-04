@@ -949,35 +949,35 @@ const LandingPageOptimized: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Bot className="w-5 h-5 text-white" />
+              <div className="flex items-center space-x-2 mb-3 sm:mb-4">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                 </div>
-                <span className="text-xl font-bold">AI Orchestrator</span>
+                <span className="text-lg sm:text-xl font-bold">AI Orchestrator</span>
               </div>
-              <p className="text-gray-400">
+              <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">
                 The most powerful AI chatbot platform for e-commerce businesses.
               </p>
             </div>
             
-            <div>
-              <h3 className="font-semibold text-white mb-4">Product</h3>
-              <ul className="space-y-2">
-                <li><a href="#features" className="text-gray-300 hover:text-white transition-colors">Features</a></li>
-                <li><a href="#pricing" className="text-gray-300 hover:text-white transition-colors">Pricing</a></li>
-                <li><a href="#demo" className="text-gray-300 hover:text-white transition-colors">Demo</a></li>
-                <li><a href="#testimonials" className="text-gray-300 hover:text-white transition-colors">Reviews</a></li>
+                        <div>
+              <h3 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4">Product</h3>
+              <ul className="space-y-1.5 sm:space-y-2">
+                <li><a href="#features" className="text-xs sm:text-sm text-gray-300 hover:text-white active:text-gray-100 transition-colors touch-manipulation block py-1">Features</a></li>
+                <li><a href="#pricing" className="text-xs sm:text-sm text-gray-300 hover:text-white active:text-gray-100 transition-colors touch-manipulation block py-1">Pricing</a></li>
+                <li><a href="#demo" className="text-xs sm:text-sm text-gray-300 hover:text-white active:text-gray-100 transition-colors touch-manipulation block py-1">Demo</a></li>
+                <li><a href="#testimonials" className="text-xs sm:text-sm text-gray-300 hover:text-white active:text-gray-100 transition-colors touch-manipulation block py-1">Reviews</a></li>
               </ul>
             </div>
-            
+
             {/* Company section removed per request */}
-            
+
             <div>
-              <h3 className="font-semibold text-white mb-4">Support</h3>
-              <ul className="space-y-2">
-                <li><a href="/contact" className="text-gray-300 hover:text-white transition-colors">Contact</a></li>
-                <li><a href="/privacy" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a></li>
-                <li><a href="/terms" className="text-gray-300 hover:text-white transition-colors">Terms of Service</a></li>
+              <h3 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4">Support</h3>
+              <ul className="space-y-1.5 sm:space-y-2">
+                <li><a href="/contact" className="text-xs sm:text-sm text-gray-300 hover:text-white active:text-gray-100 transition-colors touch-manipulation block py-1">Contact</a></li>
+                <li><a href="/privacy" className="text-xs sm:text-sm text-gray-300 hover:text-white active:text-gray-100 transition-colors touch-manipulation block py-1">Privacy Policy</a></li>
+                <li><a href="/terms" className="text-xs sm:text-sm text-gray-300 hover:text-white active:text-gray-100 transition-colors touch-manipulation block py-1">Terms of Service</a></li>
               </ul>
             </div>
             
