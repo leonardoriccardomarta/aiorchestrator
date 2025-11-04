@@ -344,36 +344,36 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSuccess,
           </ul>
         </div>
 
-        <Elements stripe={stripePromise} options={{
-          locale: 'en',
-          appearance: {
-            theme: 'stripe',
-            variables: {
-              colorPrimary: '#3b82f6',
-              colorBackground: '#ffffff',
-              colorText: '#1f2937',
-              colorDanger: '#dc2626',
-              fontFamily: 'Inter, system-ui, sans-serif',
-              spacingUnit: '4px',
-              borderRadius: '8px'
+      <Elements stripe={stripePromise} options={{
+        locale: 'en',
+        appearance: {
+          theme: 'stripe',
+          variables: {
+            colorPrimary: '#3b82f6',
+            colorBackground: '#ffffff',
+            colorText: '#1f2937',
+            colorDanger: '#dc2626',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            spacingUnit: '4px',
+            borderRadius: '8px'
+          },
+          rules: {
+            '.Input': {
+              color: '#1f2937',
+              fontSize: '16px'
             },
-            rules: {
-              '.Input': {
-                color: '#1f2937',
-                fontSize: '16px'
-              },
-              '.Label': {
-                color: '#374151',
-                fontSize: '14px'
-              }
+            '.Label': {
+              color: '#374151',
+              fontSize: '14px'
             }
           }
-        }}>
+        }
+      }}>
           <StripePaymentForm plan={plan} onSuccess={onSuccess} onClose={onClose} />
         </Elements>
-        
+
         <p className="text-xs text-center text-gray-500 mt-4">
-          Invoices will be sent to your email after each payment
+              Invoices will be sent to your email after each payment
         </p>
       </div>
     </div>

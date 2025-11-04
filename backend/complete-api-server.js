@@ -5038,9 +5038,9 @@ Keep responses concise (2-3 sentences) and engaging.`;
     const detectedLanguage = response.detectedLanguage || response.context?.detectedLanguage || 'en';
     console.log('🌍 Language detected by AI service:', detectedLanguage);
     
-    // Store conversation in real data service with ML insights
+        // Store conversation in real data service with ML insights
     console.log('💾 Storing conversation for user:', user.id);
-    const conversation = await realDataService.addConversation(user.id, {
+    const conversation = await realDataService.addConversation(user.id, {       
       message,
       response: response.response || response,
       language: context?.language || 'en',
@@ -5051,24 +5051,24 @@ Keep responses concise (2-3 sentences) and engaging.`;
       intent: mlAnalysis.intent,
       anomaly: mlAnalysis.anomaly
     });
-    console.log('✅ Conversation stored:', conversation ? 'success' : 'failed');
-    
+    console.log('✅ Conversation stored:', conversation ? 'success' : 'failed');                                                                               
+
     // Update user stats
     realDataService.updateUserStats(user.id, {
       lastUpdated: new Date()
     });
-    
+
     // Get product recommendations if e-commerce user
     let recommendations = null;
     if (mlAnalysis.intent.intent === 'product_inquiry') {
-      recommendations = await mlService.getRecommendations(user.id, context);
+      recommendations = await mlService.getRecommendations(user.id, context);   
     }
-    
+
     res.json({
       success: true,
-      response: typeof response === 'string' ? response : response.response,
-      data: typeof response === 'string' ? response : response.response,
-      conversationId: conversation.id,
+      response: typeof response === 'string' ? response : response.response,    
+      data: typeof response === 'string' ? response : response.response,        
+      conversationId: conversation?.id || null,
       responseTime: responseTime,
       timestamp: new Date().toISOString(),
       // ML Insights (only for Pro+ plans)
@@ -5674,29 +5674,37 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
     const nextBillingDate = new Date(updatedSubscription.current_period_end * 1000);
     console.log(`📅 Next billing date: ${nextBillingDate.toISOString()} ($${plan.price} for ${plan.name})`);
 
-    // Reset user statistics when changing plan
+        // Reset user statistics when changing plan
     try {
-      // Reset analytics data
+      console.log(`🔄 Resetting all data for user ${user.id} due to plan change to ${newPlanId}`);
+      
+      // Delete all chatbots
+      await prisma.chatbot.deleteMany({
+        where: { userId: user.id }
+      });
+      console.log(`✅ Chatbots deleted for user ${user.id}`);
+
+      // Delete all connections
+      await prisma.connection.deleteMany({
+        where: { userId: user.id }
+      });
+      console.log(`✅ Connections deleted for user ${user.id}`);
+
+      // Delete all analytics data
       await prisma.analytics.deleteMany({
         where: { userId: user.id }
       });
-      
-      // Reset conversation data
+      console.log(`✅ Analytics deleted for user ${user.id}`);
+
+      // Delete all conversation data
       await prisma.conversation.deleteMany({
         where: { userId: user.id }
       });
-      
-      // Reset chatbot data (keep chatbots but reset stats)
-      await prisma.chatbot.updateMany({
-        where: { userId: user.id },
-        data: {
-          lastActive: new Date()
-        }
-      });
-      
-      console.log(`Reset statistics for user ${user.id} due to plan change`);
+      console.log(`✅ Conversations deleted for user ${user.id}`);
+
+      console.log(`✅ All data reset completed for user ${user.id} due to plan change`);   
     } catch (error) {
-      console.error('Failed to reset user statistics:', error);
+      console.error('❌ Failed to reset user data:', error);
     }
 
     res.json({

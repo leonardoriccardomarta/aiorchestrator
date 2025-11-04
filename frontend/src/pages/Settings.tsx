@@ -229,8 +229,8 @@ const Settings: React.FC = () => {
       }
     } else {
       // Navigate to pricing page for trial/non-paid users
-      if (typeof window !== 'undefined' && window.location) {
-        window.location.href = '/pricing';
+    if (typeof window !== 'undefined' && window.location) {
+      window.location.href = '/pricing';
       }
     }
   };

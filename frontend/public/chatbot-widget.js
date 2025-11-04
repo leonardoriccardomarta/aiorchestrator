@@ -7,101 +7,101 @@
 
 console.log('🚀 AI Orchestrator Widget v4.0 - Shadow DOM Edition');
 
-// Function to clean escape characters
-const cleanEscapeChars = (text) => {
-return text.replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/\\\\/g, '\\');
-};
+  // Function to clean escape characters
+  const cleanEscapeChars = (text) => {
+    return text.replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+  };
 
-// Function to detect language from user message using AI
-const detectLanguage = async (message) => {
-const lowerMessage = message.toLowerCase().trim();
+  // Function to detect language from user message using AI
+  const detectLanguage = async (message) => {
+    const lowerMessage = message.toLowerCase().trim();
+    
+    // Skip very short messages that might be ambiguous
+    if (lowerMessage.length < 3) {
+      return null; // Don't change language for very short messages
+    }
+    
+    // Quick detection for common languages (fallback)
+    const quickDetect = () => {
+      // German indicators
+      if (lowerMessage.includes('hallo') || lowerMessage.includes('guten tag') || 
+          lowerMessage.includes('danke') || lowerMessage.includes('bitte') ||
+          lowerMessage.includes('welche') || lowerMessage.includes('haben') ||
+          lowerMessage.includes('produkte') || lowerMessage.includes('wie') ||
+          lowerMessage.includes('was') || lowerMessage.includes('wo')) {
+        return 'de';
+      }
+      
+      // Italian indicators
+      if (lowerMessage.includes('ciao') || lowerMessage.includes('buongiorno') ||
+          lowerMessage.includes('grazie') || lowerMessage.includes('prego') ||
+          lowerMessage.includes('quali') || lowerMessage.includes('avete') ||
+          lowerMessage.includes('prodotti') || lowerMessage.includes('come') ||
+          lowerMessage.includes('cosa') || lowerMessage.includes('dove')) {
+        return 'it';
+      }
+      
+      // Spanish indicators
+      if (lowerMessage.includes('hola') || lowerMessage.includes('buenos días') ||
+          lowerMessage.includes('gracias') || lowerMessage.includes('por favor') ||
+          lowerMessage.includes('qué') || lowerMessage.includes('tienen') ||
+          lowerMessage.includes('productos') || lowerMessage.includes('cómo') ||
+          lowerMessage.includes('dónde')) {
+        return 'es';
+      }
+      
+      // French indicators
+      if (lowerMessage.includes('bonjour') || lowerMessage.includes('salut') ||
+          lowerMessage.includes('merci') || lowerMessage.includes('s\'il vous plaît') ||
+          lowerMessage.includes('quels') || lowerMessage.includes('avez') ||
+          lowerMessage.includes('produits') || lowerMessage.includes('comment') ||
+          lowerMessage.includes('où')) {
+        return 'fr';
+      }
+      
+      // English indicators
+      if (lowerMessage.includes('hello') || lowerMessage.includes('hi') ||
+          lowerMessage.includes('thanks') || lowerMessage.includes('please') ||
+          lowerMessage.includes('what') || lowerMessage.includes('have') ||
+          lowerMessage.includes('products') || lowerMessage.includes('how') ||
+          lowerMessage.includes('where')) {
+        return 'en';
+      }
+      
+      return null;
+    };
+    
+    // Try quick detection first
+    const quickResult = quickDetect();
+    if (quickResult) {
+      return quickResult;
+    }
+    
+    // For other languages, use AI detection via backend
+    try {
+      const response = await fetch(`${config.apiKey}/api/detect-language`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.language) {
+          console.log(`🌍 AI detected language: ${data.language}`);
+          return data.language;
+        }
+      }
+    } catch (error) {
+      console.log('🌍 AI language detection failed, using fallback');
+    }
+    
+    // Fallback: return null to keep current language
+    return null;
+  };
 
-// Skip very short messages that might be ambiguous
-if (lowerMessage.length < 3) {
-return null; // Don't change language for very short messages
-}
-
-// Quick detection for common languages (fallback)
-const quickDetect = () => {
-// German indicators
-if (lowerMessage.includes('hallo') || lowerMessage.includes('guten tag') || 
-  lowerMessage.includes('danke') || lowerMessage.includes('bitte') ||
-  lowerMessage.includes('welche') || lowerMessage.includes('haben') ||
-  lowerMessage.includes('produkte') || lowerMessage.includes('wie') ||
-  lowerMessage.includes('was') || lowerMessage.includes('wo')) {
-return 'de';
-}
-
-// Italian indicators
-if (lowerMessage.includes('ciao') || lowerMessage.includes('buongiorno') ||
-  lowerMessage.includes('grazie') || lowerMessage.includes('prego') ||
-  lowerMessage.includes('quali') || lowerMessage.includes('avete') ||
-  lowerMessage.includes('prodotti') || lowerMessage.includes('come') ||
-  lowerMessage.includes('cosa') || lowerMessage.includes('dove')) {
-return 'it';
-}
-
-// Spanish indicators
-if (lowerMessage.includes('hola') || lowerMessage.includes('buenos días') ||
-  lowerMessage.includes('gracias') || lowerMessage.includes('por favor') ||
-  lowerMessage.includes('qué') || lowerMessage.includes('tienen') ||
-  lowerMessage.includes('productos') || lowerMessage.includes('cómo') ||
-  lowerMessage.includes('dónde')) {
-return 'es';
-}
-
-// French indicators
-if (lowerMessage.includes('bonjour') || lowerMessage.includes('salut') ||
-  lowerMessage.includes('merci') || lowerMessage.includes('s\'il vous plaît') ||
-  lowerMessage.includes('quels') || lowerMessage.includes('avez') ||
-  lowerMessage.includes('produits') || lowerMessage.includes('comment') ||
-  lowerMessage.includes('où')) {
-return 'fr';
-}
-
-// English indicators
-if (lowerMessage.includes('hello') || lowerMessage.includes('hi') ||
-  lowerMessage.includes('thanks') || lowerMessage.includes('please') ||
-  lowerMessage.includes('what') || lowerMessage.includes('have') ||
-  lowerMessage.includes('products') || lowerMessage.includes('how') ||
-  lowerMessage.includes('where')) {
-return 'en';
-}
-
-return null;
-};
-
-// Try quick detection first
-const quickResult = quickDetect();
-if (quickResult) {
-return quickResult;
-}
-
-// For other languages, use AI detection via backend
-try {
-const response = await fetch(`${config.apiKey}/api/detect-language`, {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ message })
-});
-
-if (response.ok) {
-const data = await response.json();
-if (data.success && data.language) {
-  console.log(`🌍 AI detected language: ${data.language}`);
-  return data.language;
-}
-}
-} catch (error) {
-console.log('🌍 AI language detection failed, using fallback');
-}
-
-// Fallback: return null to keep current language
-return null;
-};
-
-// Get configuration from script tag or global config
-function getConfig() {
+    // Get configuration from script tag or global config
+  function getConfig() {
 // PRIORITY 1: Check window.AIOrchestratorConfig (for Shopify and manual configs)
 if (window.AIOrchestratorConfig) {
 console.log('✅ Config loaded from window.AIOrchestratorConfig');
@@ -124,29 +124,29 @@ logo: window.AIOrchestratorConfig.logo
 }
 
 // PRIORITY 2: Try script tag data attributes
-const script = document.querySelector('script[data-chatbot-id]') || 
+    const script = document.querySelector('script[data-chatbot-id]') || 
          document.querySelector('script[data-ai-orchestrator-id]') ||
          document.querySelector('script[src*="shopify-widget-shadowdom"]');
-
-if (script) {
-const config = {
-chatbotId: script.dataset.chatbotId || script.dataset.aiOrchestratorId,
-apiKey: script.dataset.apiKey || 'https://aiorchestrator-vtihz.ondigitalocean.app',
-theme: script.dataset.theme || 'teal',
-title: script.dataset.title || 'AI Support',
-welcomeMessage: script.dataset.welcomeMessage || "Hi! I'm your AI support assistant. How can I help you today? 👋",
-placeholder: script.dataset.placeholder || 'Type your message...',
-showAvatar: script.dataset.showAvatar !== 'false',
-primaryLanguage: script.dataset.primaryLanguage || script.dataset['primary-language'] || 'en',
+    
+    if (script) {
+      const config = {
+        chatbotId: script.dataset.chatbotId || script.dataset.aiOrchestratorId,
+        apiKey: script.dataset.apiKey || 'https://aiorchestrator-vtihz.ondigitalocean.app',
+        theme: script.dataset.theme || 'teal',
+        title: script.dataset.title || 'AI Support',
+        welcomeMessage: script.dataset.welcomeMessage || "Hi! I'm your AI support assistant. How can I help you today? 👋",
+        placeholder: script.dataset.placeholder || 'Type your message...',
+        showAvatar: script.dataset.showAvatar !== 'false',
+        primaryLanguage: script.dataset.primaryLanguage || script.dataset['primary-language'] || 'en',
 autoOpen: script.dataset.autoOpen === 'true', // Default: false (chiuso)
 // Custom branding attributes (only fontFamily and logo; colors from theme)
 fontFamily: script.dataset.fontFamily || script.dataset['font-family'],
-logo: script.dataset.logo
-};
-
-console.log('✅ Config loaded from script tag:', config);
-return config;
-}
+        logo: script.dataset.logo
+      };
+      
+      console.log('✅ Config loaded from script tag:', config);
+      return config;
+  }
 
 console.error('❌ No configuration found');
 return null;
@@ -406,13 +406,13 @@ return null;
 }
 }
 
-// Initialize widget
+  // Initialize widget
 async function init() {
-const config = getConfig();
-if (!config) {
-console.error('❌ Widget initialization failed: No config');
-return;
-}
+    const config = getConfig();
+    if (!config) {
+      console.error('❌ Widget initialization failed: No config');
+      return;
+    }
 
 // Do not auto-load external fonts; use system fonts unless user provides fontFamily
 
@@ -475,7 +475,7 @@ const typingDotColor = '#9ca3af';
 // Starter (no custom): use system fonts to match live embed
 // Professional+: use provided custom font
 const customFontFamily = config.fontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
-const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
+    const widgetId = `ai-orchestrator-widget-${config.chatbotId}`;
 
 // ===== RUNTIME DEBUG: dump all inputs and computed styles =====
 try {
@@ -595,8 +595,8 @@ document.body.appendChild(shadowHost);
 const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
 
 // Complete widget HTML with ALL styles inline
-const widgetHTML = `
-<style>
+    const widgetHTML = `
+      <style>
 /* Reset all styles */
 :host {
   --ai-font: ${customFontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"};
@@ -611,27 +611,27 @@ const widgetHTML = `
 }
 .widget-root { font-family: var(--ai-font); }
 
-/* Toggle Button */
-.toggle-button {
-position: fixed;
-bottom: 24px;
-right: 24px;
-width: 60px;
-height: 60px;
+        /* Toggle Button */
+        .toggle-button {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 60px;
+            height: 60px;
 background: ${themeCSS.primary};
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
-cursor: pointer;
-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 z-index: 2147483647;
-border: none;
-}
+            border: none;
+        }
 
-.toggle-button:hover {
-transform: scale(1.05);
+        .toggle-button:hover {
+          transform: scale(1.05);
 box-shadow: ${hasCustomBranding ? `0 12px 40px ${brandingPrimary}40` : '0 12px 40px rgba(0, 0, 0, 0.3)'};
 }
 
@@ -651,23 +651,23 @@ background: #10B981;
 border-radius: 50%;
 border: 2px solid white;
 animation: pulse 2s infinite;
-}
+        }
 
-@keyframes pulse {
-0% { transform: scale(1); opacity: 1; }
-50% { transform: scale(1.2); opacity: 0.7; }
-100% { transform: scale(1); opacity: 1; }
-}
-
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.2); opacity: 0.7; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        
 /* Chat Widget */
 .chat-widget {
-position: fixed;
-bottom: 100px;
-right: 24px;
-width: 384px;
-height: 560px;
+          position: fixed;
+          bottom: 100px;
+          right: 24px;
+          width: 384px;
+          height: 560px;
 z-index: 2147483646;
-max-height: calc(100vh - 148px);
+          max-height: calc(100vh - 148px);
   font-family: var(--ai-font) !important;
 background: white;
 border-radius: 16px;
@@ -676,25 +676,25 @@ overflow: hidden;
 border: 1px solid #e5e7eb;
 display: flex;
 flex-direction: column;
-}
+        }
 
 .chat-widget.hidden {
-display: none !important;
-}
+          display: none !important;
+        }
 
 .chat-widget.collapsed {
-height: 64px !important;
-overflow: hidden !important;
-}
+          height: 64px !important;
+          overflow: hidden !important;
+        }
 
 .chat-widget.collapsed .messages-container {
-display: none !important;
-}
+          display: none !important;
+        }
 
 .chat-widget.collapsed .input-container {
-display: none !important;
-}
-
+          display: none !important;
+        }
+        
 /* Header */
 .chat-header {
 background: ${themeCSS.secondary};
@@ -958,157 +958,157 @@ height: 20px;
 transform: rotate(45deg);
 }
 
-/* 📱 MOBILE RESPONSIVE - Migliora leggibilità ma mantiene floating design */
-@media (max-width: 768px) {
-/* Toggle button leggermente più grande */
-.toggle-button {
-  width: 58px;
-  height: 58px;
-  bottom: 20px;
-  right: 20px;
-}
-
-/* Chat widget - mantiene floating ma ottimizzato */
+      /* 📱 MOBILE RESPONSIVE - Migliora leggibilità ma mantiene floating design */
+      @media (max-width: 768px) {
+        /* Toggle button leggermente più grande */
+        .toggle-button {
+          width: 58px;
+          height: 58px;
+          bottom: 20px;
+          right: 20px;
+        }
+        
+        /* Chat widget - mantiene floating ma ottimizzato */
 .chat-widget {
-  bottom: 90px;
-  right: 12px;
-  width: calc(100% - 24px);
-  max-width: 380px;
-  height: 450px;
-  max-height: calc(100vh - 140px);
-}
-
-/* Font più leggibili su mobile */
+          bottom: 90px;
+          right: 12px;
+          width: calc(100% - 24px);
+          max-width: 380px;
+          height: 450px;
+          max-height: calc(100vh - 140px);
+        }
+        
+        /* Font più leggibili su mobile */
 .message {
-  font-size: 15px !important;
-  line-height: 1.5 !important;
-}
-
+          font-size: 15px !important;
+          line-height: 1.5 !important;
+        }
+        
 .message-time {
   font-size: 11px !important;
-}
-
+        }
+        
 input {
-  font-size: 16px !important; /* Previene zoom su iOS */
-  padding: 12px 16px !important;
-}
-
+          font-size: 16px !important; /* Previene zoom su iOS */
+          padding: 12px 16px !important;
+        }
+        
 button {
-  min-height: 44px !important; /* iOS touch target size */
+          min-height: 44px !important; /* iOS touch target size */
   font-size: 15px !important;
-}
-
-/* Header più leggibile */
+        }
+        
+        /* Header più leggibile */
 .chat-header h3 {
-  font-size: 16px !important;
-}
+          font-size: 16px !important;
+        }
 
 .chat-header p {
   font-size: 13px !important;
 }
-}
-
-/* 📱 MOBILE SMALL (iPhone SE, etc.) */
-@media (max-width: 390px) {
-.toggle-button {
-  width: 54px;
-  height: 54px;
-  bottom: 16px;
-  right: 16px;
-}
-
+      }
+      
+      /* 📱 MOBILE SMALL (iPhone SE, etc.) */
+      @media (max-width: 390px) {
+        .toggle-button {
+          width: 54px;
+          height: 54px;
+          bottom: 16px;
+          right: 16px;
+        }
+        
 .chat-widget {
-  width: calc(100% - 16px);
-  right: 8px;
-  bottom: 80px;
-  height: 420px;
-  max-height: calc(100vh - 120px);
-}
-}
-</style>
+          width: calc(100% - 16px);
+          right: 8px;
+          bottom: 80px;
+          height: 420px;
+          max-height: calc(100vh - 120px);
+        }
+      }
+      </style>
 
 <div class="widget-root">
-<!-- Toggle Button -->
+      <!-- Toggle Button -->
 <div class="toggle-button" id="toggle">
 ${config.logo ? `
   <img src="${config.logo}" alt="Logo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;" />
 ` : `
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-  </svg>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+          </svg>
 `}
 <div class="online-dot"></div>
-</div>
+        </div>
 
-<!-- Chat Widget -->
+      <!-- Chat Widget -->
 <div class="chat-widget ${config.autoOpen ? '' : 'hidden'}" id="chat">
-<!-- Header -->
+        <!-- Header -->
 <div class="chat-header">
   <div class="chat-header-left">
-    ${config.showAvatar ? `
+            ${config.showAvatar ? `
       <div class="avatar">
         ${hasLogo ? `
           <img src="${config.logo}" alt="Logo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;" />
         ` : `
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-          </svg>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
         `}
-      </div>
-    ` : ''}
+              </div>
+            ` : ''}
     <div class="header-info">
       <div class="header-title">${config.title}</div>
       <div class="header-status">
         <div class="status-dot"></div>
-        <span>Online 24/7</span>
+                    <span>Online 24/7</span>
         ${config.primaryLanguage && config.primaryLanguage !== 'auto' ? `<span class="language-badge">${config.primaryLanguage.toUpperCase()}</span>` : ''}
-      </div>
-    </div>
-  </div>
+              </div>
+            </div>
+          </div>
   <div class="chat-header-right">
     <button class="header-button" id="minimize" title="Minimize">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
       </svg>
-    </button>
+            </button>
     <button class="header-button" id="close" title="Close">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
       </svg>
-    </button>
-  </div>
-</div>
-
-<!-- Messages -->
+            </button>
+          </div>
+          </div>
+          
+        <!-- Messages -->
 <div class="messages-container" id="messages">
   <div class="message bot">
   <div class="message-bubble">
       <div>${cleanEscapeChars(config.welcomeMessage)}</div>
       <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
-    </div>
-  </div>
-</div>
-
-<!-- Input -->
+              </div>
+            </div>
+          </div>
+          
+        <!-- Input -->
 <div class="input-container">
   <div class="input-row">
-    <input
-      type="text"
+          <input
+            type="text"
       class="message-input"
       id="input"
-      placeholder="${config.placeholder}"
-    />
+            placeholder="${config.placeholder}"
+          />
     <button class="send-button" id="send">
-      <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-      </svg>
-    </button>
-  </div>
+                <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+            </svg>
+          </button>
+            </div>
   ${config.logo ? '' : '<p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 0;">Powered by AI Orchestrator</p>'}
-</div>
-</div>
-</div>
-`;
+          </div>
+        </div>
+      </div>
+    `;
 
 shadowRoot.innerHTML = widgetHTML;
 
@@ -1121,41 +1121,41 @@ const sendBtn = shadowRoot.getElementById('send');
 const inputField = shadowRoot.getElementById('input');
 const messagesContainer = shadowRoot.getElementById('messages');
 
-let isOpen = config.autoOpen;
+        let isOpen = config.autoOpen;
 
-// Toggle button
-if (toggleBtn) {
-toggleBtn.addEventListener('click', () => {
-if (isOpen) {
-chatWidget.classList.add('hidden');
-isOpen = false;
-} else {
-chatWidget.classList.remove('hidden');
-isOpen = true;
-}
-});
-}
+      // Toggle button
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+          if (isOpen) {
+            chatWidget.classList.add('hidden');
+            isOpen = false;
+          } else {
+            chatWidget.classList.remove('hidden');
+            isOpen = true;
+          }
+        });
+      }
 
-// Minimize button
-if (minimizeBtn) {
-minimizeBtn.addEventListener('click', () => {
-chatWidget.classList.toggle('collapsed');
-});
-}
+      // Minimize button
+      if (minimizeBtn) {
+        minimizeBtn.addEventListener('click', () => {
+          chatWidget.classList.toggle('collapsed');
+        });
+      }
 
-// Close button
-if (closeBtn) {
-closeBtn.addEventListener('click', () => {
-chatWidget.classList.add('hidden');
-isOpen = false;
-});
-}
+      // Close button
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          chatWidget.classList.add('hidden');
+      isOpen = false;
+        });
+      }
 
-// Extract customer email from message
+  // Extract customer email from message
 const extractCustomerEmail = (message) => {
-const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
-const match = message.match(emailRegex);
-return match ? match[0] : null;
+    const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+    const match = message.match(emailRegex);
+    return match ? match[0] : null;
 };
 
 // Get translations for UI labels
@@ -1177,17 +1177,17 @@ hi: { productRecs: 'सिफारिशें', inStock: 'उपलब्ध',
 return translations[lang] || translations.en;
 };
 
-// Render Shopify Enhanced Features
+  // Render Shopify Enhanced Features
 const renderShopifyEnhancements = (enhancements, detectedLanguage = 'en', userPlan = null) => {
-let html = '';
+    let html = '';
 const t = getTranslations(detectedLanguage);
 
 // Check if Add to Cart is available in user's plan
 const canAddToCart = userPlan?.features?.addToCart === true;
-
-// Product Recommendations
-if (enhancements.recommendations && enhancements.recommendations.length > 0) {
-html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #0ea5e9;">';
+    
+    // Product Recommendations
+    if (enhancements.recommendations && enhancements.recommendations.length > 0) {
+      html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #0ea5e9;">';
 
 // Show personalization message if available
 if (enhancements.personalized && enhancements.personalizationReason) {
@@ -1195,7 +1195,7 @@ html += `<div style="font-size: 11px; color: #0369a1; margin-bottom: 8px; font-w
 }
 
 html += `<h4 style="margin: 0 0 8px 0; color: #0c4a6e; font-size: 14px; font-weight: 600;">🛍️ ${t.productRecs}</h4>`;
-enhancements.recommendations.forEach(product => {
+      enhancements.recommendations.forEach(product => {
 html += `<div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 6px; border: 1px solid #e0f2fe; position: relative;">`;
 
 // Personalized badge
@@ -1204,7 +1204,7 @@ if (product.personalizedScore) {
 }
 
 html += `<div style="font-weight: 600; color: #0c4a6e; margin-top: ${product.personalizedScore ? '20px' : '0'};">${product.title}</div>`;
-if (product.description) html += `<div style="font-size: 12px; color: #64748b; margin: 4px 0;">${product.description}</div>`;
+        if (product.description) html += `<div style="font-size: 12px; color: #64748b; margin: 4px 0;">${product.description}</div>`;
 if (product.reason) html += `<div style="font-size: 11px; color: #0369a1; margin: 4px 0; font-style: italic;">💡 ${product.reason}</div>`;
 html += `<div style="font-weight: 600; color: #059669; margin: 4px 0;">$${product.price} ${product.inStock ? '✅ ' + t.inStock : '❌ ' + t.outOfStock}</div>`;
 
@@ -1216,36 +1216,36 @@ if (canAddToCart) {
   html += `<button onclick="window.addToCartFromChat('${product.id}', '${product.variantId || product.id}')" style="flex: 1; padding: 6px 12px; background: #059669; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">🛒 ${t.addToCart}</button>`;
 }
 html += `</div>`;
-html += `</div>`;
-});
-html += '</div>';
-}
-
-// Order Tracking
-if (enhancements.order) {
-html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #22c55e;">';
+        html += `</div>`;
+      });
+      html += '</div>';
+    }
+    
+    // Order Tracking
+    if (enhancements.order) {
+      html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #22c55e;">';
 html += `<h4 style="margin: 0 0 8px 0; color: #166534; font-size: 14px; font-weight: 600;">📦 ${t.orderStatus}</h4>`;
-html += `<div style="font-weight: 600; color: #166534;">Order #${enhancements.order.name}</div>`;
+      html += `<div style="font-weight: 600; color: #166534;">Order #${enhancements.order.name}</div>`;
 html += `<div style="color: #16a34a; margin: 4px 0;">Status: ${enhancements.order.fulfillment_status || t.processing}</div>`;
-html += `<div style="font-size: 12px; color: #64748b;">Total: $${enhancements.order.total_price}</div>`;
-html += '</div>';
-}
-
-// Customer History
-if (enhancements.customerHistory) {
-html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #fefce8; border-radius: 8px; border-left: 4px solid #eab308;">';
+      html += `<div style="font-size: 12px; color: #64748b;">Total: $${enhancements.order.total_price}</div>`;
+      html += '</div>';
+    }
+    
+    // Customer History
+    if (enhancements.customerHistory) {
+      html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #fefce8; border-radius: 8px; border-left: 4px solid #eab308;">';
 html += `<h4 style="margin: 0 0 8px 0; color: #a16207; font-size: 14px; font-weight: 600;">👤 ${t.customerHistory}</h4>`;
 html += `<div style="color: #a16207;">${t.totalOrders}: ${enhancements.customerHistory.totalOrders || 0}</div>`;
 html += `<div style="color: #a16207;">${t.totalSpent}: $${enhancements.customerHistory.totalSpent || 0}</div>`;
-html += '</div>';
-}
-
+      html += '</div>';
+    }
+    
 // 🛒 Cart Action (Add to Cart confirmation)
 if (enhancements.cartAction) {
 html += '<div class="shopify-enhancements" style="margin-top: 12px; padding: 12px; background: #d1fae5; border-radius: 8px; border-left: 4px solid #059669;">';
 html += `<div style="color: #065f46; font-weight: 600;">${enhancements.cartAction.message || '✅ Added to cart!'}</div>`;
 html += '</div>';
-}
+  }
 
 // 💳 Checkout Guidance
 if (enhancements.checkoutGuidance) {
@@ -1292,63 +1292,63 @@ html += '</div>';
 return html;
 };
 
-// Render Universal Embed Features
+  // Render Universal Embed Features
 const renderEmbedEnhancements = (enhancements) => {
-let html = '';
-
-if (enhancements.websiteData) {
-html += '<div class="embed-enhancements" style="margin-top: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #6366f1;">';
-html += '<h4 style="margin: 0 0 8px 0; color: #4338ca; font-size: 14px; font-weight: 600;">🌐 Website Information</h4>';
-if (enhancements.websiteData.title) html += `<div style="font-weight: 600; color: #4338ca;">${enhancements.websiteData.title}</div>`;
-if (enhancements.websiteData.description) html += `<div style="font-size: 12px; color: #64748b; margin: 4px 0;">${enhancements.websiteData.description}</div>`;
-html += '</div>';
-}
-
-return html;
+    let html = '';
+    
+    if (enhancements.websiteData) {
+      html += '<div class="embed-enhancements" style="margin-top: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #6366f1;">';
+      html += '<h4 style="margin: 0 0 8px 0; color: #4338ca; font-size: 14px; font-weight: 600;">🌐 Website Information</h4>';
+      if (enhancements.websiteData.title) html += `<div style="font-weight: 600; color: #4338ca;">${enhancements.websiteData.title}</div>`;
+      if (enhancements.websiteData.description) html += `<div style="font-size: 12px; color: #64748b; margin: 4px 0;">${enhancements.websiteData.description}</div>`;
+      html += '</div>';
+    }
+    
+    return html;
 };
 
-// Render ML Analysis
+  // Render ML Analysis
 const renderMLAnalysis = (analysis) => {
-let html = '';
-
-if (analysis.sentiment) {
-const sentimentEmoji = analysis.sentiment === 'positive' ? '😊' : analysis.sentiment === 'negative' ? '😔' : '😐';
-html += '<div class="ml-analysis" style="margin-top: 12px; padding: 8px; background: #f1f5f9; border-radius: 6px; font-size: 12px; color: #475569;">';
-html += `${sentimentEmoji} Sentiment: ${analysis.sentiment}`;
-if (analysis.confidence) html += ` (${Math.round(analysis.confidence * 100)}% confidence)`;
-html += '</div>';
-}
-
-return html;
+    let html = '';
+    
+    if (analysis.sentiment) {
+      const sentimentEmoji = analysis.sentiment === 'positive' ? '😊' : analysis.sentiment === 'negative' ? '😔' : '😐';
+      html += '<div class="ml-analysis" style="margin-top: 12px; padding: 8px; background: #f1f5f9; border-radius: 6px; font-size: 12px; color: #475569;">';
+      html += `${sentimentEmoji} Sentiment: ${analysis.sentiment}`;
+      if (analysis.confidence) html += ` (${Math.round(analysis.confidence * 100)}% confidence)`;
+      html += '</div>';
+    }
+    
+    return html;
 };
 
-// Send message
-const sendMessage = async () => {
-const message = inputField.value.trim();
-if (!message) return;
+  // Send message
+      const sendMessage = async () => {
+        const message = inputField.value.trim();
+    if (!message) return;
 
-// Detect language from user message and update config if needed
-const detectedLang = await detectLanguage(message);
-if (detectedLang && detectedLang !== config.primaryLanguage) {
-console.log(`🌍 Language detected: ${detectedLang}, updating config from ${config.primaryLanguage}`);
-config.primaryLanguage = detectedLang;
-} else if (detectedLang === null) {
-console.log(`🌍 No clear language detected, keeping current: ${config.primaryLanguage}`);
-}
-
-// Add user message
+    // Detect language from user message and update config if needed
+    const detectedLang = await detectLanguage(message);
+    if (detectedLang && detectedLang !== config.primaryLanguage) {
+      console.log(`🌍 Language detected: ${detectedLang}, updating config from ${config.primaryLanguage}`);
+      config.primaryLanguage = detectedLang;
+    } else if (detectedLang === null) {
+      console.log(`🌍 No clear language detected, keeping current: ${config.primaryLanguage}`);
+    }
+    
+    // Add user message
 const userMessageDiv = document.createElement('div');
 userMessageDiv.className = 'message user';
 userMessageDiv.innerHTML = `
 <div class="message-bubble">
 <div>${message}</div>
 <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
-</div>
-`;
+      </div>
+    `;
 messagesContainer.appendChild(userMessageDiv);
-inputField.value = '';
+        inputField.value = '';
 
-// Add typing indicator
+        // Add typing indicator
 const typingDiv = document.createElement('div');
 typingDiv.className = 'message bot';
 typingDiv.id = 'typing';
@@ -1357,108 +1357,108 @@ typingDiv.innerHTML = `
 <div class="typing-dot"></div>
 <div class="typing-dot"></div>
 <div class="typing-dot"></div>
-</div>
-`;
+      </div>
+    `;
 messagesContainer.appendChild(typingDiv);
-messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-// Send to API
-try {
-const response = await fetch(`${config.apiKey}/api/chat`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ 
-    message,
-    context: {
-      chatbotId: config.chatbotId,
-      primaryLanguage: config.primaryLanguage, // Use detected language
+        // Send to API
+        try {
+          const response = await fetch(`${config.apiKey}/api/chat`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              message,
+              context: {
+                chatbotId: config.chatbotId,
+                primaryLanguage: config.primaryLanguage, // Use detected language
       connectionType: 'shopify',
       shopifyConnection: shopifyAccessToken ? {
         shop: window.location.hostname,
         accessToken: shopifyAccessToken
       } : null,
-      websiteUrl: window.location.origin,
-      customerEmail: extractCustomerEmail(message)
-    }
-  })
-});
+                websiteUrl: window.location.origin,
+                customerEmail: extractCustomerEmail(message)
+              }
+            })
+          });
 
-const data = await response.json();
-
-// Remove typing indicator
+          const data = await response.json();
+          
+          // Remove typing indicator
 const typingElement = shadowRoot.getElementById('typing');
 if (typingElement) typingElement.remove();
 
-// Check for trial expired or upgrade required
-if (response.status === 403 && (data.trialExpired || data.upgradeRequired)) {
-// Show trial expired message
+          // Check for trial expired or upgrade required
+          if (response.status === 403 && (data.trialExpired || data.upgradeRequired)) {
+            // Show trial expired message
 const trialExpiredDiv = document.createElement('div');
 trialExpiredDiv.className = 'message bot trial-expired';
 trialExpiredDiv.innerHTML = `
-  <div style="text-align: center; padding: 20px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; margin: 10px 0;">
-    <div style="font-size: 18px; font-weight: 600; color: #dc2626; margin-bottom: 10px;">
-      ⏰ Trial Expired
-    </div>
-    <div style="color: #7f1d1d; margin-bottom: 15px;">
-      ${data.error}
-    </div>
-    <a href="${data.upgradeUrl}" target="_blank" style="
-      display: inline-block;
-      background: #dc2626;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.2s;
-    " onmouseover="this.style.background='#b91c1c'" onmouseout="this.style.background='#dc2626'">
-      Upgrade Now
-    </a>
-  </div>
-`;
+                <div style="text-align: center; padding: 20px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; margin: 10px 0;">
+                  <div style="font-size: 18px; font-weight: 600; color: #dc2626; margin-bottom: 10px;">
+                    ⏰ Trial Expired
+                  </div>
+                  <div style="color: #7f1d1d; margin-bottom: 15px;">
+                    ${data.error}
+                  </div>
+                  <a href="${data.upgradeUrl}" target="_blank" style="
+                    display: inline-block;
+                    background: #dc2626;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 6px;
+                    text-decoration: none;
+                    font-weight: 600;
+                    transition: background 0.2s;
+                  " onmouseover="this.style.background='#b91c1c'" onmouseout="this.style.background='#dc2626'">
+                    Upgrade Now
+                  </a>
+              </div>
+            `;
 messagesContainer.appendChild(trialExpiredDiv);
-messagesContainer.scrollTop = messagesContainer.scrollHeight;
-return;
-}
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            return;
+          }
 
-// Check for message limit reached
-if (response.status === 429 && data.limitReached) {
-// Show message limit reached
+          // Check for message limit reached
+          if (response.status === 429 && data.limitReached) {
+            // Show message limit reached
 const limitReachedDiv = document.createElement('div');
 limitReachedDiv.className = 'message bot limit-reached';
 limitReachedDiv.innerHTML = `
-  <div style="text-align: center; padding: 20px; background: #fef3c7; border: 1px solid #fbbf24; border-radius: 8px; margin: 10px 0;">
-    <div style="font-size: 18px; font-weight: 600; color: #d97706; margin-bottom: 10px;">
-      📊 Monthly Limit Reached
-    </div>
-    <div style="color: #92400e; margin-bottom: 15px;">
-      ${data.error}
-    </div>
-    <div style="color: #92400e; font-size: 14px; margin-bottom: 15px;">
-      Used: ${data.currentUsage}/${data.limit} messages this month
-    </div>
-    <a href="/pricing" target="_blank" style="
-      display: inline-block;
-      background: #d97706;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.2s;
-    " onmouseover="this.style.background='#b45309'" onmouseout="this.style.background='#d97706'">
-      Upgrade Plan
-    </a>
-  </div>
-`;
+                <div style="text-align: center; padding: 20px; background: #fef3c7; border: 1px solid #fbbf24; border-radius: 8px; margin: 10px 0;">
+                  <div style="font-size: 18px; font-weight: 600; color: #d97706; margin-bottom: 10px;">
+                    📊 Monthly Limit Reached
+                  </div>
+                  <div style="color: #92400e; margin-bottom: 15px;">
+                    ${data.error}
+                  </div>
+                  <div style="color: #92400e; font-size: 14px; margin-bottom: 15px;">
+                    Used: ${data.currentUsage}/${data.limit} messages this month
+                  </div>
+                  <a href="/pricing" target="_blank" style="
+                    display: inline-block;
+                    background: #d97706;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 6px;
+                    text-decoration: none;
+                    font-weight: 600;
+                    transition: background 0.2s;
+                  " onmouseover="this.style.background='#b45309'" onmouseout="this.style.background='#d97706'">
+                    Upgrade Plan
+                  </a>
+              </div>
+            `;
 messagesContainer.appendChild(limitReachedDiv);
-messagesContainer.scrollTop = messagesContainer.scrollHeight;
-inputField.disabled = true;
-inputField.placeholder = 'Monthly limit reached - upgrade required';
-return;
-}
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            inputField.disabled = true;
+            inputField.placeholder = 'Monthly limit reached - upgrade required';
+            return;
+          }
 
-// Add AI response with enhanced features
+          // Add AI response with enhanced features
 const aiMessageDiv = document.createElement('div');
 aiMessageDiv.className = 'message bot';
 
@@ -1468,16 +1468,16 @@ let responseContent = data.response || 'Sorry, I couldn\'t process that.';
 if (data.personalization?.greeting) {
 responseContent = data.personalization.greeting.greeting + '<br><br>' + responseContent;
 }
-
-// Add Shopify Enhanced Features if available
-if (data.shopifyEnhancements) {
+          
+          // Add Shopify Enhanced Features if available
+          if (data.shopifyEnhancements) {
 // Detect language from AI response or use config
 const detectedLang = data.detectedLanguage || config.primaryLanguage || 'en';
 responseContent += renderShopifyEnhancements(data.shopifyEnhancements, detectedLang, data.userPlan);
-}
-
-// Add Universal Embed Features if available
-if (data.embedEnhancements) {
+          }
+          
+          // Add Universal Embed Features if available
+          if (data.embedEnhancements) {
 responseContent += renderEmbedEnhancements(data.embedEnhancements);
 }
 
@@ -1489,59 +1489,59 @@ responseContent += `<div style="margin-top: 12px; padding: 12px; background: lin
   <div style="font-weight: 600; margin-bottom: 4px;">🎁 ${t.specialOffer}</div>
   <div style="font-size: 13px;">${discount.message}</div>
 </div>`;
-}
-
-// Add ML Analysis if available
-if (data.mlAnalysis) {
+          }
+          
+          // Add ML Analysis if available
+          if (data.mlAnalysis) {
 responseContent += renderMLAnalysis(data.mlAnalysis);
-}
-
+          }
+          
 aiMessageDiv.innerHTML = `
 <div class="message-bubble">
   <div>${responseContent}</div>
   <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
-</div>
-`;
+            </div>
+          `;
 messagesContainer.appendChild(aiMessageDiv);
-messagesContainer.scrollTop = messagesContainer.scrollHeight;
-} catch (error) {
-console.error('❌ Message send error:', error);
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        } catch (error) {
+          console.error('❌ Message send error:', error);
 const typingElement = shadowRoot.getElementById('typing');
 if (typingElement) typingElement.remove();
-
+          
 const errorDiv = document.createElement('div');
 errorDiv.className = 'message bot';
 errorDiv.innerHTML = `
 <div class="message-bubble" style="background: #fef2f2; color: #7f1d1d; border-color: #fecaca;">
   <div>Sorry, there was an error. Please try again.</div>
   <div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
-</div>
-`;
+            </div>
+          `;
 messagesContainer.appendChild(errorDiv);
-messagesContainer.scrollTop = messagesContainer.scrollHeight;
-}
-};
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+      };
 
-if (sendBtn) {
-sendBtn.addEventListener('click', sendMessage);
-}
+      if (sendBtn) {
+        sendBtn.addEventListener('click', sendMessage);
+      }
 
-if (inputField) {
-inputField.addEventListener('keypress', (e) => {
-if (e.key === 'Enter') {
-sendMessage();
-}
-});
-}
+      if (inputField) {
+        inputField.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            sendMessage();
+          }
+        });
+      }
 
 console.log('✅ Widget initialized with Shadow DOM');
-}
+  }
 
-// Start when DOM is ready
-if (document.readyState === 'loading') {
-document.addEventListener('DOMContentLoaded', init);
-} else {
-init();
-}
+  // Start when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
 

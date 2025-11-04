@@ -512,14 +512,14 @@ const Dashboard: React.FC = () => {
               color="bg-gradient-to-r from-green-500 to-green-600"
               status="active"
             />
-            <QuickAction
+              <QuickAction
               title="Multi-Language Support"
               description="Auto-detect 50+ languages in your chatbot"
               icon={Globe}
               onClick={() => navigate('/chatbot')}
               color="bg-gradient-to-r from-teal-500 to-teal-600"
               status="active"
-            />
+              />
             {(user?.planId === 'professional' || user?.planId === 'business') && (
               <QuickAction
                 title="AI Insights"
@@ -531,14 +531,14 @@ const Dashboard: React.FC = () => {
               />
             )}
             {user?.planId === 'business' && (
-              <QuickAction
+            <QuickAction
                 title="Custom Branding"
                 description="Personalize your chatbot with custom colors and fonts"
                 icon={Layers}
-                onClick={() => navigate('/chatbot')}
+              onClick={() => navigate('/chatbot')}
                 color="bg-gradient-to-r from-purple-500 to-purple-600"
-                status="active"
-              />
+              status="active"
+            />
             )}
           </div>
         </div>

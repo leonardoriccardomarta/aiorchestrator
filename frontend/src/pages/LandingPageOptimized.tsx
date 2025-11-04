@@ -930,13 +930,13 @@ const LandingPageOptimized: React.FC = () => {
               <ArrowRight className="w-5 h-5 ml-2" />
             </button>
           ) : (
-            <button
-              onClick={handleGetStarted}
-              className="inline-flex items-center px-8 py-4 bg-white text-blue-600 text-lg font-semibold rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
-            >
-              Start Your Free Trial Today
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </button>
+          <button
+            onClick={handleGetStarted}
+            className="inline-flex items-center px-8 py-4 bg-white text-blue-600 text-lg font-semibold rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+          >
+            Start Your Free Trial Today
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </button>
           )}
         </div>
       </section>

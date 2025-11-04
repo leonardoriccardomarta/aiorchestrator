@@ -253,7 +253,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } catch (parseError) {
           console.error('❌ RefreshUser: Failed to parse cached data:', parseError);
           // Only clear data if cached data is also invalid
-          setUser(null);
+      setUser(null);
         }
       }
     }
@@ -395,13 +395,13 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Only redirect if on a protected route AND no auth data exists
       if (!isPublicRoute && !hasAuthData) {
         console.log('🔄 UserContext: No authenticated user on protected route, redirecting to landing');
-        // Clear any invalid data
-        localStorage.removeItem('user');
-        localStorage.removeItem('userData');
-        localStorage.removeItem('authToken');
-        setIsLoading(false);
+      // Clear any invalid data
+      localStorage.removeItem('user');
+      localStorage.removeItem('userData');
+      localStorage.removeItem('authToken');
+      setIsLoading(false);
         // Redirect to landing page
-        window.location.href = '/';
+      window.location.href = '/';
       } else {
         // On public route or has auth data, just set loading to false
         setIsLoading(false);

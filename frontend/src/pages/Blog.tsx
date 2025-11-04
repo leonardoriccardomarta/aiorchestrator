@@ -14,7 +14,7 @@ const Blog: React.FC = () => {
     return [
       { id: 'all', name: 'All Posts', count: blogPosts.length },
       { id: 'ai', name: 'AI & Machine Learning', count: counts['ai'] || 0 }
-    ];
+  ];
   }, []);
 
   const blogPosts = [

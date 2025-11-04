@@ -178,70 +178,70 @@ function getGradientFromTailwind(tailwindClass) {
 }
 
 const themeColors = {
-  blue: { 
+blue: {
     primary: 'from-blue-600 to-blue-700', 
     secondary: 'from-blue-50 to-blue-100', 
-    accent: '#2563eb', 
+accent: '#2563eb',
     text: '#1e3a8a', 
-    border: '#bfdbfe', 
-    userMessage: '#2563eb' 
-  },
-  purple: { 
+border: '#bfdbfe',
+userMessage: '#2563eb'
+},
+purple: {
     primary: 'from-purple-600 to-purple-700', 
     secondary: 'from-purple-50 to-purple-100', 
-    accent: '#7c3aed', 
+  accent: '#7c3aed',
     text: '#581c87', 
-    border: '#d8b4fe', 
-    userMessage: '#7c3aed' 
-  },
-  green: { 
+  border: '#d8b4fe',
+  userMessage: '#7c3aed'
+},
+green: {
     primary: 'from-green-600 to-green-700', 
     secondary: 'from-green-50 to-green-100', 
-    accent: '#059669', 
+  accent: '#059669',
     text: '#064e3b', 
-    border: '#bbf7d0', 
-    userMessage: '#059669' 
-  },
-  red: { 
+  border: '#bbf7d0',
+  userMessage: '#059669'
+},
+red: {
     primary: 'from-red-600 to-red-700', 
     secondary: 'from-red-50 to-red-100', 
-    accent: '#dc2626', 
+  accent: '#dc2626',
     text: '#7f1d1d', 
-    border: '#fecaca', 
-    userMessage: '#dc2626' 
-  },
-  orange: { 
+  border: '#fecaca',
+  userMessage: '#dc2626'
+},
+orange: {
     primary: 'from-orange-600 to-orange-700', 
     secondary: 'from-orange-50 to-orange-100', 
-    accent: '#ea580c', 
+  accent: '#ea580c',
     text: '#7c2d12', 
-    border: '#fed7aa', 
-    userMessage: '#ea580c' 
-  },
-  pink: { 
+  border: '#fed7aa',
+  userMessage: '#ea580c'
+},
+pink: {
     primary: 'from-pink-600 to-pink-700', 
     secondary: 'from-pink-50 to-pink-100', 
-    accent: '#db2777', 
+  accent: '#db2777',
     text: '#831843', 
-    border: '#fbcfe8', 
-    userMessage: '#db2777' 
-  },
-  indigo: { 
+  border: '#fbcfe8',
+  userMessage: '#db2777'
+},
+indigo: {
     primary: 'from-indigo-600 to-indigo-700', 
     secondary: 'from-indigo-50 to-indigo-100', 
-    accent: '#4f46e5', 
+  accent: '#4f46e5',
     text: '#312e81', 
-    border: '#c7d2fe', 
-    userMessage: '#4f46e5' 
-  },
-  teal: { 
+  border: '#c7d2fe',
+  userMessage: '#4f46e5'
+},
+teal: {
     primary: 'from-teal-600 to-teal-700', 
     secondary: 'from-teal-50 to-teal-100', 
-    accent: '#0d9488', 
+  accent: '#0d9488',
     text: '#134e4a', 
-    border: '#99f6e4', 
-    userMessage: '#0d9488' 
-  }
+  border: '#99f6e4',
+  userMessage: '#0d9488'
+}
 };
 
 // Show success message in chat
@@ -305,14 +305,14 @@ fetch('/cart.js')
 .then(r => r.json())
 .then(cart => {
   console.log('🛒 Current cart:', cart);
-        const cartCount = document.querySelector('.cart-count, [data-cart-count], .cart__count');
-        if (cartCount) {
-          cartCount.textContent = cart.item_count;
+  const cartCount = document.querySelector('.cart-count, [data-cart-count], .cart__count');
+  if (cartCount) {
+    cartCount.textContent = cart.item_count;
           if ('dataset' in cartCount) {
             cartCount.setAttribute('data-cart-count', String(cart.item_count));
           }
-          console.log('✅ Cart count updated:', cart.item_count);
-        }
+    console.log('✅ Cart count updated:', cart.item_count);
+  }
 
         // Dawn/OS2.0 badge bubble
         const bubble = document.querySelector('[data-cart-count-bubble]');
@@ -423,10 +423,10 @@ if (config.fontFamily) {
   const fontFamilyName = config.fontFamily;
   const existingLink = document.querySelector(`link[href*="${encodeURIComponent(fontFamilyName)}"]`);
   if (!existingLink) {
-    const link = document.createElement('link');
+      const link = document.createElement('link');
     link.rel = 'preconnect';
     link.href = 'https://fonts.googleapis.com';
-    document.head.appendChild(link);
+      document.head.appendChild(link);
     
     const link2 = document.createElement('link');
     link2.rel = 'preconnect';
