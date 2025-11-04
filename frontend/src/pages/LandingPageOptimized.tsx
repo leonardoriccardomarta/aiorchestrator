@@ -329,15 +329,15 @@ const LandingPageOptimized: React.FC = () => {
         isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
+          <div className="flex justify-between items-center py-3 sm:py-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Bot className="w-5 h-5 text-white" />
+              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">AI Orchestrator</span>
+              <span className="text-lg sm:text-xl font-bold text-gray-900">AI Orchestrator</span>
             </div>
             
-            <nav className="hidden md:flex items-center space-x-8">
+            <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
               <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">Features</a>
               <a href="#demo" className="text-gray-600 hover:text-gray-900 transition-colors">Demo</a>
               <a href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors">Pricing</a>
@@ -547,49 +547,51 @@ const LandingPageOptimized: React.FC = () => {
       )}
 
       {/* Hero Section */}
-      <section className="pt-20 pb-16 bg-gradient-to-br from-blue-50 to-indigo-100">
+      <section className="pt-16 pb-12 sm:pt-20 sm:pb-16 md:pt-24 md:pb-20 bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             {user ? (
               <>
-                <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-6">
+                <div className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-green-100 text-green-800 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6">
                   <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                  Welcome back, {user.name}! You're logged in
+                  <span className="hidden sm:inline">Welcome back, {user.name}! You're logged in</span>
+                  <span className="sm:hidden">Welcome back!</span>
                 </div>
-                <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight px-2 sm:px-0">
                   Ready to Build Your
                   <span className="text-blue-600"> AI Chatbot?</span>
                 </h1>
-                <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0">
                   Access your dashboard to create, customize, and deploy intelligent chatbots for your e-commerce store.
                 </p>
                 
-                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-4 sm:px-0">
                   <button
                     onClick={() => navigate('/dashboard')}
-                    className="inline-flex items-center px-8 py-4 bg-green-600 text-white text-lg font-semibold rounded-lg hover:bg-green-700 transition-colors shadow-lg"
+                    className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 bg-green-600 text-white text-base sm:text-lg font-semibold rounded-lg hover:bg-green-700 active:bg-green-800 transition-colors shadow-lg touch-manipulation"
                   >
                     Go to Dashboard
-                    <ArrowRight className="w-5 h-5 ml-2" />
+                    <ArrowRight className="w-5 h-5 ml-2 flex-shrink-0" />
                   </button>
                   <button
                     onClick={() => setShowDemo(true)}
-                    className="inline-flex items-center px-8 py-4 bg-white text-gray-900 text-lg font-semibold rounded-lg hover:bg-gray-50 transition-colors shadow-lg border border-gray-200"
+                    className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 bg-white text-gray-900 text-base sm:text-lg font-semibold rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-colors shadow-lg border border-gray-200 touch-manipulation"
                   >
-                    <Play className="w-5 h-5 mr-2" />
+                    <Play className="w-5 h-5 mr-2 flex-shrink-0" />
                     Try Live Demo
                   </button>
                 </div>
               </>
             ) : (
               <>
-                {/* Badge */}
-                <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-900 rounded-full text-sm font-semibold mb-6 border border-blue-200">
-                  <Zap className="w-4 h-4 mr-2 text-blue-600" />
-                  Multilingual AI | 50+ Languages | Fast Setup
+                                {/* Badge */}
+                <div className="inline-flex items-center flex-wrap justify-center gap-1 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-900 rounded-full text-xs sm:text-sm font-semibold mb-4 sm:mb-6 border border-blue-200 mx-2 sm:mx-0">
+                  <Zap className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-blue-600 flex-shrink-0" />
+                  <span className="hidden sm:inline">Multilingual AI | 50+ Languages | Fast Setup</span>
+                  <span className="sm:hidden">Multilingual AI • 50+ Languages</span>
                 </div>
-                
-                <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight px-2 sm:px-0">
                   AI Chatbots That
                   <span className="text-blue-600"> Actually Work</span>
                   <br />
@@ -597,57 +599,57 @@ const LandingPageOptimized: React.FC = () => {
                     In Any Language
                   </span>
                 </h1>
-                <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                  Turn every visitor into a customer with AI chatbots that speak your customers' language. 
+                <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0">
+                  Turn every visitor into a customer with AI chatbots that speak your customers' language.
                   Boost sales, reduce support workload, and provide 24/7 personalized assistance.
                 </p>
-                
-                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-4 sm:px-0">
                   <button
                     onClick={handleGetStarted}
-                    className="inline-flex items-center px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
+                    className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 text-white text-base sm:text-lg font-semibold rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors shadow-lg touch-manipulation"
                   >
                     Start 7-Day Free Trial
-                    <ArrowRight className="w-5 h-5 ml-2" />
+                    <ArrowRight className="w-5 h-5 ml-2 flex-shrink-0" />
                   </button>
                   <button
                     onClick={() => setShowDemo(true)}
-                    className="inline-flex items-center px-8 py-4 bg-white text-gray-900 text-lg font-semibold rounded-lg hover:bg-gray-50 transition-colors shadow-lg border border-gray-200"
+                    className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 bg-white text-gray-900 text-base sm:text-lg font-semibold rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-colors shadow-lg border border-gray-200 touch-manipulation"
                   >
-                    <Play className="w-5 h-5 mr-2" />
+                    <Play className="w-5 h-5 mr-2 flex-shrink-0" />
                     Try Live Demo
                   </button>
                 </div>
               </>
             )}
 
-            <div className="flex flex-col items-center justify-center space-y-4">
-              <div className="flex items-center justify-center space-x-8 text-sm text-gray-500">
+                        <div className="flex flex-col items-center justify-center space-y-4 sm:space-y-4 px-4 sm:px-0">
+              <div className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-8 gap-y-2 text-xs sm:text-sm text-gray-500">
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
                   No credit card required
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
                   Setup in 5 minutes
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
                   Cancel anytime
                 </div>
               </div>
-              
+
               {/* Trust Badges */}
-              <div className="flex items-center justify-center space-x-6 mt-8">
-                <div className="flex items-center space-x-2 text-sm text-gray-600 bg-white px-4 py-2 rounded-lg shadow-sm">
-                  <Shield className="w-5 h-5 text-blue-600" />
+              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mt-6 sm:mt-8 px-2 sm:px-0">
+                <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-600 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg shadow-sm">
+                  <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
                   <span>GDPR Compliant</span>
                 </div>
-                <div className="flex items-center space-x-2 text-sm text-gray-600 bg-white px-4 py-2 rounded-lg shadow-sm">
-                  <Zap className="w-5 h-5 text-purple-600" />
+                <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-600 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg shadow-sm">
+                  <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" />
                   <span>99.9% Uptime</span>
                 </div>
-                <div className="flex items-center space-x-2 text-sm text-gray-600 bg-white px-4 py-2 rounded-lg shadow-sm">
+                <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-600 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg shadow-sm">
                   <Bot className="w-5 h-5 text-green-600" />
                   <span>AI-Powered</span>
                 </div>
@@ -658,25 +660,25 @@ const LandingPageOptimized: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-white">
+      <section id="features" className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 px-2 sm:px-0">
               Everything You Need to Succeed
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto px-4 sm:px-0">
               Powerful features designed to help you create, manage, and optimize your AI chatbots
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="bg-white rounded-xl p-8 shadow-sm border border-gray-200 hover:shadow-lg transition-shadow">
-                <div className={`w-12 h-12 ${feature.color} rounded-lg flex items-center justify-center mb-4`}>
-                  {feature.icon}
+              <div key={index} className="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200 hover:shadow-lg transition-shadow">
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 ${feature.color} rounded-lg flex items-center justify-center mb-3 sm:mb-4`}>
+                  {React.cloneElement(feature.icon, { className: "w-5 h-5 sm:w-6 sm:h-6" })}
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3">{feature.title}</h3>
+                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -684,28 +686,28 @@ const LandingPageOptimized: React.FC = () => {
       </section>
 
       {/* Demo Section */}
-      <section id="demo" className="py-20 bg-gray-50">
+      <section id="demo" className="py-12 sm:py-16 md:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 px-2 sm:px-0">
               See It In Action
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto px-4 sm:px-0">
               Try our AI chatbot live. Ask about products, orders, or anything else!
             </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
-              <div className="bg-gray-100 px-6 py-4 border-b border-gray-200">
+              <div className="bg-gray-100 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
                 <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="ml-4 text-sm text-gray-600">AI Chatbot Demo</span>
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
+                  <span className="ml-3 sm:ml-4 text-xs sm:text-sm text-gray-600">AI Chatbot Demo</span>
                 </div>
               </div>
-              <div className="p-6">
+              <div className="p-4 sm:p-6">
                 <InteractiveDemo />
               </div>
             </div>
@@ -714,34 +716,34 @@ const LandingPageOptimized: React.FC = () => {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-20 bg-white">
+      <section id="testimonials" className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 px-2 sm:px-0">
               Loved by 10,000+ Businesses
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 px-4 sm:px-0">
               See what our customers are saying
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
-                <div className="flex items-center mb-4">
+              <div key={index} className="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200">
+                <div className="flex items-center mb-3 sm:mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                    <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-600 mb-6">"{testimonial.content}"</p>
+                <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 leading-relaxed">"{testimonial.content}"</p>
                 <div className="flex items-center">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-white font-bold text-sm">{testimonial.avatar}</span>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0">
+                    <span className="text-white font-bold text-xs sm:text-sm">{testimonial.avatar}</span>
                   </div>
-                  <div>
-                    <p className="font-semibold text-gray-900">{testimonial.name}</p>
-                    <p className="text-sm text-gray-600">{testimonial.role}</p>
-                    <p className="text-xs text-gray-500">{testimonial.company}</p>
+                  <div className="min-w-0">
+                    <p className="font-semibold text-sm sm:text-base text-gray-900 truncate">{testimonial.name}</p>
+                    <p className="text-xs sm:text-sm text-gray-600 truncate">{testimonial.role}</p>
+                    <p className="text-xs text-gray-500 truncate">{testimonial.company}</p>
                   </div>
                 </div>
               </div>
@@ -751,55 +753,55 @@ const LandingPageOptimized: React.FC = () => {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-20 bg-gray-50">
+      <section id="pricing" className="py-12 sm:py-16 md:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 px-2 sm:px-0">
               Simple, Transparent Pricing
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 px-4 sm:px-0">
               Start free, scale as you grow
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-5xl mx-auto">
             {/* Starter Plan */}
-            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Starter</h3>
-              <div className="mb-4">
-                <span className="text-4xl font-bold text-gray-900">$29</span>
-                <span className="text-gray-600">/month</span>
+            <div className="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Starter</h3>
+              <div className="mb-3 sm:mb-4">
+                <span className="text-3xl sm:text-4xl font-bold text-gray-900">$29</span>
+                <span className="text-sm sm:text-base text-gray-600">/month</span>
               </div>
-              <p className="text-gray-600 mb-6">Perfect for small businesses getting started</p>
-              <ul className="space-y-3 mb-6">
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">1 AI Chatbot</span>
+              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">Perfect for small businesses getting started</p>
+              <ul className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-gray-600">1 AI Chatbot</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">50+ Languages Support</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-gray-600">50+ Languages Support</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">Basic Analytics</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-gray-600">Basic Analytics</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">Email Support</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-gray-600">Email Support</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">5,000 messages/month</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-gray-600">5,000 messages/month</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">Basic Store Connections</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-gray-600">Basic Store Connections</span>
                 </li>
               </ul>
               <button
                 onClick={() => handleSelectPlan('starter')}
-                className={getButtonStyle('starter')}
+                className={`${getButtonStyle('starter')} min-h-[44px] w-full touch-manipulation`}
                 disabled={user?.planId === 'starter'}
               >
                 {getButtonText('starter')}
@@ -807,55 +809,55 @@ const LandingPageOptimized: React.FC = () => {
             </div>
 
             {/* Pro Plan */}
-            <div className="bg-blue-600 rounded-xl p-8 shadow-lg relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-yellow-400 text-yellow-900 px-4 py-1 rounded-full text-sm font-semibold">
+            <div className="bg-blue-600 rounded-xl p-6 sm:p-8 shadow-lg relative">
+              <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-yellow-400 text-yellow-900 px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-semibold">
                   Most Popular
                 </span>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Professional</h3>
-              <div className="mb-4">
-                <span className="text-4xl font-bold text-white">$99</span>
-                <span className="text-blue-200">/month</span>
+              <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Professional</h3>
+              <div className="mb-3 sm:mb-4">
+                <span className="text-3xl sm:text-4xl font-bold text-white">$99</span>
+                <span className="text-sm sm:text-base text-blue-200">/month</span>
               </div>
-              <p className="text-blue-200 mb-6">For growing businesses that need more power</p>
-              <ul className="space-y-3 mb-6">
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-400 mr-2" />
-                  <span className="text-white text-sm">2 AI Chatbots</span>
+              <p className="text-sm sm:text-base text-blue-200 mb-4 sm:mb-6">For growing businesses that need more power</p>
+              <ul className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-400 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-white">2 AI Chatbots</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-400 mr-2" />
-                  <span className="text-white text-sm">50+ Languages Support</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-400 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-white">50+ Languages Support</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-400 mr-2" />
-                  <span className="text-white text-sm">Advanced Analytics</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-400 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-white">Advanced Analytics</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-400 mr-2" />
-                  <span className="text-white text-sm">Priority Support</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-400 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-white">Priority Support</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-400 mr-2" />
-                  <span className="text-white text-sm">Custom Branding</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-400 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-white">Custom Branding</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-400 mr-2" />
-                  <span className="text-white text-sm">API Access</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-400 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-white">API Access</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-400 mr-2" />
-                  <span className="text-white text-sm">25,000 messages/month</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-400 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-white">25,000 messages/month</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-400 mr-2" />
-                  <span className="text-white text-sm">Advanced Store Connections</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-400 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-white">Advanced Store Connections</span>
                 </li>
               </ul>
               <button
                 onClick={() => handleSelectPlan('professional')}
-                className={getButtonStyle('professional')}
+                className={`${getButtonStyle('professional')} min-h-[44px] w-full touch-manipulation`}
                 disabled={user?.planId === 'professional'}
               >
                 {getButtonText('professional')}
@@ -863,46 +865,46 @@ const LandingPageOptimized: React.FC = () => {
             </div>
 
             {/* Business Plan */}
-            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Business</h3>
-              <div className="mb-4">
-                <span className="text-4xl font-bold text-gray-900">$299</span>
-                <span className="text-gray-600">/month</span>
+            <div className="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Business</h3>
+              <div className="mb-3 sm:mb-4">
+                <span className="text-3xl sm:text-4xl font-bold text-gray-900">$299</span>
+                <span className="text-sm sm:text-base text-gray-600">/month</span>
               </div>
-              <p className="text-gray-600 mb-6">Full e-commerce automation for serious businesses</p>
-              <ul className="space-y-3 mb-6">
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">3 AI Chatbots</span>
+              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">Full e-commerce automation for serious businesses</p>
+              <ul className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-gray-600">3 AI Chatbots</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">50+ Languages Support</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-gray-600">50+ Languages Support</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">Enterprise Analytics & ML</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-gray-600">Enterprise Analytics & ML</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">24/7 Dedicated Support</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-gray-600">24/7 Dedicated Support</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">White-label Solution</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-gray-600">White-label Solution</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">100,000 messages/month</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-gray-600">100,000 messages/month</span>
                 </li>
-                <li className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span className="text-gray-600 text-sm">3 Websites</span>
+                <li className="flex items-start sm:items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" />
+                  <span className="text-xs sm:text-sm text-gray-600">3 Websites</span>
                 </li>
               </ul>
               <button
                 onClick={() => handleSelectPlan('business')}
-                className={getButtonStyle('business')}
+                className={`${getButtonStyle('business')} min-h-[44px] w-full touch-manipulation`}
                 disabled={user?.planId === 'business'}
               >
                 {getButtonText('business')}
@@ -913,38 +915,39 @@ const LandingPageOptimized: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-600">
+      <section className="py-12 sm:py-16 md:py-20 bg-blue-600">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4 leading-tight">
             Ready to Transform Your Customer Support?
           </h2>
-          <p className="text-xl text-blue-200 mb-8">
+          <p className="text-base sm:text-lg md:text-xl text-blue-200 mb-6 sm:mb-8">
             Join thousands of businesses already using AI Orchestrator to increase sales and improve customer satisfaction.
           </p>
           {user && (user.planId === 'professional' || user.planId === 'business' || user.isPaid) ? (
             <button
               onClick={() => navigate('/dashboard')}
-              className="inline-flex items-center px-8 py-4 bg-white text-blue-600 text-lg font-semibold rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+              className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 bg-white text-blue-600 text-base sm:text-lg font-semibold rounded-lg hover:bg-gray-100 active:bg-gray-200 transition-colors shadow-lg touch-manipulation"
             >
               Go to Dashboard
-              <ArrowRight className="w-5 h-5 ml-2" />
+              <ArrowRight className="w-5 h-5 ml-2 flex-shrink-0" />
             </button>
           ) : (
           <button
             onClick={handleGetStarted}
-            className="inline-flex items-center px-8 py-4 bg-white text-blue-600 text-lg font-semibold rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+            className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 bg-white text-blue-600 text-base sm:text-lg font-semibold rounded-lg hover:bg-gray-100 active:bg-gray-200 transition-colors shadow-lg touch-manipulation"
           >
-            Start Your Free Trial Today
-            <ArrowRight className="w-5 h-5 ml-2" />
+            <span className="hidden sm:inline">Start Your Free Trial Today</span>
+            <span className="sm:hidden">Start Free Trial</span>
+            <ArrowRight className="w-5 h-5 ml-2 flex-shrink-0" />
           </button>
           )}
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 text-white py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
