@@ -362,56 +362,58 @@ Highly recommended for any e-commerce business looking to scale support efficien
         }
       `}</style>
       {/* Header - Same as landing */}
-      <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50 transition-all">
+            <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50 transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3 cursor-pointer" onClick={() => navigate('/')}>
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center transform hover:scale-105 transition-transform">
-                <Bot className="w-5 h-5 text-white" />
+          <div className="flex items-center justify-between h-14 sm:h-16">
+            <div className="flex items-center space-x-2 sm:space-x-3 cursor-pointer" onClick={() => navigate('/')}>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center transform hover:scale-105 transition-transform flex-shrink-0">
+                <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
-              <span className="text-xl font-bold text-gray-900">AI Orchestrator</span>
+              <span className="text-lg sm:text-xl font-bold text-gray-900">AI Orchestrator</span>
             </div>
-            
+
             <button
               onClick={() => navigate('/')}
-              className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all font-semibold shadow-lg shadow-blue-500/30"
+              className="px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 active:from-blue-800 active:to-purple-800 transition-all font-semibold shadow-lg shadow-blue-500/30 text-sm sm:text-base min-h-[44px] touch-manipulation"
             >
-              Back to Home
+              <span className="hidden sm:inline">Back to Home</span>
+              <span className="sm:hidden">Home</span>
             </button>
           </div>
           </div>
       </header>
 
       {/* Spacer for fixed header */}
-      <div className="h-16"></div>
+      <div className="h-14 sm:h-16"></div>
 
       {/* Hero Section - Same style as landing */}
-      <section className="pt-20 pb-16 bg-gradient-to-br from-blue-50 to-indigo-100">
+      <section className="pt-16 sm:pt-20 pb-12 sm:pb-16 bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-900 rounded-full text-sm font-semibold mb-6 border border-blue-200">
-              <Gift className="w-4 h-4 mr-2 text-blue-600" />
-              Paid on the 1st of Every Month
+            <div className="inline-flex items-center flex-wrap justify-center gap-1 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-900 rounded-full text-xs sm:text-sm font-semibold mb-4 sm:mb-6 border border-blue-200 mx-2 sm:mx-0">
+              <Gift className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-blue-600 flex-shrink-0" />
+              <span className="hidden sm:inline">Paid on the 1st of Every Month</span>
+              <span className="sm:hidden">Request payouts anytime</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight px-2 sm:px-0">
               Earn 50% Commission
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">On Every Sale!</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0">
               Join our affiliate program and earn up to €500+ per month by referring customers to AI Orchestrator
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0">
               <button
                 onClick={handleGetStarted}
-                className="inline-flex items-center px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
+                className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 text-white text-base sm:text-lg font-semibold rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors shadow-lg touch-manipulation"
               >
                 Get Started
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-5 h-5 ml-2 flex-shrink-0" />
               </button>
               <button
                 onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
-                className="inline-flex items-center px-8 py-4 bg-white text-gray-900 text-lg font-semibold rounded-lg hover:bg-gray-50 transition-colors shadow-lg border border-gray-200"
+                className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 bg-white text-gray-900 text-base sm:text-lg font-semibold rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-colors shadow-lg border border-gray-200 touch-manipulation"
               >
                 Learn More
           </button>
@@ -421,50 +423,50 @@ Highly recommended for any e-commerce business looking to scale support efficien
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white border-t border-gray-100">
+      <section className="py-12 sm:py-16 bg-white border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center bg-gray-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
-              <div className="text-5xl font-bold text-blue-600 mb-2">50%</div>
-              <div className="text-gray-600 font-medium">Commission Rate</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
+            <div className="text-center bg-gray-50 p-4 sm:p-6 rounded-xl hover:shadow-lg transition-shadow">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-600 mb-1 sm:mb-2">50%</div>
+              <div className="text-xs sm:text-sm md:text-base text-gray-600 font-medium">Commission Rate</div>
           </div>
-            <div className="text-center bg-gray-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
-              <div className="text-5xl font-bold text-blue-600 mb-2">€50</div>
-              <div className="text-gray-600 font-medium">Minimum Payout</div>
+            <div className="text-center bg-gray-50 p-4 sm:p-6 rounded-xl hover:shadow-lg transition-shadow">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-600 mb-1 sm:mb-2">€50</div>
+              <div className="text-xs sm:text-sm md:text-base text-gray-600 font-medium">Minimum Payout</div>
           </div>
-            <div className="text-center bg-gray-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
-              <div className="text-5xl font-bold text-blue-600 mb-2">30 days</div>
-              <div className="text-gray-600 font-medium">Cookie Duration</div>
+            <div className="text-center bg-gray-50 p-4 sm:p-6 rounded-xl hover:shadow-lg transition-shadow">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-600 mb-1 sm:mb-2">30 days</div>
+              <div className="text-xs sm:text-sm md:text-base text-gray-600 font-medium">Cookie Duration</div>
         </div>
-            <div className="text-center bg-gray-50 p-6 rounded-xl hover:shadow-lg transition-shadow">
-              <div className="text-5xl font-bold text-blue-600 mb-2">1st</div>
-              <div className="text-gray-600 font-medium">Monthly Payout Day</div>
+            <div className="text-center bg-gray-50 p-4 sm:p-6 rounded-xl hover:shadow-lg transition-shadow">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-600 mb-1 sm:mb-2">1st</div>
+              <div className="text-xs sm:text-sm md:text-base text-gray-600 font-medium">Monthly Payout Day</div>
         </div>
       </div>
         </div>
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-20 bg-white">
+      <section id="how-it-works" className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-10 sm:mb-12 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 px-2 sm:px-0">
               How It Works
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto px-4 sm:px-0">
               Start earning in 3 simple steps
             </p>
                 </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
-              <div className="relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border-2 border-gray-100 hover:border-blue-200">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
-                  <Users className="w-8 h-8 text-white" />
+              <div className="relative bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border-2 border-gray-100 hover:border-blue-200">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 shadow-lg">
+                  <Users className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </div>
-                <div className="text-3xl font-bold mb-2 text-gray-900">1. Sign Up</div>
-                <p className="text-gray-600 text-lg">
+                <div className="text-2xl sm:text-3xl font-bold mb-2 text-gray-900">1. Sign Up</div>
+                <p className="text-sm sm:text-base md:text-lg text-gray-600">
                   Create your free account and get your unique referral link instantly
                 </p>
               </div>
