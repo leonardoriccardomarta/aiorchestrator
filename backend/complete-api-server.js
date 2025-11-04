@@ -6079,15 +6079,25 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
       });
     }
 
-    if (user.planId === newPlanId) {
-      return res.status(400).json({
-        success: false,
-        error: 'Already on this plan'
-      });
-    }
+          if (user.planId === newPlanId) {
+        return res.status(400).json({
+          success: false,
+          error: 'Already on this plan'
+        });
+      }
 
-    // Get or create Stripe customer
-    let customer;
+      // DELETE ALL CHATBOTS AND CONNECTIONS when changing plan
+      console.log(`🗑️ Deleting all chatbots and connections for user ${user.id} due to plan change from ${user.planId} to ${newPlanId}`);
+      await prisma.chatbot.deleteMany({
+        where: { userId: user.id }
+      });
+      await prisma.connection.deleteMany({
+        where: { userId: user.id }
+      });
+      console.log(`✅ All chatbots and connections deleted for user ${user.id}`);
+
+      // Get or create Stripe customer
+      let customer;
     const customers = await stripe.customers.list({
       email: user.email,
       limit: 1
