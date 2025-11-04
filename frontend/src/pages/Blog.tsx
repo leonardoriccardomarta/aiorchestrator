@@ -25,6 +25,28 @@ const Blog: React.FC = () => {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
+  // Auto-check for new articles when page loads
+  useEffect(() => {
+    const checkNewArticles = async () => {
+      try {
+        const API_URL = import.meta.env.VITE_API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app';
+        await fetch(`${API_URL}/api/blog/check-new-articles`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ articles: blogPosts })
+        });
+      } catch (error) {
+        console.error('Failed to check new articles:', error);
+        // Silent fail - don't disturb user experience
+      }
+    };
+
+    // Only check once when component mounts
+    checkNewArticles();
+  }, []); // Empty dependency array - only run once
+
   const tags = useMemo(() => {
     const counts: Record<string, number> = {};
     blogPosts.forEach(p => p.tags.forEach(t => { counts[t] = (counts[t] || 0) + 1; }));

@@ -2833,6 +2833,9 @@ app.use('/api/affiliate', affiliateRoutes);
 // Store newsletter subscribers (in production, use database)
 let newsletterSubscribers = new Set();
 
+// Store blog posts that have already been notified (slug -> date notified)
+let notifiedBlogPosts = new Map();
+
 // Subscribe to newsletter
 app.post('/api/newsletter/subscribe', async (req, res) => {
   try {
@@ -2861,7 +2864,180 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
   }
 });
 
-// Notify subscribers about new blog post
+// Check and notify about new blog posts automatically
+app.post('/api/blog/check-new-articles', async (req, res) => {
+  try {
+    const { articles } = req.body;
+
+    if (!articles || !Array.isArray(articles)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Articles array is required'
+      });
+    }
+
+    const newArticles = articles.filter(article => {
+      // Check if article was already notified
+      const wasNotified = notifiedBlogPosts.has(article.slug);
+      // Also check if article date is recent (within last 7 days) to avoid notifying old articles
+      const articleDate = new Date(article.date);
+      const daysSincePublication = (Date.now() - articleDate.getTime()) / (1000 * 60 * 60 * 24);
+      const isRecent = daysSincePublication <= 7;
+
+      return !wasNotified && isRecent;
+    });
+
+    if (newArticles.length === 0) {
+      return res.json({
+        success: true,
+        message: 'No new articles to notify',
+        notified: 0
+      });
+    }
+
+    const frontendUrl = process.env.FRONTEND_URL || 'https://www.aiorchestrator.dev';
+    const subscribersArray = Array.from(newsletterSubscribers);
+
+    if (subscribersArray.length === 0) {
+      // Mark as notified even if no subscribers
+      newArticles.forEach(article => {
+        notifiedBlogPosts.set(article.slug, new Date().toISOString());
+      });
+
+      return res.json({
+        success: true,
+        message: 'No subscribers to notify',
+        notified: 0,
+        articlesFound: newArticles.length
+      });
+    }
+
+    console.log(`📧 Found ${newArticles.length} new article(s), sending notifications to ${subscribersArray.length} subscribers`);
+
+    let totalSent = 0;
+    let totalFailed = 0;
+
+    // Send notification for each new article
+    for (const article of newArticles) {
+      const blogPostUrl = `${frontendUrl}/blog/${article.slug}`;
+      let articleSent = 0;
+      let articleFailed = 0;
+
+      for (const email of subscribersArray) {
+        try {
+          await emailService.sendEmail(
+            email,
+            `New Blog Post: ${article.title}`,
+            `
+              <!DOCTYPE html>
+              <html>
+              <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>New Blog Post</title>
+                <style>
+                  body {
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+                    line-height: 1.6;
+                    color: #1F2937;
+                    background-color: #F9FAFB;
+                  }
+                  .container {
+                    max-width: 600px;
+                    margin: 40px auto;
+                    background: white;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                  }
+                  .header {
+                    background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+                    padding: 40px 30px;
+                    text-align: center;
+                    color: white;
+                  }
+                  .header h1 {
+                    margin: 0;
+                    font-size: 28px;
+                    font-weight: 700;
+                  }
+                  .content {
+                    padding: 30px;
+                  }
+                  .button {
+                    display: inline-block;
+                    background: linear-gradient(135deg, #2563EB, #7C3AED);
+                    color: white;
+                    padding: 14px 28px;
+                    text-decoration: none;
+                    border-radius: 8px;
+                    margin: 20px 0;
+                    font-weight: 600;
+                  }
+                  .footer {
+                    background: #F9FAFB;
+                    padding: 20px;
+                    text-align: center;
+                    color: #6B7280;
+                    font-size: 14px;
+                  }
+                </style>
+              </head>
+              <body>
+                <div class="container">
+                  <div class="header">
+                    <h1>📝 New Blog Post Published</h1>
+                  </div>
+                  <div class="content">
+                    <h2 style="color: #1F2937; margin-top: 0;">${article.title}</h2>
+                    ${article.excerpt ? `<p style="color: #6B7280; font-size: 16px;">${article.excerpt}</p>` : ''}
+                    <a href="${blogPostUrl}" class="button">Read Article</a>
+                    <p style="color: #6B7280; margin-top: 20px;">
+                      <a href="${frontendUrl}/blog" style="color: #2563EB;">View all blog posts</a>
+                    </p>
+                  </div>
+                  <div class="footer">
+                    <p>You're receiving this because you subscribed to our newsletter.</p>
+                    <p style="margin: 5px 0;">© 2025 AI Orchestrator. All rights reserved.</p>
+                  </div>
+                </div>
+              </body>
+              </html>
+            `
+          );
+          articleSent++;
+          totalSent++;
+        } catch (error) {
+          console.error(`❌ Failed to send to ${email}:`, error.message);
+          articleFailed++;
+          totalFailed++;
+        }
+      }
+
+      // Mark article as notified
+      notifiedBlogPosts.set(article.slug, new Date().toISOString());
+      console.log(`✅ Article "${article.title}": ${articleSent} sent, ${articleFailed} failed`);
+    }
+
+    console.log(`✅ Auto-notification completed: ${totalSent} total emails sent, ${totalFailed} failed`);
+
+    res.json({
+      success: true,
+      message: `Notifications sent for ${newArticles.length} new article(s)`,
+      articlesNotified: newArticles.length,
+      totalSent,
+      totalFailed
+    });
+  } catch (error) {
+    console.error('❌ Auto-check articles error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to check articles'
+    });
+  }
+});
+
+// Manual notify endpoint (for backwards compatibility)
 app.post('/api/blog/notify', async (req, res) => {
   try {
     const { title, slug, excerpt } = req.body;
