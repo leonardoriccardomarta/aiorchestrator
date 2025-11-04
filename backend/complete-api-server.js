@@ -665,16 +665,16 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
         <!-- Input -->
         <div class="p-4 bg-white border-t border-gray-200">
             <div class="flex gap-2 mb-2">
-          <input
-            type="text"
-            placeholder="${placeholder || 'Type your message...'}"
+                <input
+                    type="text"
+                    placeholder="${placeholder || 'Type your message...'}"
                 class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-              <button class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
-                <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-            </svg>
-          </button>
+                />
+                <button class="${themeColors.accent} text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all">
+                    <svg class="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </button>
             </div>
             <p class="text-xs text-gray-400 text-center">Powered by AI Orchestrator</p>
         </div>
@@ -3149,7 +3149,7 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
         }
         
         messageTrend.push({
-          hour: i,
+      hour: i,
           messages: hourMessages,
           revenue: hourRevenue
         });
@@ -3267,7 +3267,7 @@ app.get('/api/analytics', authenticateToken, async (req, res) => {
         satisfactionScore: chatbotPerformance.length > 0
           ? parseFloat((chatbotPerformance.reduce((sum, p) => sum + (p.satisfaction / 20), 0) / chatbotPerformance.length).toFixed(1)) // Convert 0-100 to 1-5
           : 0,
-        revenue: monthlyRevenue,
+      revenue: monthlyRevenue,
         growthRate: 0 // Growth rate would require historical comparison
       },
       messages: {
@@ -4614,12 +4614,12 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
         
         // Check if user is blocked (account disabled)
         if (!user.isActive) {
-          return res.status(403).json({
-            success: false,
+      return res.status(403).json({
+        success: false,
             error: 'Your account has been disabled. Please contact support.',
             accountDisabled: true
-          });
-        }
+      });
+    }
         
         // Check if trial has expired or subscription cancelled
         if (user.isTrialActive && user.trialEndDate) {
@@ -4955,7 +4955,7 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
     // BUSINESS CONTEXT
     console.log(`🔍 Context check: user.id=${user.id}, connectionType=${context.connectionType}, websiteUrl=${context.websiteUrl}`);
     
-        if (user.id === 'demo-user' && (context.websiteUrl === 'null' || context.websiteUrl === 'file://' || !context.connectionType)) {                            
+    if (user.id === 'demo-user' && (context.websiteUrl === 'null' || context.websiteUrl === 'file://' || !context.connectionType)) {
       console.log(`🎯 Using DEMO mode system prompt`);
       systemPrompt += `You are an AI assistant for AI Orchestrator, an AI chatbot platform for businesses.
 
@@ -5083,9 +5083,9 @@ Keep responses concise (2-3 sentences) and engaging.`;
     const detectedLanguage = response.detectedLanguage || response.context?.detectedLanguage || 'en';
     console.log('🌍 Language detected by AI service:', detectedLanguage);
     
-        // Store conversation in real data service with ML insights
+    // Store conversation in real data service with ML insights
     console.log('💾 Storing conversation for user:', user.id);
-    const conversation = await realDataService.addConversation(user.id, {       
+    const conversation = await realDataService.addConversation(user.id, {
       message,
       response: response.response || response,
       language: context?.language || 'en',
@@ -5096,23 +5096,23 @@ Keep responses concise (2-3 sentences) and engaging.`;
       intent: mlAnalysis.intent,
       anomaly: mlAnalysis.anomaly
     });
-    console.log('✅ Conversation stored:', conversation ? 'success' : 'failed');                                                                               
-
+    console.log('✅ Conversation stored:', conversation ? 'success' : 'failed');
+    
     // Update user stats
     realDataService.updateUserStats(user.id, {
       lastUpdated: new Date()
     });
-
+    
     // Get product recommendations if e-commerce user
     let recommendations = null;
     if (mlAnalysis.intent.intent === 'product_inquiry') {
-      recommendations = await mlService.getRecommendations(user.id, context);   
+      recommendations = await mlService.getRecommendations(user.id, context);
     }
-
+    
     res.json({
       success: true,
-      response: typeof response === 'string' ? response : response.response,    
-      data: typeof response === 'string' ? response : response.response,        
+      response: typeof response === 'string' ? response : response.response,
+      data: typeof response === 'string' ? response : response.response,
       conversationId: conversation?.id || null,
       responseTime: responseTime,
       timestamp: new Date().toISOString(),
@@ -5395,9 +5395,9 @@ app.post('/api/user/reset-stats', authenticateToken, async (req, res) => {
     const chatbotIds = userChatbots.map(c => c.id);
     
     if (chatbotIds.length > 0) {
-      await prisma.conversation.deleteMany({
+    await prisma.conversation.deleteMany({
         where: { chatbotId: { in: chatbotIds } }
-      });
+    });
     }
     console.log('✅ Conversations reset');
     
@@ -5719,7 +5719,7 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
     const nextBillingDate = new Date(updatedSubscription.current_period_end * 1000);
     console.log(`📅 Next billing date: ${nextBillingDate.toISOString()} ($${plan.price} for ${plan.name})`);
 
-        // Reset user statistics when changing plan
+    // Reset user statistics when changing plan
     try {
       console.log(`🔄 Resetting all data for user ${user.id} due to plan change to ${newPlanId}`);
       
@@ -5728,13 +5728,13 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
         where: { userId: user.id }
       });
       console.log(`✅ Chatbots deleted for user ${user.id}`);
-
+      
       // Delete all connections
       await prisma.connection.deleteMany({
         where: { userId: user.id }
       });
       console.log(`✅ Connections deleted for user ${user.id}`);
-
+      
       // Delete all analytics data
       await prisma.analytics.deleteMany({
         where: { userId: user.id }
@@ -5746,7 +5746,7 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
         where: { userId: user.id }
       });
       console.log(`✅ Conversations deleted for user ${user.id}`);
-
+      
       console.log(`✅ All data reset completed for user ${user.id} due to plan change`);   
     } catch (error) {
       console.error('❌ Failed to reset user data:', error);
@@ -6725,8 +6725,8 @@ app.post('/api/payments/webhook', express.raw({type: 'application/json'}), async
               });
               
               console.log(`Updated payment status for user ${subscription.metadata.userId} - invoice paid`);
-            } catch (error) {
-              console.error('Failed to update payment status:', error);
+          } catch (error) {
+            console.error('Failed to update payment status:', error);
             }
           }
         }

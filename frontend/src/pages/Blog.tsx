@@ -1,82 +1,22 @@
 import React, { useMemo, useState } from 'react';
-import { Calendar, User, ArrowRight, Search, Tag, Clock, Mail, CheckCircle2 } from 'lucide-react';
+import { Calendar, User, ArrowRight, Search, Tag, Clock, Mail, CheckCircle2 } from 'lucide-react';                                                              
 import LiveChatWidget from '../components/LiveChatWidget';
 import { useNavigate } from 'react-router-dom';
 
 const blogPosts = [
-  {
-    id: 1,
+    {
+      id: 1,
     slug: 'ai-chatbots-revolutionizing-customer-service-2025',
-    title: 'How AI Chatbots Are Revolutionizing Customer Service in 2025',
-    excerpt: 'Discover the latest trends in AI-powered customer service and how businesses are using chatbots to improve customer satisfaction and reduce response times.',
-    author: 'AI Orchestrator Team',
-    date: '2025-01-15',
-    readTime: '8 min read',
+      title: 'How AI Chatbots Are Revolutionizing Customer Service in 2025',    
+    excerpt: 'Discover the latest trends in AI-powered customer service and how businesses are using chatbots to improve customer satisfaction and reduce response times.',                                                                     
+      author: 'AI Orchestrator Team',
+      date: '2025-11-04',
+      readTime: '8 min read',
     tags: ['ai', 'customer-service'],
-    featured: true,
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=500&fit=crop'
-  },
-  {
-    id: 2,
-    slug: 'multi-language-chatbot-setup-guide',
-    title: 'Complete Guide to Multi-Language Chatbot Setup',
-    excerpt: 'Step-by-step tutorial on configuring your chatbot to support multiple languages and reach global customers effortlessly.',
-    author: 'Sarah Johnson',
-    date: '2025-01-12',
-    readTime: '12 min read',
-    tags: ['tutorials', 'multi-language'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop'
-  },
-  {
-    id: 3,
-    slug: 'case-study-fashion-store-increased-sales-40',
-    title: 'Case Study: How Fashion Store Increased Sales by 40% with AI',
-    excerpt: 'Learn how a leading fashion retailer used AI Orchestrator to boost conversion rates and customer engagement through intelligent automation.',
-    author: 'Marketing Team',
-    date: '2025-01-10',
-    readTime: '6 min read',
-    tags: ['case-studies', 'e-commerce'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=500&fit=crop'
-  },
-  {
-    id: 4,
-    slug: 'understanding-sentiment-analysis-customer-conversations',
-    title: 'Understanding Sentiment Analysis in Customer Conversations',
-    excerpt: 'Deep dive into how AI analyzes customer emotions and intent to provide better support experiences and proactive assistance.',
-    author: 'AI Research Team',
-    date: '2025-01-08',
-    readTime: '10 min read',
-    tags: ['ai', 'analytics'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop'
-  },
-  {
-    id: 5,
-    slug: 'new-features-advanced-analytics-dashboard-released',
-    title: 'New Features: Advanced Analytics Dashboard Released',
-    excerpt: 'Introducing our new analytics dashboard with real-time insights, custom reports, and performance metrics that matter to your business.',
-    author: 'Product Team',
-    date: '2025-01-05',
-    readTime: '4 min read',
-    tags: ['updates', 'product'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop'
-  },
-  {
-    id: 6,
-    slug: 'building-your-first-e-commerce-chatbot-beginners-guide',
-    title: 'Building Your First E-commerce Chatbot: A Beginner\'s Guide',
-    excerpt: 'Everything you need to know to create and deploy your first e-commerce chatbot from scratch, with practical examples and best practices.',
-    author: 'Technical Team',
-    date: '2025-01-03',
-    readTime: '15 min read',
-    tags: ['tutorials', 'e-commerce'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1556155092-490a1ba16284?w=800&h=500&fit=crop'
-  }
-];
+      featured: true,
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=600&fit=crop'                                                                  
+    }
+  ];
 
 const Blog: React.FC = () => {
   const navigate = useNavigate();
@@ -94,16 +34,16 @@ const Blog: React.FC = () => {
       { id: 'tutorials', name: 'Tutorials', count: counts['tutorials'] || 0 },
       { id: 'case-studies', name: 'Case Studies', count: counts['case-studies'] || 0 },
       { id: 'updates', name: 'Updates', count: counts['updates'] || 0 }
-    ];
+  ];
   }, []);
 
   const filteredPosts = useMemo(() => {
     return blogPosts.filter(post => {
-      const matchesTag = selectedTag === 'all' || post.tags.includes(selectedTag);
-      const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                           post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesTag && matchesSearch;
-    });
+    const matchesTag = selectedTag === 'all' || post.tags.includes(selectedTag);
+    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesTag && matchesSearch;
+  });
   }, [searchQuery, selectedTag]);
 
   const featuredPost = filteredPosts.find(post => post.featured);
@@ -144,7 +84,7 @@ const Blog: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <LiveChatWidget />
-
+      
       {/* Header */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -183,22 +123,22 @@ const Blog: React.FC = () => {
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Categories</h3>
                 <div className="space-y-1">
-                  {tags.map((tag) => (
-                    <button
-                      key={tag.id}
-                      onClick={() => setSelectedTag(tag.id)}
+                {tags.map((tag) => (
+                  <button
+                    key={tag.id}
+                    onClick={() => setSelectedTag(tag.id)}
                       className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
-                        selectedTag === tag.id
+                      selectedTag === tag.id
                           ? 'bg-blue-50 text-blue-700 font-medium'
                           : 'text-gray-600 hover:bg-gray-50'
-                      }`}
-                    >
+                    }`}
+                  >
                       <span>{tag.name}</span>
                       <span className={`text-xs ${selectedTag === tag.id ? 'text-blue-600' : 'text-gray-400'}`}>
                         {tag.count}
                       </span>
-                    </button>
-                  ))}
+                  </button>
+                ))}
                 </div>
               </div>
 
@@ -261,11 +201,11 @@ const Blog: React.FC = () => {
                     }}
                   />
                 </div>
-                <div className="p-8">
-                  <div className="flex items-center text-sm text-gray-500 mb-4">
+                  <div className="p-8">
+                    <div className="flex items-center text-sm text-gray-500 mb-4">
                     <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium mr-3">
                       Featured
-                    </span>
+                      </span>
                     <span className="flex items-center mr-4">
                       <Calendar className="w-4 h-4 mr-1" />
                       {new Date(featuredPost.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -294,8 +234,8 @@ const Blog: React.FC = () => {
                       className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium text-sm"
                     >
                       Read article
-                      <ArrowRight className="w-4 h-4 ml-1" />
-                    </button>
+                        <ArrowRight className="w-4 h-4 ml-1" />
+                      </button>
                   </div>
                 </div>
               </article>
@@ -303,8 +243,8 @@ const Blog: React.FC = () => {
 
             {/* Regular Posts Grid */}
             {regularPosts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {regularPosts.map((post) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {regularPosts.map((post) => (
                   <article
                     key={post.id}
                     className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-all cursor-pointer"
@@ -332,24 +272,24 @@ const Blog: React.FC = () => {
                         </span>
                       </div>
                       <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors line-clamp-2">
-                        {post.title}
-                      </h3>
+                      {post.title}
+                    </h3>
                       <p className="text-gray-600 text-sm mb-4 line-clamp-3">
                         {post.excerpt}
                       </p>
-                      <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between">
                         <div className="flex items-center text-gray-500 text-xs">
                           <User className="w-3 h-3 mr-1" />
                           {post.author}
-                        </div>
+                      </div>
                         <span className="text-blue-600 text-sm font-medium">
                           Read more →
                         </span>
-                      </div>
                     </div>
-                  </article>
-                ))}
-              </div>
+                  </div>
+                </article>
+              ))}
+            </div>
             ) : (
               <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
                 <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
