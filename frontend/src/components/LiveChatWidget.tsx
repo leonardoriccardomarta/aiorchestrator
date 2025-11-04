@@ -109,7 +109,7 @@ const LiveChatWidget: React.FC = () => {
           message: userMessage.text,
           userId: 'support-chat',
           context: {
-            primaryLanguage: 'en',
+            primaryLanguage: 'auto',
             websiteUrl: window?.location?.origin || null
           }
         })
