@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Calendar, User, ArrowRight, Search, Tag, Clock, Mail, CheckCircle2 } from 'lucide-react';                                                              
 import LiveChatWidget from '../components/LiveChatWidget';
 import { useNavigate } from 'react-router-dom';
