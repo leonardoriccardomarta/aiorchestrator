@@ -1,14 +1,29 @@
 // Plan configurations and limits
 export interface PlanFeatures {
+  // Basic features
   basicAnalytics: boolean;
   customization: boolean;
   emailSupport: boolean;
-  advancedAnalytics: boolean;
   multiLanguage: boolean;
+  productRecommendations: boolean;
+  // Premium features
+  advancedAnalytics: boolean;
   prioritySupport: boolean;
   whiteLabel: boolean;
   apiAccess: boolean;
   customIntegrations: boolean;
+  // E-commerce Advanced
+  addToCart: boolean;
+  checkoutAssistance: boolean;
+  mlPersonalization: boolean;
+  // Business features
+  stripePayments: boolean;
+  aiUpselling: boolean;
+  abandonedCartRecovery: boolean;
+  fullMLSuite: boolean;
+  // Business exclusives
+  dedicatedSupport?: boolean;
+  accountManager?: boolean;
 }
 
 export interface Plan {
@@ -33,12 +48,20 @@ export const PLANS: Record<string, Plan> = {
       basicAnalytics: true,
       customization: true,
       emailSupport: true,
-      advancedAnalytics: false,
       multiLanguage: true,
+      productRecommendations: true,
+      advancedAnalytics: false,
       prioritySupport: false,
       whiteLabel: false,
       apiAccess: false,
-      customIntegrations: false
+      customIntegrations: false,
+      addToCart: false,
+      checkoutAssistance: false,
+      mlPersonalization: false,
+      stripePayments: false,
+      aiUpselling: false,
+      abandonedCartRecovery: false,
+      fullMLSuite: false
     }
   },
   professional: {
@@ -52,12 +75,20 @@ export const PLANS: Record<string, Plan> = {
       basicAnalytics: true,
       customization: true,
       emailSupport: true,
-      advancedAnalytics: true,
       multiLanguage: true,
+      productRecommendations: true,
+      advancedAnalytics: true,
       prioritySupport: true,
       whiteLabel: false,
       apiAccess: true,
-      customIntegrations: true
+      customIntegrations: true,
+      addToCart: true,
+      checkoutAssistance: true,
+      mlPersonalization: true,
+      stripePayments: false,
+      aiUpselling: false,
+      abandonedCartRecovery: false,
+      fullMLSuite: false
     }
   },
   business: {
@@ -71,12 +102,22 @@ export const PLANS: Record<string, Plan> = {
       basicAnalytics: true,
       customization: true,
       emailSupport: true,
-      advancedAnalytics: true,
       multiLanguage: true,
+      productRecommendations: true,
+      advancedAnalytics: true,
       prioritySupport: true,
       whiteLabel: true,
       apiAccess: true,
-      customIntegrations: true
+      customIntegrations: true,
+      addToCart: true,
+      checkoutAssistance: true,
+      mlPersonalization: true,
+      stripePayments: true,
+      aiUpselling: true,
+      abandonedCartRecovery: true,
+      fullMLSuite: true,
+      dedicatedSupport: true,
+      accountManager: true
     }
   }
 };

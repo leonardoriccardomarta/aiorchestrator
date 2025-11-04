@@ -1362,12 +1362,38 @@ typingDiv.innerHTML = `
 messagesContainer.appendChild(typingDiv);
 messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
+// Get current cart data for abandoned cart recovery (Business plan feature)
+let cartData = null;
+try {
+  const cartResponse = await fetch('/cart.js');
+  if (cartResponse.ok) {
+    const cart = await cartResponse.json();
+    if (cart && cart.items && cart.items.length > 0) {
+      cartData = {
+        items: cart.items.map(item => ({
+          id: item.variant_id,
+          productId: item.product_id,
+          title: item.product_title,
+          variantTitle: item.variant_title,
+          quantity: item.quantity,
+          price: item.price / 100, // Convert from cents
+          url: item.url
+        })),
+        total: cart.total_price / 100, // Convert from cents
+        itemCount: cart.item_count
+      };
+    }
+  }
+} catch (cartError) {
+  console.log('Could not fetch cart data:', cartError);
+}
+
 // Send to API
 try {
 const response = await fetch(`${config.apiKey}/api/chat`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ 
+  body: JSON.stringify({
     message,
     context: {
       chatbotId: config.chatbotId,
@@ -1378,7 +1404,9 @@ const response = await fetch(`${config.apiKey}/api/chat`, {
         accessToken: shopifyAccessToken
       } : null,
       websiteUrl: window.location.origin,
-      customerEmail: extractCustomerEmail(message)
+      customerEmail: extractCustomerEmail(message),
+      cartData: cartData, // For abandoned cart recovery (Business plan)
+      userId: cartData ? `shopify-${window.location.hostname}-${Date.now()}` : null
     }
   })
 });

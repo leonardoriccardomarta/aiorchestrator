@@ -5312,10 +5312,10 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
         await shopifyCartService.trackAbandonedCart(context.userId || user.id, context.cartData);
       }
       
-      // 💰 STRIPE PAYMENT INTEGRATION (Enterprise)
+            // 💰 STRIPE PAYMENT INTEGRATION (Business Plan)
       if (hasFeature(userPlanId, 'stripePayments') && (message.toLowerCase().includes('pay now') || message.toLowerCase().includes('buy now') || intent === 'payment')) {
         console.log('💳 Payment intent detected');
-        
+
         if (shopifyEnhancements?.recommendations?.[0]) {
           const product = shopifyEnhancements.recommendations[0];
           const paymentResult = await stripePaymentService.createPaymentLink({
@@ -5330,10 +5330,21 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
             successUrl: product.url,
             chatbotId: context.chatbotId
           });
-          
-          if (paymentResult.success) {
+
+          if (paymentResult.success && paymentResult.paymentUrl) {
             shopifyEnhancements = shopifyEnhancements || {};
-            shopifyEnhancements.payment = paymentResult;
+            // Generate payment button HTML
+            const paymentButtonHTML = stripePaymentService.generatePaymentButton(
+              paymentResult.paymentUrl,
+              {
+                name: product.title,
+                price: product.price
+              }
+            );
+            shopifyEnhancements.payment = {
+              ...paymentResult,
+              button: paymentButtonHTML
+            };
           }
         }
       }
