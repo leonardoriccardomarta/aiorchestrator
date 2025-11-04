@@ -49,7 +49,7 @@ const Blog: React.FC = () => {
   const featuredPost = filteredPosts.find(post => post.featured);
   const regularPosts = filteredPosts.filter(post => !post.featured || !featuredPost);
 
-  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+      const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newsletterEmail || !newsletterEmail.includes('@')) {
       setNewsletterStatus('error');
@@ -59,23 +59,28 @@ const Blog: React.FC = () => {
     setNewsletterStatus('loading');
 
     try {
-      // Simple newsletter subscription - store in localStorage for now
-      // In production, this would call an API endpoint
-      const subscribers = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
-      if (!subscribers.includes(newsletterEmail)) {
-        subscribers.push(newsletterEmail);
-        localStorage.setItem('newsletter_subscribers', JSON.stringify(subscribers));
+      const API_URL = import.meta.env.VITE_API_URL || 'https://aiorchestrator-vtihz.ondigitalocean.app';
+      const response = await fetch(`${API_URL}/api/newsletter/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: newsletterEmail })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setNewsletterStatus('success');
+        setNewsletterEmail('');
+      } else {
+        setNewsletterStatus('error');
       }
 
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      setNewsletterStatus('success');
-      setNewsletterEmail('');
-      
       // Reset status after 3 seconds
       setTimeout(() => setNewsletterStatus('idle'), 3000);
     } catch (error) {
+      console.error('Newsletter subscription error:', error);
       setNewsletterStatus('error');
       setTimeout(() => setNewsletterStatus('idle'), 3000);
     }
@@ -84,15 +89,23 @@ const Blog: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <LiveChatWidget />
-      
+
       {/* Header */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <div className="flex items-center justify-between mb-4">
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors font-medium"
+            >
+              <ArrowRight className="w-4 h-4 mr-2 rotate-180" /> Back to Dashboard
+            </button>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">    
             AI Orchestrator Blog
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl">
-            Insights, tutorials, and updates on AI-powered customer service and chatbot technology.
+            Insights, tutorials, and updates on AI-powered customer service and chatbot technology.                                                             
           </p>
         </div>
       </header>

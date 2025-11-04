@@ -2829,6 +2829,165 @@ app.post('/api/contact/send', async (req, res) => {
 const affiliateRoutes = require('./src/routes/affiliate');
 app.use('/api/affiliate', affiliateRoutes);
 
+// ===== NEWSLETTER API =====
+// Store newsletter subscribers (in production, use database)
+let newsletterSubscribers = new Set();
+
+// Subscribe to newsletter
+app.post('/api/newsletter/subscribe', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email || !email.includes('@')) {
+      return res.status(400).json({
+        success: false,
+        error: 'Valid email is required'
+      });
+    }
+
+    newsletterSubscribers.add(email.toLowerCase());
+    console.log(`📧 Newsletter subscription: ${email}`);
+
+    res.json({
+      success: true,
+      message: 'Successfully subscribed to newsletter'
+    });
+  } catch (error) {
+    console.error('❌ Newsletter subscription error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to subscribe'
+    });
+  }
+});
+
+// Notify subscribers about new blog post
+app.post('/api/blog/notify', async (req, res) => {
+  try {
+    const { title, slug, excerpt } = req.body;
+
+    if (!title || !slug) {
+      return res.status(400).json({
+        success: false,
+        error: 'Title and slug are required'
+      });
+    }
+
+    const frontendUrl = process.env.FRONTEND_URL || 'https://www.aiorchestrator.dev';
+    const blogPostUrl = `${frontendUrl}/blog/${slug}`;
+
+    const subscribersArray = Array.from(newsletterSubscribers);
+    console.log(`📧 Sending blog notification to ${subscribersArray.length} subscribers`);
+
+    let sentCount = 0;
+    let failedCount = 0;
+
+    for (const email of subscribersArray) {
+      try {
+        await emailService.sendEmail(
+          email,
+          `New Blog Post: ${title}`,
+          `
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>New Blog Post</title>
+              <style>
+                body {
+                  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+                  line-height: 1.6;
+                  color: #1F2937;
+                  background-color: #F9FAFB;
+                }
+                .container {
+                  max-width: 600px;
+                  margin: 40px auto;
+                  background: white;
+                  border-radius: 12px;
+                  overflow: hidden;
+                  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                }
+                .header {
+                  background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+                  padding: 40px 30px;
+                  text-align: center;
+                  color: white;
+                }
+                .header h1 {
+                  margin: 0;
+                  font-size: 28px;
+                  font-weight: 700;
+                }
+                .content {
+                  padding: 30px;
+                }
+                .button {
+                  display: inline-block;
+                  background: linear-gradient(135deg, #2563EB, #7C3AED);
+                  color: white;
+                  padding: 14px 28px;
+                  text-decoration: none;
+                  border-radius: 8px;
+                  margin: 20px 0;
+                  font-weight: 600;
+                }
+                .footer {
+                  background: #F9FAFB;
+                  padding: 20px;
+                  text-align: center;
+                  color: #6B7280;
+                  font-size: 14px;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <div class="header">
+                  <h1>📝 New Blog Post Published</h1>
+                </div>
+                <div class="content">
+                  <h2 style="color: #1F2937; margin-top: 0;">${title}</h2>
+                  ${excerpt ? `<p style="color: #6B7280; font-size: 16px;">${excerpt}</p>` : ''}
+                  <a href="${blogPostUrl}" class="button">Read Article</a>
+                  <p style="color: #6B7280; margin-top: 20px;">
+                    <a href="${frontendUrl}/blog" style="color: #2563EB;">View all blog posts</a>
+                  </p>
+                </div>
+                <div class="footer">
+                  <p>You're receiving this because you subscribed to our newsletter.</p>
+                  <p style="margin: 5px 0;">© 2025 AI Orchestrator. All rights reserved.</p>
+                </div>
+              </div>
+            </body>
+            </html>
+          `
+        );
+        sentCount++;
+      } catch (error) {
+        console.error(`❌ Failed to send to ${email}:`, error.message);
+        failedCount++;
+      }
+    }
+
+    console.log(`✅ Blog notification sent: ${sentCount} successful, ${failedCount} failed`);
+
+    res.json({
+      success: true,
+      message: `Notification sent to ${sentCount} subscribers`,
+      sent: sentCount,
+      failed: failedCount
+    });
+  } catch (error) {
+    console.error('❌ Blog notification error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to send notifications'
+    });
+  }
+});
+
 // ===== LIVE AGENT HANDOFF & ORDER TRACKING API =====
 const agentRoutes = require('./src/routes/agentRoutes');
 app.use('/api/agents', agentRoutes);

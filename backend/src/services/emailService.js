@@ -363,6 +363,33 @@ class EmailService {
   }
   
   /**
+   * Generic method to send email
+   */
+  async sendEmail(to, subject, html) {
+    if (!emailTracker.canSendEmail()) {
+      console.error(`❌ Email limit reached`);
+      return { success: false, error: 'Daily email limit reached', stats: emailTracker.getStats() };
+    }
+
+    const mailOptions = {
+      from: process.env.SMTP_USER || 'AI Orchestrator <aiorchestratoor@gmail.com>',
+      to,
+      subject,
+      html
+    };
+
+    try {
+      const result = await this.transporter.sendMail(mailOptions);
+      emailTracker.increment();
+      console.log(`📧 Email sent to: ${to} (${emailTracker.getStats().dailyCount}/${emailTracker.getStats().limit} today)`);
+      return { success: true, messageId: result.messageId };
+    } catch (error) {
+      console.error('❌ Email failed:', error.message);
+      return { success: false, error: error.message };
+    }
+  }
+
+  /**
    * Get email tracker stats
    */
   getEmailStats() {
