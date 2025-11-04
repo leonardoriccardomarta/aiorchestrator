@@ -69,7 +69,14 @@ const Blog: React.FC = () => {
   }, [searchQuery, selectedTag]);
 
   const featuredPost = filteredPosts.find(post => post.featured);
-  const regularPosts = filteredPosts.filter(post => !post.featured || !featuredPost);
+  const regularPosts = filteredPosts.filter(post => {
+    // Exclude featured post from regular posts only when showing "all" posts
+    // When filtering by category, show featured post as regular if it matches
+    if (post.featured && selectedTag === 'all') {
+      return false;
+    }
+    return true;
+  });
 
       const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -224,7 +231,7 @@ const Blog: React.FC = () => {
           {/* Blog Posts */}
           <main className="lg:col-span-9">
             {/* Featured Post */}
-            {featuredPost && selectedTag === 'all' && (
+            {featuredPost && (
               <article className="mb-12 bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="aspect-[16/9] overflow-hidden bg-gray-100">
                   <img

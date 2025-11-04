@@ -9,7 +9,7 @@ const POSTS: Record<string, any> = {
     author: 'AI Orchestrator Team',
     date: '2025-11-04',
     readTime: '8 min read',
-    heroGradient: 'from-blue-600 to-purple-600',
+    heroGradient: 'from-indigo-600 to-blue-600',
     coverImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=600&fit=crop',
     intro:
       'In 2025, AI chatbots have moved from simple FAQs to becoming strategic growth drivers. Here\'s how leading brands are using AI to boost revenue, cut support costs, and deliver 24/7 experiences customers love.',
@@ -41,7 +41,7 @@ const POSTS: Record<string, any> = {
       }
     ],
     takeaway:
-      'AI chatbots in 2025 are revenue engines and brand guardians. The winners aren\'t those who bolt on another widget—but those who integrate AI where it matters: the customer journey.'
+      'AI chatbots in 2025 are revenue engines and brand guardians. The winners aren\'t those who bolt on another widget but those who integrate AI where it matters: the customer journey.'
   }
 };
 
@@ -139,7 +139,7 @@ const BlogPost: React.FC = () => {
                 <Link to="/blog" className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors">
                   <ArrowLeft className="w-4 h-4 mr-2" /> Back to Blog
                 </Link>
-                <Link to="/" className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors">
+                <Link to="/#pricing" className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors">
                   Explore Pricing <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </div>
@@ -184,7 +184,7 @@ const BlogPost: React.FC = () => {
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Build your AI assistant</h3>
                   <p className="text-gray-700 mb-4 text-sm">Create a multilingual, brand-ready chatbot in minutes. No code needed.</p>
                   <Link
-                    to="/"
+                    to="/#pricing"
                     className="inline-flex items-center justify-center w-full bg-blue-600 text-white px-4 py-2.5 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm"
                   >
                     Get Started <ArrowRight className="w-4 h-4 ml-2" />
