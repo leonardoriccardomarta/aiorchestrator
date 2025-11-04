@@ -9,7 +9,7 @@ const POSTS: Record<string, any> = {
     author: 'AI Orchestrator Team',
     date: '2025-11-04',
     readTime: '8 min read',
-    heroGradient: 'from-indigo-600 to-blue-600',
+    heroGradient: 'from-slate-900 to-slate-800',
     coverImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&h=600&fit=crop',
     intro:
       'In 2025, AI chatbots have moved from simple FAQs to becoming strategic growth drivers. Here\'s how leading brands are using AI to boost revenue, cut support costs, and deliver 24/7 experiences customers love.',
