@@ -270,7 +270,7 @@ const LandingPageOptimized: React.FC = () => {
     {
       icon: <ShoppingCart className="w-6 h-6" />,
       title: "Easy Integration",
-      description: "One-click integration with Shopify, WooCommerce, and any website. Embed anywhere with simple code snippets.",
+      description: "One-click integration with Shopify and any website. Embed anywhere with simple code snippets.",
       color: "bg-purple-500"
     },
     {
@@ -342,7 +342,7 @@ const LandingPageOptimized: React.FC = () => {
               <a href="#demo" className="text-gray-600 hover:text-gray-900 transition-colors">Demo</a>
               <a href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors">Pricing</a>
               <a href="#testimonials" className="text-gray-600 hover:text-gray-900 transition-colors">Reviews</a>
-              <a href="/affiliates" className="text-gray-600 hover:text-gray-900 transition-colors font-semibold">Affiliates</a>
+              <a href="/affiliates" className="text-gray-600 hover:text-gray-900 transition-colors">Affiliates</a>
               <a href="/blog" className="text-gray-600 hover:text-gray-900 transition-colors">Blog</a>
             </nav>
 
