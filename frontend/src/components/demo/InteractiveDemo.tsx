@@ -224,10 +224,10 @@ const InteractiveDemo: React.FC = () => {
                     className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
                       message.type === 'user'
                         ? 'bg-blue-600 text-white border border-blue-700'
-                        : 'bg-white text-gray-900 border border-gray-200 shadow-sm'
+                        : 'bg-gray-50 text-gray-900 border-2 border-gray-300 shadow-sm'
                     }`}
                   >
-                    <p className="text-sm whitespace-pre-wrap font-medium">{message.content}</p>
+                    <p className="text-sm whitespace-pre-wrap font-medium text-gray-900">{message.content}</p>
                   </div>
                 </div>
               ))}

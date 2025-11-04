@@ -360,7 +360,7 @@ const LandingPageOptimized: React.FC = () => {
                 <div className="relative">
                   <button
                     onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
+                    className="flex items-center space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-green-600 text-white text-sm sm:text-base rounded-lg hover:bg-green-700 active:bg-green-800 transition-colors font-semibold touch-manipulation min-h-[44px]"
                   >
                     <div className="w-2 h-2 bg-green-300 rounded-full"></div>
                     <User className="w-4 h-4" />
@@ -485,7 +485,7 @@ const LandingPageOptimized: React.FC = () => {
               <a href="#demo" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100">Demo</a>
               <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100">Pricing</a>
               <a href="#testimonials" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100">Reviews</a>
-              <a href="/affiliates" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 font-semibold">Affiliates</a>
+                              <a href="/affiliates" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100">Affiliates</a>
               <a href="/blog" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100">Blog</a>
             </nav>
 
@@ -499,18 +499,18 @@ const LandingPageOptimized: React.FC = () => {
                     Go to App
                   </button>
                   <div className="grid grid-cols-2 gap-2">
-                                          <button
-                        onClick={() => { setMobileMenuOpen(false); navigate('/settings'); }}
-                        className="px-4 py-3 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-300 active:bg-gray-400 transition-colors font-medium"
+                                                                <button
+                          onClick={() => { setMobileMenuOpen(false); navigate('/settings'); }}
+                          className="px-4 py-3 bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors font-medium"
+                        >
+                          Settings
+                        </button>
+                      <button
+                        onClick={() => { setMobileMenuOpen(false); handleLogout(); }}
+                        className="px-4 py-3 bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors font-medium"
                       >
-                        Settings
+                        Sign Out
                       </button>
-                    <button
-                      onClick={() => { setMobileMenuOpen(false); handleLogout(); }}
-                      className="px-4 py-3 bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200"
-                    >
-                      Sign Out
-                    </button>
                   </div>
                 </>
               ) : (
