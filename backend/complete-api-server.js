@@ -419,10 +419,12 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     // Get user plan to determine if custom branding is allowed
     const userPlan = chatbot.user?.planId || 'starter';
     const isProfessionalPlan = userPlan === 'professional' || userPlan === 'business';
+    const isBusinessPlan = userPlan === 'business';
     
     console.log('🔍 User plan info:', {
       userPlan,
       isProfessionalPlan,
+      isBusinessPlan,
       userEmail: chatbot.user?.email,
       userId: chatbot.user?.id,
       userIsPaid: chatbot.user?.isPaid,
@@ -675,10 +677,26 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                     </svg>
                 </button>
-            </div>
-            <p class="text-xs text-gray-400 text-center">Powered by AI Orchestrator</p>
+                        </div>
+            ${!isBusinessPlan ? '<p class="text-xs text-gray-400 text-center">Powered by AI Orchestrator</p>' : ''}
         </div>
     </div>
+    
+    <!-- Include the actual chatbot widget with custom branding and white-label -->
+    <script src="https://www.aiorchestrator.dev/chatbot-widget.js" 
+            data-ai-orchestrator-id="${chatbotId}"
+            data-api-key="support-widget"
+            data-theme="${theme || chatbot.theme || 'blue'}"
+            data-title="${title || chatbot.name || 'AI Support'}"
+            data-placeholder="${placeholder || 'Type your message...'}"
+            data-welcome-message="${message || chatbot.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋'}"
+            data-primary-language="${primaryLanguage}"
+            data-show-avatar="${showAvatar !== 'false'}"
+            ${isProfessionalPlan ? `data-font-family="${customFontFamily}"
+            ${customLogo ? `data-logo="${customLogo}"` : ''}` : ''}
+            ${isBusinessPlan ? `data-show-powered-by="false"` : ''}
+            defer>
+    </script>
 </body>
 </html>`;
 
@@ -1660,45 +1678,52 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
       include: { user: true }
     });
     
-    const userPlan = chatbot?.user?.planId || 'starter';
+        const userPlan = chatbot?.user?.planId || 'starter';
     const isProfessionalPlan = userPlan === 'professional' || userPlan === 'business';
-    
+    const isBusinessPlan = userPlan === 'business';
+
     let widgetCode;
-    if (connection.type === 'shopify' || connection.platform === 'shopify') {
+    if (connection.type === 'shopify' || connection.platform === 'shopify') {   
       // For Shopify, use Shadow DOM widget (immune to Shopify CSS)
       // Get custom branding for Professional+ plans
       const customBranding = settings.branding || {};
-      
+      const whiteLabel = settings.whiteLabel || {};
+
       widgetCode = `<!-- AI Orchestrator Chatbot Widget for Shopify -->
-<script 
+<script
   src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
   data-ai-orchestrator-id="${chatbotId}"
   data-api-key="${apiUrl}"
   data-theme="${settings.theme || 'teal'}"
-  data-title="${settings.title || selectedChatbot?.name || 'AI Support'}"
+  data-title="${settings.title || selectedChatbot?.name || 'AI Support'}"       
   data-placeholder="${settings.placeholder || 'Type your message...'}"
   data-show-avatar="${settings.showAvatar !== false}"
-  data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"
+  data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"                                           
   data-primary-language="${selectedChatbot?.language || 'auto'}"
-  ${isProfessionalPlan ? `data-font-family="${customBranding.fontFamily || settings.fontFamily || 'Open Sans'}"
+  ${isProfessionalPlan ? `data-font-family="${customBranding.fontFamily || settings.fontFamily || 'Open Sans'}"                                                 
   data-logo="${customBranding.logo || settings.logo || ''}"` : ''}
+  ${isBusinessPlan ? `data-show-powered-by="false"` : ''}
   defer>
 </script>`;
     } else {
       // For other platforms, use standard chatbot-widget.js
+      const customBranding = settings.branding || {};
+      const whiteLabel = settings.whiteLabel || {};
+
       widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
-<script 
+<script
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
   data-ai-orchestrator-id="${chatbotId}"
   data-api-key="${apiUrl}"
   data-theme="${settings.theme || 'teal'}"
-  data-title="${settings.title || selectedChatbot?.name || 'AI Support'}"
+  data-title="${settings.title || selectedChatbot?.name || 'AI Support'}"       
   data-placeholder="${settings.placeholder || 'Type your message...'}"
   data-show-avatar="${settings.showAvatar !== false}"
-  data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"
+  data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"                                           
   data-primary-language="${selectedChatbot?.language || 'auto'}"
-  ${isProfessionalPlan ? `data-font-family="${settings.fontFamily || 'Inter'}"
-  data-logo="${settings.logo || ''}"` : ''}
+  ${isProfessionalPlan ? `data-font-family="${customBranding.fontFamily || settings.fontFamily || 'Inter'}"  
+  data-logo="${customBranding.logo || settings.logo || ''}"` : ''}
+  ${isBusinessPlan ? `data-show-powered-by="false"` : ''}
   defer>
 </script>`;
     }

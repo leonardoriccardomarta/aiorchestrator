@@ -86,6 +86,8 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
 
   const generateEmbedCode = () => {
     const { position, theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy, borderRadius, fontSize, width, height } = config;
+    const isBusinessPlan = user?.planId === 'business';
+    const shouldShowPoweredBy = isBusinessPlan ? false : showPoweredBy;
     
     // Starter plan - basic widget without custom branding
     if (!user?.isPaid) {
@@ -107,34 +109,31 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
     }
     
     // Professional+ plan - advanced widget with custom branding
+    // Business plan includes white-label (showPoweredBy: false)
+    const brandingAttrs = isBusinessPlan 
+      ? `data-show-powered-by="false"`
+      : '';
+    
     return `<!-- AI Orchestrator Chatbot Widget -->
-<script>
-  (function() {
-    var script = document.createElement('script');
-    script.src = '${window.location.origin}/widget.js';
-    script.async = true;
-    script.onload = function() {
-      window.AIOrchestrator.init({
-        chatbotId: '${chatbotId}',
-        apiKey: '${apiKey}',
-        position: '${position}',
-        theme: '${theme}',
-        language: '${language}',
-        welcomeMessage: '${welcomeMessage}',
-        placeholder: '${placeholder}',
-        showAvatar: ${showAvatar},
-        showPoweredBy: ${showPoweredBy},
-        customStyles: {
-          borderRadius: '${borderRadius}',
-          fontSize: '${fontSize}',
-          width: '${width}',
-          height: '${height}',
-          fontFamily: '${config.fontFamily || 'Inter'}'
-        }
-      });
-    };
-    document.head.appendChild(script);
-  })();
+<script 
+  src="https://www.aiorchestrator.dev/chatbot-widget.js"
+  data-ai-orchestrator-id="${chatbotId}"
+  data-api-key="${apiKey}"
+  data-theme="${theme}"
+  data-title="AI Support"
+  data-placeholder="${placeholder}"
+  data-show-avatar="${showAvatar}"
+  data-welcome-message="${welcomeMessage}"
+  data-primary-language="${language}"
+  ${brandingAttrs}
+  ${config.fontFamily ? `data-font-family="${config.fontFamily}"` : ''}
+  ${selectedChatbot?.settings ? (() => {
+    const settings = typeof selectedChatbot.settings === 'string' 
+      ? JSON.parse(selectedChatbot.settings) 
+      : selectedChatbot.settings;
+    return settings.branding?.logo ? `data-logo="${settings.branding.logo}"` : '';
+  })() : ''}
+  defer>
 </script>
 <!-- End AI Orchestrator Chatbot Widget -->`;
   };
@@ -283,13 +282,27 @@ export default {
   };
 
   const generateShopifyCode = () => {
-    const { theme, language, welcomeMessage, placeholder, showAvatar, showPoweredBy, primaryColor, borderRadius, fontSize, width, height } = config;
+    const { theme, language, welcomeMessage, placeholder, showAvatar } = config;
+    const isBusinessPlan = user?.planId === 'business';
+    
+    // Get branding settings from chatbot
+    let logo = '';
+    let fontFamily = '';
+    if (selectedChatbot?.settings) {
+      const settings = typeof selectedChatbot.settings === 'string' 
+        ? JSON.parse(selectedChatbot.settings) 
+        : selectedChatbot.settings;
+      if (settings.branding) {
+        logo = settings.branding.logo || '';
+        fontFamily = settings.branding.fontFamily || '';
+      }
+    }
     
     // Starter plan - basic Shopify code
     if (!user?.isPaid) {
       return `<!-- Add this to your theme.liquid file before </body> -->
 <script 
-  src="https://www.aiorchestrator.dev/chatbot-widget.js"
+  src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
   data-ai-orchestrator-id="${chatbotId}"
   data-api-key="${apiKey}"
   data-theme="${theme}"
@@ -298,40 +311,27 @@ export default {
   data-show-avatar="${showAvatar}"
   data-welcome-message="${welcomeMessage}"
   data-primary-language="${language}"
-  data-auto-open="false"
   defer>
 </script>`;
     }
     
     // Professional+ plan - advanced Shopify code with custom branding
+    // Business plan includes white-label (showPoweredBy: false)
     return `<!-- Add this to your theme.liquid file before </body> -->
-<script>
-  (function() {
-    var script = document.createElement('script');
-    script.src = '${window.location.origin}/widget.js';
-    script.async = true;
-    script.onload = function() {
-      window.AIOrchestrator.init({
-        chatbotId: '${chatbotId}',
-        apiKey: '${apiKey}',
-        position: 'bottom-right',
-        theme: '${theme}',
-        language: '${language}',
-        welcomeMessage: '${welcomeMessage}',
-        placeholder: '${placeholder}',
-        showAvatar: ${showAvatar},
-        showPoweredBy: ${showPoweredBy},
-        customStyles: {
-          borderRadius: '${borderRadius}',
-          fontSize: '${fontSize}',
-          width: '${width}',
-          height: '${height}',
-          fontFamily: '${config.fontFamily || 'Inter'}'
-        }
-      });
-    };
-    document.head.appendChild(script);
-  })();
+<script 
+  src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
+  data-ai-orchestrator-id="${chatbotId}"
+  data-api-key="${apiKey}"
+  data-theme="${theme}"
+  data-title="AI Support"
+  data-placeholder="${placeholder}"
+  data-show-avatar="${showAvatar}"
+  data-welcome-message="${welcomeMessage}"
+  data-primary-language="${language}"
+  ${fontFamily ? `data-font-family="${fontFamily}"` : ''}
+  ${logo ? `data-logo="${logo}"` : ''}
+  ${isBusinessPlan ? `data-show-powered-by="false"` : ''}
+  defer>
 </script>`;
   };
 
