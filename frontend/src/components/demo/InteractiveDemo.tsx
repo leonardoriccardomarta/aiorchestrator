@@ -67,7 +67,7 @@ const InteractiveDemo: React.FC = () => {
           message: textToSend,
           userId: 'demo-user',
           context: {
-            primaryLanguage: 'en',
+            primaryLanguage: 'auto',
             websiteUrl: typeof window !== 'undefined' ? window.location.origin : null
           }
         })
