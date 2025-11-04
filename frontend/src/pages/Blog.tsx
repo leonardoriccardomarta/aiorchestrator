@@ -124,10 +124,10 @@ const Blog: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex items-center justify-between mb-4">
             <button
-              onClick={() => navigate('/dashboard')}
+              onClick={() => navigate('/')}
               className="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors font-medium"
             >
-              <ArrowRight className="w-4 h-4 mr-2 rotate-180" /> Back to Dashboard
+              <ArrowRight className="w-4 h-4 mr-2 rotate-180" /> Back to Home
             </button>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">    

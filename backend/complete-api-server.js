@@ -2848,8 +2848,110 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
       });
     }
 
-    newsletterSubscribers.add(email.toLowerCase());
+    const emailLower = email.toLowerCase();
+    const isNewSubscriber = !newsletterSubscribers.has(emailLower);
+    
+    newsletterSubscribers.add(emailLower);
     console.log(`📧 Newsletter subscription: ${email}`);
+
+    // Send welcome email only to new subscribers
+    if (isNewSubscriber) {
+      try {
+        const frontendUrl = process.env.FRONTEND_URL || 'https://www.aiorchestrator.dev';
+        await emailService.sendEmail(
+          emailLower,
+          'Welcome to AI Orchestrator Newsletter! 🎉',
+          `
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Welcome to Newsletter</title>
+              <style>
+                body {
+                  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+                  line-height: 1.6;
+                  color: #1F2937;
+                  background-color: #F9FAFB;
+                }
+                .container {
+                  max-width: 600px;
+                  margin: 40px auto;
+                  background: white;
+                  border-radius: 12px;
+                  overflow: hidden;
+                  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                }
+                .header {
+                  background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+                  padding: 40px 30px;
+                  text-align: center;
+                  color: white;
+                }
+                .header h1 {
+                  margin: 0;
+                  font-size: 28px;
+                  font-weight: 700;
+                }
+                .content {
+                  padding: 30px;
+                }
+                .button {
+                  display: inline-block;
+                  background: linear-gradient(135deg, #2563EB, #7C3AED);
+                  color: white;
+                  padding: 14px 28px;
+                  text-decoration: none;
+                  border-radius: 8px;
+                  margin: 20px 0;
+                  font-weight: 600;
+                }
+                .footer {
+                  background: #F9FAFB;
+                  padding: 20px;
+                  text-align: center;
+                  color: #6B7280;
+                  font-size: 14px;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <div class="header">
+                  <h1>🎉 Welcome to Our Newsletter!</h1>
+                </div>
+                <div class="content">
+                  <h2 style="color: #1F2937; margin-top: 0;">Thank you for subscribing!</h2>
+                  <p style="color: #6B7280; font-size: 16px;">
+                    You're now part of our community! We'll send you weekly updates on:
+                  </p>
+                  <ul style="color: #6B7280; font-size: 16px; line-height: 2;">
+                    <li>📝 Latest blog posts about AI chatbots and customer service</li>
+                    <li>🚀 Product updates and new features</li>
+                    <li>💡 Best practices and industry insights</li>
+                    <li>🎯 Tips to get the most out of your AI chatbot</li>
+                  </ul>
+                  <p style="color: #6B7280; font-size: 16px; margin-top: 20px;">
+                    Stay tuned for our next email with the latest content!
+                  </p>
+                  <a href="${frontendUrl}/blog" class="button">Read Our Blog</a>
+                </div>
+                <div class="footer">
+                  <p>You're receiving this because you subscribed to our newsletter.</p>
+                  <p style="margin: 5px 0;">© 2025 AI Orchestrator. All rights reserved.</p>
+                </div>
+              </div>
+            </body>
+            </html>
+          `
+        );
+        console.log(`✅ Welcome email sent to: ${emailLower}`);
+      } catch (emailError) {
+        console.error(`❌ Failed to send welcome email to ${emailLower}:`, emailError.message);
+        // Don't fail the subscription if email fails
+      }
+    }
 
     res.json({
       success: true,
