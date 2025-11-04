@@ -2794,33 +2794,67 @@ app.post('/api/contact/send', async (req, res) => {
   try {
     const { name, email, company, subject, message } = req.body;
     
-    // Send email to admin
+      if (!name || !email || !subject || !message) {
+        return res.status(400).json({
+          success: false,
+          error: 'Missing required fields'
+        });
+      }
+
+      // Send email to admin using emailService transporter
+      const adminEmail = process.env.ADMIN_EMAIL || 'aiorchestratoor@gmail.com';
+      const emailTracker = require('./src/services/emailTracker');
+      
+      if (!emailTracker.canSendEmail()) {
+        console.error('❌ Email limit reached');
+        return res.status(429).json({
+          success: false,
+          error: 'Daily email limit reached'
+        });
+      }
+
     const mailOptions = {
-      from: process.env.SMTP_USER || 'aiorchestratoor@gmail.com',
-      to: process.env.ADMIN_EMAIL || 'aiorchestratoor@gmail.com',
+        from: process.env.SMTP_USER || 'AI Orchestrator <aiorchestratoor@gmail.com>',
+        to: adminEmail,
       replyTo: email,
       subject: `Contact Form: ${subject}`,
       html: `
-        <h2>New Contact Form Submission</h2>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #2563EB;">New Contact Form Submission</h2>
+            <div style="background: #F9FAFB; padding: 20px; border-radius: 8px; margin: 20px 0;">
         <p><strong>From:</strong> ${name} (${email})</p>
         ${company ? `<p><strong>Company:</strong> ${company}</p>` : ''}
         <p><strong>Subject:</strong> ${subject}</p>
+            </div>
+            <div style="background: white; padding: 20px; border-left: 4px solid #2563EB; margin: 20px 0;">
         <p><strong>Message:</strong></p>
-        <p>${message}</p>
+              <p style="white-space: pre-wrap;">${message.replace(/\n/g, '<br>')}</p>
+            </div>
+          </div>
       `
     };
 
-    await emailService.transporter.sendMail(mailOptions);
+      try {
+        const result = await emailService.transporter.sendMail(mailOptions);
+        emailTracker.increment();
+        console.log(`📧 Contact form email sent to: ${adminEmail} (${emailTracker.getStats().dailyCount}/${emailTracker.getStats().limit} today)`);
     
     res.json({
       success: true,
       message: 'Message sent successfully'
     });
+      } catch (emailError) {
+        console.error('Contact email failed:', emailError);
+        res.status(500).json({
+          success: false,
+          error: 'Failed to send email'
+        });
+      }
   } catch (error) {
     console.error('Contact form error:', error);
-    res.json({
-      success: true, // Still return success for UX
-      message: 'Message received'
+      res.status(500).json({
+        success: false,
+        error: 'Failed to process contact form'
     });
   }
 });
@@ -5384,15 +5418,15 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
       };
       const languageName = languageNames[primaryLanguage] || 'English';
       systemPrompt += `IMPORTANT: You MUST respond ONLY in ${languageName}. Do NOT respond in any other language, even if the user writes in a different language. If the user writes in another language, respond in ${languageName} anyway.\n\n`;
-          } else {
-        // Auto-detect: match user's language
+    } else {
+      // Auto-detect: match user's language
         systemPrompt += `CRITICAL LANGUAGE RULE: You MUST detect the language of the user's message and respond in the EXACT SAME LANGUAGE. 
 - If the user writes in Italian, you MUST respond in Italian for the ENTIRE conversation. Never switch to English or another language.
 - If the user writes in English, you MUST respond in English for the ENTIRE conversation. Never switch to another language.
 - If the user writes in Spanish, French, German, or any other language, you MUST respond in that EXACT language and maintain it throughout the conversation.
 - Once you've detected the user's language, you MUST continue using that language for ALL subsequent messages. Do NOT say "I can't respond in that language" or "I only speak English".
 - Maintain consistency: if you start responding in Italian, keep responding in Italian. If you start in English, keep responding in English.\n\n`;
-      }
+    }
     
     // BUSINESS CONTEXT
     console.log(`🔍 Context check: user.id=${user.id}, connectionType=${context.connectionType}, websiteUrl=${context.websiteUrl}`);

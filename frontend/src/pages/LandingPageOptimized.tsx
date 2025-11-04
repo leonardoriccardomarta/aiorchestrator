@@ -433,21 +433,15 @@ const LandingPageOptimized: React.FC = () => {
                 <>
                   <button
                     onClick={handleLogin}
-                    className="px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors"
+                      className="px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base text-gray-600 hover:text-gray-900 active:text-gray-700 transition-colors touch-manipulation min-h-[44px]"
                   >
                     Sign In
                   </button>
                   <button
                     onClick={handleSignUp}
-                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                      className="px-4 sm:px-6 py-1.5 sm:py-2 bg-blue-600 text-white text-sm sm:text-base rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors font-semibold touch-manipulation min-h-[44px]"
                   >
                     Sign Up
-                  </button>
-                  <button
-                    onClick={handleGetStarted}
-                    className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
-                  >
-                    Start Free Trial
                   </button>
                 </>
               )}
@@ -505,12 +499,12 @@ const LandingPageOptimized: React.FC = () => {
                     Go to App
                   </button>
                   <div className="grid grid-cols-2 gap-2">
-                    <button
-                      onClick={() => { setMobileMenuOpen(false); navigate('/settings'); }}
-                      className="px-4 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
-                    >
-                      Settings
-                    </button>
+                                          <button
+                        onClick={() => { setMobileMenuOpen(false); navigate('/settings'); }}
+                        className="px-4 py-3 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-300 active:bg-gray-400 transition-colors font-medium"
+                      >
+                        Settings
+                      </button>
                     <button
                       onClick={() => { setMobileMenuOpen(false); handleLogout(); }}
                       className="px-4 py-3 bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200"
@@ -523,21 +517,15 @@ const LandingPageOptimized: React.FC = () => {
                 <>
                   <button
                     onClick={() => { setMobileMenuOpen(false); handleLogin(); }}
-                    className="w-full px-4 py-3 bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200"
+                      className="w-full px-4 py-2.5 bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 active:bg-gray-300 text-sm font-medium touch-manipulation min-h-[44px]"
                   >
                     Sign In
                   </button>
                   <button
                     onClick={() => { setMobileMenuOpen(false); handleSignUp(); }}
-                    className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold"
+                      className="w-full px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800 font-semibold text-sm touch-manipulation min-h-[44px]"
                   >
                     Sign Up
-                  </button>
-                  <button
-                    onClick={() => { setMobileMenuOpen(false); handleGetStarted(); }}
-                    className="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold"
-                  >
-                    Start Free Trial
                   </button>
                 </>
               )}
@@ -568,10 +556,10 @@ const LandingPageOptimized: React.FC = () => {
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-4 sm:px-0">
                   <button
                     onClick={() => navigate('/dashboard')}
-                    className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 bg-green-600 text-white text-base sm:text-lg font-semibold rounded-lg hover:bg-green-700 active:bg-green-800 transition-colors shadow-lg touch-manipulation"
+                      className="inline-flex items-center justify-center min-h-[44px] px-5 sm:px-6 py-2 sm:py-2.5 bg-green-600 text-white text-sm sm:text-base font-semibold rounded-lg hover:bg-green-700 active:bg-green-800 transition-colors shadow-lg touch-manipulation"
                   >
                     Go to Dashboard
-                    <ArrowRight className="w-5 h-5 ml-2 flex-shrink-0" />
+                      <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-1.5 sm:ml-2 flex-shrink-0" />
                   </button>
                   <button
                     onClick={() => setShowDemo(true)}
@@ -584,13 +572,13 @@ const LandingPageOptimized: React.FC = () => {
               </>
             ) : (
               <>
-                                {/* Badge */}
+                {/* Badge */}
                 <div className="inline-flex items-center flex-wrap justify-center gap-1 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-900 rounded-full text-xs sm:text-sm font-semibold mb-4 sm:mb-6 border border-blue-200 mx-2 sm:mx-0">
                   <Zap className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-blue-600 flex-shrink-0" />
                   <span className="hidden sm:inline">Multilingual AI | 50+ Languages | Fast Setup</span>
                   <span className="sm:hidden">Multilingual AI • 50+ Languages</span>
                 </div>
-
+                
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight px-2 sm:px-0">
                   AI Chatbots That
                   <span className="text-blue-600"> Actually Work</span>
@@ -600,10 +588,10 @@ const LandingPageOptimized: React.FC = () => {
                   </span>
                 </h1>
                 <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0">
-                  Turn every visitor into a customer with AI chatbots that speak your customers' language.
+                  Turn every visitor into a customer with AI chatbots that speak your customers' language. 
                   Boost sales, reduce support workload, and provide 24/7 personalized assistance.
                 </p>
-
+                
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-4 sm:px-0">
                   <button
                     onClick={handleGetStarted}
@@ -638,7 +626,7 @@ const LandingPageOptimized: React.FC = () => {
                   Cancel anytime
                 </div>
               </div>
-
+              
               {/* Trust Badges */}
               <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mt-6 sm:mt-8 px-2 sm:px-0">
                 <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-600 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg shadow-sm">
@@ -926,10 +914,10 @@ const LandingPageOptimized: React.FC = () => {
           {user && (user.planId === 'professional' || user.planId === 'business' || user.isPaid) ? (
             <button
               onClick={() => navigate('/dashboard')}
-              className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 bg-white text-blue-600 text-base sm:text-lg font-semibold rounded-lg hover:bg-gray-100 active:bg-gray-200 transition-colors shadow-lg touch-manipulation"
+              className="inline-flex items-center justify-center min-h-[44px] px-5 sm:px-6 py-2 sm:py-2.5 bg-white text-blue-600 text-sm sm:text-base font-semibold rounded-lg hover:bg-gray-100 active:bg-gray-200 transition-colors shadow-lg touch-manipulation"
             >
               Go to Dashboard
-              <ArrowRight className="w-5 h-5 ml-2 flex-shrink-0" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-1.5 sm:ml-2 flex-shrink-0" />
             </button>
           ) : (
           <button
@@ -947,8 +935,8 @@ const LandingPageOptimized: React.FC = () => {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-            <div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+            <div className="col-span-2 md:col-span-1">
               <div className="flex items-center space-x-2 mb-3 sm:mb-4">
                 <div className="w-7 h-7 sm:w-8 sm:h-8 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
@@ -960,7 +948,7 @@ const LandingPageOptimized: React.FC = () => {
               </p>
             </div>
             
-                        <div>
+            <div>
               <h3 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4">Product</h3>
               <ul className="space-y-1.5 sm:space-y-2">
                 <li><a href="#features" className="text-xs sm:text-sm text-gray-300 hover:text-white active:text-gray-100 transition-colors touch-manipulation block py-1">Features</a></li>
@@ -969,9 +957,10 @@ const LandingPageOptimized: React.FC = () => {
                 <li><a href="#testimonials" className="text-xs sm:text-sm text-gray-300 hover:text-white active:text-gray-100 transition-colors touch-manipulation block py-1">Reviews</a></li>
               </ul>
             </div>
-
-            {/* Company section removed per request */}
-
+            
+            {/* Company section removed per request - Spacer to push Support to right */}
+            <div className="hidden md:block"></div>
+            
             <div>
               <h3 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4">Support</h3>
               <ul className="space-y-1.5 sm:space-y-2">
