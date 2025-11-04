@@ -3,21 +3,7 @@ import { Calendar, User, ArrowRight, Search, Tag, Clock } from 'lucide-react';
 import LiveChatWidget from '../components/LiveChatWidget';
 import { useNavigate } from 'react-router-dom';
 
-const Blog: React.FC = () => {
-  const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTag, setSelectedTag] = useState('all');
-
-  const tags = useMemo(() => {
-    const counts: Record<string, number> = {};
-    blogPosts.forEach(p => p.tags.forEach(t => { counts[t] = (counts[t] || 0) + 1; }));
-    return [
-      { id: 'all', name: 'All Posts', count: blogPosts.length },
-      { id: 'ai', name: 'AI & Machine Learning', count: counts['ai'] || 0 }
-  ];
-  }, []);
-
-  const blogPosts = [
+const blogPosts = [
     {
       id: 1,
       slug: 'ai-chatbots-revolutionizing-customer-service-2025',
@@ -91,6 +77,20 @@ const Blog: React.FC = () => {
       image: '/api/placeholder/600/400'
     }
   ];
+
+const Blog: React.FC = () => {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTag, setSelectedTag] = useState('all');
+
+  const tags = useMemo(() => {
+    const counts: Record<string, number> = {};
+    blogPosts.forEach(p => p.tags.forEach(t => { counts[t] = (counts[t] || 0) + 1; }));
+    return [
+      { id: 'all', name: 'All Posts', count: blogPosts.length },
+      { id: 'ai', name: 'AI & Machine Learning', count: counts['ai'] || 0 }
+    ];
+  }, []);
 
   const filteredPosts = blogPosts.filter(post => {
     const matchesTag = selectedTag === 'all' || post.tags.includes(selectedTag);
