@@ -1721,8 +1721,8 @@ const Chatbot: React.FC = () => {
                               With white-label enabled, your chatbot will appear completely branded to your company without any AI Orchestrator attribution.
                             </p>
                           </div>
-                            </div>
-                          )}
+                        </div>
+                      )}
 
                       {/* Preview */}
                       <div className="bg-gray-50 rounded-lg p-4">
