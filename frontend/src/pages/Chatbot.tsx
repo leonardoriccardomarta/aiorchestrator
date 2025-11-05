@@ -1434,36 +1434,6 @@ const Chatbot: React.FC = () => {
 
         {activeTab === 'embed' && (
           <div className="space-y-4 lg:space-y-6">
-            {/* Plan Limits */}
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 lg:p-6 border border-blue-200">
-              <div className="flex items-center justify-between mb-3 lg:mb-4">
-                <h3 className="text-base lg:text-lg font-semibold text-gray-900">Your Plan Limits</h3>
-                <span className="px-2 lg:px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs lg:text-sm font-medium">
-                  {user?.planId === 'starter' ? 'Starter' : user?.planId === 'professional' ? 'Professional' : 'Business'}
-                </span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-4">
-                <div className="text-center">
-                  <div className="text-xl lg:text-2xl font-bold text-blue-600 mb-1">
-                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : user?.planId === 'business' ? '3' : '1'}
-                  </div>
-                  <div className="text-xs lg:text-sm text-gray-600">Chatbots</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-xl lg:text-2xl font-bold text-green-600 mb-1">
-                    {user?.planId === 'starter' ? '5K' : user?.planId === 'professional' ? '25K' : user?.planId === 'business' ? '100K' : '5K'}
-                  </div>
-                  <div className="text-xs lg:text-sm text-gray-600">Messages/Month</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-xl lg:text-2xl font-bold text-purple-600 mb-1">
-                    {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : user?.planId === 'business' ? '3' : '1'}
-                  </div>
-                  <div className="text-xs lg:text-sm text-gray-600">Websites</div>
-                </div>
-              </div>
-            </div>
-
             {/* Embed Options */}
             <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">
               <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Embed Your Chatbot</h3>
@@ -1616,8 +1586,8 @@ const Chatbot: React.FC = () => {
                       <div className="flex items-center space-x-2 lg:space-x-3">
                         <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
                           <Palette className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
-                        </div>
-                        <div>
+                    </div>
+                      <div>
                           <h4 className="text-sm lg:text-base font-semibold text-gray-900">Custom Branding</h4>
                           <p className="text-xs lg:text-sm text-gray-600">Customize your chatbot's appearance</p>
                         </div>
@@ -1630,7 +1600,7 @@ const Chatbot: React.FC = () => {
                         <RotateCcw className="w-3 h-3 lg:w-4 lg:h-4" />
                         <span className="hidden sm:inline">Reset</span>
                       </button>
-                    </div>
+                      </div>
 
                     <div className="space-y-4 lg:space-y-6">
                       {/* Logo Upload */}
@@ -1751,8 +1721,8 @@ const Chatbot: React.FC = () => {
                               With white-label enabled, your chatbot will appear completely branded to your company without any AI Orchestrator attribution.
                             </p>
                           </div>
-                        </div>
-                      )}
+                            </div>
+                          )}
 
                       {/* Preview */}
                       <div className="bg-gray-50 rounded-lg p-4">
