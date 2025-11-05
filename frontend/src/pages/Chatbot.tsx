@@ -1455,6 +1455,7 @@ const Chatbot: React.FC = () => {
               <div className="mb-4 lg:mb-6">
                 <h4 className="font-medium text-sm lg:text-base text-gray-900 mb-3 lg:mb-4">Widget Customization</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
+                  {/* Basic Settings */}
                   <div>
                     <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Theme Color</label>
                     <div className="flex space-x-1 lg:space-x-2">
@@ -1499,7 +1500,7 @@ const Chatbot: React.FC = () => {
                       value={widgetTitle}
                       onChange={(e) => {
                         setWidgetTitle(e.target.value);
-                        setChatbotName(e.target.value); // Sync with chatbot name
+                        setChatbotName(e.target.value);
                       }}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
                       placeholder="AI Support"
@@ -1515,32 +1516,30 @@ const Chatbot: React.FC = () => {
                       placeholder="Type your message..."
                     />
                   </div>
-                  <div>
+                  <div className="md:col-span-2 lg:col-span-1">
                     <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Widget Message</label>
                     <textarea
                       value={widgetMessage}
                       onChange={(e) => {
                         setWidgetMessage(e.target.value);
-                        setWelcomeMessage(e.target.value); // Sync with welcome message
+                        setWelcomeMessage(e.target.value);
                       }}
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
                       placeholder="Hello! I'm your AI assistant. How can I help you today?"
                     />
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id="showAvatar"
-                        checked={showWidgetAvatar}
-                        onChange={(e) => setShowWidgetAvatar(e.target.checked)}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                      />
-                      <label htmlFor="showAvatar" className="ml-2 block text-xs lg:text-sm text-gray-700">
-                        Show Avatar
-                      </label>
-                    </div>
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="showAvatar"
+                      checked={showWidgetAvatar}
+                      onChange={(e) => setShowWidgetAvatar(e.target.checked)}
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    />
+                    <label htmlFor="showAvatar" className="ml-2 block text-xs lg:text-sm text-gray-700">
+                      Show Avatar
+                    </label>
                   </div>
                   <div>
                     <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Primary Language</label>
@@ -1564,32 +1563,41 @@ const Chatbot: React.FC = () => {
                       <option value="hi">हिन्दी</option>
                     </select>
                     <p className="text-[10px] lg:text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
+                  </div>
                 </div>
-                
-                  {/* Logo (Professional+ plans) */}
-                  {(user?.planId === 'professional' || user?.planId === 'business') && (
+
+                {/* Custom Branding Section (Professional+ plans) */}
+                {(user?.planId === 'professional' || user?.planId === 'business') && (
+                  <div className="mt-6 lg:mt-8 pt-6 lg:pt-8 border-t border-gray-200">
+                    <div className="flex items-center space-x-2 mb-4 lg:mb-6">
+                      <Palette className="w-5 h-5 lg:w-6 lg:h-6 text-purple-600" />
+                      <h5 className="text-sm lg:text-base font-semibold text-gray-900">Custom Branding</h5>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+                      {/* Logo */}
                       <div>
-                      <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Logo</label>
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-3 lg:p-4 text-center hover:border-gray-400 transition-colors">
+                        <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Logo</label>
+                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 lg:p-6 text-center hover:border-gray-400 transition-colors">
                           {customBranding.logo ? (
                             <div className="space-y-2">
-                            <img src={customBranding.logo} alt="Logo preview" className="w-10 h-10 lg:w-12 lg:h-12 rounded mx-auto" />
+                              <img src={customBranding.logo} alt="Logo preview" className="w-16 h-16 lg:w-20 lg:h-20 rounded mx-auto object-contain" />
                               <button
                                 onClick={() => updateCustomBranding({ logo: '' })}
-                                className="text-xs text-red-600 hover:text-red-800"
+                                className="text-xs lg:text-sm text-red-600 hover:text-red-800"
                               >
                                 Remove
                               </button>
                             </div>
                           ) : (
-                          <>
-                            <Upload className="w-5 h-5 lg:w-6 lg:h-6 text-gray-400 mx-auto mb-1" />
-                              <p className="text-xs text-gray-600 mb-1">Upload logo</p>
+                            <>
+                              <Upload className="w-6 h-6 lg:w-8 lg:h-8 text-gray-400 mx-auto mb-2" />
+                              <p className="text-xs lg:text-sm text-gray-600 mb-2">Upload your logo</p>
+                              <p className="text-[10px] lg:text-xs text-gray-500 mb-3">PNG, JPG up to 2MB</p>
                               <input
                                 type="file"
                                 accept="image/*"
                                 className="hidden"
-                              id="logo-upload-grid"
+                                id="logo-upload-grid"
                                 onChange={(e) => {
                                   const file = e.target.files?.[0];
                                   if (file) {
@@ -1604,68 +1612,80 @@ const Chatbot: React.FC = () => {
                                 }}
                               />
                               <label
-                              htmlFor="logo-upload-grid"
-                              className="mt-1 inline-block bg-blue-600 text-white px-2 lg:px-3 py-1 text-xs rounded hover:bg-blue-700 cursor-pointer"
+                                htmlFor="logo-upload-grid"
+                                className="inline-block bg-blue-600 text-white px-3 lg:px-4 py-1.5 lg:py-2 rounded-lg text-xs lg:text-sm font-medium hover:bg-blue-700 cursor-pointer"
                               >
                                 Choose File
                               </label>
-                          </>
+                            </>
                           )}
                         </div>
                       </div>
-                  )}
-                  
-                  {/* Font Family (Professional+ plans) */}
-                  {(user?.planId === 'professional' || user?.planId === 'business') && (
-                    <div>
-                      <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Font Family</label>
-                      <select
-                        value={customBranding.fontFamily}
-                        onChange={(e) => updateCustomBranding({ fontFamily: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
-                      >
-                        <option value="Inter">Inter</option>
-                        <option value="Roboto">Roboto</option>
-                        <option value="Open Sans">Open Sans</option>
-                        <option value="Lato">Lato</option>
-                        <option value="Poppins">Poppins</option>
-                      </select>
+                      {/* Font Family */}
+                      <div>
+                        <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Font Family</label>
+                        <select
+                          value={customBranding.fontFamily}
+                          onChange={(e) => updateCustomBranding({ fontFamily: e.target.value })}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
+                        >
+                          <option value="Inter">Inter</option>
+                          <option value="Roboto">Roboto</option>
+                          <option value="Open Sans">Open Sans</option>
+                          <option value="Lato">Lato</option>
+                          <option value="Poppins">Poppins</option>
+                        </select>
+                        <p className="text-[10px] lg:text-xs text-gray-500 mt-2">Choose a font that matches your brand identity</p>
+                      </div>
                     </div>
-                  )}
-                  
-                  {/* White Label (Business only) */}
-                  {user?.planId === 'business' && (
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id="remove-branding-embed"
-                        checked={whiteLabelEnabled}
-                        onChange={(e) => {
-                          setWhiteLabelEnabled(e.target.checked);
-                          if (selectedChatbot) {
-                            const settings = typeof selectedChatbot.settings === 'string' 
-                              ? JSON.parse(selectedChatbot.settings) 
-                              : selectedChatbot.settings || {};
-                            const updatedSettings = {
-                              ...settings,
-                              whiteLabel: {
-                                removeBranding: e.target.checked
-                              }
-                            };
-                            updateChatbot(selectedChatbot.id, {
-                              settings: JSON.stringify(updatedSettings)
-                            });
-                          }
-                        }}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                      />
-                      <label htmlFor="remove-branding-embed" className="ml-2 block text-xs lg:text-sm text-gray-700">
-                        Remove "Powered by" branding
-                      </label>
                   </div>
                 )}
-                </div>
-                
+
+                {/* White-Label Section (Business only) */}
+                {user?.planId === 'business' && (
+                  <div className="mt-6 lg:mt-8 pt-6 lg:pt-8 border-t border-gray-200">
+                    <div className="flex items-center space-x-2 mb-4 lg:mb-6">
+                      <Globe className="w-5 h-5 lg:w-6 lg:h-6 text-indigo-600" />
+                      <h5 className="text-sm lg:text-base font-semibold text-gray-900">White-Label Solution</h5>
+                    </div>
+                    <div className="bg-indigo-50 rounded-lg p-4 lg:p-6 border border-indigo-200">
+                      <div className="flex items-start space-x-3">
+                        <input
+                          type="checkbox"
+                          id="remove-branding-embed"
+                          checked={whiteLabelEnabled}
+                          onChange={(e) => {
+                            setWhiteLabelEnabled(e.target.checked);
+                            if (selectedChatbot) {
+                              const settings = typeof selectedChatbot.settings === 'string' 
+                                ? JSON.parse(selectedChatbot.settings) 
+                                : selectedChatbot.settings || {};
+                              const updatedSettings = {
+                                ...settings,
+                                whiteLabel: {
+                                  removeBranding: e.target.checked
+                                }
+                              };
+                              updateChatbot(selectedChatbot.id, {
+                                settings: JSON.stringify(updatedSettings)
+                              });
+                            }
+                          }}
+                          className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded mt-0.5"
+                        />
+                        <div className="flex-1">
+                          <label htmlFor="remove-branding-embed" className="block text-sm lg:text-base font-medium text-gray-900 cursor-pointer">
+                            Remove "Powered by AI Orchestrator" branding
+                          </label>
+                          <p className="text-xs lg:text-sm text-gray-600 mt-1">
+                            When enabled, your chatbot will appear completely branded to your company without any AI Orchestrator attribution.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Save Button */}
                 <div className="mt-4 lg:mt-6 flex justify-end items-center space-x-2 lg:space-x-4">
                   {saveStatus === 'success' && (
@@ -1714,11 +1734,11 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      key={`${currentChatbotId}-${customBranding.logo ? customBranding.logo.substring(0, 50) : 'no-logo'}-${customBranding.fontFamily}`}
-                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&fontFamily=${encodeURIComponent(customBranding.fontFamily)}${customBranding.logo && !customBranding.logo.startsWith('blob:') ? `&logo=${encodeURIComponent(customBranding.logo)}` : ''}` : ''}`}
+                      key={`${currentChatbotId}-${customBranding.logo ? customBranding.logo.substring(0, 50) : 'no-logo'}-${customBranding.fontFamily}-${whiteLabelEnabled}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&fontFamily=${encodeURIComponent(customBranding.fontFamily)}${customBranding.logo && !customBranding.logo.startsWith('blob:') ? `&logo=${encodeURIComponent(customBranding.logo)}` : ''}` : ''}${user?.planId === 'business' ? `&showPoweredBy=${!whiteLabelEnabled}` : ''}`}
                       className="w-full h-[400px] lg:h-[740px] border-0"
                       title="Live Chatbot Preview"
-                      onLoad={() => console.log('🖼️ iframe loaded, logo:', customBranding.logo ? customBranding.logo.substring(0, 100) : 'none')}
+                      onLoad={() => console.log('🖼️ iframe loaded, logo:', customBranding.logo ? customBranding.logo.substring(0, 100) : 'none', 'whiteLabel:', whiteLabelEnabled)}
                     />
                   ) : (
                     <div className="w-full h-[300px] lg:h-[600px] bg-gray-50 flex items-center justify-center">
