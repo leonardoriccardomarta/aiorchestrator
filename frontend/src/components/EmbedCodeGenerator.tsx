@@ -109,10 +109,19 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
     }
     
     // Professional+ plan - advanced widget with custom branding
-    // Business plan includes white-label (showPoweredBy: false)
-    const brandingAttrs = isBusinessPlan 
-      ? `data-show-powered-by="false"`
-      : '';
+    // Business plan includes white-label
+    let whiteLabelAttrs = '';
+    if (isBusinessPlan && selectedChatbot?.settings) {
+      const settings = typeof selectedChatbot.settings === 'string' 
+        ? JSON.parse(selectedChatbot.settings) 
+        : selectedChatbot.settings;
+      if (settings.whiteLabel?.removeBranding) {
+        whiteLabelAttrs = `data-show-powered-by="false"`;
+        if (settings.whiteLabel?.customText) {
+          whiteLabelAttrs += `\n  data-powered-by-text="${settings.whiteLabel.customText.replace(/"/g, '&quot;')}"`;
+        }
+      }
+    }
     
     return `<!-- AI Orchestrator Chatbot Widget -->
 <script 
@@ -125,7 +134,7 @@ const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
   data-show-avatar="${showAvatar}"
   data-welcome-message="${welcomeMessage}"
   data-primary-language="${language}"
-  ${brandingAttrs}
+  ${whiteLabelAttrs}
   ${config.fontFamily ? `data-font-family="${config.fontFamily}"` : ''}
   ${selectedChatbot?.settings ? (() => {
     const settings = typeof selectedChatbot.settings === 'string' 
@@ -288,6 +297,7 @@ export default {
     // Get branding settings from chatbot
     let logo = '';
     let fontFamily = '';
+    let whiteLabelAttrs = '';
     if (selectedChatbot?.settings) {
       const settings = typeof selectedChatbot.settings === 'string' 
         ? JSON.parse(selectedChatbot.settings) 
@@ -295,6 +305,12 @@ export default {
       if (settings.branding) {
         logo = settings.branding.logo || '';
         fontFamily = settings.branding.fontFamily || '';
+      }
+      if (isBusinessPlan && settings.whiteLabel?.removeBranding) {
+        whiteLabelAttrs = `data-show-powered-by="false"`;
+        if (settings.whiteLabel?.customText) {
+          whiteLabelAttrs += `\n  data-powered-by-text="${settings.whiteLabel.customText.replace(/"/g, '&quot;')}"`;
+        }
       }
     }
     
@@ -316,7 +332,6 @@ export default {
     }
     
     // Professional+ plan - advanced Shopify code with custom branding
-    // Business plan includes white-label (showPoweredBy: false)
     return `<!-- Add this to your theme.liquid file before </body> -->
 <script 
   src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
@@ -330,7 +345,7 @@ export default {
   data-primary-language="${language}"
   ${fontFamily ? `data-font-family="${fontFamily}"` : ''}
   ${logo ? `data-logo="${logo}"` : ''}
-  ${isBusinessPlan ? `data-show-powered-by="false"` : ''}
+  ${whiteLabelAttrs}
   defer>
 </script>`;
   };

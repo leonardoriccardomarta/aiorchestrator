@@ -388,6 +388,8 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
     const { chatbotId } = req.params;
     const { theme, title, placeholder, message, showAvatar, fontFamily, logo } = req.query;
     const primaryLanguage = typeof req.query.primaryLanguage === 'string' ? req.query.primaryLanguage : 'auto';
+    const showPoweredBy = req.query.showPoweredBy !== 'false'; // Default to true unless explicitly false
+    const poweredByText = typeof req.query.poweredByText === 'string' ? req.query.poweredByText : null;
     
     // Debug logging
     console.log('🔍 Embed request params:', {
@@ -396,6 +398,8 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
       title, 
       fontFamily, 
       logo,
+      showPoweredBy,
+      poweredByText,
       allQuery: req.query
     });
     
@@ -678,7 +682,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                     </svg>
                 </button>
             </div>
-            ${!isBusinessPlan ? '<p class="text-xs text-gray-400 text-center">Powered by AI Orchestrator</p>' : ''}
+            ${showPoweredBy ? (poweredByText ? `<p class="text-xs text-gray-400 text-center">${poweredByText}</p>` : '<p class="text-xs text-gray-400 text-center">Powered by AI Orchestrator</p>') : ''}
         </div>
     </div>
     
@@ -694,7 +698,8 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
             data-show-avatar="${showAvatar !== 'false'}"
             ${isProfessionalPlan ? `data-font-family="${customFontFamily}"
             ${customLogo ? `data-logo="${customLogo}"` : ''}` : ''}
-            ${isBusinessPlan ? `data-show-powered-by="false"` : ''}
+            ${!showPoweredBy ? `data-show-powered-by="false"` : ''}
+            ${poweredByText ? `data-powered-by-text="${poweredByText.replace(/"/g, '&quot;')}"` : ''}
             defer>
     </script>
 </body>
@@ -1689,6 +1694,15 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
       const customBranding = settings.branding || {};
       const whiteLabel = settings.whiteLabel || {};
       
+      // Build white-label attributes
+      let whiteLabelAttrs = '';
+      if (isBusinessPlan && whiteLabel.removeBranding) {
+        whiteLabelAttrs = `data-show-powered-by="false"`;
+        if (whiteLabel.customText) {
+          whiteLabelAttrs += `\n  data-powered-by-text="${whiteLabel.customText.replace(/"/g, '&quot;')}"`;
+        }
+      }
+      
       widgetCode = `<!-- AI Orchestrator Chatbot Widget for Shopify -->
 <script 
   src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
@@ -1702,7 +1716,7 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
   data-primary-language="${selectedChatbot?.language || 'auto'}"
   ${isProfessionalPlan ? `data-font-family="${customBranding.fontFamily || settings.fontFamily || 'Open Sans'}"                                                 
   data-logo="${customBranding.logo || settings.logo || ''}"` : ''}
-  ${isBusinessPlan ? `data-show-powered-by="false"` : ''}
+  ${whiteLabelAttrs}
   defer>
 </script>`;
     } else {
@@ -1710,6 +1724,15 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
       const customBranding = settings.branding || {};
       const whiteLabel = settings.whiteLabel || {};
 
+      // Build white-label attributes
+      let whiteLabelAttrs = '';
+      if (isBusinessPlan && whiteLabel.removeBranding) {
+        whiteLabelAttrs = `data-show-powered-by="false"`;
+        if (whiteLabel.customText) {
+          whiteLabelAttrs += `\n  data-powered-by-text="${whiteLabel.customText.replace(/"/g, '&quot;')}"`;
+        }
+      }
+      
       widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
 <script 
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
@@ -1723,7 +1746,7 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
   data-primary-language="${selectedChatbot?.language || 'auto'}"
   ${isProfessionalPlan ? `data-font-family="${customBranding.fontFamily || settings.fontFamily || 'Inter'}"  
   data-logo="${customBranding.logo || settings.logo || ''}"` : ''}
-  ${isBusinessPlan ? `data-show-powered-by="false"` : ''}
+  ${whiteLabelAttrs}
   defer>
 </script>`;
     }

@@ -120,7 +120,8 @@ primaryColor: window.AIOrchestratorConfig.primaryColor,
 secondaryColor: window.AIOrchestratorConfig.secondaryColor,
 fontFamily: window.AIOrchestratorConfig.fontFamily,
 logo: window.AIOrchestratorConfig.logo,
-showPoweredBy: window.AIOrchestratorConfig.showPoweredBy !== false // Default: true
+showPoweredBy: window.AIOrchestratorConfig.showPoweredBy !== false, // Default: true
+poweredByText: window.AIOrchestratorConfig.poweredByText || null
 };
 }
 
@@ -143,7 +144,8 @@ autoOpen: script.dataset.autoOpen === 'true', // Default: false (chiuso)
 // Custom branding attributes (only fontFamily and logo; colors from theme)
 fontFamily: script.dataset.fontFamily || script.dataset['font-family'],
 logo: script.dataset.logo,
-showPoweredBy: script.dataset.showPoweredBy !== 'false' && script.dataset['show-powered-by'] !== 'false' // Default: true, check both formats
+showPoweredBy: script.dataset.showPoweredBy !== 'false' && script.dataset['show-powered-by'] !== 'false', // Default: true, check both formats
+poweredByText: script.dataset.poweredByText || script.dataset['powered-by-text'] || null
 };
 
 console.log('✅ Config loaded from script tag:', config);
@@ -1106,7 +1108,7 @@ ${config.logo ? `
       </svg>
     </button>
   </div>
-  ${(config.showPoweredBy !== false && !config.logo) ? '<p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 0;">Powered by AI Orchestrator</p>' : ''}
+  ${config.showPoweredBy !== false ? (config.poweredByText ? `<p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 0;">${config.poweredByText}</p>` : (!config.logo ? '<p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 0;">Powered by AI Orchestrator</p>' : '')) : ''}
 </div>
 </div>
 </div>

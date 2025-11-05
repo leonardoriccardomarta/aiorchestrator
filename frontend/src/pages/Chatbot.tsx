@@ -110,6 +110,7 @@ const Chatbot: React.FC = () => {
   
   // White-label state (for Business plan only)
   const [whiteLabelEnabled, setWhiteLabelEnabled] = useState(false);
+  const [whiteLabelText, setWhiteLabelText] = useState('');
   
   // removed detectLanguage; use primaryLanguage only
 
@@ -308,6 +309,7 @@ const Chatbot: React.FC = () => {
         if (user?.planId === 'business' && settings.whiteLabel) {
           console.log('🔄 Loading white-label from database');
           setWhiteLabelEnabled(settings.whiteLabel.removeBranding || false);
+          setWhiteLabelText(settings.whiteLabel.customText || '');
         }
         
         // Check if logo needs resizing (for non-blob URLs)
@@ -410,6 +412,14 @@ const Chatbot: React.FC = () => {
       // Only add branding if user has professional+ plan
       if (user?.planId !== 'starter') {
         newSettings.branding = brandingToSave;
+      }
+      
+      // Add white-label settings if user has Business plan
+      if (user?.planId === 'business') {
+        newSettings.whiteLabel = {
+          removeBranding: whiteLabelEnabled,
+          customText: whiteLabelText || ''
+        };
       }
       
       const payload = {
@@ -872,13 +882,17 @@ const Chatbot: React.FC = () => {
         ? `\n  data-logo="${customBranding.logo}"` 
         : '';
       
-      // Add white-label attribute for Business plan
-      const whiteLabelAttribute = (user?.planId === 'business' && whiteLabelEnabled)
-        ? `\n  data-show-powered-by="false"`
-        : '';
+      // Add white-label attributes for Business plan
+      let whiteLabelAttributes = '';
+      if (user?.planId === 'business' && whiteLabelEnabled) {
+        whiteLabelAttributes = `\n  data-show-powered-by="false"`;
+        if (whiteLabelText) {
+          whiteLabelAttributes += `\n  data-powered-by-text="${whiteLabelText.replace(/"/g, '&quot;')}"`;
+        }
+      }
       
       return baseCode + `
-  data-font-family="${customBranding.fontFamily || 'Inter'}"${logoAttribute}${whiteLabelAttribute}
+  data-font-family="${customBranding.fontFamily || 'Inter'}"${logoAttribute}${whiteLabelAttributes}
   defer>
 </script>`;
     }
@@ -1648,7 +1662,7 @@ const Chatbot: React.FC = () => {
                       <Globe className="w-5 h-5 lg:w-6 lg:h-6 text-indigo-600" />
                       <h5 className="text-sm lg:text-base font-semibold text-gray-900">White-Label Solution</h5>
                     </div>
-                    <div className="bg-indigo-50 rounded-lg p-4 lg:p-6 border border-indigo-200">
+                    <div className="bg-indigo-50 rounded-lg p-4 lg:p-6 border border-indigo-200 space-y-4">
                       <div className="flex items-start space-x-3">
                         <input
                           type="checkbox"
@@ -1663,6 +1677,7 @@ const Chatbot: React.FC = () => {
                               const updatedSettings = {
                                 ...settings,
                                 whiteLabel: {
+                                  ...settings.whiteLabel,
                                   removeBranding: e.target.checked
                                 }
                               };
@@ -1678,10 +1693,48 @@ const Chatbot: React.FC = () => {
                             Remove "Powered by AI Orchestrator" branding
                           </label>
                           <p className="text-xs lg:text-sm text-gray-600 mt-1">
-                            When enabled, your chatbot will appear completely branded to your company without any AI Orchestrator attribution.
+                            When enabled, you can customize or remove the "Powered by" text at the bottom of your chatbot.
                           </p>
                         </div>
                       </div>
+                      
+                      {whiteLabelEnabled && (
+                        <div>
+                          <label htmlFor="white-label-text" className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
+                            Custom Footer Text (optional)
+                          </label>
+                          <input
+                            type="text"
+                            id="white-label-text"
+                            value={whiteLabelText}
+                            onChange={(e) => {
+                              const newText = e.target.value;
+                              setWhiteLabelText(newText);
+                              if (selectedChatbot) {
+                                const settings = typeof selectedChatbot.settings === 'string' 
+                                  ? JSON.parse(selectedChatbot.settings) 
+                                  : selectedChatbot.settings || {};
+                                const updatedSettings = {
+                                  ...settings,
+                                  whiteLabel: {
+                                    ...settings.whiteLabel,
+                                    removeBranding: whiteLabelEnabled,
+                                    customText: newText
+                                  }
+                                };
+                                updateChatbot(selectedChatbot.id, {
+                                  settings: JSON.stringify(updatedSettings)
+                                });
+                              }
+                            }}
+                            placeholder='e.g., "Powered by Your Company" or leave empty to hide'
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm lg:text-base bg-white text-gray-900"
+                          />
+                          <p className="text-[10px] lg:text-xs text-gray-500 mt-1">
+                            Leave empty to completely hide the footer text, or enter your own custom text.
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
@@ -1734,8 +1787,8 @@ const Chatbot: React.FC = () => {
                   {/* Just the chatbot iframe, full size */}
                   {currentChatbotId ? (
                     <iframe
-                      key={`${currentChatbotId}-${customBranding.logo ? customBranding.logo.substring(0, 50) : 'no-logo'}-${customBranding.fontFamily}-${whiteLabelEnabled}`}
-                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&fontFamily=${encodeURIComponent(customBranding.fontFamily)}${customBranding.logo && !customBranding.logo.startsWith('blob:') ? `&logo=${encodeURIComponent(customBranding.logo)}` : ''}` : ''}${user?.planId === 'business' ? `&showPoweredBy=${!whiteLabelEnabled}` : ''}`}
+                      key={`${currentChatbotId}-${customBranding.logo ? customBranding.logo.substring(0, 50) : 'no-logo'}-${customBranding.fontFamily}-${whiteLabelEnabled}-${whiteLabelText}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&fontFamily=${encodeURIComponent(customBranding.fontFamily)}${customBranding.logo && !customBranding.logo.startsWith('blob:') ? `&logo=${encodeURIComponent(customBranding.logo)}` : ''}` : ''}${user?.planId === 'business' ? `&showPoweredBy=${!whiteLabelEnabled}${whiteLabelEnabled && whiteLabelText ? `&poweredByText=${encodeURIComponent(whiteLabelText)}` : ''}` : ''}`}
                       className="w-full h-[400px] lg:h-[740px] border-0"
                       title="Live Chatbot Preview"
                       onLoad={() => console.log('🖼️ iframe loaded, logo:', customBranding.logo ? customBranding.logo.substring(0, 100) : 'none', 'whiteLabel:', whiteLabelEnabled)}
