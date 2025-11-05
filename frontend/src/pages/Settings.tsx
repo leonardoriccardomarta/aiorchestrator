@@ -343,27 +343,27 @@ const Settings: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-4 lg:py-8">
-      <div className="max-w-4xl mx-auto px-2 sm:px-4">
+    <div className="min-h-screen bg-gray-50 py-3 sm:py-4 lg:py-8">
+      <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6">
         {/* Header */}
-        <div className="bg-white rounded-lg shadow-sm p-4 lg:p-6 mb-4 lg:mb-6">
+        <div className="bg-white rounded-lg shadow-sm p-3 sm:p-4 lg:p-6 mb-3 sm:mb-4 lg:mb-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 lg:space-x-3 mb-2 lg:mb-4">
-              <SettingsIcon className="w-6 h-6 lg:w-8 lg:h-8 text-blue-600" />
-              <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Account Settings</h1>
+            <div className="flex items-center space-x-2 sm:space-x-3 mb-2 lg:mb-4">
+              <SettingsIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-blue-600" />
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Account Settings</h1>
             </div>
           </div>
-          <p className="text-gray-600 text-sm lg:text-base">Manage your account, plan and preferences</p>
+          <p className="text-gray-600 text-xs sm:text-sm lg:text-base">Manage your account, plan and preferences</p>
           </div>
 
-        <div className="grid lg:grid-cols-3 gap-4 lg:gap-6">
+        <div className="grid lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
           {/* Trial Status Card */}
           <div className="lg:col-span-2">
-            <div className={`rounded-lg border-2 p-4 lg:p-6 mb-4 lg:mb-6 ${getTrialStatusBg()}`} data-tour="plan-info">
-              <div className="flex items-center justify-between mb-3 lg:mb-4">
-                <div className="flex items-center space-x-2 lg:space-x-3">
-                  <Clock className={`w-5 h-5 lg:w-6 lg:h-6 ${getTrialStatusColor()}`} />
-                  <h2 className="text-lg lg:text-xl font-semibold text-gray-900">
+            <div className={`rounded-lg border-2 p-3 sm:p-4 lg:p-6 mb-3 sm:mb-4 lg:mb-6 ${getTrialStatusBg()}`} data-tour="plan-info">
+              <div className="flex items-center justify-between mb-2 sm:mb-3 lg:mb-4">
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <Clock className={`w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 ${getTrialStatusColor()}`} />
+                  <h2 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-900">
                     {user?.isPaid ? 'Plan Status' : 'Trial Status'}
                   </h2>
                 </div>
@@ -409,7 +409,7 @@ const Settings: React.FC = () => {
 
                   <button
                     onClick={handleUpgrade}
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 lg:px-6 py-2 lg:py-3 rounded-md lg:rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center justify-center space-x-2 text-sm lg:text-base"
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 lg:px-6 py-2.5 sm:py-2 lg:py-3 rounded-md lg:rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 active:from-blue-800 active:to-purple-800 transition-all duration-200 flex items-center justify-center space-x-2 text-sm lg:text-base touch-manipulation min-h-[44px]"
                   >
                     <Crown className="w-4 h-4 lg:w-5 lg:h-5" />
                     <span>Upgrade Plan</span>

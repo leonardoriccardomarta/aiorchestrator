@@ -346,13 +346,13 @@ const Connections: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-2 sm:p-4 lg:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-3 sm:p-4 lg:p-6">
       {/* Header */}
-      <div className="max-w-6xl mx-auto mb-4 lg:mb-8">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between space-y-4 lg:space-y-0">
+      <div className="max-w-6xl mx-auto mb-4 sm:mb-6 lg:mb-8">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between space-y-3 sm:space-y-4 lg:space-y-0">
           <div>
-            <h1 className="text-xl lg:text-3xl font-bold text-gray-900">Shopify Integration</h1>
-            <p className="text-gray-600 mt-1 lg:mt-2 text-sm lg:text-base hidden sm:block">Connect your Shopify store for seamless AI-powered customer support</p>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Shopify Integration</h1>
+            <p className="text-gray-600 mt-1 lg:mt-2 text-xs sm:text-sm lg:text-base hidden sm:block">Connect your Shopify store for seamless AI-powered customer support</p>
             </div>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 lg:gap-4 w-full lg:w-auto">
@@ -361,7 +361,7 @@ const Connections: React.FC = () => {
               </div>
               <button
                 onClick={fetchConnections}
-              className="flex items-center justify-center gap-2 px-3 lg:px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md lg:rounded-lg hover:bg-gray-50 transition-colors text-sm lg:text-base"
+              className="flex items-center justify-center gap-2 px-3 lg:px-4 py-1.5 sm:py-2 text-gray-700 bg-white border border-gray-300 rounded-md lg:rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-colors text-sm lg:text-base touch-manipulation min-h-[44px]"
               >
               <RefreshCw className="w-3 h-3 lg:w-4 lg:h-4" />
                 <span>Refresh</span>
@@ -369,7 +369,7 @@ const Connections: React.FC = () => {
             {!showAddConnection && (
               <button
                 onClick={() => setShowAddConnection(true)}
-                className="flex items-center justify-center gap-2 px-4 lg:px-6 py-2 lg:py-3 bg-green-600 text-white rounded-md lg:rounded-lg hover:bg-green-700 transition-colors shadow-lg text-sm lg:text-base"
+                className="flex items-center justify-center gap-2 px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 bg-green-600 text-white rounded-md lg:rounded-lg hover:bg-green-700 active:bg-green-800 transition-colors shadow-lg text-sm lg:text-base touch-manipulation min-h-[44px]"
               >
                 <ShoppingCart className="w-4 h-4 lg:w-5 lg:h-5" />
                 <span className="hidden sm:inline">Connect </span>Shopify Store

@@ -1421,6 +1421,31 @@ const data = await response.json();
 const typingElement = shadowRoot.getElementById('typing');
 if (typingElement) typingElement.remove();
 
+// Check for chatbot not found (plan changed)
+if (response.status === 404 && (data.planChanged || data.error)) {
+  // Show plan changed message
+  const planChangedDiv = document.createElement('div');
+  planChangedDiv.className = 'message bot plan-changed';
+  planChangedDiv.innerHTML = `
+    <div style="text-align: center; padding: 20px; background: #fef3c7; border: 1px solid #fbbf24; border-radius: 8px; margin: 10px 0;">
+      <div style="font-size: 18px; font-weight: 600; color: #d97706; margin-bottom: 10px;">
+        ⚠️ Chatbot Unavailable
+      </div>
+      <div style="color: #92400e; margin-bottom: 15px; font-size: 14px;">
+        ${data.message || data.error || 'This chatbot is no longer available. The widget needs to be updated with a new chatbot ID.'}
+      </div>
+      <div style="color: #92400e; font-size: 12px; margin-top: 10px;">
+        Please contact the website administrator to update the widget code.
+      </div>
+    </div>
+  `;
+  messagesContainer.appendChild(planChangedDiv);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  // Disable input field
+  if (inputField) inputField.disabled = true;
+  return;
+}
+
 // Check for trial expired or upgrade required
 if (response.status === 403 && (data.trialExpired || data.upgradeRequired)) {
 // Show trial expired message

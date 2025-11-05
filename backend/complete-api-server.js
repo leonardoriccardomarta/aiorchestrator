@@ -769,8 +769,15 @@ app.get('/api/widget/status/:chatbotId', async (req, res) => {
     
     if (!chatbot || !chatbot.user) {
       return res.status(404).json({
-        success: false,
-        error: 'Chatbot not found'
+        success: true,
+        data: {
+          status: 'plan_changed',
+          requiresAction: true,
+          message: 'This chatbot is no longer available. The widget needs to be updated with a new chatbot ID. Please contact the website administrator to update the widget code.',
+          actionUrl: 'https://www.aiorchestrator.dev/connections',
+          chatbot: null,
+          user: null
+        }
       });
     }
     
@@ -5153,6 +5160,16 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
         }
       });
       
+      if (!chatbot) {
+        // Chatbot not found - likely deleted due to plan change
+        return res.status(404).json({
+          success: false,
+          error: 'This chatbot is no longer available. The widget needs to be updated with a new chatbot ID. Please contact the website administrator to update the widget code.',
+          planChanged: true,
+          message: 'This chatbot has been removed. Please update your widget code with a new chatbot from your dashboard.'
+        });
+      }
+      
       if (chatbot && chatbot.user) {
         user = chatbot.user;
         console.log('✅ Found user from chatbotId:', user.id);
@@ -6171,16 +6188,6 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
         });
       }
 
-      // DELETE ALL CHATBOTS AND CONNECTIONS when changing plan
-      console.log(`🗑️ Deleting all chatbots and connections for user ${user.id} due to plan change from ${user.planId} to ${newPlanId}`);
-      await prisma.chatbot.deleteMany({
-        where: { userId: user.id }
-      });
-      await prisma.connection.deleteMany({
-        where: { userId: user.id }
-      });
-      console.log(`✅ All chatbots and connections deleted for user ${user.id}`);
-
       // Get or create Stripe customer
       let customer;
     const customers = await stripe.customers.list({
@@ -6312,11 +6319,30 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
       });
       console.log(`✅ Analytics deleted for user ${user.id}`);
 
+      // Delete all conversation messages first (due to foreign key constraints)
+      const conversationIds = await prisma.conversation.findMany({
+        where: { chatbot: { userId: user.id } },
+        select: { id: true }
+      });
+      
+      if (conversationIds.length > 0) {
+        await prisma.conversationMessage.deleteMany({
+          where: { conversationId: { in: conversationIds.map(c => c.id) } }
+        });
+        console.log(`✅ Conversation messages deleted for user ${user.id}`);
+      }
+
       // Delete all conversation data
       await prisma.conversation.deleteMany({
-        where: { userId: user.id }
+        where: { chatbot: { userId: user.id } }
       });
       console.log(`✅ Conversations deleted for user ${user.id}`);
+      
+      // Delete all legacy conversations
+      await prisma.legacyConversation.deleteMany({
+        where: { chatbot: { userId: user.id } }
+      });
+      console.log(`✅ Legacy conversations deleted for user ${user.id}`);
       
       console.log(`✅ All data reset completed for user ${user.id} due to plan change`);   
     } catch (error) {

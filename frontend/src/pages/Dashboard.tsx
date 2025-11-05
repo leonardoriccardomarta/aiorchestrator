@@ -232,10 +232,10 @@ const Dashboard: React.FC = () => {
     prefix?: string;
     suffix?: string;
   }) => (
-    <div className="group bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6 hover:shadow-xl hover:border-gray-300 transition-all duration-300">
-      <div className="flex items-center justify-between mb-3 lg:mb-4">
-        <div className={`p-2 lg:p-3 rounded-lg lg:rounded-xl ${color} group-hover:scale-110 transition-transform duration-300`}>
-          <Icon className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
+    <div className="group bg-white rounded-lg sm:rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6 hover:shadow-xl hover:border-gray-300 transition-all duration-300">
+      <div className="flex items-center justify-between mb-2 sm:mb-3 lg:mb-4">
+        <div className={`p-2 sm:p-2.5 lg:p-3 rounded-lg lg:rounded-xl ${color} group-hover:scale-110 transition-transform duration-300`}>
+          <Icon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
         </div>
         {change !== undefined && (
           <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${
@@ -250,8 +250,8 @@ const Dashboard: React.FC = () => {
         )}
       </div>
       <div>
-        <p className="text-xs lg:text-sm font-medium text-gray-600 mb-1">{title}</p>
-        <p className="text-2xl lg:text-3xl font-bold text-gray-900 mb-1">
+        <p className="text-xs sm:text-xs lg:text-sm font-medium text-gray-600 mb-1">{title}</p>
+        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-1">
           {prefix}{typeof value === 'number' && !isNaN(value) && value !== undefined && value !== null ? value.toLocaleString() : (value || 0)}{suffix}
         </p>
         {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
@@ -270,11 +270,11 @@ const Dashboard: React.FC = () => {
   }) => (
     <button
       onClick={onClick}
-      className="group p-4 lg:p-6 text-left bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 hover:shadow-xl hover:border-gray-300 transition-all duration-300 hover:scale-105 w-full"
+      className="group p-3 sm:p-4 lg:p-6 text-left bg-white rounded-lg sm:rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 hover:shadow-xl hover:border-gray-300 transition-all duration-300 hover:scale-105 w-full touch-manipulation min-h-[60px] sm:min-h-[80px]"
     >
-      <div className="flex items-start space-x-3 lg:space-x-4">
-        <div className={`w-10 h-10 lg:w-12 lg:h-12 ${color} rounded-lg lg:rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 relative flex-shrink-0`}>
-          <Icon className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
+      <div className="flex items-start space-x-2 sm:space-x-3 lg:space-x-4">
+        <div className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 ${color} rounded-lg lg:rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 relative flex-shrink-0`}>
+          <Icon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
           {badge && (
             <div className="absolute -top-1 -right-1 lg:-top-2 lg:-right-2 bg-red-500 text-white text-xs px-1.5 lg:px-2 py-0.5 lg:py-1 rounded-full font-bold">
               {badge}
@@ -283,12 +283,12 @@ const Dashboard: React.FC = () => {
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center space-x-2 mb-1 lg:mb-2">
-            <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors truncate">{title}</h3>
+            <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors truncate">{title}</h3>
             {status === 'active' && <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>}
             {status === 'pending' && <div className="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0"></div>}
             {status === 'new' && <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse flex-shrink-0"></div>}
           </div>
-          <p className="text-sm lg:text-base text-gray-600 group-hover:text-gray-700 transition-colors mb-2 lg:mb-3 line-clamp-2">{description}</p>
+          <p className="text-xs sm:text-sm lg:text-base text-gray-600 group-hover:text-gray-700 transition-colors mb-2 lg:mb-3 line-clamp-2">{description}</p>
           <div className="flex items-center text-blue-600 text-sm font-medium group-hover:text-blue-700">
             <span>Get started</span>
             <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />

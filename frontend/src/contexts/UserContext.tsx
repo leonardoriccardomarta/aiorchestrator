@@ -171,7 +171,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.removeItem('userData');
         localStorage.removeItem('authToken');
         setIsLoading(false);
-        window.location.href = '/pricing';
+        // Redirect to pricing instead of landing if already in app
+        const currentPath = window.location.pathname;
+        if (currentPath !== '/pricing' && currentPath !== '/') {
+          window.location.href = '/pricing';
+        }
         return;
         }
       } else if (response.status === 401) {
