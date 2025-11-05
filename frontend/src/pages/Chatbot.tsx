@@ -53,7 +53,8 @@ import {
   Upload,
   RotateCcw,
   Lock,
-  RefreshCw
+  RefreshCw,
+  Globe
 } from 'lucide-react';
 import ChatbotManagement from '../components/ChatbotManagement';
 import EmbedCodeGenerator from '../components/EmbedCodeGenerator';
@@ -108,6 +109,10 @@ const Chatbot: React.FC = () => {
     fontFamily: 'Open Sans',
     logo: ''
   });
+  
+  // White-label state (for Business plan only)
+  const [whiteLabelEnabled, setWhiteLabelEnabled] = useState(false);
+  
   // removed detectLanguage; use primaryLanguage only
 
   // Save widget customizations manually
@@ -292,11 +297,23 @@ const Chatbot: React.FC = () => {
             convertBlobToBase64(brandingToLoad.logo).then(base64Logo => {
               console.log('✅ Logo converted from blob to base64, length:', base64Logo.length);
               setCustomBranding(prev => ({ ...prev, logo: base64Logo }));
-            }).catch(error => {
-              console.error('❌ Error converting blob URL on load (expired):', error);
-              // Logo already set to '' above, nothing to do
+            }).catch(() => {
+              console.log('⚠️ Could not convert blob URL, logo will be empty');
             });
-          } else if (brandingToLoad.logo && brandingToLoad.logo.length > 0) {
+          } else {
+            // Logo is not a blob URL, load it directly
+            setCustomBranding(prev => ({ ...prev, ...brandingToLoad }));
+          }
+        }
+        
+        // Load white-label settings (Business plan only)
+        if (user?.planId === 'business' && settings.whiteLabel) {
+          console.log('🔄 Loading white-label from database');
+          setWhiteLabelEnabled(settings.whiteLabel.removeBranding || false);
+        }
+        
+        // Continue with logo loading if needed
+        if (settings.branding && brandingToLoad.logo && brandingToLoad.logo.length > 0 && !brandingToLoad.logo.startsWith('blob:')) {
             // Non-blob URL logo - check if it needs resizing
             if (brandingToLoad.logo.length > 150000) {
               console.log(`⚠️ Logo too large (${brandingToLoad.logo.length} chars), resizing...`);
@@ -868,8 +885,13 @@ const Chatbot: React.FC = () => {
         ? `\n  data-logo="${customBranding.logo}"` 
         : '';
       
+      // Add white-label attribute for Business plan
+      const whiteLabelAttribute = (user?.planId === 'business' && whiteLabelEnabled)
+        ? `\n  data-show-powered-by="false"`
+        : '';
+      
       return baseCode + `
-  data-font-family="${customBranding.fontFamily || 'Inter'}"${logoAttribute}
+  data-font-family="${customBranding.fontFamily || 'Inter'}"${logoAttribute}${whiteLabelAttribute}
   defer>
 </script>`;
     }
@@ -1593,88 +1615,49 @@ const Chatbot: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* Custom Branding Section - Only for Professional+ plans */}
-                {user?.planId !== 'starter' && (
-                  <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
+                {/* White-Label Section (Business plan only) - Always visible in Embed */}
+                {user?.planId === 'business' && (
+                  <div className="mt-6 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg border border-indigo-200">
                     <div className="flex items-center justify-between mb-3">
-                      <h4 className="text-sm font-medium text-gray-900 flex items-center">
-                        <Palette className="w-4 h-4 mr-2 text-purple-600" />
-                        Custom Branding
-                        <span className="ml-2 text-xs text-gray-500">• Synced with Settings</span>
-                      </h4>
-                      <button
-                        onClick={resetCustomBranding}
-                        className="flex items-center gap-1 px-2 py-1 text-xs text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"
-                        title="Reset to theme defaults"
-                      >
-                        <RotateCcw className="w-3 h-3" />
-                        Reset
-                      </button>
+                      <div className="flex items-center space-x-2">
+                        <Globe className="w-4 h-4 text-indigo-600" />
+                        <h4 className="text-sm font-medium text-gray-900">White-Label Solution</h4>
+                        <span className="ml-2 px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-full text-[10px] font-medium">Business Only</span>
+                      </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-1">Font Family</label>
-                        <select
-                          value={customBranding.fontFamily}
-                          onChange={(e) => updateCustomBranding({ fontFamily: e.target.value })}
-                          className="w-full px-2 py-1 border border-gray-300 rounded text-xs"
-                        >
-                          <option value="Inter">Inter</option>
-                          <option value="Roboto">Roboto</option>
-                          <option value="Open Sans">Open Sans</option>
-                          <option value="Lato">Lato</option>
-                          <option value="Poppins">Poppins</option>
-                        </select>
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-3 p-3 bg-white rounded-lg border border-gray-200">
+                        <input
+                          type="checkbox"
+                          id="white-label-enabled"
+                          checked={whiteLabelEnabled}
+                          onChange={(e) => {
+                            setWhiteLabelEnabled(e.target.checked);
+                            // Save to database
+                            if (selectedChatbot) {
+                              const settings = typeof selectedChatbot.settings === 'string' 
+                                ? JSON.parse(selectedChatbot.settings) 
+                                : selectedChatbot.settings || {};
+                              const updatedSettings = {
+                                ...settings,
+                                whiteLabel: {
+                                  removeBranding: e.target.checked
+                                }
+                              };
+                              updateChatbot(selectedChatbot.id, {
+                                settings: JSON.stringify(updatedSettings)
+                              });
+                            }
+                          }}
+                          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        />
+                        <label htmlFor="white-label-enabled" className="text-sm text-gray-700 flex-1 cursor-pointer">
+                          Remove "Powered by AI Orchestrator" branding
+                        </label>
                       </div>
-                      <div>
-                        <label className="block text-xs font-medium text-gray-700 mb-1">Logo</label>
-                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-3 text-center hover:border-gray-400 transition-colors">
-                          {customBranding.logo ? (
-                            <div className="space-y-2">
-                              <img src={customBranding.logo} alt="Logo preview" className="w-8 h-8 rounded mx-auto" />
-                              <button
-                                onClick={() => updateCustomBranding({ logo: '' })}
-                                className="text-xs text-red-600 hover:text-red-800"
-                              >
-                                Remove
-                              </button>
-                            </div>
-                          ) : (
-                            <div>
-                              <Upload className="w-4 h-4 text-gray-400 mx-auto mb-1" />
-                              <p className="text-xs text-gray-600 mb-1">Upload logo</p>
-                              <p className="text-[10px] text-gray-500">PNG, JPG up to 2MB</p>
-                              <p className="text-[9px] text-blue-600 mb-1 mt-1">
-                                💡 Minimum 200x200px
-                              </p>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                id="logo-upload-embed"
-                                onChange={(e) => {
-                                  const file = e.target.files?.[0];
-                                  if (file) {
-                                    const reader = new FileReader();
-                                    reader.onloadend = async () => {
-                                      const base64 = reader.result as string;
-                                      const compressed = await resizeLogo(base64);
-                                      updateCustomBranding({ logo: compressed });
-                                    };
-                                    reader.readAsDataURL(file);
-                                  }
-                                }}
-                              />
-                              <label
-                                htmlFor="logo-upload-embed"
-                                className="mt-1 inline-block bg-blue-600 text-white px-2 py-1 rounded text-xs hover:bg-blue-700 cursor-pointer"
-                              >
-                                Choose File
-                              </label>
-                            </div>
-                          )}
-                        </div>
-                      </div>
+                      <p className="text-xs text-gray-600">
+                        With white-label enabled, your chatbot will appear completely branded to your company without any AI Orchestrator attribution.
+                      </p>
                     </div>
                   </div>
                 )}

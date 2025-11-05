@@ -119,7 +119,8 @@ autoOpen: window.AIOrchestratorConfig.autoOpen === true, // Default: false (chiu
 primaryColor: window.AIOrchestratorConfig.primaryColor,
 secondaryColor: window.AIOrchestratorConfig.secondaryColor,
 fontFamily: window.AIOrchestratorConfig.fontFamily,
-logo: window.AIOrchestratorConfig.logo
+logo: window.AIOrchestratorConfig.logo,
+showPoweredBy: window.AIOrchestratorConfig.showPoweredBy !== false // Default: true
 };
 }
 
@@ -141,7 +142,8 @@ primaryLanguage: script.dataset.primaryLanguage || script.dataset['primary-langu
 autoOpen: script.dataset.autoOpen === 'true', // Default: false (chiuso)
 // Custom branding attributes (only fontFamily and logo; colors from theme)
 fontFamily: script.dataset.fontFamily || script.dataset['font-family'],
-logo: script.dataset.logo
+logo: script.dataset.logo,
+showPoweredBy: script.dataset.showPoweredBy !== 'false' && script.dataset['show-powered-by'] !== 'false' // Default: true, check both formats
 };
 
 console.log('✅ Config loaded from script tag:', config);
@@ -1104,7 +1106,7 @@ ${config.logo ? `
       </svg>
     </button>
   </div>
-  ${config.logo ? '' : '<p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 0;">Powered by AI Orchestrator</p>'}
+  ${(config.showPoweredBy !== false && !config.logo) ? '<p style="font-size: 12px; color: #9ca3af; text-align: center; margin: 0; padding: 0;">Powered by AI Orchestrator</p>' : ''}
 </div>
 </div>
 </div>
