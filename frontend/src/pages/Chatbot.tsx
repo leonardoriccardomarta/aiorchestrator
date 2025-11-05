@@ -1577,6 +1577,73 @@ const Chatbot: React.FC = () => {
                     <p className="text-[10px] lg:text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
                   </div>
                   
+                  {/* Logo (Professional+ plans) */}
+                  {(user?.planId === 'professional' || user?.planId === 'business') && (
+                    <div>
+                      <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Logo</label>
+                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-3 lg:p-4 text-center hover:border-gray-400 transition-colors">
+                        {customBranding.logo ? (
+                          <div className="space-y-2">
+                            <img src={customBranding.logo} alt="Logo preview" className="w-10 h-10 lg:w-12 lg:h-12 rounded mx-auto" />
+                            <button
+                              onClick={() => updateCustomBranding({ logo: '' })}
+                              className="text-xs text-red-600 hover:text-red-800"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        ) : (
+                          <>
+                            <Upload className="w-5 h-5 lg:w-6 lg:h-6 text-gray-400 mx-auto mb-1" />
+                            <p className="text-xs text-gray-600 mb-1">Upload logo</p>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              id="logo-upload-grid"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.onloadend = async () => {
+                                    const base64 = reader.result as string;
+                                    const compressed = await resizeLogo(base64);
+                                    updateCustomBranding({ logo: compressed });
+                                  };
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                            />
+                            <label
+                              htmlFor="logo-upload-grid"
+                              className="mt-1 inline-block bg-blue-600 text-white px-2 lg:px-3 py-1 text-xs rounded hover:bg-blue-700 cursor-pointer"
+                            >
+                              Choose File
+                            </label>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Font Family (Professional+ plans) */}
+                  {(user?.planId === 'professional' || user?.planId === 'business') && (
+                    <div>
+                      <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Font Family</label>
+                      <select
+                        value={customBranding.fontFamily}
+                        onChange={(e) => updateCustomBranding({ fontFamily: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
+                      >
+                        <option value="Inter">Inter</option>
+                        <option value="Roboto">Roboto</option>
+                        <option value="Open Sans">Open Sans</option>
+                        <option value="Lato">Lato</option>
+                        <option value="Poppins">Poppins</option>
+                      </select>
+                    </div>
+                  )}
+                  
                   {/* White Label (Business only) */}
                   {user?.planId === 'business' && (
                     <div className="flex items-center">
@@ -1586,7 +1653,6 @@ const Chatbot: React.FC = () => {
                         checked={whiteLabelEnabled}
                         onChange={(e) => {
                           setWhiteLabelEnabled(e.target.checked);
-                          // Save to database
                           if (selectedChatbot) {
                             const settings = typeof selectedChatbot.settings === 'string' 
                               ? JSON.parse(selectedChatbot.settings) 
