@@ -1703,7 +1703,8 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
         }
       }
       
-      widgetCode = `<!-- AI Orchestrator Chatbot Widget for Shopify -->
+      // Build base code for Shopify
+      const baseShopifyCode = `<!-- AI Orchestrator Chatbot Widget for Shopify -->
 <script 
   src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
   data-ai-orchestrator-id="${chatbotId}"
@@ -1713,12 +1714,24 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
   data-placeholder="${settings.placeholder || 'Type your message...'}"
   data-show-avatar="${settings.showAvatar !== false}"
   data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"
-  data-primary-language="${selectedChatbot?.language || 'auto'}"
-  ${isProfessionalPlan ? `data-font-family="${customBranding.fontFamily || settings.fontFamily || 'Open Sans'}"                                                 
-  data-logo="${customBranding.logo || settings.logo || ''}"` : ''}
-  ${whiteLabelAttrs}
+  data-primary-language="${selectedChatbot?.language || 'auto'}"`;
+
+      // Add custom branding for professional+ plans
+      if (isProfessionalPlan) {
+        // Only include logo if it's not empty and not a blob URL
+        const logoAttribute = customBranding.logo && !customBranding.logo.startsWith('blob:') 
+          ? `\n  data-logo="${customBranding.logo}"` 
+          : '';
+        
+        widgetCode = baseShopifyCode + `
+  data-font-family="${customBranding.fontFamily || settings.fontFamily || 'Open Sans'}"${logoAttribute}${whiteLabelAttrs}
   defer>
 </script>`;
+      } else {
+        widgetCode = baseShopifyCode + `
+  defer>
+</script>`;
+      }
     } else {
       // For other platforms, use standard chatbot-widget.js
       const customBranding = settings.branding || {};
@@ -1733,7 +1746,8 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
         }
       }
       
-      widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
+      // Build base code
+      const baseCode = `<!-- AI Orchestrator Chatbot Widget -->
 <script 
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
   data-ai-orchestrator-id="${chatbotId}"
@@ -1743,12 +1757,24 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
   data-placeholder="${settings.placeholder || 'Type your message...'}"
   data-show-avatar="${settings.showAvatar !== false}"
   data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"
-  data-primary-language="${selectedChatbot?.language || 'auto'}"
-  ${isProfessionalPlan ? `data-font-family="${customBranding.fontFamily || settings.fontFamily || 'Inter'}"  
-  data-logo="${customBranding.logo || settings.logo || ''}"` : ''}
-  ${whiteLabelAttrs}
+  data-primary-language="${selectedChatbot?.language || 'auto'}"`;
+
+      // Add custom branding for professional+ plans
+      if (isProfessionalPlan) {
+        // Only include logo if it's not empty and not a blob URL
+        const logoAttribute = customBranding.logo && !customBranding.logo.startsWith('blob:') 
+          ? `\n  data-logo="${customBranding.logo}"` 
+          : '';
+        
+        widgetCode = baseCode + `
+  data-font-family="${customBranding.fontFamily || settings.fontFamily || 'Inter'}"${logoAttribute}${whiteLabelAttrs}
   defer>
 </script>`;
+      } else {
+        widgetCode = baseCode + `
+  defer>
+</script>`;
+      }
     }
     
     res.json({
