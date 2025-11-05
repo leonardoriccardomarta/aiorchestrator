@@ -169,7 +169,8 @@ const Pricing: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8 mb-12 lg:mb-16">
+        <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-12 lg:mb-16">
           {/* Starter Plan */}
           <Card className="relative">
             {user?.planId === 'starter' && !isTrialExpired && (
@@ -177,24 +178,24 @@ const Pricing: React.FC = () => {
                 <Badge className="bg-green-600 text-white px-3 lg:px-4 py-1 text-xs">Current Plan</Badge>
               </div>
             )}
-            <CardHeader className="p-4 lg:p-6">
-              <CardTitle className="text-xl lg:text-2xl font-bold text-gray-900">Starter</CardTitle>
+            <CardHeader className="p-3 sm:p-4 lg:p-6">
+              <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Starter</CardTitle>
               <div className="flex flex-col">
                 <div className="flex items-baseline space-x-1">
-                  <span className="text-3xl lg:text-4xl font-bold text-gray-900">
+                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
                     ${billingCycle === 'yearly' ? '24' : '29'}
                   </span>
-                  <span className="text-sm lg:text-base text-gray-600">/month</span>
+                  <span className="text-xs sm:text-sm lg:text-base text-gray-600">/month</span>
                 </div>
                 {billingCycle === 'yearly' && (
-                  <div className="text-xs lg:text-sm text-gray-500 mt-1">
+                  <div className="text-xs text-gray-500 mt-1">
                     Billed annually: ${24 * 12}
                   </div>
                 )}
               </div>
-              <p className="text-sm lg:text-base text-gray-600 mt-2">Perfect for small businesses getting started</p>
+              <p className="text-xs sm:text-sm lg:text-base text-gray-600 mt-2">Perfect for small businesses getting started</p>
             </CardHeader>
-            <CardContent className="p-4 lg:p-6">
+            <CardContent className="p-3 sm:p-4 lg:p-6">
               <ul className="space-y-2 lg:space-y-3 mb-4 lg:mb-6">
                 <li className="flex items-center">
                   <Check className="w-4 h-4 lg:w-5 lg:h-5 text-green-600 mr-2 lg:mr-3" />
@@ -227,7 +228,7 @@ const Pricing: React.FC = () => {
               </ul>
               <Button 
                 onClick={() => handleSelectPlan({ id: 'starter', name: 'Starter', price: billingCycle === 'yearly' ? 24 : 29 })}
-                className={`${getButtonStyle('starter')} text-sm lg:text-base py-2 lg:py-3`}
+                className={`${getButtonStyle('starter')} text-sm lg:text-base py-2.5 sm:py-2 lg:py-3 touch-manipulation min-h-[44px]`}
                 disabled={isButtonDisabled('starter')}
               >
                 {getButtonText('starter')}
@@ -247,24 +248,24 @@ const Pricing: React.FC = () => {
                 <Badge className="bg-green-600 text-white px-3 lg:px-4 py-1 text-xs">Current Plan</Badge>
                   </div>
             )}
-            <CardHeader className="p-4 lg:p-6">
-              <CardTitle className="text-xl lg:text-2xl font-bold text-gray-900">Professional</CardTitle>
+            <CardHeader className="p-3 sm:p-4 lg:p-6">
+              <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Professional</CardTitle>
               <div className="flex flex-col">
                 <div className="flex items-baseline space-x-1">
-                  <span className="text-3xl lg:text-4xl font-bold text-gray-900">
+                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
                     ${billingCycle === 'yearly' ? '82' : '99'}
                   </span>
-                  <span className="text-sm lg:text-base text-gray-600">/month</span>
+                  <span className="text-xs sm:text-sm lg:text-base text-gray-600">/month</span>
                 </div>
                 {billingCycle === 'yearly' && (
-                  <div className="text-xs lg:text-sm text-gray-500 mt-1">
+                  <div className="text-xs text-gray-500 mt-1">
                     Billed annually: ${82 * 12}
                   </div>
                 )}
               </div>
-              <p className="text-sm lg:text-base text-gray-600 mt-2">For growing businesses that need more power</p>
+              <p className="text-xs sm:text-sm lg:text-base text-gray-600 mt-2">For growing businesses that need more power</p>
             </CardHeader>
-            <CardContent className="p-4 lg:p-6">
+            <CardContent className="p-3 sm:p-4 lg:p-6">
               <ul className="space-y-2 lg:space-y-3 mb-4 lg:mb-6">
                 <li className="flex items-center">
                   <Check className="w-4 h-4 lg:w-5 lg:h-5 text-green-600 mr-2 lg:mr-3" />
@@ -309,7 +310,7 @@ const Pricing: React.FC = () => {
               </ul>
               <Button 
                 onClick={() => handleSelectPlan({ id: 'professional', name: 'Professional', price: billingCycle === 'yearly' ? 82 : 99 })}
-                className={`${getButtonStyle('professional')} text-sm lg:text-base py-2 lg:py-3`}
+                className={`${getButtonStyle('professional')} text-sm lg:text-base py-2.5 sm:py-2 lg:py-3 touch-manipulation min-h-[44px]`}
                 disabled={isButtonDisabled('professional')}
               >
                 {getButtonText('professional')}
@@ -332,24 +333,24 @@ const Pricing: React.FC = () => {
                 </Badge>
               </div>
             )}
-            <CardHeader className="p-4 lg:p-6">
-              <CardTitle className="text-xl lg:text-2xl font-bold text-gray-900">Business</CardTitle>
+            <CardHeader className="p-3 sm:p-4 lg:p-6">
+              <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Business</CardTitle>
               <div className="flex flex-col">
                 <div className="flex items-baseline space-x-1">
-                  <span className="text-3xl lg:text-4xl font-bold text-gray-900">
+                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
                   ${billingCycle === 'yearly' ? '249' : '299'}
                   </span>
-                  <span className="text-sm lg:text-base text-gray-600">/month</span>
+                  <span className="text-xs sm:text-sm lg:text-base text-gray-600">/month</span>
                 </div>
                 {billingCycle === 'yearly' && (
-                  <div className="text-xs lg:text-sm text-gray-500 mt-1">
+                  <div className="text-xs text-gray-500 mt-1">
                     Billed annually: ${249 * 12}
                   </div>
                 )}
               </div>
-              <p className="text-sm lg:text-base text-gray-600 mt-2">Full e-commerce automation for serious businesses</p>
+              <p className="text-xs sm:text-sm lg:text-base text-gray-600 mt-2">Full e-commerce automation for serious businesses</p>
             </CardHeader>
-            <CardContent className="p-4 lg:p-6">
+            <CardContent className="p-3 sm:p-4 lg:p-6">
               <ul className="space-y-2 lg:space-y-3 mb-4 lg:mb-6">
                 <li className="flex items-center">
                   <Check className="w-4 h-4 lg:w-5 lg:h-5 text-green-600 mr-2 lg:mr-3" />
@@ -402,7 +403,7 @@ const Pricing: React.FC = () => {
               </ul>
                 <Button 
                 onClick={() => handleSelectPlan({ id: 'business', name: 'Business', price: billingCycle === 'yearly' ? 249 : 299 })}
-                className={`${getButtonStyle('business')} text-sm lg:text-base py-2 lg:py-3`}
+                className={`${getButtonStyle('business')} text-sm lg:text-base py-2.5 sm:py-2 lg:py-3 touch-manipulation min-h-[44px]`}
                 disabled={isButtonDisabled('business')}
               >
                 {getButtonText('business')}

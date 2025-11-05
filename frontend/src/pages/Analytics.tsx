@@ -154,15 +154,15 @@ const Analytics: React.FC = () => {
     prefix?: string;
     suffix?: string;
   }) => (
-    <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6 hover:shadow-lg transition-all duration-300">
-      <div className="flex items-center justify-between mb-3 lg:mb-4">
-        <div className={`p-2 lg:p-3 rounded-lg lg:rounded-xl ${color}`}>
-          <Icon className="w-4 h-4 lg:w-6 lg:h-6 text-white" />
+    <div className="bg-white rounded-lg sm:rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6 hover:shadow-lg transition-all duration-300">
+      <div className="flex items-center justify-between mb-2 sm:mb-3 lg:mb-4">
+        <div className={`p-2 sm:p-2.5 lg:p-3 rounded-lg lg:rounded-xl ${color}`}>
+          <Icon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
         </div>
       </div>
       <div>
-        <p className="text-xs lg:text-sm font-medium text-gray-600 mb-1">{title}</p>
-        <p className="text-xl lg:text-3xl font-bold text-gray-900">
+        <p className="text-xs sm:text-xs lg:text-sm font-medium text-gray-600 mb-1">{title}</p>
+        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">
           {prefix}{typeof value === 'number' ? value.toLocaleString() : value}{suffix}
         </p>
       </div>
@@ -242,26 +242,26 @@ const Analytics: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center py-4 lg:py-6 space-y-4 lg:space-y-0">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center py-3 sm:py-4 lg:py-6 space-y-3 sm:space-y-4 lg:space-y-0">
             <div>
-              <h1 className="text-2xl lg:text-4xl font-bold text-gray-900 mb-1 lg:mb-2">Analytics Dashboard</h1>
-              <p className="text-gray-600 text-sm lg:text-lg hidden sm:block">Real-time insights into your chatbot performance</p>
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-1 lg:mb-2">Analytics Dashboard</h1>
+              <p className="text-gray-600 text-xs sm:text-sm lg:text-lg hidden sm:block">Real-time insights into your chatbot performance</p>
             </div>
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full lg:w-auto">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 lg:space-x-4 w-full lg:w-auto">
               <div className="w-full sm:w-auto">
                 <ChatbotSelector />
               </div>
               {!selectedChatbotId && (
                 <div className="flex items-center gap-2 px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg">
                   <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm text-blue-700 font-medium">Aggregated Data</span>
+                  <span className="text-xs sm:text-sm text-blue-700 font-medium">Aggregated Data</span>
                 </div>
               )}
               <select
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value as '7d' | '30d' | '90d')}
-                className="px-3 lg:px-4 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm lg:text-base"
+                className="px-3 lg:px-4 py-1.5 sm:py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm lg:text-base bg-white text-gray-900 touch-manipulation min-h-[44px]"
               >
                 <option value="7d">Last 7 days</option>
                 <option value="30d">Last 30 days</option>
@@ -269,7 +269,7 @@ const Analytics: React.FC = () => {
               </select>
               <button
                 onClick={fetchAnalyticsData}
-                className="flex items-center justify-center px-3 lg:px-4 py-2 text-gray-700 bg-gray-100 rounded-md lg:rounded-lg hover:bg-gray-200 transition-colors font-medium text-sm lg:text-base"
+                className="flex items-center justify-center px-3 lg:px-4 py-1.5 sm:py-2 text-gray-700 bg-gray-100 rounded-md lg:rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors font-medium text-sm lg:text-base touch-manipulation min-h-[44px]"
               >
                 <RefreshCw className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2" />
                 <span>Refresh</span>
@@ -280,21 +280,21 @@ const Analytics: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 lg:py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-3 sm:py-4 lg:py-8">
         {/* Overview - styled like Dashboard */}
-        <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-6 lg:mb-8" data-tour="overview">
-          <div className="px-4 lg:px-6 py-3 lg:py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50 flex items-center justify-between">
-            <div className="flex items-center space-x-2 lg:space-x-3">
-              <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg lg:rounded-xl flex items-center justify-center">
-                <BarChart3 className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
+        <div className="bg-white rounded-lg sm:rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-4 sm:mb-6 lg:mb-8" data-tour="overview">
+          <div className="px-3 sm:px-4 lg:px-6 py-3 lg:py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50 flex items-center justify-between">
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg lg:rounded-xl flex items-center justify-center">
+                <BarChart3 className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-white" />
               </div>
               <div>
-                <h3 className="text-lg lg:text-xl font-semibold text-gray-900">Overview</h3>
+                <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-900">Overview</h3>
                 <p className="text-xs lg:text-sm text-gray-600">Key KPIs for your chatbot</p>
               </div>
             </div>
           </div>
-          <div className="p-4 lg:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+          <div className="p-3 sm:p-4 lg:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
           <StatCard
             title="Total Messages"
             value={noData ? 0 : (data?.overview?.totalMessages || 0)}
