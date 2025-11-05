@@ -682,7 +682,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                     </svg>
                 </button>
             </div>
-            ${showPoweredBy ? (poweredByText ? `<p class="text-xs text-gray-400 text-center">${poweredByText}</p>` : '<p class="text-xs text-gray-400 text-center">Powered by AI Orchestrator</p>') : ''}
+            ${poweredByText ? `<p class="text-xs text-gray-400 text-center">${poweredByText}</p>` : (showPoweredBy ? '<p class="text-xs text-gray-400 text-center">Powered by AI Orchestrator</p>' : '')}
         </div>
     </div>
     

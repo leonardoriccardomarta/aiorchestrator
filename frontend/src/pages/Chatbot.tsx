@@ -317,33 +317,33 @@ const Chatbot: React.FC = () => {
           console.log(`⚠️ Logo too large (${settings.branding.logo.length} chars), resizing...`);
           resizeLogo(settings.branding.logo, 200).then(async (resized) => {
             console.log(`✅ Logo resized from ${settings.branding.logo.length} to ${resized.length} chars`);
-            setCustomBranding(prev => ({ ...prev, ...settings.branding, logo: resized }));
-            // Auto-save the resized logo to database
-            try {
-              await fetch(`${API_URL}/api/chatbots/${selectedChatbot.id}`, {
-                method: 'PATCH',
-                headers: { 
-                  'Content-Type': 'application/json', 
-                  'Authorization': `Bearer ${localStorage.getItem('authToken')}` 
-                },
-                body: JSON.stringify({
-                  settings: {
-                    ...settings,
-                    branding: {
-                      ...settings.branding,
-                      logo: resized
-                    }
-                  }
-                })
+                setCustomBranding(prev => ({ ...prev, ...settings.branding, logo: resized }));
+                // Auto-save the resized logo to database
+                try {
+                  await fetch(`${API_URL}/api/chatbots/${selectedChatbot.id}`, {
+                    method: 'PATCH',
+                    headers: { 
+                      'Content-Type': 'application/json', 
+                      'Authorization': `Bearer ${localStorage.getItem('authToken')}` 
+                    },
+                    body: JSON.stringify({
+                      settings: {
+                        ...settings,
+                        branding: {
+                          ...settings.branding,
+                          logo: resized
+                        }
+                      }
+                    })
+                  });
+                  console.log('✅ Resized logo saved to database');
+                } catch (e) {
+                  console.error('Failed to save resized logo:', e);
+                }
+              }).catch(err => {
+                console.error('Error resizing logo:', err);
+                setCustomBranding(prev => ({ ...prev, ...settings.branding }));
               });
-              console.log('✅ Resized logo saved to database');
-            } catch (e) {
-              console.error('Failed to save resized logo:', e);
-            }
-          }).catch(err => {
-            console.error('Error resizing logo:', err);
-            setCustomBranding(prev => ({ ...prev, ...settings.branding }));
-          });
         }
       }
     }
@@ -1546,17 +1546,17 @@ const Chatbot: React.FC = () => {
                       placeholder="Hello! I'm your AI assistant. How can I help you today?"
                     />
                   </div>
-                  <div className="flex items-center">
-                    <input
-                      type="checkbox"
-                      id="showAvatar"
-                      checked={showWidgetAvatar}
-                      onChange={(e) => setShowWidgetAvatar(e.target.checked)}
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor="showAvatar" className="ml-2 block text-xs lg:text-sm text-gray-700">
-                      Show Avatar
-                    </label>
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="showAvatar"
+                        checked={showWidgetAvatar}
+                        onChange={(e) => setShowWidgetAvatar(e.target.checked)}
+                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      />
+                      <label htmlFor="showAvatar" className="ml-2 block text-xs lg:text-sm text-gray-700">
+                        Show Avatar
+                      </label>
                   </div>
                   <div>
                     <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Primary Language</label>
@@ -1581,7 +1581,7 @@ const Chatbot: React.FC = () => {
                     </select>
                   </div>
                 </div>
-
+                
                 {/* Custom Branding Section (Professional+ plans) */}
                 {(user?.planId === 'professional' || user?.planId === 'business') && (
                   <div className="mt-6 lg:mt-8 pt-6 lg:pt-8 border-t border-gray-200">
@@ -1654,8 +1654,8 @@ const Chatbot: React.FC = () => {
                         <p className="text-[10px] lg:text-xs text-gray-500 mt-2">Choose a font that matches your brand identity</p>
                       </div>
                     </div>
-                  </div>
-                )}
+                            </div>
+                          )}
 
                 {/* White-Label Section (Business only) */}
                 {user?.planId === 'business' && (
@@ -1663,7 +1663,7 @@ const Chatbot: React.FC = () => {
                     <div className="flex items-center space-x-2 mb-4 lg:mb-6">
                       <Globe className="w-5 h-5 lg:w-6 lg:h-6 text-indigo-600" />
                       <h5 className="text-sm lg:text-base font-semibold text-gray-900">White-Label Solution</h5>
-                    </div>
+                        </div>
                     <div className="bg-indigo-50 rounded-lg p-4 lg:p-6 border border-indigo-200 space-y-4">
                       <div className="flex items-start space-x-3">
                         <input
@@ -1697,7 +1697,7 @@ const Chatbot: React.FC = () => {
                           <p className="text-xs lg:text-sm text-gray-600 mt-1">
                             When enabled, you can customize or remove the "Powered by" text at the bottom of your chatbot.
                           </p>
-                        </div>
+                      </div>
                       </div>
                       
                       {whiteLabelEnabled && (
@@ -1740,7 +1740,7 @@ const Chatbot: React.FC = () => {
                     </div>
                   </div>
                 )}
-
+                
                 {/* Save Button */}
                 <div className="mt-4 lg:mt-6 flex justify-end items-center space-x-2 lg:space-x-4">
                   {saveStatus === 'success' && (
@@ -1790,7 +1790,7 @@ const Chatbot: React.FC = () => {
                   {currentChatbotId ? (
                     <iframe
                       key={`${currentChatbotId}-${customBranding.logo ? customBranding.logo.substring(0, 50) : 'no-logo'}-${customBranding.fontFamily}-${whiteLabelEnabled}-${whiteLabelText}`}
-                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&fontFamily=${encodeURIComponent(customBranding.fontFamily)}${customBranding.logo && !customBranding.logo.startsWith('blob:') ? `&logo=${encodeURIComponent(customBranding.logo)}` : ''}` : ''}${user?.planId === 'business' ? `&showPoweredBy=${!whiteLabelEnabled}${whiteLabelEnabled && whiteLabelText ? `&poweredByText=${encodeURIComponent(whiteLabelText)}` : ''}` : ''}`}
+                      src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&fontFamily=${encodeURIComponent(customBranding.fontFamily)}${customBranding.logo && !customBranding.logo.startsWith('blob:') ? `&logo=${encodeURIComponent(customBranding.logo)}` : ''}` : ''}${user?.planId === 'business' ? `&showPoweredBy=${!whiteLabelEnabled}${whiteLabelEnabled ? `&poweredByText=${encodeURIComponent(whiteLabelText || '')}` : ''}` : ''}`}
                       className="w-full h-[400px] lg:h-[740px] border-0"
                       title="Live Chatbot Preview"
                       onLoad={() => console.log('🖼️ iframe loaded, logo:', customBranding.logo ? customBranding.logo.substring(0, 100) : 'none', 'whiteLabel:', whiteLabelEnabled)}
