@@ -1465,9 +1465,12 @@ const Chatbot: React.FC = () => {
                 </div>
               </div>
 
-              {/* Customization Options */}
+              {/* Widget Customization */}
               <div className="mb-4 lg:mb-6">
-                <h4 className="font-medium text-sm lg:text-base text-gray-900 mb-3 lg:mb-4">Widget Customization</h4>
+                <div className="flex items-center space-x-2 mb-4 lg:mb-6">
+                  <Settings className="w-5 h-5 lg:w-6 lg:h-6 text-blue-600" />
+                  <h4 className="text-sm lg:text-base font-semibold text-gray-900">Widget Customization</h4>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
                   {/* Basic Settings */}
                   <div>
@@ -1576,7 +1579,6 @@ const Chatbot: React.FC = () => {
                       <option value="ar">العربية</option>
                       <option value="hi">हिन्दी</option>
                     </select>
-                    <p className="text-[10px] lg:text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
                   </div>
                 </div>
 
