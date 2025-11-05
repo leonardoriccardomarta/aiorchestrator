@@ -499,18 +499,18 @@ const LandingPageOptimized: React.FC = () => {
                     Go to App
                   </button>
                   <div className="grid grid-cols-2 gap-2">
-                                                                <button
-                          onClick={() => { setMobileMenuOpen(false); navigate('/settings'); }}
+                    <button
+                      onClick={() => { setMobileMenuOpen(false); navigate('/settings'); }}
                           className="px-4 py-3 bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors font-medium"
-                        >
-                          Settings
-                        </button>
-                      <button
-                        onClick={() => { setMobileMenuOpen(false); handleLogout(); }}
+                    >
+                      Settings
+                    </button>
+                    <button
+                      onClick={() => { setMobileMenuOpen(false); handleLogout(); }}
                         className="px-4 py-3 bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors font-medium"
-                      >
-                        Sign Out
-                      </button>
+                    >
+                      Sign Out
+                    </button>
                   </div>
                 </>
               ) : (

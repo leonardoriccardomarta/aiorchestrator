@@ -362,7 +362,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
         }
       `}</style>
       {/* Header - Same as landing */}
-            <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50 transition-all">
+      <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50 transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
             <div className="flex items-center space-x-2 sm:space-x-3 cursor-pointer" onClick={() => navigate('/')}>
@@ -371,7 +371,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
             </div>
               <span className="text-lg sm:text-xl font-bold text-gray-900">AI Orchestrator</span>
             </div>
-
+            
             <button
               onClick={() => navigate('/')}
               className="px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 active:from-blue-800 active:to-purple-800 transition-all font-semibold shadow-lg shadow-blue-500/30 text-sm sm:text-base min-h-[44px] touch-manipulation"

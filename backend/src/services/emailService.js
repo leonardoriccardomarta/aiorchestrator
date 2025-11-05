@@ -388,7 +388,7 @@ class EmailService {
       return { success: false, error: error.message };
     }
   }
-
+  
   /**
    * Get email tracker stats
    */

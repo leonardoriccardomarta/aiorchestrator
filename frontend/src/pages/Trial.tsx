@@ -90,40 +90,40 @@ const Trial: React.FC = () => {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-4">
-                                  <div>
-                    <label className="block text-sm font-medium mb-2">Work Email</label>
-                    <input
-                      type="email"
-                      required
+                <div>
+                  <label className="block text-sm font-medium mb-2">Work Email</label>
+                  <input
+                    type="email"
+                    required
                       className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-500"
-                      placeholder="you@company.com"
-                      value={formData.email}
-                      onChange={(e) => updateFormData('email', e.target.value)}
-                    />
-                  </div>
+                    placeholder="you@company.com"
+                    value={formData.email}
+                    onChange={(e) => updateFormData('email', e.target.value)}
+                  />
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Company Name</label>
-                    <input
-                      type="text"
-                      required
+                <div>
+                  <label className="block text-sm font-medium mb-2">Company Name</label>
+                  <input
+                    type="text"
+                    required
                       className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-500"
-                      placeholder="Your Company"
-                      value={formData.company}
-                      onChange={(e) => updateFormData('company', e.target.value)}
-                    />
-                  </div>
+                    placeholder="Your Company"
+                    value={formData.company}
+                    onChange={(e) => updateFormData('company', e.target.value)}
+                  />
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Website</label>
-                    <input
-                      type="url"
+                <div>
+                  <label className="block text-sm font-medium mb-2">Website</label>
+                  <input
+                    type="url"
                       className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-500"
-                      placeholder="https://yoursite.com"
-                      value={formData.website}
-                      onChange={(e) => updateFormData('website', e.target.value)}
-                    />
-                  </div>
+                    placeholder="https://yoursite.com"
+                    value={formData.website}
+                    onChange={(e) => updateFormData('website', e.target.value)}
+                  />
+                </div>
 
                 <button 
                   type="submit" 

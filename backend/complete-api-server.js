@@ -677,7 +677,7 @@ app.get('/public/embed/:chatbotId', async (req, res) => {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                     </svg>
                 </button>
-                        </div>
+            </div>
             ${!isBusinessPlan ? '<p class="text-xs text-gray-400 text-center">Powered by AI Orchestrator</p>' : ''}
         </div>
     </div>
@@ -1678,27 +1678,27 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
       include: { user: true }
     });
     
-        const userPlan = chatbot?.user?.planId || 'starter';
+    const userPlan = chatbot?.user?.planId || 'starter';
     const isProfessionalPlan = userPlan === 'professional' || userPlan === 'business';
     const isBusinessPlan = userPlan === 'business';
-
+    
     let widgetCode;
-    if (connection.type === 'shopify' || connection.platform === 'shopify') {   
+    if (connection.type === 'shopify' || connection.platform === 'shopify') {
       // For Shopify, use Shadow DOM widget (immune to Shopify CSS)
       // Get custom branding for Professional+ plans
       const customBranding = settings.branding || {};
       const whiteLabel = settings.whiteLabel || {};
-
+      
       widgetCode = `<!-- AI Orchestrator Chatbot Widget for Shopify -->
-<script
+<script 
   src="https://www.aiorchestrator.dev/shopify-widget-shadowdom.js"
   data-ai-orchestrator-id="${chatbotId}"
   data-api-key="${apiUrl}"
   data-theme="${settings.theme || 'teal'}"
-  data-title="${settings.title || selectedChatbot?.name || 'AI Support'}"       
+  data-title="${settings.title || selectedChatbot?.name || 'AI Support'}"
   data-placeholder="${settings.placeholder || 'Type your message...'}"
   data-show-avatar="${settings.showAvatar !== false}"
-  data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"                                           
+  data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"
   data-primary-language="${selectedChatbot?.language || 'auto'}"
   ${isProfessionalPlan ? `data-font-family="${customBranding.fontFamily || settings.fontFamily || 'Open Sans'}"                                                 
   data-logo="${customBranding.logo || settings.logo || ''}"` : ''}
@@ -1711,15 +1711,15 @@ app.get('/api/connections/:connectionId/widget', authenticateToken, async (req, 
       const whiteLabel = settings.whiteLabel || {};
 
       widgetCode = `<!-- AI Orchestrator Chatbot Widget -->
-<script
+<script 
   src="https://www.aiorchestrator.dev/chatbot-widget.js"
   data-ai-orchestrator-id="${chatbotId}"
   data-api-key="${apiUrl}"
   data-theme="${settings.theme || 'teal'}"
-  data-title="${settings.title || selectedChatbot?.name || 'AI Support'}"       
+  data-title="${settings.title || selectedChatbot?.name || 'AI Support'}"
   data-placeholder="${settings.placeholder || 'Type your message...'}"
   data-show-avatar="${settings.showAvatar !== false}"
-  data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"                                           
+  data-welcome-message="${settings.message || selectedChatbot?.welcomeMessage || 'Hello! How can I help you today?'}"
   data-primary-language="${selectedChatbot?.language || 'auto'}"
   ${isProfessionalPlan ? `data-font-family="${customBranding.fontFamily || settings.fontFamily || 'Inter'}"  
   data-logo="${customBranding.logo || settings.logo || ''}"` : ''}
@@ -5340,7 +5340,7 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
             // 💰 STRIPE PAYMENT INTEGRATION (Business Plan)
       if (hasFeature(userPlanId, 'stripePayments') && (message.toLowerCase().includes('pay now') || message.toLowerCase().includes('buy now') || intent === 'payment')) {
         console.log('💳 Payment intent detected');
-
+        
         if (shopifyEnhancements?.recommendations?.[0]) {
           const product = shopifyEnhancements.recommendations[0];
           const paymentResult = await stripePaymentService.createPaymentLink({
@@ -5355,7 +5355,7 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
             successUrl: product.url,
             chatbotId: context.chatbotId
           });
-
+          
           if (paymentResult.success && paymentResult.paymentUrl) {
             shopifyEnhancements = shopifyEnhancements || {};
             // Generate payment button HTML
@@ -6115,10 +6115,10 @@ app.post('/api/payments/change-plan', authenticatePayment, async (req, res) => {
       });
     }
 
-          if (user.planId === newPlanId) {
-        return res.status(400).json({
-          success: false,
-          error: 'Already on this plan'
+    if (user.planId === newPlanId) {
+      return res.status(400).json({
+        success: false,
+        error: 'Already on this plan'
         });
       }
 

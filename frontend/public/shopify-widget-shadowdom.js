@@ -1395,7 +1395,7 @@ try {
 const response = await fetch(`${config.apiKey}/api/chat`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
+  body: JSON.stringify({ 
     message,
     context: {
       chatbotId: config.chatbotId,

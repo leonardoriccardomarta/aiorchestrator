@@ -3,11 +3,11 @@ import { Calendar, User, ArrowRight, Search, Tag, Clock, Mail, CheckCircle2 } fr
 import LiveChatWidget from '../components/LiveChatWidget';
 import { useNavigate } from 'react-router-dom';
 
-const blogPosts = [
+  const blogPosts = [
     {
       id: 1,
     slug: 'ai-chatbots-revolutionizing-customer-service-2025',
-      title: 'How AI Chatbots Are Revolutionizing Customer Service in 2025',    
+      title: 'How AI Chatbots Are Revolutionizing Customer Service in 2025',
     excerpt: 'Discover the latest trends in AI-powered customer service and how businesses are using chatbots to improve customer satisfaction and reduce response times.',                                                                     
       author: 'AI Orchestrator Team',
       date: '2025-11-04',
@@ -34,7 +34,7 @@ const Blog: React.FC = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-          },
+    },
           body: JSON.stringify({ articles: blogPosts })
         });
       } catch (error) {
@@ -118,7 +118,7 @@ const Blog: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <LiveChatWidget />
-
+      
       {/* Header */}
             <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 md:py-12">
@@ -144,13 +144,13 @@ const Blog: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="relative max-w-2xl">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
-                          <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search articles..."
                 className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-base bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none placeholder:text-gray-500"
-              />
+            />
           </div>
         </div>
       </div>
