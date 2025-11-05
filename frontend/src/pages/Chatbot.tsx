@@ -53,8 +53,7 @@ import {
   Upload,
   RotateCcw,
   Lock,
-  RefreshCw,
-  Globe
+  RefreshCw
 } from 'lucide-react';
 import ChatbotManagement from '../components/ChatbotManagement';
 import EmbedCodeGenerator from '../components/EmbedCodeGenerator';
