@@ -75,7 +75,7 @@ interface Message {
 
 const Chatbot: React.FC = () => {
   const { user } = useUser();
-  const { chatbots, selectedChatbot, selectChatbot } = useChatbot();
+  const { chatbots, selectedChatbot, selectChatbot, updateChatbot } = useChatbot();
   const [activeTab, setActiveTab] = useState<'chat' | 'embed' | 'manage'>('chat');
   const [currentChatbotId, setCurrentChatbotId] = useState<string>('');
   const [chatbotName, setChatbotName] = useState<string>('My AI Assistant');
@@ -310,49 +310,38 @@ const Chatbot: React.FC = () => {
           setWhiteLabelEnabled(settings.whiteLabel.removeBranding || false);
         }
         
-        // Continue with logo loading if needed
-        if (settings.branding && brandingToLoad.logo && brandingToLoad.logo.length > 0 && !brandingToLoad.logo.startsWith('blob:')) {
-            // Non-blob URL logo - check if it needs resizing
-            if (brandingToLoad.logo.length > 150000) {
-              console.log(`⚠️ Logo too large (${brandingToLoad.logo.length} chars), resizing...`);
-              resizeLogo(brandingToLoad.logo, 200).then(async (resized) => {
-                console.log(`✅ Logo resized from ${brandingToLoad.logo.length} to ${resized.length} chars`);
-                setCustomBranding(prev => ({ ...prev, ...settings.branding, logo: resized }));
-                // Auto-save the resized logo to database
-                try {
-                  await fetch(`${API_URL}/api/chatbots/${selectedChatbot.id}`, {
-                    method: 'PATCH',
-                    headers: { 
-                      'Content-Type': 'application/json', 
-                      'Authorization': `Bearer ${localStorage.getItem('authToken')}` 
-                    },
-                    body: JSON.stringify({
-                      settings: {
-                        ...settings,
-                        branding: {
-                          ...settings.branding,
-                          logo: resized
-                        }
-                      }
-                    })
-                  });
-                  console.log('✅ Resized logo saved to database');
-                } catch (e) {
-                  console.error('Failed to save resized logo:', e);
-                }
-              }).catch(err => {
-                console.error('Error resizing logo:', err);
-                setCustomBranding(prev => ({ ...prev, ...settings.branding }));
+        // Check if logo needs resizing (for non-blob URLs)
+        if (settings.branding && settings.branding.logo && settings.branding.logo.length > 0 && !settings.branding.logo.startsWith('blob:') && settings.branding.logo.length > 150000) {
+          console.log(`⚠️ Logo too large (${settings.branding.logo.length} chars), resizing...`);
+          resizeLogo(settings.branding.logo, 200).then(async (resized) => {
+            console.log(`✅ Logo resized from ${settings.branding.logo.length} to ${resized.length} chars`);
+            setCustomBranding(prev => ({ ...prev, ...settings.branding, logo: resized }));
+            // Auto-save the resized logo to database
+            try {
+              await fetch(`${API_URL}/api/chatbots/${selectedChatbot.id}`, {
+                method: 'PATCH',
+                headers: { 
+                  'Content-Type': 'application/json', 
+                  'Authorization': `Bearer ${localStorage.getItem('authToken')}` 
+                },
+                body: JSON.stringify({
+                  settings: {
+                    ...settings,
+                    branding: {
+                      ...settings.branding,
+                      logo: resized
+                    }
+                  }
+                })
               });
-            } else {
-              // Logo is good, load normally
-              console.log('✅ Loading logo as base64, length:', brandingToLoad.logo.length);
-              setCustomBranding(prev => ({ ...prev, ...settings.branding }));
+              console.log('✅ Resized logo saved to database');
+            } catch (e) {
+              console.error('Failed to save resized logo:', e);
             }
-          } else {
-            // No logo, just load branding
+          }).catch(err => {
+            console.error('Error resizing logo:', err);
             setCustomBranding(prev => ({ ...prev, ...settings.branding }));
-          }
+          });
         }
       }
     }
@@ -1575,55 +1564,55 @@ const Chatbot: React.FC = () => {
                       <option value="hi">हिन्दी</option>
                     </select>
                     <p className="text-[10px] lg:text-xs text-gray-500 mt-1">Matches Settings • Used as default; auto-detect when 'Auto-detect' selected.</p>
-                  </div>
-                  
+                </div>
+                
                   {/* Logo (Professional+ plans) */}
                   {(user?.planId === 'professional' || user?.planId === 'business') && (
-                    <div>
+                      <div>
                       <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Logo</label>
                       <div className="border-2 border-dashed border-gray-300 rounded-lg p-3 lg:p-4 text-center hover:border-gray-400 transition-colors">
-                        {customBranding.logo ? (
-                          <div className="space-y-2">
+                          {customBranding.logo ? (
+                            <div className="space-y-2">
                             <img src={customBranding.logo} alt="Logo preview" className="w-10 h-10 lg:w-12 lg:h-12 rounded mx-auto" />
-                            <button
-                              onClick={() => updateCustomBranding({ logo: '' })}
-                              className="text-xs text-red-600 hover:text-red-800"
-                            >
-                              Remove
-                            </button>
-                          </div>
-                        ) : (
+                              <button
+                                onClick={() => updateCustomBranding({ logo: '' })}
+                                className="text-xs text-red-600 hover:text-red-800"
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          ) : (
                           <>
                             <Upload className="w-5 h-5 lg:w-6 lg:h-6 text-gray-400 mx-auto mb-1" />
-                            <p className="text-xs text-gray-600 mb-1">Upload logo</p>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              className="hidden"
+                              <p className="text-xs text-gray-600 mb-1">Upload logo</p>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
                               id="logo-upload-grid"
-                              onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                if (file) {
-                                  const reader = new FileReader();
-                                  reader.onloadend = async () => {
-                                    const base64 = reader.result as string;
-                                    const compressed = await resizeLogo(base64);
-                                    updateCustomBranding({ logo: compressed });
-                                  };
-                                  reader.readAsDataURL(file);
-                                }
-                              }}
-                            />
-                            <label
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    const reader = new FileReader();
+                                    reader.onloadend = async () => {
+                                      const base64 = reader.result as string;
+                                      const compressed = await resizeLogo(base64);
+                                      updateCustomBranding({ logo: compressed });
+                                    };
+                                    reader.readAsDataURL(file);
+                                  }
+                                }}
+                              />
+                              <label
                               htmlFor="logo-upload-grid"
                               className="mt-1 inline-block bg-blue-600 text-white px-2 lg:px-3 py-1 text-xs rounded hover:bg-blue-700 cursor-pointer"
-                            >
-                              Choose File
-                            </label>
+                              >
+                                Choose File
+                              </label>
                           </>
-                        )}
+                          )}
+                        </div>
                       </div>
-                    </div>
                   )}
                   
                   {/* Font Family (Professional+ plans) */}
@@ -1673,8 +1662,8 @@ const Chatbot: React.FC = () => {
                       <label htmlFor="remove-branding-embed" className="ml-2 block text-xs lg:text-sm text-gray-700">
                         Remove "Powered by" branding
                       </label>
-                    </div>
-                  )}
+                  </div>
+                )}
                 </div>
                 
                 {/* Save Button */}
