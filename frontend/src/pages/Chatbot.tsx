@@ -60,7 +60,6 @@ import EmbedCodeGenerator from '../components/EmbedCodeGenerator';
 import ChatbotTour from '../components/ChatbotTour';
 import PlanLimitations from '../components/PlanLimitations';
 import BrandingSettings from '../components/advanced/BrandingSettings';
-import WhiteLabelSettings from '../components/advanced/WhiteLabelSettings';
 import TourButton from '../components/TourButton';
 import { useUser } from '../contexts/UserContext';
 import { useChatbot } from '../contexts/ChatbotContext';
@@ -1444,17 +1443,12 @@ const Chatbot: React.FC = () => {
               </div>
             </div>
 
-                          {/* Custom Branding (Professional+) */}
-              {(user?.planId === 'professional' || user?.planId === 'business') && (
-                <BrandingSettings />
-              )}
+            {/* Custom Branding (Professional+) - includes White Label for Business */}
+            {(user?.planId === 'professional' || user?.planId === 'business') && (
+              <BrandingSettings />
+            )}
 
-              {/* White-Label Settings (Business only) */}
-              {user?.planId === 'business' && (
-                <WhiteLabelSettings />
-              )}
-
-              {/* Embed Options */}
+            {/* Embed Options */}
               <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">
                 <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Embed Your Chatbot</h3>
               

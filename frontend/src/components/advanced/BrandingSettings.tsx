@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Palette, Upload, Save, Eye, Download, RotateCcw } from 'lucide-react';
+import { Palette, Upload, Save, Eye, Download, RotateCcw, Globe, ChevronDown, ChevronUp } from 'lucide-react';
 import { useUser } from '../../contexts/UserContext';
 import { useChatbot } from '../../contexts/ChatbotContext';
 
@@ -14,6 +14,12 @@ const BrandingSettings: React.FC = () => {
 
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  
+  // White Label state (only for Business plan)
+  const [whiteLabelExpanded, setWhiteLabelExpanded] = useState(false);
+  const [whiteLabel, setWhiteLabel] = useState({
+    removeBranding: true
+  });
 
   // Load existing branding settings from chatbot (only when selectedChatbot ID changes)
   const previousChatbotIdRef = React.useRef<string | null>(null);
@@ -33,10 +39,16 @@ const BrandingSettings: React.FC = () => {
           console.log('🔄 BrandingSettings: Loading branding from database for new chatbot');
           setBranding(settings.branding);
         }
+        
+        // Load white-label settings (Business plan only)
+        if (user?.planId === 'business' && settings.whiteLabel) {
+          console.log('🔄 BrandingSettings: Loading white-label from database for new chatbot');
+          setWhiteLabel(settings.whiteLabel);
+        }
       }
       previousChatbotIdRef.current = currentChatbotId;
     }
-  }, [selectedChatbot]);
+  }, [selectedChatbot, user?.planId]);
 
   // Listen for custom branding updates from embed section
   useEffect(() => {
@@ -89,7 +101,10 @@ const BrandingSettings: React.FC = () => {
       
       const updatedSettings = {
         ...currentSettings,
-        branding: branding
+        branding: branding,
+        ...(user?.planId === 'business' && {
+          whiteLabel: whiteLabel
+        })
       };
       
       console.log('💾 BrandingSettings: Updated settings:', updatedSettings);
@@ -221,6 +236,51 @@ const BrandingSettings: React.FC = () => {
             </select>
           </div>
 
+
+          {/* White Label Section (Business only) - Minimized */}
+          {user?.planId === 'business' && (
+            <div className="border-t border-gray-200 pt-6 mt-6">
+              <button
+                onClick={() => setWhiteLabelExpanded(!whiteLabelExpanded)}
+                className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center">
+                    <Globe className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="text-left">
+                    <h4 className="text-sm font-semibold text-gray-900">White-Label Solution</h4>
+                    <p className="text-xs text-gray-600">Remove "Powered by" branding</p>
+                  </div>
+                </div>
+                {whiteLabelExpanded ? (
+                  <ChevronUp className="w-5 h-5 text-gray-500" />
+                ) : (
+                  <ChevronDown className="w-5 h-5 text-gray-500" />
+                )}
+              </button>
+              
+              {whiteLabelExpanded && (
+                <div className="mt-4 space-y-4">
+                  <div className="flex items-center space-x-3 p-3 bg-white rounded-lg border border-gray-200">
+                    <input
+                      type="checkbox"
+                      id="remove-branding"
+                      checked={whiteLabel.removeBranding}
+                      onChange={(e) => setWhiteLabel(prev => ({ ...prev, removeBranding: e.target.checked }))}
+                      className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                    <label htmlFor="remove-branding" className="text-sm text-gray-700 flex-1">
+                      Remove "Powered by AI Orchestrator" branding
+                    </label>
+                  </div>
+                  <p className="text-xs text-gray-500">
+                    With white-label enabled, your chatbot will appear completely branded to your company without any AI Orchestrator attribution.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Preview */}
           <div className="bg-gray-50 rounded-lg p-4">
