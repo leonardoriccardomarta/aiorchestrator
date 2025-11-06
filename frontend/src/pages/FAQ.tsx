@@ -364,26 +364,26 @@ const FAQ: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 lg:py-8">
         {/* Header */}
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">❓ AI-Powered FAQ Management</h1>
-          <p className="text-sm sm:text-base text-gray-600 mt-2">Create intelligent FAQs that understand context and provide smart answers - more helpful than traditional knowledge bases</p>
+        <div className="mb-4 sm:mb-6 lg:mb-8">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">❓ AI-Powered FAQ Management</h1>
+          <p className="text-xs sm:text-sm lg:text-base text-gray-600 mt-2">Create intelligent FAQs that understand context and provide smart answers - more helpful than traditional knowledge bases</p>
           <div className="mt-3 flex flex-wrap gap-2">
-            <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">
+            <span className="px-2 sm:px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">
                AI-Powered
             </span>
-            <span className="px-3 py-1 bg-purple-100 text-purple-800 text-xs rounded-full font-medium">
+            <span className="px-2 sm:px-3 py-1 bg-purple-100 text-purple-800 text-xs rounded-full font-medium">
               📝 Smart Content
             </span>
-            <span className="px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">
+            <span className="px-2 sm:px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">
               🔍 Context Aware
             </span>
           </div>
         </div>
 
         {/* Take a Tour Button */}
-        <div className="mb-6 sm:mb-8 flex justify-start">
+        <div className="mb-4 sm:mb-6 lg:mb-8 flex justify-start">
           <button
             onClick={() => {
               const modal = document.createElement('div');
@@ -439,7 +439,7 @@ const FAQ: React.FC = () => {
               `;
               document.body.appendChild(modal);
             }}
-            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 flex items-center transition-all duration-500 hover:scale-105 hover:shadow-xl hover:-translate-y-1"
+            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:from-blue-700 hover:to-purple-700 active:from-blue-800 active:to-purple-800 flex items-center transition-all duration-500 hover:scale-105 hover:shadow-xl hover:-translate-y-1 touch-manipulation min-h-[44px] text-sm sm:text-base"
           >
             <span className="mr-2"></span>
             Take a Tour
@@ -448,80 +448,80 @@ const FAQ: React.FC = () => {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6 hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 border border-transparent hover:border-blue-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-4 sm:mb-6 lg:mb-8">
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6 hover:shadow-xl transition-all duration-300 border border-transparent hover:border-blue-200">
             <div className="flex items-center">
               <div className="p-2 bg-blue-100 rounded-lg">
-                <span className="text-2xl">📝</span>
+                <span className="text-xl sm:text-2xl">📝</span>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total FAQs</p>
-                <p className="text-2xl font-bold text-gray-900">{faqs.length}</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Total FAQs</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">{faqs.length}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6 hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 border border-transparent hover:border-blue-200">
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6 hover:shadow-xl transition-all duration-300 border border-transparent hover:border-blue-200">
             <div className="flex items-center">
               <div className="p-2 bg-green-100 rounded-lg">
-                <span className="text-2xl">👁️</span>
+                <span className="text-xl sm:text-2xl">👁️</span>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Views</p>
-                <p className="text-2xl font-bold text-gray-900">12,847</p>
-                <p className="text-sm text-green-600">+15% vs last month</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Views</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">12,847</p>
+                <p className="text-xs sm:text-sm text-green-600">+15% vs last month</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6 hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 border border-transparent hover:border-blue-200">
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6 hover:shadow-xl transition-all duration-300 border border-transparent hover:border-blue-200">
             <div className="flex items-center">
               <div className="p-2 bg-yellow-100 rounded-lg">
-                <span className="text-2xl">👍</span>
+                <span className="text-xl sm:text-2xl">👍</span>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Helpful</p>
-                <p className="text-2xl font-bold text-gray-900">89%</p>
-                <p className="text-sm text-yellow-600">+5% vs last month</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Helpful</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">89%</p>
+                <p className="text-xs sm:text-sm text-yellow-600">+5% vs last month</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6 hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 border border-transparent hover:border-blue-200">
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6 hover:shadow-xl transition-all duration-300 border border-transparent hover:border-blue-200">
             <div className="flex items-center">
               <div className="p-2 bg-purple-100 rounded-lg">
-                <span className="text-2xl">🔍</span>
+                <span className="text-xl sm:text-2xl">🔍</span>
               </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Searches</p>
-                <p className="text-2xl font-bold text-gray-900">3,421</p>
-                <p className="text-sm text-purple-600">+23% vs last month</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Searches</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">3,421</p>
+                <p className="text-xs sm:text-sm text-purple-600">+23% vs last month</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Controls */}
-        <div className="bg-white rounded-lg shadow p-6 mb-8 hover:shadow-xl transition-all duration-500 hover:scale-[1.01] border border-transparent hover:border-gray-200">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
-            <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
+        <div className="bg-white rounded-lg shadow p-4 sm:p-6 mb-4 sm:mb-6 lg:mb-8 hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-200">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 sm:space-y-4 md:space-y-0">
+            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 md:space-x-4 w-full md:w-auto">
               {/* Search */}
-              <div className="relative">
+              <div className="relative flex-1 sm:flex-none">
                 <input
                   type="text"
                   placeholder="Search FAQs..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full md:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full md:w-64 pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder:text-gray-500 text-sm sm:text-base touch-manipulation min-h-[44px]"
                 />
-                <span className="absolute left-3 top-2.5 text-gray-400">🔍</span>
+                <span className="absolute left-3 top-2.5 sm:top-3 text-gray-400 text-sm sm:text-base">🔍</span>
               </div>
 
               {/* Category Filter */}
               <select
                 value={activeTab}
                 onChange={(e) => setActiveTab(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="px-3 sm:px-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 text-sm sm:text-base touch-manipulation min-h-[44px]"
               >
                 <option value="all">All Categories</option>
                 <option value="account">Account</option>
@@ -532,16 +532,16 @@ const FAQ: React.FC = () => {
               </select>
             </div>
 
-            <div className="flex space-x-3">
+            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
               <button
                 onClick={generateAiSuggestions}
-                className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-all duration-300 hover:scale-105"
+                className="bg-purple-600 text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:bg-purple-700 active:bg-purple-800 transition-all duration-300 touch-manipulation min-h-[44px] text-sm sm:text-base w-full sm:w-auto"
               >
                  AI Suggestions
               </button>
               <button
                 onClick={() => setShowAddForm(true)}
-                className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-500 hover:scale-105 hover:shadow-xl hover:-translate-y-1"
+                className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:from-blue-700 hover:to-blue-800 active:from-blue-800 active:to-blue-900 transition-all duration-300 touch-manipulation min-h-[44px] text-sm sm:text-base w-full sm:w-auto"
               >
                 ➕ Add FAQ
               </button>
@@ -550,19 +550,19 @@ const FAQ: React.FC = () => {
         </div>
 
         {/* FAQ List */}
-        <div className="bg-white rounded-lg shadow hover:shadow-xl transition-all duration-500 hover:scale-[1.01] border border-transparent hover:border-gray-200">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">FAQ ({filteredFaqs.length})</h2>
+        <div className="bg-white rounded-lg shadow hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-200">
+          <div className="p-4 sm:p-6 border-b border-gray-200">
+            <h2 className="text-base sm:text-lg font-semibold text-gray-900">FAQ ({filteredFaqs.length})</h2>
           </div>
 
           <div className="divide-y divide-gray-200">
             {filteredFaqs.map((faq) => (
-              <div key={faq.id} className="p-6 hover:bg-gray-50">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="text-lg font-medium text-gray-900">{faq.question}</h3>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+              <div key={faq.id} className="p-4 sm:p-6 hover:bg-gray-50">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
+                      <h3 className="text-base sm:text-lg font-medium text-gray-900 flex-1 min-w-0">{faq.question}</h3>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium flex-shrink-0 ${
                         faq.status === 'published' ? 'bg-green-100 text-green-800' :
                         faq.status === 'draft' ? 'bg-yellow-100 text-yellow-800' :
                         'bg-red-100 text-red-800'
@@ -570,7 +570,7 @@ const FAQ: React.FC = () => {
                         {faq.status === 'published' ? 'Published' :
                          faq.status === 'draft' ? 'Draft' : 'Archived'}
                       </span>
-                      <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                      <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium flex-shrink-0">
                         {faq.category}
                       </span>
                     </div>
@@ -590,23 +590,23 @@ const FAQ: React.FC = () => {
                         }
                       </div>
                     )}
-                    <p className="text-gray-600 mb-3">{faq.answer}</p>
-                    <div className="flex items-center space-x-4 text-sm text-gray-500">
+                    <p className="text-sm sm:text-base text-gray-600 mb-2 sm:mb-3">{faq.answer}</p>
+                    <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-500">
                       <span>👁️ {faq.views} views</span>
                       <span>👍 {faq.helpful} helpful</span>
                       <span>📅 {new Date(faq.createdAt).toLocaleDateString()}</span>
                     </div>
                   </div>
-                  <div className="flex space-x-2 ml-4">
+                  <div className="flex space-x-2 sm:ml-4 flex-shrink-0">
                     <button
                       onClick={() => setEditingFaq(faq)}
-                      className="text-blue-600 hover:text-blue-800 text-sm transition-all duration-300 hover:scale-105"
+                      className="text-blue-600 hover:text-blue-800 active:text-blue-900 text-xs sm:text-sm transition-all duration-300 touch-manipulation min-h-[36px] px-2 sm:px-3"
                     >
                       ✏️ Edit
                     </button>
                     <button 
                       onClick={() => handleDeleteFAQ(faq.id)}
-                      className="text-red-600 hover:text-red-800 text-sm transition-all duration-300 hover:scale-105"
+                      className="text-red-600 hover:text-red-800 active:text-red-900 text-xs sm:text-sm transition-all duration-300 touch-manipulation min-h-[36px] px-2 sm:px-3"
                     >
                       🗑️ Delete
                     </button>
@@ -619,10 +619,10 @@ const FAQ: React.FC = () => {
 
         {/* Add/Edit FAQ Modal */}
         {(showAddForm || editingFaq) && (
-          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-            <div className="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
-              <div className="mt-3">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 p-3 sm:p-4">
+            <div className="relative top-4 sm:top-10 lg:top-20 mx-auto p-4 sm:p-5 lg:p-6 border w-full max-w-2xl shadow-lg rounded-lg sm:rounded-md bg-white">
+              <div className="mt-2 sm:mt-3">
+                <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-3 sm:mb-4">
                   {editingFaq ? 'Edit FAQ' : 'Add New FAQ'}
                 </h3>
                 
@@ -647,43 +647,43 @@ const FAQ: React.FC = () => {
                       handleCreateFAQ(faqData);
                     }
                   }}
-                  className="space-y-4"
+                  className="space-y-3 sm:space-y-4"
                 >
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                       Question
                     </label>
                     <input
                       type="text"
                       name="question"
                       defaultValue={editingFaq?.question || ''}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder:text-gray-500 text-sm sm:text-base touch-manipulation min-h-[44px]"
                       placeholder="Enter the question..."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                       Answer
                     </label>
                     <textarea
                       name="answer"
                       rows={4}
                       defaultValue={editingFaq?.answer || ''}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 placeholder:text-gray-500 text-sm sm:text-base"
                       placeholder="Enter the answer..."
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                         Category
                       </label>
                       <select
                         name="category"
                         defaultValue={editingFaq?.category || 'account'}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 text-sm sm:text-base touch-manipulation min-h-[44px]"
                       >
                         <option value="account">Account</option>
                         <option value="billing">Billing</option>
