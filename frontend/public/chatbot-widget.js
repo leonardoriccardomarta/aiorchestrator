@@ -1392,8 +1392,7 @@ messagesContainer.appendChild(typingDiv);
           // Remove typing indicator
 const typingElement = shadowRoot.getElementById('typing');
 if (typingElement) typingElement.remove();
-
-          // Check for chatbot not found (plan changed)
+// Check for chatbot not found (plan changed)
           if (response.status === 404 && (data.planChanged || data.error)) {
             // Show plan changed message
 const planChangedDiv = document.createElement('div');
