@@ -184,7 +184,7 @@ const Implementation: React.FC = () => {
                     const chatbot = chatbots.find(c => c.id === e.target.value);
                     setSelectedChatbot(chatbot || null);
                   }}
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="flex-1 px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Choose a chatbot...</option>
                   {chatbots.map((chatbot) => (
@@ -451,7 +451,7 @@ const Implementation: React.FC = () => {
                             <label className="block text-sm font-medium text-gray-700 mb-2">
                               Widget Position
                             </label>
-                            <select className="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                            <select className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg">
                               <option>Bottom Right</option>
                               <option>Bottom Left</option>
                               <option>Top Right</option>
@@ -464,7 +464,7 @@ const Implementation: React.FC = () => {
                               Welcome Message
                             </label>
                             <textarea
-                              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                              className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg placeholder:text-gray-500"
                               rows={3}
                               placeholder="Enter your welcome message..."
                             />

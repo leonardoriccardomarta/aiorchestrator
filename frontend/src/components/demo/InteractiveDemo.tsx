@@ -204,7 +204,7 @@ const InteractiveDemo: React.FC = () => {
                   <button
                     key={idx}
                     onClick={() => handleQuickExample(example.text)}
-                    className="text-xs bg-white px-3 py-2 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors whitespace-nowrap"
+                    className="text-xs bg-blue-100 text-blue-800 px-3 py-2 rounded-lg border border-blue-200 hover:bg-blue-200 hover:border-blue-300 transition-colors whitespace-nowrap"
                     disabled={isTyping}
                   >
                     {example.text}

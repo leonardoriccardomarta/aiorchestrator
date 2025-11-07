@@ -126,7 +126,7 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose, isFi
               value={formData.name}
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               placeholder="e.g., Customer Support Bot"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+              className="w-full px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors placeholder:text-gray-500"
               required
               disabled={isCreating}
             />
@@ -142,7 +142,7 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose, isFi
               onChange={(e) => setFormData(prev => ({ ...prev, welcomeMessage: e.target.value }))}
               placeholder="Hello! I'm your AI assistant. How can I help you today?"
               rows={3}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
+              className="w-full px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none placeholder:text-gray-500"
               required
               disabled={isCreating}
             />

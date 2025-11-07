@@ -1010,10 +1010,10 @@ const Chatbot: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 overflow-x-hidden">
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 w-full">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center py-3 sm:py-4 lg:py-6 space-y-3 lg:space-y-0">
             <div>
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-1 lg:mb-2" data-tour="chatbot-header">My AI Chatbot</h1>
@@ -1041,7 +1041,7 @@ const Chatbot: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 lg:py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 lg:py-8 w-full">
         {/* Tabs */}
         <div className="mb-3 sm:mb-4 lg:mb-8" data-tour="tour-welcome">
           <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
@@ -1086,7 +1086,7 @@ const Chatbot: React.FC = () => {
 
         {/* Tab Content */}
         {activeTab === 'chat' && (
-          <div key={widgetTheme} className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 overflow-hidden" data-tour="chat-interface">
+          <div key={widgetTheme} className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 overflow-hidden w-full max-w-full" data-tour="chat-interface">
             {/* Chat Header */}
             <div className={`bg-gradient-to-br ${tc.secondary} border-b-2 ${tc.border} p-3 lg:p-4`}>
               <div className="flex items-center justify-between">
@@ -1189,7 +1189,7 @@ const Chatbot: React.FC = () => {
         {activeTab === 'manage' && (
           <div className="space-y-3 sm:space-y-4 lg:space-y-6" data-tour="chatbot-management">
             {/* Plan Status */}
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg sm:rounded-xl lg:rounded-xl p-3 sm:p-4 lg:p-6 border border-blue-200">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg sm:rounded-xl lg:rounded-xl p-3 sm:p-4 lg:p-6 border border-blue-200 w-full max-w-full">
               <div className="flex items-center justify-between mb-2 sm:mb-3 lg:mb-4">
                 <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900">Your Plan Status</h3>
                 <span className="px-2 lg:px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs lg:text-sm font-medium">
@@ -1223,7 +1223,7 @@ const Chatbot: React.FC = () => {
             </div>
 
             {/* Current Chatbot */}
-            <div className="bg-white rounded-lg sm:rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6">
+            <div className="bg-white rounded-lg sm:rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6 w-full max-w-full">
               <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-900 mb-3 sm:mb-4 lg:mb-6">Your Chatbot</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
                 {/* Main Chatbot - Hide if deleted */}
@@ -1356,7 +1356,7 @@ const Chatbot: React.FC = () => {
             </div>
 
             {/* Integration Methods */}
-            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6" data-tour="tour-integration">
+            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6 w-full max-w-full" data-tour="tour-integration">
               <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Integration Methods</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
                 {/* Embedding Method */}
@@ -1439,15 +1439,15 @@ const Chatbot: React.FC = () => {
         {activeTab === 'embed' && (
           <div className="space-y-4 lg:space-y-6">
             {/* Embed Options */}
-            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6">
+            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6 w-full max-w-full">
               <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Embed Your Chatbot</h3>
               
               {/* Quick Embed */}
-              <div className="bg-gray-50 rounded-lg p-3 lg:p-4 mb-4 lg:mb-6">
+              <div className="bg-gray-50 rounded-lg p-3 lg:p-4 mb-4 lg:mb-6 w-full max-w-full">
                 <h4 className="font-medium text-sm lg:text-base text-gray-900 mb-2">Quick Embed</h4>
                 <p className="text-xs lg:text-sm text-gray-600 mb-3 lg:mb-4">Add this code to your website to embed your chatbot:</p>
-                <div className="bg-gray-900 rounded-lg p-3 lg:p-4 overflow-x-auto">
-                  <code className="text-green-400 text-xs lg:text-sm whitespace-pre-wrap">
+                <div className="bg-gray-900 rounded-lg p-3 lg:p-4 overflow-x-auto max-w-full w-full">
+                  <code className="text-green-400 text-xs lg:text-sm whitespace-pre break-all">
                     {generateEmbedCode()}
                   </code>
                 </div>
@@ -1779,7 +1779,7 @@ const Chatbot: React.FC = () => {
               {/* Live Preview */}
               <div className="mb-4 lg:mb-6">
                 <h4 className="font-medium text-sm lg:text-base text-gray-900 mb-3 lg:mb-4">Chatbot Preview</h4>
-                <div className="border border-gray-200 rounded-lg overflow-hidden">
+                <div className="border border-gray-200 rounded-lg overflow-hidden w-full max-w-full">
                   <div className="bg-gray-100 px-3 lg:px-4 py-1.5 lg:py-2 border-b border-gray-200">
                     <div className="flex items-center space-x-1 lg:space-x-2">
                       <div className="w-2 h-2 lg:w-3 lg:h-3 bg-red-500 rounded-full"></div>
@@ -1793,12 +1793,12 @@ const Chatbot: React.FC = () => {
                     <iframe
                       key={`${currentChatbotId}-${customBranding.logo ? customBranding.logo.substring(0, 50) : 'no-logo'}-${customBranding.fontFamily}-${whiteLabelEnabled}-${whiteLabelText}`}
                       src={`${API_URL}/public/embed/${currentChatbotId}?theme=${widgetTheme}&title=${encodeURIComponent(widgetTitle)}&placeholder=${encodeURIComponent(widgetPlaceholder)}&message=${encodeURIComponent(widgetMessage)}&showAvatar=${showWidgetAvatar}&primaryLanguage=${encodeURIComponent(primaryLanguage)}${user?.planId !== 'starter' ? `&fontFamily=${encodeURIComponent(customBranding.fontFamily)}${customBranding.logo && !customBranding.logo.startsWith('blob:') ? `&logo=${encodeURIComponent(customBranding.logo)}` : ''}` : ''}${user?.planId === 'business' ? `&showPoweredBy=${!whiteLabelEnabled}${whiteLabelEnabled ? `&poweredByText=${encodeURIComponent(whiteLabelText || '')}` : ''}` : ''}`}
-                      className="w-full h-[400px] lg:h-[740px] border-0"
+                      className="w-full max-w-full h-[400px] lg:h-[740px] border-0"
                       title="Live Chatbot Preview"
                       onLoad={() => console.log('🖼️ iframe loaded, logo:', customBranding.logo ? customBranding.logo.substring(0, 100) : 'none', 'whiteLabel:', whiteLabelEnabled)}
                     />
                   ) : (
-                    <div className="w-full h-[300px] lg:h-[600px] bg-gray-50 flex items-center justify-center">
+                    <div className="w-full max-w-full h-[300px] lg:h-[600px] bg-gray-50 flex items-center justify-center">
                       <div className="text-center">
                         <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-2 lg:mb-3 animate-pulse">
                           <Bot className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
