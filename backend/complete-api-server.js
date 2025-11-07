@@ -5519,13 +5519,14 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
         'dj': 'English (Djibouti)', 'so': 'English (Somalia)', 'km': 'English (Comoros)'
       };
       const languageName = languageNames[primaryLanguage] || 'English';
-      systemPrompt += `IMPORTANT: You MUST respond ONLY in ${languageName}. Do NOT respond in any other language, even if the user writes in a different language. If the user writes in another language, respond in ${languageName} anyway.\n\n`;
+      systemPrompt += `IMPORTANT: You MUST respond ONLY in ${languageName}. Do NOT respond in any other language, even if the user writes in a different language. This means no translations, no parenthetical text, and no words from other languages. If the user writes in another language, respond in ${languageName} anyway.\n\n`;
     } else {
       // Auto-detect: match user's language
         systemPrompt += `CRITICAL LANGUAGE RULE: You MUST detect the language of each user message and respond in the SAME LANGUAGE.
 - If the user writes in Italian, respond in Italian. If they write in English, respond in English. Mirror the CURRENT message's language.
 - If the user explicitly asks you to switch languages (e.g., "talk in English", "parla in italiano"), switch immediately and continue in the requested language until they ask for another change.
 - Do NOT claim that you cannot speak a language. Always comply with the user's language preference.
+- Use ONLY the chosen language in your reply. Do NOT mix languages, add translations, or include parenthetical phrases in another language.
 - Maintain consistency: once the user settles on a language, keep using it unless they clearly request another switch.\n\n`;
     }
     
