@@ -490,6 +490,17 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
   ];
 
   const steps = [...stepsConfig].sort((a, b) => a.order - b.order);
+  const embedIndex = steps.findIndex(step => step.id === 'embed-chatbot');
+  const storeIndex = steps.findIndex(step => step.id === 'store-connection');
+
+  if (embedIndex !== -1 && storeIndex !== -1 && storeIndex < embedIndex) {
+    const [storeStep] = steps.splice(storeIndex, 1);
+    steps.splice(embedIndex + 1, 0, storeStep);
+  }
+
+  if (typeof window !== 'undefined') {
+    (window as any).__ONBOARDING_STEPS_ORDER__ = steps.map(step => step.id);
+  }
 
   const handleNext = async () => {
     if (currentStep < steps.length - 1) {
@@ -528,7 +539,10 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
   const progress = ((currentStep + 1) / steps.length) * 100;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div
+      data-testid="onboarding-wizard"
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+    >
       <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4">
