@@ -221,7 +221,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
     },
     {
       id: 'embed-chatbot',
-      order: 4,
+      order: 5,
       title: 'Embed Your Chatbot',
       description: 'Add your AI assistant to your website in minutes',
       icon: ExternalLink,
@@ -286,7 +286,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
     },
     {
       id: 'store-connection',
-      order: 5,
+      order: 6,
       title: 'Connect Your Store',
       description: 'Link your e-commerce data once the widget is live',
       icon: ShoppingCart,
@@ -313,6 +313,10 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
               type="button"
               disabled
               aria-disabled="true"
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+              }}
               className="mt-5 inline-flex items-center px-8 py-4 rounded-xl font-semibold text-lg bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 text-white opacity-60 cursor-not-allowed shadow-lg pointer-events-none focus:outline-none focus:ring-0"
             >
               <ShoppingCart className="w-5 h-5 mr-2" />
@@ -346,7 +350,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
     },
     {
       id: 'analytics',
-      order: 6,
+      order: 7,
       title: 'Track Your Success',
       description: 'Monitor performance and optimize your chatbot',
       icon: BarChart3,
@@ -427,7 +431,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
     },
     {
       id: 'complete',
-      order: 7,
+      order: 8,
       title: 'You\'re All Set!',
       description: 'Your AI chatbot is ready to start helping customers',
       icon: CheckCircle,
