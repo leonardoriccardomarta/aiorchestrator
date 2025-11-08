@@ -27,6 +27,7 @@ interface OnboardingStep {
   icon: React.ElementType;
   color: string;
   content: React.ReactNode;
+  order: number;
 }
 
 interface OnboardingWizardProps {
@@ -39,9 +40,10 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
   const [currentStep, setCurrentStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<string[]>([]);
 
-  const steps: OnboardingStep[] = [
+  const stepsConfig: OnboardingStep[] = [
     {
       id: 'welcome',
+      order: 1,
       title: 'Welcome to AI Orchestrator',
       description: 'Let\'s get your AI chatbot up and running in just 5 minutes',
       icon: Bot,
@@ -104,6 +106,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
     },
     {
       id: 'multilingual',
+      order: 2,
       title: 'Enable Multilingual Support',
       description: 'Reach customers worldwide with AI that speaks their language',
       icon: Globe,
@@ -163,6 +166,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
     },
     {
       id: 'chatbot-setup',
+      order: 3,
       title: 'Create Your AI Chatbot',
       description: 'Set up your intelligent customer support assistant',
       icon: Bot,
@@ -216,6 +220,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
     },
     {
       id: 'embed-chatbot',
+      order: 4,
       title: 'Embed Your Chatbot',
       description: 'Add your AI assistant to your website in minutes',
       icon: ExternalLink,
@@ -280,6 +285,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
     },
     {
       id: 'store-connection',
+      order: 5,
       title: 'Connect Your Store',
       description: 'Link your e-commerce data once the widget is live',
       icon: ShoppingCart,
@@ -342,6 +348,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
     },
     {
       id: 'analytics',
+      order: 6,
       title: 'Track Your Success',
       description: 'Monitor performance and optimize your chatbot',
       icon: BarChart3,
@@ -422,6 +429,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
     },
     {
       id: 'complete',
+      order: 7,
       title: 'You\'re All Set!',
       description: 'Your AI chatbot is ready to start helping customers',
       icon: CheckCircle,
@@ -478,6 +486,8 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
       )
     }
   ];
+
+  const steps = [...stepsConfig].sort((a, b) => a.order - b.order);
 
   const handleNext = async () => {
     if (currentStep < steps.length - 1) {
