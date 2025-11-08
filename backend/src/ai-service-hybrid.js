@@ -102,9 +102,9 @@ class HybridAIService {
 
   async generateResponse(message, context = {}) {
     try {
-      // Detect language first
-      const detectedLanguage = this.detectLanguage(message);
-      console.log(`Detected language: ${detectedLanguage}`);
+      // Detect or enforce language first
+      const detectedLanguage = context.forceLanguage || this.detectLanguage(message);
+      console.log(`Detected language: ${detectedLanguage}${context.forceLanguage ? ' (forced)' : ''}`);
       
       // Update context with language info
       const enhancedContext = {

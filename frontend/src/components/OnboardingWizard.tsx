@@ -103,60 +103,6 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
       )
     },
     {
-      id: 'store-connection',
-      title: 'Connect Your Store',
-      description: 'Choose your e-commerce platform for seamless integration',
-      icon: ShoppingCart,
-      color: 'bg-green-500',
-      content: (
-        <div className="space-y-6">
-          <div className="text-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <ShoppingCart className="w-10 h-10 text-white" />
-            </div>
-            <h3 className="text-2xl font-semibold text-gray-900 mb-3">🛍️ Connect Your Shopify Store</h3>
-            <p className="text-gray-600 text-lg leading-relaxed">
-              One-click OAuth integration. We'll automatically sync products, orders, and customer data in real-time.
-            </p>
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
-              <p className="text-green-800 font-medium text-sm">✨ What you get:</p>
-              <ul className="text-green-700 text-sm mt-2 space-y-1 text-left">
-                <li>• Real Shopify product recommendations</li>
-                <li>• Order tracking & status updates</li>
-                <li>• Inventory management</li>
-                <li>• Customer purchase history</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="flex justify-center">
-            <a 
-              href="/connections"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl hover:from-green-600 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl font-semibold text-lg"
-            >
-              <ShoppingCart className="w-5 h-5 mr-2" />
-              Connect Shopify Store
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </a>
-          </div>
-          
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <p className="text-gray-700 font-medium text-sm mb-2">💡 Don't have Shopify?</p>
-            <p className="text-gray-600 text-sm">
-              No problem! You can still use our chatbot on any website. Click "Next" to proceed with the universal embed code.
-            </p>
-          </div>
-
-          <div className="bg-green-50 rounded-lg p-4">
-            <h4 className="font-semibold text-green-900 mb-2">🔐 Secure Integration</h4>
-            <p className="text-green-800 text-sm">
-              All connections use industry-standard OAuth 2.0 and API keys. Your data is encrypted and secure.
-            </p>
-          </div>
-        </div>
-      )
-    },
-    {
       id: 'multilingual',
       title: 'Enable Multilingual Support',
       description: 'Reach customers worldwide with AI that speaks their language',
@@ -328,6 +274,64 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
                 <span className="text-blue-800">Size options</span>
               </div>
             </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'store-connection',
+      title: 'Connect Your Store',
+      description: 'Link your e-commerce data once the widget is live',
+      icon: ShoppingCart,
+      color: 'bg-green-500',
+      content: (
+        <div className="space-y-6">
+          <div className="text-center">
+            <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <ShoppingCart className="w-10 h-10 text-white" />
+            </div>
+            <h3 className="text-2xl font-semibold text-gray-900 mb-3">🛍️ Connect Your Shopify Store</h3>
+            <p className="text-gray-600 text-lg leading-relaxed">
+              Now that the chatbot is embedded, you can prepare to sync products, orders, and customer data with one secure connection.
+            </p>
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
+              <p className="text-green-800 font-medium text-sm">✨ Store sync highlights:</p>
+              <ul className="text-green-700 text-sm mt-2 space-y-1 text-left">
+                <li>• Real Shopify product recommendations</li>
+                <li>• Order tracking &amp; status updates</li>
+                <li>• Inventory management</li>
+                <li>• Customer purchase history</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="flex justify-center">
+            <button
+              type="button"
+              disabled
+              className="inline-flex items-center px-8 py-4 rounded-xl font-semibold text-lg bg-gradient-to-r from-green-500 to-emerald-600 text-white opacity-60 cursor-not-allowed shadow-lg"
+            >
+              <ShoppingCart className="w-5 h-5 mr-2" />
+              Connect Shopify Store
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </button>
+          </div>
+          <p className="text-xs text-center text-gray-500">
+            Store connections unlock automatically once the embed code is confirmed from your dashboard.
+          </p>
+          
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <p className="text-gray-700 font-medium text-sm mb-2">💡 Not using Shopify?</p>
+            <p className="text-gray-600 text-sm">
+              Keep the universal embed live and connect other platforms later from the Connections page.
+            </p>
+          </div>
+
+          <div className="bg-green-50 rounded-lg p-4">
+            <h4 className="font-semibold text-green-900 mb-2">🔐 Secure Integration</h4>
+            <p className="text-green-800 text-sm">
+              All connections use industry-standard OAuth 2.0 and API keys. Your data is encrypted and secure.
+            </p>
           </div>
         </div>
       )

@@ -223,7 +223,7 @@ const InteractiveDemo: React.FC = () => {
                   <div
                     className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
                       message.type === 'user'
-                        ? 'bg-sky-500 text-white border border-sky-600'
+                        ? 'bg-sky-400/80 text-white border border-white/40 shadow-[0_12px_30px_rgba(56,189,248,0.35)] backdrop-blur-sm'
                         : 'bg-gray-50 text-gray-900 border-2 border-gray-300 shadow-sm'
                     }`}
                   >

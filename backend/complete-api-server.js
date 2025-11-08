@@ -5484,50 +5484,75 @@ app.get('/api/chatbots/legacy', authenticateToken, (req, res) => {
     // Enhanced system prompt with Shopify/Embed context
     let systemPrompt = '';
     
-    // LANGUAGE ENFORCEMENT
-    if (primaryLanguage && primaryLanguage !== 'auto') {
-      const languageNames = {
-        'en': 'English', 'it': 'Italian', 'es': 'Spanish', 'fr': 'French', 'de': 'German',
-        'pt': 'Portuguese', 'nl': 'Dutch', 'sv': 'Swedish', 'zh': 'Chinese', 'ja': 'Japanese',
-        'ko': 'Korean', 'ar': 'Arabic', 'hi': 'Hindi', 'ru': 'Russian', 'tr': 'Turkish',
-        'pl': 'Polish', 'cs': 'Czech', 'hu': 'Hungarian', 'ro': 'Romanian', 'bg': 'Bulgarian',
-        'hr': 'Croatian', 'sk': 'Slovak', 'sl': 'Slovenian', 'et': 'Estonian', 'lv': 'Latvian',
-        'lt': 'Lithuanian', 'el': 'Greek', 'he': 'Hebrew', 'fa': 'Persian', 'uk': 'Ukrainian',
-        'be': 'Belarusian', 'kk': 'Kazakh', 'uz': 'Uzbek', 'ky': 'Kyrgyz', 'tj': 'Tajik',
-        'tm': 'Turkmen', 'mn': 'Mongolian', 'km': 'Khmer', 'lo': 'Lao', 'th': 'Thai',
-        'vi': 'Vietnamese', 'id': 'Indonesian', 'ms': 'Malay', 'tl': 'Filipino', 'bn': 'Bengali',
-        'si': 'Sinhala', 'ne': 'Nepali', 'ka': 'Georgian', 'hy': 'Armenian', 'az': 'Azerbaijani',
-        'mk': 'Macedonian', 'sq': 'Albanian', 'mt': 'Maltese', 'is': 'Icelandic', 'ga': 'Irish',
-        'cy': 'Welsh', 'eu': 'Basque', 'ca': 'Catalan', 'br': 'Portuguese (Brazil)', 'mx': 'Spanish (Mexico)',
-        'ar': 'Spanish (Argentina)', 'cl': 'Spanish (Chile)', 'co': 'Spanish (Colombia)', 'pe': 'Spanish (Peru)',
-        've': 'Spanish (Venezuela)', 'us': 'English (US)', 'gb': 'English (UK)', 'au': 'English (Australia)',
-        'ca': 'English (Canada)', 'nz': 'English (New Zealand)', 'za': 'English (South Africa)',
-        'in': 'English (India)', 'sg': 'English (Singapore)', 'hk': 'English (Hong Kong)',
-        'ph': 'English (Philippines)', 'ng': 'English (Nigeria)', 'ke': 'English (Kenya)',
-        'gh': 'English (Ghana)', 'tz': 'English (Tanzania)', 'ug': 'English (Uganda)',
-        'zw': 'English (Zimbabwe)', 'bw': 'English (Botswana)', 'na': 'English (Namibia)',
-        'ls': 'English (Lesotho)', 'sz': 'English (Swaziland)', 'mw': 'English (Malawi)',
-        'zm': 'English (Zambia)', 'mg': 'English (Madagascar)', 'mu': 'English (Mauritius)',
-        'sc': 'English (Seychelles)', 'mv': 'English (Maldives)', 'lk': 'English (Sri Lanka)',
-        'bd': 'English (Bangladesh)', 'pk': 'English (Pakistan)', 'af': 'English (Afghanistan)',
-        'ir': 'English (Iran)', 'iq': 'English (Iraq)', 'sa': 'English (Saudi Arabia)',
-        'ae': 'English (UAE)', 'om': 'English (Oman)', 'qa': 'English (Qatar)', 'bh': 'English (Bahrain)',
-        'kw': 'English (Kuwait)', 'jo': 'English (Jordan)', 'lb': 'English (Lebanon)',
-        'sy': 'English (Syria)', 'ye': 'English (Yemen)', 'eg': 'English (Egypt)', 'ly': 'English (Libya)',
-        'tn': 'English (Tunisia)', 'dz': 'English (Algeria)', 'ma': 'English (Morocco)',
-        'sd': 'English (Sudan)', 'et': 'English (Ethiopia)', 'er': 'English (Eritrea)',
-        'dj': 'English (Djibouti)', 'so': 'English (Somalia)', 'km': 'English (Comoros)'
-      };
-      const languageName = languageNames[primaryLanguage] || 'English';
-      systemPrompt += `IMPORTANT: You MUST respond ONLY in ${languageName}. Do NOT respond in any other language, even if the user writes in a different language. This means no translations, no parenthetical text, and no words from other languages. If the user writes in another language, respond in ${languageName} anyway.\n\n`;
+    const baseLanguageNames = {
+      'en': 'English', 'it': 'Italian', 'es': 'Spanish', 'fr': 'French', 'de': 'German',
+      'pt': 'Portuguese', 'nl': 'Dutch', 'sv': 'Swedish', 'zh': 'Chinese', 'ja': 'Japanese',
+      'ko': 'Korean', 'ar': 'Arabic', 'hi': 'Hindi', 'ru': 'Russian', 'tr': 'Turkish',
+      'pl': 'Polish', 'cs': 'Czech', 'hu': 'Hungarian', 'ro': 'Romanian', 'bg': 'Bulgarian',
+      'hr': 'Croatian', 'sk': 'Slovak', 'sl': 'Slovenian', 'et': 'Estonian', 'lv': 'Latvian',
+      'lt': 'Lithuanian', 'el': 'Greek', 'he': 'Hebrew', 'fa': 'Persian', 'uk': 'Ukrainian',
+      'be': 'Belarusian', 'kk': 'Kazakh', 'uz': 'Uzbek', 'ky': 'Kyrgyz', 'tj': 'Tajik',
+      'tm': 'Turkmen', 'mn': 'Mongolian', 'km': 'Khmer', 'lo': 'Lao', 'th': 'Thai',
+      'vi': 'Vietnamese', 'id': 'Indonesian', 'ms': 'Malay', 'tl': 'Filipino', 'bn': 'Bengali',
+      'si': 'Sinhala', 'ne': 'Nepali', 'ka': 'Georgian', 'hy': 'Armenian', 'az': 'Azerbaijani',
+      'mk': 'Macedonian', 'sq': 'Albanian', 'mt': 'Maltese', 'is': 'Icelandic', 'ga': 'Irish',
+      'cy': 'Welsh', 'eu': 'Basque', 'ca': 'Catalan'
+    };
+
+    const regionalLanguageAliases = {
+      'br': 'Portuguese (Brazil)', 'mx': 'Spanish (Mexico)', 'ar': 'Spanish (Argentina)',
+      'cl': 'Spanish (Chile)', 'co': 'Spanish (Colombia)', 'pe': 'Spanish (Peru)',
+      've': 'Spanish (Venezuela)', 'us': 'English (US)', 'gb': 'English (UK)', 'au': 'English (Australia)',
+      'ca': 'English (Canada)', 'nz': 'English (New Zealand)', 'za': 'English (South Africa)',
+      'in': 'English (India)', 'sg': 'English (Singapore)', 'hk': 'English (Hong Kong)',
+      'ph': 'English (Philippines)', 'ng': 'English (Nigeria)', 'ke': 'English (Kenya)',
+      'gh': 'English (Ghana)', 'tz': 'English (Tanzania)', 'ug': 'English (Uganda)',
+      'zw': 'English (Zimbabwe)', 'bw': 'English (Botswana)', 'na': 'English (Namibia)',
+      'ls': 'English (Lesotho)', 'sz': 'English (Swaziland)', 'mw': 'English (Malawi)',
+      'zm': 'English (Zambia)', 'mg': 'English (Madagascar)', 'mu': 'English (Mauritius)',
+      'sc': 'English (Seychelles)', 'mv': 'English (Maldives)', 'lk': 'English (Sri Lanka)',
+      'bd': 'English (Bangladesh)', 'pk': 'English (Pakistan)', 'af': 'English (Afghanistan)',
+      'ir': 'English (Iran)', 'iq': 'English (Iraq)', 'sa': 'English (Saudi Arabia)',
+      'ae': 'English (UAE)', 'om': 'English (Oman)', 'qa': 'English (Qatar)', 'bh': 'English (Bahrain)',
+      'kw': 'English (Kuwait)', 'jo': 'English (Jordan)', 'lb': 'English (Lebanon)',
+      'sy': 'English (Syria)', 'ye': 'English (Yemen)', 'eg': 'English (Egypt)', 'ly': 'English (Libya)',
+      'tn': 'English (Tunisia)', 'dz': 'English (Algeria)', 'ma': 'English (Morocco)',
+      'sd': 'English (Sudan)', 'et': 'English (Ethiopia)', 'er': 'English (Eritrea)',
+      'dj': 'English (Djibouti)', 'so': 'English (Somalia)', 'km': 'English (Comoros)'
+    };
+
+    const languageNames = { ...baseLanguageNames, ...regionalLanguageAliases };
+    const isAutoLanguage = !primaryLanguage || primaryLanguage === 'auto';
+
+    let targetLanguage = primaryLanguage && primaryLanguage !== 'auto' ? primaryLanguage : null;
+    if (!targetLanguage || targetLanguage === 'auto') {
+      targetLanguage = aiService.detectLanguage(message) || 'en';
+    }
+
+    // Fallback for regional codes (e.g., it-IT)
+    const normalizedTarget = targetLanguage.includes('-') ? targetLanguage.split('-')[0] : targetLanguage;
+    const languageName = languageNames[targetLanguage] || languageNames[normalizedTarget] || 'English';
+
+    console.log('🌐 Active language target:', {
+      mode: isAutoLanguage ? 'auto-detect' : 'forced',
+      requested: primaryLanguage,
+      detectedFromMessage: aiService.detectLanguage(message),
+      targetLanguage,
+      languageName
+    });
+
+    if (isAutoLanguage) {
+      systemPrompt += `AUTO LANGUAGE MODE (active language: ${languageName} - code ${targetLanguage}):
+- Mirror the language used in the CURRENT user message.
+- If the user explicitly asks you to switch languages (e.g., "talk in English", "parla in italiano"), switch immediately on that message and continue in the new language until they request another change.
+- Use ONLY ${languageName}. Do NOT mix languages, add translations, or show parenthetical phrases in other languages.
+- If you accidentally use another language, correct yourself and rewrite the answer in ${languageName} before sending.\n\n`;
     } else {
-      // Auto-detect: match user's language
-        systemPrompt += `CRITICAL LANGUAGE RULE: You MUST detect the language of each user message and respond in the SAME LANGUAGE.
-- If the user writes in Italian, respond in Italian. If they write in English, respond in English. Mirror the CURRENT message's language.
-- If the user explicitly asks you to switch languages (e.g., "talk in English", "parla in italiano"), switch immediately and continue in the requested language until they ask for another change.
-- Do NOT claim that you cannot speak a language. Always comply with the user's language preference.
-- Use ONLY the chosen language in your reply. Do NOT mix languages, add translations, or include parenthetical phrases in another language.
-- Maintain consistency: once the user settles on a language, keep using it unless they clearly request another switch.\n\n`;
+      systemPrompt += `ABSOLUTE LANGUAGE LOCK (required language: ${languageName} - code ${targetLanguage}):
+- Respond exclusively in ${languageName}, even if the user writes in another language.
+- Do NOT include translations, parentheses, or individual words from other languages.
+- If the user requests another language, politely explain that this assistant is limited to ${languageName}.
+- If any part of your answer is not in ${languageName}, rewrite it entirely before sending.\n\n`;
     }
     
     // BUSINESS CONTEXT
@@ -5641,8 +5666,9 @@ Keep responses concise (2-3 sentences) and engaging.`;
     
     const enhancedContext = {
       ...context,
-      primaryLanguage: primaryLanguage,
-      language: primaryLanguage,
+      primaryLanguage: targetLanguage,
+      language: targetLanguage,
+      activeLanguage: targetLanguage,
       systemPrompt
     };
     
@@ -5650,23 +5676,47 @@ Keep responses concise (2-3 sentences) and engaging.`;
     
     // Build AI request options
     const aiOptions = {
-      language: primaryLanguage,
-      systemPrompt
+      language: targetLanguage,
+      systemPrompt,
+      forceLanguage: targetLanguage
     };
     
-    const response = await aiService.generateResponse(message, aiOptions);
+    let aiResponse = await aiService.generateResponse(message, aiOptions);
     const responseTime = Date.now() - startTime;
     
-    // Extract detected language from AI service response
-    const detectedLanguage = response.detectedLanguage || response.context?.detectedLanguage || 'en';
-    console.log('🌍 Language detected by AI service:', detectedLanguage);
+    let responsePayload = typeof aiResponse === 'string' ? aiResponse : aiResponse.response;
+    let responseLanguage = aiService.detectLanguage(responsePayload);
+    const contextualDetectedLanguage = aiResponse.detectedLanguage || aiResponse.context?.detectedLanguage || targetLanguage || 'en';
+    
+    console.log('🌍 Language detected by AI service (context):', contextualDetectedLanguage);
+    console.log('🌍 Language detected in raw answer:', responseLanguage);
+
+    if (targetLanguage && responseLanguage !== targetLanguage) {
+      console.warn(`⚠️ Language mismatch detected. Expected ${targetLanguage} (${languageName}), got ${responseLanguage}. Retrying with stricter enforcement.`);
+      const correctionPrompt = `${systemPrompt}\n\nLANGUAGE VIOLATION: You responded in ${languageNames[responseLanguage] || responseLanguage}. Respond again to the same user message strictly in ${languageName}. Use only ${languageName}. Do not apologize or mention this correction.`;
+      const correctionOptions = {
+        ...aiOptions,
+        systemPrompt: correctionPrompt,
+        forceLanguage: targetLanguage,
+        __languageRetry: true
+      };
+
+      aiResponse = await aiService.generateResponse(message, correctionOptions);
+      responsePayload = typeof aiResponse === 'string' ? aiResponse : aiResponse.response;
+      responseLanguage = aiService.detectLanguage(responsePayload);
+      console.log('🌍 Language after correction attempt:', responseLanguage);
+    } else {
+      console.log('🌍 Language after correction attempt:', responseLanguage);
+    }
+
+    const finalDetectedLanguage = responseLanguage || contextualDetectedLanguage || targetLanguage || 'en';
     
     // Store conversation in real data service with ML insights
     console.log('💾 Storing conversation for user:', user.id);
     const conversation = await realDataService.addConversation(user.id, {
       message,
-      response: response.response || response,
-      language: context?.language || 'en',
+      response: responsePayload,
+      language: finalDetectedLanguage,
       responseTime: responseTime,
       platform: 'web',
       // ML insights
@@ -5689,8 +5739,8 @@ Keep responses concise (2-3 sentences) and engaging.`;
     
     res.json({
       success: true,
-      response: typeof response === 'string' ? response : response.response,
-      data: typeof response === 'string' ? response : response.response,
+      response: responsePayload,
+      data: responsePayload,
       conversationId: conversation?.id || null,
       responseTime: responseTime,
       timestamp: new Date().toISOString(),
@@ -5721,7 +5771,7 @@ Keep responses concise (2-3 sentences) and engaging.`;
         features: getPlan(userPlanId).features
       },
       // Language detection for widget translations
-      detectedLanguage: detectedLanguage
+      detectedLanguage: finalDetectedLanguage
     });
     
   } catch (error) {
