@@ -305,11 +305,15 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
             </div>
           </div>
           
-          <div className="flex justify-center">
+          <div className="flex flex-col items-center space-y-3">
+            <p className="text-sm font-medium text-green-800 bg-green-50 border border-green-200 rounded-lg px-4 py-2">
+              Step disponibile dopo aver confermato l&apos;embed dal dashboard.
+            </p>
             <button
               type="button"
               disabled
-              className="inline-flex items-center px-8 py-4 rounded-xl font-semibold text-lg bg-gradient-to-r from-green-500 to-emerald-600 text-white opacity-60 cursor-not-allowed shadow-lg"
+              aria-disabled="true"
+              className="inline-flex items-center px-8 py-4 rounded-xl font-semibold text-lg bg-gradient-to-r from-green-500 to-emerald-600 text-white opacity-60 cursor-not-allowed shadow-lg pointer-events-none"
             >
               <ShoppingCart className="w-5 h-5 mr-2" />
               Connect Shopify Store
