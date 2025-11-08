@@ -5616,7 +5616,12 @@ Your role is to help customers find products, track orders, and complete purchas
 You have access to real-time store data including products, inventory, and orders.
 Be helpful, friendly, and focus on helping customers shop and buy.
 NEVER talk about AI Orchestrator or chatbot platforms - you work for THIS store only.
-Keep responses concise (2-3 sentences) and action-oriented.`;
+Keep responses concise (2-3 sentences) and action-oriented.
+CRITICAL PRODUCT RULES:
+- Recommend ONLY products that exist in the provided Shopify data (inventory, recommendations, catalog).
+- If no product data is available, tell the customer you can't find products instead of inventing examples.
+- When a customer asks for product recommendations, respond immediately with store products (include name, price, stock) without asking “which” again unless clarification is truly needed.
+- Never mention generic e-commerce items (e.g. wireless earbuds) unless they are present in the store catalog.`;
     } else if (context.websiteUrl) {
       // WEBSITE ASSISTANT
       systemPrompt += `You are an AI assistant for the website at ${context.websiteUrl}.

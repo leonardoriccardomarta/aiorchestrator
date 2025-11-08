@@ -27,11 +27,52 @@ class HybridAIService {
     };
   }
 
+  normalizeForMatch(value) {
+    if (!value || typeof value !== 'string') {
+      return '';
+    }
+
+    return value
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
+  }
+
+  escapeRegExp(value) {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  matchesPattern(text, pattern) {
+    if (!pattern) {
+      return false;
+    }
+
+    const normalizedText = this.normalizeForMatch(text);
+    const normalizedPattern = this.normalizeForMatch(pattern);
+
+    if (!normalizedText || !normalizedPattern) {
+      return false;
+    }
+
+    const isLatinPattern = /^[a-z\s]+$/i.test(normalizedPattern);
+
+    if (isLatinPattern) {
+      const regexPattern = this.escapeRegExp(normalizedPattern).replace(/\s+/g, '\\s+');
+      const regex = new RegExp(`\\b${regexPattern}\\b`, 'u');
+      return regex.test(normalizedText);
+    }
+
+    return normalizedText.includes(normalizedPattern);
+  }
+
   detectLanguage(text) {
     if (!text || typeof text !== 'string') {
       return 'en';
     }
-    const lowerText = text.toLowerCase();
+    const trimmedText = text.trim();
+    if (!trimmedText) {
+      return 'en';
+    }
     
     // Check for language requests first
     const languageRequests = {
@@ -54,21 +95,40 @@ class HybridAIService {
 
     for (const [langCode, patterns] of Object.entries(languageRequests)) {
       for (const pattern of patterns) {
-        if (lowerText.includes(pattern.toLowerCase())) {
+        if (this.matchesPattern(trimmedText, pattern)) {
           return langCode;
         }
       }
     }
     
-    // Then check for language content patterns
+    // Then check for language content patterns with scoring
+    const languageScores = {};
+
     for (const [langCode, patterns] of Object.entries(this.languagePatterns)) {
       for (const pattern of patterns) {
-        if (lowerText.includes(pattern.toLowerCase())) {
-          return langCode;
+        if (this.matchesPattern(trimmedText, pattern)) {
+          languageScores[langCode] = (languageScores[langCode] || 0) + 1;
         }
       }
     }
     
+    if (Object.keys(languageScores).length > 0) {
+      const sorted = Object.entries(languageScores).sort((a, b) => b[1] - a[1]);
+      const [topLang, topScore] = sorted[0];
+      const englishScore = languageScores['en'] || 0;
+
+      if (topLang === 'en') {
+        return 'en';
+      }
+
+      if (topScore > englishScore) {
+        const second = sorted[1];
+        if (!second || topScore > second[1] || topLang === 'en') {
+          return topLang;
+        }
+      }
+    }
+
     // Check for flag emojis
     const flagEmojis = {
       '🇬🇧': 'en', '🇺🇸': 'en', '🇮🇹': 'it', '🇪🇸': 'es', '🇩🇪': 'de', '🇫🇷': 'fr',
