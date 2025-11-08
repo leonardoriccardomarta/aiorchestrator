@@ -162,22 +162,22 @@ const InteractiveDemo: React.FC = () => {
         </div>
       ) : (
         <>
-          <div className="bg-gradient-to-br from-white via-indigo-50 to-indigo-100 rounded-3xl shadow-2xl border border-indigo-200/80 overflow-hidden">
+          <div className="bg-white rounded-3xl shadow-[0_25px_70px_rgba(79,70,229,0.22)] border border-indigo-200 overflow-hidden">
             {/* Chat Header */}
-            <div className="bg-gradient-to-r from-indigo-600 via-indigo-600 to-indigo-700 text-white p-5">
+            <div className="bg-indigo-600 text-white p-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-white/15 rounded-full flex items-center justify-center">
                     <MessageCircle className="w-5 h-5" />
                   </div>
                   <div>
                     <div className="font-semibold">AI Orchestrator Bot</div>
-                    <div className="text-xs text-white/80">100+ languages • Universal Support</div>
+                    <div className="text-xs text-indigo-100/80">100+ languages • Universal Support</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-xs text-white/80">Online</span>
+                  <span className="text-xs text-indigo-100/80">Online</span>
                   <button 
                     onClick={() => {
                       setIsDemoActive(false);
@@ -188,7 +188,7 @@ const InteractiveDemo: React.FC = () => {
                         timestamp: new Date()
                       }]);
                     }}
-                    className="text-white/80 hover:text-white text-sm ml-2"
+                    className="text-indigo-100/80 hover:text-white text-sm ml-2"
                   >
                     Reset
                   </button>
@@ -197,14 +197,14 @@ const InteractiveDemo: React.FC = () => {
             </div>
 
             {/* Quick Examples */}
-            <div className="bg-indigo-50/80 p-3 border-b border-indigo-100/70">
-              <div className="text-xs font-semibold text-indigo-700 mb-2 uppercase tracking-wide">Quick examples</div>
+            <div className="bg-indigo-50 p-3 border-b border-indigo-100">
+              <div className="text-xs font-semibold text-indigo-800 mb-2 uppercase tracking-wide">Quick examples</div>
               <div className="flex gap-2 overflow-x-auto pb-2">
                 {quickExamples.map((example, idx) => (
                   <button
                     key={idx}
                     onClick={() => handleQuickExample(example.text)}
-                    className="text-xs bg-indigo-200/90 text-indigo-900 px-3 py-2 rounded-xl border border-indigo-300 hover:bg-indigo-300 hover:border-indigo-400 transition-colors whitespace-nowrap shadow-sm"
+                    className="text-xs bg-indigo-100/90 text-indigo-800 px-3 py-2 rounded-xl border border-indigo-200 hover:bg-indigo-200 hover:border-indigo-300 transition-colors whitespace-nowrap shadow-sm"
                     disabled={isTyping}
                   >
                     {example.text}
@@ -214,7 +214,7 @@ const InteractiveDemo: React.FC = () => {
             </div>
 
             {/* Messages */}
-            <div className="h-96 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-indigo-100/70 via-white to-white">
+            <div className="h-96 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-indigo-50 via-white to-white">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -223,8 +223,8 @@ const InteractiveDemo: React.FC = () => {
                   <div
                     className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
                       message.type === 'user'
-                        ? 'bg-indigo-500/85 text-white border border-indigo-200/70 shadow-[0_12px_28px_rgba(79,70,229,0.4)] backdrop-blur-sm'
-                        : 'bg-white/95 text-gray-900 border border-indigo-100/80 shadow-sm shadow-indigo-100/70'
+                        ? 'bg-indigo-500 text-white border border-indigo-400 shadow-[0_16px_32px_rgba(79,70,229,0.35)]'
+                        : 'bg-white text-gray-900 border border-indigo-100 shadow-sm shadow-indigo-100/50'
                     }`}
                   >
                     <p className={`text-sm whitespace-pre-wrap font-medium ${message.type === 'user' ? 'text-white' : 'text-gray-900'}`}>{message.content}</p>
@@ -246,7 +246,7 @@ const InteractiveDemo: React.FC = () => {
             </div>
 
             {/* Input */}
-            <div className="p-4 bg-indigo-50/70 border-t border-indigo-100/80">
+            <div className="p-4 bg-indigo-50 border-t border-indigo-100">
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -254,13 +254,13 @@ const InteractiveDemo: React.FC = () => {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Type in any language..."
-                  className="flex-1 px-4 py-3 bg-white/95 text-gray-900 border border-indigo-200/80 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-indigo-400"
+                  className="flex-1 px-4 py-3 bg-white text-gray-900 border border-indigo-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-indigo-400"
                   disabled={isTyping}
                 />
                 <button
                   onClick={() => handleSendMessage()}
                   disabled={!inputValue.trim() || isTyping}
-                  className="bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 text-white px-6 py-3 rounded-2xl hover:from-indigo-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 shadow-lg shadow-indigo-400/60"
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 shadow-lg shadow-indigo-300/60"
                 >
                   {isTyping ? (
                     <Loader2 className="w-5 h-5 animate-spin" />

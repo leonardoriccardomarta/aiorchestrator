@@ -16,7 +16,8 @@ import {
   Activity,
   DollarSign,
   Package,
-  ExternalLink
+  ExternalLink,
+  Lock
 } from 'lucide-react';
 import { completeOnboarding } from '../services/onboarding';
 
@@ -289,59 +290,56 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
       title: 'Connect Your Store',
       description: 'Link your e-commerce data once the widget is live',
       icon: ShoppingCart,
-      color: 'bg-green-500',
+      color: 'bg-indigo-500',
       content: (
         <div className="space-y-6">
-          <div className="text-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <ShoppingCart className="w-10 h-10 text-white" />
-            </div>
-            <h3 className="text-2xl font-semibold text-gray-900 mb-3">🛍️ Connect Your Shopify Store</h3>
-            <p className="text-gray-600 text-lg leading-relaxed">
-              Now that the chatbot is embedded, you can prepare to sync products, orders, and customer data with one secure connection.
+          <div className="bg-gradient-to-r from-indigo-50 via-white to-indigo-100 border border-indigo-200 rounded-2xl p-6 shadow-sm">
+            <h4 className="text-lg font-semibold text-indigo-900 mb-2">Almost there!</h4>
+            <p className="text-indigo-800 text-sm leading-relaxed">
+              Once your widget is embedded, connect your store to unlock product syncing, order tracking, and personalised flows.
             </p>
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
-              <p className="text-green-800 font-medium text-sm">✨ Store sync highlights:</p>
-              <ul className="text-green-700 text-sm mt-2 space-y-1 text-left">
-                <li>• Real Shopify product recommendations</li>
-                <li>• Order tracking &amp; status updates</li>
-                <li>• Inventory management</li>
-                <li>• Customer purchase history</li>
-              </ul>
-            </div>
           </div>
-          
-          <div className="flex flex-col items-center space-y-3">
-            <p className="text-sm font-medium text-green-800 bg-green-50 border border-green-200 rounded-lg px-4 py-2">
-              Step disponibile dopo aver confermato l&apos;embed dal dashboard.
+
+          <div className="rounded-2xl border-2 border-dashed border-indigo-300 bg-white/90 backdrop-blur-sm p-6 shadow-sm">
+            <p className="flex items-center gap-2 text-sm font-semibold text-indigo-800">
+              <Lock className="w-4 h-4" />
+              This step unlocks after confirming the embed from the previous step
             </p>
+            <p className="text-indigo-700 text-sm mt-3">
+              Keep the embed live, then return here to start the secure Shopify OAuth flow.
+            </p>
+
             <button
               type="button"
               disabled
               aria-disabled="true"
-              className="inline-flex items-center px-8 py-4 rounded-xl font-semibold text-lg bg-gradient-to-r from-green-500 to-emerald-600 text-white opacity-60 cursor-not-allowed shadow-lg pointer-events-none"
+              className="mt-5 inline-flex items-center px-8 py-4 rounded-xl font-semibold text-lg bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 text-white opacity-60 cursor-not-allowed shadow-lg pointer-events-none focus:outline-none focus:ring-0"
             >
               <ShoppingCart className="w-5 h-5 mr-2" />
               Connect Shopify Store
               <ArrowRight className="w-5 h-5 ml-2" />
             </button>
-          </div>
-          <p className="text-xs text-center text-gray-500">
-            Store connections unlock automatically once the embed code is confirmed from your dashboard.
-          </p>
-          
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <p className="text-gray-700 font-medium text-sm mb-2">💡 Not using Shopify?</p>
-            <p className="text-gray-600 text-sm">
-              Keep the universal embed live and connect other platforms later from the Connections page.
+
+            <p className="text-xs text-indigo-500 mt-3">
+              We&apos;ll notify you in the dashboard as soon as the store connection is available.
             </p>
           </div>
 
-          <div className="bg-green-50 rounded-lg p-4">
-            <h4 className="font-semibold text-green-900 mb-2">🔐 Secure Integration</h4>
-            <p className="text-green-800 text-sm">
-              All connections use industry-standard OAuth 2.0 and API keys. Your data is encrypted and secure.
-            </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-4">
+              <p className="text-sm font-semibold text-indigo-900 mb-1">What you unlock</p>
+              <ul className="text-sm text-indigo-700 space-y-1">
+                <li>• Real Shopify product recommendations</li>
+                <li>• Order tracking &amp; status updates</li>
+                <li>• Inventory sync in real time</li>
+              </ul>
+            </div>
+            <div className="bg-white border border-indigo-100 rounded-xl p-4">
+              <p className="text-sm font-semibold text-indigo-900 mb-1">Not using Shopify?</p>
+              <p className="text-sm text-indigo-700">
+                Keep the universal embed live and connect other platforms later from the Connections page.
+              </p>
+            </div>
           </div>
         </div>
       )
