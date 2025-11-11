@@ -117,17 +117,13 @@ const Pricing: React.FC = () => {
     <div className="p-2 sm:p-4 lg:p-6">
       {/* Header */}
       <div className="mb-6 lg:mb-8">
-        <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-          Pricing Plans
-        </h1>
-        <p className="text-sm lg:text-base text-gray-600">
-          Choose the plan that's right for your business
-        </p>
+        <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Pricing Plans</h1>
+        <p className="text-sm lg:text-base text-gray-600">Choose the plan that's right for your business</p>
       </div>
 
-      {/* Content */}
-        <div className="text-center mb-8">
-          <div className="max-w-3xl mx-auto">
+      {/* Billing + Alerts */}
+      <div className="text-center mb-8">
+        <div className="max-w-3xl mx-auto">
           {/* Trial Expired Warning */}
           {authUser && !authUser.isTrialActive && !authUser.isPaid && (
             <div className="bg-red-50 border-2 border-red-500 rounded-xl p-4 lg:p-6 mb-6 lg:mb-8 shadow-lg">
@@ -143,34 +139,32 @@ const Pricing: React.FC = () => {
               </p>
             </div>
           )}
-          
-            
-            {/* Billing Toggle */}
-            <div className="flex items-center justify-center space-x-3 lg:space-x-4 mb-6 lg:mb-8">
-              <span className={`text-xs lg:text-sm font-medium ${billingCycle === 'monthly' ? 'text-gray-900' : 'text-gray-500'}`}>
-                Monthly
-              </span>
-              <button
-                onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
-                className="relative inline-flex h-5 w-9 lg:h-6 lg:w-11 items-center rounded-full bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                <span
-                  className={`inline-block h-3 w-3 lg:h-4 lg:w-4 transform rounded-full bg-white transition-transform ${
-                    billingCycle === 'yearly' ? 'translate-x-5 lg:translate-x-6' : 'translate-x-1'
-                  }`}
-                />
-              </button>
-              <span className={`text-xs lg:text-sm font-medium ${billingCycle === 'yearly' ? 'text-gray-900' : 'text-gray-500'}`}>
-                Yearly
-              </span>
-              {billingCycle === 'yearly' && (
-                <Badge className="bg-green-100 text-green-800 text-xs">Save 17%</Badge>
-              )}
-            </div>
+
+          {/* Billing Toggle */}
+          <div className="flex items-center justify-center space-x-3 lg:space-x-4 mb-6 lg:mb-8">
+            <span className={`text-xs lg:text-sm font-medium ${billingCycle === 'monthly' ? 'text-gray-900' : 'text-gray-500'}`}>
+              Monthly
+            </span>
+            <button
+              onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
+              className="relative inline-flex h-5 w-9 lg:h-6 lg:w-11 items-center rounded-full bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              <span
+                className={`inline-block h-3 w-3 lg:h-4 lg:w-4 transform rounded-full bg-white transition-transform ${
+                  billingCycle === 'yearly' ? 'translate-x-5 lg:translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+            <span className={`text-xs lg:text-sm font-medium ${billingCycle === 'yearly' ? 'text-gray-900' : 'text-gray-500'}`}>
+              Yearly
+            </span>
+            {billingCycle === 'yearly' && <Badge className="bg-green-100 text-green-800 text-xs">Save 17%</Badge>}
           </div>
         </div>
-        <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-12 lg:mb-16">
+      </div>
+
+      <div className="max-w-7xl mx-auto space-y-12 lg:space-y-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {/* Starter Plan */}
           <Card className="relative">
             {user?.planId === 'starter' && !isTrialExpired && (
@@ -546,9 +540,9 @@ const Pricing: React.FC = () => {
                 </tr>
               </tbody>
             </table>
+          </div>
         </div>
       </div>
-
 
       {/* Payment Modal */}
       {selectedPlan && (
