@@ -290,58 +290,60 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
       title: 'Connect Your Store',
       description: 'Link your e-commerce data once the widget is live',
       icon: ShoppingCart,
-      color: 'bg-indigo-500',
+      color: 'bg-green-500',
       content: (
         <div className="space-y-6">
-          <div className="bg-gradient-to-r from-indigo-50 via-white to-indigo-100 border border-indigo-200 rounded-2xl p-6 shadow-sm">
-            <h4 className="text-lg font-semibold text-indigo-900 mb-2">Almost there!</h4>
-            <p className="text-indigo-800 text-sm leading-relaxed">
-              Once your widget is embedded, connect your store to unlock product syncing, order tracking, and personalised flows.
+          <div className="text-center">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <ShoppingCart className="w-8 h-8 text-green-600" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Connect Shopify when you’re ready</h3>
+            <p className="text-gray-600">
+              Keep the widget live on your store. When you’re set, head to <span className="font-medium text-green-700">Connections</span> inside the app to launch the secure Shopify flow.
             </p>
           </div>
 
-          <div className="rounded-2xl border-2 border-dashed border-indigo-300 bg-white/90 backdrop-blur-sm p-6 shadow-sm">
-            <p className="flex items-center gap-2 text-sm font-semibold text-indigo-800">
+          <div className="bg-white border border-green-200 rounded-2xl p-6 shadow-sm">
+            <p className="flex items-center gap-2 text-sm font-semibold text-green-700">
               <Lock className="w-4 h-4" />
-              This step unlocks after confirming the embed from the previous step
+              This action is available directly from the Connections page
             </p>
-            <p className="text-indigo-700 text-sm mt-3">
-              Keep the embed live, then return here to start the secure Shopify OAuth flow.
+            <p className="text-sm text-green-600 mt-3">
+              We’ve included a preview of the button you’ll see there. In this walkthrough it’s just illustrative.
             </p>
 
             <button
               type="button"
-              disabled
               aria-disabled="true"
               onClick={(event) => {
                 event.preventDefault();
                 event.stopPropagation();
               }}
-              className="mt-5 inline-flex items-center px-8 py-4 rounded-xl font-semibold text-lg bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 text-white opacity-60 cursor-not-allowed shadow-lg pointer-events-none focus:outline-none focus:ring-0"
+              className="mt-5 inline-flex items-center justify-center px-8 py-4 rounded-xl font-semibold text-lg bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 text-white opacity-60 cursor-default pointer-events-none shadow-md focus:outline-none"
             >
               <ShoppingCart className="w-5 h-5 mr-2" />
               Connect Shopify Store
               <ArrowRight className="w-5 h-5 ml-2" />
             </button>
 
-            <p className="text-xs text-indigo-500 mt-3">
-              We&apos;ll notify you in the dashboard as soon as the store connection is available.
+            <p className="text-xs text-green-500 mt-3">
+              Tip: you’ll receive a notification in-app when the connection step is unlocked.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-4">
-              <p className="text-sm font-semibold text-indigo-900 mb-1">What you unlock</p>
-              <ul className="text-sm text-indigo-700 space-y-1">
+            <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+              <p className="text-sm font-semibold text-green-900 mb-1">What you unlock</p>
+              <ul className="text-sm text-green-700 space-y-1">
                 <li>• Real Shopify product recommendations</li>
                 <li>• Order tracking &amp; status updates</li>
                 <li>• Inventory sync in real time</li>
               </ul>
             </div>
-            <div className="bg-white border border-indigo-100 rounded-xl p-4">
-              <p className="text-sm font-semibold text-indigo-900 mb-1">Not using Shopify?</p>
-              <p className="text-sm text-indigo-700">
-                Keep the universal embed live and connect other platforms later from the Connections page.
+            <div className="bg-white border border-green-200 rounded-xl p-4">
+              <p className="text-sm font-semibold text-green-900 mb-1">Not using Shopify?</p>
+              <p className="text-sm text-green-700">
+                Keep the universal embed live and connect additional platforms later from the Connections page.
               </p>
             </div>
           </div>
