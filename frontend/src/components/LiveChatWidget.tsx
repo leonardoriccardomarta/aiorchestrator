@@ -239,14 +239,14 @@ const LiveChatWidget: React.FC = () => {
                         : 'bg-white text-gray-900 border border-gray-200'
                     }`}
                     style={message.isUser ? {
-                      backgroundColor: widgetConfig.primaryColor,
+                      background: `linear-gradient(135deg, ${widgetConfig.primaryColor}, ${widgetConfig.secondaryColor})`,
                       fontFamily: widgetConfig.fontFamily
                     } : {
                       fontFamily: widgetConfig.fontFamily
                     }}
                   >
                     <div className="text-sm">{message.text}</div>
-                    <div className={`text-xs mt-1 ${message.isUser ? 'opacity-70' : 'text-gray-500'}`}>
+                    <div className={`text-xs mt-1 ${message.isUser ? 'text-white/80' : 'text-gray-500'}`}>
                       {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </div>

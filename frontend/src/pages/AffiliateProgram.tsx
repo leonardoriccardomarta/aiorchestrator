@@ -362,19 +362,19 @@ Highly recommended for any e-commerce business looking to scale support efficien
         }
       `}</style>
       {/* Header - Same as landing */}
-      <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50 transition-all">
+      <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-slate-100 z-50 transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
             <div className="flex items-center space-x-2 sm:space-x-3 cursor-pointer" onClick={() => navigate('/')}>
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center transform hover:scale-105 transition-transform flex-shrink-0">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-indigo-600 to-indigo-500 rounded-xl flex items-center justify-center transform hover:scale-105 transition-transform flex-shrink-0">
                 <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
-              <span className="text-lg sm:text-xl font-bold text-gray-900">AI Orchestrator</span>
+              <span className="text-lg sm:text-xl font-bold text-slate-900">AI Orchestrator</span>
             </div>
             
             <button
               onClick={() => navigate('/')}
-              className="px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 active:from-blue-800 active:to-purple-800 transition-all font-semibold shadow-lg shadow-blue-500/30 text-sm sm:text-base min-h-[44px] touch-manipulation"
+              className="px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-600 text-white rounded-lg hover:from-indigo-700 hover:to-indigo-700 active:from-indigo-800 active:to-indigo-800 transition-all font-semibold shadow-lg shadow-indigo-500/30 text-sm sm:text-base min-h-[44px] touch-manipulation"
             >
               <span className="hidden sm:inline">Back to Home</span>
               <span className="sm:hidden">Home</span>
@@ -387,33 +387,33 @@ Highly recommended for any e-commerce business looking to scale support efficien
       <div className="h-14 sm:h-16"></div>
 
       {/* Hero Section - Same style as landing */}
-      <section className="pt-16 sm:pt-20 pb-12 sm:pb-16 bg-gradient-to-br from-blue-50 to-indigo-100">
+      <section className="pt-16 sm:pt-20 pb-12 sm:pb-16 bg-gradient-to-br from-slate-50 via-white to-indigo-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className="inline-flex items-center flex-wrap justify-center gap-1 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-900 rounded-full text-xs sm:text-sm font-semibold mb-4 sm:mb-6 border border-blue-200 mx-2 sm:mx-0">
-              <Gift className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-blue-600 flex-shrink-0" />
+            <div className="inline-flex items-center flex-wrap justify-center gap-1 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-indigo-100 to-indigo-100 text-indigo-900 rounded-full text-xs sm:text-sm font-semibold mb-4 sm:mb-6 border border-indigo-200 mx-2 sm:mx-0">
+              <Gift className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-indigo-600 flex-shrink-0" />
               <span className="hidden sm:inline">Paid on the 1st of Every Month</span>
               <span className="sm:hidden">Request payouts anytime</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight px-2 sm:px-0">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4 sm:mb-6 leading-tight px-2 sm:px-0">
               Earn 50% Commission
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">On Every Sale!</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-500">On Every Sale!</span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0">
+            <p className="text-base sm:text-lg md:text-xl text-slate-600 mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0">
               Join our affiliate program and earn up to €500+ per month by referring customers to AI Orchestrator
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0">
               <button
                 onClick={handleGetStarted}
-                className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 text-white text-base sm:text-lg font-semibold rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors shadow-lg touch-manipulation"
+                className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 bg-indigo-600 text-white text-base sm:text-lg font-semibold rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors shadow-lg touch-manipulation"
               >
                 Get Started
                 <ArrowRight className="w-5 h-5 ml-2 flex-shrink-0" />
               </button>
               <button
                 onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
-                className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 bg-white text-gray-900 text-base sm:text-lg font-semibold rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-colors shadow-lg border border-gray-200 touch-manipulation"
+                className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-4 bg-white text-slate-900 text-base sm:text-lg font-semibold rounded-lg hover:bg-slate-50 active:bg-slate-100 transition-colors shadow-lg border border-slate-200 touch-manipulation"
               >
                 Learn More
           </button>
@@ -423,24 +423,24 @@ Highly recommended for any e-commerce business looking to scale support efficien
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 sm:py-16 bg-white border-t border-gray-100">
+      <section className="py-12 sm:py-16 bg-white border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
-            <div className="text-center bg-gray-50 p-4 sm:p-6 rounded-xl hover:shadow-lg transition-shadow">
-              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-600 mb-1 sm:mb-2">50%</div>
-              <div className="text-xs sm:text-sm md:text-base text-gray-600 font-medium">Commission Rate</div>
+            <div className="text-center bg-slate-50 p-4 sm:p-6 rounded-xl hover:shadow-lg transition-shadow">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-indigo-600 mb-1 sm:mb-2">50%</div>
+              <div className="text-xs sm:text-sm md:text-base text-slate-600 font-medium">Commission Rate</div>
           </div>
-            <div className="text-center bg-gray-50 p-4 sm:p-6 rounded-xl hover:shadow-lg transition-shadow">
-              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-600 mb-1 sm:mb-2">€50</div>
-              <div className="text-xs sm:text-sm md:text-base text-gray-600 font-medium">Minimum Payout</div>
+            <div className="text-center bg-slate-50 p-4 sm:p-6 rounded-xl hover:shadow-lg transition-shadow">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-indigo-600 mb-1 sm:mb-2">€50</div>
+              <div className="text-xs sm:text-sm md:text-base text-slate-600 font-medium">Minimum Payout</div>
           </div>
-            <div className="text-center bg-gray-50 p-4 sm:p-6 rounded-xl hover:shadow-lg transition-shadow">
-              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-600 mb-1 sm:mb-2">30 days</div>
-              <div className="text-xs sm:text-sm md:text-base text-gray-600 font-medium">Cookie Duration</div>
+            <div className="text-center bg-slate-50 p-4 sm:p-6 rounded-xl hover:shadow-lg transition-shadow">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-indigo-600 mb-1 sm:mb-2">30 days</div>
+              <div className="text-xs sm:text-sm md:text-base text-slate-600 font-medium">Cookie Duration</div>
         </div>
-            <div className="text-center bg-gray-50 p-4 sm:p-6 rounded-xl hover:shadow-lg transition-shadow">
-              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-600 mb-1 sm:mb-2">1st</div>
-              <div className="text-xs sm:text-sm md:text-base text-gray-600 font-medium">Monthly Payout Day</div>
+            <div className="text-center bg-slate-50 p-4 sm:p-6 rounded-xl hover:shadow-lg transition-shadow">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-indigo-600 mb-1 sm:mb-2">1st</div>
+              <div className="text-xs sm:text-sm md:text-base text-slate-600 font-medium">Monthly Payout Day</div>
         </div>
       </div>
         </div>
@@ -450,23 +450,23 @@ Highly recommended for any e-commerce business looking to scale support efficien
       <section id="how-it-works" className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10 sm:mb-12 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 px-2 sm:px-0">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 sm:mb-4 px-2 sm:px-0">
               How It Works
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto px-4 sm:px-0">
+            <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-2xl mx-auto px-4 sm:px-0">
               Start earning in 3 simple steps
             </p>
                 </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
-              <div className="relative bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border-2 border-gray-100 hover:border-blue-200">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 shadow-lg">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-indigo-600 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
+              <div className="relative bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border-2 border-slate-100 hover:border-indigo-200">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-indigo-600 to-indigo-600 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 shadow-lg">
                   <Users className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </div>
-                <div className="text-2xl sm:text-3xl font-bold mb-2 text-gray-900">1. Sign Up</div>
-                <p className="text-sm sm:text-base md:text-lg text-gray-600">
+                <div className="text-2xl sm:text-3xl font-bold mb-2 text-slate-900">1. Sign Up</div>
+                <p className="text-sm sm:text-base md:text-lg text-slate-600">
                   Create your free account and get your unique referral link instantly
                 </p>
               </div>
@@ -474,12 +474,12 @@ Highly recommended for any e-commerce business looking to scale support efficien
 
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
-              <div className="relative bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border-2 border-gray-100 hover:border-purple-200">
+              <div className="relative bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border-2 border-slate-100 hover:border-purple-200">
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 shadow-lg">
                   <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </div>
-                <div className="text-2xl sm:text-3xl font-bold mb-2 text-gray-900">2. Share</div>
-                <p className="text-sm sm:text-base md:text-lg text-gray-600">
+                <div className="text-2xl sm:text-3xl font-bold mb-2 text-slate-900">2. Share</div>
+                <p className="text-sm sm:text-base md:text-lg text-slate-600">
                   Share your link on social media, blog, or directly with your network
                 </p>
               </div>
@@ -487,12 +487,12 @@ Highly recommended for any e-commerce business looking to scale support efficien
 
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-teal-600 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
-              <div className="relative bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border-2 border-gray-100 hover:border-green-200">
+              <div className="relative bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border-2 border-slate-100 hover:border-green-200">
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-green-600 to-teal-600 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 shadow-lg">
                   <DollarSign className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </div>
-                <div className="text-2xl sm:text-3xl font-bold mb-2 text-gray-900">3. Earn</div>
-                <p className="text-sm sm:text-base md:text-lg text-gray-600">
+                <div className="text-2xl sm:text-3xl font-bold mb-2 text-slate-900">3. Earn</div>
+                <p className="text-sm sm:text-base md:text-lg text-slate-600">
                   Get 50% commission on every sale. Paid on the 1st of each month via PayPal
                 </p>
               </div>
@@ -502,84 +502,84 @@ Highly recommended for any e-commerce business looking to scale support efficien
       </section>
 
       {/* Earning Potential */}
-      <section className="py-12 sm:py-16 md:py-20 bg-gray-50">
+      <section className="py-12 sm:py-16 md:py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10 sm:mb-12 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 px-2 sm:px-0">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3 sm:mb-4 px-2 sm:px-0">
               Your Earning Potential
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 px-4 sm:px-0">
+            <p className="text-base sm:text-lg md:text-xl text-slate-600 px-4 sm:px-0">
               Based on our average plan price of €99/month
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border-2 border-blue-100 hover:shadow-2xl transition-all">
+            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border-2 border-indigo-100 hover:shadow-2xl transition-all">
               <div className="text-center">
-                <div className="text-base sm:text-lg font-semibold text-blue-600 mb-2">Starter</div>
-                <div className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3 sm:mb-4">€150</div>
-                <div className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">/month</div>
+                <div className="text-base sm:text-lg font-semibold text-indigo-600 mb-2">Starter</div>
+                <div className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-600 bg-clip-text text-transparent mb-3 sm:mb-4">€150</div>
+                <div className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6">/month</div>
                 <div className="space-y-3 text-left">
                   <div className="flex items-center gap-2">
-                    <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                    <span className="text-gray-700">3 referrals/month</span>
+                    <Check className="w-5 h-5 text-indigo-600 flex-shrink-0" />
+                    <span className="text-slate-700">3 referrals/month</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                    <span className="text-gray-700">50% commission</span>
+                    <Check className="w-5 h-5 text-indigo-600 flex-shrink-0" />
+                    <span className="text-slate-700">50% commission</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                    <span className="text-gray-700">€49.50 per sale</span>
+                    <Check className="w-5 h-5 text-indigo-600 flex-shrink-0" />
+                    <span className="text-slate-700">€49.50 per sale</span>
                 </div>
                 </div>
           </div>
         </div>
 
-            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl border-2 border-blue-500 relative transform hover:scale-105 transition-all">
+            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl border-2 border-indigo-500 relative transform hover:scale-105 transition-all">
               <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-blue-600 text-white px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-bold shadow-lg">
+                <span className="bg-indigo-600 text-white px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-bold shadow-lg">
                   Most Popular
                 </span>
                 </div>
               <div className="text-center">
-                <div className="text-base sm:text-lg font-semibold text-blue-600 mb-2">Professional</div>
-                <div className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3 sm:mb-4">€500</div>
-                <div className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">/month</div>
+                <div className="text-base sm:text-lg font-semibold text-indigo-600 mb-2">Professional</div>
+                <div className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-600 bg-clip-text text-transparent mb-3 sm:mb-4">€500</div>
+                <div className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6">/month</div>
                 <div className="space-y-3 text-left">
                   <div className="flex items-center gap-2">
-                    <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                    <span className="text-gray-700">10 referrals/month</span>
+                    <Check className="w-5 h-5 text-indigo-600 flex-shrink-0" />
+                    <span className="text-slate-700">10 referrals/month</span>
                 </div>
                   <div className="flex items-center gap-2">
-                    <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                    <span className="text-gray-700">50% commission</span>
+                    <Check className="w-5 h-5 text-indigo-600 flex-shrink-0" />
+                    <span className="text-slate-700">50% commission</span>
               </div>
                   <div className="flex items-center gap-2">
-                    <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                    <span className="text-gray-700">€49.50 per sale</span>
+                    <Check className="w-5 h-5 text-indigo-600 flex-shrink-0" />
+                    <span className="text-slate-700">€49.50 per sale</span>
                   </div>
                 </div>
               </div>
               </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-lg border-2 border-blue-100 hover:shadow-2xl transition-all">
+            <div className="bg-white p-8 rounded-2xl shadow-lg border-2 border-indigo-100 hover:shadow-2xl transition-all">
               <div className="text-center">
-                <div className="text-lg font-semibold text-blue-600 mb-2">Elite</div>
-                <div className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">€1,500+</div>
-                <div className="text-gray-600 mb-6">/month</div>
+                <div className="text-lg font-semibold text-indigo-600 mb-2">Elite</div>
+                <div className="text-6xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-600 bg-clip-text text-transparent mb-4">€1,500+</div>
+                <div className="text-slate-600 mb-6">/month</div>
                 <div className="space-y-3 text-left">
                   <div className="flex items-center gap-2">
-                    <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                    <span className="text-gray-700">30+ referrals/month</span>
+                    <Check className="w-5 h-5 text-indigo-600 flex-shrink-0" />
+                    <span className="text-slate-700">30+ referrals/month</span>
                 </div>
                   <div className="flex items-center gap-2">
-                    <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                    <span className="text-gray-700">50% commission</span>
+                    <Check className="w-5 h-5 text-indigo-600 flex-shrink-0" />
+                    <span className="text-slate-700">50% commission</span>
                 </div>
                   <div className="flex items-center gap-2">
-                    <Check className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                    <span className="text-gray-700">€49.50 per sale</span>
+                    <Check className="w-5 h-5 text-indigo-600 flex-shrink-0" />
+                    <span className="text-slate-700">€49.50 per sale</span>
               </div>
                 </div>
               </div>
@@ -592,7 +592,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
               Why Join Our Program?
             </h2>
                 </div>
@@ -606,13 +606,13 @@ Highly recommended for any e-commerce business looking to scale support efficien
               { icon: Zap, color: 'pink', title: 'Instant Approval', desc: 'Get approved instantly and start earning right away' },
               { icon: Award, color: 'indigo', title: '30-Day Cookies', desc: 'Earn commission on sales within 30 days of your referral' },
             ].map((benefit, idx) => (
-              <div key={idx} className="flex items-start gap-4 p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+              <div key={idx} className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors">
                 <div className={`w-12 h-12 bg-${benefit.color}-100 rounded-lg flex items-center justify-center flex-shrink-0`}>
                   <benefit.icon className={`w-6 h-6 text-${benefit.color}-600`} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg mb-2 text-gray-900">{benefit.title}</h3>
-                  <p className="text-gray-600">{benefit.desc}</p>
+                  <h3 className="font-bold text-lg mb-2 text-slate-900">{benefit.title}</h3>
+                  <p className="text-slate-600">{benefit.desc}</p>
               </div>
               </div>
             ))}
@@ -621,13 +621,13 @@ Highly recommended for any e-commerce business looking to scale support efficien
       </section>
 
       {/* Marketing Materials - Show to all */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-slate-900 mb-4">
               Marketing Materials
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-slate-600">
               {isAuthenticated && stats ? 'Your personalized marketing materials' : 'Everything you need to promote AI Orchestrator'}
             </p>
         </div>
@@ -639,44 +639,44 @@ Highly recommended for any e-commerce business looking to scale support efficien
                 <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
                   <Star className="w-6 h-6 text-purple-600" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900">Social Media Kit</h3>
+                <h3 className="text-2xl font-bold text-slate-900">Social Media Kit</h3>
                 </div>
-              <p className="text-gray-600 mb-6">
+              <p className="text-slate-600 mb-6">
                 Ready-to-use posts and images for all social platforms
               </p>
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                   <div className="flex items-center gap-2">
-                    <Facebook className="w-5 h-5 text-blue-600" />
-                    <span className="text-gray-700">Facebook Posts</span>
+                    <Facebook className="w-5 h-5 text-indigo-600" />
+                    <span className="text-slate-700">Facebook Posts</span>
               </div>
                   <button 
                     onClick={() => marketingMaterials && showMaterial('social', marketingMaterials.socialMedia.facebook[0])}
-                    className="text-blue-600 hover:text-blue-700 font-semibold"
+                    className="text-indigo-600 hover:text-indigo-700 font-semibold"
                   >
                     Copy
                   </button>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                   <div className="flex items-center gap-2">
-                    <Twitter className="w-5 h-5 text-blue-400" />
-                    <span className="text-gray-700">Twitter/X Templates</span>
+                    <Twitter className="w-5 h-5 text-indigo-400" />
+                    <span className="text-slate-700">Twitter/X Templates</span>
                   </div>
                   <button 
                     onClick={() => marketingMaterials && showMaterial('social', marketingMaterials.socialMedia.twitter[0])}
-                    className="text-blue-600 hover:text-blue-700 font-semibold"
+                    className="text-indigo-600 hover:text-indigo-700 font-semibold"
                   >
                     Copy
                   </button>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                   <div className="flex items-center gap-2">
-                    <Linkedin className="w-5 h-5 text-blue-700" />
-                    <span className="text-gray-700">LinkedIn Content</span>
+                    <Linkedin className="w-5 h-5 text-indigo-700" />
+                    <span className="text-slate-700">LinkedIn Content</span>
                   </div>
                   <button 
                     onClick={() => marketingMaterials && showMaterial('social', marketingMaterials.socialMedia.linkedin[0])}
-                    className="text-blue-600 hover:text-blue-700 font-semibold"
+                    className="text-indigo-600 hover:text-indigo-700 font-semibold"
                   >
                     Copy
                   </button>
@@ -690,35 +690,35 @@ Highly recommended for any e-commerce business looking to scale support efficien
                 <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
                   <Mail className="w-6 h-6 text-green-600" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900">Email Templates</h3>
+                <h3 className="text-2xl font-bold text-slate-900">Email Templates</h3>
               </div>
-              <p className="text-gray-600 mb-6">
+              <p className="text-slate-600 mb-6">
                 Pre-written email templates to reach out to your network
               </p>
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="text-gray-700">Introduction Email</span>
+                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                  <span className="text-slate-700">Introduction Email</span>
                   <button 
                     onClick={() => marketingMaterials && showMaterial('email', marketingMaterials.emailTemplates.introduction)}
-                    className="text-blue-600 hover:text-blue-700 font-semibold"
+                    className="text-indigo-600 hover:text-indigo-700 font-semibold"
                   >
                     Copy
                   </button>
               </div>
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="text-gray-700">Follow-up Email</span>
+                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                  <span className="text-slate-700">Follow-up Email</span>
                   <button 
                     onClick={() => marketingMaterials && showMaterial('email', marketingMaterials.emailTemplates.followUp)}
-                    className="text-blue-600 hover:text-blue-700 font-semibold"
+                    className="text-indigo-600 hover:text-indigo-700 font-semibold"
                   >
                     Copy
                   </button>
               </div>
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="text-gray-700">Newsletter Template</span>
+                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                  <span className="text-slate-700">Newsletter Template</span>
                   <button 
                     onClick={() => marketingMaterials && showMaterial('email', marketingMaterials.emailTemplates.newsletter)}
-                    className="text-blue-600 hover:text-blue-700 font-semibold"
+                    className="text-indigo-600 hover:text-indigo-700 font-semibold"
                   >
                     Copy
                   </button>
@@ -732,23 +732,23 @@ Highly recommended for any e-commerce business looking to scale support efficien
                 <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
                   <BarChart3 className="w-6 h-6 text-yellow-600" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900">Content Ideas</h3>
+                <h3 className="text-2xl font-bold text-slate-900">Content Ideas</h3>
               </div>
-              <p className="text-gray-600 mb-6">
+              <p className="text-slate-600 mb-6">
                 Blog post ideas and talking points for your content
               </p>
               <div className="space-y-3">
-                <div className="p-3 bg-gray-50 rounded-lg">
-                  <div className="font-semibold text-gray-900 mb-1">Why AI Chatbots?</div>
-                  <div className="text-sm text-gray-600">Complete article outline</div>
+                <div className="p-3 bg-slate-50 rounded-lg">
+                  <div className="font-semibold text-slate-900 mb-1">Why AI Chatbots?</div>
+                  <div className="text-sm text-slate-600">Complete article outline</div>
                 </div>
-                <div className="p-3 bg-gray-50 rounded-lg">
-                  <div className="font-semibold text-gray-900 mb-1">E-commerce Success Stories</div>
-                  <div className="text-sm text-gray-600">Case studies and examples</div>
+                <div className="p-3 bg-slate-50 rounded-lg">
+                  <div className="font-semibold text-slate-900 mb-1">E-commerce Success Stories</div>
+                  <div className="text-sm text-slate-600">Case studies and examples</div>
               </div>
-                <div className="p-3 bg-gray-50 rounded-lg">
-                  <div className="font-semibold text-gray-900 mb-1">Multilingual Support Guide</div>
-                  <div className="text-sm text-gray-600">Technical overview</div>
+                <div className="p-3 bg-slate-50 rounded-lg">
+                  <div className="font-semibold text-slate-900 mb-1">Multilingual Support Guide</div>
+                  <div className="text-sm text-slate-600">Technical overview</div>
                 </div>
               </div>
             </div>
@@ -757,22 +757,22 @@ Highly recommended for any e-commerce business looking to scale support efficien
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-100">
+      <section className="py-20 bg-gradient-to-br from-indigo-50 to-indigo-100">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
             Ready to Start Earning?
           </h2>
-          <p className="text-xl text-gray-600 mb-8">
+          <p className="text-xl text-slate-600 mb-8">
             Join hundreds of affiliates already earning with AI Orchestrator
           </p>
           <button
             onClick={handleGetStarted}
-            className="inline-flex items-center px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
+            className="inline-flex items-center px-8 py-4 bg-indigo-600 text-white text-lg font-semibold rounded-lg hover:bg-indigo-700 transition-colors shadow-lg"
           >
             Get Started
             <ArrowRight className="w-5 h-5 ml-2" />
           </button>
-          <p className="mt-4 text-gray-600 text-sm">
+          <p className="mt-4 text-slate-600 text-sm">
             No credit card required • Request payouts anytime
           </p>
         </div>
@@ -780,17 +780,17 @@ Highly recommended for any e-commerce business looking to scale support efficien
 
       {/* Affiliate Registration Form - Only for logged-in users without affiliate account */}
       {isAuthenticated && showRegisterForm && (
-        <section id="register-form" className="py-20 bg-white border-t border-gray-100">
+        <section id="register-form" className="py-20 bg-white border-t border-slate-100">
           <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-8">
+            <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-2xl p-8">
               <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <Gift className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                <h2 className="text-3xl font-bold text-slate-900 mb-2">
                   Activate Your Affiliate Account
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-slate-600">
                   Start earning 50% commission on every sale you refer
                 </p>
               </div>
@@ -799,11 +799,11 @@ Highly recommended for any e-commerce business looking to scale support efficien
                 <button
                   onClick={registerAsAffiliate}
                   disabled={false}
-                  className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all"
+                  className="w-full px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-all"
                 >
                   Activate Affiliate Account
                 </button>
-                <p className="text-xs text-gray-500 text-center mt-4">
+                <p className="text-xs text-slate-500 text-center mt-4">
                   You can request payouts (minimum €50) anytime from your dashboard
                 </p>
               </div>
@@ -814,41 +814,41 @@ Highly recommended for any e-commerce business looking to scale support efficien
 
       {/* Affiliate Dashboard - Only for registered affiliates */}
       {isAuthenticated && stats && !loading && (
-        <section id="dashboard" className="py-20 bg-white border-t border-gray-100">
+        <section id="dashboard" className="py-20 bg-white border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-4xl font-bold text-slate-900 mb-4">
                 Your Affiliate Dashboard
               </h2>
-              <p className="text-xl text-gray-600">
+              <p className="text-xl text-slate-600">
                 Welcome back, {user?.firstName}! Track your earnings in real-time
               </p>
               </div>
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
+              <div className="bg-gradient-to-br from-indigo-50 to-blue-100 rounded-xl p-6 border border-indigo-200">
                 <div className="flex items-center justify-between mb-4">
-                  <DollarSign className="w-8 h-8 text-blue-600" />
+                  <DollarSign className="w-8 h-8 text-indigo-600" />
                   <TrendingUp className="w-5 h-5 text-green-500" />
               </div>
-                <div className="text-3xl font-bold text-gray-900 mb-1">
+                <div className="text-3xl font-bold text-slate-900 mb-1">
                   €{stats.totalEarnings.toFixed(2)}
               </div>
-                <div className="text-gray-600 text-sm">Total Earnings</div>
+                <div className="text-slate-600 text-sm">Total Earnings</div>
               </div>
 
-              <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200">
+              <div className="bg-gradient-to-br from-purple-50 to-indigo-100 rounded-xl p-6 border border-purple-200">
                 <div className="flex items-center justify-between mb-4">
                   <CreditCard className="w-8 h-8 text-purple-600" />
                   {stats.canRequestPayout && (
                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                   )}
                 </div>
-                <div className="text-3xl font-bold text-gray-900 mb-1">
+                <div className="text-3xl font-bold text-slate-900 mb-1">
                   €{stats.pendingEarnings.toFixed(2)}
                 </div>
-                <div className="text-gray-600 text-sm mb-3">Pending Earnings</div>
+                <div className="text-slate-600 text-sm mb-3">Pending Earnings</div>
                 {stats.canRequestPayout && (
                   <button 
                     onClick={handleRequestPayout}
@@ -864,10 +864,10 @@ Highly recommended for any e-commerce business looking to scale support efficien
                   <Users className="w-8 h-8 text-green-600" />
                   <Award className="w-5 h-5 text-yellow-500" />
                 </div>
-                <div className="text-3xl font-bold text-gray-900 mb-1">
+                <div className="text-3xl font-bold text-slate-900 mb-1">
                   {stats.totalReferrals}
                 </div>
-                <div className="text-gray-600 text-sm">Total Referrals</div>
+                <div className="text-slate-600 text-sm">Total Referrals</div>
               </div>
 
               <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 border border-yellow-200">
@@ -875,49 +875,49 @@ Highly recommended for any e-commerce business looking to scale support efficien
                   <Target className="w-8 h-8 text-yellow-600" />
                   <Check className="w-5 h-5 text-green-500" />
                 </div>
-                <div className="text-3xl font-bold text-gray-900 mb-1">
+                <div className="text-3xl font-bold text-slate-900 mb-1">
                   {stats.convertedReferrals}
                 </div>
-                <div className="text-gray-600 text-sm">Converted ({stats.commissionRate}%)</div>
+                <div className="text-slate-600 text-sm">Converted ({stats.commissionRate}%)</div>
               </div>
         </div>
 
             {/* Referral Link */}
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-8 mb-12 border-2 border-blue-200 shadow-lg">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <Gift className="w-6 h-6 text-blue-600" />
+            <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-2xl p-8 mb-12 border-2 border-indigo-200 shadow-lg">
+              <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <Gift className="w-6 h-6 text-indigo-600" />
                 Your Referral Link
               </h3>
-              <div className="bg-white rounded-xl p-4 mb-4 border border-gray-200 shadow-sm">
+              <div className="bg-white rounded-xl p-4 mb-4 border border-slate-200 shadow-sm">
                 <div className="flex items-center gap-3">
                   <input
                     type="text"
                     value={`${FRONTEND_URL}/?ref=${stats.affiliateCode}`}
                     readOnly
-                    className="flex-1 bg-transparent border-none outline-none text-gray-700 font-mono text-sm"
+                    className="flex-1 bg-transparent border-none outline-none text-slate-700 font-mono text-sm"
                   />
                   <button
                     onClick={copyReferralLink}
-                    className="px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all flex items-center gap-2"
+                    className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-all flex items-center gap-2"
                   >
                     {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
                     {copied ? 'Copied!' : 'Copy'}
                   </button>
                           </div>
         </div>
-              <div className="text-gray-600 text-sm">
+              <div className="text-slate-600 text-sm">
                 Share this link to start earning {stats.commissionRate}% commission on every sale!
                           </div>
             </div>
 
             {/* Recent Referrals */}
             <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <Users className="w-6 h-6 text-blue-600" />
+              <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                <Users className="w-6 h-6 text-indigo-600" />
                 Recent Referrals
               </h3>
               {stats.recentReferrals.length === 0 ? (
-                <div className="text-center py-12 text-gray-500">
+                <div className="text-center py-12 text-slate-500">
                   <Users className="w-16 h-16 mx-auto mb-4 opacity-20" />
                   <p className="text-lg">No referrals yet</p>
                   <p className="text-sm">Start sharing your link to earn commissions!</p>
@@ -925,10 +925,10 @@ Highly recommended for any e-commerce business looking to scale support efficien
               ) : (
                 <div className="space-y-3">
                   {stats.recentReferrals.map((ref, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <div key={idx} className="flex items-center justify-between p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
                       <div>
-                        <div className="font-semibold text-gray-900">{ref.referredEmail}</div>
-                        <div className="text-sm text-gray-500">
+                        <div className="font-semibold text-slate-900">{ref.referredEmail}</div>
+                        <div className="text-sm text-slate-500">
                           {new Date(ref.createdAt).toLocaleDateString()}
                         </div>
                       </div>
@@ -960,11 +960,11 @@ Highly recommended for any e-commerce business looking to scale support efficien
       {showLoginPrompt && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowLoginPrompt(false)}>
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center" onClick={(e) => e.stopPropagation()}>
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Bot className="w-8 h-8 text-blue-600" />
+            <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Bot className="w-8 h-8 text-indigo-600" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-3">Login Required</h3>
-            <p className="text-gray-600 mb-6">
+            <h3 className="text-2xl font-bold text-slate-900 mb-3">Login Required</h3>
+            <p className="text-slate-600 mb-6">
               Please login or create an account to access the affiliate program and start earning commissions.
             </p>
             <div className="flex gap-3">
@@ -973,13 +973,13 @@ Highly recommended for any e-commerce business looking to scale support efficien
                   setShowLoginPrompt(false);
                   navigate('/');
                 }}
-                className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all"
+                className="flex-1 px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-all"
               >
                 Go to Login
               </button>
               <button
                 onClick={() => setShowLoginPrompt(false)}
-                className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-all"
+                className="px-6 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all"
               >
                 Cancel
               </button>
@@ -996,8 +996,8 @@ Highly recommended for any e-commerce business looking to scale support efficien
               <Check className="w-6 h-6 text-white" />
             </div>
               <div>
-              <div className="font-bold text-gray-900">Copied to clipboard!</div>
-              <div className="text-sm text-gray-600">
+              <div className="font-bold text-slate-900">Copied to clipboard!</div>
+              <div className="text-sm text-slate-600">
                 {stats ? 'Your personalized link is included' : 'Register to get your unique referral link'}
               </div>
             </div>
@@ -1009,12 +1009,12 @@ Highly recommended for any e-commerce business looking to scale support efficien
       {showMaterialModal && selectedMaterial && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowMaterialModal(false)}>
           <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="sticky top-0 bg-gradient-to-br from-blue-50 to-indigo-100 border-b-2 border-blue-200 p-6 rounded-t-2xl">
+            <div className="sticky top-0 bg-gradient-to-br from-indigo-50 to-indigo-100 border-b-2 border-indigo-200 p-6 rounded-t-2xl">
               <div className="flex justify-between items-center">
-                <h3 className="text-2xl font-bold text-gray-900">Marketing Material</h3>
+                <h3 className="text-2xl font-bold text-slate-900">Marketing Material</h3>
                 <button 
                   onClick={() => setShowMaterialModal(false)}
-                  className="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors"
+                  className="text-slate-600 hover:bg-slate-200 rounded-lg p-2 transition-colors"
                 >
                   ✕
                 </button>
@@ -1024,18 +1024,18 @@ Highly recommended for any e-commerce business looking to scale support efficien
             <div className="p-6">
               {selectedMaterial.subject && (
                 <div className="mb-4">
-                  <label className="block text-gray-700 font-semibold mb-2">Subject:</label>
-                  <div className="bg-gray-50 p-3 rounded-lg text-gray-900 font-semibold">
+                  <label className="block text-slate-700 font-semibold mb-2">Subject:</label>
+                  <div className="bg-slate-50 p-3 rounded-lg text-slate-900 font-semibold">
                     {selectedMaterial.subject}
                   </div>
                 </div>
               )}
               
               <div className="mb-6">
-                <label className="block text-gray-700 font-semibold mb-2">
+                <label className="block text-slate-700 font-semibold mb-2">
                   {selectedMaterial.text ? 'Post Text:' : 'Email Body:'}
                 </label>
-                <div className="bg-gray-50 p-4 rounded-lg text-gray-700 whitespace-pre-wrap">
+                <div className="bg-slate-50 p-4 rounded-lg text-slate-700 whitespace-pre-wrap">
                   {(selectedMaterial.body || selectedMaterial.text || '').replace(/\[YOUR_REFERRAL_LINK\]/g, `${FRONTEND_URL}/?ref=${stats?.affiliateCode || 'YOUR_CODE'}`)}
                 </div>
               </div>
@@ -1043,14 +1043,14 @@ Highly recommended for any e-commerce business looking to scale support efficien
               <div className="flex gap-3">
                 <button
                   onClick={() => copyMaterial(selectedMaterial.body || selectedMaterial.text || '')}
-                  className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
+                  className="flex-1 px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-all flex items-center justify-center gap-2"
                 >
                   <Copy className="w-5 h-5" />
                   Copy to Clipboard
                 </button>
                 <button
                   onClick={() => setShowMaterialModal(false)}
-                  className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-all"
+                  className="px-6 py-3 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition-all"
                 >
                   Close
                 </button>
@@ -1061,23 +1061,23 @@ Highly recommended for any e-commerce business looking to scale support efficien
       )}
 
       {/* Footer - Same as landing, only legal pages */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-slate-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-indigo-600 rounded-xl flex items-center justify-center">
                 <Bot className="w-5 h-5 text-white" />
                           </div>
               <div className="text-2xl font-bold">AI Orchestrator</div>
             </div>
-            <p className="text-gray-400 mb-6">
+            <p className="text-slate-400 mb-6">
               © 2025 AI Orchestrator. All rights reserved.
             </p>
             <div className="flex justify-center gap-6 text-sm">
-              <button onClick={() => navigate('/terms')} className="text-gray-400 hover:text-white transition-colors">
+              <button onClick={() => navigate('/terms')} className="text-slate-400 hover:text-white transition-colors">
                 Terms of Service
               </button>
-              <button onClick={() => navigate('/privacy')} className="text-gray-400 hover:text-white transition-colors">
+              <button onClick={() => navigate('/privacy')} className="text-slate-400 hover:text-white transition-colors">
                 Privacy Policy
               </button>
             </div>

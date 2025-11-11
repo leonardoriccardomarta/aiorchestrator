@@ -341,10 +341,10 @@ const Blog: React.FC = () => {
               ))}
             </div>
             ) : (
-              <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
-                <Search className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">No posts found</h3>
-                <p className="text-gray-600">
+              <div className="text-center py-16 bg-white rounded-lg border border-slate-200">
+                <Search className="w-12 h-12 text-slate-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">No posts found</h3>
+                <p className="text-slate-600">
                   Try adjusting your search or browse different categories.
                 </p>
               </div>

@@ -944,8 +944,8 @@ const LandingPageOptimized: React.FC = () => {
       {/* Footer */}
       <footer className="bg-slate-950 text-white py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            <div className="sm:col-span-2 lg:col-span-1">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div>
               <div className="flex items-center space-x-2 mb-3 sm:mb-4">
                 <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-indigo-600 to-indigo-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
                   <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
