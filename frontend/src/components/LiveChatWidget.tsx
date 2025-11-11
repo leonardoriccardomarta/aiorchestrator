@@ -26,8 +26,8 @@ const LiveChatWidget: React.FC = () => {
     title: 'AI Support',
     placeholder: 'Type your message...',
     welcomeMessage: 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
-    primaryColor: '#3B82F6',
-    secondaryColor: '#8B5CF6',
+    primaryColor: '#6366F1',
+    secondaryColor: '#4F46E5',
     fontFamily: 'Inter',
     logo: ''
   });
@@ -56,7 +56,7 @@ const LiveChatWidget: React.FC = () => {
   useEffect(() => {
     const handleConfigUpdate = () => {
       if (window.AIOrchestratorConfig) {
-        const themeColors = getThemeColors(window.AIOrchestratorConfig.theme || 'blue');
+        const themeColors = getThemeColors(window.AIOrchestratorConfig.theme || 'indigo');
         setWidgetConfig(prev => ({
           ...prev,
           title: window.AIOrchestratorConfig.title || 'AI Support',
@@ -150,7 +150,7 @@ const LiveChatWidget: React.FC = () => {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-full shadow-2xl hover:scale-110 transition-transform z-50 flex items-center justify-center group"
+        className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-br from-indigo-600 to-indigo-500 text-white rounded-full shadow-2xl hover:scale-110 transition-transform z-50 flex items-center justify-center group"
       >
         <MessageCircle className="w-7 h-7" />
         <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
@@ -168,7 +168,7 @@ const LiveChatWidget: React.FC = () => {
         <div 
           className="border-b-2 p-4"
           style={{
-            background: `linear-gradient(135deg, ${widgetConfig.primaryColor}15, ${widgetConfig.secondaryColor}15)`,
+            background: `linear-gradient(135deg, ${widgetConfig.primaryColor}, ${widgetConfig.secondaryColor})`,
             borderColor: widgetConfig.primaryColor
           }}
         >

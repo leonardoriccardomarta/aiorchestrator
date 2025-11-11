@@ -116,40 +116,40 @@ const Blog: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50">
       <LiveChatWidget />
       
       {/* Header */}
-            <header className="bg-white border-b border-gray-200">
+      <header className="bg-gradient-to-br from-slate-50 via-white to-indigo-50 border-b border-indigo-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 md:py-12">
           <div className="flex items-center justify-between mb-3 sm:mb-4">
             <button
               onClick={() => navigate('/')}
-              className="inline-flex items-center text-sm sm:text-base text-gray-600 hover:text-gray-900 transition-colors font-medium touch-manipulation min-h-[44px]"
+              className="inline-flex items-center text-sm sm:text-base text-slate-600 hover:text-slate-900 transition-colors font-medium touch-manipulation min-h-[44px]"
             >
               <ArrowRight className="w-4 h-4 mr-2 rotate-180 flex-shrink-0" /> <span className="hidden sm:inline">Back to Home</span><span className="sm:hidden">Home</span>
             </button>
           </div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 mb-3 sm:mb-4 leading-tight tracking-tight">
             AI Orchestrator Blog
           </h1>
-          <p className="text-base sm:text-lg text-gray-600 max-w-2xl">
+          <p className="text-base sm:text-lg text-slate-600 max-w-2xl">
             Insights, tutorials, and updates on AI-powered customer service and chatbot technology.
           </p>
         </div>
       </header>
 
       {/* Search Bar */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div className="bg-white/90 backdrop-blur border-b border-indigo-100 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="relative max-w-2xl">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4 sm:w-5 sm:h-5" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search articles..."
-                className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-base bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none placeholder:text-gray-500"
+                className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-base bg-white text-slate-900 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none placeholder:text-slate-400"
             />
           </div>
         </div>
@@ -162,8 +162,8 @@ const Blog: React.FC = () => {
           <aside className="lg:col-span-3 hidden lg:block">
             <div className="sticky top-24 space-y-4 sm:space-y-6">
               {/* Categories */}
-              <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6">
-                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Categories</h3>
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6">
+                <h3 className="text-base sm:text-lg font-semibold text-slate-900 mb-3 sm:mb-4">Categories</h3>
                 <div className="space-y-1">
                 {tags.map((tag) => (
                   <button
@@ -171,12 +171,12 @@ const Blog: React.FC = () => {
                     onClick={() => setSelectedTag(tag.id)}
                       className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
                       selectedTag === tag.id
-                          ? 'bg-blue-50 text-blue-700 font-medium'
-                          : 'text-gray-600 hover:bg-gray-50'
+                          ? 'bg-indigo-50 text-indigo-700 font-medium'
+                          : 'text-slate-600 hover:bg-slate-100/70'
                     }`}
                   >
                       <span>{tag.name}</span>
-                      <span className={`text-xs ${selectedTag === tag.id ? 'text-blue-600' : 'text-gray-400'}`}>
+                      <span className={`text-xs ${selectedTag === tag.id ? 'text-indigo-600' : 'text-slate-400'}`}>
                         {tag.count}
                       </span>
                   </button>
@@ -185,12 +185,12 @@ const Blog: React.FC = () => {
               </div>
 
               {/* Newsletter */}
-              <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6">
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6">
                 <div className="flex items-center mb-3">
-                  <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 mr-2 flex-shrink-0" />
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-900">Newsletter</h3>
+                  <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600 mr-2 flex-shrink-0" />
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900">Newsletter</h3>
                 </div>
-                <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">
+                <p className="text-xs sm:text-sm text-slate-600 mb-3 sm:mb-4">
                   Get weekly updates on AI, chatbots, and customer service trends.
                 </p>
                 <form onSubmit={handleNewsletterSubmit} className="space-y-2 sm:space-y-3">
@@ -199,13 +199,13 @@ const Blog: React.FC = () => {
                     value={newsletterEmail}
                     onChange={(e) => setNewsletterEmail(e.target.value)}
                     placeholder="your@email.com"
-                                          className="w-full px-3 py-2 text-sm bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none min-h-[44px] placeholder:text-gray-500"
+                    className="w-full px-3 py-2 text-sm bg-white text-slate-900 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none min-h-[44px] placeholder:text-slate-400"
                     required
                   />
                   <button
                     type="submit"
                     disabled={newsletterStatus === 'loading' || newsletterStatus === 'success'}
-                    className="w-full bg-blue-600 text-white py-2.5 sm:py-2 rounded-lg text-sm font-medium hover:bg-blue-700 active:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] touch-manipulation"
+                    className="w-full bg-indigo-600 text-white py-2.5 sm:py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 active:bg-indigo-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] touch-manipulation"
                   >
                     {newsletterStatus === 'loading' && 'Subscribing...'}
                     {newsletterStatus === 'success' && (
@@ -218,7 +218,7 @@ const Blog: React.FC = () => {
                     {newsletterStatus === 'error' && 'Try Again'}
                   </button>
                   {newsletterStatus === 'success' && (
-                    <p className="text-xs text-green-600 text-center">Check your inbox for confirmation</p>
+                    <p className="text-xs text-emerald-600 text-center">Check your inbox for confirmation</p>
                   )}
                   {newsletterStatus === 'error' && (
                     <p className="text-xs text-red-600 text-center">Please enter a valid email</p>
@@ -232,8 +232,8 @@ const Blog: React.FC = () => {
           <main className="lg:col-span-9">
             {/* Featured Post */}
                         {featuredPost && (
-              <article className="mb-8 sm:mb-10 md:mb-12 bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="aspect-[16/9] overflow-hidden bg-gray-100">
+              <article className="mb-8 sm:mb-10 md:mb-12 bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:-translate-y-1 hover:shadow-xl transition-all">
+                <div className="aspect-[16/9] overflow-hidden bg-slate-100">
                   <img
                     src={featuredPost.image}
                     alt={featuredPost.title}
@@ -244,8 +244,8 @@ const Blog: React.FC = () => {
                   />
                 </div>
                   <div className="p-4 sm:p-6 md:p-8">
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
-                      <span className="bg-blue-100 text-blue-700 px-2 sm:px-3 py-1 rounded-full text-xs font-medium">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-slate-500 mb-3 sm:mb-4">
+                      <span className="bg-indigo-100 text-indigo-700 px-2 sm:px-3 py-1 rounded-full text-xs font-medium">
                         Featured
                       </span>
                     <span className="flex items-center">
@@ -260,21 +260,21 @@ const Blog: React.FC = () => {
                   </div>
                   <h2
                     onClick={() => navigate(`/blog/${featuredPost.slug}`)}
-                    className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3 sm:mb-4 hover:text-blue-600 transition-colors cursor-pointer leading-tight"
+                    className="text-xl sm:text-2xl md:text-3xl font-semibold text-slate-900 mb-3 sm:mb-4 hover:text-indigo-600 transition-colors cursor-pointer leading-tight"
                   >
                     {featuredPost.title}
                   </h2>
-                  <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 leading-relaxed">
+                  <p className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6 leading-relaxed">
                     {featuredPost.excerpt}
                   </p>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
-                    <div className="flex items-center text-gray-600">
+                    <div className="flex items-center text-slate-600">
                       <User className="w-4 h-4 mr-2 flex-shrink-0" />
                       <span className="text-xs sm:text-sm">{featuredPost.author}</span>
                     </div>
                     <button
                       onClick={() => navigate(`/blog/${featuredPost.slug}`)}
-                      className="inline-flex items-center text-blue-600 hover:text-blue-700 active:text-blue-800 font-medium text-sm touch-manipulation min-h-[44px]"
+                      className="inline-flex items-center text-indigo-600 hover:text-indigo-700 active:text-indigo-800 font-medium text-sm touch-manipulation min-h-[44px]"
                     >
                       Read article
                         <ArrowRight className="w-4 h-4 ml-1 flex-shrink-0" />
@@ -288,24 +288,29 @@ const Blog: React.FC = () => {
             {regularPosts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
               {regularPosts.map((post) => (
-                  <article
-                    key={post.id}
-                    className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-all cursor-pointer"
-                    onClick={() => navigate(`/blog/${post.slug}`)}
-                  >
-                    <div className="aspect-video overflow-hidden bg-gray-100">
-                      <img
-                        src={post.image}
-                        alt={post.title}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=500&fit=crop';
-                        }}
-                      />
-                    </div>
-                    <div className="p-4 sm:p-6">
-                      <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 mb-2 sm:mb-3">
-                        <span className="flex items-center mr-4">
+                <article
+                  key={post.id}
+                  className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:-translate-y-1 hover:shadow-xl transition-all cursor-pointer"
+                  onClick={() => navigate(`/blog/${post.slug}`)}
+                >
+                  <div className="aspect-video overflow-hidden bg-slate-100">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=500&fit=crop';
+                      }}
+                    />
+                  </div>
+                  <div className="p-5 sm:p-6">
+                    <div className="flex items-center justify-between text-xs text-slate-500 mb-3">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-600 font-medium">
+                        <Tag className="w-3 h-3" />
+                        {post.tags[0]}
+                      </span>
+                      <div className="flex items-center gap-3">
+                        <span className="flex items-center">
                           <Calendar className="w-3 h-3 mr-1" />
                           {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                         </span>
@@ -314,20 +319,22 @@ const Blog: React.FC = () => {
                           {post.readTime}
                         </span>
                       </div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors line-clamp-2">
+                    </div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-slate-900 mb-2 leading-tight line-clamp-2 hover:text-indigo-600 transition-colors">
                       {post.title}
                     </h3>
-                      <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                        {post.excerpt}
-                      </p>
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center text-gray-500 text-xs">
-                          <User className="w-3 h-3 mr-1" />
-                          {post.author}
+                    <p className="text-sm text-slate-600 mb-4 line-clamp-3">
+                      {post.excerpt}
+                    </p>
+                    <div className="flex items-center justify-between text-xs sm:text-sm text-slate-500">
+                      <div className="flex items-center">
+                        <User className="w-4 h-4 mr-2" />
+                        {post.author}
                       </div>
-                        <span className="text-blue-600 text-sm font-medium">
-                          Read more →
-                        </span>
+                      <span className="inline-flex items-center text-indigo-600 font-medium">
+                        Read more
+                        <ArrowRight className="w-4 h-4 ml-1" />
+                      </span>
                     </div>
                   </div>
                 </article>

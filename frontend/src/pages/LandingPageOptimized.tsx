@@ -102,6 +102,14 @@ const LandingPageOptimized: React.FC = () => {
     setShowAuthModal(true);
   };
 
+  const scrollToDemo = () => {
+    if (typeof window === 'undefined') return;
+    const demoSection = document.getElementById('demo');
+    if (demoSection) {
+      demoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
          const handleAuthSuccess = (userData: any) => {
            console.log('🎉 LandingPage: Auth success received!', userData);
            console.log('🔍 LandingPage: User data details:', {
@@ -556,8 +564,8 @@ const LandingPageOptimized: React.FC = () => {
                       <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 flex-shrink-0" />
                   </button>
                   <button
-                    onClick={() => setShowDemo(true)}
-                    className="inline-flex items-center justify-center min-h-[44px] px-6 sm:px-8 py-3 sm:py-3.5 bg-white text-slate-900 text-base sm:text-lg font-semibold rounded-lg border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-colors shadow-sm"
+                    onClick={scrollToDemo}
+                    className="inline-flex items-center justify-center min-h-[46px] px-6 sm:px-9 py-3 sm:py-3.5 bg-white text-slate-900 text-base sm:text-lg font-semibold rounded-lg border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-colors shadow-sm"
                   >
                     <Play className="w-5 h-5 mr-2 flex-shrink-0" />
                     Try Live Demo
@@ -569,7 +577,7 @@ const LandingPageOptimized: React.FC = () => {
                 {/* Badge */}
                 <div className="inline-flex items-center flex-wrap justify-center gap-1 sm:gap-2 px-3.5 py-1.5 sm:px-5 sm:py-2 bg-white/80 backdrop-blur rounded-full text-xs sm:text-sm font-semibold text-slate-600 mb-5 sm:mb-7 border border-slate-200 shadow-sm">
                   <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-indigo-600 flex-shrink-0" />
-                  <span className="hidden sm:inline tracking-wide uppercase">AI copilots in 50+ languages. Live in days, not months.</span>
+                  <span className="hidden sm:inline tracking-wide uppercase">Multilingual AI in 50+ languages • Live in days, not months</span>
                   <span className="sm:hidden uppercase tracking-wide">AI • 50+ languages</span>
                 </div>
                 
@@ -590,7 +598,7 @@ const LandingPageOptimized: React.FC = () => {
                     <ArrowRight className="w-5 h-5 ml-2 flex-shrink-0" />
                   </button>
                   <button
-                    onClick={() => setShowDemo(true)}
+                    onClick={scrollToDemo}
                     className="inline-flex items-center justify-center min-h-[46px] px-6 sm:px-9 py-3 sm:py-3.5 bg-white text-slate-900 text-base sm:text-lg font-semibold rounded-lg border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-colors shadow-sm"
                   >
                     <Play className="w-5 h-5 mr-2 flex-shrink-0" />
@@ -716,13 +724,13 @@ const LandingPageOptimized: React.FC = () => {
                 key={index}
                 className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
               >
-                <div className="flex items-center justify-between mb-3 sm:mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 fill-current drop-shadow-sm" />
-                  ))}
-                  <MessageSquare className="w-5 h-5 text-indigo-300" />
+                <div className="mb-5 sm:mb-6">
+                  <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 text-amber-500 text-xs font-semibold tracking-wide uppercase">
+                    <Star className="w-3.5 h-3.5 fill-current" />
+                    5.0 rating
+                  </div>
                 </div>
-                <p className="text-sm sm:text-base text-slate-600 mb-5 sm:mb-7 leading-relaxed italic">
+                <p className="text-sm sm:text-base text-slate-600 mb-6 sm:mb-7 leading-relaxed italic">
                   “{testimonial.content}”
                 </p>
                 <div className="flex items-center">
@@ -798,7 +806,7 @@ const LandingPageOptimized: React.FC = () => {
             </div>
 
             {/* Pro Plan */}
-            <div className="relative bg-gradient-to-br from-indigo-600 via-indigo-700 to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl ring-1 ring-indigo-500/60 overflow-hidden">
+            <div className="relative bg-gradient-to-br from-indigo-600 via-indigo-700 to-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl ring-1 ring-indigo-500/60">
               <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2">
                 <span className="bg-amber-200 text-amber-900 px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-semibold shadow-sm">
                   Most Popular
@@ -936,8 +944,8 @@ const LandingPageOptimized: React.FC = () => {
       {/* Footer */}
       <footer className="bg-slate-950 text-white py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-            <div className="col-span-2 md:col-span-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="sm:col-span-2 lg:col-span-1">
               <div className="flex items-center space-x-2 mb-3 sm:mb-4">
                 <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-indigo-600 to-indigo-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
                   <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
@@ -958,9 +966,6 @@ const LandingPageOptimized: React.FC = () => {
                 <li><a href="#testimonials" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Reviews</a></li>
               </ul>
             </div>
-            
-            {/* Company section removed per request - Spacer to push Support to right */}
-            <div className="hidden md:block"></div>
             
             <div>
               <h3 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4">Support</h3>
