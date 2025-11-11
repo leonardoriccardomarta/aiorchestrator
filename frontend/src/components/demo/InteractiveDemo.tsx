@@ -256,7 +256,13 @@ const InteractiveDemo: React.FC = () => {
                       fontFamily
                     }}
                   >
-                    <p className="text-sm whitespace-pre-wrap font-medium">{message.content}</p>
+                    <p
+                      className={`text-sm whitespace-pre-wrap font-medium ${
+                        message.type === 'user' ? 'text-white' : 'text-gray-900'
+                      }`}
+                    >
+                      {message.content}
+                    </p>
                     <div className={`text-xs mt-2 ${message.type === 'user' ? 'text-white/70' : 'text-gray-400'}`}>
                       {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
