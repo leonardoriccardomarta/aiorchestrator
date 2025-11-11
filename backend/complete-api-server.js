@@ -227,8 +227,7 @@ const allowedOrigins = [
   'http://localhost:5176',
   'http://localhost:5173', 
   'http://localhost:5177',
-  process.env.APP_URL, // Dashboard app URL
-  process.env.FRONTEND_URL, // Production marketing URL
+  process.env.FRONTEND_URL, // Production frontend URL
   // Allow all Shopify stores
   /^https:\/\/[a-zA-Z0-9-]+\.myshopify\.com$/,
   /^https:\/\/[a-zA-Z0-9-]+\.myshopify\.io$/,
@@ -1489,16 +1488,16 @@ app.get('/api/shopify/oauth/callback', async (req, res) => {
     console.log('✅ Connection stored:', connection.id);
 
     // Redirect back to frontend with success
-    const appUrl = process.env.APP_URL || process.env.FRONTEND_URL || 'http://localhost:5176';
-    console.log('🔄 Redirecting to:', `${appUrl}/connections?success=true&platform=shopify&connectionId=${connection.id}`);
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5176';
+    console.log('🔄 Redirecting to:', `${frontendUrl}/connections?success=true&platform=shopify&connectionId=${connection.id}`);
     
     // Redirect directly to app connections page, not landing
-    res.redirect(`${appUrl}/connections?success=true&platform=shopify&connectionId=${connection.id}`);
+    res.redirect(`${frontendUrl}/connections?success=true&platform=shopify&connectionId=${connection.id}`);
   } catch (error) {
     console.error('❌ Shopify OAuth callback error:', error);
-    const appUrl = process.env.APP_URL || process.env.FRONTEND_URL || 'http://localhost:5176';
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5176';
     
-    res.redirect(`${appUrl}/connections?error=${encodeURIComponent(error.message)}`);
+    res.redirect(`${frontendUrl}/connections?error=${encodeURIComponent(error.message)}`);
   }
 });
 
