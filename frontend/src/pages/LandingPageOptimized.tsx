@@ -686,13 +686,16 @@ const LandingPageOptimized: React.FC = () => {
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
-              <div className="bg-gray-100 px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
-                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
-                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
-                  <span className="ml-3 sm:ml-4 text-xs sm:text-sm text-gray-600">AI Chatbot Demo</span>
+            <div className="bg-white rounded-2xl shadow-xl border border-indigo-100 shadow-indigo-100/60 overflow-hidden">
+              <div className="bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 px-4 sm:px-6 py-3 sm:py-4 border-b border-indigo-200">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-white/80 rounded-full"></div>
+                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-white/50 rounded-full"></div>
+                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-white/40 rounded-full"></div>
+                    <span className="ml-3 sm:ml-4 text-xs sm:text-sm font-medium text-white/90 uppercase tracking-wide">AI Chatbot Demo</span>
+                  </div>
+                  <span className="text-xs sm:text-sm text-white/60 hidden sm:inline">Interactive preview</span>
                 </div>
               </div>
               <div className="p-4 sm:p-6">
@@ -914,7 +917,7 @@ const LandingPageOptimized: React.FC = () => {
           {user && (user.planId === 'professional' || user.planId === 'business' || user.isPaid) ? (
             <button
               onClick={() => navigate('/dashboard')}
-              className="inline-flex items-center justify-center min-h-[44px] px-5 sm:px-6 py-2 sm:py-2.5 bg-white text-blue-600 text-sm sm:text-base font-semibold rounded-lg hover:bg-gray-100 active:bg-gray-200 transition-colors shadow-lg touch-manipulation"
+            className="inline-flex items-center justify-center min-h-[44px] px-5 sm:px-6 py-2 sm:py-2.5 bg-white text-blue-600 text-sm sm:text-base font-semibold rounded-lg hover:bg-gray-100 active:bg-gray-200 transition-colors shadow-lg touch-manipulation"
             >
               Go to Dashboard
               <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-1.5 sm:ml-2 flex-shrink-0" />
