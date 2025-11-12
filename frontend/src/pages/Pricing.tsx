@@ -86,6 +86,10 @@ const Pricing: React.FC = () => {
       return 'w-full bg-slate-100 text-slate-600 cursor-not-allowed';
     }
 
+    if (planId === 'professional') {
+      return 'w-full bg-white text-indigo-600 hover:bg-indigo-50 shadow-md';
+    }
+ 
     return 'w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700';
   };
 
@@ -231,80 +235,81 @@ const Pricing: React.FC = () => {
           </Card>
 
           {/* Professional Plan */}
-          <Card className="relative border-indigo-500">
+          <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 text-white shadow-2xl">
+            <div className="absolute inset-0 bg-white/10 pointer-events-none" />
             {user?.planId !== 'professional' && (
-              <div className="absolute -top-2 lg:-top-3 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-indigo-600 text-white px-3 lg:px-4 py-1 text-xs">Most Popular</Badge>
-                  </div>
-              )}
-              {user?.planId === 'professional' && !isTrialExpired && (
-              <div className="absolute -top-2 lg:-top-3 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-green-600 text-white px-3 lg:px-4 py-1 text-xs">Current Plan</Badge>
-                  </div>
+              <div className="absolute -top-2 lg:-top-3 left-1/2 transform -translate-x-1/2 z-10">
+                <Badge className="bg-white/20 backdrop-blur px-3 lg:px-4 py-1 text-xs text-white border border-white/30">Most Popular</Badge>
+              </div>
             )}
-            <CardHeader className="p-3 sm:p-4 lg:p-6">
-              <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900">Professional</CardTitle>
+            {user?.planId === 'professional' && !isTrialExpired && (
+              <div className="absolute -top-2 lg:-top-3 left-1/2 transform -translate-x-1/2 z-10">
+                <Badge className="bg-emerald-500 text-white px-3 lg:px-4 py-1 text-xs">Current Plan</Badge>
+              </div>
+            )}
+            <CardHeader className="relative p-3 sm:p-4 lg:p-6 text-white">
+              <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-white">Professional</CardTitle>
               <div className="flex flex-col">
                 <div className="flex items-baseline space-x-1">
-                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900">
+                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
                     ${billingCycle === 'yearly' ? '82' : '99'}
                   </span>
-                  <span className="text-xs sm:text-sm lg:text-base text-slate-600">/month</span>
+                  <span className="text-xs sm:text-sm lg:text-base text-indigo-100">/month</span>
                 </div>
                 {billingCycle === 'yearly' && (
-                  <div className="text-xs text-slate-500 mt-1">
+                  <div className="text-xs text-indigo-100/80 mt-1">
                     Billed annually: ${82 * 12}
                   </div>
                 )}
               </div>
-              <p className="text-xs sm:text-sm lg:text-base text-slate-600 mt-2">For growing businesses that need more power</p>
+              <p className="text-xs sm:text-sm lg:text-base text-indigo-100/90 mt-2">For growing businesses that need more power</p>
             </CardHeader>
-            <CardContent className="p-3 sm:p-4 lg:p-6">
+            <CardContent className="relative p-3 sm:p-4 lg:p-6">
               <ul className="space-y-2 lg:space-y-3 mb-4 lg:mb-6">
                 <li className="flex items-center">
-                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-green-600 mr-2 lg:mr-3" />
-                  <span className="text-sm lg:text-base">2 AI Chatbots</span>
+                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-200 mr-2 lg:mr-3" />
+                  <span className="text-sm lg:text-base text-indigo-50">2 AI Chatbots</span>
                 </li>
                 <li className="flex items-center">
-                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-green-600 mr-2 lg:mr-3" />
-                  <span className="text-sm lg:text-base">50+ Languages Support</span>
+                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-200 mr-2 lg:mr-3" />
+                  <span className="text-sm lg:text-base text-indigo-50">50+ Languages Support</span>
                 </li>
                 <li className="flex items-center">
-                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-green-600 mr-2 lg:mr-3" />
-                  <span className="text-sm lg:text-base">Advanced Analytics & ML Insights</span>
+                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-200 mr-2 lg:mr-3" />
+                  <span className="text-sm lg:text-base text-indigo-50">Advanced Analytics & ML Insights</span>
                 </li>
                 <li className="flex items-center">
-                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-green-600 mr-2 lg:mr-3" />
-                  <span className="text-sm lg:text-base">Priority Support</span>
+                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-200 mr-2 lg:mr-3" />
+                  <span className="text-sm lg:text-base text-indigo-50">Priority Support</span>
                 </li>
                 <li className="flex items-center">
-                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-green-600 mr-2 lg:mr-3" />
-                  <span className="text-sm lg:text-base">Custom Branding</span>
+                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-200 mr-2 lg:mr-3" />
+                  <span className="text-sm lg:text-base text-indigo-50">Custom Branding</span>
                 </li>
                 <li className="flex items-center">
-                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-green-600 mr-2 lg:mr-3" />
-                  <span className="text-sm lg:text-base">API Access</span>
+                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-200 mr-2 lg:mr-3" />
+                  <span className="text-sm lg:text-base text-indigo-50">API Access</span>
                 </li>
                 <li className="flex items-center">
-                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-green-600 mr-2 lg:mr-3" />
-                  <span className="text-sm lg:text-base">25,000 messages/month</span>
+                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-200 mr-2 lg:mr-3" />
+                  <span className="text-sm lg:text-base text-indigo-50">25,000 messages/month</span>
                 </li>
                 <li className="flex items-center">
-                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-green-600 mr-2 lg:mr-3" />
-                  <span className="text-sm lg:text-base">Add to Cart & Checkout Assistance</span>
+                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-200 mr-2 lg:mr-3" />
+                  <span className="text-sm lg:text-base text-indigo-50">Add to Cart & Checkout Assistance</span>
                 </li>
                 <li className="flex items-center">
-                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-green-600 mr-2 lg:mr-3" />
-                  <span className="text-sm lg:text-base">ML Personalization (5 segments)</span>
+                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-200 mr-2 lg:mr-3" />
+                  <span className="text-sm lg:text-base text-indigo-50">ML Personalization (5 segments)</span>
                 </li>
                 <li className="flex items-center">
-                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-green-600 mr-2 lg:mr-3" />
-                  <span className="text-sm lg:text-base">Advanced Store Connections</span>
+                  <Check className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-200 mr-2 lg:mr-3" />
+                  <span className="text-sm lg:text-base text-indigo-50">Advanced Store Connections</span>
                 </li>
               </ul>
               <Button 
                 onClick={() => handleSelectPlan({ id: 'professional', name: 'Professional', price: billingCycle === 'yearly' ? 82 : 99 })}
-                className={`${getButtonStyle('professional')} text-sm lg:text-base py-2.5 sm:py-2 lg:py-3 touch-manipulation min-h-[44px]`}
+                className={`${getButtonStyle('professional')} text-sm lg:text-base py-2.5 sm:py-2 lg:py-3 touch-manipulation min-h-[44px] transition-all`}
                 disabled={isButtonDisabled('professional')}
               >
                 {getButtonText('professional')}

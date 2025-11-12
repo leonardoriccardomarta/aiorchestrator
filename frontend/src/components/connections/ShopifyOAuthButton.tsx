@@ -57,7 +57,7 @@ const ShopifyOAuthButton: React.FC<ShopifyOAuthButtonProps> = ({ onSuccess, onEr
       {!showInput ? (
         <button
           onClick={() => setShowInput(true)}
-          className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl hover:from-green-700 hover:to-green-800 transition-all shadow-lg hover:shadow-xl"
+          className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 text-white rounded-xl hover:from-emerald-500 hover:via-emerald-600 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl"
         >
           <ShoppingCart className="w-5 h-5" />
           <span className="font-semibold">Connect with Shopify (1-Click OAuth)</span>
@@ -74,7 +74,7 @@ const ShopifyOAuthButton: React.FC<ShopifyOAuthButtonProps> = ({ onSuccess, onEr
               value={shop}
               onChange={(e) => setShop(e.target.value)}
               placeholder="my-store.myshopify.com"
-              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
               disabled={loading}
             />
             <p className="mt-2 text-xs text-slate-500">
@@ -86,7 +86,7 @@ const ShopifyOAuthButton: React.FC<ShopifyOAuthButtonProps> = ({ onSuccess, onEr
             <button
               onClick={handleConnect}
               disabled={loading || !shop}
-              className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 text-white rounded-lg hover:from-emerald-500 hover:via-emerald-600 hover:to-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed transition-all shadow-md"
             >
               {loading ? (
                 <>

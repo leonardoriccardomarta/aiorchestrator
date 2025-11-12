@@ -17,7 +17,7 @@ import {
   DollarSign,
   Package,
   ExternalLink,
-  Lock
+  Info
 } from 'lucide-react';
 import { completeOnboarding } from '../services/onboarding';
 
@@ -304,27 +304,27 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
           </div>
 
           <div className="bg-white border border-green-200 rounded-2xl p-6 shadow-sm">
-            <p className="flex items-center gap-2 text-sm font-semibold text-green-700">
-              <Lock className="w-4 h-4" />
-              This action is available directly from the Connections page
-            </p>
-            <p className="text-sm text-green-600 mt-3">
-              We’ve included a preview of the button you’ll see there. In this walkthrough it’s just illustrative.
-            </p>
+              <p className="flex items-center gap-2 text-sm font-semibold text-emerald-700">
+                <Info className="w-4 h-4" />
+                Launch the secure Shopify flow from the Connections page when you're ready.
+              </p>
+              <p className="text-sm text-emerald-600 mt-3">
+                Below is the exact button you’ll find there — in this walkthrough it’s just a preview.
+              </p>
 
-            <button
-              type="button"
-              aria-disabled="true"
-              onClick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-              }}
-              className="mt-5 inline-flex items-center justify-center px-8 py-4 rounded-xl font-semibold text-lg bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 text-white opacity-60 cursor-default pointer-events-none shadow-md focus:outline-none"
-            >
-              <ShoppingCart className="w-5 h-5 mr-2" />
-              Connect Shopify Store
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </button>
+              <button
+                type="button"
+                disabled
+                className="mt-5 inline-flex items-center justify-center px-8 py-4 rounded-xl font-semibold text-lg bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 text-white shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                <ShoppingCart className="w-5 h-5 mr-2" />
+                Connect Shopify Store
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </button>
+ 
+              <p className="text-xs text-emerald-500 mt-3">
+                Tip: you’ll receive a notification in-app when the connection step is unlocked.
+              </p>
 
             <p className="text-xs text-green-500 mt-3">
               Tip: you’ll receive a notification in-app when the connection step is unlocked.
