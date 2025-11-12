@@ -238,10 +238,10 @@ const Pricing: React.FC = () => {
           <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 text-white shadow-2xl">
             <div className="absolute inset-0 bg-white/10 pointer-events-none" />
             {user?.planId !== 'professional' && (
-              <div className="absolute -top-2 lg:-top-3 left-1/2 transform -translate-x-1/2 z-10">
-                <Badge className="bg-white/20 backdrop-blur px-3 lg:px-4 py-1 text-xs text-white border border-white/30">Most Popular</Badge>
-              </div>
-            )}
+               <div className="absolute -top-2 lg:-top-3 left-1/2 transform -translate-x-1/2 z-10">
+                <Badge className="bg-white text-indigo-600 px-3 lg:px-4 py-1 text-xs font-semibold shadow-sm">Most Popular</Badge>
+               </div>
+             )}
             {user?.planId === 'professional' && !isTrialExpired && (
               <div className="absolute -top-2 lg:-top-3 left-1/2 transform -translate-x-1/2 z-10">
                 <Badge className="bg-emerald-500 text-white px-3 lg:px-4 py-1 text-xs">Current Plan</Badge>
