@@ -324,13 +324,13 @@ const Dashboard: React.FC = () => {
     const Icon = getIcon();
 
     return (
-      <div className="flex items-start space-x-3 p-4 hover:bg-indigo-50 rounded-xl transition-colors">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:space-x-3 space-y-2 sm:space-y-0 p-4 hover:bg-indigo-50 rounded-xl transition-colors">
         <div className={`w-10 h-10 ${getStatusColor()} rounded-xl flex items-center justify-center flex-shrink-0`}>
           <Icon className="w-5 h-5" />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-sm text-slate-900 font-medium">{activity.message}</p>
-          <div className="flex items-center justify-between mt-1">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mt-1">
             <p className="text-xs text-slate-500">{activity.timestamp}</p>
             {activity.value && (
               <span className="text-xs font-medium text-slate-600">
@@ -417,7 +417,7 @@ const Dashboard: React.FC = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-3 md:py-8">
         {/* Stats Grid - Mobile: Single column, Desktop: 4 columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 lg:gap-6 mb-4 lg:mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 xl:gap-6 mb-4 lg:mb-8">
           <StatCard
             title="Active Chatbots"
             value={safeStats.totalChatbots}
@@ -603,7 +603,7 @@ const Dashboard: React.FC = () => {
                   </div>
                   <h4 className="text-lg font-semibold text-slate-900 mb-2">Dashboard Overview</h4>
                   <p className="text-slate-600 mb-4">Your chatbot is active and ready to help customers</p>
-                  <div className="grid grid-cols-2 gap-4 text-center">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
                     <div className="bg-indigo-50 rounded-lg p-3">
                       <div className="text-2xl font-bold text-indigo-600">{safeStats.totalMessages}</div>
                       <div className="text-sm text-indigo-600">Total Messages</div>
@@ -634,7 +634,7 @@ const Dashboard: React.FC = () => {
             <div className="p-4 md:p-6">
               {safeStats.totalMessages > 0 ? (
                 <div className="space-y-6">
-                  <div className="flex items-center justify-between p-4 bg-emerald-50 rounded-xl">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 p-4 bg-emerald-50 rounded-xl">
                     <div className="flex items-center space-x-3">
                       <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
                         <CheckCircle className="w-6 h-6 text-emerald-600" />
@@ -643,7 +643,7 @@ const Dashboard: React.FC = () => {
                     </div>
                     <span className="text-sm text-emerald-600">Avg response time {safeStats.avgResponseTime}</span>
                   </div>
-                  <div className="flex items-center justify-between p-4 bg-indigo-50 rounded-xl">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 p-4 bg-indigo-50 rounded-xl">
                     <div className="flex items-center space-x-3">
                       <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
                         <MessageCircle className="w-6 h-6 text-indigo-600" />
