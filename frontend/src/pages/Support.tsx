@@ -204,14 +204,14 @@ const Support: React.FC = () => {
                 {/* Ticket Controls */}
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
                   <div className="flex space-x-4">
-                    <select className="px-4 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-indigo-500">
+                    <select className="px-4 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                       <option value="all">Tutti gli Stati</option>
                       <option value="open">Aperti</option>
                       <option value="pending">In Attesa</option>
                       <option value="resolved">Risolti</option>
                       <option value="closed">Chiusi</option>
                     </select>
-                    <select className="px-4 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-indigo-500">
+                    <select className="px-4 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                       <option value="all">Tutte le Priorità</option>
                       <option value="urgent">Urgente</option>
                       <option value="high">Alta</option>
@@ -221,7 +221,7 @@ const Support: React.FC = () => {
                     <input
                       type="text"
                       placeholder="Cerca ticket..."
-                      className="px-4 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-indigo-500 placeholder:text-slate-500"
+                      className="px-4 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 placeholder:text-slate-500"
                     />
                   </div>
                   <button
@@ -237,7 +237,7 @@ const Support: React.FC = () => {
                   <div className="p-6 border-b border-slate-200">
                     <h4 className="font-medium text-slate-900">Ticket di Supporto</h4>
                   </div>
-                  <div className="divide-y divide-gray-200">
+                  <div className="divide-y divide-slate-200">
                     {Array.from({ length: 10 }, (_, i) => ({
                       id: i + 1,
                       number: `#${1230 + i}`,
@@ -564,7 +564,7 @@ const Support: React.FC = () => {
                     </label>
                     <input
                       type="text"
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-indigo-500"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                       placeholder="Descrivi brevemente il problema..."
                     />
                   </div>
@@ -573,7 +573,7 @@ const Support: React.FC = () => {
                     <label className="block text-sm font-medium text-slate-700 mb-2">
                       Categoria
                     </label>
-                    <select className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-indigo-500">
+                    <select className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                       <option value="technical">Tecnico</option>
                       <option value="billing">Fatturazione</option>
                       <option value="account">Account</option>
@@ -586,7 +586,7 @@ const Support: React.FC = () => {
                     <label className="block text-sm font-medium text-slate-700 mb-2">
                       Priorità
                     </label>
-                    <select className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-indigo-500">
+                    <select className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                       <option value="low">Bassa</option>
                       <option value="medium">Media</option>
                       <option value="high">Alta</option>
@@ -600,7 +600,7 @@ const Support: React.FC = () => {
                     </label>
                     <textarea
                       rows={4}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-indigo-500"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                       placeholder="Descrivi in dettaglio il problema..."
                     />
                   </div>

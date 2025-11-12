@@ -374,7 +374,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
             
             <button
               onClick={() => navigate('/')}
-              className="px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-600 text-white rounded-lg hover:from-indigo-700 hover:to-indigo-700 active:from-indigo-800 active:to-indigo-800 transition-all font-semibold shadow-lg shadow-indigo-500/30 text-sm sm:text-base min-h-[44px] touch-manipulation"
+              className="px-4 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 text-white rounded-lg hover:from-indigo-600 hover:to-indigo-800 active:from-indigo-700 active:to-indigo-900 transition-all font-semibold shadow-lg shadow-indigo-500/30 text-sm sm:text-base min-h-[44px] touch-manipulation"
             >
               <span className="hidden sm:inline">Back to Home</span>
               <span className="sm:hidden">Home</span>
@@ -460,7 +460,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-indigo-600 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity"></div>
               <div className="relative bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all border-2 border-slate-100 hover:border-indigo-200">
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-indigo-600 to-indigo-600 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 shadow-lg">
                   <Users className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
@@ -517,7 +517,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
             <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border-2 border-indigo-100 hover:shadow-2xl transition-all">
               <div className="text-center">
                 <div className="text-base sm:text-lg font-semibold text-indigo-600 mb-2">Starter</div>
-                <div className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-600 bg-clip-text text-transparent mb-3 sm:mb-4">€150</div>
+                <div className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 bg-clip-text text-transparent mb-3 sm:mb-4">€150</div>
                 <div className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6">/month</div>
                 <div className="space-y-3 text-left">
                   <div className="flex items-center gap-2">
@@ -544,7 +544,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
                 </div>
               <div className="text-center">
                 <div className="text-base sm:text-lg font-semibold text-indigo-600 mb-2">Professional</div>
-                <div className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-600 bg-clip-text text-transparent mb-3 sm:mb-4">€500</div>
+                <div className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 bg-clip-text text-transparent mb-3 sm:mb-4">€500</div>
                 <div className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6">/month</div>
                 <div className="space-y-3 text-left">
                   <div className="flex items-center gap-2">
@@ -566,7 +566,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
             <div className="bg-white p-8 rounded-2xl shadow-lg border-2 border-indigo-100 hover:shadow-2xl transition-all">
               <div className="text-center">
                 <div className="text-lg font-semibold text-indigo-600 mb-2">Elite</div>
-                <div className="text-6xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-600 bg-clip-text text-transparent mb-4">€1,500+</div>
+                <div className="text-6xl font-bold bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 bg-clip-text text-transparent mb-4">€1,500+</div>
                 <div className="text-slate-600 mb-6">/month</div>
                 <div className="space-y-3 text-left">
                   <div className="flex items-center gap-2">
@@ -827,7 +827,7 @@ Highly recommended for any e-commerce business looking to scale support efficien
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-              <div className="bg-gradient-to-br from-indigo-50 to-blue-100 rounded-xl p-6 border border-indigo-200">
+              <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-6 border border-indigo-200">
                 <div className="flex items-center justify-between mb-4">
                   <DollarSign className="w-8 h-8 text-indigo-600" />
                   <TrendingUp className="w-5 h-5 text-green-500" />

@@ -232,7 +232,7 @@ const Dashboard: React.FC = () => {
     prefix?: string;
     suffix?: string;
   }) => (
-    <div className="group bg-white rounded-lg sm:rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6 hover:shadow-xl hover:border-gray-300 transition-all duration-300">
+    <div className="group bg-white rounded-lg sm:rounded-xl lg:rounded-2xl shadow-sm border border-slate-200 p-3 sm:p-4 lg:p-6 hover:shadow-xl hover:border-indigo-200 transition-all duration-300">
       <div className="flex items-center justify-between mb-2 sm:mb-3 lg:mb-4">
         <div className={`p-2 sm:p-2.5 lg:p-3 rounded-lg lg:rounded-xl ${color} group-hover:scale-110 transition-transform duration-300`}>
           <Icon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
@@ -241,7 +241,7 @@ const Dashboard: React.FC = () => {
           <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${
             trend === 'up' ? 'bg-green-100 text-green-700' : 
             trend === 'down' ? 'bg-red-100 text-red-700' : 
-            'bg-gray-100 text-gray-700'
+            'bg-slate-100 text-slate-600'
           }`}>
             {trend === 'up' && <TrendingUp className="w-3 h-3" />}
             {trend === 'down' && <TrendingUp className="w-3 h-3 rotate-180" />}
@@ -250,11 +250,11 @@ const Dashboard: React.FC = () => {
         )}
       </div>
       <div>
-        <p className="text-xs sm:text-xs lg:text-sm font-medium text-gray-600 mb-1">{title}</p>
-        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-1">
+        <p className="text-xs sm:text-xs lg:text-sm font-medium text-slate-500 mb-1">{title}</p>
+        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-slate-900 mb-1">
           {prefix}{typeof value === 'number' && !isNaN(value) && value !== undefined && value !== null ? value.toLocaleString() : (value || 0)}{suffix}
         </p>
-        {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
+        {subtitle && <p className="text-xs text-slate-500">{subtitle}</p>}
       </div>
     </div>
   );
@@ -268,28 +268,28 @@ const Dashboard: React.FC = () => {
     status?: 'active' | 'inactive' | 'pending' | 'new';
     badge?: string;
   }) => (
-    <button
-      onClick={onClick}
-      className="group p-3 sm:p-4 lg:p-6 text-left bg-white rounded-lg sm:rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 hover:shadow-xl hover:border-gray-300 transition-all duration-300 hover:scale-105 w-full touch-manipulation min-h-[60px] sm:min-h-[80px]"
-    >
-      <div className="flex items-start space-x-2 sm:space-x-3 lg:space-x-4">
-        <div className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 ${color} rounded-lg lg:rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 relative flex-shrink-0`}>
-          <Icon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
-          {badge && (
-            <div className="absolute -top-1 -right-1 lg:-top-2 lg:-right-2 bg-red-500 text-white text-xs px-1.5 lg:px-2 py-0.5 lg:py-1 rounded-full font-bold">
-              {badge}
-            </div>
-          )}
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center space-x-2 mb-1 lg:mb-2">
-            <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors truncate">{title}</h3>
+     <button
+       onClick={onClick}
+       className="group p-3 sm:p-4 lg:p-6 text-left bg-white rounded-lg sm:rounded-xl lg:rounded-2xl shadow-sm border border-slate-200 hover:shadow-xl hover:border-indigo-200 transition-all duration-300 hover:scale-105 w-full touch-manipulation min-h-[60px] sm:min-h-[80px]"
+     >
+       <div className="flex items-start space-x-2 sm:space-x-3 lg:space-x-4">
+         <div className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 ${color} rounded-lg lg:rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 relative flex-shrink-0`}>
+           <Icon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
+           {badge && (
+             <div className="absolute -top-1 -right-1 lg:-top-2 lg:-right-2 bg-red-500 text-white text-xs px-1.5 lg:px-2 py-0.5 lg:py-1 rounded-full font-bold">
+               {badge}
+             </div>
+           )}
+         </div>
+         <div className="flex-1 min-w-0">
+           <div className="flex items-center space-x-2 mb-1 lg:mb-2">
+            <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors truncate">{title}</h3>
             {status === 'active' && <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>}
             {status === 'pending' && <div className="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0"></div>}
-            {status === 'new' && <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse flex-shrink-0"></div>}
+            {status === 'new' && <div className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse flex-shrink-0"></div>}
           </div>
-          <p className="text-xs sm:text-sm lg:text-base text-gray-600 group-hover:text-gray-700 transition-colors mb-2 lg:mb-3 line-clamp-2">{description}</p>
-          <div className="flex items-center text-blue-600 text-sm font-medium group-hover:text-blue-700">
+          <p className="text-xs sm:text-sm lg:text-base text-slate-600 group-hover:text-slate-700 transition-colors mb-2 lg:mb-3 line-clamp-2">{description}</p>
+          <div className="flex items-center text-indigo-600 text-sm font-medium group-hover:text-indigo-700">
             <span>Get started</span>
             <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
           </div>
@@ -316,24 +316,24 @@ const Dashboard: React.FC = () => {
         case 'success': return 'text-green-500 bg-green-100';
         case 'warning': return 'text-yellow-500 bg-yellow-100';
         case 'error': return 'text-red-500 bg-red-100';
-        case 'info': return 'text-blue-500 bg-blue-100';
-        default: return 'text-gray-500 bg-gray-100';
+        case 'info': return 'text-indigo-500 bg-indigo-100';
+        default: return 'text-slate-500 bg-slate-100';
       }
     };
 
     const Icon = getIcon();
 
     return (
-      <div className="flex items-start space-x-3 p-4 hover:bg-gray-50 rounded-xl transition-colors">
+      <div className="flex items-start space-x-3 p-4 hover:bg-indigo-50 rounded-xl transition-colors">
         <div className={`w-10 h-10 ${getStatusColor()} rounded-xl flex items-center justify-center flex-shrink-0`}>
           <Icon className="w-5 h-5" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm text-gray-900 font-medium">{activity.message}</p>
+          <p className="text-sm text-slate-900 font-medium">{activity.message}</p>
           <div className="flex items-center justify-between mt-1">
-            <p className="text-xs text-gray-500">{activity.timestamp}</p>
+            <p className="text-xs text-slate-500">{activity.timestamp}</p>
             {activity.value && (
-              <span className="text-xs font-medium text-gray-700">
+              <span className="text-xs font-medium text-slate-600">
                 {typeof activity.value === 'number' && activity.value > 0 ? '+' : ''}
                 {typeof activity.value === 'number' && !isNaN(activity.value) && activity.value !== undefined && activity.value !== null ? activity.value.toLocaleString() : (activity.value || 0)}
               </span>
@@ -346,16 +346,16 @@ const Dashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 flex items-center justify-center">
         <div className="text-center">
           <div className="relative">
-            <div className="animate-spin rounded-full h-20 w-20 border-4 border-blue-600 border-t-transparent mx-auto"></div>
+            <div className="animate-spin rounded-full h-20 w-20 border-4 border-indigo-500 border-t-transparent mx-auto"></div>
             <div className="absolute inset-0 flex items-center justify-center">
-              <Bot className="w-8 h-8 text-blue-600 animate-pulse" />
+              <Bot className="w-8 h-8 text-indigo-500 animate-pulse" />
             </div>
           </div>
-          <p className="mt-6 text-gray-600 text-xl font-medium">Loading your dashboard...</p>
-          <p className="mt-2 text-gray-500">Preparing your AI insights</p>
+          <p className="mt-6 text-slate-600 text-xl font-medium">Loading your dashboard...</p>
+          <p className="mt-2 text-slate-500">Preparing your AI insights</p>
         </div>
       </div>
     );
@@ -379,16 +379,16 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50">
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center py-4 lg:py-6 space-y-3 lg:space-y-0">
             <div>
-              <h1 className="text-xl lg:text-4xl font-bold text-gray-900 mb-1 lg:mb-2">
+              <h1 className="text-xl lg:text-4xl font-bold text-slate-900 mb-1 lg:mb-2">
                 Welcome back!
               </h1>
-              <p className="text-gray-600 text-xs lg:text-lg hidden sm:block">
+              <p className="text-slate-600 text-xs lg:text-lg hidden sm:block">
                 Here's what's happening with your AI chatbots today.
               </p>
             </div>
@@ -397,14 +397,14 @@ const Dashboard: React.FC = () => {
                 <ChatbotSelector />
               </div>
               {!selectedChatbotId && (
-                <div className="flex items-center gap-2 px-3 py-2 bg-blue-50 border border-blue-200 rounded-lg">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm text-blue-700 font-medium">All Chatbots</span>
+                <div className="flex items-center gap-2 px-3 py-2 bg-indigo-50 border border-indigo-200 rounded-lg">
+                  <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
+                  <span className="text-sm text-indigo-700 font-medium">All Chatbots</span>
                 </div>
               )}
               <button
-                onClick={() => setShowOnboarding(true)}
-                className="flex items-center px-2 lg:px-4 py-1.5 lg:py-2 text-gray-700 bg-white border border-gray-300 rounded-md lg:rounded-lg hover:bg-gray-50 transition-colors text-xs lg:text-base"
+                 onClick={() => setShowOnboarding(true)}
+                className="flex items-center px-2 lg:px-4 py-1.5 lg:py-2 text-slate-700 bg-white border border-slate-300 rounded-md lg:rounded-lg hover:bg-slate-50 transition-colors text-xs lg:text-base"
               >
                 <Zap className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2" />
                 <span className="hidden sm:inline">Onboarding</span>
@@ -422,14 +422,14 @@ const Dashboard: React.FC = () => {
             title="Active Chatbots"
             value={safeStats.totalChatbots}
             icon={Bot}
-            color="bg-gradient-to-r from-blue-500 to-blue-600"
+            color="bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700"
             subtitle="Running smoothly"
           />
           <StatCard
             title="Messages Today"
             value={safeStats.totalMessages}
             icon={MessageSquare}
-            color="bg-gradient-to-r from-green-500 to-green-600"
+            color="bg-gradient-to-r from-emerald-500 to-emerald-600"
             subtitle="Total conversations"
           />
           <StatCard
@@ -444,7 +444,7 @@ const Dashboard: React.FC = () => {
             title="Revenue Impact"
             value={safeStats.totalRevenue}
             icon={DollarSign}
-            color="bg-gradient-to-r from-orange-500 to-orange-600"
+            color="bg-gradient-to-r from-amber-500 to-amber-600"
             subtitle="Total generated"
             prefix="$"
           />
@@ -458,8 +458,8 @@ const Dashboard: React.FC = () => {
         {/* Quick Actions */}
         <div className="mb-4 md:mb-8">
           <div className="flex items-center justify-between mb-3 md:mb-6">
-            <h2 className="text-lg md:text-2xl lg:text-3xl font-bold text-gray-900">Quick Actions</h2>
-            <div className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
+            <h2 className="text-lg md:text-2xl lg:text-3xl font-bold text-slate-900">Quick Actions</h2>
+            <div className="hidden md:flex items-center space-x-2 text-sm text-slate-500">
               <Sparkles className="w-4 h-4" />
               <span>AI-Powered Features</span>
             </div>
@@ -471,7 +471,7 @@ const Dashboard: React.FC = () => {
               description="Set up a new AI assistant for your store with 50+ languages"
               icon={Bot}
               onClick={() => navigate('/chatbot')}
-              color="bg-gradient-to-r from-blue-500 to-blue-600"
+              color="bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700"
               status="active"
               badge="NEW"
             />
@@ -480,7 +480,7 @@ const Dashboard: React.FC = () => {
               description="Integrate with your Shopify store in one click"
               icon={ShoppingCart}
               onClick={() => navigate('/connections')}
-              color="bg-gradient-to-r from-green-500 to-green-600"
+              color="bg-gradient-to-r from-emerald-500 to-emerald-600"
               status="active"
             />
             <QuickAction
@@ -500,7 +500,7 @@ const Dashboard: React.FC = () => {
               description="Set up a new AI assistant for your store with 50+ languages"
               icon={Bot}
               onClick={() => navigate('/chatbot')}
-              color="bg-gradient-to-r from-blue-500 to-blue-600"
+              color="bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700"
               status="active"
               badge="NEW"
             />
@@ -509,7 +509,7 @@ const Dashboard: React.FC = () => {
               description="Integrate with your Shopify store in one click"
               icon={ShoppingCart}
               onClick={() => navigate('/connections')}
-              color="bg-gradient-to-r from-green-500 to-green-600"
+              color="bg-gradient-to-r from-emerald-500 to-emerald-600"
               status="active"
             />
               <QuickAction
@@ -526,7 +526,7 @@ const Dashboard: React.FC = () => {
                 description="Advanced sentiment analysis and customer insights"
                 icon={Cpu}
                 onClick={() => navigate('/analytics')}
-                color="bg-gradient-to-r from-indigo-500 to-indigo-600"
+                color="bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700"
                 status="new"
               />
             )}
@@ -545,21 +545,21 @@ const Dashboard: React.FC = () => {
 
         {/* Chatbot Management */}
         <div className="mb-4 md:mb-8">
-          <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="px-4 md:px-6 py-3 md:py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50">
+          <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div className="px-4 md:px-6 py-3 md:py-4 border-b border-slate-200 bg-gradient-to-r from-indigo-50 via-white to-indigo-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2 md:space-x-3">
-                  <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg md:rounded-xl flex items-center justify-center">
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 rounded-lg md:rounded-xl flex items-center justify-center">
                     <Bot className="w-4 h-4 md:w-5 md:h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-sm md:text-xl font-semibold text-gray-900">Chatbot Management</h3>
-                    <p className="text-xs md:text-sm text-gray-600 hidden sm:block">Manage your AI assistants</p>
+                    <h3 className="text-sm md:text-xl font-semibold text-slate-900">Chatbot Management</h3>
+                    <p className="text-xs md:text-sm text-slate-600 hidden sm:block">Manage your AI assistants</p>
                   </div>
                 </div>
                 <button
                   onClick={() => navigate('/chatbot')}
-                  className="flex items-center px-3 md:px-4 py-1.5 md:py-2 text-blue-600 hover:text-blue-700 text-xs md:text-sm font-medium hover:bg-blue-50 rounded-lg transition-colors"
+                  className="flex items-center px-3 md:px-4 py-1.5 md:py-2 text-indigo-600 hover:text-indigo-700 text-xs md:text-sm font-medium hover:bg-indigo-50 rounded-lg transition-colors"
                 >
                   <span className="hidden sm:inline">View All</span>
                   <ExternalLink className="w-4 h-4 sm:ml-1" />
@@ -575,16 +575,16 @@ const Dashboard: React.FC = () => {
         {/* Recent Activity & Performance - Mobile: Vertical, Desktop: 2 columns */}
         <div className="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-8">
           {/* Recent Activity */}
-          <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="px-4 md:px-6 py-3 md:py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-green-50">
+          <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div className="px-4 md:px-6 py-3 md:py-4 border-b border-slate-200 bg-gradient-to-r from-indigo-50 via-white to-indigo-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2 md:space-x-3">
-                  <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-green-500 to-green-600 rounded-lg md:rounded-xl flex items-center justify-center">
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 rounded-lg md:rounded-xl flex items-center justify-center">
                     <Activity className="w-4 h-4 md:w-5 md:h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-sm md:text-xl font-semibold text-gray-900">Recent Activity</h3>
-                    <p className="text-xs md:text-sm text-gray-600 hidden sm:block">Live updates from your AI</p>
+                    <h3 className="text-sm md:text-xl font-semibold text-slate-900">Recent Activity</h3>
+                    <p className="text-xs md:text-sm text-slate-600 hidden sm:block">Live updates from your AI</p>
                   </div>
                 </div>
               </div>
@@ -598,15 +598,15 @@ const Dashboard: React.FC = () => {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Activity className="w-8 h-8 text-gray-400" />
+                  <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Activity className="w-8 h-8 text-slate-400" />
                   </div>
-                  <h4 className="text-lg font-semibold text-gray-900 mb-2">Dashboard Overview</h4>
-                  <p className="text-gray-600 mb-4">Your chatbot is active and ready to help customers</p>
+                  <h4 className="text-lg font-semibold text-slate-900 mb-2">Dashboard Overview</h4>
+                  <p className="text-slate-600 mb-4">Your chatbot is active and ready to help customers</p>
                   <div className="grid grid-cols-2 gap-4 text-center">
-                    <div className="bg-blue-50 rounded-lg p-3">
-                      <div className="text-2xl font-bold text-blue-600">{safeStats.totalMessages}</div>
-                      <div className="text-sm text-blue-600">Total Messages</div>
+                    <div className="bg-indigo-50 rounded-lg p-3">
+                      <div className="text-2xl font-bold text-indigo-600">{safeStats.totalMessages}</div>
+                      <div className="text-sm text-indigo-600">Total Messages</div>
                     </div>
                     <div className="bg-green-50 rounded-lg p-3">
                       <div className="text-2xl font-bold text-green-600">{safeStats.activeConnections}</div>
@@ -619,105 +619,62 @@ const Dashboard: React.FC = () => {
           </div>
 
           {/* Performance Overview */}
-          <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="px-4 md:px-6 py-3 md:py-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-purple-50">
+          <div className="bg-white rounded-xl md:rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div className="px-4 md:px-6 py-3 md:py-4 border-b border-slate-200 bg-gradient-to-r from-indigo-50 via-white to-indigo-100">
               <div className="flex items-center space-x-2 md:space-x-3">
                 <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg md:rounded-xl flex items-center justify-center">
                   <Target className="w-4 h-4 md:w-5 md:h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-sm md:text-xl font-semibold text-gray-900">Performance Overview</h3>
-                  <p className="text-xs md:text-sm text-gray-600 hidden sm:block">System health & metrics</p>
+                  <h3 className="text-sm md:text-xl font-semibold text-slate-900">Performance Overview</h3>
+                  <p className="text-xs md:text-sm text-slate-600 hidden sm:block">System health & metrics</p>
                 </div>
               </div>
             </div>
             <div className="p-4 md:p-6">
               {safeStats.totalMessages > 0 ? (
                 <div className="space-y-6">
-                  <div className="flex items-center justify-between p-4 bg-green-50 rounded-xl">
+                  <div className="flex items-center justify-between p-4 bg-emerald-50 rounded-xl">
                     <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                        <CheckCircle className="w-6 h-6 text-green-600" />
+                      <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+                        <CheckCircle className="w-6 h-6 text-emerald-600" />
                       </div>
-                      <div>
-                        <p className="font-semibold text-gray-900">System Health</p>
-                        <p className="text-sm text-gray-600">All systems operational</p>
-                      </div>
+                      <div className="text-lg font-semibold text-emerald-700">{safeStats.responseRate}% Positive</div>
                     </div>
-                    <span className="text-green-600 font-bold text-xl">100%</span>
+                    <span className="text-sm text-emerald-600">Avg response time {safeStats.avgResponseTime}</span>
                   </div>
-                  
-                  <div className="flex items-center justify-between p-4 bg-blue-50 rounded-xl">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                        <Clock className="w-6 h-6 text-blue-600" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-gray-900">Uptime</p>
-                        <p className="text-sm text-gray-600">Last 30 days</p>
-                      </div>
-                    </div>
-                    <span className="text-blue-600 font-bold text-xl">{safeStats.uptime}%</span>
-                  </div>
-
-                  <div className="flex items-center justify-between p-4 bg-purple-50 rounded-xl">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                        <Star className="w-6 h-6 text-purple-600" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-gray-900">Customer Satisfaction</p>
-                        <p className="text-sm text-gray-600">Based on {safeStats.totalMessages} conversations</p>
-                      </div>
-                    </div>
-                    <span className="text-purple-600 font-bold text-xl">
-                      {safeStats.customerSatisfaction && safeStats.customerSatisfaction > 0 ? `${safeStats.customerSatisfaction.toFixed(1)}/5` : 'N/A'}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between p-4 bg-orange-50 rounded-xl">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                        <Globe className="w-6 h-6 text-orange-600" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-gray-900">Languages Active</p>
-                        <p className="text-sm text-gray-600">Multilingual support</p>
-                      </div>
-                    </div>
-                    <span className="text-orange-600 font-bold text-xl">
-                      {safeStats.languagesSupported > 0 ? safeStats.languagesSupported : '0'}
-                    </span>
-                  </div>
-
                   <div className="flex items-center justify-between p-4 bg-indigo-50 rounded-xl">
                     <div className="flex items-center space-x-3">
                       <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
-                        <MessageSquare className="w-6 h-6 text-indigo-600" />
+                        <MessageCircle className="w-6 h-6 text-indigo-600" />
                       </div>
-                      <div>
-                        <p className="font-semibold text-gray-900">Total Messages</p>
-                        <p className="text-sm text-gray-600">All time conversations</p>
-                      </div>
+                      <div className="text-lg font-semibold text-indigo-700">{safeStats.totalMessages} messages</div>
                     </div>
-                    <span className="text-indigo-600 font-bold text-xl">
-                      {safeStats.totalMessagesAllTime || safeStats.totalMessages || '0'}
-                    </span>
+                    <span className="text-sm text-indigo-600">Across all chatbots</span>
+                  </div>
+                  <div className="flex items-center justify-between p-4 bg-purple-50 rounded-xl">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-purple-100 rounded-xl flex itemscenter justify-center">
+                        <Star className="w-6 h-6 text-purple-600" />
+                      </div>
+                      <div className="text-lg font-semibold text-purple-700">{safeStats.customerSatisfaction}/5 satisfaction</div>
+                    </div>
+                    <span className="text-sm text-purple-600">Customer feedback rating</span>
                   </div>
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Target className="w-8 h-8 text-gray-400" />
+                  <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Target className="w-8 h-8 text-purple-400" />
                   </div>
-                  <h4 className="text-lg font-semibold text-gray-900 mb-2">No Performance Data Yet</h4>
-                  <p className="text-gray-600 mb-4">Start using your chatbot to see performance metrics</p>
+                  <h4 className="text-lg font-semibold text-slate-900 mb-2">Performance Insights</h4>
+                  <p className="text-slate-600 mb-4">Start conversations to unlock real-time analytics</p>
                   <button
-                    onClick={() => navigate('/chatbot')}
-                    className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                    onClick={() => navigate('/analytics')}
+                    className="inline-flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 text-white text-sm font-medium shadow-lg hover:shadow-xl transition-all"
                   >
-                    <Bot className="w-4 h-4 mr-2" />
-                    Get Started
+                    Open Analytics
+                    <ArrowRight className="w-4 h-4 ml-2" />
                   </button>
                 </div>
               )}

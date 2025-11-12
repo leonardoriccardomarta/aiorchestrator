@@ -331,7 +331,7 @@ const Connections: React.FC = () => {
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
       case 'shopify': return <ShoppingCart className="w-5 h-5 text-green-600" />;
-      case 'woocommerce': return <Globe className="w-5 h-5 text-blue-600" />;
+      case 'woocommerce': return <Globe className="w-5 h-5 text-indigo-600" />;
       default: return <Database className="w-5 h-5 text-purple-600" />;
     }
   };
@@ -341,18 +341,18 @@ const Connections: React.FC = () => {
       case 'connected': return 'bg-green-100 text-green-700';
       case 'disconnected': return 'bg-red-100 text-red-700';
       case 'error': return 'bg-red-100 text-red-700';
-      default: return 'bg-gray-100 text-gray-700';
+      default: return 'bg-slate-100 text-slate-600';
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-3 sm:p-4 lg:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 p-3 sm:p-4 lg:p-6">
       {/* Header */}
       <div className="max-w-6xl mx-auto mb-4 sm:mb-6 lg:mb-8">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between space-y-3 sm:space-y-4 lg:space-y-0">
           <div>
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">Shopify Integration</h1>
-            <p className="text-gray-600 mt-1 lg:mt-2 text-xs sm:text-sm lg:text-base hidden sm:block">Connect your Shopify store for seamless AI-powered customer support</p>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900">Shopify Integration</h1>
+            <p className="text-slate-600 mt-1 lg:mt-2 text-xs sm:text-sm lg:text-base hidden sm:block">Connect your Shopify store for seamless AI-powered customer support</p>
             </div>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 lg:gap-4 w-full lg:w-auto">
@@ -361,16 +361,16 @@ const Connections: React.FC = () => {
               </div>
               <button
                 onClick={fetchConnections}
-              className="flex items-center justify-center gap-2 px-3 lg:px-4 py-1.5 sm:py-2 text-gray-700 bg-white border border-gray-300 rounded-md lg:rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-colors text-sm lg:text-base touch-manipulation min-h-[44px]"
+              className="flex items-center justify-center gap-2 px-3 lg:px-4 py-1.5 sm:py-2 text-slate-700 bg-white border border-slate-300 rounded-md lg:rounded-lg hover:bg-slate-50 active:bg-slate-100 transition-colors text-sm lg:text-base touch-manipulation min-h-[44px]"
               >
               <RefreshCw className="w-3 h-3 lg:w-4 lg:h-4" />
                 <span>Refresh</span>
               </button>
             {!showAddConnection && (
-              <button
-                onClick={() => setShowAddConnection(true)}
-                className="flex items-center justify-center gap-2 px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 bg-green-600 text-white rounded-md lg:rounded-lg hover:bg-green-700 active:bg-green-800 transition-colors shadow-lg text-sm lg:text-base touch-manipulation min-h-[44px]"
-              >
+               <button
+                 onClick={() => setShowAddConnection(true)}
+                className="flex items-center justify-center gap-2 px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 bg-gradient-to-r from-emerald-500 via-emerald-600 to-emerald-700 text-white rounded-md lg:rounded-lg hover:from-emerald-600 hover:to-emerald-800 transition-all shadow-lg text-sm lg:text-base touch-manipulation min-h-[44px]"
+               >
                 <ShoppingCart className="w-4 h-4 lg:w-5 lg:h-5" />
                 <span className="hidden sm:inline">Connect </span>Shopify Store
               </button>
@@ -403,12 +403,12 @@ const Connections: React.FC = () => {
 
         {/* Add Connection Section */}
         {showAddConnection && (
-          <div className="bg-white rounded-xl shadow-lg p-4 lg:p-6 space-y-4">
+          <div className="bg-white rounded-xl border border-slate-200 shadow-lg p-4 lg:p-6 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900">Add New Connection</h2>
+              <h2 className="text-lg font-semibold text-slate-900">Add New Connection</h2>
                 <button
                 onClick={() => setShowAddConnection(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-slate-400 hover:text-slate-600"
               >
                 <X className="w-4 h-4 lg:w-5 lg:h-5" />
                 </button>
@@ -423,8 +423,8 @@ const Connections: React.FC = () => {
               </div>
 
               <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Connect Your Shopify Store</h3>
-                <p className="text-gray-600 mb-4 text-sm">
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Connect Your Shopify Store</h3>
+                <p className="text-slate-600 mb-4 text-sm">
                   Connect your Shopify store in seconds with our 1-click OAuth integration. 
                   No API keys needed - just authorize and you're ready to go!
                 </p>
@@ -440,14 +440,14 @@ const Connections: React.FC = () => {
                 }}
               />
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-4">
+              <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3 mt-4">
                 <div className="flex items-start gap-2">
                   <div className="flex-shrink-0">
-                    <svg className="w-4 h-4 text-blue-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-4 h-4 text-indigo-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                     </svg>
                   </div>
-                  <div className="text-xs text-blue-800">
+                  <div className="text-xs text-indigo-800">
                     <p className="font-medium mb-1">Other platforms?</p>
                     <p>For WooCommerce, WordPress, or any other website, use our <strong>Universal Embed Code</strong> from the Chatbot page.</p>
                   </div>
@@ -458,17 +458,17 @@ const Connections: React.FC = () => {
         )}
 
         {/* Existing Connections */}
-        <div className="bg-white rounded-xl shadow-lg p-4 lg:p-6">
-          <h2 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Connected Shopify Stores</h2>
+        <div className="bg-white rounded-xl border border-slate-200 shadow-lg p-4 lg:p-6">
+          <h2 className="text-lg lg:text-xl font-semibold text-slate-900 mb-4 lg:mb-6">Connected Shopify Stores</h2>
 
           {connections.length === 0 ? (
             <div className="text-center py-6 lg:py-12">
-              <ShoppingCart className="w-10 h-10 lg:w-16 lg:h-16 text-gray-300 mx-auto mb-3 lg:mb-4" />
-              <p className="text-gray-600 text-sm lg:text-lg mb-2">No Shopify stores connected yet</p>
-              <p className="text-gray-500 mb-4 lg:mb-6 text-xs lg:text-base">Connect your first Shopify store to get started</p>
+              <ShoppingCart className="w-10 h-10 lg:w-16 lg:h-16 text-slate-300 mx-auto mb-3 lg:mb-4" />
+              <p className="text-slate-600 text-sm lg:text-lg mb-2">No Shopify stores connected yet</p>
+              <p className="text-slate-500 mb-4 lg:mb-6 text-xs lg:text-base">Connect your first Shopify store to get started</p>
                   <button
-                onClick={() => setShowAddConnection(true)}
-                className="px-4 lg:px-6 py-2 lg:py-3 bg-green-600 text-white rounded-md lg:rounded-lg hover:bg-green-700 transition-colors text-sm lg:text-base"
+                 onClick={() => setShowAddConnection(true)}
+                className="px-4 lg:px-6 py-2 lg:py-3 bg-gradient-to-r from-emerald-500 via-emerald-600 to-emerald-700 text-white rounded-md lg:rounded-lg hover:from-emerald-600 hover:to-emerald-800 transition-all text-sm lg:text-base"
               >
                 Connect Your First Shopify Store
                   </button>
@@ -477,15 +477,15 @@ const Connections: React.FC = () => {
             <div className="grid gap-4">
               {connectionsLoading ? (
                 <div className="text-center py-6 lg:py-8">
-                  <div className="animate-spin rounded-full h-6 w-6 lg:h-8 lg:w-8 border-b-2 border-blue-600 mx-auto"></div>
-                  <p className="text-gray-500 mt-2 text-sm lg:text-base">Loading connections...</p>
+                  <div className="animate-spin rounded-full h-6 w-6 lg:h-8 lg:w-8 border-b-2 border-indigo-600 mx-auto"></div>
+                  <p className="text-slate-500 mt-2 text-sm lg:text-base">Loading connections...</p>
                 </div>
               ) : connections && Array.isArray(connections) && connections.length > 0 ? connections.map((connection) => {
                 if (!connection) return null;
                 return (
                 <div
                   key={connection.id}
-                  className="border border-gray-200 rounded-lg p-4 lg:p-6 hover:shadow-md transition-shadow"
+                  className="bg-white border border-slate-200 rounded-lg p-4 lg:p-6 hover:border-indigo-200 hover:shadow-xl transition-all"
                 >
                   <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between space-y-3 lg:space-y-0">
                     <div className="flex-1 w-full lg:w-auto">
@@ -500,19 +500,19 @@ const Connections: React.FC = () => {
                         </span>
                       </div>
                       
-                      <p className="text-xs lg:text-sm text-gray-600 mb-3 lg:mb-4">{connection.domain}</p>
+                      <p className="text-xs lg:text-sm text-slate-600 mb-3 lg:mb-4">{connection.domain}</p>
 
                       <div className="grid grid-cols-3 gap-2 lg:gap-4 text-xs lg:text-sm">
                         <div>
-                          <p className="text-gray-500">Products</p>
+                          <p className="text-slate-500">Products</p>
                           <p className="font-semibold">{connection.productsCount || 0}</p>
                         </div>
                         <div>
-                          <p className="text-gray-500">Orders</p>
+                          <p className="text-slate-500">Orders</p>
                           <p className="font-semibold">{connection.ordersCount || 0}</p>
                         </div>
                         <div>
-                          <p className="text-gray-500">Last Sync</p>
+                          <p className="text-slate-500">Last Sync</p>
                           <p className="font-semibold text-[10px] lg:text-xs">
                             {new Date(connection.lastSync).toLocaleDateString()}
                           </p>
@@ -522,9 +522,9 @@ const Connections: React.FC = () => {
 
                     <div className="flex gap-2 w-full lg:w-auto">
                         <button
-                        onClick={() => handleInstallWidget(connection)}
-                        disabled={installingWidget === connection.id}
-                        className="flex-1 lg:flex-none px-3 lg:px-4 py-2 bg-green-600 text-white text-xs lg:text-sm rounded-md lg:rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-1 lg:gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                         onClick={() => handleInstallWidget(connection)}
+                         disabled={installingWidget === connection.id}
+                        className="flex-1 lg:flex-none px-3 lg:px-4 py-2 bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 text-white text-xs lg:text-sm rounded-md lg:rounded-lg hover:from-indigo-600 hover:to-indigo-800 transition-all flex items-center justify-center gap-1 lg:gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         title="Install widget automatically"
                       >
                         {installingWidget === connection.id ? (
@@ -555,7 +555,7 @@ const Connections: React.FC = () => {
                 </div>
                 );
               }) : (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-slate-500">
                   No connections found
                 </div>
               )}
@@ -570,13 +570,13 @@ const Connections: React.FC = () => {
           <div className="bg-white rounded-xl lg:rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] overflow-y-auto">
             <div className="p-4 lg:p-6">
               <div className="flex justify-between items-center mb-4 lg:mb-6">
-                <h2 className="text-lg lg:text-2xl font-bold text-gray-900">Widget Installation</h2>
+                <h2 className="text-lg lg:text-2xl font-bold text-slate-900">Widget Installation</h2>
                 <button
                   onClick={() => {
                     setShowWidgetModal(false);
                     setSuccessConnectionId(null);
                   }}
-                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                  className="text-slate-400 hover:text-slate-600 transition-colors"
                 >
                   <X className="w-5 h-5 lg:w-6 lg:h-6" />
                 </button>
@@ -597,12 +597,12 @@ const Connections: React.FC = () => {
                   <AlertCircle className="w-4 h-4 lg:w-5 lg:h-5 text-red-600" />
                     </div>
                     <div>
-                  <h3 className="text-base lg:text-lg font-semibold text-gray-900">Disconnect Store</h3>
-                  <p className="text-xs lg:text-sm text-gray-600">This action cannot be undone</p>
+                  <h3 className="text-base lg:text-lg font-semibold text-slate-900">Disconnect Store</h3>
+                  <p className="text-xs lg:text-sm text-slate-600">This action cannot be undone</p>
                     </div>
                     </div>
               
-              <p className="text-gray-700 mb-4 lg:mb-6 text-sm lg:text-base">
+              <p className="text-slate-700 mb-4 lg:mb-6 text-sm lg:text-base">
                 Are you sure you want to disconnect this store? You'll need to reconnect it to use the chatbot widget.
               </p>
               
@@ -612,7 +612,7 @@ const Connections: React.FC = () => {
                     setShowDeleteConfirm(false);
                     setConnectionToDelete(null);
                   }}
-                  className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md lg:rounded-lg transition-colors text-sm lg:text-base"
+                  className="px-4 py-2 text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md lg:rounded-lg transition-colors text-sm lg:text-base"
                   >
                     Cancel
                   </button>
@@ -633,7 +633,7 @@ const Connections: React.FC = () => {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
             <div className="bg-white rounded-xl lg:rounded-2xl shadow-2xl max-w-5xl w-full max-h-[95vh] overflow-hidden">
               {/* Header */}
-              <div className="bg-gradient-to-r from-teal-600 to-blue-600 px-4 lg:px-8 py-4 lg:py-6">
+              <div className="bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 px-4 lg:px-8 py-4 lg:py-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 lg:gap-4">
                     <div className="w-10 h-10 lg:w-14 lg:h-14 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
@@ -641,7 +641,7 @@ const Connections: React.FC = () => {
                     </div>
                     <div>
                       <h2 className="text-xl lg:text-3xl font-bold text-white">Widget Installation</h2>
-                      <p className="text-teal-100 text-sm lg:text-base">Copy the code below to your Shopify theme</p>
+                      <p className="text-indigo-100 text-sm lg:text-base">Copy the code below to your Shopify theme</p>
                     </div>
                   </div>
                   <button
@@ -672,17 +672,17 @@ const Connections: React.FC = () => {
 
                 {/* Steps */}
                 <div className="mb-6 lg:mb-8">
-                  <h3 className="font-bold text-gray-900 mb-4 lg:mb-6 flex items-center gap-3 lg:gap-4">
-                    <div className="w-8 h-8 lg:w-10 lg:h-10 bg-teal-500 text-white rounded-full flex items-center justify-center text-sm lg:text-lg font-bold">1</div>
+                  <h3 className="font-bold text-slate-900 mb-4 lg:mb-6 flex items-center gap-3 lg:gap-4">
+                    <div className="w-8 h-8 lg:w-10 lg:h-10 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm lg:text-lg font-bold">1</div>
                     <span className="text-lg lg:text-xl">Installation Steps</span>
                   </h3>
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
                     {installInstructions.instructions.steps.map((step: string, index: number) => (
-                      <div key={index} className="flex items-start gap-3 lg:gap-4 p-4 lg:p-6 bg-gray-50 rounded-lg lg:rounded-xl border border-gray-200 hover:shadow-md transition-shadow">
-                        <div className="w-6 h-6 lg:w-8 lg:h-8 bg-teal-500 text-white rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">
+                      <div key={index} className="flex items-start gap-3 lg:gap-4 p-4 lg:p-6 bg-slate-50 rounded-lg lg:rounded-xl border border-slate-200 hover:shadow-md transition-shadow">
+                        <div className="w-6 h-6 lg:w-8 lg:h-8 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0 mt-1">
                           {index + 1}
                         </div>
-                        <p className="text-gray-700 text-sm lg:text-base leading-relaxed">{step}</p>
+                        <p className="text-slate-700 text-sm lg:text-base leading-relaxed">{step}</p>
                       </div>
                     ))}
                   </div>
@@ -690,12 +690,12 @@ const Connections: React.FC = () => {
 
                 {/* Code Section */}
                 <div>
-                  <h3 className="font-bold text-gray-900 mb-4 lg:mb-6 flex items-center gap-3 lg:gap-4">
+                  <h3 className="font-bold text-slate-900 mb-4 lg:mb-6 flex items-center gap-3 lg:gap-4">
                     <div className="w-8 h-8 lg:w-10 lg:h-10 bg-emerald-500 text-white rounded-full flex items-center justify-center text-sm lg:text-lg font-bold">2</div>
                     <span className="text-lg lg:text-xl">Copy This Code</span>
                   </h3>
                   <div className="relative">
-                    <div className="bg-gray-900 rounded-lg lg:rounded-xl p-4 lg:p-6 overflow-x-auto border-2 border-gray-300">
+                    <div className="bg-slate-900 rounded-lg lg:rounded-xl p-4 lg:p-6 overflow-x-auto border-2 border-slate-300">
                       <pre className="text-emerald-400 text-xs lg:text-sm font-mono whitespace-pre-wrap leading-relaxed">
                         {installInstructions.embedCode}
                       </pre>
@@ -711,16 +711,16 @@ const Connections: React.FC = () => {
                           btn.className = 'bg-emerald-600 hover:bg-emerald-700 text-white px-3 lg:px-6 py-2 lg:py-3 rounded-md lg:rounded-lg text-xs lg:text-sm font-medium transition-colors';
                           setTimeout(() => {
                             btn.textContent = originalText;
-                            btn.className = 'bg-gray-700 hover:bg-gray-600 text-white px-3 lg:px-6 py-2 lg:py-3 rounded-md lg:rounded-lg text-xs lg:text-sm font-medium transition-colors';
+                            btn.className = 'bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 hover:from-indigo-600 hover:to-indigo-800 text-white px-3 lg:px-6 py-2 lg:py-3 rounded-md lg:rounded-lg text-xs lg:text-sm font-medium transition-colors';
                           }, 2000);
                         }}
-                        className="bg-gray-700 hover:bg-gray-600 text-white px-3 lg:px-6 py-2 lg:py-3 rounded-md lg:rounded-lg text-xs lg:text-sm font-medium transition-colors"
+                        className="bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 hover:from-indigo-600 hover:to-indigo-800 text-white px-3 lg:px-6 py-2 lg:py-3 rounded-md lg:rounded-lg text-xs lg:text-sm font-medium transition-colors"
                       >
                         Copy Code
                       </button>
                     </div>
                   </div>
-                  <p className="text-gray-500 text-sm lg:text-base mt-3 lg:mt-4 flex items-center gap-2">
+                  <p className="text-slate-500 text-sm lg:text-base mt-3 lg:mt-4 flex items-center gap-2">
                     <span className="text-emerald-500 text-base lg:text-lg">✓</span>
                     Code automatically copied to your clipboard!
                   </p>
@@ -728,14 +728,14 @@ const Connections: React.FC = () => {
               </div>
 
               {/* Footer */}
-              <div className="bg-gray-50 px-4 lg:px-8 py-4 lg:py-6 flex flex-col sm:flex-row justify-between items-center border-t border-gray-200 space-y-3 sm:space-y-0">
-                <div className="text-sm lg:text-base text-gray-500">
+              <div className="bg-slate-50 px-4 lg:px-8 py-4 lg:py-6 flex flex-col sm:flex-row justify-between items-center border-t border-slate-200 space-y-3 sm:space-y-0">
+                <div className="text-sm lg:text-base text-slate-500">
                   💡 This code matches your Quick Embed configuration
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
                   <button
                     onClick={() => setShowInstallInstructions(false)}
-                    className="px-4 lg:px-8 py-2 lg:py-3 text-gray-600 hover:bg-gray-200 rounded-md lg:rounded-lg transition-colors font-medium text-sm lg:text-base w-full sm:w-auto"
+                    className="px-4 lg:px-8 py-2 lg:py-3 text-slate-600 hover:bg-slate-200 rounded-md lg:rounded-lg transition-colors font-medium text-sm lg:text-base w-full sm:w-auto"
                   >
                     Close
                   </button>
@@ -744,7 +744,7 @@ const Connections: React.FC = () => {
                       navigator.clipboard.writeText(installInstructions.embedCode);
                       setShowInstallInstructions(false);
                     }}
-                    className="px-4 lg:px-8 py-2 lg:py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-md lg:rounded-lg transition-colors flex items-center justify-center gap-2 lg:gap-3 font-medium text-sm lg:text-base w-full sm:w-auto"
+                    className="px-4 lg:px-8 py-2 lg:py-3 bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 hover:from-indigo-600 hover:to-indigo-800 text-white rounded-md lg:rounded-lg transition-all flex items-center justify-center gap-2 lg:gap-3 font-medium text-sm lg:text-base w-full sm:w-auto"
                   >
                     <Settings className="w-4 h-4 lg:w-5 lg:h-5" />
                     Copy & Close

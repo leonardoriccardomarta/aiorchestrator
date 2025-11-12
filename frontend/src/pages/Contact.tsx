@@ -71,40 +71,40 @@ const Contact: React.FC = () => {
       <LiveChatWidget />
       
       {/* Header */}
-      <header className="bg-gradient-to-br from-blue-50 to-indigo-100 py-8 sm:py-12 lg:py-16">
+      <header className="bg-gradient-to-br from-slate-50 via-white to-indigo-100 py-8 sm:py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">
             Contact Us
           </h1>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto">
             Get in touch with our team. We're here to help you succeed with AI chatbots.
           </p>
         </div>
       </header>
 
       {/* Contact Information */}
-      <section className="py-8 sm:py-12 lg:py-16 bg-gray-50">
+      <section className="py-8 sm:py-12 lg:py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Mail className="w-8 h-8 text-blue-600" />
+            <div className="text-center bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+              <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Mail className="w-8 h-8 text-indigo-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Email Us</h3>
-              <p className="text-gray-600 mb-4">
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">Email Us</h3>
+              <p className="text-slate-600 mb-4">
                 Send us an email and we'll respond within 24 hours.
               </p>
-              <a href="mailto:aiorchestratoor@gmail.com" className="text-blue-600 hover:text-blue-700 font-semibold">
+              <a href="mailto:aiorchestratoor@gmail.com" className="text-indigo-600 hover:text-indigo-700 font-semibold">
                 aiorchestratoor@gmail.com
               </a>
             </div>
             
-            <div className="text-center">
+            <div className="text-center bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <MessageCircle className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Live Chat</h3>
-              <p className="text-gray-600 mb-4">
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">Live Chat</h3>
+              <p className="text-slate-600 mb-4">
                 Chat with our support team in real-time.
               </p>
               <button className="text-green-600 hover:text-green-700 font-semibold">
@@ -112,12 +112,12 @@ const Contact: React.FC = () => {
               </button>
             </div>
             
-            <div className="text-center">
+            <div className="text-center bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Clock className="w-8 h-8 text-purple-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Response Time</h3>
-              <p className="text-gray-600 mb-4">
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">Response Time</h3>
+              <p className="text-slate-600 mb-4">
                 We typically respond within 2-4 hours during business hours.
               </p>
               <p className="text-purple-600 font-semibold">
@@ -132,10 +132,10 @@ const Contact: React.FC = () => {
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
               Send us a Message
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-slate-600">
               Fill out the form below and we'll get back to you as soon as possible.
             </p>
           </div>
@@ -145,13 +145,13 @@ const Contact: React.FC = () => {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Message Sent!</h3>
-              <p className="text-gray-600 mb-6">
+              <h3 className="text-2xl font-bold text-slate-900 mb-2">Message Sent!</h3>
+              <p className="text-slate-600 mb-6">
                 Thank you for contacting us. We'll get back to you within 24 hours.
               </p>
               <button
                 onClick={() => setIsSubmitted(false)}
-                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                className="bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 text-white px-6 py-3 rounded-lg hover:from-indigo-600 hover:to-indigo-800 transition-all"
               >
                 Send Another Message
               </button>
@@ -160,7 +160,7 @@ const Contact: React.FC = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
                     Full Name *
                   </label>
                   <input
@@ -170,13 +170,13 @@ const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-500"
+                    className="w-full px-4 py-3 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-slate-500"
                     placeholder="Your full name"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
                     Email Address *
                   </label>
                   <input
@@ -186,7 +186,7 @@ const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-500"
+                    className="w-full px-4 py-3 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-slate-500"
                     placeholder="your.email@company.com"
                   />
                 </div>
@@ -194,7 +194,7 @@ const Contact: React.FC = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="company" className="block text-sm font-medium text-slate-700 mb-2">
                     Company
                   </label>
                   <input
@@ -203,13 +203,13 @@ const Contact: React.FC = () => {
                     name="company"
                     value={formData.company}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-500"
+                    className="w-full px-4 py-3 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-slate-500"
                     placeholder="Your company name"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="subject" className="block text-sm font-medium text-slate-700 mb-2">
                     Subject *
                   </label>
                   <select
@@ -218,7 +218,7 @@ const Contact: React.FC = () => {
                     value={formData.subject}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   >
                     <option value="">Select a subject</option>
                     <option value="general">General Inquiry</option>
@@ -233,7 +233,7 @@ const Contact: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-2">
                   Message *
                 </label>
                 <textarea
@@ -243,7 +243,7 @@ const Contact: React.FC = () => {
                   onChange={handleInputChange}
                   required
                   rows={6}
-                  className="w-full px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-500 resize-y"
+                  className="w-full px-4 py-3 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-slate-500 resize-y"
                   placeholder="Tell us how we can help you..."
                 />
               </div>
@@ -252,7 +252,7 @@ const Contact: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex items-center px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 text-white text-lg font-semibold rounded-lg hover:from-indigo-600 hover:to-indigo-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                   {isSubmitting ? (
                     <>
@@ -273,50 +273,50 @@ const Contact: React.FC = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
               Frequently Asked Questions
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-slate-600">
               Quick answers to common questions
             </p>
           </div>
 
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">
                 How quickly can I get started?
               </h3>
-              <p className="text-gray-600">
+              <p className="text-slate-600">
                 You can start your free trial immediately and have your first chatbot running within 15 minutes of setup.
               </p>
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">
                 Do you offer custom integrations?
               </h3>
-              <p className="text-gray-600">
+              <p className="text-slate-600">
                 Yes! We offer custom integrations for Enterprise customers. Contact our sales team to discuss your specific needs.
               </p>
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">
                 What languages do you support?
               </h3>
-              <p className="text-gray-600">
+              <p className="text-slate-600">
                 We support over 50 languages with automatic detection and native responses for each language.
               </p>
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">
                 Can I cancel anytime?
               </h3>
-              <p className="text-gray-600">
+              <p className="text-slate-600">
                 Absolutely! You can cancel your subscription at any time with no cancellation fees or penalties.
               </p>
             </div>
@@ -325,7 +325,7 @@ const Contact: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-slate-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p>&copy; 2025 AI Orchestrator. All rights reserved.</p>
         </div>
