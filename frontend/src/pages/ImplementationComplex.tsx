@@ -158,12 +158,12 @@ const Implementation: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Implementation Guide</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">Implementation Guide</h1>
+          <p className="text-slate-600">
             Get your AI chatbot up and running on your website in minutes with our comprehensive implementation tools
           </p>
         </div>
@@ -171,9 +171,9 @@ const Implementation: React.FC = () => {
         {selectedChatbot ? (
           <div className="space-y-8">
             {/* Chatbot Selection */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                <Icons.Chatbot className="w-5 h-5 mr-2 text-blue-600" />
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+              <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center">
+                <Icons.Chatbot className="w-5 h-5 mr-2 text-indigo-600" />
                 Select Your Chatbot
               </h2>
               
@@ -184,7 +184,7 @@ const Implementation: React.FC = () => {
                     const chatbot = chatbots.find(c => c.id === e.target.value);
                     setSelectedChatbot(chatbot || null);
                   }}
-                  className="flex-1 px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="flex-1 px-4 py-3 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                 >
                   <option value="">Choose a chatbot...</option>
                   {chatbots.map((chatbot) => (
@@ -203,16 +203,16 @@ const Implementation: React.FC = () => {
                     }`}>
                       {selectedChatbot.isActive ? 'Active' : 'Inactive'}
                     </span>
-                    <span className="text-gray-500">•</span>
-                    <span className="text-gray-600">{selectedChatbot.model || 'gpt-3.5-turbo'}</span>
+                    <span className="text-slate-500">•</span>
+                    <span className="text-slate-600">{selectedChatbot.model || 'gpt-3.5-turbo'}</span>
                   </div>
                 )}
               </div>
             </div>
 
             {/* Tabs */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-              <div className="border-b border-gray-200">
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+              <div className="border-b border-slate-200">
                 <nav className="flex space-x-8 px-6">
                   {[
                     { id: 'embed', label: 'Embed Code', icon: Code },
@@ -225,8 +225,8 @@ const Implementation: React.FC = () => {
                       onClick={() => setActiveTab(tab.id as any)}
                       className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 ${
                         activeTab === tab.id
-                          ? 'border-blue-500 text-blue-600'
-                          : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                          ? 'border-indigo-500 text-indigo-600'
+                          : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                       }`}
                     >
                       <tab.icon className="w-4 h-4" />
@@ -241,18 +241,18 @@ const Implementation: React.FC = () => {
                 {activeTab === 'embed' && (
                   <div className="space-y-6">
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Embed</h3>
-                      <p className="text-gray-600 mb-4">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-4">Quick Embed</h3>
+                      <p className="text-slate-600 mb-4">
                         Copy and paste this code into your website's HTML to add the chatbot widget.
                       </p>
                       
-                      <div className="bg-gray-900 rounded-lg p-4 relative">
+                      <div className="bg-slate-900 rounded-lg p-4 relative">
                         <pre className="text-green-400 text-sm overflow-x-auto">
                           <code>{implementationCode}</code>
                         </pre>
                         <button
                           onClick={() => copyToClipboard(implementationCode)}
-                          className="absolute top-2 right-2 p-2 bg-gray-700 text-white rounded hover:bg-gray-600 transition-colors"
+                          className="absolute top-2 right-2 p-2 bg-slate-700 text-white rounded hover:bg-slate-600 transition-colors"
                         >
                           {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                         </button>
@@ -262,30 +262,30 @@ const Implementation: React.FC = () => {
                     {/* Live Preview */}
                     <div>
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold text-gray-900">Live Preview</h3>
+                        <h3 className="text-lg font-semibold text-slate-900">Live Preview</h3>
                         <div className="flex space-x-2">
                           <button
                             onClick={() => setPreviewDevice('mobile')}
-                            className={`p-2 rounded ${previewDevice === 'mobile' ? 'bg-blue-100 text-blue-600' : 'text-gray-500'}`}
+                            className={`p-2 rounded ${previewDevice === 'mobile' ? 'bg-indigo-100 text-indigo-600' : 'text-slate-500'}`}
                           >
                             <Smartphone className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => setPreviewDevice('tablet')}
-                            className={`p-2 rounded ${previewDevice === 'tablet' ? 'bg-blue-100 text-blue-600' : 'text-gray-500'}`}
+                            className={`p-2 rounded ${previewDevice === 'tablet' ? 'bg-indigo-100 text-indigo-600' : 'text-slate-500'}`}
                           >
                             <Tablet className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => setPreviewDevice('desktop')}
-                            className={`p-2 rounded ${previewDevice === 'desktop' ? 'bg-blue-100 text-blue-600' : 'text-gray-500'}`}
+                            className={`p-2 rounded ${previewDevice === 'desktop' ? 'bg-indigo-100 text-indigo-600' : 'text-slate-500'}`}
                           >
                             <Monitor className="w-4 h-4" />
                           </button>
                         </div>
                       </div>
                       
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 flex justify-center">
+                      <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 flex justify-center">
                         <div 
                           className="bg-white rounded-lg shadow-lg border"
                           style={{ 
@@ -305,18 +305,18 @@ const Implementation: React.FC = () => {
                                   
                                 </div>
                                 <div>
-                                  <div className="font-semibold text-gray-900 text-sm">{selectedChatbot.name}</div>
-                                  <div className="text-xs text-gray-500">🟢 Online</div>
+                                  <div className="font-semibold text-slate-900 text-sm">{selectedChatbot.name}</div>
+                                  <div className="text-xs text-slate-500">🟢 Online</div>
                                 </div>
                               </div>
                               
                               {/* Chat Messages */}
                               <div className="flex-1 space-y-2 mb-4">
-                                <div className="bg-gray-100 rounded-lg p-2 text-sm">
-                                  <div className="font-medium text-gray-700 mb-1">Bot</div>
-                                  <div className="text-gray-600">Hello! I'm {selectedChatbot.name}. How can I help you today?</div>
+                                <div className="bg-slate-100 rounded-lg p-2 text-sm">
+                                  <div className="font-medium text-slate-700 mb-1">Bot</div>
+                                  <div className="text-slate-600">Hello! I'm {selectedChatbot.name}. How can I help you today?</div>
                                 </div>
-                                <div className="bg-blue-500 text-white rounded-lg p-2 text-sm ml-8">
+                                <div className="bg-indigo-500 text-white rounded-lg p-2 text-sm ml-8">
                                   <div className="font-medium mb-1">You</div>
                                   <div>What can you help me with?</div>
                                 </div>
@@ -327,17 +327,17 @@ const Implementation: React.FC = () => {
                                 <input
                                   type="text"
                                   placeholder="Type your message..."
-                                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                  className="flex-1 px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                 />
-                                <button className="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm">
+                                <button className="px-3 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 text-sm">
                                   Send
                                 </button>
                               </div>
                             </div>
                           ) : (
-                            <div className="flex items-center justify-center h-full text-gray-500">
+                            <div className="flex items-center justify-center h-full text-slate-500">
                               <div className="text-center">
-                                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-2">
                                   💬
                                 </div>
                                 <div className="text-sm">Select a chatbot to preview</div>
@@ -354,35 +354,35 @@ const Implementation: React.FC = () => {
                 {activeTab === 'api' && (
                   <div className="space-y-6">
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-4">API Reference</h3>
-                      <p className="text-gray-600 mb-6">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-4">API Reference</h3>
+                      <p className="text-slate-600 mb-6">
                         Use our REST API to integrate the chatbot into your custom applications.
                       </p>
                       
                       <div className="space-y-4">
-                        <div className="bg-gray-50 rounded-lg p-4">
-                          <h4 className="font-medium text-gray-900 mb-2">Send Message</h4>
-                          <div className="bg-gray-900 rounded p-3 mb-2">
+                        <div className="bg-slate-50 rounded-lg p-4">
+                          <h4 className="font-medium text-slate-900 mb-2">Send Message</h4>
+                          <div className="bg-slate-900 rounded p-3 mb-2">
                             <code className="text-green-400 text-sm">
                               POST /api/chatbot/message
                             </code>
                           </div>
-                          <div className="text-sm text-gray-600">
+                          <div className="text-sm text-slate-600">
                             <strong>Headers:</strong> Authorization: Bearer {apiKey}
                           </div>
-                           <div className="text-sm text-gray-600">
+                           <div className="text-sm text-slate-600">
                              <strong>Body:</strong> {`{ "message": "Hello", "chatbotId": "${selectedChatbot?.id || 'chatbot-id'}" }`}
                            </div>
                         </div>
                         
-                        <div className="bg-gray-50 rounded-lg p-4">
-                          <h4 className="font-medium text-gray-900 mb-2">Get Chatbot Config</h4>
-                          <div className="bg-gray-900 rounded p-3 mb-2">
+                        <div className="bg-slate-50 rounded-lg p-4">
+                          <h4 className="font-medium text-slate-900 mb-2">Get Chatbot Config</h4>
+                          <div className="bg-slate-900 rounded p-3 mb-2">
                             <code className="text-green-400 text-sm">
                               GET /api/widget/config/{selectedChatbot?.id}
                             </code>
                           </div>
-                          <div className="text-sm text-gray-600">
+                          <div className="text-sm text-slate-600">
                             Returns chatbot configuration for widget integration
                           </div>
                         </div>
@@ -395,8 +395,8 @@ const Implementation: React.FC = () => {
                 {activeTab === 'integrations' && (
                   <div className="space-y-6">
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Platform Integrations</h3>
-                      <p className="text-gray-600 mb-6">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-4">Platform Integrations</h3>
+                      <p className="text-slate-600 mb-6">
                         Connect your chatbot to popular platforms and services.
                       </p>
                       
@@ -409,15 +409,15 @@ const Implementation: React.FC = () => {
                           { name: 'Webflow', icon: '🌊', status: 'Available', description: 'Custom code' },
                           { name: 'React', icon: '⚛️', status: 'Available', description: 'Component library' }
                         ].map((platform) => (
-                          <div key={platform.name} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                          <div key={platform.name} className="border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                             <div className="flex items-center space-x-3 mb-2">
                               <span className="text-2xl">{platform.icon}</span>
                               <div>
-                                <h4 className="font-medium text-gray-900">{platform.name}</h4>
+                                <h4 className="font-medium text-slate-900">{platform.name}</h4>
                                 <span className="text-sm text-green-600">{platform.status}</span>
                               </div>
                             </div>
-                            <p className="text-sm text-gray-600">{platform.description}</p>
+                            <p className="text-sm text-slate-600">{platform.description}</p>
                           </div>
                         ))}
                       </div>
@@ -429,29 +429,29 @@ const Implementation: React.FC = () => {
                 {activeTab === 'customize' && (
                   <div className="space-y-6">
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Customize Appearance</h3>
-                      <p className="text-gray-600 mb-6">
+                      <h3 className="text-lg font-semibold text-slate-900 mb-4">Customize Appearance</h3>
+                      <p className="text-slate-600 mb-6">
                         Customize the look and feel of your chatbot widget.
                       </p>
                       
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div className="space-y-4">
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-slate-700 mb-2">
                               Primary Color
                             </label>
                             <input
                               type="color"
                               value={selectedChatbot?.primaryColor || '#3B82F6'}
-                              className="w-full h-10 border border-gray-300 rounded-lg"
+                              className="w-full h-10 border border-slate-300 rounded-lg"
                             />
                           </div>
                           
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-slate-700 mb-2">
                               Widget Position
                             </label>
-                            <select className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg">
+                            <select className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg">
                               <option>Bottom Right</option>
                               <option>Bottom Left</option>
                               <option>Top Right</option>
@@ -460,11 +460,11 @@ const Implementation: React.FC = () => {
                           </div>
                           
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-slate-700 mb-2">
                               Welcome Message
                             </label>
                             <textarea
-                              className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg placeholder:text-gray-500"
+                              className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg placeholder:text-slate-500"
                               rows={3}
                               placeholder="Enter your welcome message..."
                             />
@@ -472,8 +472,8 @@ const Implementation: React.FC = () => {
                         </div>
                         
                         <div>
-                          <h4 className="font-medium text-gray-900 mb-3">Preview</h4>
-                          <div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                          <h4 className="font-medium text-slate-900 mb-3">Preview</h4>
+                          <div className="border border-slate-200 rounded-lg p-4 bg-slate-50">
                             <div className="bg-white rounded-lg shadow-sm p-4">
                               <div className="flex items-center space-x-3 mb-3">
                                 <div 
@@ -484,10 +484,10 @@ const Implementation: React.FC = () => {
                                 </div>
                                 <div>
                                   <div className="font-medium text-sm">{selectedChatbot?.name}</div>
-                                  <div className="text-xs text-gray-500">🟢 Online</div>
+                                  <div className="text-xs text-slate-500">🟢 Online</div>
                                 </div>
                               </div>
-                              <div className="text-sm text-gray-600">
+                              <div className="text-sm text-slate-600">
                                 Hi! How can I help you today?
                               </div>
                             </div>
@@ -503,38 +503,38 @@ const Implementation: React.FC = () => {
             {/* Quick Stats */}
             {previewData && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                   <div className="flex items-center">
                     <div className="p-2 bg-green-100 rounded-lg">
                       <MessageSquare className="w-6 h-6 text-green-600" />
                     </div>
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Total Messages</p>
-                      <p className="text-2xl font-bold text-gray-900">{previewData.analytics.totalMessages || 0}</p>
+                      <p className="text-sm font-medium text-slate-600">Total Messages</p>
+                      <p className="text-2xl font-bold text-slate-900">{previewData.analytics.totalMessages || 0}</p>
                     </div>
                   </div>
                 </div>
                 
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                   <div className="flex items-center">
-                    <div className="p-2 bg-blue-100 rounded-lg">
-                      <Zap className="w-6 h-6 text-blue-600" />
+                    <div className="p-2 bg-indigo-100 rounded-lg">
+                      <Zap className="w-6 h-6 text-indigo-600" />
                     </div>
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">Satisfaction Score</p>
-                      <p className="text-2xl font-bold text-gray-900">{previewData.analytics.satisfactionScore || 0}/5</p>
+                      <p className="text-sm font-medium text-slate-600">Satisfaction Score</p>
+                      <p className="text-2xl font-bold text-slate-900">{previewData.analytics.satisfactionScore || 0}/5</p>
                     </div>
                   </div>
                 </div>
                 
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                   <div className="flex items-center">
                     <div className="p-2 bg-purple-100 rounded-lg">
                       <Shield className="w-6 h-6 text-purple-600" />
                     </div>
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-600">FAQ Knowledge</p>
-                      <p className="text-2xl font-bold text-gray-900">{previewData.faqs?.length || 0}</p>
+                      <p className="text-sm font-medium text-slate-600">FAQ Knowledge</p>
+                      <p className="text-2xl font-bold text-slate-900">{previewData.faqs?.length || 0}</p>
                     </div>
                   </div>
                 </div>
@@ -543,9 +543,9 @@ const Implementation: React.FC = () => {
           </div>
         ) : (
           <div className="text-center py-12">
-            <Icons.Chatbot className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No Chatbot Selected</h3>
-            <p className="text-gray-500">Please select a chatbot to view implementation options</p>
+            <Icons.Chatbot className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-slate-900 mb-2">No Chatbot Selected</h3>
+            <p className="text-slate-500">Please select a chatbot to view implementation options</p>
           </div>
         )}
       </div>

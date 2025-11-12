@@ -113,7 +113,7 @@ const TrialEmailMonitor: React.FC<TrialEmailMonitorProps> = ({ trialId, userEmai
 
   const getStatusBadge = (status: string) => {
     const variants = {
-      scheduled: { variant: 'secondary' as const, icon: Clock, color: 'text-blue-600' },
+      scheduled: { variant: 'secondary' as const, icon: Clock, color: 'text-indigo-600' },
       sent: { variant: 'default' as const, icon: CheckCircle, color: 'text-green-600' },
       failed: { variant: 'destructive' as const, icon: AlertCircle, color: 'text-red-600' },
       pending: { variant: 'outline' as const, icon: Clock, color: 'text-yellow-600' },
@@ -147,7 +147,7 @@ const TrialEmailMonitor: React.FC<TrialEmailMonitorProps> = ({ trialId, userEmai
       <Card>
         <CardContent className="p-6">
           <div className="flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
             <span className="ml-2">Loading trial data...</span>
           </div>
         </CardContent>
@@ -169,20 +169,20 @@ const TrialEmailMonitor: React.FC<TrialEmailMonitorProps> = ({ trialId, userEmai
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">{trialStats.messagesProcessed}</div>
-                <div className="text-sm text-gray-600">Messages Processed</div>
+                <div className="text-2xl font-bold text-indigo-600">{trialStats.messagesProcessed}</div>
+                <div className="text-sm text-slate-600">Messages Processed</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600">{trialStats.responseTime}ms</div>
-                <div className="text-sm text-gray-600">Avg Response Time</div>
+                <div className="text-sm text-slate-600">Avg Response Time</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-purple-600">{trialStats.customerSatisfaction}%</div>
-                <div className="text-sm text-gray-600">Satisfaction</div>
+                <div className="text-sm text-slate-600">Satisfaction</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-orange-600">{trialStats.timesSaved}h</div>
-                <div className="text-sm text-gray-600">Time Saved</div>
+                <div className="text-sm text-slate-600">Time Saved</div>
               </div>
             </div>
           </CardContent>
@@ -212,7 +212,7 @@ const TrialEmailMonitor: React.FC<TrialEmailMonitorProps> = ({ trialId, userEmai
 
           <div className="space-y-4">
             {emailStatuses.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-slate-500">
                 <Mail className="w-8 h-8 mx-auto mb-2 opacity-50" />
                 <p>No email automation found for this trial</p>
                 <p className="text-sm">Email sequence will start when trial begins</p>
@@ -225,8 +225,8 @@ const TrialEmailMonitor: React.FC<TrialEmailMonitorProps> = ({ trialId, userEmai
                       <h4 className="font-medium">{getEmailTitle(email.templateKey)}</h4>
                       {getStatusBadge(email.status)}
                     </div>
-                    <p className="text-sm text-gray-600 mt-1">{email.subject}</p>
-                    <div className="flex gap-4 text-xs text-gray-500 mt-2">
+                    <p className="text-sm text-slate-600 mt-1">{email.subject}</p>
+                    <div className="flex gap-4 text-xs text-slate-500 mt-2">
                       <span>Scheduled: {new Date(email.scheduledTime).toLocaleString()}</span>
                       {email.sentTime && (
                         <span>Sent: {new Date(email.sentTime).toLocaleString()}</span>

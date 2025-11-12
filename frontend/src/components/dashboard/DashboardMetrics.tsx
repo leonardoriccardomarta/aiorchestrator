@@ -62,7 +62,7 @@ const DashboardMetrics: React.FC = () => {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 animate-pulse">
         {[1, 2, 3, 4].map((n) => (
-          <div key={n} className="h-32 bg-gray-200 rounded-lg"></div>
+          <div key={n} className="h-32 bg-slate-200 rounded-lg"></div>
         ))}
       </div>
     );
@@ -75,17 +75,17 @@ const DashboardMetrics: React.FC = () => {
         {metrics.map((metric) => (
           <motion.div
             key={metric.id}
-            className="bg-white p-6 rounded-lg shadow-sm border border-gray-200"
+            className="bg-white p-6 rounded-lg shadow-sm border border-slate-200"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
             <div className="flex justify-between items-start">
-              <h3 className="text-gray-600 text-sm font-medium">{metric.label}</h3>
+              <h3 className="text-slate-600 text-sm font-medium">{metric.label}</h3>
               <span className={`text-sm font-medium ${
                 metric.trend === 'up' ? 'text-green-600' :
                 metric.trend === 'down' ? 'text-red-600' :
-                'text-gray-600'
+                'text-slate-600'
               }`}>
                 {metric.change > 0 ? '+' : ''}{metric.change}%
               </span>
@@ -95,7 +95,7 @@ const DashboardMetrics: React.FC = () => {
         ))}
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+      <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
         <h3 className="text-lg font-semibold mb-4">Weekly Activity</h3>
         <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">

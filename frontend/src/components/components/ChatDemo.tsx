@@ -33,14 +33,14 @@ const ChatDemo = () => {
   return (
     <div className="fixed bottom-4 right-4 z-50">
       {open ? (
-        <div className="bg-white shadow-xl w-80 rounded-lg border border-gray-200 p-4">
+        <div className="bg-white shadow-xl w-80 rounded-lg border border-slate-200 p-4">
           <div className="flex justify-between mb-2">
             <h2 className="font-bold text-lg">AI Assistant</h2>
             <button onClick={() => setOpen(false)}>✖️</button>
           </div>
           <div className="h-64 overflow-y-auto flex flex-col gap-2 mb-2">
             {messages.map((msg, i) => (
-              <div key={i} className={`text-sm p-2 rounded ${msg.from === "user" ? "bg-blue-100 text-right" : "bg-gray-100"}`}>
+              <div key={i} className={`text-sm p-2 rounded ${msg.from === "user" ? "bg-indigo-100 text-right" : "bg-slate-100"}`}>
                 {msg.text}
               </div>
             ))}
@@ -54,14 +54,14 @@ const ChatDemo = () => {
               onKeyDown={e => e.key === "Enter" && sendMessage()}
               disabled={count >= maxMessages}
             />
-            <button className="ml-2 text-sm bg-blue-600 text-white px-3 py-1 rounded" onClick={sendMessage} disabled={count >= maxMessages}>
+            <button className="ml-2 text-sm bg-indigo-600 text-white px-3 py-1 rounded" onClick={sendMessage} disabled={count >= maxMessages}>
               Send
             </button>
           </div>
           {count >= maxMessages && <p className="text-xs text-center mt-1 text-red-500">Max 5 messages in demo.</p>}
         </div>
       ) : (
-        <button onClick={() => setOpen(true)} className="bg-blue-600 text-white rounded-full w-16 h-16 text-2xl shadow-lg">
+        <button onClick={() => setOpen(true)} className="bg-indigo-600 text-white rounded-full w-16 h-16 text-2xl shadow-lg">
           💬
         </button>
       )}

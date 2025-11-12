@@ -320,8 +320,8 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ chatbotConfig }) => {
     <div className="bg-white rounded-lg shadow-sm p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-lg font-medium text-gray-900">Installation Code</h3>
-          <p className="mt-1 text-sm text-gray-500">
+          <h3 className="text-lg font-medium text-slate-900">Installation Code</h3>
+          <p className="mt-1 text-sm text-slate-500">
             Copy this code and paste it into your website
           </p>
         </div>
@@ -330,8 +330,8 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ chatbotConfig }) => {
           className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md ${
             copied
               ? 'bg-green-600 text-white'
-              : 'bg-blue-600 text-white hover:bg-blue-700'
-          } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+              : 'bg-indigo-600 text-white hover:bg-indigo-700'
+          } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
         >
           {copied ? (
             <>
@@ -352,9 +352,9 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ chatbotConfig }) => {
       </div>
 
       <div className="space-y-4">
-        <div className="bg-gray-50 rounded-lg p-4">
-          <h4 className="text-sm font-medium text-gray-700 mb-2">Instructions:</h4>
-          <ol className="text-sm text-gray-600 space-y-1 list-decimal list-inside">
+        <div className="bg-slate-50 rounded-lg p-4">
+          <h4 className="text-sm font-medium text-slate-700 mb-2">Instructions:</h4>
+          <ol className="text-sm text-slate-600 space-y-1 list-decimal list-inside">
             <li>Copy the JavaScript code below</li>
             <li>Paste it before the &lt;/body&gt; tag of your website</li>
             <li>The chatbot will automatically appear in the bottom right corner</li>
@@ -363,21 +363,21 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ chatbotConfig }) => {
         </div>
 
         <div className="relative">
-          <pre className="bg-gray-900 text-green-400 p-4 rounded-lg text-sm overflow-x-auto max-h-96 overflow-y-auto">
+          <pre className="bg-slate-900 text-green-400 p-4 rounded-lg text-sm overflow-x-auto max-h-96 overflow-y-auto">
             <code>{generateWidgetCode()}</code>
           </pre>
         </div>
 
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
           <div className="flex">
             <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+              <svg className="h-5 w-5 text-indigo-400" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
               </svg>
             </div>
             <div className="ml-3">
-              <h3 className="text-sm font-medium text-blue-800">Important Note</h3>
-              <div className="mt-2 text-sm text-blue-700">
+              <h3 className="text-sm font-medium text-indigo-800">Important Note</h3>
+              <div className="mt-2 text-sm text-indigo-700">
                 <p>
                   Make sure to insert the code only once per page. The chatbot will automatically adapt 
                   to your configured settings and will be available on all devices.

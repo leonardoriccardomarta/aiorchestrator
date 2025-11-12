@@ -62,8 +62,8 @@ const Performance: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">⚡ Performance Monitoring</h1>
-          <p className="text-gray-600 mt-2">Monitora le performance del sistema in tempo reale</p>
+          <h1 className="text-3xl font-bold text-slate-900">⚡ Performance Monitoring</h1>
+          <p className="text-slate-600 mt-2">Monitora le performance del sistema in tempo reale</p>
         </div>
 
         {/* Time Range Selector */}
@@ -95,12 +95,12 @@ const Performance: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-lg">
+              <div className="p-2 bg-indigo-100 rounded-lg">
                 <span className="text-2xl">⚡</span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Response Time</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">Response Time</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {performanceData?.avgResponseTime || 150}ms
                 </p>
                 <p className="text-sm text-green-600">-5% vs ieri</p>
@@ -114,8 +114,8 @@ const Performance: React.FC = () => {
                 <span className="text-2xl"></span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Throughput</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">Throughput</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {performanceData?.throughput?.requests || 1200}/s
                 </p>
                 <p className="text-sm text-green-600">+8% vs ieri</p>
@@ -129,8 +129,8 @@ const Performance: React.FC = () => {
                 <span className="text-2xl">💾</span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Memory Usage</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">Memory Usage</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {performanceData?.memory?.used || 65}%
                 </p>
                 <p className="text-sm text-yellow-600">+2% vs ieri</p>
@@ -144,8 +144,8 @@ const Performance: React.FC = () => {
                 <span className="text-2xl"></span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Uptime</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">Uptime</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {performanceData?.uptime || 99.9}%
                 </p>
                 <p className="text-sm text-green-600">Stabile</p>
@@ -157,7 +157,7 @@ const Performance: React.FC = () => {
         {/* Performance Charts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Response Time Breakdown</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Response Time Breakdown</h3>
             <Chart
               data={responseTimeData}
               type="bar"
@@ -165,18 +165,18 @@ const Performance: React.FC = () => {
             />
             <div className="mt-4 grid grid-cols-2 gap-4">
               <div className="text-center">
-                <p className="text-sm text-gray-600">Target</p>
+                <p className="text-sm text-slate-600">Target</p>
                 <p className="text-lg font-bold text-green-600">&lt;200ms</p>
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-600">Current</p>
-                <p className="text-lg font-bold text-blue-600">{performanceData?.avgResponseTime || 150}ms</p>
+                <p className="text-sm text-slate-600">Current</p>
+                <p className="text-lg font-bold text-indigo-600">{performanceData?.avgResponseTime || 150}ms</p>
               </div>
             </div>
           </div>
 
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Throughput Metrics</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Throughput Metrics</h3>
             <Chart
               data={throughputData}
               type="bar"
@@ -184,12 +184,12 @@ const Performance: React.FC = () => {
             />
             <div className="mt-4 grid grid-cols-2 gap-4">
               <div className="text-center">
-                <p className="text-sm text-gray-600">Peak</p>
+                <p className="text-sm text-slate-600">Peak</p>
                 <p className="text-lg font-bold text-purple-600">2,500/s</p>
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-600">Average</p>
-                <p className="text-lg font-bold text-blue-600">1,200/s</p>
+                <p className="text-sm text-slate-600">Average</p>
+                <p className="text-lg font-bold text-indigo-600">1,200/s</p>
               </div>
             </div>
           </div>
@@ -198,20 +198,20 @@ const Performance: React.FC = () => {
         {/* Error Rate and Memory */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Error Rate Distribution</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Error Rate Distribution</h3>
             <Chart
               data={errorRateData}
               type="doughnut"
               height={200}
             />
             <div className="mt-4 text-center">
-              <p className="text-sm text-gray-600">Overall Success Rate</p>
+              <p className="text-sm text-slate-600">Overall Success Rate</p>
               <p className="text-2xl font-bold text-green-600">98.5%</p>
             </div>
           </div>
 
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Memory Usage</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Memory Usage</h3>
             <Chart
               data={memoryData}
               type="doughnut"
@@ -219,11 +219,11 @@ const Performance: React.FC = () => {
             />
             <div className="mt-4 grid grid-cols-2 gap-4">
               <div className="text-center">
-                <p className="text-sm text-gray-600">Used</p>
-                <p className="text-lg font-bold text-blue-600">{performanceData?.memory?.used || 65}%</p>
+                <p className="text-sm text-slate-600">Used</p>
+                <p className="text-lg font-bold text-indigo-600">{performanceData?.memory?.used || 65}%</p>
               </div>
               <div className="text-center">
-                <p className="text-sm text-gray-600">Free</p>
+                <p className="text-sm text-slate-600">Free</p>
                 <p className="text-lg font-bold text-green-600">{performanceData?.memory?.free || 35}%</p>
               </div>
             </div>
@@ -232,14 +232,14 @@ const Performance: React.FC = () => {
 
         {/* Performance Alerts */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">🚨 Performance Alerts</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">🚨 Performance Alerts</h3>
           <div className="space-y-3">
             <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg border border-yellow-200">
               <div className="flex items-center space-x-3">
                 <span className="text-yellow-600"></span>
                 <div>
-                  <p className="font-medium text-gray-900">Response Time Warning</p>
-                  <p className="text-sm text-gray-600">API endpoint /api/users taking longer than usual</p>
+                  <p className="font-medium text-slate-900">Response Time Warning</p>
+                  <p className="text-sm text-slate-600">API endpoint /api/users taking longer than usual</p>
                 </div>
               </div>
               <Badge variant="warning">Warning</Badge>
@@ -248,8 +248,8 @@ const Performance: React.FC = () => {
               <div className="flex items-center space-x-3">
                 <span className="text-green-600"></span>
                 <div>
-                  <p className="font-medium text-gray-900">Performance Optimized</p>
-                  <p className="text-sm text-gray-600">Database query optimization completed</p>
+                  <p className="font-medium text-slate-900">Performance Optimized</p>
+                  <p className="text-sm text-slate-600">Database query optimization completed</p>
                 </div>
               </div>
               <Badge variant="success">Resolved</Badge>
@@ -259,19 +259,19 @@ const Performance: React.FC = () => {
 
         {/* Performance Recommendations */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4"> Performance Recommendations</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4"> Performance Recommendations</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
-              <div className="p-3 bg-blue-50 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-1">Database Optimization</h4>
-                <p className="text-sm text-gray-600">Consider adding indexes to frequently queried fields</p>
+              <div className="p-3 bg-indigo-50 rounded-lg">
+                <h4 className="font-medium text-slate-900 mb-1">Database Optimization</h4>
+                <p className="text-sm text-slate-600">Consider adding indexes to frequently queried fields</p>
                 <Button size="sm" variant="outline" className="mt-2">
                    Implementa
                 </Button>
               </div>
               <div className="p-3 bg-green-50 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-1">Cache Strategy</h4>
-                <p className="text-sm text-gray-600">Implement Redis caching for user sessions</p>
+                <h4 className="font-medium text-slate-900 mb-1">Cache Strategy</h4>
+                <p className="text-sm text-slate-600">Implement Redis caching for user sessions</p>
                 <Button size="sm" variant="outline" className="mt-2">
                    Implementa
                 </Button>
@@ -279,15 +279,15 @@ const Performance: React.FC = () => {
             </div>
             <div className="space-y-3">
               <div className="p-3 bg-purple-50 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-1">CDN Setup</h4>
-                <p className="text-sm text-gray-600">Deploy static assets to CDN for faster loading</p>
+                <h4 className="font-medium text-slate-900 mb-1">CDN Setup</h4>
+                <p className="text-sm text-slate-600">Deploy static assets to CDN for faster loading</p>
                 <Button size="sm" variant="outline" className="mt-2">
                    Implementa
                 </Button>
               </div>
               <div className="p-3 bg-orange-50 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-1">Load Balancing</h4>
-                <p className="text-sm text-gray-600">Consider horizontal scaling for high traffic</p>
+                <h4 className="font-medium text-slate-900 mb-1">Load Balancing</h4>
+                <p className="text-sm text-slate-600">Consider horizontal scaling for high traffic</p>
                 <Button size="sm" variant="outline" className="mt-2">
                    Implementa
                 </Button>
@@ -298,25 +298,25 @@ const Performance: React.FC = () => {
 
         {/* Real-time Metrics */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4"> Metriche Real-time</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4"> Metriche Real-time</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 mb-2">
+              <div className="text-3xl font-bold text-indigo-600 mb-2">
                 {performanceData?.currentRequests || 45}
               </div>
-              <p className="text-sm text-gray-600">Richieste Attive</p>
+              <p className="text-sm text-slate-600">Richieste Attive</p>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-green-600 mb-2">
                 {performanceData?.cacheHitRate || 92}%
               </div>
-              <p className="text-sm text-gray-600">Cache Hit Rate</p>
+              <p className="text-sm text-slate-600">Cache Hit Rate</p>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-purple-600 mb-2">
                 {performanceData?.cpuUsage || 23}%
               </div>
-              <p className="text-sm text-gray-600">CPU Usage</p>
+              <p className="text-sm text-slate-600">CPU Usage</p>
             </div>
           </div>
         </div>

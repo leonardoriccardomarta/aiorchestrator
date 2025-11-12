@@ -86,39 +86,39 @@ const ChatbotWizard: React.FC = () => {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Chatbot Name *
               </label>
               <input
                 type="text"
                 value={chatbotData.name}
                 onChange={(e) => updateData('name', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 placeholder="e.g., Customer Support Bot"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Description *
               </label>
               <textarea
                 value={chatbotData.description}
                 onChange={(e) => updateData('description', e.target.value)}
                 rows={3}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 placeholder="Describe what your chatbot will help with..."
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 AI Model
               </label>
               <select
                 value={chatbotData.model}
                 onChange={(e) => updateData('model', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               >
                 <option value="gpt-3.5-turbo">GPT-3.5 Turbo (Fast & Cost-effective)</option>
                 <option value="gpt-4">GPT-4 (Most Advanced)</option>
@@ -131,7 +131,7 @@ const ChatbotWizard: React.FC = () => {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Personality
               </label>
               <div className="grid grid-cols-2 gap-3">
@@ -147,8 +147,8 @@ const ChatbotWizard: React.FC = () => {
                     onClick={() => updateData('personality', personality.value)}
                     className={`p-4 border-2 rounded-lg text-left transition-all ${
                       chatbotData.personality === personality.value
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? 'border-indigo-500 bg-indigo-50'
+                        : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <div className="text-2xl mb-2">{personality.icon}</div>
@@ -158,13 +158,13 @@ const ChatbotWizard: React.FC = () => {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Response Style
               </label>
               <select
                 value={chatbotData.responseStyle}
                 onChange={(e) => updateData('responseStyle', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               >
                 <option value="professional">Professional & Formal</option>
                 <option value="casual">Casual & Conversational</option>
@@ -173,14 +173,14 @@ const ChatbotWizard: React.FC = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Initial Prompt (Optional)
               </label>
               <textarea
                 value={chatbotData.initialPrompt}
                 onChange={(e) => updateData('initialPrompt', e.target.value)}
                 rows={4}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 placeholder="You are a helpful customer support assistant for [Company Name]. Always be polite and helpful..."
               />
             </div>
@@ -191,7 +191,7 @@ const ChatbotWizard: React.FC = () => {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-slate-700 mb-3">
                 Choose Integration Channels
               </label>
               <div className="grid grid-cols-2 gap-4">
@@ -212,13 +212,13 @@ const ChatbotWizard: React.FC = () => {
                     }}
                     className={`p-4 border-2 rounded-lg text-left transition-all ${
                       chatbotData.integrations.includes(integration.id)
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? 'border-indigo-500 bg-indigo-50'
+                        : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <div className="text-2xl mb-2">{integration.icon}</div>
                     <div className="font-medium">{integration.name}</div>
-                    <div className="text-sm text-gray-600">{integration.description}</div>
+                    <div className="text-sm text-slate-600">{integration.description}</div>
                   </button>
                 ))}
               </div>
@@ -230,7 +230,7 @@ const ChatbotWizard: React.FC = () => {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Brand Color
               </label>
               <div className="flex items-center space-x-4">
@@ -238,7 +238,7 @@ const ChatbotWizard: React.FC = () => {
                   type="color"
                   value={chatbotData.brandColor}
                   onChange={(e) => updateData('brandColor', e.target.value)}
-                  className="w-12 h-12 border border-gray-300 rounded-lg cursor-pointer"
+                  className="w-12 h-12 border border-slate-300 rounded-lg cursor-pointer"
                 />
                 <div className="flex space-x-2">
                   {['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'].map((color) => (
@@ -247,7 +247,7 @@ const ChatbotWizard: React.FC = () => {
                       type="button"
                       onClick={() => updateData('brandColor', color)}
                       className={`w-8 h-8 rounded-full border-2 ${
-                        chatbotData.brandColor === color ? 'border-gray-400' : 'border-gray-200'
+                        chatbotData.brandColor === color ? 'border-slate-400' : 'border-slate-200'
                       }`}
                       style={{ backgroundColor: color }}
                     />
@@ -256,7 +256,7 @@ const ChatbotWizard: React.FC = () => {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Avatar
               </label>
               <div className="flex space-x-2">
@@ -267,8 +267,8 @@ const ChatbotWizard: React.FC = () => {
                     onClick={() => updateData('avatar', emoji)}
                     className={`text-3xl p-3 border-2 rounded-lg ${
                       chatbotData.avatar === emoji
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? 'border-indigo-500 bg-indigo-50'
+                        : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     {emoji}
@@ -282,7 +282,7 @@ const ChatbotWizard: React.FC = () => {
       case 4:
         return (
           <div className="space-y-6">
-            <div className="bg-gray-50 rounded-lg p-6">
+            <div className="bg-slate-50 rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4">Chatbot Preview</h3>
               <div className="bg-white border rounded-lg p-4 max-w-md mx-auto">
                 <div className="flex items-center space-x-3 mb-4">
@@ -291,11 +291,11 @@ const ChatbotWizard: React.FC = () => {
                     <div className="font-semibold" style={{ color: chatbotData.brandColor }}>
                       {chatbotData.name}
                     </div>
-                    <div className="text-sm text-gray-600">{chatbotData.description}</div>
+                    <div className="text-sm text-slate-600">{chatbotData.description}</div>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <div className="bg-gray-100 rounded-lg p-3 text-sm">
+                  <div className="bg-slate-100 rounded-lg p-3 text-sm">
                     Hi! I'm your {chatbotData.name.toLowerCase()}. How can I help you today?
                   </div>
                 </div>
@@ -303,16 +303,16 @@ const ChatbotWizard: React.FC = () => {
             </div>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <div className="font-medium text-gray-700">Model:</div>
-                <div className="text-gray-600">{chatbotData.model}</div>
+                <div className="font-medium text-slate-700">Model:</div>
+                <div className="text-slate-600">{chatbotData.model}</div>
               </div>
               <div>
-                <div className="font-medium text-gray-700">Personality:</div>
-                <div className="text-gray-600 capitalize">{chatbotData.personality}</div>
+                <div className="font-medium text-slate-700">Personality:</div>
+                <div className="text-slate-600 capitalize">{chatbotData.personality}</div>
               </div>
               <div>
-                <div className="font-medium text-gray-700">Integrations:</div>
-                <div className="text-gray-600">
+                <div className="font-medium text-slate-700">Integrations:</div>
+                <div className="text-slate-600">
                   {chatbotData.integrations.length > 0 
                     ? chatbotData.integrations.join(', ')
                     : 'None selected'
@@ -320,8 +320,8 @@ const ChatbotWizard: React.FC = () => {
                 </div>
               </div>
               <div>
-                <div className="font-medium text-gray-700">Style:</div>
-                <div className="text-gray-600 capitalize">{chatbotData.responseStyle}</div>
+                <div className="font-medium text-slate-700">Style:</div>
+                <div className="text-slate-600 capitalize">{chatbotData.responseStyle}</div>
               </div>
             </div>
           </div>
@@ -350,12 +350,12 @@ const ChatbotWizard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-indigo-100 py-8">
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Your AI Chatbot</h1>
-          <p className="text-gray-600">Build a powerful AI assistant in minutes</p>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">Create Your AI Chatbot</h1>
+          <p className="text-slate-600">Build a powerful AI assistant in minutes</p>
         </div>
 
         {/* Progress Bar */}
@@ -365,18 +365,18 @@ const ChatbotWizard: React.FC = () => {
               <div key={step.id} className="flex items-center">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                   index <= currentStep
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-600'
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-slate-200 text-slate-600'
                 }`}>
                   {index + 1}
                 </div>
                 <div className="ml-2 hidden sm:block">
                   <div className="text-sm font-medium">{step.title}</div>
-                  <div className="text-xs text-gray-500">{step.description}</div>
+                  <div className="text-xs text-slate-500">{step.description}</div>
                 </div>
                 {index < steps.length - 1 && (
                   <div className={`w-12 h-1 mx-4 ${
-                    index < currentStep ? 'bg-blue-600' : 'bg-gray-200'
+                    index < currentStep ? 'bg-indigo-600' : 'bg-slate-200'
                   }`} />
                 )}
               </div>
@@ -395,10 +395,10 @@ const ChatbotWizard: React.FC = () => {
               transition={{ duration: 0.3 }}
             >
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                <h2 className="text-2xl font-bold text-slate-900 mb-2">
                   {steps[currentStep].title}
                 </h2>
-                <p className="text-gray-600">{steps[currentStep].description}</p>
+                <p className="text-slate-600">{steps[currentStep].description}</p>
               </div>
               
               {renderStep()}
@@ -406,12 +406,12 @@ const ChatbotWizard: React.FC = () => {
           </AnimatePresence>
 
           {/* Navigation */}
-          <div className="flex justify-between pt-8 border-t border-gray-200">
+          <div className="flex justify-between pt-8 border-t border-slate-200">
             <button
               type="button"
               onClick={handleBack}
               disabled={currentStep === 0}
-              className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-6 py-3 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               Back
             </button>
@@ -420,7 +420,7 @@ const ChatbotWizard: React.FC = () => {
               type="button"
               onClick={handleNext}
               disabled={!canProceed() || isPending}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {isPending ? 'Creating...' : currentStep === steps.length - 1 ? 'Create Chatbot' : 'Next'}
             </button>

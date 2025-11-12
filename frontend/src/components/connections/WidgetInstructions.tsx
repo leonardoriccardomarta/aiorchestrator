@@ -110,10 +110,10 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white rounded-lg border border-slate-200 p-6">
         <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
-          <div className="h-32 bg-gray-200 rounded"></div>
+          <div className="h-4 bg-slate-200 rounded w-1/4 mb-4"></div>
+          <div className="h-32 bg-slate-200 rounded"></div>
         </div>
       </div>
     );
@@ -126,29 +126,29 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
   const { connection, widgetCode, instructions, chatbot } = widgetData;
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200 p-6 space-y-6">
+    <div className="bg-gradient-to-br from-indigo-50 to-indigo-50 rounded-xl border-2 border-indigo-200 p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-blue-600 rounded-lg">
+          <div className="p-2 bg-indigo-600 rounded-lg">
             <Code className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-slate-900">
               Add Chatbot to Your Store
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-slate-600">
               Copy the code below and add it to your {connection.platform === 'shopify' ? 'Shopify' : 'WooCommerce'} store
             </p>
             {chatbot && (
-              <div className="mt-2 p-3 bg-white/50 rounded-lg border border-blue-200">
+              <div className="mt-2 p-3 bg-white/50 rounded-lg border border-indigo-200">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm font-medium text-gray-700">Selected Chatbot:</span>
-                  <span className="text-sm text-gray-900">{chatbot.name}</span>
+                  <span className="text-sm font-medium text-slate-700">Selected Chatbot:</span>
+                  <span className="text-sm text-slate-900">{chatbot.name}</span>
                 </div>
                 {chatbot.description && (
-                  <p className="text-xs text-gray-600 mt-1">{chatbot.description}</p>
+                  <p className="text-xs text-slate-600 mt-1">{chatbot.description}</p>
                 )}
               </div>
             )}
@@ -159,20 +159,20 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
       {/* Chatbot Selection - Only show if multiple chatbots */}
       {chatbots.length > 1 && (
         <div className="space-y-3">
-          <label className="text-sm font-medium text-gray-700">Select Chatbot</label>
+          <label className="text-sm font-medium text-slate-700">Select Chatbot</label>
           <div className="relative">
             <button
               onClick={() => setShowChatbotSelector(!showChatbotSelector)}
-              className="w-full flex items-center justify-between px-4 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="w-full flex items-center justify-between px-4 py-3 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
             >
-              <span className="text-gray-900">
+              <span className="text-slate-900">
                 {chatbots.find(c => c.id === selectedChatbotId)?.name || 'Select a chatbot'}
               </span>
-              <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${showChatbotSelector ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform ${showChatbotSelector ? 'rotate-180' : ''}`} />
             </button>
             
             {showChatbotSelector && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-300 rounded-lg shadow-lg z-10">
                 {chatbots.map((chatbot) => (
                   <button
                     key={chatbot.id}
@@ -180,12 +180,12 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
                       setSelectedChatbotId(chatbot.id);
                       setShowChatbotSelector(false);
                     }}
-                    className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors ${
-                      selectedChatbotId === chatbot.id ? 'bg-blue-50 text-blue-700' : 'text-gray-900'
+                    className={`w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors ${
+                      selectedChatbotId === chatbot.id ? 'bg-indigo-50 text-indigo-700' : 'text-slate-900'
                     }`}
                   >
                     <div className="font-medium">{chatbot.name}</div>
-                    <div className="text-sm text-gray-500">{chatbot.description || 'No description'}</div>
+                    <div className="text-sm text-slate-500">{chatbot.description || 'No description'}</div>
                   </button>
                 ))}
               </div>
@@ -197,10 +197,10 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
       {/* Widget Code */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <label className="text-sm font-medium text-gray-700">Widget Code</label>
+          <label className="text-sm font-medium text-slate-700">Widget Code</label>
           <button
             onClick={copyCode}
-            className="flex items-center gap-2 px-3 py-1.5 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 text-sm bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
           >
             {copied ? (
               <>
@@ -217,7 +217,7 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
         </div>
         
         <div className="relative">
-          <pre className="bg-gray-900 text-green-400 rounded-lg p-4 overflow-x-auto text-xs font-mono">
+          <pre className="bg-slate-900 text-green-400 rounded-lg p-4 overflow-x-auto text-xs font-mono">
             <code>{widgetCode}</code>
           </pre>
         </div>
@@ -226,25 +226,25 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
       {/* Instructions */}
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <BookOpen className="w-5 h-5 text-blue-600" />
-          <h4 className="font-semibold text-gray-900">Installation Instructions</h4>
+          <BookOpen className="w-5 h-5 text-indigo-600" />
+          <h4 className="font-semibold text-slate-900">Installation Instructions</h4>
         </div>
         
         <ol className="space-y-3">
           {(instructions?.shopify || instructions?.woocommerce || instructions || []).map((instruction: string, index: number) => (
             <li key={index} className="flex gap-3">
-              <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold">
+              <span className="flex-shrink-0 w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-semibold">
                 {index + 1}
               </span>
-              <span className="text-gray-700 pt-0.5">{instruction}</span>
+              <span className="text-slate-700 pt-0.5">{instruction}</span>
             </li>
           ))}
         </ol>
         
         {/* Additional Help */}
-        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <h5 className="font-semibold text-blue-900 mb-2">💡 Pro Tips:</h5>
-          <ul className="text-sm text-blue-800 space-y-1">
+        <div className="mt-4 p-4 bg-indigo-50 rounded-lg border border-indigo-200">
+          <h5 className="font-semibold text-indigo-900 mb-2">💡 Pro Tips:</h5>
+          <ul className="text-sm text-indigo-800 space-y-1">
             <li>• The widget will appear in the bottom-right corner of your store</li>
             <li>• It's mobile-responsive and works on all devices</li>
             <li>• You can customize colors and text from your AI Orchestrator dashboard</li>
@@ -254,9 +254,9 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
       </div>
 
       {/* Help Links */}
-      <div className="pt-4 border-t border-blue-200">
+      <div className="pt-4 border-t border-indigo-200">
         <div className="flex items-center gap-4 text-sm">
-          <span className="text-gray-600">Need help?</span>
+          <span className="text-slate-600">Need help?</span>
           <a
             href={connection.platform === 'shopify' 
               ? 'https://help.shopify.com/en/manual/online-store/themes/theme-structure/extend/edit-theme-code'
@@ -264,7 +264,7 @@ const WidgetInstructions: React.FC<WidgetInstructionsProps> = ({ connectionId })
             }
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-blue-600 hover:text-blue-700 font-medium"
+            className="flex items-center gap-1 text-indigo-600 hover:text-indigo-700 font-medium"
           >
             <ExternalLink className="w-4 h-4" />
             View Official Documentation

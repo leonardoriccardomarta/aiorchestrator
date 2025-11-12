@@ -168,8 +168,8 @@ const TutorialSystem: React.FC = () => {
                   </svg>
                 </div>
                 <div>
-                  <h3 class="text-lg font-semibold text-gray-900">Tutorial Complete!</h3>
-                  <p class="text-gray-600">Congratulations on your achievement</p>
+                  <h3 class="text-lg font-semibold text-slate-900">Tutorial Complete!</h3>
+                  <p class="text-slate-600">Congratulations on your achievement</p>
                 </div>
               </div>
               <div class="bg-green-50 rounded-lg p-3 mb-4">
@@ -221,8 +221,8 @@ const TutorialSystem: React.FC = () => {
                 </svg>
               </div>
               <div>
-                <h3 class="text-lg font-semibold text-gray-900">Prerequisites Required</h3>
-                <p class="text-gray-600">Complete these tutorials first</p>
+                <h3 class="text-lg font-semibold text-slate-900">Prerequisites Required</h3>
+                <p class="text-slate-600">Complete these tutorials first</p>
               </div>
             </div>
             <div class="bg-yellow-50 rounded-lg p-3 mb-4">
@@ -297,15 +297,15 @@ const TutorialSystem: React.FC = () => {
                       {getTutorialStatus(tutorial)}
                     </Badge>
                   </div>
-                  <Text className="text-gray-600">{tutorial.description}</Text>
-                  <div className="flex items-center space-x-4 text-sm text-gray-500">
+                  <Text className="text-slate-600">{tutorial.description}</Text>
+                  <div className="flex items-center space-x-4 text-sm text-slate-500">
                     <span>⏱️ {tutorial.duration}</span>
                     {tutorial.completionReward && (
                       <span>🏆 Reward: {tutorial.completionReward}</span>
                     )}
                   </div>
                   {tutorial.prerequisites && tutorial.prerequisites.length > 0 && (
-                    <Text className="text-sm text-gray-500">
+                    <Text className="text-sm text-slate-500">
                       Prerequisites: {tutorial.prerequisites.map(id => 
                         tutorials.find(t => t.id === id)?.title
                       ).join(', ')}
@@ -321,7 +321,7 @@ const TutorialSystem: React.FC = () => {
                       prereq => !tutorialProgress.find(p => p.id === prereq && p.completed)
                     ) || false
                   }
-                  className="hover:bg-blue-50"
+                  className="hover:bg-indigo-50"
                 >
                   {getTutorialStatus(tutorial) === 'Completed' ? 'Replay' : 'Start'}
                 </Button>
@@ -338,7 +338,7 @@ const TutorialSystem: React.FC = () => {
           <Button
             variant="secondary"
             onClick={() => setShowDocumentation(!showDocumentation)}
-            className="hover:bg-blue-50"
+            className="hover:bg-indigo-50"
           >
             {showDocumentation ? 'Hide' : 'Show'} Documentation
           </Button>

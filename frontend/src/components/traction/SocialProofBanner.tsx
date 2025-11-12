@@ -40,7 +40,7 @@ export const SocialProofBanner: React.FC<SocialProofBannerProps> = ({ className 
   }, []);
 
   return (
-    <div className={`bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 ${className}`}>
+    <div className={`bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 px-4 ${className}`}>
       <div className="max-w-7xl mx-auto flex items-center justify-center space-x-4 text-sm">
         {/* Live indicator */}
         <div className="flex items-center space-x-2">
@@ -54,7 +54,7 @@ export const SocialProofBanner: React.FC<SocialProofBannerProps> = ({ className 
           <span>users active today</span>
         </div>
 
-        <div className="hidden md:block text-gray-200">•</div>
+        <div className="hidden md:block text-slate-200">•</div>
 
         {/* Recent activity */}
         <AnimatePresence mode="wait">
@@ -68,7 +68,7 @@ export const SocialProofBanner: React.FC<SocialProofBannerProps> = ({ className 
             >
               <span className="font-medium">{currentUser.name}</span>
               <span>{currentUser.action}</span>
-              <span className="text-gray-200">{currentUser.time}</span>
+              <span className="text-slate-200">{currentUser.time}</span>
             </motion.div>
           )}
         </AnimatePresence>

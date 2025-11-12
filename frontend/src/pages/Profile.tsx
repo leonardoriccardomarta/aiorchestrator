@@ -74,12 +74,12 @@ const Profile: FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50 pt-16">
+    <div className="min-h-screen bg-slate-50/50 pt-16">
       <div className="max-w-6xl mx-auto px-6 space-y-8">
         {/* Enhanced Profile Header */}
         <div className="relative">
           {/* Cover Photo */}
-          <div className="h-64 w-full rounded-xl bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 relative overflow-hidden">
+          <div className="h-64 w-full rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 relative overflow-hidden">
             <div className="absolute inset-0 bg-black bg-opacity-20"></div>
             <div className="absolute top-4 right-4">
               <Button variant="outline" size="sm" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
@@ -99,7 +99,7 @@ const Profile: FC = () => {
                   className="h-full w-full object-cover"
                 />
               </div>
-              <button className="absolute bottom-2 right-2 rounded-full bg-blue-600 p-2 text-white hover:bg-blue-700 transition-colors shadow-lg">
+              <button className="absolute bottom-2 right-2 rounded-full bg-indigo-600 p-2 text-white hover:bg-indigo-700 transition-colors shadow-lg">
                 <span className="text-sm">📷</span>
               </button>
             </div>
@@ -129,23 +129,23 @@ const Profile: FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20">
           <Card className="text-center p-6 hover:shadow-lg transition-all duration-200">
             <div className="text-3xl mb-2"></div>
-            <div className="text-2xl font-bold text-gray-900">{stats.chatbotsCreated}</div>
-            <div className="text-sm text-gray-500">Chatbots Created</div>
+            <div className="text-2xl font-bold text-slate-900">{stats.chatbotsCreated}</div>
+            <div className="text-sm text-slate-500">Chatbots Created</div>
           </Card>
           <Card className="text-center p-6 hover:shadow-lg transition-all duration-200">
             <div className="text-3xl mb-2">💬</div>
-            <div className="text-2xl font-bold text-gray-900">{stats.totalMessages.toLocaleString()}</div>
-            <div className="text-sm text-gray-500">Total Messages</div>
+            <div className="text-2xl font-bold text-slate-900">{stats.totalMessages.toLocaleString()}</div>
+            <div className="text-sm text-slate-500">Total Messages</div>
           </Card>
           <Card className="text-center p-6 hover:shadow-lg transition-all duration-200">
             <div className="text-3xl mb-2">😊</div>
-            <div className="text-2xl font-bold text-gray-900">{stats.avgSatisfaction}%</div>
-            <div className="text-sm text-gray-500">Avg Satisfaction</div>
+            <div className="text-2xl font-bold text-slate-900">{stats.avgSatisfaction}%</div>
+            <div className="text-sm text-slate-500">Avg Satisfaction</div>
           </Card>
           <Card className="text-center p-6 hover:shadow-lg transition-all duration-200">
             <div className="text-3xl mb-2">🔗</div>
-            <div className="text-2xl font-bold text-gray-900">{stats.integrations}</div>
-            <div className="text-sm text-gray-500">Integrations</div>
+            <div className="text-2xl font-bold text-slate-900">{stats.integrations}</div>
+            <div className="text-sm text-slate-500">Integrations</div>
           </Card>
         </div>
 
@@ -165,36 +165,36 @@ const Profile: FC = () => {
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
                         <input
                           type="text"
                           value={profileData.name}
                           onChange={(e) => handleProfileChange('name', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          className="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">Job Title</label>
                         <input
                           type="text"
                           value={profileData.title}
                           onChange={(e) => handleProfileChange('title', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          className="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">About</label>
+                      <label className="block text-sm font-medium text-slate-700 mb-1">About</label>
                       <textarea
                         rows={4}
                         value={profileData.about}
                         onChange={(e) => handleProfileChange('about', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                       />
                     </div>
                   </div>
                 ) : (
-                  <p className="text-gray-700 leading-relaxed">{profileData.about}</p>
+                  <p className="text-slate-700 leading-relaxed">{profileData.about}</p>
                 )}
 
                 {/* Contact Information */}
@@ -207,10 +207,10 @@ const Profile: FC = () => {
                           type="email"
                           value={profileData.email}
                           onChange={(e) => handleProfileChange('email', e.target.value)}
-                          className="flex-1 px-3 py-1 border border-gray-300 rounded bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          className="flex-1 px-3 py-1 border border-slate-300 rounded bg-white text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                         />
                       ) : (
-                        <span className="text-gray-700">{profileData.email}</span>
+                        <span className="text-slate-700">{profileData.email}</span>
                       )}
                     </div>
                     <div className="flex items-center space-x-3">
@@ -220,10 +220,10 @@ const Profile: FC = () => {
                           type="tel"
                           value={profileData.phone}
                           onChange={(e) => handleProfileChange('phone', e.target.value)}
-                          className="flex-1 px-3 py-1 border border-gray-300 rounded bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          className="flex-1 px-3 py-1 border border-slate-300 rounded bg-white text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                         />
                       ) : (
-                        <span className="text-gray-700">{profileData.phone}</span>
+                        <span className="text-slate-700">{profileData.phone}</span>
                       )}
                     </div>
                     <div className="flex items-center space-x-3">
@@ -233,10 +233,10 @@ const Profile: FC = () => {
                           type="text"
                           value={profileData.location}
                           onChange={(e) => handleProfileChange('location', e.target.value)}
-                          className="flex-1 px-3 py-1 border border-gray-300 rounded bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          className="flex-1 px-3 py-1 border border-slate-300 rounded bg-white text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                         />
                       ) : (
-                        <span className="text-gray-700">{profileData.location}</span>
+                        <span className="text-slate-700">{profileData.location}</span>
                       )}
                     </div>
                   </div>
@@ -248,10 +248,10 @@ const Profile: FC = () => {
                           type="url"
                           value={profileData.website}
                           onChange={(e) => handleProfileChange('website', e.target.value)}
-                          className="flex-1 px-3 py-1 border border-gray-300 rounded bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          className="flex-1 px-3 py-1 border border-slate-300 rounded bg-white text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                         />
                       ) : (
-                        <a href={profileData.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                        <a href={profileData.website} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800">
                           {profileData.website}
                         </a>
                       )}
@@ -263,17 +263,17 @@ const Profile: FC = () => {
                           type="url"
                           value={profileData.linkedin}
                           onChange={(e) => handleProfileChange('linkedin', e.target.value)}
-                          className="flex-1 px-3 py-1 border border-gray-300 rounded bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          className="flex-1 px-3 py-1 border border-slate-300 rounded bg-white text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                         />
                       ) : (
-                        <a href={profileData.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+                        <a href={profileData.linkedin} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800">
                           LinkedIn Profile
                         </a>
                       )}
                     </div>
                     <div className="flex items-center space-x-3">
                       <span className="text-lg">📅</span>
-                      <span className="text-gray-700">Joined {profileData.joinedDate}</span>
+                      <span className="text-slate-700">Joined {profileData.joinedDate}</span>
                     </div>
                   </div>
                 </div>
@@ -297,13 +297,13 @@ const Profile: FC = () => {
                     { action: 'Added FAQ entries', target: '15 new customer questions', time: '3 days ago', icon: '❓' },
                     { action: 'Team collaboration', target: 'Shared dashboard with marketing team', time: '1 week ago', icon: '👥' }
                   ].map((activity, index) => (
-                    <div key={index} className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <div key={index} className="flex items-center space-x-4 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
                       <span className="text-2xl">{activity.icon}</span>
                       <div className="flex-1">
-                        <div className="font-medium text-gray-900">{activity.action}</div>
-                        <div className="text-sm text-gray-600">{activity.target}</div>
+                        <div className="font-medium text-slate-900">{activity.action}</div>
+                        <div className="text-sm text-slate-600">{activity.target}</div>
                       </div>
-                      <div className="text-sm text-gray-500">{activity.time}</div>
+                      <div className="text-sm text-slate-500">{activity.time}</div>
                     </div>
                   ))}
                 </div>
@@ -329,7 +329,7 @@ const Profile: FC = () => {
                         onChange={(e) => setNewSkill(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleAddSkill()}
                         placeholder="Add skill..."
-                        className="px-2 py-1 text-sm border border-gray-300 rounded bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="px-2 py-1 text-sm border border-slate-300 rounded bg-white text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                       />
                       <Button size="sm" onClick={handleAddSkill} leftIcon={<span>➕</span>}>
                         Add
@@ -345,8 +345,8 @@ const Profile: FC = () => {
                       key={index}
                       className={`group relative px-3 py-1 rounded-full text-sm font-medium transition-all ${
                         isEditing 
-                          ? 'bg-blue-100 text-blue-700 hover:bg-blue-200 cursor-pointer' 
-                          : 'bg-blue-100 text-blue-700'
+                          ? 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200 cursor-pointer' 
+                          : 'bg-indigo-100 text-indigo-700'
                       }`}
                     >
                       {skill}
@@ -378,9 +378,9 @@ const Profile: FC = () => {
                     <div key={index} className="flex items-start space-x-3 p-3 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-200">
                       <span className="text-2xl">{achievement.icon}</span>
                       <div className="flex-1">
-                        <div className="font-semibold text-gray-900">{achievement.title}</div>
-                        <div className="text-sm text-gray-600">{achievement.description}</div>
-                        <div className="text-xs text-gray-500 mt-1">{achievement.date}</div>
+                        <div className="font-semibold text-slate-900">{achievement.title}</div>
+                        <div className="text-sm text-slate-600">{achievement.description}</div>
+                        <div className="text-xs text-slate-500 mt-1">{achievement.date}</div>
                       </div>
                     </div>
                   ))}
@@ -399,12 +399,12 @@ const Profile: FC = () => {
               <CardContent>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Language</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Language</label>
                     {isEditing ? (
                       <select 
                         value={profileData.language}
                         onChange={(e) => handleProfileChange('language', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                       >
                         <option>English</option>
                         <option>Spanish</option>
@@ -412,16 +412,16 @@ const Profile: FC = () => {
                         <option>German</option>
                       </select>
                     ) : (
-                      <div className="text-gray-700">{profileData.language}</div>
+                      <div className="text-slate-700">{profileData.language}</div>
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Timezone</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Timezone</label>
                     {isEditing ? (
                       <select 
                         value={profileData.timezone}
                         onChange={(e) => handleProfileChange('timezone', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                       >
                         <option>Pacific Time (UTC-8)</option>
                         <option>Mountain Time (UTC-7)</option>
@@ -430,7 +430,7 @@ const Profile: FC = () => {
                         <option>UTC+0 (GMT)</option>
                       </select>
                     ) : (
-                      <div className="text-gray-700">{profileData.timezone}</div>
+                      <div className="text-slate-700">{profileData.timezone}</div>
                     )}
                   </div>
                 </div>

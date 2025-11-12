@@ -16,10 +16,10 @@ describe('Button Component', () => {
     expect(screen.getByRole('button')).toHaveClass('bg-secondary-100');
 
     rerender(<Button variant="outline">Outline</Button>);
-    expect(screen.getByRole('button')).toHaveClass('border-gray-300');
+    expect(screen.getByRole('button')).toHaveClass('border-slate-300');
 
     rerender(<Button variant="ghost">Ghost</Button>);
-    expect(screen.getByRole('button')).toHaveClass('text-gray-700');
+    expect(screen.getByRole('button')).toHaveClass('text-slate-700');
 
     rerender(<Button variant="error">Error</Button>);
     expect(screen.getByRole('button')).toHaveClass('bg-error-600');

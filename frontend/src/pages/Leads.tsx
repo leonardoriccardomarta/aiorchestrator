@@ -93,7 +93,7 @@ export const Leads: React.FC = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'New':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
+        return 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300';
       case 'Contacted':
         return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
       case 'Qualified':
@@ -101,7 +101,7 @@ export const Leads: React.FC = () => {
       case 'Lost':
         return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
+        return 'bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-300';
     }
   };
 
@@ -167,19 +167,19 @@ export const Leads: React.FC = () => {
             <CardTitle>All Leads</CardTitle>
             <div className="flex items-center space-x-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500 dark:text-gray-400" />
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 dark:text-slate-400" />
                 <input
                   type="text"
                   placeholder="Search leads..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="pl-10 pr-4 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
               </div>
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800"
+                className="px-4 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800"
               >
                 <option value="all">All Status</option>
                 <option value="New">New</option>
@@ -194,7 +194,7 @@ export const Leads: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-200 dark:border-gray-700">
+                <tr className="border-b border-slate-200 dark:border-slate-700">
                   <th className="text-left py-3 px-4">
                     <button 
                       className="flex items-center space-x-1 hover:text-primary-600"
@@ -242,7 +242,7 @@ export const Leads: React.FC = () => {
                       key={lead.id}
                       layout
                       variants={getAnimationVariant('listItem')}
-                      className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
+                      className="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
                       onClick={() => handleExpandLead(lead.id)}
                     >
                       <td className="py-3 px-4">
@@ -257,7 +257,7 @@ export const Leads: React.FC = () => {
                           </motion.div>
                           <div>
                             <div className="font-medium">{lead.name}</div>
-                            <div className="text-sm text-gray-500 dark:text-gray-400">{lead.email}</div>
+                            <div className="text-sm text-slate-500 dark:text-slate-400">{lead.email}</div>
                           </div>
                         </div>
                       </td>
@@ -327,7 +327,7 @@ export const Leads: React.FC = () => {
                       </td>
                       {expandedLeadId === lead.id && (
                         <motion.td 
-                          className="py-4 px-4 bg-gray-50 dark:bg-gray-800"
+                          className="py-4 px-4 bg-slate-50 dark:bg-slate-800"
                           colSpan={6}
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
@@ -335,7 +335,7 @@ export const Leads: React.FC = () => {
                         >
                           <div className="text-sm">
                             <h4 className="font-medium mb-2">Notes</h4>
-                            <p className="text-gray-600 dark:text-gray-400">{lead.notes || 'No notes available.'}</p>
+                            <p className="text-slate-600 dark:text-slate-400">{lead.notes || 'No notes available.'}</p>
                           </div>
                         </motion.td>
                       )}

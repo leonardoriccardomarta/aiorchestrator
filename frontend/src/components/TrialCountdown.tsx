@@ -118,15 +118,15 @@ const TrialCountdown: React.FC<TrialCountdownProps> = ({ onUpgrade, onDismiss })
   }
 
   return (
-    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+    <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-            <Clock className="w-5 h-5 text-blue-600" />
+          <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center">
+            <Clock className="w-5 h-5 text-indigo-600" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-blue-900">Free Trial Active</h3>
-            <p className="text-blue-700">
+            <h3 className="text-lg font-semibold text-indigo-900">Free Trial Active</h3>
+            <p className="text-indigo-700">
               {timeLeft.days} days, {timeLeft.hours}h {timeLeft.minutes}m remaining
             </p>
           </div>
@@ -134,7 +134,7 @@ const TrialCountdown: React.FC<TrialCountdownProps> = ({ onUpgrade, onDismiss })
         <div className="flex items-center space-x-3">
           <button
             onClick={onUpgrade}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium"
           >
             <CreditCard className="w-4 h-4 mr-2 inline" />
             Upgrade Now
@@ -142,7 +142,7 @@ const TrialCountdown: React.FC<TrialCountdownProps> = ({ onUpgrade, onDismiss })
           {onDismiss && (
             <button
               onClick={onDismiss}
-              className="text-blue-400 hover:text-blue-600"
+              className="text-indigo-400 hover:text-indigo-600"
             >
               <X className="w-5 h-5" />
             </button>

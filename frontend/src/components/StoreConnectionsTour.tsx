@@ -12,8 +12,8 @@ const StoreConnectionsTour: React.FC<StoreConnectionsTourProps> = ({ isOpen, onC
       target: '[data-tour="connections-header"]',
       content: (
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Welcome to Store Connections!</h3>
-          <p className="text-gray-600">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Welcome to Store Connections!</h3>
+          <p className="text-slate-600">
             Here you can connect your e-commerce stores (Shopify, WooCommerce, or custom) to sync products and orders with your AI chatbots.
           </p>
         </div>
@@ -25,8 +25,8 @@ const StoreConnectionsTour: React.FC<StoreConnectionsTourProps> = ({ isOpen, onC
       target: '[data-tour="connect-store-btn"]',
       content: (
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Connect Your Store</h3>
-          <p className="text-gray-600">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Connect Your Store</h3>
+          <p className="text-slate-600">
             Click here to connect your first store. We support Shopify, WooCommerce, and custom e-commerce solutions.
           </p>
         </div>
@@ -37,8 +37,8 @@ const StoreConnectionsTour: React.FC<StoreConnectionsTourProps> = ({ isOpen, onC
       target: '[data-tour="store-types"]',
       content: (
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Choose Your Store Type</h3>
-          <p className="text-gray-600">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Choose Your Store Type</h3>
+          <p className="text-slate-600">
             Select the type of store you want to connect. Each platform has different requirements for API keys and credentials.
           </p>
         </div>
@@ -49,8 +49,8 @@ const StoreConnectionsTour: React.FC<StoreConnectionsTourProps> = ({ isOpen, onC
       target: '[data-tour="api-keys-info"]',
       content: (
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">API Keys Explained</h3>
-          <div className="text-gray-600 space-y-2">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">API Keys Explained</h3>
+          <div className="text-slate-600 space-y-2">
             <p><strong>Shopify:</strong> You need your Store URL, API Key, and API Secret from your Shopify admin panel.</p>
             <p><strong>WooCommerce:</strong> You need your Store URL, Consumer Key, and Consumer Secret from WooCommerce settings.</p>
             <p><strong>Custom:</strong> You need your API endpoint, API key, and webhook URL for your custom store.</p>
@@ -63,8 +63,8 @@ const StoreConnectionsTour: React.FC<StoreConnectionsTourProps> = ({ isOpen, onC
       target: '[data-tour="sync-status"]',
       content: (
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Sync Status</h3>
-          <p className="text-gray-600">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Sync Status</h3>
+          <p className="text-slate-600">
             Once connected, you can see real-time sync status, product counts, order counts, and revenue data from your stores.
           </p>
         </div>
@@ -75,8 +75,8 @@ const StoreConnectionsTour: React.FC<StoreConnectionsTourProps> = ({ isOpen, onC
       target: '[data-tour="refresh-btn"]',
       content: (
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Refresh Data</h3>
-          <p className="text-gray-600">
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">Refresh Data</h3>
+          <p className="text-slate-600">
             Use the refresh button to manually sync your store data and update the latest products and orders.
           </p>
         </div>

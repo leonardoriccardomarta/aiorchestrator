@@ -156,7 +156,7 @@ const AffiliateProgram: React.FC = () => {
         <div className="bg-white p-6 rounded-lg shadow">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Total Earnings</p>
+              <p className="text-slate-500 text-sm">Total Earnings</p>
               <p className="text-2xl font-semibold">${totalEarnings}</p>
             </div>
             <span className="material-icons text-green-500">payments</span>
@@ -166,7 +166,7 @@ const AffiliateProgram: React.FC = () => {
         <div className="bg-white p-6 rounded-lg shadow">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Available to Withdraw</p>
+              <p className="text-slate-500 text-sm">Available to Withdraw</p>
               <p className="text-2xl font-semibold text-green-600">${availableForWithdrawal}</p>
             </div>
             <span className="material-icons text-green-500">account_balance_wallet</span>
@@ -176,17 +176,17 @@ const AffiliateProgram: React.FC = () => {
         <div className="bg-white p-6 rounded-lg shadow">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Active Referrals</p>
+              <p className="text-slate-500 text-sm">Active Referrals</p>
               <p className="text-2xl font-semibold">{activeReferrals}</p>
             </div>
-            <span className="material-icons text-blue-500">people</span>
+            <span className="material-icons text-indigo-500">people</span>
           </div>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Completed Referrals</p>
+              <p className="text-slate-500 text-sm">Completed Referrals</p>
               <p className="text-2xl font-semibold">{completedReferrals}</p>
             </div>
             <span className="material-icons text-purple-500">check_circle</span>
@@ -196,7 +196,7 @@ const AffiliateProgram: React.FC = () => {
         <div className="bg-white p-6 rounded-lg shadow">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Current Tier</p>
+              <p className="text-slate-500 text-sm">Current Tier</p>
               <p className="text-2xl font-semibold">{currentTier?.name}</p>
             </div>
             <span className="material-icons text-yellow-500">star</span>
@@ -211,7 +211,7 @@ const AffiliateProgram: React.FC = () => {
           <div className="flex space-x-2">
             <button
               onClick={exportPaymentHistory}
-              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center"
+              className="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors flex items-center"
             >
               <span className="material-icons mr-2">file_download</span>
               Export Payments
@@ -221,8 +221,8 @@ const AffiliateProgram: React.FC = () => {
               disabled={availableForWithdrawal < minWithdrawal}
               className={`px-4 py-2 rounded-lg transition-colors flex items-center ${
                 availableForWithdrawal >= minWithdrawal
-                  ? 'bg-blue-600 text-white hover:bg-blue-700'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  ? 'bg-indigo-600 text-white hover:bg-indigo-700'
+                  : 'bg-slate-300 text-slate-500 cursor-not-allowed'
               }`}
             >
               <span className="material-icons mr-2">request_quote</span>
@@ -233,16 +233,16 @@ const AffiliateProgram: React.FC = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div className="p-4 bg-green-50 rounded-lg">
-            <p className="text-sm text-gray-600">Available</p>
+            <p className="text-sm text-slate-600">Available</p>
             <p className="text-xl font-semibold text-green-600">${availableForWithdrawal}</p>
           </div>
           <div className="p-4 bg-yellow-50 rounded-lg">
-            <p className="text-sm text-gray-600">Pending</p>
+            <p className="text-sm text-slate-600">Pending</p>
             <p className="text-xl font-semibold text-yellow-600">${pendingWithdrawals}</p>
           </div>
-          <div className="p-4 bg-blue-50 rounded-lg">
-            <p className="text-sm text-gray-600">Min. Withdrawal</p>
-            <p className="text-xl font-semibold text-blue-600">${minWithdrawal}</p>
+          <div className="p-4 bg-indigo-50 rounded-lg">
+            <p className="text-sm text-slate-600">Min. Withdrawal</p>
+            <p className="text-xl font-semibold text-indigo-600">${minWithdrawal}</p>
           </div>
         </div>
 
@@ -252,7 +252,7 @@ const AffiliateProgram: React.FC = () => {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="text-left border-b border-gray-200">
+                  <tr className="text-left border-b border-slate-200">
                     <th className="pb-2 font-medium">Payment ID</th>
                     <th className="pb-2 font-medium">Amount</th>
                     <th className="pb-2 font-medium">Date</th>
@@ -260,7 +260,7 @@ const AffiliateProgram: React.FC = () => {
                     <th className="pb-2 font-medium">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-slate-200">
                   {paymentHistory.map((payment) => (
                     <tr key={payment.id}>
                       <td className="py-2">{payment.id}</td>
@@ -275,7 +275,7 @@ const AffiliateProgram: React.FC = () => {
                               : payment.status === 'pending'
                               ? 'bg-yellow-100 text-yellow-700'
                               : payment.status === 'processing'
-                              ? 'bg-blue-100 text-blue-700'
+                              ? 'bg-indigo-100 text-indigo-700'
                               : 'bg-red-100 text-red-700'
                           }`}
                         >
@@ -299,7 +299,7 @@ const AffiliateProgram: React.FC = () => {
                 <h2 className="text-lg font-semibold">Your Referrals</h2>
                 <button
                   onClick={exportReferralData}
-                  className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors flex items-center"
+                  className="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition-colors flex items-center"
                 >
                   <span className="material-icons mr-2">file_download</span>
                   Export Referrals
@@ -308,7 +308,7 @@ const AffiliateProgram: React.FC = () => {
               <div className="overflow-x-auto">
                 <table className="w-full">
                                       <thead>
-                      <tr className="text-left border-b border-gray-200">
+                      <tr className="text-left border-b border-slate-200">
                         <th className="pb-3 font-medium">Email</th>
                         <th className="pb-3 font-medium">Status</th>
                         <th className="pb-3 font-medium">Date</th>
@@ -316,7 +316,7 @@ const AffiliateProgram: React.FC = () => {
                         <th className="pb-3 font-medium text-right">Commission</th>
                       </tr>
                     </thead>
-                                      <tbody className="divide-y divide-gray-200">
+                                      <tbody className="divide-y divide-slate-200">
                       {referrals.map((referral) => (
                         <tr key={referral.id}>
                           <td className="py-3">{referral.email}</td>
@@ -326,7 +326,7 @@ const AffiliateProgram: React.FC = () => {
                                 referral.status === 'completed'
                                   ? 'bg-green-100 text-green-700'
                                   : referral.status === 'active'
-                                  ? 'bg-blue-100 text-blue-700'
+                                  ? 'bg-indigo-100 text-indigo-700'
                                   : 'bg-yellow-100 text-yellow-700'
                               }`}
                             >
@@ -355,11 +355,11 @@ const AffiliateProgram: React.FC = () => {
                 type="text"
                 value={referralLink}
                 readOnly
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg bg-gray-50"
+                className="flex-1 px-3 py-2 border border-slate-300 rounded-lg bg-slate-50"
               />
               <button
                 onClick={() => navigator.clipboard.writeText(referralLink)}
-                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg"
               >
                 <span className="material-icons">content_copy</span>
               </button>
@@ -374,14 +374,14 @@ const AffiliateProgram: React.FC = () => {
                   key={tier.name}
                   className={`p-4 rounded-lg border ${
                     currentTier?.name === tier.name
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-200'
+                      ? 'border-indigo-500 bg-indigo-50'
+                      : 'border-slate-200'
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="font-medium">{tier.name}</h3>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-slate-500">
                         {tier.minReferrals}+ referrals
                       </p>
                     </div>

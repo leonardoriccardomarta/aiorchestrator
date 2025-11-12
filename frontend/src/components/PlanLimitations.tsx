@@ -39,7 +39,7 @@ const PlanLimitations: React.FC<PlanLimitationsProps> = ({
   }
 
   return (
-    <div className="relative group p-2 text-left bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-xl hover:border-gray-300 transition-all duration-300">
+    <div className="relative group p-2 text-left bg-white rounded-xl shadow-sm border border-slate-200 hover:shadow-xl hover:border-slate-300 transition-all duration-300">
       <div className="relative">
         {/* Content */}
         {children}
@@ -52,10 +52,10 @@ const PlanLimitations: React.FC<PlanLimitationsProps> = ({
                 <Lock className="w-4 h-4 text-white" />
               </div>
             </div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-1">
+            <h3 className="text-sm font-semibold text-slate-900 mb-1">
               {planName} Feature
             </h3>
-            <p className="text-[10px] text-gray-600">
+            <p className="text-[10px] text-slate-600">
               Available in {planName} plan
             </p>
           </div>

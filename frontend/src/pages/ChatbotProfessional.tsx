@@ -101,21 +101,21 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
       fields: (
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Chatbot Name</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Chatbot Name</label>
             <input
               type="text"
               value={chatbot.name || ''}
               onChange={(e) => setChatbot(prev => ({ ...prev, name: e.target.value }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="e.g., Customer Support Bot"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Description</label>
             <textarea
               value={chatbot.description || ''}
               onChange={(e) => setChatbot(prev => ({ ...prev, description: e.target.value }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="What will this chatbot help customers with?"
               rows={3}
             />
@@ -129,11 +129,11 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
       fields: (
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Default Language</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Default Language</label>
             <select
               value={chatbot.language || 'en'}
               onChange={(e) => setChatbot(prev => ({ ...prev, language: e.target.value }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             >
               <option value="en">🇺🇸 English (Default)</option>
               <option value="it">🇮🇹 Italiano</option>
@@ -147,19 +147,19 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
               <option value="ru">🇷🇺 Русский</option>
               <option value="ar">🇸🇦 العربية</option>
             </select>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               This sets the default language, but your AI will automatically detect and respond in ANY language your customers use.
             </p>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Personality</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Personality</label>
             <div className="grid grid-cols-1 gap-3">
               {[
                 { value: 'friendly', label: 'Friendly & Helpful', desc: 'Warm and approachable tone' },
                 { value: 'professional', label: 'Professional', desc: 'Formal and business-like' },
                 { value: 'casual', label: 'Casual & Fun', desc: 'Relaxed and conversational' }
               ].map((personality) => (
-                <label key={personality.value} className="flex items-center p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                <label key={personality.value} className="flex items-center p-3 border border-slate-300 rounded-lg hover:bg-slate-50 cursor-pointer">
                   <input
                     type="radio"
                     name="personality"
@@ -169,8 +169,8 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
                     className="mr-3"
                   />
                   <div>
-                    <p className="font-medium text-gray-900">{personality.label}</p>
-                    <p className="text-sm text-gray-600">{personality.desc}</p>
+                    <p className="font-medium text-slate-900">{personality.label}</p>
+                    <p className="text-sm text-slate-600">{personality.desc}</p>
                   </div>
                 </label>
               ))}
@@ -185,7 +185,7 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
       fields: (
         <div className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">Theme</label>
+            <label className="block text-sm font-medium text-slate-700 mb-3">Theme</label>
             <div className="grid grid-cols-2 gap-3">
               {[
                 { value: 'modern', label: 'Modern', desc: 'Clean and contemporary' },
@@ -193,7 +193,7 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
                 { value: 'minimal', label: 'Minimal', desc: 'Simple and clean' },
                 { value: 'colorful', label: 'Colorful', desc: 'Vibrant and playful' }
               ].map((theme) => (
-                <label key={theme.value} className="flex items-center p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                <label key={theme.value} className="flex items-center p-3 border border-slate-300 rounded-lg hover:bg-slate-50 cursor-pointer">
                   <input
                     type="radio"
                     name="theme"
@@ -203,8 +203,8 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
                     className="mr-3"
                   />
                   <div>
-                    <p className="font-medium text-gray-900">{theme.label}</p>
-                    <p className="text-sm text-gray-600">{theme.desc}</p>
+                    <p className="font-medium text-slate-900">{theme.label}</p>
+                    <p className="text-sm text-slate-600">{theme.desc}</p>
                   </div>
                 </label>
               ))}
@@ -213,36 +213,36 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Primary Color</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Primary Color</label>
               <div className="flex items-center space-x-2">
                 <input
                   type="color"
                   value={chatbot.primaryColor || '#3B82F6'}
                   onChange={(e) => setChatbot(prev => ({ ...prev, primaryColor: e.target.value }))}
-                  className="w-12 h-10 border border-gray-300 rounded-lg cursor-pointer"
+                  className="w-12 h-10 border border-slate-300 rounded-lg cursor-pointer"
                 />
                 <input
                   type="text"
                   value={chatbot.primaryColor || '#3B82F6'}
                   onChange={(e) => setChatbot(prev => ({ ...prev, primaryColor: e.target.value }))}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Secondary Color</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Secondary Color</label>
               <div className="flex items-center space-x-2">
                 <input
                   type="color"
                   value={chatbot.secondaryColor || '#F3F4F6'}
                   onChange={(e) => setChatbot(prev => ({ ...prev, secondaryColor: e.target.value }))}
-                  className="w-12 h-10 border border-gray-300 rounded-lg cursor-pointer"
+                  className="w-12 h-10 border border-slate-300 rounded-lg cursor-pointer"
                 />
                 <input
                   type="text"
                   value={chatbot.secondaryColor || '#F3F4F6'}
                   onChange={(e) => setChatbot(prev => ({ ...prev, secondaryColor: e.target.value }))}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                 />
               </div>
             </div>
@@ -250,11 +250,11 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Border Radius</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Border Radius</label>
               <select
                 value={chatbot.borderRadius || 'medium'}
                 onChange={(e) => setChatbot(prev => ({ ...prev, borderRadius: e.target.value as any }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               >
                 <option value="none">None</option>
                 <option value="small">Small</option>
@@ -263,11 +263,11 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Font Size</label>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Font Size</label>
               <select
                 value={chatbot.fontSize || 'medium'}
                 onChange={(e) => setChatbot(prev => ({ ...prev, fontSize: e.target.value as any }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               >
                 <option value="small">Small</option>
                 <option value="medium">Medium</option>
@@ -277,7 +277,7 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Position</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Position</label>
             <div className="grid grid-cols-2 gap-3">
               {[
                 { value: 'bottom-right', label: 'Bottom Right', icon: '↗️' },
@@ -285,7 +285,7 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
                 { value: 'top-right', label: 'Top Right', icon: '↘️' },
                 { value: 'top-left', label: 'Top Left', icon: '↙️' }
               ].map((position) => (
-                <label key={position.value} className="flex items-center p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                <label key={position.value} className="flex items-center p-3 border border-slate-300 rounded-lg hover:bg-slate-50 cursor-pointer">
                   <input
                     type="radio"
                     name="position"
@@ -295,7 +295,7 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
                     className="mr-3"
                   />
                   <span className="mr-2">{position.icon}</span>
-                  <span className="font-medium text-gray-900">{position.label}</span>
+                  <span className="font-medium text-slate-900">{position.label}</span>
                 </label>
               ))}
             </div>
@@ -309,21 +309,21 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
       fields: (
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Welcome Message</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Welcome Message</label>
             <textarea
               value={chatbot.welcomeMessage || ''}
               onChange={(e) => setChatbot(prev => ({ ...prev, welcomeMessage: e.target.value }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Hello! How can I help you today?"
               rows={3}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Response Style</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Response Style</label>
             <select
               value={chatbot.responseStyle || 'conversational'}
               onChange={(e) => setChatbot(prev => ({ ...prev, responseStyle: e.target.value as any }))}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             >
               <option value="concise">Concise - Short and direct</option>
               <option value="detailed">Detailed - Comprehensive answers</option>
@@ -336,18 +336,18 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
                 type="checkbox"
                 checked={chatbot.autoResponse || false}
                 onChange={(e) => setChatbot(prev => ({ ...prev, autoResponse: e.target.checked }))}
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500"
               />
-              <span className="text-sm font-medium text-gray-700">Auto-response to common questions</span>
+              <span className="text-sm font-medium text-slate-700">Auto-response to common questions</span>
             </label>
             <label className="flex items-center space-x-3">
               <input
                 type="checkbox"
                 checked={chatbot.typingIndicator || false}
                 onChange={(e) => setChatbot(prev => ({ ...prev, typingIndicator: e.target.checked }))}
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500"
               />
-              <span className="text-sm font-medium text-gray-700">Show typing indicator</span>
+              <span className="text-sm font-medium text-slate-700">Show typing indicator</span>
             </label>
           </div>
         </div>
@@ -403,21 +403,21 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4">
+        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl font-bold text-white">Create New Chatbot</h2>
-              <p className="text-blue-100 text-sm">Step {step + 1} of {steps.length}</p>
+              <p className="text-indigo-100 text-sm">Step {step + 1} of {steps.length}</p>
             </div>
             <button
               onClick={onClose}
-              className="text-blue-100 hover:text-white text-sm font-medium"
+              className="text-indigo-100 hover:text-white text-sm font-medium"
             >
               ✕
             </button>
           </div>
           <div className="mt-3">
-            <div className="w-full bg-blue-500 bg-opacity-30 rounded-full h-2">
+            <div className="w-full bg-indigo-500 bg-opacity-30 rounded-full h-2">
               <div 
                 className="bg-white h-2 rounded-full transition-all duration-300"
                 style={{ width: `${((step + 1) / steps.length) * 100}%` }}
@@ -429,22 +429,22 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
         {/* Content */}
         <div className="p-6 max-h-[60vh] overflow-y-auto">
           <div className="mb-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{steps[step].title}</h3>
-            <p className="text-gray-600">{steps[step].description}</p>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">{steps[step].title}</h3>
+            <p className="text-slate-600">{steps[step].description}</p>
           </div>
           
           {steps[step].fields}
         </div>
 
         {/* Footer */}
-        <div className="bg-gray-50 px-6 py-4 flex items-center justify-between">
+        <div className="bg-slate-50 px-6 py-4 flex items-center justify-between">
           <button
             onClick={handlePrevious}
             disabled={step === 0}
             className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${
               step === 0
-                ? 'text-gray-400 cursor-not-allowed'
-                : 'text-gray-700 hover:bg-gray-200'
+                ? 'text-slate-400 cursor-not-allowed'
+                : 'text-slate-700 hover:bg-slate-200'
             }`}
           >
             <ArrowLeft className="w-4 h-4" />
@@ -453,7 +453,7 @@ const ChatbotWizard: React.FC<ChatbotWizardProps> = ({ isOpen, onClose, onComple
 
           <button
             onClick={handleNext}
-            className="flex items-center space-x-2 bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            className="flex items-center space-x-2 bg-indigo-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-indigo-700 transition-colors"
           >
             <span>{step === steps.length - 1 ? 'Create Chatbot' : 'Next'}</span>
             <ArrowRight className="w-4 h-4" />
@@ -526,17 +526,17 @@ const ChatbotPreview: React.FC<{ chatbot: Partial<Chatbot> }> = ({ chatbot }) =>
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h4 className="text-lg font-semibold text-gray-900">Live Preview</h4>
+        <h4 className="text-lg font-semibold text-slate-900">Live Preview</h4>
         <div className="flex items-center space-x-2">
-          <Monitor className="w-4 h-4 text-gray-400" />
-          <Tablet className="w-4 h-4 text-gray-400" />
-          <Smartphone className="w-4 h-4 text-blue-500" />
+          <Monitor className="w-4 h-4 text-slate-400" />
+          <Tablet className="w-4 h-4 text-slate-400" />
+          <Smartphone className="w-4 h-4 text-indigo-500" />
         </div>
       </div>
 
-      <div className="relative bg-gray-100 rounded-lg p-4 h-96 overflow-hidden">
+      <div className="relative bg-slate-100 rounded-lg p-4 h-96 overflow-hidden">
         {/* Simulated website background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-50"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-purple-50 opacity-50"></div>
         
         {/* Chatbot Widget */}
         <div className={`absolute ${getPosition()} w-80 h-96 bg-white shadow-2xl ${getBorderRadius()} overflow-hidden`}>
@@ -566,19 +566,19 @@ const ChatbotPreview: React.FC<{ chatbot: Partial<Chatbot> }> = ({ chatbot }) =>
           <div className="flex-1 p-4 space-y-3 overflow-y-auto h-64">
             {!isOpen ? (
               <div className="text-center py-8">
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <MessageSquare className="w-8 h-8 text-gray-400" />
+                <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <MessageSquare className="w-8 h-8 text-slate-400" />
                 </div>
-                <p className="text-gray-600 text-sm">Click to start chatting</p>
+                <p className="text-slate-600 text-sm">Click to start chatting</p>
               </div>
             ) : (
               <div className="space-y-3">
                 <div className="flex items-start space-x-2">
-                  <div className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
-                    <Bot className="w-3 h-3 text-gray-600" />
+                  <div className="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center">
+                    <Bot className="w-3 h-3 text-slate-600" />
                   </div>
-                  <div className="bg-gray-100 rounded-lg p-3 max-w-xs">
-                    <p className={`text-gray-800 ${getFontSize()}`}>
+                  <div className="bg-slate-100 rounded-lg p-3 max-w-xs">
+                    <p className={`text-slate-800 ${getFontSize()}`}>
                       {chatbot.welcomeMessage || 'Hello! How can I help you today?'}
                     </p>
                   </div>
@@ -587,18 +587,18 @@ const ChatbotPreview: React.FC<{ chatbot: Partial<Chatbot> }> = ({ chatbot }) =>
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex items-start space-x-2 ${msg.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                      msg.type === 'user' ? 'bg-blue-500' : 'bg-gray-200'
+                      msg.type === 'user' ? 'bg-indigo-500' : 'bg-slate-200'
                     }`}>
                       {msg.type === 'user' ? (
                         <Users className="w-3 h-3 text-white" />
                       ) : (
-                        <Bot className="w-3 h-3 text-gray-600" />
+                        <Bot className="w-3 h-3 text-slate-600" />
                       )}
                     </div>
                     <div className={`rounded-lg p-3 max-w-xs ${
                       msg.type === 'user' 
-                        ? 'bg-blue-500 text-white' 
-                        : 'bg-gray-100 text-gray-800'
+                        ? 'bg-indigo-500 text-white' 
+                        : 'bg-slate-100 text-slate-800'
                     }`}>
                       <p className={getFontSize()}>{msg.content}</p>
                     </div>
@@ -610,7 +610,7 @@ const ChatbotPreview: React.FC<{ chatbot: Partial<Chatbot> }> = ({ chatbot }) =>
 
           {/* Input */}
           {isOpen && (
-            <div className="p-4 border-t border-gray-200">
+            <div className="p-4 border-t border-slate-200">
               <div className="flex items-center space-x-2">
                 <input
                   type="text"
@@ -618,7 +618,7 @@ const ChatbotPreview: React.FC<{ chatbot: Partial<Chatbot> }> = ({ chatbot }) =>
                   onChange={(e) => setMessage(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                   placeholder="Type your message..."
-                  className={`flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${getFontSize()}`}
+                  className={`flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${getFontSize()}`}
                 />
                 <button
                   onClick={handleSendMessage}
@@ -772,8 +772,8 @@ const ChatbotProfessional: React.FC = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-600 border-t-transparent mx-auto"></div>
-          <p className="mt-6 text-gray-600 text-lg">Loading chatbots...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-indigo-600 border-t-transparent mx-auto"></div>
+          <p className="mt-6 text-slate-600 text-lg">Loading chatbots...</p>
         </div>
       </div>
     );
@@ -782,27 +782,27 @@ const ChatbotProfessional: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
+      <div className="bg-white shadow-sm border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-6">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => navigate('/dashboard')}
-                className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                className="p-2 text-slate-400 hover:text-slate-600 transition-colors"
               >
                 <ArrowLeft className="w-5 h-5" />
               </button>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">AI Chatbots</h1>
-                <p className="text-gray-600 text-lg">Create and manage your intelligent assistants</p>
+                <h1 className="text-3xl font-bold text-slate-900">AI Chatbots</h1>
+                <p className="text-slate-600 text-lg">Create and manage your intelligent assistants</p>
               </div>
             </div>
             <button
               onClick={handleCreateChatbot}
               className={`inline-flex items-center px-6 py-3 font-medium rounded-lg transition-colors shadow-lg ${
                 !canCreateChatbot()
-                  ? 'bg-gray-400 text-white cursor-not-allowed'
-                  : 'bg-blue-600 text-white hover:bg-blue-700'
+                  ? 'bg-slate-400 text-white cursor-not-allowed'
+                  : 'bg-indigo-600 text-white hover:bg-indigo-700'
               }`}
               disabled={!canCreateChatbot()}
               title={!canCreateChatbot() ? 'Upgrade to create more chatbots' : 'Create New Chatbot'}
@@ -830,7 +830,7 @@ const ChatbotProfessional: React.FC = () => {
         {/* Chatbots Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {chatbots.map((chatbot) => (
-            <div key={chatbot.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-shadow">
+            <div key={chatbot.id} className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-lg transition-shadow">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <div 
@@ -840,8 +840,8 @@ const ChatbotProfessional: React.FC = () => {
                     <Bot className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{chatbot.name}</h3>
-                    <p className="text-sm text-gray-600">{chatbot.description}</p>
+                    <h3 className="text-lg font-semibold text-slate-900">{chatbot.name}</h3>
+                    <p className="text-sm text-slate-600">{chatbot.description}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-1">
@@ -849,8 +849,8 @@ const ChatbotProfessional: React.FC = () => {
                     onClick={() => setPreviewChatbot(chatbot)}
                     className={`p-2 rounded-lg transition-colors ${
                       !canCreateChatbot() && chatbots.length >= (user?.planId === 'starter' ? 1 : user?.planId === 'professional' ? 5 : Infinity)
-                        ? 'text-gray-300 cursor-not-allowed'
-                        : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
+                        ? 'text-slate-300 cursor-not-allowed'
+                        : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'
                     }`}
                     title={!canCreateChatbot() ? 'Upgrade to preview' : 'Preview'}
                     disabled={!canCreateChatbot() && chatbots.length >= (user?.planId === 'starter' ? 1 : user?.planId === 'professional' ? 5 : Infinity)}
@@ -861,8 +861,8 @@ const ChatbotProfessional: React.FC = () => {
                     onClick={() => setEditingChatbot(chatbot)}
                     className={`p-2 rounded-lg transition-colors ${
                       !canCreateChatbot() && chatbots.length >= (user?.planId === 'starter' ? 1 : user?.planId === 'professional' ? 5 : Infinity)
-                        ? 'text-gray-300 cursor-not-allowed'
-                        : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
+                        ? 'text-slate-300 cursor-not-allowed'
+                        : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'
                     }`}
                     title={!canCreateChatbot() ? 'Upgrade to edit' : 'Edit'}
                     disabled={!canCreateChatbot() && chatbots.length >= (user?.planId === 'starter' ? 1 : user?.planId === 'professional' ? 5 : Infinity)}
@@ -873,10 +873,10 @@ const ChatbotProfessional: React.FC = () => {
                     onClick={() => toggleStatus(chatbot.id)}
                     className={`p-2 rounded-lg ${
                       !canCreateChatbot() && chatbots.length >= (user?.planId === 'starter' ? 1 : user?.planId === 'professional' ? 5 : Infinity)
-                        ? 'text-gray-300 cursor-not-allowed'
+                        ? 'text-slate-300 cursor-not-allowed'
                         : chatbot.status === 'active' 
                           ? 'text-green-600 hover:bg-green-100' 
-                          : 'text-gray-400 hover:bg-gray-100'
+                          : 'text-slate-400 hover:bg-slate-100'
                     }`}
                     title={!canCreateChatbot() ? 'Upgrade to manage' : (chatbot.status === 'active' ? 'Deactivate' : 'Activate')}
                     disabled={!canCreateChatbot() && chatbots.length >= (user?.planId === 'starter' ? 1 : user?.planId === 'professional' ? 5 : Infinity)}
@@ -887,7 +887,7 @@ const ChatbotProfessional: React.FC = () => {
                     onClick={() => handleDeleteChatbot(chatbot.id)}
                     className={`p-2 rounded-lg transition-colors ${
                       !canCreateChatbot() && chatbots.length >= (user?.planId === 'starter' ? 1 : user?.planId === 'professional' ? 5 : Infinity)
-                        ? 'text-gray-300 cursor-not-allowed'
+                        ? 'text-slate-300 cursor-not-allowed'
                         : 'text-red-400 hover:text-red-600 hover:bg-red-100'
                     }`}
                     title={!canCreateChatbot() ? 'Upgrade to delete' : 'Delete'}
@@ -900,67 +900,67 @@ const ChatbotProfessional: React.FC = () => {
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Language</span>
+                  <span className="text-sm text-slate-600">Language</span>
                   <div className="flex items-center space-x-2">
                     <span className="text-lg">
                       {languages.find(l => l.code === chatbot.language)?.flag}
                     </span>
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-slate-900">
                       {languages.find(l => l.code === chatbot.language)?.name}
                     </span>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-3 bg-gray-50 rounded-lg">
+                  <div className="text-center p-3 bg-slate-50 rounded-lg">
                     <div className="flex items-center justify-center space-x-1 mb-1">
-                      <MessageSquare className="w-4 h-4 text-blue-500" />
-                      <span className="text-sm font-medium text-gray-900">{chatbot.messageCount.toLocaleString()}</span>
+                      <MessageSquare className="w-4 h-4 text-indigo-500" />
+                      <span className="text-sm font-medium text-slate-900">{chatbot.messageCount.toLocaleString()}</span>
                     </div>
-                    <p className="text-xs text-gray-600">Messages</p>
+                    <p className="text-xs text-slate-600">Messages</p>
                   </div>
                   
-                  <div className="text-center p-3 bg-gray-50 rounded-lg">
+                  <div className="text-center p-3 bg-slate-50 rounded-lg">
                     <div className="flex items-center justify-center space-x-1 mb-1">
                       <Clock className="w-4 h-4 text-green-500" />
-                      <span className="text-sm font-medium text-gray-900">{chatbot.responseTime}s</span>
+                      <span className="text-sm font-medium text-slate-900">{chatbot.responseTime}s</span>
                     </div>
-                    <p className="text-xs text-gray-600">Response</p>
+                    <p className="text-xs text-slate-600">Response</p>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-1">
                     <Star className="w-4 h-4 text-yellow-500" />
-                    <span className="text-sm font-medium text-gray-900">{chatbot.satisfaction}/5</span>
+                    <span className="text-sm font-medium text-slate-900">{chatbot.satisfaction}/5</span>
                   </div>
                   <div className="flex items-center space-x-1">
                     <TrendingUp className="w-4 h-4 text-purple-500" />
-                    <span className="text-sm font-medium text-gray-900">{chatbot.conversionRate}%</span>
+                    <span className="text-sm font-medium text-slate-900">{chatbot.conversionRate}%</span>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Status</span>
+                  <span className="text-sm text-slate-600">Status</span>
                   <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                     chatbot.status === 'active' 
                       ? 'bg-green-100 text-green-800' 
-                      : 'bg-gray-100 text-gray-800'
+                      : 'bg-slate-100 text-slate-800'
                   }`}>
                     {chatbot.status === 'active' ? 'Active' : 'Inactive'}
                   </span>
                 </div>
 
                 {/* Integration Status */}
-                <div className="pt-3 border-t border-gray-200">
+                <div className="pt-3 border-t border-slate-200">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-gray-600">Integrations</span>
+                    <span className="text-slate-600">Integrations</span>
                     <div className="flex items-center space-x-2">
                       {chatbot.shopifyConnected && (
                         <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full">Shopify</span>
                       )}
                       {chatbot.multilingual && (
-                        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full">Multilingual</span>
+                        <span className="px-2 py-1 bg-indigo-100 text-indigo-800 rounded-full">Multilingual</span>
                       )}
                     </div>
                   </div>
@@ -973,14 +973,14 @@ const ChatbotProfessional: React.FC = () => {
         {/* Empty State */}
         {chatbots.length === 0 && (
           <div className="text-center py-12">
-            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Bot className="w-12 h-12 text-gray-400" />
+            <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Bot className="w-12 h-12 text-slate-400" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No chatbots yet</h3>
-            <p className="text-gray-600 mb-6">Create your first AI chatbot to start helping customers</p>
+            <h3 className="text-xl font-semibold text-slate-900 mb-2">No chatbots yet</h3>
+            <p className="text-slate-600 mb-6">Create your first AI chatbot to start helping customers</p>
             <button
               onClick={() => setShowWizard(true)}
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors"
             >
               <Plus className="w-5 h-5 mr-2" />
               Create Your First Chatbot
@@ -1000,11 +1000,11 @@ const ChatbotProfessional: React.FC = () => {
       {previewChatbot && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-gray-900">Chatbot Preview</h3>
+            <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-slate-900">Chatbot Preview</h3>
               <button
                 onClick={() => setPreviewChatbot(null)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-slate-400 hover:text-slate-600"
               >
                 ✕
               </button>

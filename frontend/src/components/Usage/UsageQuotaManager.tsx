@@ -168,10 +168,10 @@ const UsageQuotaManager: React.FC = () => {
                     <CartesianGrid strokeDasharray="3 3" className="stroke-gray-200" />
                     <XAxis 
                       dataKey="date"
-                      className="text-sm text-gray-600"
+                      className="text-sm text-slate-600"
                     />
                     <YAxis 
-                      className="text-sm text-gray-600"
+                      className="text-sm text-slate-600"
                     />
                     <Tooltip />
                     <Line

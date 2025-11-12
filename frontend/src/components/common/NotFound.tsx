@@ -10,8 +10,8 @@ const NotFound: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-6xl font-bold text-gray-900 mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-8">
+        <h1 className="text-6xl font-bold text-slate-900 mb-4">404</h1>
+        <p className="text-xl text-slate-600 mb-8">
           Oops! The page you're looking for doesn't exist.
         </p>
         <Link

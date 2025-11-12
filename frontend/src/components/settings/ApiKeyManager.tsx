@@ -119,12 +119,12 @@ export const ApiKeyManager: React.FC<ApiKeyManagerProps> = ({
                   animate="animate"
                   exit="exit"
                   layout
-                  className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+                  className="border border-slate-200 dark:border-slate-700 rounded-lg p-4"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div>
                       <h3 className="font-medium">{apiKey.name}</h3>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-slate-500">
                         Created: {apiKey.createdAt}
                         {apiKey.lastUsed && ` • Last used: ${apiKey.lastUsed}`}
                       </p>
@@ -168,7 +168,7 @@ export const ApiKeyManager: React.FC<ApiKeyManagerProps> = ({
                     </div>
                   </div>
 
-                  <div className="bg-gray-50 dark:bg-gray-800 rounded p-2 font-mono text-sm mb-4">
+                  <div className="bg-slate-50 dark:bg-slate-800 rounded p-2 font-mono text-sm mb-4">
                     {visibleKeys.has(apiKey.id) ? (
                       apiKey.key
                     ) : (
@@ -177,7 +177,7 @@ export const ApiKeyManager: React.FC<ApiKeyManagerProps> = ({
                   </div>
 
                   <div>
-                    <h4 className="text-sm font-medium text-gray-500 mb-2">Permissions</h4>
+                    <h4 className="text-sm font-medium text-slate-500 mb-2">Permissions</h4>
                     <div className="flex flex-wrap gap-2">
                       {apiKey.permissions.map((permId) => {
                         const permission = availablePermissions.find(p => p.id === permId);
@@ -197,7 +197,7 @@ export const ApiKeyManager: React.FC<ApiKeyManagerProps> = ({
             </AnimatePresence>
 
             {apiKeys.length === 0 && (
-              <div className="text-center py-6 text-gray-500">
+              <div className="text-center py-6 text-slate-500">
                 No API keys created yet
               </div>
             )}
@@ -221,7 +221,7 @@ export const ApiKeyManager: React.FC<ApiKeyManagerProps> = ({
               type="text"
               value={newKeyName}
               onChange={(e) => setNewKeyName(e.target.value)}
-              className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2"
+              className="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2"
               placeholder="e.g., Production API Key"
             />
           </div>
@@ -243,11 +243,11 @@ export const ApiKeyManager: React.FC<ApiKeyManagerProps> = ({
                       }
                       setSelectedPermissions(newPermissions);
                     }}
-                    className="rounded border-gray-300 dark:border-gray-700"
+                    className="rounded border-slate-300 dark:border-slate-700"
                   />
                   <div>
                     <div className="font-medium">{permission.name}</div>
-                    <div className="text-sm text-gray-500">{permission.description}</div>
+                    <div className="text-sm text-slate-500">{permission.description}</div>
                   </div>
                 </label>
               ))}

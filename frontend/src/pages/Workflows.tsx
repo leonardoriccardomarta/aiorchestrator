@@ -220,15 +220,15 @@ const Workflows: React.FC = () => {
             </svg>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-gray-900">Delete Workflow</h3>
-            <p class="text-gray-600">This action cannot be undone</p>
+            <h3 class="text-lg font-semibold text-slate-900">Delete Workflow</h3>
+            <p class="text-slate-600">This action cannot be undone</p>
           </div>
         </div>
         <div class="bg-red-50 rounded-lg p-3 mb-4">
           <p class="text-sm text-red-800">Are you sure you want to delete this workflow? This action cannot be undone.</p>
         </div>
         <div class="flex space-x-3">
-          <button onclick="this.closest('.fixed').remove()" class="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 font-medium">
+          <button onclick="this.closest('.fixed').remove()" class="flex-1 px-4 py-2 bg-slate-300 text-slate-700 rounded-lg hover:bg-slate-400 font-medium">
             Cancel
           </button>
           <button id="confirmDelete" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
@@ -268,8 +268,8 @@ const Workflows: React.FC = () => {
             </svg>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-gray-900">Workflow Deleted!</h3>
-            <p class="text-gray-600">Removed successfully</p>
+            <h3 class="text-lg font-semibold text-slate-900">Workflow Deleted!</h3>
+            <p class="text-slate-600">Removed successfully</p>
           </div>
         </div>
         <div class="bg-green-50 rounded-lg p-3 mb-4">
@@ -326,26 +326,26 @@ const Workflows: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading workflows...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-slate-600">Loading workflows...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-3 sm:p-6">
+    <div className="min-h-screen bg-slate-50 p-3 sm:p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">⚡ AI Workflow Automation</h1>
-          <p className="text-sm sm:text-base text-gray-600 mt-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">⚡ AI Workflow Automation</h1>
+          <p className="text-sm sm:text-base text-slate-600 mt-2">
             Build intelligent workflows that make AI-driven decisions - more powerful than traditional automation tools
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
-            <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">
+            <span className="px-3 py-1 bg-indigo-100 text-indigo-800 text-xs rounded-full font-medium">
               🧠 AI Decisions
             </span>
             <span className="px-3 py-1 bg-purple-100 text-purple-800 text-xs rounded-full font-medium">
@@ -359,14 +359,14 @@ const Workflows: React.FC = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-          <div className="bg-white rounded-lg shadow p-4 sm:p-6 hover:shadow-xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 border border-transparent hover:border-blue-200">
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6 hover:shadow-xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 border border-transparent hover:border-indigo-200">
             <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-lg">
+              <div className="p-2 bg-indigo-100 rounded-lg">
                 <span className="text-xl sm:text-2xl">⚡</span>
               </div>
               <div className="ml-3 sm:ml-4">
-                <p className="text-xs sm:text-sm font-medium text-gray-600">Total Workflows</p>
-                <p className="text-xl sm:text-2xl font-bold text-gray-900">{workflows.length}</p>
+                <p className="text-xs sm:text-sm font-medium text-slate-600">Total Workflows</p>
+                <p className="text-xl sm:text-2xl font-bold text-slate-900">{workflows.length}</p>
               </div>
             </div>
           </div>
@@ -377,8 +377,8 @@ const Workflows: React.FC = () => {
                 <span className="text-xl sm:text-2xl"></span>
               </div>
               <div className="ml-3 sm:ml-4">
-                <p className="text-xs sm:text-sm font-medium text-gray-600">Active</p>
-                <p className="text-xl sm:text-2xl font-bold text-gray-900">
+                <p className="text-xs sm:text-sm font-medium text-slate-600">Active</p>
+                <p className="text-xl sm:text-2xl font-bold text-slate-900">
                   {workflows.filter(w => w.status === 'active').length}
                 </p>
               </div>
@@ -391,8 +391,8 @@ const Workflows: React.FC = () => {
                 <span className="text-xl sm:text-2xl">🔄</span>
               </div>
               <div className="ml-3 sm:ml-4">
-                <p className="text-xs sm:text-sm font-medium text-gray-600">Today's Executions</p>
-                <p className="text-xl sm:text-2xl font-bold text-gray-900">1,247</p>
+                <p className="text-xs sm:text-sm font-medium text-slate-600">Today's Executions</p>
+                <p className="text-xl sm:text-2xl font-bold text-slate-900">1,247</p>
               </div>
             </div>
           </div>
@@ -403,8 +403,8 @@ const Workflows: React.FC = () => {
                 <span className="text-xl sm:text-2xl">⏱️</span>
               </div>
               <div className="ml-3 sm:ml-4">
-                <p className="text-xs sm:text-sm font-medium text-gray-600">Average Time</p>
-                <p className="text-xl sm:text-2xl font-bold text-gray-900">2.3s</p>
+                <p className="text-xs sm:text-sm font-medium text-slate-600">Average Time</p>
+                <p className="text-xl sm:text-2xl font-bold text-slate-900">2.3s</p>
               </div>
             </div>
           </div>
@@ -415,7 +415,7 @@ const Workflows: React.FC = () => {
           <div className="flex flex-wrap gap-3 sm:gap-4">
             <button
               onClick={handleCreateWorkflow}
-              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg hover:from-blue-700 hover:to-blue-800 flex items-center transition-all duration-500 hover:scale-105 hover:shadow-xl hover:-translate-y-1"
+              className="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white px-3 sm:px-4 py-2 rounded-lg hover:from-indigo-700 hover:to-indigo-800 flex items-center transition-all duration-500 hover:scale-105 hover:shadow-xl hover:-translate-y-1"
             >
               <span className="mr-2">➕</span>
               <span className="text-sm sm:text-base">Create New Workflow</span>
@@ -427,18 +427,18 @@ const Workflows: React.FC = () => {
                 modal.innerHTML = `
                   <div class="bg-white rounded-2xl max-w-2xl w-full p-8 shadow-2xl">
                     <div class="text-center mb-6">
-                      <h2 class="text-2xl font-bold text-gray-900 mb-4">⚡ AI Workflow Tutorial</h2>
-                      <p class="text-gray-600">Learn how to build intelligent workflows that make AI-driven decisions</p>
+                      <h2 class="text-2xl font-bold text-slate-900 mb-4">⚡ AI Workflow Tutorial</h2>
+                      <p class="text-slate-600">Learn how to build intelligent workflows that make AI-driven decisions</p>
                     </div>
                     
                     <div class="space-y-6 mb-8">
                       <div class="flex items-start space-x-4">
-                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0">
                           <span class="text-2xl">🧠</span>
                         </div>
                         <div>
-                          <h3 class="text-lg font-semibold text-gray-900 mb-2">Step 1: Define Triggers</h3>
-                          <p class="text-gray-600 text-sm">Set up smart triggers that understand context, not just simple data moves.</p>
+                          <h3 class="text-lg font-semibold text-slate-900 mb-2">Step 1: Define Triggers</h3>
+                          <p class="text-slate-600 text-sm">Set up smart triggers that understand context, not just simple data moves.</p>
                         </div>
                       </div>
                       
@@ -447,8 +447,8 @@ const Workflows: React.FC = () => {
                           <span class="text-2xl">⚡</span>
                         </div>
                         <div>
-                          <h3 class="text-lg font-semibold text-gray-900 mb-2">Step 2: AI Decision Making</h3>
-                          <p class="text-gray-600 text-sm">Let AI analyze data and make intelligent decisions, not just move information.</p>
+                          <h3 class="text-lg font-semibold text-slate-900 mb-2">Step 2: AI Decision Making</h3>
+                          <p class="text-slate-600 text-sm">Let AI analyze data and make intelligent decisions, not just move information.</p>
                         </div>
                       </div>
                       
@@ -457,17 +457,17 @@ const Workflows: React.FC = () => {
                           <span class="text-2xl"></span>
                         </div>
                         <div>
-                          <h3 class="text-lg font-semibold text-gray-900 mb-2">Step 3: Smart Actions</h3>
-                          <p class="text-gray-600 text-sm">Execute intelligent actions based on AI analysis and business logic.</p>
+                          <h3 class="text-lg font-semibold text-slate-900 mb-2">Step 3: Smart Actions</h3>
+                          <p class="text-slate-600 text-sm">Execute intelligent actions based on AI analysis and business logic.</p>
                         </div>
                       </div>
                     </div>
                     
                     <div class="flex space-x-4">
-                      <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+                      <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300">
                         Start Building
                       </button>
-                      <button onclick="this.closest('.fixed').remove()" class="px-6 py-3 text-gray-600 hover:text-gray-800 font-medium">
+                      <button onclick="this.closest('.fixed').remove()" class="px-6 py-3 text-slate-600 hover:text-slate-800 font-medium">
                         Close
                       </button>
                     </div>
@@ -475,7 +475,7 @@ const Workflows: React.FC = () => {
                 `;
                 document.body.appendChild(modal);
               }}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 flex items-center transition-all duration-500 hover:scale-105 hover:shadow-xl hover:-translate-y-1"
+              className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:from-purple-700 hover:to-indigo-700 flex items-center transition-all duration-500 hover:scale-105 hover:shadow-xl hover:-translate-y-1"
             >
               <span className="mr-2"></span>
               <span className="text-sm sm:text-base">Take a Tour</span>
@@ -494,26 +494,26 @@ const Workflows: React.FC = () => {
                         </svg>
                       </div>
                       <div>
-                        <h3 class="text-lg font-semibold text-gray-900">Performance Dashboard</h3>
-                        <p class="text-gray-600">Workflow performance metrics</p>
+                        <h3 class="text-lg font-semibold text-slate-900">Performance Dashboard</h3>
+                        <p class="text-slate-600">Workflow performance metrics</p>
                       </div>
                     </div>
                     <div class="space-y-3 mb-6">
                       <div class="flex items-center space-x-2">
                         <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span class="text-sm text-gray-700">Execution statistics</span>
+                        <span class="text-sm text-slate-700">Execution statistics</span>
                       </div>
                       <div class="flex items-center space-x-2">
                         <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span class="text-sm text-gray-700">Success rates</span>
+                        <span class="text-sm text-slate-700">Success rates</span>
                       </div>
                       <div class="flex items-center space-x-2">
                         <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span class="text-sm text-gray-700">Performance trends</span>
+                        <span class="text-sm text-slate-700">Performance trends</span>
                       </div>
                       <div class="flex items-center space-x-2">
                         <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span class="text-sm text-gray-700">Resource usage</span>
+                        <span class="text-sm text-slate-700">Resource usage</span>
                       </div>
                     </div>
                     <div class="bg-green-50 rounded-lg p-3 mb-4">
@@ -538,38 +538,38 @@ const Workflows: React.FC = () => {
                 modal.innerHTML = `
                   <div class="bg-white rounded-xl max-w-md w-full p-6">
                     <div class="flex items-center space-x-3 mb-4">
-                      <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                         </svg>
                       </div>
                       <div>
-                        <h3 class="text-lg font-semibold text-gray-900">Template Gallery</h3>
-                        <p class="text-gray-600">Pre-built workflow templates</p>
+                        <h3 class="text-lg font-semibold text-slate-900">Template Gallery</h3>
+                        <p class="text-slate-600">Pre-built workflow templates</p>
                       </div>
                     </div>
                     <div class="space-y-3 mb-6">
                       <div class="flex items-center space-x-2">
-                        <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-                        <span class="text-sm text-gray-700">E-commerce workflows</span>
+                        <div class="w-2 h-2 bg-indigo-500 rounded-full"></div>
+                        <span class="text-sm text-slate-700">E-commerce workflows</span>
                       </div>
                       <div class="flex items-center space-x-2">
-                        <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-                        <span class="text-sm text-gray-700">Customer support flows</span>
+                        <div class="w-2 h-2 bg-indigo-500 rounded-full"></div>
+                        <span class="text-sm text-slate-700">Customer support flows</span>
                       </div>
                       <div class="flex items-center space-x-2">
-                        <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-                        <span class="text-sm text-gray-700">Marketing automation</span>
+                        <div class="w-2 h-2 bg-indigo-500 rounded-full"></div>
+                        <span class="text-sm text-slate-700">Marketing automation</span>
                       </div>
                       <div class="flex items-center space-x-2">
-                        <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-                        <span class="text-sm text-gray-700">Data processing</span>
+                        <div class="w-2 h-2 bg-indigo-500 rounded-full"></div>
+                        <span class="text-sm text-slate-700">Data processing</span>
                       </div>
                     </div>
-                    <div class="bg-blue-50 rounded-lg p-3 mb-4">
-                      <p class="text-sm text-blue-800">This is a demo - in production you would see detailed event information.</p>
+                    <div class="bg-indigo-50 rounded-lg p-3 mb-4">
+                      <p class="text-sm text-indigo-800">This is a demo - in production you would see detailed event information.</p>
                     </div>
-                    <button onclick="this.closest('.fixed').remove()" class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">
+                    <button onclick="this.closest('.fixed').remove()" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium">
                       Continue
                     </button>
                   </div>
@@ -586,47 +586,47 @@ const Workflows: React.FC = () => {
 
         {/* Workflows List */}
         <div className="bg-white rounded-lg shadow">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-900">Your Workflows</h2>
+          <div className="p-6 border-b border-slate-200">
+            <h2 className="text-xl font-semibold text-slate-900">Your Workflows</h2>
           </div>
           
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-slate-200">
             {workflows.length === 0 ? (
               <div className="p-12 text-center">
                 <div className="text-6xl mb-4">⚡</div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No workflows created</h3>
-                <p className="text-gray-600 mb-4">Create your first workflow to automate processes</p>
+                <h3 className="text-lg font-medium text-slate-900 mb-2">No workflows created</h3>
+                <p className="text-slate-600 mb-4">Create your first workflow to automate processes</p>
                 <button
                   onClick={handleCreateWorkflow}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
                 >
                   Create First Workflow
                 </button>
               </div>
             ) : (
               workflows.map((workflow) => (
-                <div key={workflow.id} className="p-6 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-500 hover:shadow-lg hover:scale-[1.02] border border-transparent hover:border-blue-200 rounded-lg">
+                <div key={workflow.id} className="p-6 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 transition-all duration-500 hover:shadow-lg hover:scale-[1.02] border border-transparent hover:border-indigo-200 rounded-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
                         <span className="text-xl">⚡</span>
                       </div>
                       <div>
-                        <h3 className="text-lg font-medium text-gray-900">{workflow.name}</h3>
-                        <p className="text-gray-600">{workflow.description}</p>
-                        <p className="text-sm text-blue-600 font-medium">Trigger: {workflow.trigger || 'Webhook'}</p>
+                        <h3 className="text-lg font-medium text-slate-900">{workflow.name}</h3>
+                        <p className="text-slate-600">{workflow.description}</p>
+                        <p className="text-sm text-indigo-600 font-medium">Trigger: {workflow.trigger || 'Webhook'}</p>
                         <div className="space-y-2">
                           <div className="flex items-center space-x-4">
                             <span className={`px-2 py-1 rounded-full text-xs transition-all duration-300 ${
                               runningWorkflows.has(workflow.id) 
-                                ? 'bg-blue-100 text-blue-800 animate-pulse' 
+                                ? 'bg-indigo-100 text-indigo-800 animate-pulse' 
                                 : workflow.status === 'completed'
                                 ? 'bg-green-100 text-green-800'
                                 : workflow.status === 'active'
                                 ? 'bg-green-100 text-green-800'
                                 : workflow.status === 'paused'
                                 ? 'bg-red-100 text-red-800'
-                                : 'bg-gray-100 text-gray-800'
+                                : 'bg-slate-100 text-slate-800'
                             }`}>
                               {runningWorkflows.has(workflow.id) ? 'Running...' : 
                                workflow.status === 'paused' ? 'Paused' :
@@ -634,14 +634,14 @@ const Workflows: React.FC = () => {
                                workflow.status === 'completed' ? 'Completed' :
                                workflow.status || 'Active'}
                             </span>
-                            <span className="text-sm text-gray-500">
+                            <span className="text-sm text-slate-500">
                               🔄 {workflow.totalRuns || workflow.executions || 0} executions
                             </span>
-                            <span className="text-sm text-gray-500">
+                            <span className="text-sm text-slate-500">
                               ⏱️ {workflow.avgExecutionTime || 0}s
                             </span>
                             {workflow.lastRun && (
-                              <span className="text-sm text-gray-500">
+                              <span className="text-sm text-slate-500">
                                 🕒 Last: {new Date(workflow.lastRun).toLocaleString()}
                               </span>
                             )}
@@ -649,9 +649,9 @@ const Workflows: React.FC = () => {
                           
                           {/* Progress Bar */}
                           {runningWorkflows.has(workflow.id) && (
-                            <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                            <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
                               <div 
-                                className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500 ease-out"
+                                className="bg-gradient-to-r from-indigo-500 to-purple-600 h-2 rounded-full transition-all duration-500 ease-out"
                                 style={{ width: `${workflowProgress[workflow.id] || 0}%` }}
                               ></div>
                             </div>
@@ -668,7 +668,7 @@ const Workflows: React.FC = () => {
                     </div>
                     
                     <div className="flex items-center space-x-2">
-                      <button onClick={() => handleEditWorkflow(workflow)} className="text-blue-600 hover:text-blue-800">✏️ Edit</button>
+                      <button onClick={() => handleEditWorkflow(workflow)} className="text-indigo-600 hover:text-indigo-800">✏️ Edit</button>
                       <button 
                         onClick={() => handleRunWorkflow(workflow)} 
                         className={`${runningWorkflows.has(workflow.id) 
@@ -699,58 +699,58 @@ const Workflows: React.FC = () => {
 
         {/* Workflow Templates */}
         <div className="mt-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Pre-built Templates</h2>
+          <h2 className="text-xl font-semibold text-slate-900 mb-6">Pre-built Templates</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Customer Support Workflow */}
-            <div className="bg-white rounded-lg shadow p-6 hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer group border border-transparent hover:border-blue-200">
+            <div className="bg-white rounded-lg shadow p-6 hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer group border border-transparent hover:border-indigo-200">
               <div className="flex items-center mb-4">
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
                   <span className="text-lg"></span>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900">Customer Support</h3>
+                <h3 className="text-lg font-medium text-slate-900">Customer Support</h3>
               </div>
-              <p className="text-gray-600 mb-4">Customer support automation with intelligent escalation</p>
+              <p className="text-slate-600 mb-4">Customer support automation with intelligent escalation</p>
               <div className="space-y-2 mb-4">
-                <div className="flex items-center text-sm text-gray-600">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                <div className="flex items-center text-sm text-slate-600">
+                  <span className="w-2 h-2 bg-indigo-500 rounded-full mr-2"></span>
                   Automatic problem recognition
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                <div className="flex items-center text-sm text-slate-600">
+                  <span className="w-2 h-2 bg-indigo-500 rounded-full mr-2"></span>
                   Priority-based escalation
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                <div className="flex items-center text-sm text-slate-600">
+                  <span className="w-2 h-2 bg-indigo-500 rounded-full mr-2"></span>
                   Automatic notifications
                 </div>
               </div>
               <button 
                 onClick={() => handleUseTemplate('Customer Support')} 
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-500 hover:scale-105 group-hover:shadow-xl hover:-translate-y-1"
+                className="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-2 rounded-lg hover:from-indigo-700 hover:to-indigo-800 transition-all duration-500 hover:scale-105 group-hover:shadow-xl hover:-translate-y-1"
               >
                 ✨ Use Template
               </button>
             </div>
 
             {/* Lead Qualification Workflow */}
-            <div className="bg-white rounded-lg shadow p-6 hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer group border border-transparent hover:border-blue-200">
+            <div className="bg-white rounded-lg shadow p-6 hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer group border border-transparent hover:border-indigo-200">
               <div className="flex items-center mb-4">
                 <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
                   <span className="text-lg"></span>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900">Lead Qualification</h3>
+                <h3 className="text-lg font-medium text-slate-900">Lead Qualification</h3>
               </div>
-              <p className="text-gray-600 mb-4">Automatic lead qualification with scoring</p>
+              <p className="text-slate-600 mb-4">Automatic lead qualification with scoring</p>
               <div className="space-y-2 mb-4">
-                <div className="flex items-center text-sm text-gray-600">
+                <div className="flex items-center text-sm text-slate-600">
                   <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                   Automatic lead scoring
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
+                <div className="flex items-center text-sm text-slate-600">
                   <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                   Sales rep assignment
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
+                <div className="flex items-center text-sm text-slate-600">
                   <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                   Automatic follow-up
                 </div>
@@ -764,24 +764,24 @@ const Workflows: React.FC = () => {
             </div>
 
             {/* Order Processing Workflow */}
-            <div className="bg-white rounded-lg shadow p-6 hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer group border border-transparent hover:border-blue-200">
+            <div className="bg-white rounded-lg shadow p-6 hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer group border border-transparent hover:border-indigo-200">
               <div className="flex items-center mb-4">
                 <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
                   <span className="text-lg">📦</span>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900">Order Processing</h3>
+                <h3 className="text-lg font-medium text-slate-900">Order Processing</h3>
               </div>
-              <p className="text-gray-600 mb-4">Complete order lifecycle management</p>
+              <p className="text-slate-600 mb-4">Complete order lifecycle management</p>
               <div className="space-y-2 mb-4">
-                <div className="flex items-center text-sm text-gray-600">
+                <div className="flex items-center text-sm text-slate-600">
                   <span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
                   Automatic validation
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
+                <div className="flex items-center text-sm text-slate-600">
                   <span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
                   Payment processing
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
+                <div className="flex items-center text-sm text-slate-600">
                   <span className="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
                   Shipping tracking
                 </div>
@@ -802,7 +802,7 @@ const Workflows: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-slate-900">
                 {editingWorkflow ? 'Edit Workflow' : 'Create New Workflow'}
               </h3>
               <button
@@ -810,7 +810,7 @@ const Workflows: React.FC = () => {
                   setShowCreateModal(false);
                   setEditingWorkflow(null);
                 }}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-slate-400 hover:text-slate-600"
               >
                 ✕
               </button>
@@ -818,12 +818,12 @@ const Workflows: React.FC = () => {
             
             <form className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
                   Workflow Name
                 </label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="Enter workflow name"
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
@@ -831,11 +831,11 @@ const Workflows: React.FC = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
                   Description
                 </label>
                 <textarea
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   rows={3}
                   placeholder="Describe your workflow"
                   value={formData.description}
@@ -844,11 +844,11 @@ const Workflows: React.FC = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
                   Trigger
                 </label>
                 <select 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   value={formData.trigger}
                   onChange={(e) => setFormData(prev => ({ ...prev, trigger: e.target.value }))}
                 >
@@ -860,11 +860,11 @@ const Workflows: React.FC = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
                   Status
                 </label>
                 <select 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   value={formData.status}
                   onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value }))}
                 >
@@ -881,14 +881,14 @@ const Workflows: React.FC = () => {
                     setShowCreateModal(false);
                     setEditingWorkflow(null);
                   }}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
+                  className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-md hover:bg-slate-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
                   onClick={handleSaveWorkflow}
-                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
                 >
                   {editingWorkflow ? 'Update Workflow' : 'Create Workflow'}
                 </button>
@@ -903,7 +903,7 @@ const Workflows: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-2xl mx-4 max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-slate-900">
                 Logs for {selectedWorkflow.name}
               </h3>
               <button
@@ -911,7 +911,7 @@ const Workflows: React.FC = () => {
                   setShowLogsModal(false);
                   setSelectedWorkflow(null);
                 }}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-slate-400 hover:text-slate-600"
               >
                 ✕
               </button>
@@ -919,10 +919,10 @@ const Workflows: React.FC = () => {
             
             <div className="space-y-3">
               {workflowLogs[selectedWorkflow.id]?.map((log, index) => (
-                <div key={log.id} className="bg-gray-50 p-3 rounded-lg">
+                <div key={log.id} className="bg-slate-50 p-3 rounded-lg">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium text-gray-700">Execution #{log.id}</span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-sm font-medium text-slate-700">Execution #{log.id}</span>
+                    <span className="text-xs text-slate-500">
                       {new Date(log.timestamp).toLocaleString()}
                     </span>
                   </div>
@@ -932,11 +932,11 @@ const Workflows: React.FC = () => {
                   }`}>
                     {log.message}
                   </div>
-                  <div className="text-xs text-gray-600 mt-1">{log.details}</div>
-                  <div className="text-xs text-gray-500 mt-1">Duration: {log.duration}s</div>
+                  <div className="text-xs text-slate-600 mt-1">{log.details}</div>
+                  <div className="text-xs text-slate-500 mt-1">Duration: {log.duration}s</div>
                 </div>
               )) || (
-                <div className="text-center text-gray-500 py-8">
+                <div className="text-center text-slate-500 py-8">
                   No logs available for this workflow yet.
                 </div>
               )}

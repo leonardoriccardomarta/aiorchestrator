@@ -33,7 +33,7 @@ const Toast: React.FC<ToastProps> = ({
     success: 'bg-green-500 text-white',
     error: 'bg-red-500 text-white',
     warning: 'bg-yellow-500 text-white',
-    info: 'bg-blue-500 text-white',
+    info: 'bg-indigo-500 text-white',
   };
 
   const icons = {
@@ -74,7 +74,7 @@ const Toast: React.FC<ToastProps> = ({
               setIsVisible(false);
               setTimeout(onClose, 300);
             }}
-            className="inline-flex text-white hover:text-gray-200 focus:outline-none"
+            className="inline-flex text-white hover:text-slate-200 focus:outline-none"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

@@ -103,8 +103,8 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">Payment Successful!</h3>
-            <p class="text-gray-600 mb-6">Your plan has been updated successfully.</p>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">Payment Successful!</h3>
+            <p class="text-slate-600 mb-6">Your plan has been updated successfully.</p>
             <button 
               onclick="this.closest('.fixed').remove()" 
               class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors"
@@ -137,15 +137,15 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
   return (
     <div className="space-y-4">
       {/* Plan Summary */}
-      <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
         <div className="flex items-center justify-between">
           <div>
-            <h4 className="font-semibold text-gray-900">{plan.name} Plan</h4>
-            <p className="text-sm text-gray-600">Monthly subscription</p>
+            <h4 className="font-semibold text-slate-900">{plan.name} Plan</h4>
+            <p className="text-sm text-slate-600">Monthly subscription</p>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-gray-900">${plan.price}</div>
-            <div className="text-sm text-gray-600">/month</div>
+            <div className="text-2xl font-bold text-slate-900">${plan.price}</div>
+            <div className="text-sm text-slate-600">/month</div>
           </div>
         </div>
       </div>
@@ -154,28 +154,28 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
         {/* Billing Details - Simplified */}
       <div className="grid grid-cols-1 gap-3">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-700 mb-1">
             Full Name *
           </label>
           <input
             type="text"
             value={billingDetails.name}
             onChange={(e) => setBillingDetails({...billingDetails, name: e.target.value})}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             placeholder="John Doe"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-700 mb-1">
             Email *
           </label>
           <input
             type="email"
             value={billingDetails.email}
             onChange={(e) => setBillingDetails({...billingDetails, email: e.target.value})}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             placeholder="john@example.com"
             required
           />
@@ -184,10 +184,10 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
 
       {/* Card Element */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-slate-700 mb-1">
           Card Details *
         </label>
-        <div className="p-3 border border-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-blue-500">
+        <div className="p-3 border border-slate-300 rounded-lg focus-within:ring-2 focus-within:ring-blue-500">
           <CardElement
             options={{
               style: {
@@ -203,7 +203,7 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
             }}
           />
         </div>
-        <p className="text-xs text-gray-500 mt-1">All fields in English</p>
+        <p className="text-xs text-slate-500 mt-1">All fields in English</p>
       </div>
 
       {error && (
@@ -215,7 +215,7 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
       <button
         type="submit"
         disabled={loading || !stripe}
-        className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+        className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
       >
         {loading ? (
           <>
@@ -242,14 +242,14 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSuccess,
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="p-4 border-b border-gray-200">
+        <div className="p-4 border-b border-slate-200">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-gray-900">
+            <h2 className="text-xl font-bold text-slate-900">
               {skipTrial ? `Skip Trial & Start ${plan.name} Plan` : `Complete Payment`}
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors"
+              className="text-slate-400 hover:text-slate-600 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -257,12 +257,12 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSuccess,
         </div>
 
         {/* Plan Summary */}
-        <div className="p-4 bg-gray-50">
+        <div className="p-4 bg-slate-50">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-gray-900">{plan.name} Plan</h3>
+            <h3 className="text-lg font-semibold text-slate-900">{plan.name} Plan</h3>
             <div className="text-right">
-              <div className="text-xl font-bold text-gray-900">${plan.price}</div>
-              <div className="text-xs text-gray-600">per month</div>
+              <div className="text-xl font-bold text-slate-900">${plan.price}</div>
+              <div className="text-xs text-slate-600">per month</div>
             </div>
           </div>
         </div>

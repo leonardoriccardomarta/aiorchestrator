@@ -105,7 +105,7 @@ export const IntegrationManager: React.FC<IntegrationManagerProps> = ({
       case 'connected':
         return 'text-green-500';
       case 'disconnected':
-        return 'text-gray-400';
+        return 'text-slate-400';
       case 'error':
         return 'text-red-500';
     }
@@ -135,16 +135,16 @@ export const IntegrationManager: React.FC<IntegrationManagerProps> = ({
                     animate="animate"
                     exit="exit"
                     layout
-                    className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+                    className="border border-slate-200 dark:border-slate-700 rounded-lg p-4"
                   >
                     <div className="flex items-center justify-between mb-4">
                       <div>
                         <div className="flex items-center space-x-2">
                           <Plug className={`h-5 w-5 ${getStatusColor(integration.status)}`} />
                           <h3 className="font-medium">{integration.name}</h3>
-                          <span className="text-sm text-gray-500">{integration.provider}</span>
+                          <span className="text-sm text-slate-500">{integration.provider}</span>
                         </div>
-                        <p className="text-sm text-gray-500 mt-1">{integration.description}</p>
+                        <p className="text-sm text-slate-500 mt-1">{integration.description}</p>
                       </div>
                       <div className="flex items-center space-x-2">
                         {integration.status === 'connected' ? (
@@ -175,7 +175,7 @@ export const IntegrationManager: React.FC<IntegrationManagerProps> = ({
                     </div>
 
                     {integration.lastSync && (
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-slate-500">
                         Last synced: {integration.lastSync}
                       </div>
                     )}
@@ -190,7 +190,7 @@ export const IntegrationManager: React.FC<IntegrationManagerProps> = ({
               </AnimatePresence>
 
               {integrations.length === 0 && (
-                <div className="text-center py-6 text-gray-500">
+                <div className="text-center py-6 text-slate-500">
                   No integrations configured
                 </div>
               )}
@@ -219,20 +219,20 @@ export const IntegrationManager: React.FC<IntegrationManagerProps> = ({
                     animate="animate"
                     exit="exit"
                     layout
-                    className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+                    className="border border-slate-200 dark:border-slate-700 rounded-lg p-4"
                   >
                     <div className="flex items-center justify-between mb-4">
                       <div>
                         <div className="flex items-center space-x-2">
-                          <Link2 className="h-5 w-5 text-gray-500" />
+                          <Link2 className="h-5 w-5 text-slate-500" />
                           <h3 className="font-medium">{webhook.name}</h3>
                           {webhook.active ? (
                             <CheckCircle className="h-4 w-4 text-green-500" />
                           ) : (
-                            <XCircle className="h-4 w-4 text-gray-400" />
+                            <XCircle className="h-4 w-4 text-slate-400" />
                           )}
                         </div>
-                        <p className="text-sm text-gray-500 mt-1">{webhook.url}</p>
+                        <p className="text-sm text-slate-500 mt-1">{webhook.url}</p>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Button
@@ -265,7 +265,7 @@ export const IntegrationManager: React.FC<IntegrationManagerProps> = ({
                     </div>
 
                     <div>
-                      <h4 className="text-sm font-medium text-gray-500 mb-2">Events</h4>
+                      <h4 className="text-sm font-medium text-slate-500 mb-2">Events</h4>
                       <div className="flex flex-wrap gap-2">
                         {webhook.events.map((event) => (
                           <span
@@ -280,7 +280,7 @@ export const IntegrationManager: React.FC<IntegrationManagerProps> = ({
 
                     {webhook.lastDelivery && (
                       <div className="mt-4 text-sm">
-                        <span className="text-gray-500">Last delivery: </span>
+                        <span className="text-slate-500">Last delivery: </span>
                         <span
                           className={
                             webhook.lastDelivery.status === 'success'
@@ -292,7 +292,7 @@ export const IntegrationManager: React.FC<IntegrationManagerProps> = ({
                           {webhook.lastDelivery.statusCode &&
                             ` (${webhook.lastDelivery.statusCode})`}
                         </span>
-                        <span className="text-gray-500 ml-2">
+                        <span className="text-slate-500 ml-2">
                           at {webhook.lastDelivery.timestamp}
                         </span>
                       </div>
@@ -302,7 +302,7 @@ export const IntegrationManager: React.FC<IntegrationManagerProps> = ({
               </AnimatePresence>
 
               {webhooks.length === 0 && (
-                <div className="text-center py-6 text-gray-500">
+                <div className="text-center py-6 text-slate-500">
                   No webhooks configured
                 </div>
               )}
@@ -327,7 +327,7 @@ export const IntegrationManager: React.FC<IntegrationManagerProps> = ({
               type="text"
               value={newWebhook.name}
               onChange={(e) => setNewWebhook({ ...newWebhook, name: e.target.value })}
-              className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2"
+              className="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2"
               placeholder="e.g., Order Notifications"
             />
           </div>
@@ -341,7 +341,7 @@ export const IntegrationManager: React.FC<IntegrationManagerProps> = ({
               type="url"
               value={newWebhook.url}
               onChange={(e) => setNewWebhook({ ...newWebhook, url: e.target.value })}
-              className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2"
+              className="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2"
               placeholder="https://api.example.com/webhooks"
             />
           </div>
@@ -360,7 +360,7 @@ export const IntegrationManager: React.FC<IntegrationManagerProps> = ({
                         : newWebhook.events.filter((e) => e !== event);
                       setNewWebhook({ ...newWebhook, events: newEvents });
                     }}
-                    className="rounded border-gray-300 dark:border-gray-700"
+                    className="rounded border-slate-300 dark:border-slate-700"
                   />
                   <span>{event}</span>
                 </label>

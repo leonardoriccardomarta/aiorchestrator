@@ -72,7 +72,7 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
             <span>{plan.name}</span>
             <span className="text-2xl font-bold">
               ${plan.price}
-              <span className="text-sm font-normal text-gray-500">
+              <span className="text-sm font-normal text-slate-500">
                 /{plan.billingPeriod === 'monthly' ? 'mo' : 'yr'}
               </span>
             </span>
@@ -81,7 +81,7 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
         <CardContent>
           <div className="space-y-6">
             <div>
-              <h4 className="text-sm font-medium text-gray-500 mb-2">Usage Limits</h4>
+              <h4 className="text-sm font-medium text-slate-500 mb-2">Usage Limits</h4>
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="text-sm">API Calls</span>
@@ -99,16 +99,16 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
             </div>
 
             <div>
-              <h4 className="text-sm font-medium text-gray-500 mb-2">Features</h4>
+              <h4 className="text-sm font-medium text-slate-500 mb-2">Features</h4>
               <ul className="space-y-2">
                 {plan.features.map((feature, index) => (
                   <li key={index} className="flex items-center">
                     {feature.included ? (
                       <Check className="h-4 w-4 text-green-500 mr-2" />
                     ) : (
-                      <X className="h-4 w-4 text-gray-400 mr-2" />
+                      <X className="h-4 w-4 text-slate-400 mr-2" />
                     )}
-                    <span className={`text-sm ${feature.included ? '' : 'text-gray-500 line-through'}`}>
+                    <span className={`text-sm ${feature.included ? '' : 'text-slate-500 line-through'}`}>
                       {feature.name}
                     </span>
                   </li>

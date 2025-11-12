@@ -46,7 +46,7 @@ const ChannelIcon: React.FC<{ type: Channel['type'] }> = ({ type }) => {
   };
 
   return (
-    <div className={`text-gray-600 ${type === 'whatsapp' ? 'text-green-600' : ''}`}>
+    <div className={`text-slate-600 ${type === 'whatsapp' ? 'text-green-600' : ''}`}>
       {iconMap[type]}
     </div>
   );
@@ -94,7 +94,7 @@ const ChannelIntegration: React.FC = () => {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-pulse">
         {[1, 2, 3].map((n) => (
-          <div key={n} className="h-32 bg-gray-200 rounded-lg"></div>
+          <div key={n} className="h-32 bg-slate-200 rounded-lg"></div>
         ))}
       </div>
     );
@@ -117,8 +117,8 @@ const ChannelIntegration: React.FC = () => {
               <div className="flex items-center space-x-3">
                 <ChannelIcon type={channel.type} />
                 <div>
-                  <h3 className="font-medium text-gray-900">{channel.name}</h3>
-                  <p className="text-sm text-gray-500 capitalize">{channel.type}</p>
+                  <h3 className="font-medium text-slate-900">{channel.name}</h3>
+                  <p className="text-sm text-slate-500 capitalize">{channel.type}</p>
                 </div>
               </div>
               <span className={`status-badge ${
@@ -131,7 +131,7 @@ const ChannelIntegration: React.FC = () => {
             </div>
             
             <div className="mt-4 flex justify-between items-center text-sm">
-              <span className="text-gray-500">
+              <span className="text-slate-500">
                 Last sync: {new Date(channel.lastSync).toLocaleDateString()}
               </span>
               {channel.unreadCount > 0 && (

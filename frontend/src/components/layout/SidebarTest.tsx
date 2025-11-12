@@ -60,17 +60,17 @@ const SidebarTest: React.FC = () => {
     >
       <div className="space-y-6">
         <div className="bg-white rounded-lg shadow p-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">
             🧪 Sidebar Test Component
           </h1>
-          <p className="text-gray-600 mb-4">
+          <p className="text-slate-600 mb-4">
             This component tests the responsive sidebar functionality. Try resizing your browser window or viewing on mobile.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <h3 className="font-semibold text-blue-900 mb-2">Desktop Behavior</h3>
-              <ul className="text-sm text-blue-800 space-y-1">
+            <div className="p-4 bg-indigo-50 rounded-lg">
+              <h3 className="font-semibold text-indigo-900 mb-2">Desktop Behavior</h3>
+              <ul className="text-sm text-indigo-800 space-y-1">
                 <li>• Sidebar should be visible on the left</li>
                 <li>• Content should have proper margin</li>
                 <li>• Toggle button should collapse sidebar</li>
@@ -90,12 +90,12 @@ const SidebarTest: React.FC = () => {
         </div>
 
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Test Content</h2>
+          <h2 className="text-xl font-semibold text-slate-900 mb-4">Test Content</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="p-4 bg-gray-50 rounded-lg">
-                <h3 className="font-medium text-gray-900">Card {i}</h3>
-                <p className="text-sm text-gray-600 mt-2">
+              <div key={i} className="p-4 bg-slate-50 rounded-lg">
+                <h3 className="font-medium text-slate-900">Card {i}</h3>
+                <p className="text-sm text-slate-600 mt-2">
                   This is test content to verify the layout works correctly on different screen sizes.
                 </p>
               </div>
@@ -104,8 +104,8 @@ const SidebarTest: React.FC = () => {
         </div>
 
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Browser Information</h2>
-          <div className="text-sm text-gray-600">
+          <h2 className="text-xl font-semibold text-slate-900 mb-4">Browser Information</h2>
+          <div className="text-sm text-slate-600">
             <p><strong>User Agent:</strong> {navigator.userAgent}</p>
             <p><strong>Screen Width:</strong> {window.innerWidth}px</p>
             <p><strong>Screen Height:</strong> {window.innerHeight}px</p>

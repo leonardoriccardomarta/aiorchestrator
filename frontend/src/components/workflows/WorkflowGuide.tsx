@@ -53,12 +53,12 @@ const WorkflowGuide: React.FC = () => {
       icon: <Zap className="h-5 w-5" />,
       content: (
         <div className="space-y-6">
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
             <div className="flex items-start space-x-3">
-              <Info className="h-5 w-5 text-blue-600 mt-0.5" />
+              <Info className="h-5 w-5 text-indigo-600 mt-0.5" />
               <div>
-                <h4 className="font-semibold text-blue-900 mb-2">Che cos'è un Workflow?</h4>
-                <p className="text-blue-800 text-sm leading-relaxed">
+                <h4 className="font-semibold text-indigo-900 mb-2">Che cos'è un Workflow?</h4>
+                <p className="text-indigo-800 text-sm leading-relaxed">
                   Un workflow è una sequenza automatica di azioni che il tuo chatbot esegue quando si verificano determinate condizioni. 
                   È come dare al tuo bot una lista di "se questo, allora fai quello" per gestire le conversazioni in modo intelligente.
                 </p>
@@ -241,13 +241,13 @@ const WorkflowGuide: React.FC = () => {
                 difficulty: 'Facile'
               }
             ].map((action) => (
-              <div key={action.id} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
+              <div key={action.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
                 <div className="flex items-start justify-between">
                   <div className="flex items-start space-x-3 flex-1">
                     <span className="text-2xl">{action.icon}</span>
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-1">
-                        <h4 className="font-semibold text-gray-900">{action.name}</h4>
+                        <h4 className="font-semibold text-slate-900">{action.name}</h4>
                         <Badge 
                           variant="outline" 
                           className={`text-xs ${
@@ -259,8 +259,8 @@ const WorkflowGuide: React.FC = () => {
                           {action.difficulty}
                         </Badge>
                       </div>
-                      <p className="text-gray-700 text-sm mb-2">{action.description}</p>
-                      <p className="text-gray-600 text-xs">{action.details}</p>
+                      <p className="text-slate-700 text-sm mb-2">{action.description}</p>
+                      <p className="text-slate-600 text-xs">{action.details}</p>
                     </div>
                   </div>
                 </div>
@@ -280,7 +280,7 @@ const WorkflowGuide: React.FC = () => {
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
-              <h4 className="font-semibold text-gray-900 flex items-center">
+              <h4 className="font-semibold text-slate-900 flex items-center">
                 <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
                 Cosa Fare
               </h4>
@@ -294,13 +294,13 @@ const WorkflowGuide: React.FC = () => {
               ].map((tip, index) => (
                 <div key={index} className="flex items-start space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm text-gray-700">{tip}</span>
+                  <span className="text-sm text-slate-700">{tip}</span>
                 </div>
               ))}
             </div>
 
             <div className="space-y-4">
-              <h4 className="font-semibold text-gray-900 flex items-center">
+              <h4 className="font-semibold text-slate-900 flex items-center">
                 <AlertCircle className="h-4 w-4 text-red-600 mr-2" />
                 Cosa Evitare
               </h4>
@@ -314,7 +314,7 @@ const WorkflowGuide: React.FC = () => {
               ].map((tip, index) => (
                 <div key={index} className="flex items-start space-x-2">
                   <AlertCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm text-gray-700">{tip}</span>
+                  <span className="text-sm text-slate-700">{tip}</span>
                 </div>
               ))}
             </div>
@@ -377,13 +377,13 @@ const WorkflowGuide: React.FC = () => {
               useCase: 'Utile per tutti i business'
             }
           ].map((example, index) => (
-            <div key={index} className="bg-white border border-gray-200 rounded-lg p-4">
+            <div key={index} className="bg-white border border-slate-200 rounded-lg p-4">
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">{example.title}</h4>
-                  <p className="text-gray-600 text-sm mb-2">{example.description}</p>
+                  <h4 className="font-semibold text-slate-900 mb-1">{example.title}</h4>
+                  <p className="text-slate-600 text-sm mb-2">{example.description}</p>
                   <div className="flex items-center space-x-2">
-                    <Badge variant="outline" className="text-blue-700 border-blue-300">
+                    <Badge variant="outline" className="text-indigo-700 border-indigo-300">
                       {example.trigger}
                     </Badge>
                     <Badge 
@@ -401,15 +401,15 @@ const WorkflowGuide: React.FC = () => {
               </div>
               
               <div className="space-y-2">
-                <h5 className="text-sm font-medium text-gray-700">Sequenza Azioni:</h5>
+                <h5 className="text-sm font-medium text-slate-700">Sequenza Azioni:</h5>
                 <div className="flex flex-wrap gap-1">
                   {example.actions.map((action, actionIndex) => (
                     <div key={actionIndex} className="flex items-center space-x-1">
-                      <span className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                      <span className="bg-slate-100 text-slate-700 text-xs px-2 py-1 rounded">
                         {actionIndex + 1}. {action}
                       </span>
                       {actionIndex < example.actions.length - 1 && (
-                        <ArrowRight className="h-3 w-3 text-gray-400" />
+                        <ArrowRight className="h-3 w-3 text-slate-400" />
                       )}
                     </div>
                   ))}
@@ -431,7 +431,7 @@ const WorkflowGuide: React.FC = () => {
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
-              <h4 className="font-semibold text-gray-900">Metriche Chiave</h4>
+              <h4 className="font-semibold text-slate-900">Metriche Chiave</h4>
               {[
                 { 
                   name: 'Tasso di Attivazione', 
@@ -454,20 +454,20 @@ const WorkflowGuide: React.FC = () => {
                   target: '< 30 sec'
                 }
               ].map((metric, index) => (
-                <div key={index} className="bg-gray-50 rounded-lg p-3">
+                <div key={index} className="bg-slate-50 rounded-lg p-3">
                   <div className="flex items-center justify-between mb-1">
-                    <h5 className="font-medium text-gray-900 text-sm">{metric.name}</h5>
+                    <h5 className="font-medium text-slate-900 text-sm">{metric.name}</h5>
                     <Badge variant="outline" className="text-green-700 border-green-300">
                       {metric.target}
                     </Badge>
                   </div>
-                  <p className="text-gray-600 text-xs">{metric.description}</p>
+                  <p className="text-slate-600 text-xs">{metric.description}</p>
                 </div>
               ))}
             </div>
 
             <div className="space-y-4">
-              <h4 className="font-semibold text-gray-900">Ottimizzazione</h4>
+              <h4 className="font-semibold text-slate-900">Ottimizzazione</h4>
               {[
                 'Se il tasso di attivazione è basso, rivedi i trigger',
                 'Se molti utenti abbandonano, semplifica il workflow',
@@ -477,8 +477,8 @@ const WorkflowGuide: React.FC = () => {
                 'Aggiorna regolarmente in base ai dati'
               ].map((tip, index) => (
                 <div key={index} className="flex items-start space-x-2">
-                  <TrendingUp className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm text-gray-700">{tip}</span>
+                  <TrendingUp className="h-4 w-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-sm text-slate-700">{tip}</span>
                 </div>
               ))}
             </div>
@@ -532,7 +532,7 @@ const WorkflowGuide: React.FC = () => {
               ]
             }
           ].map((item, index) => (
-            <div key={index} className="bg-white border border-gray-200 rounded-lg p-4">
+            <div key={index} className="bg-white border border-slate-200 rounded-lg p-4">
               <h4 className="font-semibold text-red-900 mb-3 flex items-center">
                 <AlertCircle className="h-4 w-4 text-red-600 mr-2" />
                 {item.problem}
@@ -541,7 +541,7 @@ const WorkflowGuide: React.FC = () => {
                 {item.solutions.map((solution, solutionIndex) => (
                   <div key={solutionIndex} className="flex items-start space-x-2">
                     <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-gray-700">{solution}</span>
+                    <span className="text-sm text-slate-700">{solution}</span>
                   </div>
                 ))}
               </div>
@@ -555,12 +555,12 @@ const WorkflowGuide: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl p-6">
+      <div className="bg-gradient-to-r from-indigo-600 to-indigo-600 text-white rounded-xl p-6">
         <div className="flex items-center space-x-3 mb-4">
           <BookOpen className="h-8 w-8" />
           <div>
             <h1 className="text-2xl font-bold">Guida Completa ai Workflows</h1>
-            <p className="text-blue-100 text-sm">
+            <p className="text-indigo-100 text-sm">
               Tutto quello che devi sapere per creare workflows efficaci
             </p>
           </div>
@@ -582,16 +582,16 @@ const WorkflowGuide: React.FC = () => {
       </div>
 
       {/* Progress */}
-      <div className="bg-white rounded-lg border border-gray-200 p-4">
+      <div className="bg-white rounded-lg border border-slate-200 p-4">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="font-semibold text-gray-900">Progresso della Guida</h3>
-          <span className="text-sm text-gray-600">
+          <h3 className="font-semibold text-slate-900">Progresso della Guida</h3>
+          <span className="text-sm text-slate-600">
             {completedSections.size} di {guideSections.length} sezioni completate
           </span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-slate-200 rounded-full h-2">
           <div 
-            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+            className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
             style={{ width: `${(completedSections.size / guideSections.length) * 100}%` }}
           ></div>
         </div>
@@ -606,7 +606,7 @@ const WorkflowGuide: React.FC = () => {
           return (
             <Card key={section.id} className="overflow-hidden">
               <CardHeader 
-                className="cursor-pointer hover:bg-gray-50 transition-colors"
+                className="cursor-pointer hover:bg-slate-50 transition-colors"
                 onClick={() => toggleSection(section.id)}
               >
                 <div className="flex items-center justify-between">
@@ -614,7 +614,7 @@ const WorkflowGuide: React.FC = () => {
                     <div className={`p-2 rounded-lg ${
                       section.importance === 'high' ? 'bg-red-100 text-red-600' :
                       section.importance === 'medium' ? 'bg-yellow-100 text-yellow-600' :
-                      'bg-gray-100 text-gray-600'
+                      'bg-slate-100 text-slate-600'
                     }`}>
                       {section.icon}
                     </div>
@@ -633,17 +633,17 @@ const WorkflowGuide: React.FC = () => {
                       </Badge>
                     )}
                     {isExpanded ? 
-                      <ChevronDown className="h-5 w-5 text-gray-400" /> : 
-                      <ChevronRight className="h-5 w-5 text-gray-400" />
+                      <ChevronDown className="h-5 w-5 text-slate-400" /> : 
+                      <ChevronRight className="h-5 w-5 text-slate-400" />
                     }
                   </div>
                 </div>
               </CardHeader>
               
               {isExpanded && (
-                <CardContent className="border-t border-gray-100">
+                <CardContent className="border-t border-slate-100">
                   {section.content}
-                  <div className="flex items-center justify-end mt-6 pt-4 border-t border-gray-100">
+                  <div className="flex items-center justify-end mt-6 pt-4 border-t border-slate-100">
                     <Button
                       onClick={() => markSectionComplete(section.id)}
                       disabled={isCompleted}
@@ -671,7 +671,7 @@ const WorkflowGuide: React.FC = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-200 rounded-lg p-6">
+      <div className="bg-gradient-to-r from-indigo-50 to-indigo-50 border border-indigo-200 rounded-lg p-6">
         <h3 className="font-semibold text-indigo-900 mb-4">Pronto per iniziare?</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Button variant="outline" className="justify-start">

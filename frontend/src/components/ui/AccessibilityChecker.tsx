@@ -79,39 +79,39 @@ const AccessibilityChecker: React.FC<AccessibilityCheckerProps> = ({ config = de
   const isLargeText = getFontSizeInPx(fontSize) >= 18;
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
+    <div className="bg-white rounded-lg border border-slate-200 shadow-sm">
       <div className="p-6 space-y-4">
-        <h3 className="text-lg font-semibold text-gray-900 mb-6">Accessibility Check</h3>
+        <h3 className="text-lg font-semibold text-slate-900 mb-6">Accessibility Check</h3>
 
         {/* Contrast Ratio */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600">Contrast Ratio:</span>
+            <span className="text-sm text-slate-600">Contrast Ratio:</span>
             <span className="font-medium">{contrastResult.ratio.toFixed(2)}:1</span>
           </div>
 
           {/* WCAG Compliance Indicators */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-3 rounded-lg bg-gray-50">
+            <div className="p-3 rounded-lg bg-slate-50">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-sm font-medium">WCAG AA</span>
                 <span className={`text-sm ${contrastResult.passes.AA ? 'text-green-600' : 'text-red-600'}`}>
                   {contrastResult.passes.AA ? '✓ Pass' : '× Fail'}
                 </span>
               </div>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-slate-500">
                 {isLargeText ? 'Min. 3:1 for large text' : 'Min. 4.5:1 for normal text'}
               </p>
             </div>
 
-            <div className="p-3 rounded-lg bg-gray-50">
+            <div className="p-3 rounded-lg bg-slate-50">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-sm font-medium">WCAG AAA</span>
                 <span className={`text-sm ${contrastResult.passes.AAA ? 'text-green-600' : 'text-red-600'}`}>
                   {contrastResult.passes.AAA ? '✓ Pass' : '× Fail'}
                 </span>
               </div>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-slate-500">
                 {isLargeText ? 'Min. 4.5:1 for large text' : 'Min. 7:1 for normal text'}
               </p>
             </div>
@@ -119,7 +119,7 @@ const AccessibilityChecker: React.FC<AccessibilityCheckerProps> = ({ config = de
         </div>
 
         {/* Recommendations */}
-        <div className="p-4 rounded-lg bg-blue-50 text-blue-800">
+        <div className="p-4 rounded-lg bg-indigo-50 text-indigo-800">
           <h4 className="text-sm font-medium mb-2">Recommendations:</h4>
           <ul className="text-sm space-y-1 list-disc pl-4">
             {!contrastResult.passes.AA && (

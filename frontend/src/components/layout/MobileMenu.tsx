@@ -35,12 +35,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
             <div className="flex flex-col h-full">
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b">
-                <h2 className="text-lg font-semibold text-gray-900">Menu</h2>
+                <h2 className="text-lg font-semibold text-slate-900">Menu</h2>
                 <button
                   onClick={onClose}
-                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="p-2 rounded-lg hover:bg-slate-100 transition-colors"
                 >
-                  <svg className="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-6 h-6 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -53,9 +53,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
                     key={item.url}
                     to={item.url}
                     onClick={onClose}
-                    className={`flex items-center space-x-2 px-4 py-3 text-gray-600 hover:bg-gray-50 transition-colors ${
+                    className={`flex items-center space-x-2 px-4 py-3 text-slate-600 hover:bg-slate-50 transition-colors ${
                       location.pathname === item.url
-                        ? 'text-gray-900 bg-gray-50 border-r-4 border-primary'
+                        ? 'text-slate-900 bg-slate-50 border-r-4 border-primary'
                         : ''
                     }`}
                   >
@@ -72,14 +72,14 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
               {/* Footer */}
               <div className="p-4 border-t">
                 <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                    <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center">
+                    <svg className="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-gray-900">John Doe</div>
-                    <div className="text-xs text-gray-500">john@example.com</div>
+                    <div className="text-sm font-medium text-slate-900">John Doe</div>
+                    <div className="text-xs text-slate-500">john@example.com</div>
                   </div>
                 </div>
               </div>

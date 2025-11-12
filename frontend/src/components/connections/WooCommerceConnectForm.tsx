@@ -68,7 +68,7 @@ const WooCommerceConnectForm: React.FC<WooCommerceConnectFormProps> = ({ onSucce
         <div className="bg-white rounded-xl border-2 border-purple-200 p-6 space-y-4">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Store URL
               </label>
               <input
@@ -76,13 +76,13 @@ const WooCommerceConnectForm: React.FC<WooCommerceConnectFormProps> = ({ onSucce
                 value={formData.storeUrl}
                 onChange={(e) => setFormData({ ...formData, storeUrl: e.target.value })}
                 placeholder="https://your-store.com"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 disabled={loading}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Consumer Key
               </label>
               <input
@@ -90,13 +90,13 @@ const WooCommerceConnectForm: React.FC<WooCommerceConnectFormProps> = ({ onSucce
                 value={formData.consumerKey}
                 onChange={(e) => setFormData({ ...formData, consumerKey: e.target.value })}
                 placeholder="ck_..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 disabled={loading}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Consumer Secret
               </label>
               <input
@@ -104,7 +104,7 @@ const WooCommerceConnectForm: React.FC<WooCommerceConnectFormProps> = ({ onSucce
                 value={formData.consumerSecret}
                 onChange={(e) => setFormData({ ...formData, consumerSecret: e.target.value })}
                 placeholder="cs_..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 disabled={loading}
               />
             </div>
@@ -136,7 +136,7 @@ const WooCommerceConnectForm: React.FC<WooCommerceConnectFormProps> = ({ onSucce
             <button
               onClick={handleConnect}
               disabled={loading || !formData.storeUrl || !formData.consumerKey || !formData.consumerSecret}
-              className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
             >
               {loading ? (
                 <>
@@ -154,7 +154,7 @@ const WooCommerceConnectForm: React.FC<WooCommerceConnectFormProps> = ({ onSucce
             <button
               onClick={() => setShowForm(false)}
               disabled={loading}
-              className="px-4 py-3 text-gray-600 hover:text-gray-800 transition-colors"
+              className="px-4 py-3 text-slate-600 hover:text-slate-800 transition-colors"
             >
               Cancel
             </button>

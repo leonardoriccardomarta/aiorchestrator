@@ -84,17 +84,17 @@ const ChatPreview: React.FC<ChatPreviewProps> = ({
   const _themeStyles: Record<NonNullable<ChatPreviewProps['theme']>, ThemeStyles> = {
     light: {
       bg: "bg-white",
-      text: "text-gray-900",
-      secondaryText: "text-gray-500",
-      inputBg: "bg-gray-50",
-      border: "border-gray-200"
+      text: "text-slate-900",
+      secondaryText: "text-slate-500",
+      inputBg: "bg-slate-50",
+      border: "border-slate-200"
     },
     dark: {
-      bg: "bg-gray-800",
+      bg: "bg-slate-800",
       text: "text-white",
-      secondaryText: "text-gray-300",
-      inputBg: "bg-gray-700",
-      border: "border-gray-700"
+      secondaryText: "text-slate-300",
+      inputBg: "bg-slate-700",
+      border: "border-slate-700"
     }
   };
 
@@ -133,7 +133,7 @@ const ChatPreview: React.FC<ChatPreviewProps> = ({
             {/* Messages */}
             <div className={`h-[400px] overflow-y-auto p-4 ${currentTheme.inputBg}`}>
               <div className="flex items-start gap-2 mb-4">
-                <div className="w-8 h-8 rounded-full bg-gray-200 flex-shrink-0 overflow-hidden flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-slate-200 flex-shrink-0 overflow-hidden flex items-center justify-center">
                   {avatar ? (
                     <img src={avatar} alt={name} className="w-full h-full object-cover" />
                   ) : (
@@ -154,7 +154,7 @@ const ChatPreview: React.FC<ChatPreviewProps> = ({
                 <input
                   type="text"
                   placeholder="Type a message..."
-                  className={`${_inputStyles[previewDevice].inputWidth} h-8 px-2 text-sm ${currentTheme.text} ${currentTheme.inputBg} ${_bubbleStyles[bubbleShape]} focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`${_inputStyles[previewDevice].inputWidth} h-8 px-2 text-sm ${currentTheme.text} ${currentTheme.inputBg} ${_bubbleStyles[bubbleShape]} focus:outline-none focus:ring-2 focus:ring-indigo-500`}
                   style={{ fontFamily: `"${font}", sans-serif` }}
                 />
                 <button
@@ -178,7 +178,7 @@ const ChatPreview: React.FC<ChatPreviewProps> = ({
         {/* Chat Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           style={{
             background: gradient || primaryColor,
             opacity: opacity,

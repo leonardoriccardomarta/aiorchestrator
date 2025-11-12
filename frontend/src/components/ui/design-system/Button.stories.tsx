@@ -314,7 +314,7 @@ export const AllSizes: Story = {
 // Dark Mode Examples
 export const DarkMode: Story = {
   render: () => (
-    <div className="dark p-4 bg-gray-900 rounded-lg">
+    <div className="dark p-4 bg-slate-900 rounded-lg">
       <div className="space-y-4">
         <Button variant="default">Default (Dark)</Button>
         <Button variant="secondary">Secondary (Dark)</Button>

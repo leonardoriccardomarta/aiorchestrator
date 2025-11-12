@@ -126,8 +126,8 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
       <div className="bg-white rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-medium text-gray-900">Chatbot Testing</h3>
-            <p className="mt-1 text-sm text-gray-500">
+            <h3 className="text-lg font-medium text-slate-900">Chatbot Testing</h3>
+            <p className="mt-1 text-sm text-slate-500">
               Test your chatbot across different devices and verify functionality
             </p>
           </div>
@@ -137,8 +137,8 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
                 onClick={() => setPreviewDevice('desktop')}
                 className={`px-3 py-1 text-xs rounded-md transition-all ${
                   previewDevice === 'desktop'
-                    ? 'bg-blue-500 text-white shadow-sm'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-indigo-500 text-white shadow-sm'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
               >
                  Desktop
@@ -147,8 +147,8 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
                 onClick={() => setPreviewDevice('tablet')}
                 className={`px-3 py-1 text-xs rounded-md transition-all ${
                   previewDevice === 'tablet'
-                    ? 'bg-blue-500 text-white shadow-sm'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-indigo-500 text-white shadow-sm'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
               >
                  Tablet
@@ -157,8 +157,8 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
                 onClick={() => setPreviewDevice('mobile')}
                 className={`px-3 py-1 text-xs rounded-md transition-all ${
                   previewDevice === 'mobile'
-                    ? 'bg-blue-500 text-white shadow-sm'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-indigo-500 text-white shadow-sm'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
               >
                  Mobile
@@ -214,7 +214,7 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
                   setTestResults(prev => ({ ...prev, integration: true }));
                 }, 2000);
               }}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               🔄 Run Tests
             </button>
@@ -226,7 +226,7 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
         {/* Chatbot Preview */}
         <div className="bg-white rounded-lg shadow-sm p-6">
           <div className="flex items-center justify-between mb-4">
-            <h4 className="text-base font-medium text-gray-900">Live Preview - {previewDevice.charAt(0).toUpperCase() + previewDevice.slice(1)}</h4>
+            <h4 className="text-base font-medium text-slate-900">Live Preview - {previewDevice.charAt(0).toUpperCase() + previewDevice.slice(1)}</h4>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
               <span className="text-green-600 font-medium text-xs">Live Testing</span>
@@ -241,12 +241,12 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
                   <div className="w-3 h-3 bg-red-400 rounded-full"></div>
                   <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                   <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                  <div className="flex-1 bg-gray-100 rounded-sm h-6 flex items-center px-3">
-                    <span className="text-xs text-gray-500">yourwebsite.com</span>
+                  <div className="flex-1 bg-slate-100 rounded-sm h-6 flex items-center px-3">
+                    <span className="text-xs text-slate-500">yourwebsite.com</span>
                   </div>
                 </div>
                 <div 
-                  className="bg-gray-50 rounded flex items-center justify-center text-gray-400 text-sm relative overflow-hidden"
+                  className="bg-slate-50 rounded flex items-center justify-center text-slate-400 text-sm relative overflow-hidden"
                   style={{
                     height: previewDevice === 'mobile' ? '200px' : previewDevice === 'tablet' ? '250px' : '300px'
                   }}
@@ -296,7 +296,7 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
 
                 {/* Messages */}
                 <div className={`flex-1 p-4 overflow-y-auto ${
-                  chatbotConfig.theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'
+                  chatbotConfig.theme === 'dark' ? 'bg-slate-900' : 'bg-slate-50'
                 }`}>
                   <div className="space-y-3">
                     {messages.map((message) => (
@@ -305,7 +305,7 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
                         className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                       >
                         {message.sender === 'bot' && (
-                          <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold overflow-hidden mr-2">
+                          <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-bold overflow-hidden mr-2">
                             {chatbotConfig.avatar ? (
                               <img 
                                 src={chatbotConfig.avatar} 
@@ -324,8 +324,8 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
                             message.sender === 'user'
                               ? 'text-white'
                               : chatbotConfig.theme === 'dark' 
-                                ? 'bg-gray-700 text-white' 
-                                : 'bg-white text-gray-900'
+                                ? 'bg-slate-700 text-white' 
+                                : 'bg-white text-slate-900'
                           }`}
                           style={{
                             borderRadius: getBubbleRadius(),
@@ -338,7 +338,7 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
                     ))}
                     {isTyping && (
                       <div className="flex justify-start">
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold overflow-hidden mr-2">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-bold overflow-hidden mr-2">
                           {chatbotConfig.avatar ? (
                             <img 
                               src={chatbotConfig.avatar} 
@@ -352,12 +352,12 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
                           )}
                         </div>
                         <div className={`px-3 py-2 shadow-sm ${
-                          chatbotConfig.theme === 'dark' ? 'bg-gray-700' : 'bg-white'
+                          chatbotConfig.theme === 'dark' ? 'bg-slate-700' : 'bg-white'
                         }`} style={{ borderRadius: getBubbleRadius() }}>
                           <div className="flex space-x-1">
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                            <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                            <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                            <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                           </div>
                         </div>
                       </div>
@@ -367,7 +367,7 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
 
                 {/* Input */}
                 <div className={`p-4 border-t flex-shrink-0 ${
-                  chatbotConfig.theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+                  chatbotConfig.theme === 'dark' ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'
                 }`}>
                   <div className="flex space-x-3">
                     <input
@@ -378,8 +378,8 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
                       placeholder="Type a message..."
                       className={`flex-1 px-4 py-2 border rounded-lg min-w-0 ${
                         chatbotConfig.theme === 'dark' 
-                          ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
-                          : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-500'
+                          ? 'bg-slate-700 border-slate-600 text-white placeholder-slate-400' 
+                          : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-500'
                       } focus:outline-none focus:ring-2 focus:ring-opacity-50 transition-all`}
                       style={{
                         fontSize: getFontSize()
@@ -405,23 +405,23 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
 
         {/* Test Results */}
         <div className="bg-white rounded-lg shadow-sm p-6">
-          <h4 className="text-base font-medium text-gray-900 mb-4">Test Results</h4>
+          <h4 className="text-base font-medium text-slate-900 mb-4">Test Results</h4>
           
           <div className="space-y-4">
             <div className="flex items-center justify-between p-3 border rounded-lg">
               <div className="flex items-center space-x-3">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  testResults.responsiveness ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'
+                  testResults.responsiveness ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'
                 }`}>
                   {testResults.responsiveness ? '✓' : '○'}
                 </div>
                 <div>
-                  <div className="font-medium text-gray-900">Responsiveness</div>
-                  <div className="text-sm text-gray-500">Chatbot displays correctly</div>
+                  <div className="font-medium text-slate-900">Responsiveness</div>
+                  <div className="text-sm text-slate-500">Chatbot displays correctly</div>
                 </div>
               </div>
               <span className={`text-sm font-medium ${
-                testResults.responsiveness ? 'text-green-600' : 'text-gray-400'
+                testResults.responsiveness ? 'text-green-600' : 'text-slate-400'
               }`}>
                 {testResults.responsiveness ? 'Passed' : 'Pending'}
               </span>
@@ -430,17 +430,17 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
             <div className="flex items-center justify-between p-3 border rounded-lg">
               <div className="flex items-center space-x-3">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  testResults.styling ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'
+                  testResults.styling ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'
                 }`}>
                   {testResults.styling ? '✓' : '○'}
                 </div>
                 <div>
-                  <div className="font-medium text-gray-900">Styling</div>
-                  <div className="text-sm text-gray-500">Colors and design applied</div>
+                  <div className="font-medium text-slate-900">Styling</div>
+                  <div className="text-sm text-slate-500">Colors and design applied</div>
                 </div>
               </div>
               <span className={`text-sm font-medium ${
-                testResults.styling ? 'text-green-600' : 'text-gray-400'
+                testResults.styling ? 'text-green-600' : 'text-slate-400'
               }`}>
                 {testResults.styling ? 'Passed' : 'Pending'}
               </span>
@@ -449,17 +449,17 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
             <div className="flex items-center justify-between p-3 border rounded-lg">
               <div className="flex items-center space-x-3">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  testResults.functionality ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'
+                  testResults.functionality ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'
                 }`}>
                   {testResults.functionality ? '✓' : '○'}
                 </div>
                 <div>
-                  <div className="font-medium text-gray-900">Functionality</div>
-                  <div className="text-sm text-gray-500">Input and messaging works</div>
+                  <div className="font-medium text-slate-900">Functionality</div>
+                  <div className="text-sm text-slate-500">Input and messaging works</div>
                 </div>
               </div>
               <span className={`text-sm font-medium ${
-                testResults.functionality ? 'text-green-600' : 'text-gray-400'
+                testResults.functionality ? 'text-green-600' : 'text-slate-400'
               }`}>
                 {testResults.functionality ? 'Passed' : 'Pending'}
               </span>
@@ -468,26 +468,26 @@ const ChatbotTester: React.FC<ChatbotTesterProps> = ({ chatbotConfig }) => {
             <div className="flex items-center justify-between p-3 border rounded-lg">
               <div className="flex items-center space-x-3">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  testResults.integration ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'
+                  testResults.integration ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'
                 }`}>
                   {testResults.integration ? '✓' : '○'}
                 </div>
                 <div>
-                  <div className="font-medium text-gray-900">Integration</div>
-                  <div className="text-sm text-gray-500">Ready for deployment</div>
+                  <div className="font-medium text-slate-900">Integration</div>
+                  <div className="text-sm text-slate-500">Ready for deployment</div>
                 </div>
               </div>
               <span className={`text-sm font-medium ${
-                testResults.integration ? 'text-green-600' : 'text-gray-400'
+                testResults.integration ? 'text-green-600' : 'text-slate-400'
               }`}>
                 {testResults.integration ? 'Passed' : 'Pending'}
               </span>
             </div>
           </div>
 
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-            <h5 className="font-medium text-blue-900 mb-2">Testing Tips</h5>
-            <ul className="text-sm text-blue-800 space-y-1">
+          <div className="mt-6 p-4 bg-indigo-50 rounded-lg">
+            <h5 className="font-medium text-indigo-900 mb-2">Testing Tips</h5>
+            <ul className="text-sm text-indigo-800 space-y-1">
               <li>• Try sending different types of messages</li>
               <li>• Test on different screen sizes</li>
               <li>• Verify the chatbot responds correctly</li>

@@ -113,8 +113,8 @@ const ThemeMarketplace: React.FC<ThemeMarketplaceProps> = ({ onApplyTheme }) => 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">Theme Marketplace</h3>
-        <button className="text-sm text-blue-600 hover:text-blue-700">
+        <h3 className="text-lg font-semibold text-slate-900">Theme Marketplace</h3>
+        <button className="text-sm text-indigo-600 hover:text-indigo-700">
           Submit Your Theme
         </button>
       </div>
@@ -126,7 +126,7 @@ const ThemeMarketplace: React.FC<ThemeMarketplaceProps> = ({ onApplyTheme }) => 
           placeholder="Search themes..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
         />
 
         <div className="flex gap-2 overflow-x-auto pb-2">
@@ -136,8 +136,8 @@ const ThemeMarketplace: React.FC<ThemeMarketplaceProps> = ({ onApplyTheme }) => 
               onClick={() => setSelectedCategory(category.id)}
               className={`px-4 py-2 rounded-full text-sm whitespace-nowrap ${
                 selectedCategory === category.id
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-indigo-100 text-indigo-700'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
               {category.name}
@@ -149,37 +149,37 @@ const ThemeMarketplace: React.FC<ThemeMarketplaceProps> = ({ onApplyTheme }) => 
       {/* Themes Grid */}
       <div className="grid grid-cols-2 gap-6">
         {filteredThemes.map(theme => (
-          <div key={theme.id} className="rounded-lg border border-gray-200 overflow-hidden">
-            <div className="aspect-video bg-gray-100 relative">
+          <div key={theme.id} className="rounded-lg border border-slate-200 overflow-hidden">
+            <div className="aspect-video bg-slate-100 relative">
               {/* Theme Preview */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-gray-500">Preview Image</span>
+                <span className="text-slate-500">Preview Image</span>
               </div>
             </div>
 
             <div className="p-4 space-y-4">
               <div>
-                <h4 className="font-medium text-gray-900">{theme.name}</h4>
-                <p className="text-sm text-gray-600">{theme.description}</p>
+                <h4 className="font-medium text-slate-900">{theme.name}</h4>
+                <p className="text-sm text-slate-600">{theme.description}</p>
               </div>
 
               <div className="flex items-center justify-between text-sm">
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-gray-200"></div>
-                  <span className="text-gray-600">{theme.author.name}</span>
+                  <div className="w-6 h-6 rounded-full bg-slate-200"></div>
+                  <span className="text-slate-600">{theme.author.name}</span>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className="text-gray-600">{theme.downloads} downloads</span>
+                  <span className="text-slate-600">{theme.downloads} downloads</span>
                   <div className="flex items-center">
                     <span className="text-yellow-400">★</span>
-                    <span className="text-gray-600 ml-1">{theme.rating}</span>
+                    <span className="text-slate-600 ml-1">{theme.rating}</span>
                   </div>
                 </div>
               </div>
 
               <button
                 onClick={() => onApplyTheme(theme.config)}
-                className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                className="w-full py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
               >
                 Apply Theme
               </button>

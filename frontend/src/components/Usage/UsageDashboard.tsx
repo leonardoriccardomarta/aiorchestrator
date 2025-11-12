@@ -63,10 +63,10 @@ const UsageDashboard: React.FC = () => {
       <div className="flex items-center justify-center min-h-[400px] bg-gradient-to-br from-gray-50 to-white">
         <div className="text-center space-y-4">
           <div className="relative">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-100 border-t-blue-600 mx-auto"></div>
-            <Zap className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-5 w-5 text-blue-600" />
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-indigo-100 border-t-blue-600 mx-auto"></div>
+            <Zap className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-5 w-5 text-indigo-600" />
           </div>
-          <p className="text-gray-600 font-medium animate-pulse">Loading your usage statistics...</p>
+          <p className="text-slate-600 font-medium animate-pulse">Loading your usage statistics...</p>
         </div>
       </div>
     );
@@ -75,11 +75,11 @@ const UsageDashboard: React.FC = () => {
   if (!usageStats) {
     return (
       <div className="text-center p-8 bg-gradient-to-br from-gray-50 to-white rounded-2xl">
-        <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-        <p className="text-gray-500 text-lg">Unable to load usage statistics</p>
+        <AlertCircle className="h-12 w-12 text-slate-400 mx-auto mb-4" />
+        <p className="text-slate-500 text-lg">Unable to load usage statistics</p>
         <button 
           onClick={fetchUsageStats}
-          className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-xl transition-all duration-200 transform hover:scale-105"
+          className="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-xl transition-all duration-200 transform hover:scale-105"
         >
           Try Again
         </button>
@@ -102,15 +102,15 @@ const UsageDashboard: React.FC = () => {
     icon: React.ComponentType<{ className?: string }>;
     color: string;
   }) => (
-    <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 lg:p-7 transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group">
+    <div className="bg-white rounded-2xl border border-slate-100 p-4 sm:p-6 lg:p-7 transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className={`p-3 rounded-xl bg-gradient-to-br ${color} shadow-lg`}>
             <Icon className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h3 className="text-lg lg:text-xl font-semibold text-gray-900 group-hover:text-gray-800 transition-colors">{title}</h3>
-            <span className="text-sm text-gray-500 uppercase tracking-wide font-medium">Usage</span>
+            <h3 className="text-lg lg:text-xl font-semibold text-slate-900 group-hover:text-slate-800 transition-colors">{title}</h3>
+            <span className="text-sm text-slate-500 uppercase tracking-wide font-medium">Usage</span>
           </div>
         </div>
         {percentage >= 85 && (
@@ -123,13 +123,13 @@ const UsageDashboard: React.FC = () => {
       
       <div className="space-y-4">
         <div className="flex justify-between items-center text-sm">
-          <span className="text-gray-500 font-medium">Current usage</span>
-          <span className="font-bold text-gray-900 text-lg">
+          <span className="text-slate-500 font-medium">Current usage</span>
+          <span className="font-bold text-slate-900 text-lg">
             {current.toLocaleString()} / {limit === 999 ? '∞' : limit.toLocaleString()}
           </span>
         </div>
         
-        <div className="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+        <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
           <div className={`h-full rounded-full transition-all duration-700 ease-out ${
             percentage >= 95 ? 'bg-gradient-to-r from-red-500 to-red-600' :
             percentage >= 85 ? 'bg-gradient-to-r from-orange-500 to-orange-600' :
@@ -143,7 +143,7 @@ const UsageDashboard: React.FC = () => {
         </div>
         
         <div className="flex justify-between items-center text-xs">
-          <span className="text-gray-500 font-medium">{percentage}% used</span>
+          <span className="text-slate-500 font-medium">{percentage}% used</span>
           {percentage >= 80 && (
             <span className="text-orange-600 font-bold bg-orange-50 px-2 py-1 rounded-md">
               Consider upgrading
@@ -157,17 +157,17 @@ const UsageDashboard: React.FC = () => {
   return (
     <div className="space-y-6 sm:space-y-8">
       {/* Enhanced Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 sm:p-6 lg:p-8 rounded-2xl">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-indigo-50 to-indigo-50 p-4 sm:p-6 lg:p-8 rounded-2xl">
         <div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 font-heading">Usage & Limits</h1>
-          <p className="text-gray-600 text-base lg:text-lg font-body">Monitor your plan usage and optimize your workflow</p>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-2 font-heading">Usage & Limits</h1>
+          <p className="text-slate-600 text-base lg:text-lg font-body">Monitor your plan usage and optimize your workflow</p>
         </div>
         
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <button 
             onClick={handleRefresh}
             disabled={refreshing}
-            className="group relative overflow-hidden bg-white hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-xl border border-gray-200 transition-all duration-200 flex items-center gap-2"
+            className="group relative overflow-hidden bg-white hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-xl border border-slate-200 transition-all duration-200 flex items-center gap-2"
           >
             <RefreshCw className={`h-4 w-4 transition-transform duration-200 ${refreshing ? 'animate-spin' : 'group-hover:rotate-180'}`} />
             <span>Refresh</span>
@@ -175,10 +175,10 @@ const UsageDashboard: React.FC = () => {
           
           <button 
             onClick={() => window.location.href = '/pricing'}
-            className="group relative overflow-hidden bg-gradient-primary hover:shadow-lg text-white px-6 py-3 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-200"
+            className="group relative overflow-hidden bg-gradient-primary hover:shadow-lg text-white px-6 py-3 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-200"
           >
             <span className="relative z-10">Upgrade Plan</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-indigo-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
           </button>
         </div>
       </div>
@@ -191,7 +191,7 @@ const UsageDashboard: React.FC = () => {
           limit={usageStats.limits.messages}
           percentage={usageStats.percentages.messages}
           icon={MessageSquare}
-          color="from-blue-500 to-blue-600"
+          color="from-indigo-500 to-indigo-600"
         />
         
         <UsageCard

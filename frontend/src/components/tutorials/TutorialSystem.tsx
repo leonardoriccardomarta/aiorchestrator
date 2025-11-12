@@ -261,7 +261,7 @@ interface DataModel {
             {step.videoUrl && (
               <div className="mt-4">
                 <Text className="font-medium">Video Tutorial</Text>
-                <div className="mt-2 aspect-video bg-gray-100 rounded flex items-center justify-center">
+                <div className="mt-2 aspect-video bg-slate-100 rounded flex items-center justify-center">
                   <Text>Video Player Placeholder</Text>
                 </div>
               </div>
@@ -270,7 +270,7 @@ interface DataModel {
             {step.codeSnippet && (
               <div className="mt-4">
                 <Text className="font-medium">Code Example</Text>
-                <pre className="mt-2 bg-gray-50 p-4 rounded overflow-x-auto">
+                <pre className="mt-2 bg-slate-50 p-4 rounded overflow-x-auto">
                   <code>{step.codeSnippet}</code>
                 </pre>
               </div>
@@ -287,7 +287,7 @@ interface DataModel {
                         href={link.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline block"
+                        className="text-indigo-600 hover:underline block"
                       >
                         {link.text} →
                       </a>
@@ -376,11 +376,11 @@ interface DataModel {
                           </div>
                           <Badge color="blue">{tutorial.category}</Badge>
                         </div>
-                        <Text className="mt-2 text-gray-500">
+                        <Text className="mt-2 text-slate-500">
                           {tutorial.description}
                         </Text>
                         <div className="mt-4">
-                          <Text className="text-sm text-gray-500">
+                          <Text className="text-sm text-slate-500">
                             Completion rate: {tutorial.completionRate}%
                           </Text>
                           <ProgressBar
@@ -419,11 +419,11 @@ interface DataModel {
                             </Badge>
                             <Badge color="blue">{tutorial.category}</Badge>
                           </div>
-                          <Text className="mt-1 text-gray-500">
+                          <Text className="mt-1 text-slate-500">
                             {tutorial.description}
                           </Text>
                           <div className="mt-2">
-                            <Text className="text-sm text-gray-500">
+                            <Text className="text-sm text-slate-500">
                               Completion rate: {tutorial.completionRate}%
                             </Text>
                             <ProgressBar
@@ -464,11 +464,11 @@ interface DataModel {
                                 {tutorial.estimatedTime} min
                               </Badge>
                             </div>
-                            <Text className="mt-1 text-gray-500">
+                            <Text className="mt-1 text-slate-500">
                               {tutorial.description}
                             </Text>
                             <div className="mt-2">
-                              <Text className="text-sm text-gray-500">
+                              <Text className="text-sm text-slate-500">
                                 Completion rate: {tutorial.completionRate}%
                               </Text>
                               <ProgressBar

@@ -120,7 +120,7 @@ const Chat: FC = () => {
         animate="animate"
         variants={fadeIn}
       >
-        <div className="border-b border-gray-200 dark:border-gray-700">
+        <div className="border-b border-slate-200 dark:border-slate-700">
           <motion.div 
             className="flex items-center justify-between p-4"
             variants={popIn}
@@ -134,7 +134,7 @@ const Chat: FC = () => {
               </motion.div>
               <div>
                 <h2 className="text-lg font-semibold">John Smith</h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-slate-500 dark:text-slate-400">
                   {isTyping ? 'Typing...' : 'Active now'}
                 </p>
               </div>
@@ -168,7 +168,7 @@ const Chat: FC = () => {
                   className={`max-w-[70%] rounded-lg px-4 py-2 ${
                     message.sender === 'user'
                       ? 'bg-primary-600 text-white'
-                      : 'bg-gray-100 dark:bg-gray-800'
+                      : 'bg-slate-100 dark:bg-slate-800'
                   }`}
                 >
                   <p>{message.content}</p>
@@ -176,7 +176,7 @@ const Chat: FC = () => {
                     <span className={`text-xs ${
                       message.sender === 'user'
                         ? 'text-primary-100'
-                        : 'text-gray-500 dark:text-gray-400'
+                        : 'text-slate-500 dark:text-slate-400'
                     }`}>
                       {message.timestamp}
                     </span>
@@ -193,7 +193,7 @@ const Chat: FC = () => {
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="border-t border-gray-200 dark:border-gray-700 p-4">
+        <div className="border-t border-slate-200 dark:border-slate-700 p-4">
           <div className="flex items-center space-x-2">
             <input
               type="file"

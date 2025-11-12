@@ -48,19 +48,19 @@ const FAQManagement: React.FC = () => {
         {faqs.map((faq) => (
           <motion.div
             key={faq.id}
-            className="bg-white p-6 rounded-lg shadow-sm border border-gray-200"
+            className="bg-white p-6 rounded-lg shadow-sm border border-slate-200"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
             <div className="flex justify-between items-start mb-4">
               <div>
                 <h3 className="text-lg font-semibold">{faq.question}</h3>
-                <span className="text-sm text-gray-500">{faq.category}</span>
+                <span className="text-sm text-slate-500">{faq.category}</span>
               </div>
               <div className="space-x-2">
                 <button
                   onClick={() => handleEdit(faq.id)}
-                  className="text-blue-600 hover:text-blue-800"
+                  className="text-indigo-600 hover:text-indigo-800"
                 >
                   Edit
                 </button>
@@ -72,7 +72,7 @@ const FAQManagement: React.FC = () => {
                 </button>
               </div>
             </div>
-            <p className="text-gray-600">{faq.answer}</p>
+            <p className="text-slate-600">{faq.answer}</p>
           </motion.div>
         ))}
       </div>

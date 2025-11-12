@@ -37,10 +37,10 @@ const AuditLog: React.FC = () => {
       header: 'Data/Ora',
       accessor: (log: any) => (
         <div>
-          <p className="text-sm font-medium text-gray-900">
+          <p className="text-sm font-medium text-slate-900">
             {new Date(log.timestamp).toLocaleDateString()}
           </p>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-slate-500">
             {new Date(log.timestamp).toLocaleTimeString()}
           </p>
         </div>
@@ -68,8 +68,8 @@ const AuditLog: React.FC = () => {
       header: 'Azione',
       accessor: (log: any) => (
         <div>
-          <p className="text-sm font-medium text-gray-900">{log.action}</p>
-          <p className="text-xs text-gray-500">{log.resource}</p>
+          <p className="text-sm font-medium text-slate-900">{log.action}</p>
+          <p className="text-xs text-slate-500">{log.resource}</p>
         </div>
       ),
       sortable: true,
@@ -79,14 +79,14 @@ const AuditLog: React.FC = () => {
       header: 'Utente',
       accessor: (log: any) => (
         <div className="flex items-center space-x-2">
-          <div className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center">
+          <div className="h-6 w-6 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center">
             <span className="text-white text-xs font-medium">
               {log.user?.name?.charAt(0).toUpperCase() || 'U'}
             </span>
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-900">{log.user?.name || 'Sistema'}</p>
-            <p className="text-xs text-gray-500">{log.user?.email || 'system@example.com'}</p>
+            <p className="text-sm font-medium text-slate-900">{log.user?.name || 'Sistema'}</p>
+            <p className="text-xs text-slate-500">{log.user?.email || 'system@example.com'}</p>
           </div>
         </div>
       ),
@@ -96,7 +96,7 @@ const AuditLog: React.FC = () => {
       key: 'ip',
       header: 'IP',
       accessor: (log: any) => (
-        <span className="text-sm text-gray-600 font-mono">{log.ip}</span>
+        <span className="text-sm text-slate-600 font-mono">{log.ip}</span>
       ),
     },
     {
@@ -104,9 +104,9 @@ const AuditLog: React.FC = () => {
       header: 'Dettagli',
       accessor: (log: any) => (
         <div>
-          <p className="text-sm text-gray-900">{log.message}</p>
+          <p className="text-sm text-slate-900">{log.message}</p>
           {log.details && (
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               {log.details.length > 50 ? `${log.details.substring(0, 50)}...` : log.details}
             </p>
           )}
@@ -148,25 +148,25 @@ const AuditLog: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-slate-50 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">📋 Audit Log</h1>
-          <p className="text-gray-600 mt-2">Tracciamento completo di tutte le attività del sistema</p>
+          <h1 className="text-3xl font-bold text-slate-900">📋 Audit Log</h1>
+          <p className="text-slate-600 mt-2">Tracciamento completo di tutte le attività del sistema</p>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-lg">
+              <div className="p-2 bg-indigo-100 rounded-lg">
                 <span className="text-2xl"></span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Log Totali</p>
-                <p className="text-2xl font-bold text-gray-900">{logs.length}</p>
-                <p className="text-sm text-blue-600">Ultimi 30 giorni</p>
+                <p className="text-sm font-medium text-slate-600">Log Totali</p>
+                <p className="text-2xl font-bold text-slate-900">{logs.length}</p>
+                <p className="text-sm text-indigo-600">Ultimi 30 giorni</p>
               </div>
             </div>
           </div>
@@ -177,8 +177,8 @@ const AuditLog: React.FC = () => {
                 <span className="text-2xl"></span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Errori</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">Errori</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {logs.filter(l => l.level === 'error').length}
                 </p>
                 <p className="text-sm text-red-600">+5% vs ieri</p>
@@ -192,8 +192,8 @@ const AuditLog: React.FC = () => {
                 <span className="text-2xl"></span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Warning</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">Warning</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {logs.filter(l => l.level === 'warning').length}
                 </p>
                 <p className="text-sm text-yellow-600">-2% vs ieri</p>
@@ -207,8 +207,8 @@ const AuditLog: React.FC = () => {
                 <span className="text-2xl"></span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Successi</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">Successi</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {logs.filter(l => l.status === 'success').length}
                 </p>
                 <p className="text-sm text-green-600">98.5% tasso</p>
@@ -220,7 +220,7 @@ const AuditLog: React.FC = () => {
         {/* Analytics Charts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Distribuzione Livelli</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Distribuzione Livelli</h3>
             <Chart
               data={chartData}
               type="pie"
@@ -229,7 +229,7 @@ const AuditLog: React.FC = () => {
           </div>
 
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Azioni Più Comuni</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Azioni Più Comuni</h3>
             <Chart
               data={actionData}
               type="bar"
@@ -262,7 +262,7 @@ const AuditLog: React.FC = () => {
               <select
                 value={filterLevel}
                 onChange={(e) => setFilterLevel(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               >
                 <option value="all">Tutti i Livelli</option>
                 <option value="error">Errori</option>
@@ -275,7 +275,7 @@ const AuditLog: React.FC = () => {
               <select
                 value={filterAction}
                 onChange={(e) => setFilterAction(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               >
                 <option value="all">Tutte le Azioni</option>
                 <option value="login">Login</option>
@@ -289,7 +289,7 @@ const AuditLog: React.FC = () => {
               <select
                 value={dateRange}
                 onChange={(e) => setDateRange(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               >
                 <option value="1d">Ultimo giorno</option>
                 <option value="7d">Ultimi 7 giorni</option>
@@ -330,7 +330,7 @@ const AuditLog: React.FC = () => {
 
         {/* Security Insights */}
         <div className="mt-8 bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4"> Insights di Sicurezza</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4"> Insights di Sicurezza</h3>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-red-50 rounded-lg p-4">

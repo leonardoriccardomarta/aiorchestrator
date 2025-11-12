@@ -7,24 +7,24 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-gray-100 text-gray-800 hover:bg-gray-200',
-        secondary: 'bg-gray-100 text-gray-900 hover:bg-gray-200',
+        default: 'bg-slate-100 text-slate-800 hover:bg-slate-200',
+        secondary: 'bg-slate-100 text-slate-900 hover:bg-slate-200',
         destructive: 'bg-red-100 text-red-800 hover:bg-red-200',
-        outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50',
+        outline: 'border border-slate-300 text-slate-700 hover:bg-slate-50',
         success: 'bg-green-100 text-green-800 hover:bg-green-200',
         warning: 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200',
-        info: 'bg-blue-100 text-blue-800 hover:bg-blue-200',
+        info: 'bg-indigo-100 text-indigo-800 hover:bg-indigo-200',
         premium: 'bg-gradient-to-r from-amber-100 to-orange-100 text-amber-800 hover:from-amber-200 hover:to-orange-200',
-        gradient: 'bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 hover:from-blue-200 hover:to-purple-200',
+        gradient: 'bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800 hover:from-indigo-200 hover:to-purple-200',
         solid: {
-          default: 'bg-gray-900 text-white hover:bg-gray-800',
-          secondary: 'bg-gray-600 text-white hover:bg-gray-700',
+          default: 'bg-slate-900 text-white hover:bg-slate-800',
+          secondary: 'bg-slate-600 text-white hover:bg-slate-700',
           destructive: 'bg-red-600 text-white hover:bg-red-700',
           success: 'bg-green-600 text-white hover:bg-green-700',
           warning: 'bg-yellow-600 text-white hover:bg-yellow-700',
-          info: 'bg-blue-600 text-white hover:bg-blue-700',
+          info: 'bg-indigo-600 text-white hover:bg-indigo-700',
           premium: 'bg-gradient-to-r from-amber-600 to-orange-600 text-white hover:from-amber-700 hover:to-orange-700',
-          gradient: 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700',
+          gradient: 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700',
         },
       },
       size: {

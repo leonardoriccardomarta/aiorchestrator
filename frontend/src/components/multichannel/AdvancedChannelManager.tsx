@@ -252,7 +252,7 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
       case 'connected': return 'text-green-600 bg-green-100';
       case 'pending': return 'text-yellow-600 bg-yellow-100';
       case 'error': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
+      default: return 'text-slate-600 bg-slate-100';
     }
   };
 
@@ -285,21 +285,21 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
     <div className="space-y-6">
       {/* Header Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-lg border border-gray-200">
-          <div className="text-sm font-medium text-gray-500">Connected Channels</div>
-          <div className="text-2xl font-bold text-gray-900">{connectedChannels.length}</div>
+        <div className="bg-white p-4 rounded-lg border border-slate-200">
+          <div className="text-sm font-medium text-slate-500">Connected Channels</div>
+          <div className="text-2xl font-bold text-slate-900">{connectedChannels.length}</div>
         </div>
-        <div className="bg-white p-4 rounded-lg border border-gray-200">
-          <div className="text-sm font-medium text-gray-500">Total Messages</div>
-          <div className="text-2xl font-bold text-gray-900">{totalMessages.toLocaleString()}</div>
+        <div className="bg-white p-4 rounded-lg border border-slate-200">
+          <div className="text-sm font-medium text-slate-500">Total Messages</div>
+          <div className="text-2xl font-bold text-slate-900">{totalMessages.toLocaleString()}</div>
         </div>
-        <div className="bg-white p-4 rounded-lg border border-gray-200">
-          <div className="text-sm font-medium text-gray-500">Avg Response Rate</div>
-          <div className="text-2xl font-bold text-gray-900">{avgResponseRate.toFixed(1)}%</div>
+        <div className="bg-white p-4 rounded-lg border border-slate-200">
+          <div className="text-sm font-medium text-slate-500">Avg Response Rate</div>
+          <div className="text-2xl font-bold text-slate-900">{avgResponseRate.toFixed(1)}%</div>
         </div>
-        <div className="bg-white p-4 rounded-lg border border-gray-200">
-          <div className="text-sm font-medium text-gray-500">Active Users</div>
-          <div className="text-2xl font-bold text-gray-900">
+        <div className="bg-white p-4 rounded-lg border border-slate-200">
+          <div className="text-sm font-medium text-slate-500">Active Users</div>
+          <div className="text-2xl font-bold text-slate-900">
             {connectedChannels.reduce((sum, c) => sum + c.metrics.activeUsers, 0).toLocaleString()}
           </div>
         </div>
@@ -319,16 +319,16 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
               key={channel.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+              className="bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow"
             >
               {/* Card Header */}
-              <div className="p-6 border-b border-gray-200">
+              <div className="p-6 border-b border-slate-200">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="text-2xl">{template?.icon}</div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">{channel.name}</h3>
-                      <p className="text-sm text-gray-500">{template?.description}</p>
+                      <h3 className="font-semibold text-slate-900">{channel.name}</h3>
+                      <p className="text-sm text-slate-500">{template?.description}</p>
                     </div>
                   </div>
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(channel.status)}`}>
@@ -342,15 +342,15 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
                 {isConnected && (
                   <div className="space-y-3 mb-4">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-500">Messages</span>
+                      <span className="text-sm text-slate-500">Messages</span>
                       <span className="text-sm font-medium">{channel.metrics.totalMessages.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-500">Response Rate</span>
+                      <span className="text-sm text-slate-500">Response Rate</span>
                       <span className="text-sm font-medium">{channel.metrics.responseRate.toFixed(1)}%</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-500">Active Users</span>
+                      <span className="text-sm text-slate-500">Active Users</span>
                       <span className="text-sm font-medium">{channel.metrics.activeUsers.toLocaleString()}</span>
                     </div>
                   </div>
@@ -367,7 +367,7 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
                   {!isConnected && !isPending && (
                     <button
                       onClick={() => handleChannelConnect(channel.id)}
-                      className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
                     >
                       Connect Channel
                     </button>
@@ -387,11 +387,11 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
                       <button
                         onClick={() => handleChannelTest(channel.id)}
                         disabled={isTestingChannel === channel.id}
-                        className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+                        className="px-3 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors disabled:opacity-50"
                       >
                         {isTestingChannel === channel.id ? (
                           <div className="flex items-center justify-center space-x-1">
-                            <div className="animate-spin rounded-full h-3 w-3 border-2 border-gray-600 border-t-transparent"></div>
+                            <div className="animate-spin rounded-full h-3 w-3 border-2 border-slate-600 border-t-transparent"></div>
                             <span className="text-xs">Testing</span>
                           </div>
                         ) : (
@@ -400,7 +400,7 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
                       </button>
                       <button
                         onClick={() => setSelectedChannel(channel)}
-                        className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                        className="px-3 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
                       >
                         <span className="text-xs">Configure</span>
                       </button>
@@ -419,15 +419,15 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
 
               {/* Features */}
               <div className="px-6 pb-6">
-                <div className="text-xs font-medium text-gray-500 mb-2">Features</div>
+                <div className="text-xs font-medium text-slate-500 mb-2">Features</div>
                 <div className="flex flex-wrap gap-1">
                   {template?.features?.slice(0, 3).map((feature, index) => (
-                    <span key={index} className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">
+                    <span key={index} className="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">
                       {feature}
                     </span>
                   ))}
                   {(template?.features?.length || 0) > 3 && (
-                    <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">
+                    <span className="px-2 py-1 bg-slate-100 text-slate-600 rounded text-xs">
                       +{(template.features.length - 3)} more
                     </span>
                   )}
@@ -455,18 +455,18 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
               className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="p-6 border-b border-gray-200">
+              <div className="p-6 border-b border-slate-200">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="text-2xl">{getChannelTemplate(selectedChannel.type)?.icon}</div>
                     <div>
-                      <h2 className="text-xl font-semibold text-gray-900">{selectedChannel.name}</h2>
-                      <p className="text-gray-500">{getChannelTemplate(selectedChannel.type)?.description}</p>
+                      <h2 className="text-xl font-semibold text-slate-900">{selectedChannel.name}</h2>
+                      <p className="text-slate-500">{getChannelTemplate(selectedChannel.type)?.description}</p>
                     </div>
                   </div>
                   <button
                     onClick={() => setSelectedChannel(null)}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-slate-400 hover:text-slate-600"
                   >
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -476,15 +476,15 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
               </div>
 
               {/* Tab Navigation */}
-              <div className="flex border-b border-gray-200">
+              <div className="flex border-b border-slate-200">
                 {['overview', 'setup', 'test', 'analytics'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab as typeof activeTab)}
                     className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
                       activeTab === tab
-                        ? 'border-blue-500 text-blue-600'
-                        : 'border-transparent text-gray-500 hover:text-gray-700'
+                        ? 'border-indigo-500 text-indigo-600'
+                        : 'border-transparent text-slate-500 hover:text-slate-700'
                     }`}
                   >
                     {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -502,7 +502,7 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
                         {getChannelTemplate(selectedChannel.type)?.features?.map((feature, index) => (
                           <div key={index} className="flex items-center space-x-2">
                             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                            <span className="text-sm text-gray-700">{feature}</span>
+                            <span className="text-sm text-slate-700">{feature}</span>
                           </div>
                         ))}
                       </div>
@@ -513,11 +513,11 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
                       if (hasRequirements(template) && template.requirements) {
                         return (
                           <div className="mt-4">
-                            <h4 className="text-sm font-medium text-gray-700 mb-2">Requirements:</h4>
-                            <ul className="text-sm text-gray-600 space-y-1">
+                            <h4 className="text-sm font-medium text-slate-700 mb-2">Requirements:</h4>
+                            <ul className="text-sm text-slate-600 space-y-1">
                               {template.requirements.map((req, index) => (
                                 <li key={index} className="flex items-center">
-                                  <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2"></span>
+                                  <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-2"></span>
                                   {req}
                                 </li>
                               ))}
@@ -537,10 +537,10 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
                       <div className="space-y-3">
                         {getChannelTemplate(selectedChannel.type)?.setupSteps?.map((step, index) => (
                           <div key={index} className="flex items-start space-x-3">
-                            <div className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+                            <div className="flex-shrink-0 w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
                               {index + 1}
                             </div>
-                            <span className="text-sm text-gray-700 mt-0.5">{step}</span>
+                            <span className="text-sm text-slate-700 mt-0.5">{step}</span>
                           </div>
                         ))}
                       </div>
@@ -549,7 +549,7 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
                     {selectedChannel.type === 'website' && (
                       <div>
                         <h3 className="text-lg font-semibold mb-3">Integration Code</h3>
-                        <div className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-auto">
+                        <div className="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-auto">
                           <pre className="text-sm">
                             <code>{generateIntegrationCode(selectedChannel)}</code>
                           </pre>
@@ -558,7 +558,7 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
                           onClick={() => {
                             navigator.clipboard.writeText(generateIntegrationCode(selectedChannel));
                           }}
-                          className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                          className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
                         >
                           Copy Code
                         </button>
@@ -571,14 +571,14 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
                   <div className="space-y-6">
                     <div>
                       <h3 className="text-lg font-semibold mb-3">Channel Testing</h3>
-                      <p className="text-gray-600 mb-4">
+                      <p className="text-slate-600 mb-4">
                         Test your channel integration to ensure everything is working correctly.
                       </p>
                       
                       <button
                         onClick={() => handleChannelTest(selectedChannel.id)}
                         disabled={isTestingChannel === selectedChannel.id}
-                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                        className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50"
                       >
                         {isTestingChannel === selectedChannel.id ? 'Testing...' : 'Run Test'}
                       </button>
@@ -600,21 +600,21 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
                 {activeTab === 'analytics' && selectedChannel.status === 'connected' && (
                   <div className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="bg-gray-50 p-4 rounded-lg">
-                        <div className="text-sm font-medium text-gray-500">Total Messages</div>
-                        <div className="text-2xl font-bold text-gray-900">
+                      <div className="bg-slate-50 p-4 rounded-lg">
+                        <div className="text-sm font-medium text-slate-500">Total Messages</div>
+                        <div className="text-2xl font-bold text-slate-900">
                           {selectedChannel.metrics.totalMessages.toLocaleString()}
                         </div>
                       </div>
-                      <div className="bg-gray-50 p-4 rounded-lg">
-                        <div className="text-sm font-medium text-gray-500">Response Rate</div>
-                        <div className="text-2xl font-bold text-gray-900">
+                      <div className="bg-slate-50 p-4 rounded-lg">
+                        <div className="text-sm font-medium text-slate-500">Response Rate</div>
+                        <div className="text-2xl font-bold text-slate-900">
                           {selectedChannel.metrics.responseRate.toFixed(1)}%
                         </div>
                       </div>
-                      <div className="bg-gray-50 p-4 rounded-lg">
-                        <div className="text-sm font-medium text-gray-500">Conversion Rate</div>
-                        <div className="text-2xl font-bold text-gray-900">
+                      <div className="bg-slate-50 p-4 rounded-lg">
+                        <div className="text-sm font-medium text-slate-500">Conversion Rate</div>
+                        <div className="text-2xl font-bold text-slate-900">
                           {selectedChannel.metrics.conversionRate.toFixed(1)}%
                         </div>
                       </div>
@@ -622,7 +622,7 @@ const AdvancedChannelManager: React.FC<AdvancedChannelManagerProps> = ({
 
                     <div>
                       <h3 className="text-lg font-semibold mb-3">Recent Activity</h3>
-                      <p className="text-gray-600">
+                      <p className="text-slate-600">
                         Last message: {selectedChannel.metrics.lastMessage?.toLocaleString() || 'No recent activity'}
                       </p>
                     </div>

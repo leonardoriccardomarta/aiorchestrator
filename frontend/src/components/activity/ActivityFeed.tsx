@@ -308,16 +308,16 @@ const ActivityFeed: React.FC = () => {
                         <Badge color="gray">{activity.category}</Badge>
                       )}
                     </div>
-                    <Text className="text-gray-500 mt-1">{activity.description}</Text>
+                    <Text className="text-slate-500 mt-1">{activity.description}</Text>
                     {activity.metadata && (
-                      <div className="mt-2 text-sm text-gray-500">
-                        <pre className="bg-gray-50 p-2 rounded">
+                      <div className="mt-2 text-sm text-slate-500">
+                        <pre className="bg-slate-50 p-2 rounded">
                           {JSON.stringify(activity.metadata, null, 2)}
                         </pre>
                       </div>
                     )}
                   </div>
-                  <div className="flex-shrink-0 text-sm text-gray-500">
+                  <div className="flex-shrink-0 text-sm text-slate-500">
                     {format(activity.timestamp, 'MMM d, yyyy HH:mm')}
                   </div>
                 </div>
@@ -329,7 +329,7 @@ const ActivityFeed: React.FC = () => {
         <div className="space-y-6">
           {Object.entries(groupedActivities).map(([date, activities]) => (
             <Card key={date}>
-              <div className="border-b border-gray-200 pb-2 mb-4">
+              <div className="border-b border-slate-200 pb-2 mb-4">
                 <Text className="font-medium">{format(new Date(date), 'MMMM d, yyyy')}</Text>
               </div>
               <List>
@@ -349,9 +349,9 @@ const ActivityFeed: React.FC = () => {
                             <Badge color="gray">{activity.category}</Badge>
                           )}
                         </div>
-                        <Text className="text-gray-500 mt-1">{activity.description}</Text>
+                        <Text className="text-slate-500 mt-1">{activity.description}</Text>
                       </div>
-                      <div className="flex-shrink-0 text-sm text-gray-500">
+                      <div className="flex-shrink-0 text-sm text-slate-500">
                         {format(activity.timestamp, 'HH:mm')}
                       </div>
                     </div>

@@ -48,15 +48,15 @@ const FontCustomizer: React.FC<FontCustomizerProps> = ({ font = defaultFont, onC
 
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-medium text-gray-700">Font Customization</h3>
+      <h3 className="text-sm font-medium text-slate-700">Font Customization</h3>
       
       {/* Font Family */}
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Font Family</label>
+        <label className="block text-sm text-slate-600 mb-1">Font Family</label>
         <select
           value={font.family}
           onChange={(e) => handleChange('family', e.target.value)}
-          className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className="mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         >
           {fontFamilies.map((fontOption) => (
             <option key={fontOption.value} value={fontOption.value}>
@@ -68,11 +68,11 @@ const FontCustomizer: React.FC<FontCustomizerProps> = ({ font = defaultFont, onC
 
       {/* Font Size */}
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Font Size</label>
+        <label className="block text-sm text-slate-600 mb-1">Font Size</label>
         <select
           value={font.size}
           onChange={(e) => handleChange('size', e.target.value)}
-          className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className="mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         >
           {fontSizes.map((size) => (
             <option key={size.value} value={size.value}>
@@ -84,11 +84,11 @@ const FontCustomizer: React.FC<FontCustomizerProps> = ({ font = defaultFont, onC
 
       {/* Font Weight */}
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Font Weight</label>
+        <label className="block text-sm text-slate-600 mb-1">Font Weight</label>
         <select
           value={font.weight}
           onChange={(e) => handleChange('weight', parseInt(e.target.value))}
-          className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className="mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         >
           {fontWeights.map((weight) => (
             <option key={weight.value} value={weight.value}>
@@ -99,13 +99,13 @@ const FontCustomizer: React.FC<FontCustomizerProps> = ({ font = defaultFont, onC
       </div>
 
       {/* Preview */}
-      <div className="p-4 bg-gray-50 rounded-md">
-        <p className="mb-2 text-sm text-gray-600">Preview:</p>
+      <div className="p-4 bg-slate-50 rounded-md">
+        <p className="mb-2 text-sm text-slate-600">Preview:</p>
         <p style={{
           fontFamily: font.family,
           fontSize: font.size,
           fontWeight: font.weight,
-        }} className="text-gray-900">
+        }} className="text-slate-900">
           Hello! How can I help you today?
         </p>
       </div>

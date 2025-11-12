@@ -17,7 +17,7 @@ const EventIcon = ({ type }: { type: Event['type'] }) => {
   switch (type) {
     case 'chatbot_created':
       return (
-        <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
           
         </div>
       );
@@ -50,19 +50,19 @@ const RecentEvents: React.FC<RecentEventsProps> = ({ events, onEventClick }) => 
   
   return (
     <div className="bg-white rounded-lg shadow-sm p-6">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Events</h2>
+      <h2 className="text-lg font-semibold text-slate-900 mb-4">Recent Events</h2>
       <div className="space-y-4">
         {eventsArray.map((event) => (
           <div
             key={event.id}
             onClick={() => onEventClick?.(event)}
-            className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-all duration-300 hover:scale-105 hover:shadow-md cursor-pointer"
+            className="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-50 transition-all duration-300 hover:scale-105 hover:shadow-md cursor-pointer"
           >
             <EventIcon type={event.type} />
             <div className="flex-1 min-w-0">
-              <h3 className="font-medium text-gray-900 truncate">{event.title}</h3>
-              <p className="text-sm text-gray-500 truncate">{event.description}</p>
-              <p className="text-xs text-gray-400 mt-1">{event.timestamp}</p>
+              <h3 className="font-medium text-slate-900 truncate">{event.title}</h3>
+              <p className="text-sm text-slate-500 truncate">{event.description}</p>
+              <p className="text-xs text-slate-400 mt-1">{event.timestamp}</p>
             </div>
           </div>
         ))}

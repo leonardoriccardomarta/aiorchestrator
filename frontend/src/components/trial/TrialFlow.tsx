@@ -92,7 +92,7 @@ const TrialFlow: React.FC<TrialFlowProps> = ({ onTrialStart }) => {
     <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-2xl font-bold mb-2">Start Your 7-Day Free Trial</h2>
-        <p className="text-gray-600 mb-6">
+        <p className="text-slate-600 mb-6">
           Get complete access to {formData.plan} plan features
         </p>
       </div>
@@ -139,7 +139,7 @@ const TrialFlow: React.FC<TrialFlowProps> = ({ onTrialStart }) => {
         </Button>
       </form>
 
-      <div className="flex justify-center items-center space-x-6 text-sm text-gray-500">
+      <div className="flex justify-center items-center space-x-6 text-sm text-slate-500">
         <div className="flex items-center space-x-1">
           <Shield className="w-4 h-4" />
           <span>SSL Encrypted</span>
@@ -156,7 +156,7 @@ const TrialFlow: React.FC<TrialFlowProps> = ({ onTrialStart }) => {
     <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-2xl font-bold mb-2">Secure Your Trial</h2>
-        <p className="text-gray-600 mb-6">
+        <p className="text-slate-600 mb-6">
           €1 authorization (refunded immediately)
         </p>
       </div>
@@ -199,12 +199,12 @@ const TrialFlow: React.FC<TrialFlowProps> = ({ onTrialStart }) => {
           </div>
         </div>
 
-        <div className="bg-blue-50 p-4 rounded-lg">
+        <div className="bg-indigo-50 p-4 rounded-lg">
           <div className="flex items-start space-x-2">
-            <Shield className="w-5 h-5 text-blue-600 mt-0.5" />
+            <Shield className="w-5 h-5 text-indigo-600 mt-0.5" />
             <div className="text-sm">
-              <p className="font-medium text-blue-900">Why we need this?</p>
-              <p className="text-blue-700">
+              <p className="font-medium text-indigo-900">Why we need this?</p>
+              <p className="text-indigo-700">
                 To prevent abuse and provide seamless upgrade experience. 
                 Your trial starts immediately with full {formData.plan} access.
               </p>
@@ -221,7 +221,7 @@ const TrialFlow: React.FC<TrialFlowProps> = ({ onTrialStart }) => {
         </Button>
       </form>
 
-      <p className="text-xs text-center text-gray-500">
+      <p className="text-xs text-center text-slate-500">
         256-bit SSL encrypted • PCI DSS compliant • Cancel anytime
       </p>
     </div>
@@ -235,24 +235,24 @@ const TrialFlow: React.FC<TrialFlowProps> = ({ onTrialStart }) => {
       
       <div>
         <h2 className="text-2xl font-bold mb-2">Welcome to Your AI Journey!</h2>
-        <p className="text-gray-600 mb-6">
+        <p className="text-slate-600 mb-6">
           Your {formData.plan} trial is now active. Let's set up your first chatbot!
         </p>
       </div>
 
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg">
+      <div className="bg-gradient-to-r from-indigo-50 to-indigo-50 p-6 rounded-lg">
         <h3 className="font-semibold mb-4">What happens next?</h3>
         <div className="space-y-3 text-left">
           <div className="flex items-center space-x-3">
-            <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">1</div>
+            <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-medium">1</div>
             <span>Guided setup wizard (15 minutes)</span>
           </div>
           <div className="flex items-center space-x-3">
-            <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">2</div>
+            <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-medium">2</div>
             <span>Deploy your first AI chatbot</span>
           </div>
           <div className="flex items-center space-x-3">
-            <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">3</div>
+            <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-medium">3</div>
             <span>Watch your conversations convert</span>
           </div>
         </div>
@@ -267,7 +267,7 @@ const TrialFlow: React.FC<TrialFlowProps> = ({ onTrialStart }) => {
         {isLoading ? 'Setting up...' : 'Start Setup Wizard'}
       </Button>
 
-      <div className="text-sm text-gray-500">
+      <div className="text-sm text-slate-500">
         <p>Trial ends on {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString()}</p>
         <p>We'll remind you 2 days before it ends</p>
       </div>
@@ -275,17 +275,17 @@ const TrialFlow: React.FC<TrialFlowProps> = ({ onTrialStart }) => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
         {/* Progress Bar */}
         <div className="mb-8">
-          <div className="flex justify-between text-sm text-gray-500 mb-2">
+          <div className="flex justify-between text-sm text-slate-500 mb-2">
             <span>Step {step} of 3</span>
             <span>{Math.round((step / 3) * 100)}% complete</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-slate-200 rounded-full h-2">
             <div 
-              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+              className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${(step / 3) * 100}%` }}
             />
           </div>
@@ -301,7 +301,7 @@ const TrialFlow: React.FC<TrialFlowProps> = ({ onTrialStart }) => {
 
         {/* Trust Signals */}
         <div className="mt-6 text-center">
-          <div className="flex justify-center space-x-4 text-xs text-gray-500">
+          <div className="flex justify-center space-x-4 text-xs text-slate-500">
             <span> GDPR Compliant</span>
             <span>⚡ Setup in minutes</span>
             <span>💬 24/7 Support</span>

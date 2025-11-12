@@ -49,7 +49,7 @@ export const Chart: React.FC<ChartProps> = ({
             <div className="relative w-full">
               <div
                 className={cn(
-                  'w-full bg-gray-200 rounded-t',
+                  'w-full bg-slate-200 rounded-t',
                   animate && 'transition-all duration-1000 ease-out'
                 )}
                 style={{
@@ -60,12 +60,12 @@ export const Chart: React.FC<ChartProps> = ({
                 }}
               />
               {showValues && (
-                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-600">
+                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-medium text-slate-600">
                   {item.value}
                 </div>
               )}
             </div>
-            <div className="mt-2 text-xs text-gray-600 text-center">
+            <div className="mt-2 text-xs text-slate-600 text-center">
               {item.label}
             </div>
           </div>
@@ -271,7 +271,7 @@ export const Chart: React.FC<ChartProps> = ({
   return (
     <div className={cn('bg-white rounded-lg shadow p-6', className)}>
       {title && (
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+        <h3 className="text-lg font-semibold text-slate-900 mb-4">{title}</h3>
       )}
       
       <div
@@ -289,9 +289,9 @@ export const Chart: React.FC<ChartProps> = ({
                 className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: item.color || colors[index % colors.length] }}
               />
-              <span className="text-sm text-gray-600">{item.label}</span>
+              <span className="text-sm text-slate-600">{item.label}</span>
               {showValues && (
-                <span className="text-sm font-medium text-gray-900">
+                <span className="text-sm font-medium text-slate-900">
                   ({item.value})
                 </span>
               )}

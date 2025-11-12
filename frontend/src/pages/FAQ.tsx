@@ -555,7 +555,7 @@ const FAQ: React.FC = () => {
             <h2 className="text-base sm:text-lg font-semibold text-slate-900">FAQ ({filteredFaqs.length})</h2>
           </div>
 
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-slate-200">
             {filteredFaqs.map((faq) => (
               <div key={faq.id} className="p-4 sm:p-6 hover:bg-slate-50">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">

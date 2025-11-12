@@ -41,7 +41,7 @@ const WorkflowManager: React.FC = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">AI Workflow Manager</h1>
         <button
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
           onClick={() => {
             const newWorkflow: Workflow = {
               id: `workflow-${Date.now()}`,
@@ -73,7 +73,7 @@ const WorkflowManager: React.FC = () => {
               onChange={(e) =>
                 setSelectedWorkflow({ ...selectedWorkflow, name: e.target.value })
               }
-              className="text-xl font-semibold w-full border-b border-gray-200 pb-2 focus:outline-none focus:border-blue-600"
+              className="text-xl font-semibold w-full border-b border-slate-200 pb-2 focus:outline-none focus:border-indigo-600"
             />
             <textarea
               value={selectedWorkflow.description}
@@ -83,7 +83,7 @@ const WorkflowManager: React.FC = () => {
                   description: e.target.value,
                 })
               }
-              className="w-full mt-2 text-gray-600 focus:outline-none"
+              className="w-full mt-2 text-slate-600 focus:outline-none"
               placeholder="Describe your workflow..."
             />
           </div>
@@ -97,7 +97,7 @@ const WorkflowManager: React.FC = () => {
             </button>
             <button
               onClick={() => addStep('condition')}
-              className="px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200"
+              className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-md hover:bg-indigo-200"
             >
               + Condition
             </button>
@@ -134,7 +134,7 @@ const WorkflowManager: React.FC = () => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className="bg-gray-50 p-4 rounded-lg border border-gray-200"
+                          className="bg-slate-50 p-4 rounded-lg border border-slate-200"
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center">

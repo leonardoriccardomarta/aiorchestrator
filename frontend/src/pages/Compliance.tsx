@@ -92,20 +92,20 @@ const Compliance: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-slate-50 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">📋 Compliance & Governance</h1>
-          <p className="text-gray-600 mt-2">Gestione completa della conformità normativa</p>
+          <h1 className="text-3xl font-bold text-slate-900">📋 Compliance & Governance</h1>
+          <p className="text-slate-600 mt-2">Gestione completa della conformità normativa</p>
         </div>
 
         {/* Overall Compliance Status */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">Stato Compliance Generale</h2>
-              <p className="text-gray-600">Ultimo aggiornamento: {new Date().toLocaleString()}</p>
+              <h2 className="text-xl font-semibold text-slate-900">Stato Compliance Generale</h2>
+              <p className="text-slate-600">Ultimo aggiornamento: {new Date().toLocaleString()}</p>
             </div>
             <div className="text-right">
               <div className="text-3xl font-bold text-green-600">
@@ -126,8 +126,8 @@ const Compliance: React.FC = () => {
                 <span className="text-2xl"></span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Framework Conformi</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">Framework Conformi</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {frameworks.filter(f => f.status === 'compliant').length}
                 </p>
                 <p className="text-sm text-green-600">Su {frameworks.length} totali</p>
@@ -141,8 +141,8 @@ const Compliance: React.FC = () => {
                 <span className="text-2xl"></span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">In Revisione</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">In Revisione</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {frameworks.filter(f => f.status === 'partial').length}
                 </p>
                 <p className="text-sm text-yellow-600">Richiedono attenzione</p>
@@ -152,15 +152,15 @@ const Compliance: React.FC = () => {
 
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-lg">
+              <div className="p-2 bg-indigo-100 rounded-lg">
                 <span className="text-2xl"></span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Requisiti Totali</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">Requisiti Totali</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {frameworks.reduce((sum, f) => sum + f.requirements, 0)}
                 </p>
-                <p className="text-sm text-blue-600">Implementati</p>
+                <p className="text-sm text-indigo-600">Implementati</p>
               </div>
             </div>
           </div>
@@ -171,8 +171,8 @@ const Compliance: React.FC = () => {
                 <span className="text-2xl">🔍</span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Prossima Valutazione</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">Prossima Valutazione</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {Math.min(...frameworks.map(f => new Date(f.nextAssessment).getTime()))}
                 </p>
                 <p className="text-sm text-purple-600">Tra 30 giorni</p>
@@ -183,7 +183,7 @@ const Compliance: React.FC = () => {
 
         {/* Compliance Overview Chart */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Panoramica Compliance</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Panoramica Compliance</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Chart
               data={complianceDataChart}
@@ -192,27 +192,27 @@ const Compliance: React.FC = () => {
             />
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">GDPR</span>
+                <span className="text-sm text-slate-600">GDPR</span>
                 <div className="flex items-center space-x-2">
-                  <div className="w-32 bg-gray-200 rounded-full h-2">
+                  <div className="w-32 bg-slate-200 rounded-full h-2">
                     <div className="bg-green-500 h-2 rounded-full" style={{ width: '98%' }}></div>
                   </div>
                   <span className="text-sm font-medium">98%</span>
                 </div>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">SOC 2</span>
+                <span className="text-sm text-slate-600">SOC 2</span>
                 <div className="flex items-center space-x-2">
-                  <div className="w-32 bg-gray-200 rounded-full h-2">
+                  <div className="w-32 bg-slate-200 rounded-full h-2">
                     <div className="bg-green-500 h-2 rounded-full" style={{ width: '95%' }}></div>
                   </div>
                   <span className="text-sm font-medium">95%</span>
                 </div>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">ISO 27001</span>
+                <span className="text-sm text-slate-600">ISO 27001</span>
                 <div className="flex items-center space-x-2">
-                  <div className="w-32 bg-gray-200 rounded-full h-2">
+                  <div className="w-32 bg-slate-200 rounded-full h-2">
                     <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '78%' }}></div>
                   </div>
                   <span className="text-sm font-medium">78%</span>
@@ -227,7 +227,7 @@ const Compliance: React.FC = () => {
           {frameworks.map((framework, index) => (
             <div key={index} className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">{framework.name}</h3>
+                <h3 className="text-lg font-semibold text-slate-900">{framework.name}</h3>
                 <Badge
                   variant={
                     framework.status === 'compliant' ? 'success' :
@@ -239,15 +239,15 @@ const Compliance: React.FC = () => {
                 </Badge>
               </div>
               
-              <p className="text-sm text-gray-600 mb-4">{framework.description}</p>
+              <p className="text-sm text-slate-600 mb-4">{framework.description}</p>
               
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Score</span>
-                  <span className="text-lg font-bold text-gray-900">{framework.score}%</span>
+                  <span className="text-sm text-slate-600">Score</span>
+                  <span className="text-lg font-bold text-slate-900">{framework.score}%</span>
                 </div>
                 
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-slate-200 rounded-full h-2">
                   <div
                     className={`h-2 rounded-full ${
                       framework.score >= 90 ? 'bg-green-500' :
@@ -257,16 +257,16 @@ const Compliance: React.FC = () => {
                   ></div>
                 </div>
                 
-                <div className="flex justify-between text-xs text-gray-500">
+                <div className="flex justify-between text-xs text-slate-500">
                   <span>{framework.compliant}/{framework.requirements} requisiti</span>
                 </div>
                 
-                <div className="pt-3 border-t border-gray-200">
-                  <div className="flex justify-between text-xs text-gray-500">
+                <div className="pt-3 border-t border-slate-200">
+                  <div className="flex justify-between text-xs text-slate-500">
                     <span>Ultima valutazione</span>
                     <span>{new Date(framework.lastAssessment).toLocaleDateString()}</span>
                   </div>
-                  <div className="flex justify-between text-xs text-gray-500">
+                  <div className="flex justify-between text-xs text-slate-500">
                     <span>Prossima valutazione</span>
                     <span>{new Date(framework.nextAssessment).toLocaleDateString()}</span>
                   </div>
@@ -294,7 +294,7 @@ const Compliance: React.FC = () => {
 
         {/* Compliance Actions */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">⚡ Azioni Compliance</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">⚡ Azioni Compliance</h3>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <Button variant="outline" className="h-16">
               🔍 Nuova Valutazione
@@ -313,18 +313,18 @@ const Compliance: React.FC = () => {
 
         {/* Recent Assessments */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">📋 Valutazioni Recenti</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">📋 Valutazioni Recenti</h3>
           <div className="space-y-3">
             {frameworks.slice(0, 5).map((framework, index) => (
-              <div key={index} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+              <div key={index} className="flex items-center justify-between p-3 border border-slate-200 rounded-lg">
                 <div className="flex items-center space-x-3">
                   <div className={`w-3 h-3 rounded-full ${
                     framework.status === 'compliant' ? 'bg-green-500' :
                     framework.status === 'partial' ? 'bg-yellow-500' : 'bg-red-500'
                   }`} />
                   <div>
-                    <p className="font-medium text-gray-900">{framework.name}</p>
-                    <p className="text-sm text-gray-600">
+                    <p className="font-medium text-slate-900">{framework.name}</p>
+                    <p className="text-sm text-slate-600">
                       Valutazione del {new Date(framework.lastAssessment).toLocaleDateString()}
                     </p>
                   </div>
@@ -357,11 +357,11 @@ const Compliance: React.FC = () => {
             <div className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Framework</label>
-                  <p className="text-gray-900">{selectedFramework.name}</p>
+                  <label className="block text-sm font-medium text-slate-700">Framework</label>
+                  <p className="text-slate-900">{selectedFramework.name}</p>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Stato Attuale</label>
+                  <label className="block text-sm font-medium text-slate-700">Stato Attuale</label>
                   <Badge
                     variant={
                       selectedFramework.status === 'compliant' ? 'success' :
@@ -372,17 +372,17 @@ const Compliance: React.FC = () => {
                   </Badge>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Score</label>
-                  <p className="text-gray-900">{selectedFramework.score}%</p>
+                  <label className="block text-sm font-medium text-slate-700">Score</label>
+                  <p className="text-slate-900">{selectedFramework.score}%</p>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Requisiti</label>
-                  <p className="text-gray-900">{selectedFramework.compliant}/{selectedFramework.requirements}</p>
+                  <label className="block text-sm font-medium text-slate-700">Requisiti</label>
+                  <p className="text-slate-900">{selectedFramework.compliant}/{selectedFramework.requirements}</p>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Requisiti Non Conformi</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Requisiti Non Conformi</label>
                 <div className="space-y-2">
                   {selectedFramework.status === 'partial' && (
                     <>

@@ -11,8 +11,8 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ title, description, icon
   return (
     <div className="text-center p-8">
       {icon && <div className="mb-4">{icon}</div>}
-      <h2 className="text-xl font-semibold text-gray-600 mb-2">{title}</h2>
-      <p className="text-gray-500 mb-4">{description}</p>
+      <h2 className="text-xl font-semibold text-slate-600 mb-2">{title}</h2>
+      <p className="text-slate-500 mb-4">{description}</p>
       {action && <div>{action}</div>}
     </div>
   );

@@ -140,15 +140,15 @@ export const FeatureFlagManager: React.FC<FeatureFlagManagerProps> = ({
                   animate="animate"
                   exit="exit"
                   layout
-                  className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+                  className="border border-slate-200 dark:border-slate-700 rounded-lg p-4"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div>
                       <div className="flex items-center space-x-2">
-                        <ToggleLeft className={`h-5 w-5 ${flag.enabled ? 'text-green-500' : 'text-gray-400'}`} />
+                        <ToggleLeft className={`h-5 w-5 ${flag.enabled ? 'text-green-500' : 'text-slate-400'}`} />
                         <h3 className="font-medium">{flag.name}</h3>
                       </div>
-                      <p className="text-sm text-gray-500 mt-1">{flag.description}</p>
+                      <p className="text-sm text-slate-500 mt-1">{flag.description}</p>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Button
@@ -174,14 +174,14 @@ export const FeatureFlagManager: React.FC<FeatureFlagManagerProps> = ({
                   <div className="space-y-4">
                     <div>
                       <div className="flex items-center space-x-2 mb-2">
-                        <Zap className="h-4 w-4 text-gray-500" />
+                        <Zap className="h-4 w-4 text-slate-500" />
                         <h4 className="text-sm font-medium">Environments</h4>
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {environments.map((env) => (
                           <label
                             key={env.id}
-                            className="inline-flex items-center space-x-2 bg-gray-50 dark:bg-gray-800 px-3 py-1 rounded-full text-sm"
+                            className="inline-flex items-center space-x-2 bg-slate-50 dark:bg-slate-800 px-3 py-1 rounded-full text-sm"
                           >
                             <input
                               type="checkbox"
@@ -189,7 +189,7 @@ export const FeatureFlagManager: React.FC<FeatureFlagManagerProps> = ({
                               onChange={(e) =>
                                 handleUpdateTargeting(flag, 'environments', env.id, e.target.checked)
                               }
-                              className="rounded border-gray-300 dark:border-gray-700"
+                              className="rounded border-slate-300 dark:border-slate-700"
                             />
                             <span>{env.name}</span>
                           </label>
@@ -199,14 +199,14 @@ export const FeatureFlagManager: React.FC<FeatureFlagManagerProps> = ({
 
                     <div>
                       <div className="flex items-center space-x-2 mb-2">
-                        <Users className="h-4 w-4 text-gray-500" />
+                        <Users className="h-4 w-4 text-slate-500" />
                         <h4 className="text-sm font-medium">Roles</h4>
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {roles.map((role) => (
                           <label
                             key={role.id}
-                            className="inline-flex items-center space-x-2 bg-gray-50 dark:bg-gray-800 px-3 py-1 rounded-full text-sm"
+                            className="inline-flex items-center space-x-2 bg-slate-50 dark:bg-slate-800 px-3 py-1 rounded-full text-sm"
                           >
                             <input
                               type="checkbox"
@@ -214,7 +214,7 @@ export const FeatureFlagManager: React.FC<FeatureFlagManagerProps> = ({
                               onChange={(e) =>
                                 handleUpdateTargeting(flag, 'roles', role.id, e.target.checked)
                               }
-                              className="rounded border-gray-300 dark:border-gray-700"
+                              className="rounded border-slate-300 dark:border-slate-700"
                             />
                             <span>{role.name}</span>
                           </label>
@@ -224,7 +224,7 @@ export const FeatureFlagManager: React.FC<FeatureFlagManagerProps> = ({
 
                     <div>
                       <div className="flex items-center space-x-2 mb-2">
-                        <Settings className="h-4 w-4 text-gray-500" />
+                        <Settings className="h-4 w-4 text-slate-500" />
                         <h4 className="text-sm font-medium">Rollout Percentage</h4>
                       </div>
                       <input
@@ -239,13 +239,13 @@ export const FeatureFlagManager: React.FC<FeatureFlagManagerProps> = ({
                         }
                         className="w-full"
                       />
-                      <div className="text-sm text-gray-500 mt-1">
+                      <div className="text-sm text-slate-500 mt-1">
                         {flag.targeting.percentage}% of users
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-4 text-xs text-gray-500">
+                  <div className="mt-4 text-xs text-slate-500">
                     Last updated: {flag.lastUpdated}
                   </div>
                 </motion.div>
@@ -253,7 +253,7 @@ export const FeatureFlagManager: React.FC<FeatureFlagManagerProps> = ({
             </AnimatePresence>
 
             {flags.length === 0 && (
-              <div className="text-center py-6 text-gray-500">
+              <div className="text-center py-6 text-slate-500">
                 No feature flags created yet
               </div>
             )}
@@ -277,7 +277,7 @@ export const FeatureFlagManager: React.FC<FeatureFlagManagerProps> = ({
               type="text"
               value={newFlag.name}
               onChange={(e) => setNewFlag({ ...newFlag, name: e.target.value })}
-              className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2"
+              className="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2"
               placeholder="e.g., enable_new_dashboard"
             />
           </div>
@@ -290,7 +290,7 @@ export const FeatureFlagManager: React.FC<FeatureFlagManagerProps> = ({
               id="flagDescription"
               value={newFlag.description}
               onChange={(e) => setNewFlag({ ...newFlag, description: e.target.value })}
-              className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2"
+              className="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2"
               rows={3}
               placeholder="Describe what this feature flag controls..."
             />
@@ -303,7 +303,7 @@ export const FeatureFlagManager: React.FC<FeatureFlagManagerProps> = ({
                 type="checkbox"
                 checked={newFlag.enabled}
                 onChange={(e) => setNewFlag({ ...newFlag, enabled: e.target.checked })}
-                className="rounded border-gray-300 dark:border-gray-700"
+                className="rounded border-slate-300 dark:border-slate-700"
               />
               <span>Enable flag</span>
             </label>

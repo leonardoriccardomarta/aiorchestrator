@@ -62,7 +62,7 @@ export const DonutChart: React.FC<DonutChartProps> = ({ data, height = 200 }) =>
           x={centerX}
           y={centerY - 5}
           textAnchor="middle"
-          className="text-sm font-medium text-gray-900"
+          className="text-sm font-medium text-slate-900"
         >
           {total}%
         </text>
@@ -70,7 +70,7 @@ export const DonutChart: React.FC<DonutChartProps> = ({ data, height = 200 }) =>
           x={centerX}
           y={centerY + 10}
           textAnchor="middle"
-          className="text-xs text-gray-500"
+          className="text-xs text-slate-500"
         >
           Total
         </text>

@@ -129,11 +129,11 @@ export const RoleManager: React.FC<RoleManagerProps> = ({
                       : currentPermissions.filter((p) => p !== permission.id);
                     onChange(newPermissions);
                   }}
-                  className="mt-1 rounded border-gray-300 dark:border-gray-700"
+                  className="mt-1 rounded border-slate-300 dark:border-slate-700"
                 />
                 <div>
                   <div className="font-medium">{permission.name}</div>
-                  <div className="text-sm text-gray-500">{permission.description}</div>
+                  <div className="text-sm text-slate-500">{permission.description}</div>
                 </div>
               </label>
             ))}
@@ -166,7 +166,7 @@ export const RoleManager: React.FC<RoleManagerProps> = ({
                   animate="animate"
                   exit="exit"
                   layout
-                  className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+                  className="border border-slate-200 dark:border-slate-700 rounded-lg p-4"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div>
@@ -174,15 +174,15 @@ export const RoleManager: React.FC<RoleManagerProps> = ({
                         <Shield className="h-5 w-5 text-primary-500" />
                         <h3 className="font-medium">{role.name}</h3>
                         {role.isSystem && (
-                          <span className="px-2 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-800">
+                          <span className="px-2 py-1 text-xs rounded-full bg-slate-100 dark:bg-slate-800">
                             System
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-gray-500 mt-1">{role.description}</p>
+                      <p className="text-sm text-slate-500 mt-1">{role.description}</p>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <div className="flex items-center text-sm text-gray-500">
+                      <div className="flex items-center text-sm text-slate-500">
                         <Users className="h-4 w-4 mr-1" />
                         {role.userCount} users
                       </div>
@@ -211,7 +211,7 @@ export const RoleManager: React.FC<RoleManagerProps> = ({
                   </div>
 
                   <div>
-                    <h4 className="text-sm font-medium text-gray-500 mb-2">Permissions</h4>
+                    <h4 className="text-sm font-medium text-slate-500 mb-2">Permissions</h4>
                     <div className="flex flex-wrap gap-2">
                       {role.permissions.map((permId) => {
                         const permission = permissions.find(p => p.id === permId);
@@ -227,7 +227,7 @@ export const RoleManager: React.FC<RoleManagerProps> = ({
                     </div>
                   </div>
 
-                  <div className="mt-4 text-xs text-gray-500">
+                  <div className="mt-4 text-xs text-slate-500">
                     Last updated: {role.updatedAt}
                   </div>
                 </motion.div>
@@ -235,7 +235,7 @@ export const RoleManager: React.FC<RoleManagerProps> = ({
             </AnimatePresence>
 
             {roles.length === 0 && (
-              <div className="text-center py-6 text-gray-500">
+              <div className="text-center py-6 text-slate-500">
                 No roles created yet
               </div>
             )}
@@ -259,7 +259,7 @@ export const RoleManager: React.FC<RoleManagerProps> = ({
               type="text"
               value={newRole.name}
               onChange={(e) => setNewRole({ ...newRole, name: e.target.value })}
-              className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2"
+              className="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2"
               placeholder="e.g., Content Editor"
             />
           </div>
@@ -272,7 +272,7 @@ export const RoleManager: React.FC<RoleManagerProps> = ({
               id="roleDescription"
               value={newRole.description}
               onChange={(e) => setNewRole({ ...newRole, description: e.target.value })}
-              className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2"
+              className="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2"
               rows={3}
               placeholder="Describe the role's responsibilities..."
             />
@@ -312,7 +312,7 @@ export const RoleManager: React.FC<RoleManagerProps> = ({
               type="text"
               value={newRole.name}
               onChange={(e) => setNewRole({ ...newRole, name: e.target.value })}
-              className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2"
+              className="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2"
             />
           </div>
 
@@ -324,7 +324,7 @@ export const RoleManager: React.FC<RoleManagerProps> = ({
               id="editRoleDescription"
               value={newRole.description}
               onChange={(e) => setNewRole({ ...newRole, description: e.target.value })}
-              className="w-full rounded-md border border-gray-300 dark:border-gray-700 bg-transparent px-3 py-2"
+              className="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-transparent px-3 py-2"
               rows={3}
             />
           </div>

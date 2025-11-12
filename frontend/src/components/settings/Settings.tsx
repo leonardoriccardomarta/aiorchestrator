@@ -63,7 +63,7 @@ const Settings: React.FC = () => {
       <h1 className="text-2xl font-bold mb-6">Settings</h1>
 
       <div className="bg-white rounded-lg shadow">
-        <div className="border-b border-gray-200">
+        <div className="border-b border-slate-200">
           <nav className="flex space-x-8 px-6" aria-label="Tabs">
             {tabs.map((tab) => (
               <button
@@ -71,8 +71,8 @@ const Settings: React.FC = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`py-4 px-1 inline-flex items-center border-b-2 font-medium text-sm ${
                   activeTab === tab.id
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                 }`}
               >
                 <span className="material-icons mr-2">{tab.icon}</span>
@@ -89,20 +89,20 @@ const Settings: React.FC = () => {
                 <h3 className="text-lg font-medium mb-4">Organization Settings</h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
                       Organization Name
                     </label>
                     <input
                       type="text"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                       defaultValue="AI Orchestrator Inc."
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
                       Time Zone
                     </label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                       <option>UTC</option>
                       <option>America/New_York</option>
                       <option>Europe/London</option>
@@ -118,7 +118,7 @@ const Settings: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-medium">Two-Factor Authentication</p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-slate-500">
                         Add an extra layer of security to your account
                       </p>
                     </div>
@@ -135,7 +135,7 @@ const Settings: React.FC = () => {
             <div>
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-medium">API Keys</h3>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center">
+                <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center">
                   <span className="material-icons mr-2">add</span>
                   Create API Key
                 </button>
@@ -145,7 +145,7 @@ const Settings: React.FC = () => {
                 {apiKeys.map((apiKey) => (
                   <div
                     key={apiKey.id}
-                    className="border border-gray-200 rounded-lg p-4"
+                    className="border border-slate-200 rounded-lg p-4"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <h4 className="font-medium">{apiKey.name}</h4>
@@ -154,17 +154,17 @@ const Settings: React.FC = () => {
                       </button>
                     </div>
                     <div className="flex items-center space-x-2 mb-2">
-                      <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono">
+                      <code className="bg-slate-100 px-2 py-1 rounded text-sm font-mono">
                         {apiKey.key}
                       </code>
                       <button
                         onClick={() => navigator.clipboard.writeText(apiKey.key)}
-                        className="text-blue-600 hover:text-blue-700"
+                        className="text-indigo-600 hover:text-indigo-700"
                       >
                         <span className="material-icons">content_copy</span>
                       </button>
                     </div>
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-slate-500">
                       Created {new Date(apiKey.createdAt).toLocaleDateString()}
                       {apiKey.lastUsed && (
                         <> · Last used {new Date(apiKey.lastUsed).toLocaleDateString()}</>
@@ -180,7 +180,7 @@ const Settings: React.FC = () => {
             <div>
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-medium">Webhooks</h3>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center">
+                <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center">
                   <span className="material-icons mr-2">add</span>
                   Add Webhook
                 </button>
@@ -190,7 +190,7 @@ const Settings: React.FC = () => {
                 {webhooks.map((webhook) => (
                   <div
                     key={webhook.id}
-                    className="border border-gray-200 rounded-lg p-4"
+                    className="border border-slate-200 rounded-lg p-4"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center space-x-2">
@@ -213,13 +213,13 @@ const Settings: React.FC = () => {
                       {webhook.events.map((event) => (
                         <span
                           key={event}
-                          className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium"
+                          className="px-2 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-medium"
                         >
                           {event}
                         </span>
                       ))}
                     </div>
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-slate-500">
                       Created {new Date(webhook.createdAt).toLocaleDateString()}
                     </div>
                   </div>
@@ -235,7 +235,7 @@ const Settings: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium">Email Notifications</p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-slate-500">
                       Receive notifications via email
                     </p>
                   </div>
@@ -251,14 +251,14 @@ const Settings: React.FC = () => {
                       }
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
                   </label>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium">Desktop Notifications</p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-slate-500">
                       Show notifications on your desktop
                     </p>
                   </div>
@@ -274,14 +274,14 @@ const Settings: React.FC = () => {
                       }
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
                   </label>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium">Slack Notifications</p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-slate-500">
                       Send notifications to Slack
                     </p>
                   </div>
@@ -297,7 +297,7 @@ const Settings: React.FC = () => {
                       }
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
                   </label>
                 </div>
               </div>

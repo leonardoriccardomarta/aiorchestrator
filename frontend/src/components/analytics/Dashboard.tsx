@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
           <Title>Revenue Overview</Title>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div className="p-4 bg-white rounded-lg shadow">
-              <h3 className="text-gray-500">Current MRR</h3>
+              <h3 className="text-slate-500">Current MRR</h3>
               <p className="text-2xl font-bold">${data.revenue.current.toLocaleString()}</p>
               <span className={`text-sm ${data.revenue.trend >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                 {data.revenue.trend >= 0 ? '↑' : '↓'} {Math.abs(data.revenue.trend)}%
@@ -110,19 +110,19 @@ const Dashboard: React.FC = () => {
             <Title>User Metrics</Title>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <h4 className="text-gray-500">Total Users</h4>
+                <h4 className="text-slate-500">Total Users</h4>
                 <p className="text-xl font-bold">{data.users.total.toLocaleString()}</p>
               </div>
               <div>
-                <h4 className="text-gray-500">Active Users</h4>
+                <h4 className="text-slate-500">Active Users</h4>
                 <p className="text-xl font-bold">{data.users.active.toLocaleString()}</p>
               </div>
               <div>
-                <h4 className="text-gray-500">New Users</h4>
+                <h4 className="text-slate-500">New Users</h4>
                 <p className="text-xl font-bold">{data.users.new.toLocaleString()}</p>
               </div>
               <div>
-                <h4 className="text-gray-500">Churn Rate</h4>
+                <h4 className="text-slate-500">Churn Rate</h4>
                 <p className="text-xl font-bold">{data.users.churn}%</p>
               </div>
             </div>
@@ -140,15 +140,15 @@ const Dashboard: React.FC = () => {
           <Title>System Usage</Title>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <h4 className="text-gray-500">API Calls</h4>
+              <h4 className="text-slate-500">API Calls</h4>
               <p className="text-xl font-bold">{data.usage.apiCalls.toLocaleString()}</p>
             </div>
             <div>
-              <h4 className="text-gray-500">Storage Used</h4>
+              <h4 className="text-slate-500">Storage Used</h4>
               <p className="text-xl font-bold">{formatBytes(data.usage.storage)}</p>
             </div>
             <div>
-              <h4 className="text-gray-500">Bandwidth</h4>
+              <h4 className="text-slate-500">Bandwidth</h4>
               <p className="text-xl font-bold">{formatBytes(data.usage.bandwidth)}/s</p>
             </div>
           </div>

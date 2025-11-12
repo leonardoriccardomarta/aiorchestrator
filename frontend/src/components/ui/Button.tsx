@@ -11,8 +11,8 @@ const buttonVariants = cva(
         default: 'bg-primary-600 text-white hover:bg-primary-700 focus-visible:ring-primary-500 shadow-md hover:shadow-lg',
         primary: 'bg-primary-600 text-white hover:bg-primary-700 focus-visible:ring-primary-500 shadow-md hover:shadow-lg',
         secondary: 'bg-secondary-100 text-secondary-900 hover:bg-secondary-200 focus-visible:ring-secondary-500 border border-secondary-200',
-        outline: 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus-visible:ring-gray-500 shadow-sm',
-        ghost: 'text-gray-700 hover:bg-gray-100 focus-visible:ring-gray-500',
+        outline: 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 focus-visible:ring-slate-500 shadow-sm',
+        ghost: 'text-slate-700 hover:bg-slate-100 focus-visible:ring-slate-500',
         link: 'text-primary-600 underline-offset-4 hover:underline focus-visible:ring-primary-500',
         
         // Semantic variants
@@ -24,7 +24,7 @@ const buttonVariants = cva(
         // Special variants
         gradient: 'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:from-primary-700 hover:to-primary-800 shadow-md hover:shadow-lg',
         premium: 'bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:from-amber-600 hover:to-orange-700 shadow-md hover:shadow-lg',
-        subtle: 'bg-gray-50 text-gray-700 hover:bg-gray-100 focus-visible:ring-gray-500 border border-gray-200',
+        subtle: 'bg-slate-50 text-slate-700 hover:bg-slate-100 focus-visible:ring-slate-500 border border-slate-200',
       },
       size: {
         xs: 'h-7 px-2 text-xs',

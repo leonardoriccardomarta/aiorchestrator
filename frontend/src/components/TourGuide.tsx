@@ -124,19 +124,19 @@ const TourGuide: React.FC<TourGuideProps> = ({ isOpen, onClose, onComplete }) =>
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <div className="flex items-center justify-between p-6 border-b border-slate-200">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
                 <HelpCircle className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Tour Guide</h3>
-                <p className="text-sm text-gray-600">Step {currentStep + 1} of {tourSteps.length}</p>
+                <h3 className="font-semibold text-slate-900">Tour Guide</h3>
+                <p className="text-sm text-slate-600">Step {currentStep + 1} of {tourSteps.length}</p>
               </div>
             </div>
             <button
               onClick={skipTour}
-              className="text-gray-400 hover:text-gray-600 transition-colors"
+              className="text-slate-400 hover:text-slate-600 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -144,17 +144,17 @@ const TourGuide: React.FC<TourGuideProps> = ({ isOpen, onClose, onComplete }) =>
 
           {/* Content */}
           <div className="p-6">
-            <h4 className="text-lg font-semibold text-gray-900 mb-3">
+            <h4 className="text-lg font-semibold text-slate-900 mb-3">
               {currentStepData.title}
             </h4>
-            <p className="text-gray-600 mb-6">
+            <p className="text-slate-600 mb-6">
               {currentStepData.content}
             </p>
 
             {/* Progress Bar */}
-            <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
+            <div className="w-full bg-slate-200 rounded-full h-2 mb-6">
               <div 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full transition-all duration-300"
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${((currentStep + 1) / tourSteps.length) * 100}%` }}
               />
             </div>
@@ -164,7 +164,7 @@ const TourGuide: React.FC<TourGuideProps> = ({ isOpen, onClose, onComplete }) =>
               <button
                 onClick={prevStep}
                 disabled={currentStep === 0}
-                className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:text-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
                 <span>Previous</span>
@@ -173,13 +173,13 @@ const TourGuide: React.FC<TourGuideProps> = ({ isOpen, onClose, onComplete }) =>
               <div className="flex space-x-2">
                 <button
                   onClick={skipTour}
-                  className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                  className="px-4 py-2 text-slate-600 hover:text-slate-800 transition-colors"
                 >
                   Skip Tour
                 </button>
                 <button
                   onClick={nextStep}
-                  className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
+                  className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-200"
                 >
                   <span>{currentStep === tourSteps.length - 1 ? 'Finish' : 'Next'}</span>
                   <ChevronRight className="w-4 h-4" />

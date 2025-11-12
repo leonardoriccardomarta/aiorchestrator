@@ -28,7 +28,7 @@ const Skeleton: React.FC<SkeletonProps> = ({
         .map((_, index) => (
           <div
             key={index}
-            className={`animate-pulse bg-gray-200 ${className} ${
+            className={`animate-pulse bg-slate-200 ${className} ${
               index !== count - 1 ? 'mb-2' : ''
             }`}
             style={baseStyle}

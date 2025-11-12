@@ -411,7 +411,7 @@ export const CompactLanguageSelector: React.FC = () => {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
         <span className="text-lg">{currentFlag}</span>
         <span>{getLanguageName(currentLanguage)}</span>
@@ -419,7 +419,7 @@ export const CompactLanguageSelector: React.FC = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-50">
+        <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-300 rounded-md shadow-lg z-50">
           {supportedLanguages.map((lang) => (
             <button
               key={lang.code}
@@ -427,8 +427,8 @@ export const CompactLanguageSelector: React.FC = () => {
                 i18n.changeLanguage(lang.code);
                 setIsOpen(false);
               }}
-              className={`w-full flex items-center space-x-3 px-4 py-2 text-sm hover:bg-gray-100 ${
-                currentLanguage === lang.code ? 'bg-blue-50 text-blue-700' : 'text-gray-700'
+              className={`w-full flex items-center space-x-3 px-4 py-2 text-sm hover:bg-slate-100 ${
+                currentLanguage === lang.code ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700'
               }`}
             >
               <span className="text-lg">{lang.flag}</span>

@@ -65,7 +65,7 @@ const OnboardingFlow: FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-indigo-100">
       <div className="max-w-4xl mx-auto pt-16 pb-24 px-4">
         {/* Progress Bar */}
         <div className="mb-8">
@@ -74,12 +74,12 @@ const OnboardingFlow: FC = () => {
               <div
                 key={step.title}
                 className={`flex items-center ${
-                  index <= currentStep ? 'text-blue-600' : 'text-gray-400'
+                  index <= currentStep ? 'text-indigo-600' : 'text-slate-400'
                 }`}
               >
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    index <= currentStep ? 'bg-blue-600 text-white' : 'bg-gray-200'
+                    index <= currentStep ? 'bg-indigo-600 text-white' : 'bg-slate-200'
                   }`}
                 >
                   {index + 1}
@@ -90,9 +90,9 @@ const OnboardingFlow: FC = () => {
           </div>
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full bg-gray-200 h-1">
+              <div className="w-full bg-slate-200 h-1">
                 <div
-                  className="bg-blue-600 h-1 transition-all duration-500"
+                  className="bg-indigo-600 h-1 transition-all duration-500"
                   style={{ width: `${(currentStep / (onboardingSteps.length - 1)) * 100}%` }}
                 />
               </div>
@@ -116,7 +116,7 @@ const OnboardingFlow: FC = () => {
           >
             <div className="bg-white rounded-xl shadow-xl p-8">
               <h2 className="text-2xl font-bold mb-2">{onboardingSteps[currentStep].title}</h2>
-              <p className="text-gray-600 mb-8">{onboardingSteps[currentStep].description}</p>
+              <p className="text-slate-600 mb-8">{onboardingSteps[currentStep].description}</p>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 {currentStep === 0 && (
@@ -143,7 +143,7 @@ const OnboardingFlow: FC = () => {
                   <button
                     type="button"
                     onClick={() => setCurrentStep(prev => prev - 1)}
-                    className={`px-6 py-2 rounded-lg text-gray-600 hover:bg-gray-100 ${
+                    className={`px-6 py-2 rounded-lg text-slate-600 hover:bg-slate-100 ${
                       currentStep === 0 ? 'invisible' : ''
                     }`}
                   >
@@ -152,7 +152,7 @@ const OnboardingFlow: FC = () => {
                   <button
                     type="submit"
                     disabled={isPending}
-                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                    className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50"
                   >
                     {currentStep === onboardingSteps.length - 1 ? 'Complete Setup' : 'Continue'}
                   </button>
@@ -173,7 +173,7 @@ const WelcomeStep: FC = () => (
       alt="Welcome"
       className="w-64 mx-auto mb-8"
     />
-    <p className="text-lg text-gray-600">
+    <p className="text-lg text-slate-600">
       We're excited to have you here! Let's get your AI assistant set up and ready to help your customers.
     </p>
   </div>
@@ -182,10 +182,10 @@ const WelcomeStep: FC = () => (
 const CompanyStep: FC<StepProps> = ({ register, errors }) => (
   <div className="space-y-4">
     <div>
-      <label className="block text-sm font-medium text-gray-700">Company Name</label>
+      <label className="block text-sm font-medium text-slate-700">Company Name</label>
       <input
         {...register('companyName')}
-        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+        className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
       />
       {errors.companyName && (
         <p className="mt-1 text-sm text-red-600">{errors.companyName.message}</p>
@@ -198,10 +198,10 @@ const CompanyStep: FC<StepProps> = ({ register, errors }) => (
 const UseCaseStep: FC<StepProps> = ({ register, errors }) => (
   <div className="space-y-4">
     <div>
-      <label className="block text-sm font-medium text-gray-700">Primary Goal</label>
+      <label className="block text-sm font-medium text-slate-700">Primary Goal</label>
       <select
         {...register('primaryGoal')}
-        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+        className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
       >
         <option value="customer_support">Customer Support Automation</option>
         <option value="sales_automation">Sales Automation</option>
@@ -220,12 +220,12 @@ const UseCaseStep: FC<StepProps> = ({ register, errors }) => (
 const IntegrationStep: FC<StepProps> = ({ register, errors }) => (
   <div className="space-y-4">
     <div>
-      <label className="block text-sm font-medium text-gray-700">Website URL</label>
+      <label className="block text-sm font-medium text-slate-700">Website URL</label>
       <input
         {...register('website')}
         type="url"
         placeholder="https://yourstore.com"
-        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+        className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
       />
       {errors.website && (
         <p className="mt-1 text-sm text-red-600">{errors.website.message}</p>
@@ -238,10 +238,10 @@ const IntegrationStep: FC<StepProps> = ({ register, errors }) => (
 const CustomizationStep: FC<StepProps> = ({ register, errors }) => (
   <div className="space-y-4">
     <div>
-      <label className="block text-sm font-medium text-gray-700">Expected Volume</label>
+      <label className="block text-sm font-medium text-slate-700">Expected Volume</label>
       <select
         {...register('expectedVolume')}
-        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+        className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
       >
         <option value="low">Low (1-100 conversations/month)</option>
         <option value="medium">Medium (100-1000 conversations/month)</option>

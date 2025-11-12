@@ -106,26 +106,26 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
               </svg>
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-gray-900">Configuration Saved!</h3>
-              <p class="text-gray-600">Chatbot published successfully</p>
+              <h3 class="text-lg font-semibold text-slate-900">Configuration Saved!</h3>
+              <p class="text-slate-600">Chatbot published successfully</p>
             </div>
           </div>
           <div class="space-y-3 mb-4">
             <div class="flex justify-between">
-              <span class="text-sm font-medium text-gray-700">Name:</span>
-              <span class="text-sm text-gray-900">${name}</span>
+              <span class="text-sm font-medium text-slate-700">Name:</span>
+              <span class="text-sm text-slate-900">${name}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-sm font-medium text-gray-700">Language:</span>
-              <span class="text-sm text-gray-900">${language}</span>
+              <span class="text-sm font-medium text-slate-700">Language:</span>
+              <span class="text-sm text-slate-900">${language}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-sm font-medium text-gray-700">Font:</span>
-              <span class="text-sm text-gray-900">${selectedFont.name}</span>
+              <span class="text-sm font-medium text-slate-700">Font:</span>
+              <span class="text-sm text-slate-900">${selectedFont.name}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-sm font-medium text-gray-700">Theme:</span>
-              <span class="text-sm text-gray-900">${theme}</span>
+              <span class="text-sm font-medium text-slate-700">Theme:</span>
+              <span class="text-sm text-slate-900">${theme}</span>
             </div>
           </div>
           <div class="bg-green-50 rounded-lg p-3 mb-4">
@@ -208,8 +208,8 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
               </svg>
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-gray-900">Installation Successful!</h3>
-              <p class="text-gray-600">Shopify chatbot widget has been installed successfully. The widget is now active on your store.</p>
+              <h3 class="text-lg font-semibold text-slate-900">Installation Successful!</h3>
+              <p class="text-slate-600">Shopify chatbot widget has been installed successfully. The widget is now active on your store.</p>
             </div>
           </div>
           <button onclick="this.closest('.fixed').remove()" class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium">
@@ -315,18 +315,18 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50 pt-16">
+    <div className="min-h-screen bg-slate-50/50 pt-16">
       <div className="max-w-[1400px] mx-auto px-6">
         {/* Header */}
         <div className="flex justify-between items-center py-4">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">Chatbot Customization</h1>
-            <p className="mt-1 text-sm text-gray-500">Customize your chatbot's appearance and behavior</p>
+            <h1 className="text-2xl font-semibold text-slate-900">Chatbot Customization</h1>
+            <p className="mt-1 text-sm text-slate-500">Customize your chatbot's appearance and behavior</p>
           </div>
           <button
             onClick={handleSaveAndPublish}
             data-save-publish-btn
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 hover:scale-105 hover:shadow-xl hover:-translate-y-1"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-500 hover:scale-105 hover:shadow-xl hover:-translate-y-1"
           >
             Save & Publish
           </button>
@@ -334,14 +334,14 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
 
         {/* Tabs */}
         <div className="bg-white rounded-lg shadow-sm mb-6">
-          <div className="border-b border-gray-200">
+          <div className="border-b border-slate-200">
             <nav className="-mb-px flex space-x-8 px-6 overflow-x-auto">
               <button
                 onClick={() => setCurrentTab('customization')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                   currentTab === 'customization'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                 }`}
               >
                 Customization
@@ -350,8 +350,8 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                 onClick={() => setCurrentTab('integrations')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                   currentTab === 'integrations'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                 }`}
                               >
                   Integrations
@@ -360,8 +360,8 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                   onClick={() => setCurrentTab('test')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                   currentTab === 'test'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                 }`}
               >
                 Test
@@ -370,8 +370,8 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                 onClick={() => setCurrentTab('docs')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                   currentTab === 'docs'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                 }`}
               >
                 Documentation
@@ -389,27 +389,27 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                 {/* Basic Settings Section */}
                 <div className="bg-white rounded-lg shadow-sm">
                   <div className="p-6">
-                    <h2 className="text-base font-medium text-gray-900 mb-4">Basic Settings</h2>
+                    <h2 className="text-base font-medium text-slate-900 mb-4">Basic Settings</h2>
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700">Chatbot Name</label>
+                        <label className="block text-sm font-medium text-slate-700">Chatbot Name</label>
                         <input
                           type="text"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
-                          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 bg-gray-50 text-gray-900 focus:bg-white focus:border-blue-500 focus:ring-blue-500"
+                          className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 bg-slate-50 text-slate-900 focus:bg-white focus:border-indigo-500 focus:ring-indigo-500"
                           placeholder="Enter chatbot name"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700">Language</label>
+                        <label className="block text-sm font-medium text-slate-700">Language</label>
                         <select
                           value={language}
                           onChange={(e) => {
                             setLanguage(e.target.value);
                             setWelcomeMessage(getWelcomeMessageByLanguage(e.target.value));
                           }}
-                          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 bg-gray-50 text-gray-900 focus:bg-white focus:border-blue-500 focus:ring-blue-500"
+                          className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 bg-slate-50 text-slate-900 focus:bg-white focus:border-indigo-500 focus:ring-indigo-500"
                         >
                           <option value="English">English</option>
                           <option value="Spanish">Spanish</option>
@@ -419,24 +419,24 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700">Welcome Message</label>
+                        <label className="block text-sm font-medium text-slate-700">Welcome Message</label>
                         <textarea
                           value={welcomeMessage}
                           onChange={(e) => setWelcomeMessage(e.target.value)}
                           rows={3}
-                          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 bg-gray-50 text-gray-900 focus:bg-white focus:border-blue-500 focus:ring-blue-500"
+                          className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 bg-slate-50 text-slate-900 focus:bg-white focus:border-indigo-500 focus:ring-indigo-500"
                           placeholder="Enter welcome message"
                         />
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Chatbot Avatar</label>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">Chatbot Avatar</label>
                           <div className="flex items-center space-x-4">
-                            <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
+                            <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
                               {avatar ? (
                                 <img src={URL.createObjectURL(avatar)} alt="Avatar" className="w-full h-full object-cover" />
                               ) : (
-                                <span className="text-gray-400 text-lg font-bold">{name.charAt(0).toUpperCase()}</span>
+                                <span className="text-slate-400 text-lg font-bold">{name.charAt(0).toUpperCase()}</span>
                               )}
                             </div>
                             <div className="flex-1 min-w-0">
@@ -447,7 +447,7 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                                   const file = e.target.files?.[0];
                                   if (file) setAvatar(file);
                                 }}
-                                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
                               />
                               {avatar && (
                                 <button
@@ -461,13 +461,13 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                           </div>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Chat Icon</label>
+                          <label className="block text-sm font-medium text-slate-700 mb-2">Chat Icon</label>
                           <div className="flex items-center space-x-4">
-                            <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
+                            <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
                               {chatIcon ? (
                                 <img src={URL.createObjectURL(chatIcon)} alt="Chat Icon" className="w-full h-full object-cover" />
                               ) : (
-                                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg className="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                 </svg>
                               )}
@@ -480,7 +480,7 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                                   const file = e.target.files?.[0];
                                   if (file) setChatIcon(file);
                                 }}
-                                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
                               />
                               {chatIcon && (
                                 <button
@@ -501,27 +501,27 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                 {/* Appearance Settings */}
                 <div className="bg-white rounded-lg shadow-sm">
                   <div className="p-6">
-                    <h2 className="text-base font-medium text-gray-900 mb-4">Appearance</h2>
+                    <h2 className="text-base font-medium text-slate-900 mb-4">Appearance</h2>
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700">Primary Color</label>
+                        <label className="block text-sm font-medium text-slate-700">Primary Color</label>
                         <div className="mt-1 flex items-center space-x-2">
                           <input
                             type="color"
                             value={primaryColor}
                             onChange={(e) => setPrimaryColor(e.target.value)}
-                            className="h-10 w-20 rounded border border-gray-300"
+                            className="h-10 w-20 rounded border border-slate-300"
                           />
                           <input
                             type="text"
                             value={primaryColor}
                             onChange={(e) => setPrimaryColor(e.target.value)}
-                            className="flex-1 rounded-md border border-gray-300 px-3 py-2 bg-gray-50 text-gray-900 focus:bg-white focus:border-blue-500 focus:ring-blue-500"
+                            className="flex-1 rounded-md border border-slate-300 px-3 py-2 bg-slate-50 text-slate-900 focus:bg-white focus:border-indigo-500 focus:ring-indigo-500"
                           />
                         </div>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700">Gradient</label>
+                        <label className="block text-sm font-medium text-slate-700">Gradient</label>
                         <div className="mt-2 grid grid-cols-4 gap-2">
                           {COLOR_GRADIENTS.map((grad, index) => (
                             <button
@@ -529,8 +529,8 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                               onClick={() => setGradient(grad)}
                               className={`h-12 rounded-lg border-2 ${
                                 gradient.from === grad.from && gradient.to === grad.to
-                                  ? 'border-blue-500'
-                                  : 'border-gray-200'
+                                  ? 'border-indigo-500'
+                                  : 'border-slate-200'
                               }`}
                               style={{
                                 background: `linear-gradient(135deg, ${grad.from}, ${grad.to})`
@@ -541,12 +541,12 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                         </div>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-3">Theme</label>
+                        <label className="block text-sm font-medium text-slate-700 mb-3">Theme</label>
                         <div className="grid grid-cols-2 gap-3">
                           <label className={`relative flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition-all ${
                             theme === 'light' 
-                              ? 'border-blue-500 bg-blue-50 text-blue-700' 
-                              : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                              ? 'border-indigo-500 bg-indigo-50 text-indigo-700' 
+                              : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'
                           }`}>
                             <input
                               type="radio"
@@ -556,14 +556,14 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                               className="sr-only"
                             />
                             <div className="flex items-center space-x-3">
-                              <div className="w-8 h-8 bg-white border border-gray-300 rounded-md flex items-center justify-center">
-                                <div className="w-4 h-4 bg-gray-100 rounded-sm"></div>
+                              <div className="w-8 h-8 bg-white border border-slate-300 rounded-md flex items-center justify-center">
+                                <div className="w-4 h-4 bg-slate-100 rounded-sm"></div>
                               </div>
                               <span className="font-medium">Light Theme</span>
                             </div>
                             {theme === 'light' && (
                               <div className="absolute top-2 right-2">
-                                <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                <svg className="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
                                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                 </svg>
                               </div>
@@ -571,8 +571,8 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                           </label>
                           <label className={`relative flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition-all ${
                             theme === 'dark' 
-                              ? 'border-blue-500 bg-blue-50 text-blue-700' 
-                              : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                              ? 'border-indigo-500 bg-indigo-50 text-indigo-700' 
+                              : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'
                           }`}>
                             <input
                               type="radio"
@@ -582,14 +582,14 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                               className="sr-only"
                             />
                             <div className="flex items-center space-x-3">
-                              <div className="w-8 h-8 bg-gray-800 border border-gray-600 rounded-md flex items-center justify-center">
-                                <div className="w-4 h-4 bg-gray-600 rounded-sm"></div>
+                              <div className="w-8 h-8 bg-slate-800 border border-slate-600 rounded-md flex items-center justify-center">
+                                <div className="w-4 h-4 bg-slate-600 rounded-sm"></div>
                               </div>
                               <span className="font-medium">Dark Theme</span>
                             </div>
                             {theme === 'dark' && (
                               <div className="absolute top-2 right-2">
-                                <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                <svg className="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
                                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                 </svg>
                               </div>
@@ -604,14 +604,14 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                 {/* Typography Settings */}
                 <div className="bg-white rounded-lg shadow-sm">
                   <div className="p-6">
-                    <h2 className="text-base font-medium text-gray-900 mb-4">Typography</h2>
+                    <h2 className="text-base font-medium text-slate-900 mb-4">Typography</h2>
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700">Font Family</label>
+                        <label className="block text-sm font-medium text-slate-700">Font Family</label>
                         <select
                           value={selectedFont.value}
                           onChange={(e) => setSelectedFont(FONT_OPTIONS.find(f => f.value === e.target.value) || FONT_OPTIONS[0])}
-                          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 bg-gray-50 text-gray-900 focus:bg-white focus:border-blue-500 focus:ring-blue-500"
+                          className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 bg-slate-50 text-slate-900 focus:bg-white focus:border-indigo-500 focus:ring-indigo-500"
                         >
                           {FONT_OPTIONS.map(font => (
                             <option key={font.value} value={font.value}>
@@ -621,11 +621,11 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700">Font Size</label>
+                        <label className="block text-sm font-medium text-slate-700">Font Size</label>
                         <select
                           value={fontSize.value}
                           onChange={(e) => setFontSize(FONT_SIZES.find(f => f.value === e.target.value) || FONT_SIZES[1])}
-                          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 bg-gray-50 text-gray-900 focus:bg-white focus:border-blue-500 focus:ring-blue-500"
+                          className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 bg-slate-50 text-slate-900 focus:bg-white focus:border-indigo-500 focus:ring-indigo-500"
                         >
                           {FONT_SIZES.map(size => (
                             <option key={size.value} value={size.value}>
@@ -635,11 +635,11 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700">Message Bubble Shape</label>
+                        <label className="block text-sm font-medium text-slate-700">Message Bubble Shape</label>
                         <select
                           value={bubbleShape.value}
                           onChange={(e) => setBubbleShape(BUBBLE_SHAPES.find(b => b.value === e.target.value) || BUBBLE_SHAPES[1])}
-                          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 bg-gray-50 text-gray-900 focus:bg-white focus:border-blue-500 focus:ring-blue-500"
+                          className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 bg-slate-50 text-slate-900 focus:bg-white focus:border-indigo-500 focus:ring-indigo-500"
                         >
                           {BUBBLE_SHAPES.map(shape => (
                             <option key={shape.value} value={shape.value}>
@@ -658,18 +658,18 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                 {/* Preview Header */}
                 <div className="bg-white rounded-lg shadow-sm p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-base font-medium text-gray-900">Live Preview</h2>
+                    <h2 className="text-base font-medium text-slate-900">Live Preview</h2>
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => setIsPreviewOpen(!isPreviewOpen)}
-                        className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                        className="p-2 text-slate-400 hover:text-slate-600 transition-colors"
                       >
                         {isPreviewOpen ? <Minimize2 className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                       <select
                         value={previewDevice}
                         onChange={(e) => setPreviewDevice(e.target.value as 'desktop' | 'tablet' | 'mobile')}
-                        className="text-sm border border-gray-300 rounded-md px-2 py-1"
+                        className="text-sm border border-slate-300 rounded-md px-2 py-1"
                       >
                         <option value="desktop">Desktop</option>
                         <option value="tablet">Tablet</option>
@@ -679,9 +679,9 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                   </div>
                   
                   {isPreviewOpen && (
-                    <div className="border border-gray-200 rounded-lg overflow-hidden">
+                    <div className="border border-slate-200 rounded-lg overflow-hidden">
                       {/* Device Frame */}
-                      <div className="bg-gray-100 p-2 flex justify-center">
+                      <div className="bg-slate-100 p-2 flex justify-center">
                         <div 
                           className="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300"
                           style={{
@@ -695,7 +695,7 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                           <div className="relative h-full">
                             {/* Header */}
                             <div className={`p-4 border-b flex items-center justify-between ${
-                              theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+                              theme === 'dark' ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'
                             }`}>
                               <div className="flex items-center space-x-3">
                                 <div 
@@ -721,12 +721,12 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                                     fontSize.value === 'sm' ? 'text-sm' :
                                     fontSize.value === 'md' ? 'text-base' : 'text-lg'
                                   } ${
-                                    theme === 'dark' ? 'text-white' : 'text-gray-900'
+                                    theme === 'dark' ? 'text-white' : 'text-slate-900'
                                   }`} style={{ fontFamily: selectedFont.name }}>
                                     {name}
                                   </div>
                                   <div className={`text-xs ${
-                                    theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                                    theme === 'dark' ? 'text-slate-300' : 'text-slate-600'
                                   }`}>
                                     {getOnlineStatusByLanguage()}
                                   </div>
@@ -736,7 +736,7 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
 
                             {/* Messages */}
                             <div className={`flex-1 p-4 space-y-3 overflow-y-auto ${
-                              theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'
+                              theme === 'dark' ? 'bg-slate-900' : 'bg-slate-50'
                             }`}>
                               {/* Welcome Message */}
                               <div className="flex items-start space-x-2">
@@ -760,7 +760,7 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                                 </div>
                                 <div 
                                   className={`max-w-xs p-3 ${bubbleShape.value} ${
-                                    theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-white text-gray-900'
+                                    theme === 'dark' ? 'bg-slate-700 text-white' : 'bg-white text-slate-900'
                                   } shadow-sm break-words`}
                                   style={{
                                     fontSize: fontSize.value === 'sm' ? '14px' : 
@@ -793,12 +793,12 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                                   )}
                                 </div>
                                 <div className={`p-3 ${bubbleShape.value} ${
-                                  theme === 'dark' ? 'bg-gray-700' : 'bg-white'
+                                  theme === 'dark' ? 'bg-slate-700' : 'bg-white'
                                 } shadow-sm`}>
                                   <div className="flex space-x-1">
-                                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
                                   </div>
                                 </div>
                               </div>
@@ -806,7 +806,7 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
 
                             {/* Input Area */}
                             <div className={`p-4 border-t flex-shrink-0 ${
-                              theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+                              theme === 'dark' ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'
                             }`}>
                               <div className="flex space-x-3">
                                 <input
@@ -814,8 +814,8 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                                   placeholder={getPlaceholderByLanguage()}
                                   className={`flex-1 px-4 py-2 border rounded-lg min-w-0 ${
                                     theme === 'dark' 
-                                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
-                                      : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-500'
+                                      ? 'bg-slate-700 border-slate-600 text-white placeholder-slate-400' 
+                                      : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-500'
                                   } focus:outline-none focus:ring-2 focus:ring-opacity-50 transition-all`}
                                   style={{
                                     fontSize: fontSize.value === 'sm' ? '14px' : 
@@ -840,9 +840,9 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                       </div>
                       
                       {/* Preview Controls */}
-                      <div className="p-4 border-t border-gray-200 bg-gray-50">
+                      <div className="p-4 border-t border-slate-200 bg-slate-50">
                         <div className="flex items-center justify-between text-sm">
-                          <span className="text-gray-600">✨ Live preview updates as you type</span>
+                          <span className="text-slate-600">✨ Live preview updates as you type</span>
                           <div className="flex items-center space-x-2">
                             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                             <span className="text-green-600 font-medium">Real-time</span>
@@ -864,8 +864,8 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                   <div className="flex items-center space-x-3">
                     <span className="text-2xl">🛍️</span>
                     <div>
-                      <h3 className="text-lg font-medium text-gray-900">Shopify Widget Integration</h3>
-                      <p className="text-sm text-gray-500">
+                      <h3 className="text-lg font-medium text-slate-900">Shopify Widget Integration</h3>
+                      <p className="text-sm text-slate-500">
                         Generate and install a customized chatbot widget directly in your Shopify theme
                       </p>
                     </div>
@@ -879,9 +879,9 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                       shopifyIntegration.isConnected
                         ? 'bg-green-600 text-white cursor-default'
                         : shopifyIntegration.isInstalling
-                        ? 'bg-gray-400 text-white cursor-not-allowed'
-                        : 'bg-blue-600 text-white hover:bg-blue-700'
-                    } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+                        ? 'bg-slate-400 text-white cursor-not-allowed'
+                        : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                    } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                   >
                     {shopifyIntegration.isInstalling ? (
                       <>
@@ -920,8 +920,8 @@ const ChatbotCustomization: React.FC<ChatbotCustomizationProps> = () => {
                     
                     {/* Widget Code Display */}
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-3">Widget Code:</h4>
-                      <div className="bg-gray-900 rounded-lg p-4 overflow-auto max-h-64">
+                      <h4 className="font-semibold text-slate-900 mb-3">Widget Code:</h4>
+                      <div className="bg-slate-900 rounded-lg p-4 overflow-auto max-h-64">
                         <pre className="text-green-400 text-sm font-mono whitespace-pre-wrap break-all">
 {`<!-- AI Orchestrator Chatbot Widget -->
 <script>

@@ -7,11 +7,11 @@ const cardVariants = cva(
   {
     variants: {
       variant: {
-        default: 'border-gray-200',
-        elevated: 'border-gray-200 shadow-lg hover:shadow-xl',
-        outlined: 'border-2 border-gray-300',
+        default: 'border-slate-200',
+        elevated: 'border-slate-200 shadow-lg hover:shadow-xl',
+        outlined: 'border-2 border-slate-300',
         ghost: 'border-transparent shadow-none hover:shadow-sm',
-        gradient: 'border-transparent bg-gradient-to-br from-blue-50 to-purple-50',
+        gradient: 'border-transparent bg-gradient-to-br from-indigo-50 to-purple-50',
         premium: 'border-transparent bg-gradient-to-br from-amber-50 to-orange-50',
         success: 'border-transparent bg-gradient-to-br from-green-50 to-emerald-50',
         warning: 'border-transparent bg-gradient-to-br from-yellow-50 to-orange-50',
@@ -64,7 +64,7 @@ const cardTitleVariants = cva('text-lg font-semibold leading-none tracking-tight
   },
 });
 
-const cardDescriptionVariants = cva('text-sm text-gray-600', {
+const cardDescriptionVariants = cva('text-sm text-slate-600', {
   variants: {
     size: {
       sm: 'text-xs',

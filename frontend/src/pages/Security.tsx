@@ -58,10 +58,10 @@ const Security: React.FC = () => {
       header: 'Data/Ora',
       accessor: (threat: any) => (
         <div>
-          <p className="text-sm font-medium text-gray-900">
+          <p className="text-sm font-medium text-slate-900">
             {new Date(threat.timestamp).toLocaleDateString()}
           </p>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-slate-500">
             {new Date(threat.timestamp).toLocaleTimeString()}
           </p>
         </div>
@@ -89,8 +89,8 @@ const Security: React.FC = () => {
       header: 'Sorgente',
       accessor: (threat: any) => (
         <div>
-          <p className="text-sm font-medium text-gray-900">{threat.source.ip}</p>
-          <p className="text-xs text-gray-500">{threat.source.country}</p>
+          <p className="text-sm font-medium text-slate-900">{threat.source.ip}</p>
+          <p className="text-xs text-slate-500">{threat.source.country}</p>
         </div>
       ),
     },
@@ -165,8 +165,8 @@ const Security: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">🛡️ Security Dashboard</h1>
-          <p className="text-gray-600 mt-2">Monitora la sicurezza del sistema in tempo reale</p>
+          <h1 className="text-3xl font-bold text-slate-900">🛡️ Security Dashboard</h1>
+          <p className="text-slate-600 mt-2">Monitora la sicurezza del sistema in tempo reale</p>
         </div>
 
         {/* Security Status */}
@@ -177,8 +177,8 @@ const Security: React.FC = () => {
                 <span className="text-2xl">🟢</span>
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-gray-900">Sistema Sicuro</h2>
-                <p className="text-gray-600">Nessuna minaccia critica rilevata</p>
+                <h2 className="text-xl font-semibold text-slate-900">Sistema Sicuro</h2>
+                <p className="text-slate-600">Nessuna minaccia critica rilevata</p>
               </div>
             </div>
             <div className="flex space-x-2">
@@ -206,8 +206,8 @@ const Security: React.FC = () => {
                 <span className="text-2xl">🚨</span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Minacce Bloccate</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">Minacce Bloccate</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {securityData?.blockedThreats || 156}
                 </p>
                 <p className="text-sm text-green-600">+23% vs ieri</p>
@@ -221,8 +221,8 @@ const Security: React.FC = () => {
                 <span className="text-2xl"></span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Tentativi di Accesso</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">Tentativi di Accesso</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {securityData?.loginAttempts || 2847}
                 </p>
                 <p className="text-sm text-yellow-600">+12% vs ieri</p>
@@ -232,15 +232,15 @@ const Security: React.FC = () => {
 
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-lg">
+              <div className="p-2 bg-indigo-100 rounded-lg">
                 <span className="text-2xl">🔐</span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Utenti MFA</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">Utenti MFA</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {securityData?.mfaUsers || 89}%
                 </p>
-                <p className="text-sm text-blue-600">+5% vs ieri</p>
+                <p className="text-sm text-indigo-600">+5% vs ieri</p>
               </div>
             </div>
           </div>
@@ -251,8 +251,8 @@ const Security: React.FC = () => {
                 <span className="text-2xl"></span>
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Security Score</p>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-sm font-medium text-slate-600">Security Score</p>
+                <p className="text-2xl font-bold text-slate-900">
                   {securityData?.overallScore || 94}/100
                 </p>
                 <p className="text-sm text-green-600">+2 punti vs ieri</p>
@@ -264,7 +264,7 @@ const Security: React.FC = () => {
         {/* Security Charts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Minacce per Tipo</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Minacce per Tipo</h3>
             <Chart
               data={threatData}
               type="bar"
@@ -273,7 +273,7 @@ const Security: React.FC = () => {
           </div>
 
           <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Security Score Breakdown</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Security Score Breakdown</h3>
             <Chart
               data={securityScoreData}
               type="doughnut"
@@ -284,14 +284,14 @@ const Security: React.FC = () => {
 
         {/* Compliance Status */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">📋 Compliance Status</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">📋 Compliance Status</h3>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {Object.entries(securityData?.compliance || {}).map(([key, value]: [string, any]) => (
               <div key={key} className="text-center">
                 <div className="text-3xl font-bold text-green-600 mb-2">
                   {value}%
                 </div>
-                <p className="text-sm font-medium text-gray-900 mb-1">
+                <p className="text-sm font-medium text-slate-900 mb-1">
                   {key === 'gdpr' ? 'GDPR' :
                    key === 'soc2' ? 'SOC 2' :
                    key === 'iso27001' ? 'ISO 27001' : 'PCI DSS'}
@@ -307,7 +307,7 @@ const Security: React.FC = () => {
         {/* Recent Threats */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">🚨 Minacce Recenti</h3>
+            <h3 className="text-lg font-semibold text-slate-900">🚨 Minacce Recenti</h3>
             <Button variant="outline" size="sm">
               📥 Esporta Report
             </Button>
@@ -324,14 +324,14 @@ const Security: React.FC = () => {
 
         {/* Security Alerts */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">🔔 Security Alerts</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">🔔 Security Alerts</h3>
           <div className="space-y-3">
             <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg border border-red-200">
               <div className="flex items-center space-x-3">
                 <span className="text-red-600">🚨</span>
                 <div>
-                  <p className="font-medium text-gray-900">Multiple Failed Login Attempts</p>
-                  <p className="text-sm text-gray-600">IP 192.168.1.100 - 15 tentativi falliti</p>
+                  <p className="font-medium text-slate-900">Multiple Failed Login Attempts</p>
+                  <p className="text-sm text-slate-600">IP 192.168.1.100 - 15 tentativi falliti</p>
                 </div>
               </div>
               <div className="flex space-x-2">
@@ -345,8 +345,8 @@ const Security: React.FC = () => {
               <div className="flex items-center space-x-3">
                 <span className="text-yellow-600"></span>
                 <div>
-                  <p className="font-medium text-gray-900">Suspicious API Activity</p>
-                  <p className="text-sm text-gray-600">Rate limit exceeded for /api/users</p>
+                  <p className="font-medium text-slate-900">Suspicious API Activity</p>
+                  <p className="text-sm text-slate-600">Rate limit exceeded for /api/users</p>
                 </div>
               </div>
               <div className="flex space-x-2">
@@ -361,19 +361,19 @@ const Security: React.FC = () => {
 
         {/* Security Recommendations */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4"> Security Recommendations</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4"> Security Recommendations</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
-              <div className="p-3 bg-blue-50 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-1">Enable MFA for All Users</h4>
-                <p className="text-sm text-gray-600">11% of users still don't have MFA enabled</p>
+              <div className="p-3 bg-indigo-50 rounded-lg">
+                <h4 className="font-medium text-slate-900 mb-1">Enable MFA for All Users</h4>
+                <p className="text-sm text-slate-600">11% of users still don't have MFA enabled</p>
                 <Button size="sm" variant="outline" className="mt-2">
                    Implementa
                 </Button>
               </div>
               <div className="p-3 bg-green-50 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-1">Update Security Policies</h4>
-                <p className="text-sm text-gray-600">Password policy needs strengthening</p>
+                <h4 className="font-medium text-slate-900 mb-1">Update Security Policies</h4>
+                <p className="text-sm text-slate-600">Password policy needs strengthening</p>
                 <Button size="sm" variant="outline" className="mt-2">
                    Implementa
                 </Button>
@@ -381,15 +381,15 @@ const Security: React.FC = () => {
             </div>
             <div className="space-y-3">
               <div className="p-3 bg-purple-50 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-1">Enable IP Whitelisting</h4>
-                <p className="text-sm text-gray-600">Restrict admin access to specific IPs</p>
+                <h4 className="font-medium text-slate-900 mb-1">Enable IP Whitelisting</h4>
+                <p className="text-sm text-slate-600">Restrict admin access to specific IPs</p>
                 <Button size="sm" variant="outline" className="mt-2">
                    Implementa
                 </Button>
               </div>
               <div className="p-3 bg-orange-50 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-1">Security Audit</h4>
-                <p className="text-sm text-gray-600">Schedule quarterly security audit</p>
+                <h4 className="font-medium text-slate-900 mb-1">Security Audit</h4>
+                <p className="text-sm text-slate-600">Schedule quarterly security audit</p>
                 <Button size="sm" variant="outline" className="mt-2">
                    Pianifica
                 </Button>

@@ -79,7 +79,7 @@ export const NewsletterPopup: React.FC<NewsletterPopupProps> = ({
               {/* Close button */}
               <button
                 onClick={handleClose}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -90,13 +90,13 @@ export const NewsletterPopup: React.FC<NewsletterPopupProps> = ({
                 <>
                   {/* Header */}
                   <div className="text-center mb-6">
-                    <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
                       <span className="text-2xl text-white"></span>
                     </div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                    <h2 className="text-2xl font-bold text-slate-900 mb-2">
                       Join 50,000+ AI Builders
                     </h2>
-                    <p className="text-gray-600">
+                    <p className="text-slate-600">
                       Get exclusive tips, updates, and early access to new features
                     </p>
                   </div>
@@ -120,14 +120,14 @@ export const NewsletterPopup: React.FC<NewsletterPopupProps> = ({
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Enter your email address"
                         required
-                        className="w-full px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-500"
+                        className="w-full px-4 py-3 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-slate-500"
                       />
                     </div>
 
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 disabled:opacity-50"
+                      className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 disabled:opacity-50"
                     >
                       {isSubmitting ? (
                         <div className="flex items-center justify-center space-x-2">
@@ -142,15 +142,15 @@ export const NewsletterPopup: React.FC<NewsletterPopupProps> = ({
 
                   {/* Benefits */}
                   <div className="mt-6 space-y-2">
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <div className="flex items-center space-x-2 text-sm text-slate-600">
                       <span className="text-green-500">✓</span>
                       <span>Weekly AI insights & tutorials</span>
                     </div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <div className="flex items-center space-x-2 text-sm text-slate-600">
                       <span className="text-green-500">✓</span>
                       <span>Early access to new features</span>
                     </div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <div className="flex items-center space-x-2 text-sm text-slate-600">
                       <span className="text-green-500">✓</span>
                       <span>Exclusive community access</span>
                     </div>
@@ -174,14 +174,14 @@ export const NewsletterPopup: React.FC<NewsletterPopupProps> = ({
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">
                     Welcome to the AI Revolution!
                   </h3>
-                  <p className="text-gray-600 mb-4">
+                  <p className="text-slate-600 mb-4">
                     Check your email for a special welcome gift and exclusive tips.
                   </p>
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                    <p className="text-sm text-blue-800">
+                  <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3">
+                    <p className="text-sm text-indigo-800">
                       🎁 You've unlocked 50% off your first month of premium features!
                     </p>
                   </div>

@@ -247,15 +247,15 @@ const WorkflowManager: React.FC = () => {
             </svg>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-gray-900">Delete Workflow</h3>
-            <p class="text-gray-600">This action cannot be undone</p>
+            <h3 class="text-lg font-semibold text-slate-900">Delete Workflow</h3>
+            <p class="text-slate-600">This action cannot be undone</p>
           </div>
         </div>
         <div class="bg-red-50 rounded-lg p-3 mb-4">
           <p class="text-sm text-red-800">Are you sure you want to delete this workflow? This action cannot be undone.</p>
         </div>
         <div class="flex space-x-3">
-          <button onclick="this.closest('.fixed').remove()" class="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 font-medium">
+          <button onclick="this.closest('.fixed').remove()" class="flex-1 px-4 py-2 bg-slate-300 text-slate-700 rounded-lg hover:bg-slate-400 font-medium">
             Cancel
           </button>
           <button id="confirmDelete" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
@@ -284,8 +284,8 @@ const WorkflowManager: React.FC = () => {
               </svg>
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-gray-900">Workflow Deleted!</h3>
-              <p class="text-gray-600">Removed successfully</p>
+              <h3 class="text-lg font-semibold text-slate-900">Workflow Deleted!</h3>
+              <p class="text-slate-600">Removed successfully</p>
             </div>
           </div>
           <div class="bg-green-50 rounded-lg p-3 mb-4">
@@ -379,12 +379,12 @@ const WorkflowManager: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50/50 pt-16">
+      <div className="min-h-screen bg-slate-50/50 pt-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="mt-4 text-gray-600">Loading workflows...</p>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+              <p className="mt-4 text-slate-600">Loading workflows...</p>
             </div>
           </div>
         </div>
@@ -393,28 +393,28 @@ const WorkflowManager: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50/50 pt-16">
+    <div className="min-h-screen bg-slate-50/50 pt-16">
       <div className="max-w-7xl mx-auto px-6 space-y-8">
         {/* Header */}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 font-sans">Workflow Management</h1>
-              <p className="mt-2 text-gray-700 text-base font-normal max-w-3xl">
+              <h1 className="text-3xl font-bold text-slate-900 font-sans">Workflow Management</h1>
+              <p className="mt-2 text-slate-700 text-base font-normal max-w-3xl">
                 Crea e gestisci workflows automatici per i tuoi chatbot
               </p>
             </div>
             <div className="flex items-center space-x-3">
               <button
                 onClick={() => setActiveTab('guide')}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                className="inline-flex items-center px-4 py-2 border border-slate-300 text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
               >
                 <BookOpen className="w-4 h-4 mr-2" />
                 Guida Workflows
               </button>
               <button
                 onClick={handleCreateWorkflow}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors shadow-sm"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors shadow-sm"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Crea Workflow
@@ -423,14 +423,14 @@ const WorkflowManager: React.FC = () => {
           </div>
 
           {/* Tabs */}
-          <div className="mt-6 border-b border-gray-200">
+          <div className="mt-6 border-b border-slate-200">
             <nav className="-mb-px flex space-x-8">
               <button
                 onClick={() => setActiveTab('workflows')}
                 className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
                   activeTab === 'workflows'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                 }`}
               >
                 <div className="flex items-center space-x-2">
@@ -442,8 +442,8 @@ const WorkflowManager: React.FC = () => {
                 onClick={() => setActiveTab('guide')}
                 className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
                   activeTab === 'guide'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                 }`}
               >
                 <div className="flex items-center space-x-2">
@@ -469,11 +469,11 @@ const WorkflowManager: React.FC = () => {
             <div className="bg-white rounded-lg shadow-sm mb-6 p-4">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-800 mb-1">Chatbot</label>
+                  <label className="block text-sm font-medium text-slate-800 mb-1">Chatbot</label>
                   <select
                     value={selectedChatbot}
                     onChange={(e) => setSelectedChatbot(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-md bg-white text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                   >
                     <option value="all">Tutti i Chatbots</option>
                     {chatbots.map(bot => (
@@ -482,11 +482,11 @@ const WorkflowManager: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-800 mb-1">Stato</label>
+                  <label className="block text-sm font-medium text-slate-800 mb-1">Stato</label>
                   <select
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value as typeof filterStatus)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-md bg-white text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                   >
                     <option value="all">Tutti gli Stati</option>
                     <option value="active">Attivo</option>
@@ -494,13 +494,13 @@ const WorkflowManager: React.FC = () => {
                   </select>
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-800 mb-1">Ricerca</label>
+                  <label className="block text-sm font-medium text-slate-800 mb-1">Ricerca</label>
                   <input
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Cerca workflows..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-md bg-white text-slate-900 placeholder-slate-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                   />
                 </div>
               </div>
@@ -508,25 +508,25 @@ const WorkflowManager: React.FC = () => {
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white p-4 rounded-lg border border-gray-200">
-            <div className="text-sm font-medium text-gray-500">Total Workflows</div>
-            <div className="text-2xl font-bold text-gray-900">{workflows.length}</div>
+          <div className="bg-white p-4 rounded-lg border border-slate-200">
+            <div className="text-sm font-medium text-slate-500">Total Workflows</div>
+            <div className="text-2xl font-bold text-slate-900">{workflows.length}</div>
           </div>
-          <div className="bg-white p-4 rounded-lg border border-gray-200">
-            <div className="text-sm font-medium text-gray-500">Active Workflows</div>
-            <div className="text-2xl font-bold text-gray-900">
+          <div className="bg-white p-4 rounded-lg border border-slate-200">
+            <div className="text-sm font-medium text-slate-500">Active Workflows</div>
+            <div className="text-2xl font-bold text-slate-900">
               {workflows.filter(w => w.isActive).length}
             </div>
           </div>
-          <div className="bg-white p-4 rounded-lg border border-gray-200">
-            <div className="text-sm font-medium text-gray-500">Total Triggers</div>
-            <div className="text-2xl font-bold text-gray-900">
+          <div className="bg-white p-4 rounded-lg border border-slate-200">
+            <div className="text-sm font-medium text-slate-500">Total Triggers</div>
+            <div className="text-2xl font-bold text-slate-900">
               {workflows.reduce((sum, w) => sum + w.usage.totalTriggers, 0)}
             </div>
           </div>
-          <div className="bg-white p-4 rounded-lg border border-gray-200">
-            <div className="text-sm font-medium text-gray-500">Avg Success Rate</div>
-            <div className="text-2xl font-bold text-gray-900">
+          <div className="bg-white p-4 rounded-lg border border-slate-200">
+            <div className="text-sm font-medium text-slate-500">Avg Success Rate</div>
+            <div className="text-2xl font-bold text-slate-900">
               {workflows.length > 0 
                 ? (workflows.reduce((sum, w) => sum + w.usage.successRate, 0) / workflows.length).toFixed(1)
                 : 0}%
@@ -540,21 +540,21 @@ const WorkflowManager: React.FC = () => {
             const chatbot = chatbots.find(c => c.id === workflow.chatbotId);
             
             return (
-              <div key={workflow.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+              <div key={workflow.id} className="bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow">
                 {/* Header */}
-                <div className="p-6 border-b border-gray-200">
+                <div className="p-6 border-b border-slate-200">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-1">{workflow.name}</h3>
-                      <p className="text-sm text-gray-500 mb-2">{workflow.description}</p>
+                      <h3 className="font-semibold text-slate-900 mb-1">{workflow.name}</h3>
+                      <p className="text-sm text-slate-500 mb-2">{workflow.description}</p>
                       <div className="flex items-center space-x-2">
-                        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+                        <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">
                           {chatbot?.name || 'Unknown Bot'}
                         </span>
                         <span className={`text-xs px-2 py-1 rounded ${
                           workflow.isActive 
                             ? 'bg-green-100 text-green-800' 
-                            : 'bg-gray-100 text-gray-600'
+                            : 'bg-slate-100 text-slate-600'
                         }`}>
                           {workflow.isActive ? 'Active' : 'Inactive'}
                         </span>
@@ -563,7 +563,7 @@ const WorkflowManager: React.FC = () => {
                     <div className="flex items-center space-x-1">
                       <button
                         onClick={() => handleEditWorkflow(workflow)}
-                        className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                        className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
                         title="Edit Actions & Triggers"
                       >
                         <Edit className="w-3 h-3 mr-1" />
@@ -596,16 +596,16 @@ const WorkflowManager: React.FC = () => {
                 <div className="p-6">
                   {/* Triggers */}
                   <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-900 mb-2">Triggers</h4>
+                    <h4 className="text-sm font-medium text-slate-900 mb-2">Triggers</h4>
                     <div className="flex flex-wrap gap-1">
                       {workflow.triggers.slice(0, 3).map((trigger) => (
-                        <span key={trigger.id} className="inline-flex items-center space-x-1 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                        <span key={trigger.id} className="inline-flex items-center space-x-1 text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded">
                           <span>{getTriggerIcon(trigger.type)}</span>
                           <span>{trigger.value}</span>
                         </span>
                       ))}
                       {workflow.triggers.length > 3 && (
-                        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+                        <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">
                           +{workflow.triggers.length - 3} more
                         </span>
                       )}
@@ -614,7 +614,7 @@ const WorkflowManager: React.FC = () => {
 
                   {/* Actions */}
                   <div className="mb-4">
-                    <h4 className="text-sm font-medium text-gray-900 mb-2">Actions</h4>
+                    <h4 className="text-sm font-medium text-slate-900 mb-2">Actions</h4>
                     <div className="flex flex-wrap gap-1">
                       {workflow.actions.slice(0, 3).map((action) => (
                         <span key={action.id} className="inline-flex items-center space-x-1 text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
@@ -623,7 +623,7 @@ const WorkflowManager: React.FC = () => {
                         </span>
                       ))}
                       {workflow.actions.length > 3 && (
-                        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+                        <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">
                           +{workflow.actions.length - 3} more
                         </span>
                       )}
@@ -633,18 +633,18 @@ const WorkflowManager: React.FC = () => {
                   {/* Stats */}
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                      <div className="text-xs text-gray-500">Triggers</div>
-                      <div className="text-lg font-semibold text-gray-900">{workflow.usage.totalTriggers}</div>
+                      <div className="text-xs text-slate-500">Triggers</div>
+                      <div className="text-lg font-semibold text-slate-900">{workflow.usage.totalTriggers}</div>
                     </div>
                     <div>
-                      <div className="text-xs text-gray-500">Success Rate</div>
-                      <div className="text-lg font-semibold text-gray-900">{workflow.usage.successRate}%</div>
+                      <div className="text-xs text-slate-500">Success Rate</div>
+                      <div className="text-lg font-semibold text-slate-900">{workflow.usage.successRate}%</div>
                     </div>
                   </div>
 
                   {/* Toggle */}
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                    <span className="text-sm text-gray-600">
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-200">
+                    <span className="text-sm text-slate-600">
                       {workflow.usage.lastTriggered 
                         ? `Last triggered ${workflow.usage.lastTriggered.toLocaleDateString()}`
                         : 'Never triggered'
@@ -658,7 +658,7 @@ const WorkflowManager: React.FC = () => {
                         className="sr-only"
                       />
                       <div className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        workflow.isActive ? 'bg-blue-600' : 'bg-gray-200'
+                        workflow.isActive ? 'bg-indigo-600' : 'bg-slate-200'
                       }`}>
                         <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
                           workflow.isActive ? 'translate-x-6' : 'translate-x-1'
@@ -674,17 +674,17 @@ const WorkflowManager: React.FC = () => {
 
         {filteredWorkflows.length === 0 && (
           <div className="text-center py-12">
-            <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No workflows found</h3>
-            <p className="mt-1 text-sm text-gray-500">
+            <h3 className="mt-2 text-sm font-medium text-slate-900">No workflows found</h3>
+            <p className="mt-1 text-sm text-slate-500">
               Get started by creating your first workflow.
             </p>
             <div className="mt-6">
               <button
                 onClick={handleCreateWorkflow}
-                className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
               >
                 Create Workflow
               </button>
@@ -698,11 +698,11 @@ const WorkflowManager: React.FC = () => {
 
       {/* Workflow Editor Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div className="fixed inset-0 bg-slate-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
           <div className="relative top-8 mx-auto p-5 border w-full max-w-4xl shadow-lg rounded-md bg-white">
             <div className="mt-3">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-medium text-gray-900">
+                <h3 className="text-lg font-medium text-slate-900">
                   {selectedWorkflow ? 'Edit Workflow' : 'Create New Workflow'}
                 </h3>
                 <button
@@ -710,7 +710,7 @@ const WorkflowManager: React.FC = () => {
                     setShowCreateModal(false);
                     setSelectedWorkflow(null);
                   }}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-slate-400 hover:text-slate-600"
                 >
                   <X className="w-6 h-6" />
                 </button>

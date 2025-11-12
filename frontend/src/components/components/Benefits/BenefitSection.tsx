@@ -33,7 +33,7 @@ const containerVariants: Variants = {
 
 const BenefitSection: React.FC<BenefitSectionProps> = ({ title, description, bullets }) => {
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-slate-50">
       <div className="container mx-auto px-4">
         <motion.div
           initial="hidden"
@@ -47,7 +47,7 @@ const BenefitSection: React.FC<BenefitSectionProps> = ({ title, description, bul
           </SectionTitle>
           <motion.p
             variants={childVariants}
-            className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto"
+            className="mt-4 text-lg text-slate-600 max-w-3xl mx-auto"
           >
             {description}
           </motion.p>

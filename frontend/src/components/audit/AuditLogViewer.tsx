@@ -373,7 +373,7 @@ const AuditLogViewer: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <Text>{log.resource.name}</Text>
-                    <Text className="text-xs text-gray-500">{log.resource.type}</Text>
+                    <Text className="text-xs text-slate-500">{log.resource.type}</Text>
                   </TableCell>
                   <TableCell>{log.details}</TableCell>
                   <TableCell>
@@ -403,7 +403,7 @@ const AuditLogViewer: React.FC = () => {
                       {log.status}
                     </Badge>
                   </div>
-                  <Text className="text-sm text-gray-500 mt-1">
+                  <Text className="text-sm text-slate-500 mt-1">
                     {format(log.timestamp, 'MMM d, yyyy HH:mm:ss')}
                   </Text>
                 </div>
@@ -425,7 +425,7 @@ const AuditLogViewer: React.FC = () => {
                   <Text className="font-medium">Resource</Text>
                   <div className="mt-1">
                     <Text>{log.resource.name}</Text>
-                    <Text className="text-sm text-gray-500">{log.resource.type}</Text>
+                    <Text className="text-sm text-slate-500">{log.resource.type}</Text>
                   </div>
                 </div>
               </div>
@@ -438,7 +438,7 @@ const AuditLogViewer: React.FC = () => {
               {log.metadata && (
                 <div className="mt-4">
                   <Text className="font-medium">Additional Information</Text>
-                  <pre className="mt-1 bg-gray-50 p-2 rounded text-sm">
+                  <pre className="mt-1 bg-slate-50 p-2 rounded text-sm">
                     {JSON.stringify(log.metadata, null, 2)}
                   </pre>
                 </div>

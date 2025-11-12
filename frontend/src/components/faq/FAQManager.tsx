@@ -99,7 +99,7 @@ const FAQManager: React.FC = () => {
     return (
       <div className="space-y-4 animate-pulse">
         {[1, 2, 3].map(n => (
-          <div key={n} className="h-24 bg-gray-200 rounded-lg"></div>
+          <div key={n} className="h-24 bg-slate-200 rounded-lg"></div>
         ))}
       </div>
     );
@@ -153,13 +153,13 @@ const FAQManager: React.FC = () => {
           >
             <div className="flex items-start justify-between">
               <div className="space-y-2">
-                <h3 className="font-medium text-gray-900">{faq.question}</h3>
-                <p className="text-gray-600">{faq.answer}</p>
+                <h3 className="font-medium text-slate-900">{faq.question}</h3>
+                <p className="text-slate-600">{faq.answer}</p>
                 <div className="flex items-center space-x-4 text-sm">
-                  <span className="text-gray-500">
+                  <span className="text-slate-500">
                     Category: {categories.find(c => c.id === faq.category)?.name}
                   </span>
-                  <span className="text-gray-500">
+                  <span className="text-slate-500">
                     Updated: {new Date(faq.lastUpdated).toLocaleDateString()}
                   </span>
                 </div>

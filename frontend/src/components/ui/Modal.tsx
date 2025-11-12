@@ -129,12 +129,12 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
         >
           {/* Header */}
           {(title || showCloseButton) && (
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            <div className="flex items-center justify-between p-6 border-b border-slate-200">
               <div className="flex-1">
                 {title && (
                   <h2 
                     id="modal-title"
-                    className="text-lg font-semibold text-gray-900"
+                    className="text-lg font-semibold text-slate-900"
                   >
                     {title}
                   </h2>
@@ -142,7 +142,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
                 {description && (
                   <p 
                     id="modal-description"
-                    className="mt-1 text-sm text-gray-600"
+                    className="mt-1 text-sm text-slate-600"
                   >
                     {description}
                   </p>
@@ -170,7 +170,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 
           {/* Footer */}
           {footer && (
-            <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50 rounded-b-lg">
+            <div className="flex items-center justify-end gap-3 p-6 border-t border-slate-200 bg-slate-50 rounded-b-lg">
               {footer}
             </div>
           )}
@@ -243,7 +243,7 @@ export const ConfirmModal: React.FC<{
           {icon}
         </div>
         <div className="flex-1">
-          <p className="text-sm text-gray-700">
+          <p className="text-sm text-slate-700">
             {message}
           </p>
         </div>

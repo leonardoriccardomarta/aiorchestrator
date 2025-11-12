@@ -111,7 +111,7 @@ const ConnectionsOAuth: React.FC = () => {
       <div className="max-w-6xl mx-auto mb-8">
         <button
           onClick={() => navigate('/dashboard')}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"
+          className="flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-4"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Dashboard
@@ -119,14 +119,14 @@ const ConnectionsOAuth: React.FC = () => {
 
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Store Connections</h1>
-            <p className="text-gray-600 mt-2">Connect your eCommerce stores with 1-click OAuth</p>
+            <h1 className="text-3xl font-bold text-slate-900">Store Connections</h1>
+            <p className="text-slate-600 mt-2">Connect your eCommerce stores with 1-click OAuth</p>
           </div>
 
           {!showAddConnection && (
             <button
               onClick={() => setShowAddConnection(true)}
-              className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
+              className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-lg"
             >
               <Plus className="w-5 h-5" />
               Add Connection
@@ -140,13 +140,13 @@ const ConnectionsOAuth: React.FC = () => {
         {showAddConnection && (
           <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-900">Add New Connection</h2>
+              <h2 className="text-xl font-semibold text-slate-900">Add New Connection</h2>
               <button
                 onClick={() => {
                   setShowAddConnection(false);
                   setSelectedPlatform(null);
                 }}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-slate-400 hover:text-slate-600"
               >
                 <AlertCircle className="w-5 h-5" />
               </button>
@@ -156,22 +156,22 @@ const ConnectionsOAuth: React.FC = () => {
               <div className="grid md:grid-cols-2 gap-4">
                 <button
                   onClick={() => setSelectedPlatform('shopify')}
-                  className="p-6 border-2 border-gray-200 rounded-xl hover:border-green-500 hover:bg-green-50 transition-all text-left"
+                  className="p-6 border-2 border-slate-200 rounded-xl hover:border-green-500 hover:bg-green-50 transition-all text-left"
                 >
                   <ShoppingCart className="w-8 h-8 text-green-600 mb-3" />
                   <h3 className="font-semibold text-lg mb-2">Shopify</h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-slate-600">
                     Connect via 1-click OAuth - No API keys needed!
                   </p>
                 </button>
 
                 <button
                   onClick={() => setSelectedPlatform('woocommerce')}
-                  className="p-6 border-2 border-gray-200 rounded-xl hover:border-purple-500 hover:bg-purple-50 transition-all text-left"
+                  className="p-6 border-2 border-slate-200 rounded-xl hover:border-purple-500 hover:bg-purple-50 transition-all text-left"
                 >
                   <ShoppingCart className="w-8 h-8 text-purple-600 mb-3" />
                   <h3 className="font-semibold text-lg mb-2">WooCommerce</h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-slate-600">
                     Connect with Consumer Key & Secret
                   </p>
                 </button>
@@ -203,20 +203,20 @@ const ConnectionsOAuth: React.FC = () => {
 
         {/* Existing Connections */}
         <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Connected Stores</h2>
+          <h2 className="text-xl font-semibold text-slate-900 mb-6">Connected Stores</h2>
 
           {loading ? (
             <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="text-gray-600 mt-4">Loading connections...</p>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+              <p className="text-slate-600 mt-4">Loading connections...</p>
             </div>
           ) : connections.length === 0 ? (
             <div className="text-center py-12">
-              <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-600">No stores connected yet</p>
+              <ShoppingCart className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+              <p className="text-slate-600">No stores connected yet</p>
               <button
                 onClick={() => setShowAddConnection(true)}
-                className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
               >
                 Connect Your First Store
               </button>
@@ -226,12 +226,12 @@ const ConnectionsOAuth: React.FC = () => {
               {connections.map((connection) => (
                 <div
                   key={connection.id}
-                  className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
+                  className="border border-slate-200 rounded-lg p-6 hover:shadow-md transition-shadow"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <ShoppingCart className="w-5 h-5 text-blue-600" />
+                        <ShoppingCart className="w-5 h-5 text-indigo-600" />
                         <h3 className="font-semibold text-lg">{connection.storeName}</h3>
                         {connection.status === 'connected' && (
                           <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full flex items-center gap-1">
@@ -241,19 +241,19 @@ const ConnectionsOAuth: React.FC = () => {
                         )}
                       </div>
                       
-                      <p className="text-sm text-gray-600 mb-4">{connection.domain}</p>
+                      <p className="text-sm text-slate-600 mb-4">{connection.domain}</p>
 
                       <div className="grid grid-cols-3 gap-4 text-sm">
                         <div>
-                          <p className="text-gray-500">Products</p>
+                          <p className="text-slate-500">Products</p>
                           <p className="font-semibold">{connection.productsCount || 0}</p>
                         </div>
                         <div>
-                          <p className="text-gray-500">Orders</p>
+                          <p className="text-slate-500">Orders</p>
                           <p className="font-semibold">{connection.ordersCount || 0}</p>
                         </div>
                         <div>
-                          <p className="text-gray-500">Last Sync</p>
+                          <p className="text-slate-500">Last Sync</p>
                           <p className="font-semibold text-xs">
                             {new Date(connection.lastSync).toLocaleDateString()}
                           </p>
@@ -264,7 +264,7 @@ const ConnectionsOAuth: React.FC = () => {
                     <div className="flex gap-2">
                       <button
                         onClick={() => setSuccessConnectionId(connection.id)}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                        className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg"
                         title="View widget code"
                       >
                         <Eye className="w-5 h-5" />

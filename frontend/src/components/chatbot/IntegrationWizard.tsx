@@ -88,31 +88,31 @@ const IntegrationWizard: React.FC<IntegrationWizardProps> = ({
       case 'info':
         return (
           <div className="space-y-6">
-            <div className="bg-blue-50 rounded-lg p-6">
+            <div className="bg-indigo-50 rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4">
                 {integrationType.charAt(0).toUpperCase() + integrationType.slice(1)} Setup Instructions
               </h3>
               {integrationType === 'whatsapp' && (
                 <div className="space-y-4 text-sm">
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">1</div>
+                    <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">1</div>
                     <div>
                       <div className="font-medium">Get WhatsApp Business API</div>
-                      <div className="text-gray-600">Apply for WhatsApp Business API access through Meta or a provider like Twilio</div>
+                      <div className="text-slate-600">Apply for WhatsApp Business API access through Meta or a provider like Twilio</div>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">2</div>
+                    <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">2</div>
                     <div>
                       <div className="font-medium">Get Phone Number</div>
-                      <div className="text-gray-600">Obtain a WhatsApp Business phone number</div>
+                      <div className="text-slate-600">Obtain a WhatsApp Business phone number</div>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">3</div>
+                    <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">3</div>
                     <div>
                       <div className="font-medium">Set Webhook URL</div>
-                      <div className="text-gray-600">Configure webhook to receive messages</div>
+                      <div className="text-slate-600">Configure webhook to receive messages</div>
                     </div>
                   </div>
                 </div>
@@ -120,24 +120,24 @@ const IntegrationWizard: React.FC<IntegrationWizardProps> = ({
               {integrationType === 'messenger' && (
                 <div className="space-y-4 text-sm">
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">1</div>
+                    <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">1</div>
                     <div>
                       <div className="font-medium">Create Facebook App</div>
-                      <div className="text-gray-600">Go to developers.facebook.com and create a new app</div>
+                      <div className="text-slate-600">Go to developers.facebook.com and create a new app</div>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">2</div>
+                    <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">2</div>
                     <div>
                       <div className="font-medium">Add Messenger Product</div>
-                      <div className="text-gray-600">Add Messenger to your app and configure webhooks</div>
+                      <div className="text-slate-600">Add Messenger to your app and configure webhooks</div>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">3</div>
+                    <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">3</div>
                     <div>
                       <div className="font-medium">Get Page Access Token</div>
-                      <div className="text-gray-600">Generate a Page Access Token for your Facebook Page</div>
+                      <div className="text-slate-600">Generate a Page Access Token for your Facebook Page</div>
                     </div>
                   </div>
                 </div>
@@ -145,24 +145,24 @@ const IntegrationWizard: React.FC<IntegrationWizardProps> = ({
               {integrationType === 'telegram' && (
                 <div className="space-y-4 text-sm">
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">1</div>
+                    <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">1</div>
                     <div>
                       <div className="font-medium">Message BotFather</div>
-                      <div className="text-gray-600">Start a chat with @BotFather on Telegram</div>
+                      <div className="text-slate-600">Start a chat with @BotFather on Telegram</div>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">2</div>
+                    <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">2</div>
                     <div>
                       <div className="font-medium">Create New Bot</div>
-                      <div className="text-gray-600">Use /newbot command and follow the instructions</div>
+                      <div className="text-slate-600">Use /newbot command and follow the instructions</div>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">3</div>
+                    <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">3</div>
                     <div>
                       <div className="font-medium">Get Bot Token</div>
-                      <div className="text-gray-600">Save the bot token provided by BotFather</div>
+                      <div className="text-slate-600">Save the bot token provided by BotFather</div>
                     </div>
                   </div>
                 </div>
@@ -170,24 +170,24 @@ const IntegrationWizard: React.FC<IntegrationWizardProps> = ({
               {integrationType === 'shopify' && (
                 <div className="space-y-4 text-sm">
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">1</div>
+                    <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">1</div>
                     <div>
                       <div className="font-medium">Create Shopify App</div>
-                      <div className="text-gray-600">Go to your Shopify admin and create a private app</div>
+                      <div className="text-slate-600">Go to your Shopify admin and create a private app</div>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">2</div>
+                    <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">2</div>
                     <div>
                       <div className="font-medium">Enable Admin API</div>
-                      <div className="text-gray-600">Enable Admin API access for your app</div>
+                      <div className="text-slate-600">Enable Admin API access for your app</div>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">3</div>
+                    <div className="w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">3</div>
                     <div>
                       <div className="font-medium">Get API Credentials</div>
-                      <div className="text-gray-600">Copy your API key and secret from the app settings</div>
+                      <div className="text-slate-600">Copy your API key and secret from the app settings</div>
                     </div>
                   </div>
                 </div>
@@ -211,27 +211,27 @@ const IntegrationWizard: React.FC<IntegrationWizardProps> = ({
             {integrationType === 'whatsapp' && (
               <>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
                     Phone Number *
                   </label>
                   <input
                     type="tel"
                     value={config.phoneNumber || ''}
                     onChange={(e) => updateConfig('phoneNumber', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     placeholder="+1234567890"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
                     Webhook URL
                   </label>
                   <input
                     type="url"
                     value={config.webhookUrl || ''}
                     onChange={(e) => updateConfig('webhookUrl', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     placeholder="https://your-domain.com/webhook"
                   />
                 </div>
@@ -240,27 +240,27 @@ const IntegrationWizard: React.FC<IntegrationWizardProps> = ({
             {integrationType === 'messenger' && (
               <>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
                     Page ID *
                   </label>
                   <input
                     type="text"
                     value={config.pageId || ''}
                     onChange={(e) => updateConfig('pageId', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     placeholder="123456789012345"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
                     Access Token *
                   </label>
                   <input
                     type="password"
                     value={config.accessToken || ''}
                     onChange={(e) => updateConfig('accessToken', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     placeholder="Enter your Page Access Token"
                     required
                   />
@@ -270,27 +270,27 @@ const IntegrationWizard: React.FC<IntegrationWizardProps> = ({
             {integrationType === 'telegram' && (
               <>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
                     Bot Token *
                   </label>
                   <input
                     type="password"
                     value={config.botToken || ''}
                     onChange={(e) => updateConfig('botToken', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     placeholder="123456789:ABCdefGHIjklMNOpqrsTUVwxyz"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
                     Bot Username *
                   </label>
                   <input
                     type="text"
                     value={config.username || ''}
                     onChange={(e) => updateConfig('username', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     placeholder="@your_bot_username"
                     required
                   />
@@ -300,40 +300,40 @@ const IntegrationWizard: React.FC<IntegrationWizardProps> = ({
             {integrationType === 'shopify' && (
               <>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
                     Store URL *
                   </label>
                   <input
                     type="url"
                     value={config.storeUrl || ''}
                     onChange={(e) => updateConfig('storeUrl', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     placeholder="https://your-store.myshopify.com"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
                     API Key *
                   </label>
                   <input
                     type="password"
                     value={config.apiKey || ''}
                     onChange={(e) => updateConfig('apiKey', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     placeholder="Enter your Shopify API key"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
                     API Secret *
                   </label>
                   <input
                     type="password"
                     value={config.apiSecret || ''}
                     onChange={(e) => updateConfig('apiSecret', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     placeholder="Enter your Shopify API secret"
                     required
                   />
@@ -347,19 +347,19 @@ const IntegrationWizard: React.FC<IntegrationWizardProps> = ({
         return (
           <div className="space-y-6">
             <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
               <h3 className="text-lg font-semibold mb-2">Testing Your Connection</h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-slate-600 mb-6">
                 We're verifying your {integrationType} integration. This may take a few moments.
               </p>
-              <div className="bg-gray-100 rounded-lg p-4 max-w-md mx-auto">
+              <div className="bg-slate-100 rounded-lg p-4 max-w-md mx-auto">
                 <div className="flex items-center space-x-3">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
-                  <span className="text-sm text-gray-600">Connecting to {integrationType}...</span>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-indigo-600"></div>
+                  <span className="text-sm text-slate-600">Connecting to {integrationType}...</span>
                 </div>
               </div>
             </div>
@@ -376,7 +376,7 @@ const IntegrationWizard: React.FC<IntegrationWizardProps> = ({
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-2">Integration Complete!</h3>
-              <p className="text-gray-600">
+              <p className="text-slate-600">
                 Your {integrationType} integration is now active and ready to use.
               </p>
             </div>
@@ -408,17 +408,17 @@ const IntegrationWizard: React.FC<IntegrationWizardProps> = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="border-b border-gray-200 px-6 py-4">
+        <div className="border-b border-slate-200 px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">
+              <h2 className="text-xl font-semibold text-slate-900">
                 {currentStepData.title}
               </h2>
-              <p className="text-gray-600">{currentStepData.description}</p>
+              <p className="text-slate-600">{currentStepData.description}</p>
             </div>
             <button
               onClick={onCancel}
-              className="text-gray-400 hover:text-gray-600"
+              className="text-slate-400 hover:text-slate-600"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -428,20 +428,20 @@ const IntegrationWizard: React.FC<IntegrationWizardProps> = ({
         </div>
 
         {/* Progress */}
-        <div className="px-6 py-4 border-b border-gray-200">
+        <div className="px-6 py-4 border-b border-slate-200">
           <div className="flex items-center space-x-2">
             {currentSteps.map((step, index) => (
               <div key={step.id} className="flex items-center">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                   index <= currentStep
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-600'
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-slate-200 text-slate-600'
                 }`}>
                   {index + 1}
                 </div>
                 {index < currentSteps.length - 1 && (
                   <div className={`w-8 h-1 mx-2 ${
-                    index < currentStep ? 'bg-blue-600' : 'bg-gray-200'
+                    index < currentStep ? 'bg-indigo-600' : 'bg-slate-200'
                   }`} />
                 )}
               </div>
@@ -465,12 +465,12 @@ const IntegrationWizard: React.FC<IntegrationWizardProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-200 px-6 py-4">
+        <div className="border-t border-slate-200 px-6 py-4">
           <div className="flex justify-between">
             <button
               onClick={handleBack}
               disabled={currentStep === 0}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               Back
             </button>
@@ -478,7 +478,7 @@ const IntegrationWizard: React.FC<IntegrationWizardProps> = ({
             <button
               onClick={handleNext}
               disabled={!canProceed() || isLoading}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {isLoading ? 'Connecting...' : currentStep === currentSteps.length - 1 ? 'Complete' : 'Next'}
             </button>

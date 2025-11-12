@@ -8,7 +8,7 @@ describe('Input Component', () => {
     render(<Input placeholder="Enter text" />);
     const input = screen.getByPlaceholderText('Enter text');
     expect(input).toBeInTheDocument();
-    expect(input).toHaveClass('border-gray-300');
+    expect(input).toHaveClass('border-slate-300');
   });
 
   it('renders with label', () => {
@@ -56,7 +56,7 @@ describe('Input Component', () => {
   it('shows helper text', () => {
     render(<Input helperText="This is helpful text" placeholder="Helper field" />);
     expect(screen.getByText('This is helpful text')).toBeInTheDocument();
-    expect(screen.getByText('This is helpful text')).toHaveClass('text-gray-500');
+    expect(screen.getByText('This is helpful text')).toHaveClass('text-slate-500');
   });
 
   it('handles input changes', () => {

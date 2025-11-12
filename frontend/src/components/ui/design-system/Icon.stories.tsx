@@ -475,7 +475,7 @@ export const AllWeights: Story = {
 // Dark Mode Examples
 export const DarkMode: Story = {
   render: () => (
-    <div className="dark p-4 bg-gray-900 rounded-lg">
+    <div className="dark p-4 bg-slate-900 rounded-lg">
       <div className="flex flex-wrap gap-4">
         <Icon icon={HomeIcon} color="default" title="Default (Dark)" />
         <Icon icon={HomeIcon} color="muted" title="Muted (Dark)" />

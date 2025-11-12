@@ -34,9 +34,9 @@ const toastVariants = {
     progress: 'bg-yellow-500',
   },
   info: {
-    container: 'bg-blue-50 border-blue-200 text-blue-800',
-    icon: 'text-blue-400',
-    progress: 'bg-blue-500',
+    container: 'bg-indigo-50 border-indigo-200 text-indigo-800',
+    icon: 'text-indigo-400',
+    progress: 'bg-indigo-500',
   },
 };
 
@@ -132,7 +132,7 @@ export const Toast: React.FC<ToastProps> = ({
       >
         {/* Progress bar */}
         {duration !== Infinity && (
-          <div className="absolute bottom-0 left-0 h-1 bg-gray-200">
+          <div className="absolute bottom-0 left-0 h-1 bg-slate-200">
             <div
               className={cn('h-full transition-all duration-100 ease-linear', variant.progress)}
               style={{ width: `${progress}%` }}

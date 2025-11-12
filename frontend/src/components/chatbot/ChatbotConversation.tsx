@@ -76,15 +76,15 @@ const ChatbotConversation: React.FC = () => {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto bg-gray-50 min-h-[calc(100vh-4rem)]">
+    <div className="p-6 max-w-7xl mx-auto bg-slate-50 min-h-[calc(100vh-4rem)]">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Conversation</h1>
-        <p className="text-gray-600 mt-1">
+        <h1 className="text-2xl font-bold text-slate-900">Conversation</h1>
+        <p className="text-slate-600 mt-1">
           Chat history with your AI assistant
         </p>
       </div>
 
-      <div className="bg-white shadow-lg rounded-lg border border-gray-100 flex flex-col h-[calc(100vh-16rem)]">
+      <div className="bg-white shadow-lg rounded-lg border border-slate-100 flex flex-col h-[calc(100vh-16rem)]">
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {messages.map((message) => (
             <div
@@ -94,13 +94,13 @@ const ChatbotConversation: React.FC = () => {
               <div
                 className={`max-w-[70%] rounded-lg p-4 ${
                   message.role === 'user'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-900'
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-slate-100 text-slate-900'
                 }`}
               >
                 <p className="text-sm">{message.content}</p>
                 <p className={`text-xs mt-1 ${
-                  message.role === 'user' ? 'text-blue-100' : 'text-gray-500'
+                  message.role === 'user' ? 'text-indigo-100' : 'text-slate-500'
                 }`}>
                   {new Date(message.timestamp).toLocaleTimeString()}
                 </p>
@@ -110,18 +110,18 @@ const ChatbotConversation: React.FC = () => {
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="border-t border-gray-100 p-4 bg-gray-50">
+        <div className="border-t border-slate-100 p-4 bg-slate-50">
           <form onSubmit={handleSubmit} className="flex space-x-4">
             <input
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type your message..."
-              className="flex-1 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="flex-1 rounded-lg border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
             />
             <button
               type="submit"
-              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+              className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
             >
               <svg
                 className="w-5 h-5 mr-1.5"

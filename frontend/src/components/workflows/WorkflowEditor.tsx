@@ -160,7 +160,7 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
             value={action.message || ''}
             onChange={(e) => handleActionChange(index, 'message', e.target.value)}
             placeholder="Inserisci il messaggio da inviare..."
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:outline-none resize-vertical shadow-sm"
+            className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 placeholder-slate-500 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none resize-vertical shadow-sm"
             rows={3}
           />
         );
@@ -170,7 +170,7 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
             value={action.message || ''}
             onChange={(e) => handleActionChange(index, 'message', e.target.value)}
             placeholder="Inserisci il messaggio per richiedere l'email..."
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:outline-none resize-vertical shadow-sm"
+            className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 placeholder-slate-500 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none resize-vertical shadow-sm"
             rows={2}
           />
         );
@@ -182,13 +182,13 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
               value={action.formTitle || ''}
               onChange={(e) => handleActionChange(index, 'formTitle', e.target.value)}
               placeholder="Titolo del modulo"
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:outline-none shadow-sm"
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 placeholder-slate-500 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none shadow-sm"
             />
             <textarea
               value={action.formFields || ''}
               onChange={(e) => handleActionChange(index, 'formFields', e.target.value)}
               placeholder="Campi del modulo (separati da virgola)"
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:outline-none resize-vertical shadow-sm"
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 placeholder-slate-500 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none resize-vertical shadow-sm"
               rows={2}
             />
           </div>
@@ -200,7 +200,7 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
             value={action.url || ''}
             onChange={(e) => handleActionChange(index, 'url', e.target.value)}
             placeholder="Enter URL to redirect to..."
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
+            className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none"
           />
         );
       case 'show_product':
@@ -210,7 +210,7 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
             value={action.productId || ''}
             onChange={(e) => handleActionChange(index, 'productId', e.target.value)}
             placeholder="Enter product ID or handle..."
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
+            className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none"
           />
         );
       case 'offer_discount':
@@ -221,13 +221,13 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
               value={action.discountCode || ''}
               onChange={(e) => handleActionChange(index, 'discountCode', e.target.value)}
               placeholder="Discount code"
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none"
             />
             <textarea
               value={action.discountMessage || ''}
               onChange={(e) => handleActionChange(index, 'discountMessage', e.target.value)}
               placeholder="Discount message"
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 focus:outline-none resize-vertical"
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none resize-vertical"
               rows={2}
             />
           </div>
@@ -240,9 +240,9 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
               value={action.delay || 1000}
               onChange={(e) => handleActionChange(index, 'delay', parseInt(e.target.value))}
               placeholder="Delay in milliseconds"
-              className="block w-32 rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
+              className="block w-32 rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none"
             />
-            <span className="text-sm text-gray-500">milliseconds</span>
+            <span className="text-sm text-slate-500">milliseconds</span>
           </div>
         );
       case 'show_menu':
@@ -251,7 +251,7 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
             value={action.options ? action.options.join(', ') : ''}
             onChange={(e) => handleActionChange(index, 'options', e.target.value.split(',').map(s => s.trim()))}
             placeholder="Menu options (comma separated)"
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 focus:outline-none resize-vertical"
+            className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none resize-vertical"
             rows={2}
           />
         );
@@ -261,7 +261,7 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
             <select
               value={action.priority || 'medium'}
               onChange={(e) => handleActionChange(index, 'priority', e.target.value)}
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none"
             >
               <option value="low">Low Priority</option>
               <option value="medium">Medium Priority</option>
@@ -272,7 +272,7 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
               value={action.category || ''}
               onChange={(e) => handleActionChange(index, 'category', e.target.value)}
               placeholder="Ticket category"
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 focus:outline-none"
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none"
             />
           </div>
         );
@@ -282,7 +282,7 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
             value={action.message || ''}
             onChange={(e) => handleActionChange(index, 'message', e.target.value)}
             placeholder="Notification message for agent"
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 focus:outline-none resize-vertical"
+            className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none resize-vertical"
             rows={2}
           />
         );
@@ -296,48 +296,48 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
       {/* Basic Information */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center text-gray-900">
+          <CardTitle className="flex items-center text-slate-900">
             <Bot className="h-5 w-5 mr-2" />
             Informazioni Base
           </CardTitle>
-          <CardDescription className="text-gray-700">
+          <CardDescription className="text-slate-700">
             Configura i dettagli base del tuo workflow
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-800 mb-1">Titolo Workflow</label>
+            <label className="block text-sm font-medium text-slate-800 mb-1">Titolo Workflow</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => handleInputChange('title', e.target.value)}
               placeholder="Inserisci il titolo del workflow..."
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:outline-none shadow-sm"
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 placeholder-slate-500 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none shadow-sm"
             />
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-800 mb-1">Descrizione</label>
+            <label className="block text-sm font-medium text-slate-800 mb-1">Descrizione</label>
             <textarea
               value={formData.description}
               onChange={(e) => handleInputChange('description', e.target.value)}
               placeholder="Descrivi cosa fa questo workflow..."
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 focus:outline-none resize-vertical shadow-sm"
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 placeholder-slate-500 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none resize-vertical shadow-sm"
               rows={3}
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-800 mb-1">Chatbot</label>
+              <label className="block text-sm font-medium text-slate-800 mb-1">Chatbot</label>
               <select
                 value={formData.chatbotId || ''}
                 onChange={(e) => handleInputChange('chatbotId', e.target.value)}
-                className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 focus:border-blue-500 focus:ring-blue-500 focus:outline-none shadow-sm"
+                className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none shadow-sm"
               >
-                <option value="" className="text-gray-600">Seleziona un chatbot</option>
+                <option value="" className="text-slate-600">Seleziona un chatbot</option>
                 {chatbots.map(chatbot => (
-                  <option key={chatbot.id} value={chatbot.id} className="text-gray-900">
+                  <option key={chatbot.id} value={chatbot.id} className="text-slate-900">
                     {chatbot.name}
                   </option>
                 ))}
@@ -345,25 +345,25 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-800 mb-1">Stato</label>
+              <label className="block text-sm font-medium text-slate-800 mb-1">Stato</label>
               <div className="flex items-center space-x-4">
                 <label className="flex items-center cursor-pointer">
                   <input
                     type="radio"
                     checked={formData.isActive}
                     onChange={() => handleInputChange('isActive', true)}
-                    className="mr-2 text-blue-600 focus:ring-blue-500"
+                    className="mr-2 text-indigo-600 focus:ring-indigo-500"
                   />
-                  <span className="text-sm text-gray-800">Attivo</span>
+                  <span className="text-sm text-slate-800">Attivo</span>
                 </label>
                 <label className="flex items-center cursor-pointer">
                   <input
                     type="radio"
                     checked={!formData.isActive}
                     onChange={() => handleInputChange('isActive', false)}
-                    className="mr-2 text-blue-600 focus:ring-blue-500"
+                    className="mr-2 text-indigo-600 focus:ring-indigo-500"
                   />
-                  <span className="text-sm text-gray-800">Inattivo</span>
+                  <span className="text-sm text-slate-800">Inattivo</span>
                 </label>
               </div>
             </div>
@@ -374,29 +374,29 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
       {/* Trigger Configuration */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center text-gray-900">
+          <CardTitle className="flex items-center text-slate-900">
             <Zap className="h-5 w-5 mr-2" />
             Configurazione Trigger
           </CardTitle>
-          <CardDescription className="text-gray-700">
+          <CardDescription className="text-slate-700">
             Scegli quando questo workflow deve essere attivato
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div>
-            <label className="block text-sm font-medium text-gray-800 mb-2">Tipo di Trigger</label>
+            <label className="block text-sm font-medium text-slate-800 mb-2">Tipo di Trigger</label>
             <select
               value={formData.triggerType}
               onChange={(e) => handleInputChange('triggerType', e.target.value)}
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 focus:border-blue-500 focus:ring-blue-500 focus:outline-none shadow-sm"
+              className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none shadow-sm"
             >
               {TRIGGER_TYPES.map(trigger => (
-                <option key={trigger.id} value={trigger.id} className="text-gray-900">
+                <option key={trigger.id} value={trigger.id} className="text-slate-900">
                   {trigger.label}
                 </option>
               ))}
             </select>
-            <p className="mt-1 text-sm text-gray-600">
+            <p className="mt-1 text-sm text-slate-600">
               {TRIGGER_TYPES.find(t => t.id === formData.triggerType)?.description}
             </p>
           </div>
@@ -406,21 +406,21 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
       {/* Actions Configuration */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center text-gray-900">
+          <CardTitle className="flex items-center text-slate-900">
             <MessageSquare className="h-5 w-5 mr-2" />
             Configurazione Azioni
           </CardTitle>
-          <CardDescription className="text-gray-700">
+          <CardDescription className="text-slate-700">
             Definisci quali azioni devono essere eseguite quando il trigger viene attivato
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {formData.actions.map((action, index) => (
-              <div key={index} className="border border-gray-200 rounded-lg p-4">
+              <div key={index} className="border border-slate-200 rounded-lg p-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center space-x-2">
-                    <span className="text-sm font-medium text-gray-700">Action {index + 1}</span>
+                    <span className="text-sm font-medium text-slate-700">Action {index + 1}</span>
                     <Badge variant="outline">{action.type}</Badge>
                   </div>
                   <Button
@@ -434,19 +434,19 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
                 
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-sm font-medium text-gray-800 mb-1">Tipo di Azione</label>
+                    <label className="block text-sm font-medium text-slate-800 mb-1">Tipo di Azione</label>
                     <select
                       value={action.type}
                       onChange={(e) => handleActionChange(index, 'type', e.target.value)}
-                      className="block w-full rounded-md border border-gray-300 px-3 py-2 bg-white text-gray-900 focus:border-blue-500 focus:ring-blue-500 focus:outline-none shadow-sm"
+                      className="block w-full rounded-md border border-slate-300 px-3 py-2 bg-white text-slate-900 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none shadow-sm"
                     >
                       {ACTION_TYPES.map(actionType => (
-                        <option key={actionType.id} value={actionType.id} className="text-gray-900">
+                        <option key={actionType.id} value={actionType.id} className="text-slate-900">
                           {actionType.label}
                         </option>
                       ))}
                     </select>
-                    <p className="mt-1 text-sm text-gray-600">
+                    <p className="mt-1 text-sm text-slate-600">
                       {ACTION_TYPES.find(t => t.id === action.type)?.description}
                     </p>
                   </div>
@@ -470,7 +470,7 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
       </Card>
 
       {/* Action Buttons */}
-      <div className="flex items-center justify-between pt-6 border-t border-gray-200">
+      <div className="flex items-center justify-between pt-6 border-t border-slate-200">
         <div className="flex items-center space-x-2">
           {onDelete && (
             <Button
@@ -490,7 +490,7 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
             type="button"
             variant="outline"
             onClick={onCancel}
-            className="border-gray-300 text-gray-700 bg-white hover:bg-gray-50 font-medium"
+            className="border-slate-300 text-slate-700 bg-white hover:bg-slate-50 font-medium"
           >
             <X className="h-4 w-4 mr-2" />
             Annulla
@@ -498,7 +498,7 @@ const WorkflowEditor: React.FC<WorkflowEditorProps> = ({
           <Button
             type="submit"
             onClick={handleSubmit}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-sm"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium shadow-sm"
           >
             <Save className="h-4 w-4 mr-2" />
             Salva Workflow

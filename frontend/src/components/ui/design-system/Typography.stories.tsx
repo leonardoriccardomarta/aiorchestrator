@@ -478,7 +478,7 @@ export const AllAlignments: Story = {
 // Dark Mode Examples
 export const DarkMode: Story = {
   render: () => (
-    <div className="dark p-4 bg-gray-900 rounded-lg">
+    <div className="dark p-4 bg-slate-900 rounded-lg">
       <div className="space-y-4">
         <Typography variant="h3" color="default">Dark Mode Heading</Typography>
         <Typography variant="body" color="muted">Dark mode muted text</Typography>

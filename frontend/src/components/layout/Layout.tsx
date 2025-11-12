@@ -37,7 +37,7 @@ export const Layout: React.FC<LayoutProps> = ({
   const { isMobile, isTablet, isDesktop } = useResponsive();
 
   return (
-    <div className={cn('min-h-screen bg-gray-50', className)}>
+    <div className={cn('min-h-screen bg-slate-50', className)}>
       {/* Navigation */}
       {showNavigation && (
         <Navigation

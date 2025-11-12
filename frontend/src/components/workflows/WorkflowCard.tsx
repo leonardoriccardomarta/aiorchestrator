@@ -119,7 +119,7 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+    <div className="bg-white rounded-lg shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
       <div className="p-6">
         <div className="flex items-start justify-between">
           <div className="flex items-start space-x-3">
@@ -128,28 +128,28 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center space-x-2">
-                <h3 className="text-lg font-medium text-gray-900 truncate">
+                <h3 className="text-lg font-medium text-slate-900 truncate">
                   {workflow.title}
                 </h3>
                 <span
                   className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                     workflow.isActive
                       ? 'bg-green-100 text-green-800'
-                      : 'bg-gray-100 text-gray-800'
+                      : 'bg-slate-100 text-slate-800'
                   }`}
                 >
                   {workflow.isActive ? 'Active' : 'Inactive'}
                 </span>
               </div>
-              <p className="mt-1 text-sm text-gray-500 line-clamp-2">
+              <p className="mt-1 text-sm text-slate-500 line-clamp-2">
                 {workflow.description || 'No description provided'}
               </p>
-              <div className="mt-3 flex items-center space-x-4 text-sm text-gray-500">
+              <div className="mt-3 flex items-center space-x-4 text-sm text-slate-500">
                 <div className="flex items-center space-x-1">
                   <span className="font-medium">Trigger:</span>
                   <span>{getTriggerLabel(workflow.triggerType)}</span>
                   {workflow.triggerValue && (
-                    <span className="text-gray-400">
+                    <span className="text-slate-400">
                       ({workflow.triggerValue}
                       {workflow.triggerType === 'time_on_page' ? 's' : 
                        workflow.triggerType === 'scroll_depth' ? '%' : ''})
@@ -169,8 +169,8 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
           <div className="flex items-center space-x-2">
             <button
               onClick={() => onToggle(workflow.id || '', !workflow.isActive)}
-              className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                workflow.isActive ? 'bg-blue-600' : 'bg-gray-200'
+              className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
+                workflow.isActive ? 'bg-indigo-600' : 'bg-slate-200'
               }`}
             >
               <span
@@ -183,7 +183,7 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
         </div>
         
         <div className="mt-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2 text-sm text-gray-500">
+          <div className="flex items-center space-x-2 text-sm text-slate-500">
             <span>Created {workflow.id ? 'recently' : 'just now'}</span>
             {workflow.actions.length > 0 && (
               <span>• {workflow.actions.length} action{workflow.actions.length !== 1 ? 's' : ''}</span>
@@ -193,7 +193,7 @@ const WorkflowCard: React.FC<WorkflowCardProps> = ({
           <div className="flex items-center space-x-2">
             <button
               onClick={() => onEdit(workflow)}
-              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="inline-flex items-center px-3 py-2 border border-slate-300 shadow-sm text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />

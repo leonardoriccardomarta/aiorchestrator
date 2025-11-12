@@ -66,7 +66,7 @@ const ShopifyOAuthButton: React.FC<ShopifyOAuthButtonProps> = ({ onSuccess, onEr
       ) : (
         <div className="bg-white rounded-xl border-2 border-green-200 p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-slate-700 mb-2">
               Your Shopify Store URL
             </label>
             <input
@@ -74,10 +74,10 @@ const ShopifyOAuthButton: React.FC<ShopifyOAuthButtonProps> = ({ onSuccess, onEr
               value={shop}
               onChange={(e) => setShop(e.target.value)}
               placeholder="my-store.myshopify.com"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
               disabled={loading}
             />
-            <p className="mt-2 text-xs text-gray-500">
+            <p className="mt-2 text-xs text-slate-500">
               Enter your Shopify store URL (e.g., my-store.myshopify.com)
             </p>
           </div>
@@ -86,7 +86,7 @@ const ShopifyOAuthButton: React.FC<ShopifyOAuthButtonProps> = ({ onSuccess, onEr
             <button
               onClick={handleConnect}
               disabled={loading || !shop}
-              className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
             >
               {loading ? (
                 <>
@@ -104,14 +104,14 @@ const ShopifyOAuthButton: React.FC<ShopifyOAuthButtonProps> = ({ onSuccess, onEr
             <button
               onClick={() => setShowInput(false)}
               disabled={loading}
-              className="px-4 py-3 text-gray-600 hover:text-gray-800 transition-colors"
+              className="px-4 py-3 text-slate-600 hover:text-slate-800 transition-colors"
             >
               Cancel
             </button>
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-            <p className="text-sm text-blue-800">
+          <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3">
+            <p className="text-sm text-indigo-800">
               <strong>🔒 Secure OAuth:</strong> You'll be redirected to Shopify to authorize the connection. 
               We'll only request access to read your products and orders.
             </p>

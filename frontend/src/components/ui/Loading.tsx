@@ -10,7 +10,7 @@ const loadingVariants = cva(
         spinner: 'animate-spin',
         dots: 'space-x-1',
         pulse: 'animate-pulse',
-        skeleton: 'animate-pulse bg-gray-200 rounded',
+        skeleton: 'animate-pulse bg-slate-200 rounded',
       },
       size: {
         xs: 'h-3 w-3',
@@ -21,7 +21,7 @@ const loadingVariants = cva(
       },
       color: {
         primary: 'text-primary-600',
-        secondary: 'text-gray-600',
+        secondary: 'text-slate-600',
         white: 'text-white',
         success: 'text-success-600',
         warning: 'text-warning-600',
@@ -124,7 +124,7 @@ const Loading = React.forwardRef<HTMLDivElement, LoadingProps>(
       >
         {renderContent()}
         {text && (
-          <p className="mt-2 text-sm text-gray-600 font-medium">
+          <p className="mt-2 text-sm text-slate-600 font-medium">
             {text}
           </p>
         )}
@@ -146,7 +146,7 @@ export const PageLoading: React.FC<{ text?: string }> = ({ text = 'Loading...' }
     color="primary"
     text={text}
     fullScreen
-    className="bg-gray-50"
+    className="bg-slate-50"
   />
 );
 
@@ -179,7 +179,7 @@ export const SkeletonLoading: React.FC<{
       <div
         key={i}
         className={cn(
-          'h-4 bg-gray-200 rounded animate-pulse',
+          'h-4 bg-slate-200 rounded animate-pulse',
           i === 0 ? 'w-3/4' : i === 1 ? 'w-1/2' : 'w-5/6'
         )}
       />
@@ -198,7 +198,7 @@ export const TableLoading: React.FC<{ rows?: number; columns?: number }> = ({
           <div
             key={colIndex}
             className={cn(
-              'h-4 bg-gray-200 rounded animate-pulse',
+              'h-4 bg-slate-200 rounded animate-pulse',
               colIndex === 0 ? 'w-32' : 'w-24'
             )}
           />

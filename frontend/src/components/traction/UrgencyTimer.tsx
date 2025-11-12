@@ -84,11 +84,11 @@ export const UrgencyTimer: React.FC<UrgencyTimerProps> = ({
             <span className="text-3xl">⏰</span>
           </div>
           
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">
+          <h3 className="text-2xl font-bold text-slate-900 mb-2">
             Special Offer Expires Soon!
           </h3>
           
-          <p className="text-gray-600 mb-6">
+          <p className="text-slate-600 mb-6">
             Join thousands of businesses already using AI Orchestrator
           </p>
 
@@ -98,21 +98,21 @@ export const UrgencyTimer: React.FC<UrgencyTimerProps> = ({
                 <div className="bg-white px-3 py-2 rounded shadow">
                   {formatTime(timeLeft.hours)}
                 </div>
-                <div className="text-xs text-gray-500 mt-1">Hours</div>
+                <div className="text-xs text-slate-500 mt-1">Hours</div>
               </div>
               <div className="text-red-400">:</div>
               <div className="text-center">
                 <div className="bg-white px-3 py-2 rounded shadow">
                   {formatTime(timeLeft.minutes)}
                 </div>
-                <div className="text-xs text-gray-500 mt-1">Minutes</div>
+                <div className="text-xs text-slate-500 mt-1">Minutes</div>
               </div>
               <div className="text-red-400">:</div>
               <div className="text-center">
                 <div className="bg-white px-3 py-2 rounded shadow">
                   {formatTime(timeLeft.seconds)}
                 </div>
-                <div className="text-xs text-gray-500 mt-1">Seconds</div>
+                <div className="text-xs text-slate-500 mt-1">Seconds</div>
               </div>
             </div>
           </div>
@@ -121,7 +121,7 @@ export const UrgencyTimer: React.FC<UrgencyTimerProps> = ({
             <button className="w-full bg-red-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-red-700 transition-colors">
               Claim 50% Discount Now
             </button>
-            <button className="w-full text-gray-500 hover:text-gray-700 transition-colors">
+            <button className="w-full text-slate-500 hover:text-slate-700 transition-colors">
               Maybe Later
             </button>
           </div>
@@ -134,7 +134,7 @@ export const UrgencyTimer: React.FC<UrgencyTimerProps> = ({
   return (
     <div className={`inline-flex items-center space-x-2 ${className}`}>
       <span className="text-sm font-medium text-red-600">⏰</span>
-      <span className="text-sm text-gray-600">Offer ends in:</span>
+      <span className="text-sm text-slate-600">Offer ends in:</span>
       <div className="flex items-center space-x-1 font-mono text-sm">
         <span className="bg-red-100 text-red-800 px-2 py-1 rounded">
           {formatTime(timeLeft.hours)}:{formatTime(timeLeft.minutes)}:{formatTime(timeLeft.seconds)}

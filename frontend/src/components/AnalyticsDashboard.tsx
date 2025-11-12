@@ -163,15 +163,15 @@ export const AnalyticsDashboard: React.FC = () => {
             recentEvents.map((event: RecentEvent, index: number) => (
               <div
                 key={index}
-                className="p-3 bg-gray-50 rounded-lg flex justify-between items-center"
+                className="p-3 bg-slate-50 rounded-lg flex justify-between items-center"
               >
                 <div>
                   <Text className="font-medium">{event.eventName || 'Event'}</Text>
-                  <Text className="text-sm text-gray-500">
+                  <Text className="text-sm text-slate-500">
                     {JSON.stringify(event.properties || {})}
                   </Text>
                 </div>
-                <Text className="text-sm text-gray-500">
+                <Text className="text-sm text-slate-500">
                   {event.timestamp ? new Date(event.timestamp).toLocaleTimeString() : ''}
                 </Text>
               </div>

@@ -31,17 +31,17 @@ const ChatbotList: React.FC = () => {
   const [chatbots] = React.useState<Chatbot[]>(defaultChatbots);
 
   return (
-    <div className="p-6 max-w-7xl mx-auto bg-gray-50">
+    <div className="p-6 max-w-7xl mx-auto bg-slate-50">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Your Chatbots</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-2xl font-bold text-slate-900">Your Chatbots</h1>
+          <p className="text-slate-600 mt-1">
             Manage and monitor your AI assistants
           </p>
         </div>
         <Link
           to="/chatbots/new"
-          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+          className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
         >
           <svg
             className="w-5 h-5 mr-2"
@@ -65,26 +65,26 @@ const ChatbotList: React.FC = () => {
         {chatbots.map((chatbot) => (
           <motion.div
             key={chatbot.id}
-            className="bg-white p-6 rounded-lg shadow-lg border border-gray-100"
+            className="bg-white p-6 rounded-lg shadow-lg border border-slate-100"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">{chatbot.name}</h3>
-                <p className="text-gray-600 mt-1">{chatbot.description}</p>
+                <h3 className="text-lg font-semibold text-slate-900">{chatbot.name}</h3>
+                <p className="text-slate-600 mt-1">{chatbot.description}</p>
                 <div className="mt-4 flex items-center space-x-4">
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                     chatbot.status === 'active' 
                       ? 'bg-green-100 text-green-800 ring-1 ring-green-600/20' 
-                      : 'bg-gray-100 text-gray-800 ring-1 ring-gray-600/20'
+                      : 'bg-slate-100 text-slate-800 ring-1 ring-slate-600/20'
                   }`}>
                     <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${
-                      chatbot.status === 'active' ? 'bg-green-600' : 'bg-gray-600'
+                      chatbot.status === 'active' ? 'bg-green-600' : 'bg-slate-600'
                     }`}></span>
                     {chatbot.status === 'active' ? 'Active' : 'Inactive'}
                   </span>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-slate-500">
                     Last active: {new Date(chatbot.lastActive).toLocaleString()}
                   </span>
                 </div>
@@ -92,7 +92,7 @@ const ChatbotList: React.FC = () => {
               <div className="flex space-x-3">
                 <Link
                   to={`/chatbots/${chatbot.id}`}
-                  className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 transition-colors"
+                  className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 transition-colors"
                 >
                   <svg
                     className="w-4 h-4 mr-1.5"
@@ -112,7 +112,7 @@ const ChatbotList: React.FC = () => {
                 </Link>
                 <Link
                   to={`/chatbots/${chatbot.id}/conversation`}
-                  className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 transition-colors"
+                  className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 transition-colors"
                 >
                   <svg
                     className="w-4 h-4 mr-1.5"

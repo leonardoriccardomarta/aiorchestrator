@@ -143,9 +143,9 @@ export function Table<T extends { id?: string | number }>({
     return (
       <div className={cn('bg-white rounded-lg shadow overflow-hidden', className)}>
         <div className="animate-pulse">
-          <div className="h-12 bg-gray-200" />
+          <div className="h-12 bg-slate-200" />
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="h-16 bg-gray-100 border-t border-gray-200" />
+            <div key={i} className="h-16 bg-slate-100 border-t border-slate-200" />
           ))}
         </div>
       </div>
@@ -156,13 +156,13 @@ export function Table<T extends { id?: string | number }>({
     <div className={cn('bg-white rounded-lg shadow overflow-hidden', className)}>
       {/* Filters */}
       {filterable && (
-        <div className="p-4 border-b border-gray-200 bg-gray-50">
+        <div className="p-4 border-b border-slate-200 bg-slate-50">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {columns
               .filter(col => col.filterable)
               .map(column => (
                 <div key={column.key}>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
                     {column.header}
                   </label>
                   <input
@@ -170,7 +170,7 @@ export function Table<T extends { id?: string | number }>({
                     placeholder={`Filtra ${column.header.toLowerCase()}...`}
                     value={filters[column.key] || ''}
                     onChange={e => handleFilter(column.key, e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
               ))}
@@ -181,7 +181,7 @@ export function Table<T extends { id?: string | number }>({
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50">
+          <thead className="bg-slate-50">
             <tr>
               {selectable && (
                 <th className="px-6 py-3 text-left">
@@ -189,7 +189,7 @@ export function Table<T extends { id?: string | number }>({
                     type="checkbox"
                     checked={selectedItems.size === paginatedData.length && paginatedData.length > 0}
                     onChange={e => handleSelectAll(e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
                   />
                 </th>
               )}
@@ -197,8 +197,8 @@ export function Table<T extends { id?: string | number }>({
                 <th
                   key={column.key}
                   className={cn(
-                    'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider',
-                    column.sortable && sortable && 'cursor-pointer hover:bg-gray-100',
+                    'px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider',
+                    column.sortable && sortable && 'cursor-pointer hover:bg-slate-100',
                     column.align === 'center' && 'text-center',
                     column.align === 'right' && 'text-right'
                   )}
@@ -225,15 +225,15 @@ export function Table<T extends { id?: string | number }>({
               ))}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-slate-200">
             {paginatedData.length === 0 ? (
               <tr>
                 <td
                   colSpan={columns.length + (selectable ? 1 : 0)}
-                  className="px-6 py-12 text-center text-gray-500"
+                  className="px-6 py-12 text-center text-slate-500"
                 >
                   <div className="flex flex-col items-center space-y-2">
-                    <svg className="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     <p className="text-lg font-medium">{emptyMessage}</p>
@@ -245,7 +245,7 @@ export function Table<T extends { id?: string | number }>({
                 <tr
                   key={item.id || index}
                   className={cn(
-                    'hover:bg-gray-50 transition-colors',
+                    'hover:bg-slate-50 transition-colors',
                     onRowClick && 'cursor-pointer'
                   )}
                   onClick={() => onRowClick?.(item)}
@@ -257,7 +257,7 @@ export function Table<T extends { id?: string | number }>({
                         checked={item.id ? selectedItems.has(item.id) : false}
                         onChange={e => handleSelectItem(item, e.target.checked)}
                         onClick={e => e.stopPropagation()}
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
                       />
                     </td>
                   )}
@@ -265,7 +265,7 @@ export function Table<T extends { id?: string | number }>({
                     <td
                       key={column.key}
                       className={cn(
-                        'px-6 py-4 whitespace-nowrap text-sm text-gray-900',
+                        'px-6 py-4 whitespace-nowrap text-sm text-slate-900',
                         column.align === 'center' && 'text-center',
                         column.align === 'right' && 'text-right'
                       )}
@@ -282,9 +282,9 @@ export function Table<T extends { id?: string | number }>({
 
       {/* Pagination */}
       {pagination && totalPages > 1 && (
-        <div className="px-6 py-3 border-t border-gray-200 bg-gray-50">
+        <div className="px-6 py-3 border-t border-slate-200 bg-slate-50">
           <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-700">
+            <div className="text-sm text-slate-700">
               Mostrando {((currentPage - 1) * pageSize) + 1} a{' '}
               {Math.min(currentPage * pageSize, filteredData.length)} di {filteredData.length} risultati
             </div>
@@ -292,7 +292,7 @@ export function Table<T extends { id?: string | number }>({
               <button
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-1 text-sm border border-slate-300 rounded-md hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Precedente
               </button>
@@ -303,8 +303,8 @@ export function Table<T extends { id?: string | number }>({
                   className={cn(
                     'px-3 py-1 text-sm border rounded-md',
                     currentPage === page
-                      ? 'bg-blue-600 text-white border-blue-600'
-                      : 'border-gray-300 hover:bg-gray-50'
+                      ? 'bg-indigo-600 text-white border-indigo-600'
+                      : 'border-slate-300 hover:bg-slate-50'
                   )}
                 >
                   {page}
@@ -313,7 +313,7 @@ export function Table<T extends { id?: string | number }>({
               <button
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-1 text-sm border border-slate-300 rounded-md hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Successivo
               </button>

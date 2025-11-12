@@ -71,17 +71,17 @@ const PricingCalculator: React.FC = () => {
   return (
     <div className="bg-white rounded-xl shadow-lg p-8">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Pricing Calculator</h2>
-        <p className="text-gray-600">Calculate your monthly cost based on your usage</p>
+        <h2 className="text-3xl font-bold text-slate-900 mb-2">Pricing Calculator</h2>
+        <p className="text-slate-600">Calculate your monthly cost based on your usage</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Calculator Inputs */}
         <div className="space-y-6">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Your Usage</h3>
+          <h3 className="text-xl font-semibold text-slate-900 mb-4">Your Usage</h3>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-slate-700 mb-2">
               Messages per month
             </label>
             <div className="flex items-center space-x-4">
@@ -101,7 +101,7 @@ const PricingCalculator: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-slate-700 mb-2">
               Number of chatbots
             </label>
             <div className="flex items-center space-x-4">
@@ -120,7 +120,7 @@ const PricingCalculator: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-slate-700 mb-2">
               Team members
             </label>
             <div className="flex items-center space-x-4">
@@ -139,7 +139,7 @@ const PricingCalculator: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-slate-700 mb-2">
               Integration channels
             </label>
             <div className="flex items-center space-x-4">
@@ -158,7 +158,7 @@ const PricingCalculator: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-slate-700 mb-2">
               Billing cycle
             </label>
             <div className="flex space-x-4">
@@ -166,8 +166,8 @@ const PricingCalculator: React.FC = () => {
                 onClick={() => updateState('billingCycle', 'monthly')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   state.billingCycle === 'monthly'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                 }`}
               >
                 Monthly
@@ -176,8 +176,8 @@ const PricingCalculator: React.FC = () => {
                 onClick={() => updateState('billingCycle', 'yearly')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   state.billingCycle === 'yearly'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                 }`}
               >
                 Yearly (20% off)
@@ -188,7 +188,7 @@ const PricingCalculator: React.FC = () => {
 
         {/* Results */}
         <div className="space-y-6">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Recommended Plan</h3>
+          <h3 className="text-xl font-semibold text-slate-900 mb-4">Recommended Plan</h3>
           
           {tiers.map((tier) => {
             const { totalCost, overages } = calculateCost(tier);
@@ -199,24 +199,24 @@ const PricingCalculator: React.FC = () => {
                 key={tier.name}
                 className={`border-2 rounded-lg p-6 transition-all ${
                   isRecommended
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'border-indigo-500 bg-indigo-50'
+                    : 'border-slate-200 hover:border-slate-300'
                 }`}
               >
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h4 className="text-lg font-semibold text-gray-900">{tier.name}</h4>
+                    <h4 className="text-lg font-semibold text-slate-900">{tier.name}</h4>
                     {isRecommended && (
-                      <span className="inline-block bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
+                      <span className="inline-block bg-indigo-600 text-white text-xs px-2 py-1 rounded-full">
                         Recommended
                       </span>
                     )}
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-gray-900">
+                    <div className="text-2xl font-bold text-slate-900">
                       ${totalCost.toFixed(0)}
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-slate-600">
                       per {state.billingCycle === 'yearly' ? 'year' : 'month'}
                     </div>
                   </div>
@@ -237,7 +237,7 @@ const PricingCalculator: React.FC = () => {
                       <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                      <span className="text-sm text-gray-600">{feature}</span>
+                      <span className="text-sm text-slate-600">{feature}</span>
                     </div>
                   ))}
                 </div>
@@ -245,8 +245,8 @@ const PricingCalculator: React.FC = () => {
                 <button
                   className={`w-full mt-4 py-2 px-4 rounded-lg font-medium transition-colors ${
                     isRecommended
-                      ? 'bg-blue-600 text-white hover:bg-blue-700'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'bg-indigo-600 text-white hover:bg-indigo-700'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                   }`}
                 >
                   {isRecommended ? 'Start Free Trial' : 'Choose Plan'}

@@ -330,8 +330,8 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
                 </svg>
               </div>
               <div>
-                <h3 class="text-lg font-semibold text-gray-900">${title}</h3>
-                <p class="text-gray-600">${message}</p>
+                <h3 class="text-lg font-semibold text-slate-900">${title}</h3>
+                <p class="text-slate-600">${message}</p>
               </div>
             </div>
             <button onclick="this.closest('.fixed').remove()" class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium">
@@ -390,11 +390,11 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
               </svg>
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-gray-900">Integration Disconnected</h3>
-              <p class="text-gray-600">${integration.name} has been disconnected successfully.</p>
+              <h3 class="text-lg font-semibold text-slate-900">Integration Disconnected</h3>
+              <p class="text-slate-600">${integration.name} has been disconnected successfully.</p>
             </div>
           </div>
-          <button onclick="this.closest('.fixed').remove()" class="w-full px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-medium">
+          <button onclick="this.closest('.fixed').remove()" class="w-full px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 font-medium">
             Close
           </button>
         </div>
@@ -417,8 +417,8 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
               </svg>
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-gray-900">Disconnection Failed</h3>
-              <p class="text-gray-600">Failed to disconnect ${integration.name}. Please try again.</p>
+              <h3 class="text-lg font-semibold text-slate-900">Disconnection Failed</h3>
+              <p class="text-slate-600">Failed to disconnect ${integration.name}. Please try again.</p>
             </div>
           </div>
           <button onclick="this.closest('.fixed').remove()" class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
@@ -454,7 +454,7 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
       case 'error':
         return <Badge className="bg-red-100 text-red-800 border border-red-200">Error</Badge>;
       default:
-        return <Badge className="bg-gray-100 text-gray-800 border border-gray-200">Not Connected</Badge>;
+        return <Badge className="bg-slate-100 text-slate-800 border border-slate-200">Not Connected</Badge>;
     }
   };
 
@@ -467,7 +467,7 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
       case 'error':
         return <AlertCircle className="w-5 h-5 text-red-500" />;
       default:
-        return <Circle className="w-5 h-5 text-gray-400" />;
+        return <Circle className="w-5 h-5 text-slate-400" />;
     }
   };
 
@@ -487,8 +487,8 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-semibold text-gray-900">Integrations</h2>
-          <p className="text-gray-600 mt-1">
+          <h2 className="text-2xl font-semibold text-slate-900">Integrations</h2>
+          <p className="text-slate-600 mt-1">
             Connect your chatbot to multiple platforms and reach customers everywhere
           </p>
         </div>
@@ -502,7 +502,7 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-slate-200">
         <nav className="-mb-px flex space-x-8">
           {[
             { id: 'all', label: 'All Integrations', count: integrations.length },
@@ -514,8 +514,8 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
               onClick={() => setActiveTab(tab.id as 'all' | 'connected' | 'available')}
               className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                 activeTab === tab.id
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-indigo-500 text-indigo-600'
+                  : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
               }`}
             >
               {tab.label} ({tab.count})
@@ -532,13 +532,13 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
               <div className="flex items-start justify-between">
                 <div className="flex items-center space-x-3 flex-1 min-w-0">
                   <div className={`p-2 rounded-lg ${
-                    integration.status === 'connected' ? 'bg-green-100' : 'bg-gray-100'
+                    integration.status === 'connected' ? 'bg-green-100' : 'bg-slate-100'
                   }`}>
                     {integration.icon}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2">
-                      <CardTitle className="text-lg truncate text-gray-900">{integration.name}</CardTitle>
+                      <CardTitle className="text-lg truncate text-slate-900">{integration.name}</CardTitle>
                       {integration.isPopular && (
                         <Badge className="bg-purple-100 text-purple-700 text-xs whitespace-nowrap">Popular</Badge>
                       )}
@@ -553,7 +553,7 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
             </CardHeader>
 
             <CardContent className="space-y-4">
-              <CardDescription className="text-sm leading-relaxed text-gray-700">
+              <CardDescription className="text-sm leading-relaxed text-slate-700">
                 {integration.description}
               </CardDescription>
 
@@ -633,21 +633,21 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
       {selectedIntegration && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
+            <div className="p-6 border-b border-slate-200">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-blue-100 rounded-lg">
+                  <div className="p-2 bg-indigo-100 rounded-lg">
                     {selectedIntegration.icon}
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold">{selectedIntegration.name}</h3>
-                    <p className="text-gray-600">{selectedIntegration.description}</p>
+                    <p className="text-slate-600">{selectedIntegration.description}</p>
                   </div>
                 </div>
                 <Button
                   variant="ghost"
                   onClick={() => setSelectedIntegration(null)}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-slate-400 hover:text-slate-600"
                 >
                   ✕
                 </Button>
@@ -657,14 +657,14 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
             <div className="p-6 grid gap-6 md:grid-cols-2">
               {/* Setup Steps */}
               <div>
-                <h4 className="font-semibold text-gray-900 mb-3">Setup Steps</h4>
+                <h4 className="font-semibold text-slate-900 mb-3">Setup Steps</h4>
                 <ol className="space-y-2">
                   {selectedIntegration.setupSteps.map((step, index) => (
                     <li key={index} className="flex items-start space-x-3">
-                      <span className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium">
+                      <span className="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-sm font-medium">
                         {index + 1}
                       </span>
-                      <span className="text-sm text-gray-700">{step}</span>
+                      <span className="text-sm text-slate-700">{step}</span>
                     </li>
                   ))}
                 </ol>
@@ -672,12 +672,12 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
 
               {/* Requirements */}
               <div>
-                <h4 className="font-semibold text-gray-900 mb-3">Requirements</h4>
+                <h4 className="font-semibold text-slate-900 mb-3">Requirements</h4>
                 <ul className="space-y-2">
                   {selectedIntegration.requirements.map((req, index) => (
                     <li key={index} className="flex items-start space-x-2">
-                      <Shield className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-gray-700">{req}</span>
+                      <Shield className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-slate-700">{req}</span>
                     </li>
                   ))}
                 </ul>
@@ -685,12 +685,12 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
 
               {/* Benefits */}
               <div className="md:col-span-2">
-                <h4 className="font-semibold text-gray-900 mb-3">Benefits</h4>
+                <h4 className="font-semibold text-slate-900 mb-3">Benefits</h4>
                 <div className="grid gap-2 md:grid-cols-2">
                   {selectedIntegration.benefits.map((benefit, index) => (
                     <div key={index} className="flex items-start space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-gray-700">{benefit}</span>
+                      <span className="text-sm text-slate-700">{benefit}</span>
                     </div>
                   ))}
                 </div>
@@ -698,17 +698,17 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
 
               {/* Integration Details */}
               {selectedIntegration.status === 'connected' && selectedIntegration.webhookUrl && (
-                <div className="md:col-span-2 bg-gray-50 rounded-lg p-4">
-                  <h4 className="font-semibold text-gray-900 mb-3">Integration Details</h4>
+                <div className="md:col-span-2 bg-slate-50 rounded-lg p-4">
+                  <h4 className="font-semibold text-slate-900 mb-3">Integration Details</h4>
                   <div className="space-y-3">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Webhook URL</label>
+                      <label className="block text-sm font-medium text-slate-700 mb-1">Webhook URL</label>
                       <div className="flex items-center space-x-2">
                         <input
                           type="text"
                           value={selectedIntegration.webhookUrl}
                           readOnly
-                          className="flex-1 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm"
+                          className="flex-1 px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm"
                         />
                         <Button
                           variant="outline"
@@ -725,7 +725,7 @@ const IntegrationManager: React.FC<IntegrationManagerProps> = ({
               )}
             </div>
 
-            <div className="p-6 border-t border-gray-200 flex justify-end space-x-3">
+            <div className="p-6 border-t border-slate-200 flex justify-end space-x-3">
               <Button variant="outline" onClick={() => setSelectedIntegration(null)}>
                 Close
               </Button>

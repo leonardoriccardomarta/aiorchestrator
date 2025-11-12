@@ -92,30 +92,30 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ colors, onChange }) => {
     <div className="space-y-6">
       {/* Color Inputs */}
       <div>
-        <h4 className="text-sm font-medium text-gray-900 mb-3">Gradient Colors</h4>
+        <h4 className="text-sm font-medium text-slate-900 mb-3">Gradient Colors</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Start Color</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Start Color</label>
             <div className="relative">
               <Input
                 type="color"
                 value={colors.gradientStart}
                 onChange={(e) => handleChange('gradientStart', e.target.value)}
-                className="h-10 w-full rounded-md border border-gray-300 bg-white"
+                className="h-10 w-full rounded-md border border-slate-300 bg-white"
               />
-              <div className="mt-1 text-xs font-mono text-gray-500">{colors.gradientStart}</div>
+              <div className="mt-1 text-xs font-mono text-slate-500">{colors.gradientStart}</div>
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">End Color</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">End Color</label>
             <div className="relative">
               <Input
                 type="color"
                 value={colors.gradientEnd}
                 onChange={(e) => handleChange('gradientEnd', e.target.value)}
-                className="h-10 w-full rounded-md border border-gray-300 bg-white"
+                className="h-10 w-full rounded-md border border-slate-300 bg-white"
               />
-              <div className="mt-1 text-xs font-mono text-gray-500">{colors.gradientEnd}</div>
+              <div className="mt-1 text-xs font-mono text-slate-500">{colors.gradientEnd}</div>
             </div>
           </div>
         </div>
@@ -123,30 +123,30 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ colors, onChange }) => {
 
       {/* Additional Colors */}
       <div>
-        <h4 className="text-sm font-medium text-gray-900 mb-3">Theme Colors</h4>
+        <h4 className="text-sm font-medium text-slate-900 mb-3">Theme Colors</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Background</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Background</label>
             <div className="relative">
               <Input
                 type="color"
                 value={colors.background}
                 onChange={(e) => handleChange('background', e.target.value)}
-                className="h-10 w-full rounded-md border border-gray-300 bg-white"
+                className="h-10 w-full rounded-md border border-slate-300 bg-white"
               />
-              <div className="mt-1 text-xs font-mono text-gray-500">{colors.background}</div>
+              <div className="mt-1 text-xs font-mono text-slate-500">{colors.background}</div>
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Text</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Text</label>
             <div className="relative">
               <Input
                 type="color"
                 value={colors.text}
                 onChange={(e) => handleChange('text', e.target.value)}
-                className="h-10 w-full rounded-md border border-gray-300 bg-white"
+                className="h-10 w-full rounded-md border border-slate-300 bg-white"
               />
-              <div className="mt-1 text-xs font-mono text-gray-500">{colors.text}</div>
+              <div className="mt-1 text-xs font-mono text-slate-500">{colors.text}</div>
             </div>
           </div>
         </div>
@@ -154,11 +154,11 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ colors, onChange }) => {
 
       {/* Opacity Control */}
       <div>
-        <h4 className="text-sm font-medium text-gray-900 mb-3">Opacity</h4>
+        <h4 className="text-sm font-medium text-slate-900 mb-3">Opacity</h4>
         <div className="space-y-2">
           <div className="flex justify-between">
-            <label className="text-sm font-medium text-gray-700">Gradient Opacity</label>
-            <span className="text-sm text-gray-500">{colors.opacity}%</span>
+            <label className="text-sm font-medium text-slate-700">Gradient Opacity</label>
+            <span className="text-sm text-slate-500">{colors.opacity}%</span>
           </div>
           <Input
             type="range"
@@ -173,7 +173,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ colors, onChange }) => {
 
       {/* Gradient Preview */}
       <div>
-        <h4 className="text-sm font-medium text-gray-900 mb-3">Preview</h4>
+        <h4 className="text-sm font-medium text-slate-900 mb-3">Preview</h4>
         <div className="h-12 w-full rounded-md shadow-sm overflow-hidden">
           <div className="h-full w-full" style={gradientStyle}></div>
         </div>
@@ -181,13 +181,13 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ colors, onChange }) => {
 
       {/* Preset Gradients */}
       <div>
-        <h4 className="text-sm font-medium text-gray-900 mb-3">Preset Themes</h4>
+        <h4 className="text-sm font-medium text-slate-900 mb-3">Preset Themes</h4>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {presetGradients.map((preset, index) => (
             <button
               key={index}
               onClick={() => handlePresetClick(preset)}
-              className="group p-2 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="group p-2 rounded-md hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               <div 
                 className="h-8 w-full rounded-md shadow-sm mb-2 group-hover:shadow-md transition-shadow overflow-hidden"
@@ -195,7 +195,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ colors, onChange }) => {
                   background: `linear-gradient(to right, ${preset.start}, ${preset.end})`
                 }}
               />
-              <span className="text-xs font-medium text-gray-700">{preset.name}</span>
+              <span className="text-xs font-medium text-slate-700">{preset.name}</span>
             </button>
           ))}
         </div>
@@ -204,10 +204,10 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ colors, onChange }) => {
       {/* Favorites */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h4 className="text-sm font-medium text-gray-900">Saved Themes</h4>
+          <h4 className="text-sm font-medium text-slate-900">Saved Themes</h4>
           <button
             onClick={addToFavorites}
-            className="text-sm font-medium text-blue-600 hover:text-blue-700 focus:outline-none focus:underline"
+            className="text-sm font-medium text-indigo-600 hover:text-indigo-700 focus:outline-none focus:underline"
           >
             Save Current Theme
           </button>
@@ -218,7 +218,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ colors, onChange }) => {
               <button
                 key={index}
                 onClick={() => onChange(favorite)}
-                className="group p-2 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="group p-2 rounded-md hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 <div 
                   className="h-6 w-full rounded-md shadow-sm group-hover:shadow-md transition-shadow"

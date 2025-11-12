@@ -9,7 +9,7 @@ export const Skeleton: FC<SkeletonProps> = ({ className }) => {
   return (
     <div
       className={cn(
-        'animate-pulse rounded-md bg-gray-200 dark:bg-gray-700',
+        'animate-pulse rounded-md bg-slate-200 dark:bg-slate-700',
         className
       )}
     />
@@ -30,7 +30,7 @@ export const SkeletonButton: FC<SkeletonProps> = ({ className }) => {
 
 export const SkeletonCard: FC = () => {
   return (
-    <div className="rounded-lg border border-gray-200 dark:border-gray-700 p-6 space-y-4">
+    <div className="rounded-lg border border-slate-200 dark:border-slate-700 p-6 space-y-4">
       <SkeletonText className="h-6 w-[180px]" />
       <SkeletonText className="h-4 w-[250px]" />
       <div className="space-y-3">

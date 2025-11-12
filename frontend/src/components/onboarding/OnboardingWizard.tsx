@@ -74,7 +74,7 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
                         ? 'bg-primary-500 border-primary-500 text-white'
                         : index === currentStepIndex
                         ? 'border-primary-500 text-primary-500'
-                        : 'border-gray-300 text-gray-300'
+                        : 'border-slate-300 text-slate-300'
                     }`}
                   >
                     {completedSteps.has(step.id) ? (
@@ -88,7 +88,7 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
                       className={`w-12 h-0.5 mx-1 ${
                         completedSteps.has(step.id)
                           ? 'bg-primary-500'
-                          : 'bg-gray-300'
+                          : 'bg-slate-300'
                       }`}
                     />
                   )}
@@ -98,7 +98,7 @@ export const OnboardingWizard: React.FC<OnboardingWizardProps> = ({
           </CardHeader>
           <CardContent>
             <div className="mb-6">
-              <p className="text-gray-500 dark:text-gray-400">
+              <p className="text-slate-500 dark:text-slate-400">
                 {currentStep.description}
               </p>
             </div>

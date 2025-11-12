@@ -84,16 +84,16 @@ export const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({
                   animate="animate"
                   exit="exit"
                   layout
-                  className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+                  className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700 rounded-lg"
                 >
                   <div className="flex items-center space-x-4">
                     {getCardIcon()}
                     <div>
                       <div className="flex items-center space-x-2">
                         <span className="font-medium capitalize">{method.type}</span>
-                        <span className="text-sm text-gray-500">•••• {method.last4}</span>
+                        <span className="text-sm text-slate-500">•••• {method.last4}</span>
                       </div>
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-slate-500">
                         Expires {method.expMonth}/{method.expYear}
                       </div>
                     </div>
@@ -128,7 +128,7 @@ export const PaymentMethodManager: React.FC<PaymentMethodManagerProps> = ({
             </AnimatePresence>
 
             {paymentMethods.length === 0 && (
-              <div className="text-center py-6 text-gray-500">
+              <div className="text-center py-6 text-slate-500">
                 No payment methods added yet
               </div>
             )}

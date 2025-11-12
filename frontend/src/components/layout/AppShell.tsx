@@ -21,7 +21,7 @@ const AppShell = ({ children }: AppShellProps) => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
+    <div className="min-h-screen bg-slate-50/50">
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-40 lg:flex lg:w-64 lg:pt-16">
         <Sidebar items={sidebarItems} />
       </div>

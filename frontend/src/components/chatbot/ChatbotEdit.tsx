@@ -42,15 +42,15 @@ const ChatbotEdit: React.FC = () => {
             </svg>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-gray-900">Delete Chatbot</h3>
-            <p class="text-gray-600">This action cannot be undone</p>
+            <h3 class="text-lg font-semibold text-slate-900">Delete Chatbot</h3>
+            <p class="text-slate-600">This action cannot be undone</p>
           </div>
         </div>
         <div class="bg-red-50 rounded-lg p-3 mb-4">
           <p class="text-sm text-red-800">Are you sure you want to delete this chatbot? This action cannot be undone.</p>
         </div>
         <div class="flex space-x-3">
-          <button onclick="this.closest('.fixed').remove()" class="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 font-medium">
+          <button onclick="this.closest('.fixed').remove()" class="flex-1 px-4 py-2 bg-slate-300 text-slate-700 rounded-lg hover:bg-slate-400 font-medium">
             Cancel
           </button>
           <button id="confirmDelete" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium">
@@ -81,8 +81,8 @@ const ChatbotEdit: React.FC = () => {
               </svg>
             </div>
             <div>
-              <h3 class="text-lg font-semibold text-gray-900">Chatbot Deleted!</h3>
-              <p class="text-gray-600">Removed successfully</p>
+              <h3 class="text-lg font-semibold text-slate-900">Chatbot Deleted!</h3>
+              <p class="text-slate-600">Removed successfully</p>
             </div>
           </div>
           <div class="bg-green-50 rounded-lg p-3 mb-4">
@@ -105,12 +105,12 @@ const ChatbotEdit: React.FC = () => {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto bg-gray-50">
+    <div className="p-6 max-w-7xl mx-auto bg-slate-50">
       <div className="mb-6">
         <div className="flex justify-between items-start">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Edit Chatbot</h1>
-            <p className="text-gray-600 mt-1">
+            <h1 className="text-2xl font-bold text-slate-900">Edit Chatbot</h1>
+            <p className="text-slate-600 mt-1">
               Modify your chatbot's settings and behavior
             </p>
           </div>
@@ -137,11 +137,11 @@ const ChatbotEdit: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-white shadow-lg rounded-lg border border-gray-100">
+      <div className="bg-white shadow-lg rounded-lg border border-slate-100">
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-900">
+              <label htmlFor="name" className="block text-sm font-medium text-slate-900">
                 Name
               </label>
               <input
@@ -149,20 +149,20 @@ const ChatbotEdit: React.FC = () => {
                 id="name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 required
               />
             </div>
 
             <div>
-              <label htmlFor="model" className="block text-sm font-medium text-gray-900">
+              <label htmlFor="model" className="block text-sm font-medium text-slate-900">
                 Model
               </label>
               <select
                 id="model"
                 value={formData.model}
                 onChange={(e) => setFormData({ ...formData, model: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               >
                 <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
                 <option value="gpt-4">GPT-4</option>
@@ -171,7 +171,7 @@ const ChatbotEdit: React.FC = () => {
           </div>
 
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-900">
+            <label htmlFor="description" className="block text-sm font-medium text-slate-900">
               Description
             </label>
             <textarea
@@ -179,12 +179,12 @@ const ChatbotEdit: React.FC = () => {
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={3}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             />
           </div>
 
           <div>
-            <label htmlFor="initialPrompt" className="block text-sm font-medium text-gray-900">
+            <label htmlFor="initialPrompt" className="block text-sm font-medium text-slate-900">
               Initial Prompt
             </label>
             <div className="mt-1">
@@ -193,34 +193,34 @@ const ChatbotEdit: React.FC = () => {
                 value={formData.initialPrompt}
                 onChange={(e) => setFormData({ ...formData, initialPrompt: e.target.value })}
                 rows={5}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
-              <p className="mt-2 text-sm text-gray-500">
+              <p className="mt-2 text-sm text-slate-500">
                 This prompt will define your chatbot's personality and initial behavior.
               </p>
             </div>
           </div>
 
           <div>
-            <label htmlFor="status" className="block text-sm font-medium text-gray-900">
+            <label htmlFor="status" className="block text-sm font-medium text-slate-900">
               Status
             </label>
             <select
               id="status"
               value={formData.status}
               onChange={(e) => setFormData({ ...formData, status: e.target.value as 'active' | 'inactive' })}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             >
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
             </select>
           </div>
 
-          <div className="flex justify-end space-x-3 pt-4 border-t border-gray-100">
+          <div className="flex justify-end space-x-3 pt-4 border-t border-slate-100">
             <button
               type="button"
               onClick={() => navigate('/chatbots')}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-md shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <svg
                 className="w-4 h-4 mr-1.5"
@@ -240,7 +240,7 @@ const ChatbotEdit: React.FC = () => {
             </button>
             <button
               type="submit"
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <svg
                 className="w-4 h-4 mr-1.5"

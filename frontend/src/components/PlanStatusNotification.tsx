@@ -72,9 +72,9 @@ const PlanStatusNotification: React.FC<PlanStatusNotificationProps> = ({ classNa
       case 'limit_reached':
         return 'bg-purple-50 border-purple-200 text-purple-800';
       case 'downgrade_requires_update':
-        return 'bg-blue-50 border-blue-200 text-blue-800';
+        return 'bg-indigo-50 border-indigo-200 text-indigo-800';
       default:
-        return 'bg-blue-50 border-blue-200 text-blue-800';
+        return 'bg-indigo-50 border-indigo-200 text-indigo-800';
     }
   };
 
@@ -120,7 +120,7 @@ const PlanStatusNotification: React.FC<PlanStatusNotificationProps> = ({ classNa
                     href={status.actionUrl.startsWith('http') ? status.actionUrl : `https://www.aiorchestrator.dev${status.actionUrl}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center px-3 py-1.5 bg-white border border-current rounded-md text-xs font-medium hover:bg-gray-50 transition-colors"
+                    className="inline-flex items-center px-3 py-1.5 bg-white border border-current rounded-md text-xs font-medium hover:bg-slate-50 transition-colors"
                   >
                     <ExternalLink className="w-3 h-3 mr-1" />
                     {status.status === 'downgrade_requires_update' ? 'Update Widget' : 'Upgrade Plan'}

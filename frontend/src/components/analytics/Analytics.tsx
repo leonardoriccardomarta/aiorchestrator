@@ -37,8 +37,8 @@ const CustomTooltip = ({ active, payload, label }: {
 }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-100">
-        <p className="text-sm font-medium text-gray-900">{label}</p>
+      <div className="bg-white p-3 rounded-lg shadow-lg border border-slate-100">
+        <p className="text-sm font-medium text-slate-900">{label}</p>
         {payload.map((entry, index: number) => (
           <p key={index} className="text-sm" style={{ color: entry.color }}>
             {entry.name}: {entry.value}
@@ -97,12 +97,12 @@ const Analytics: React.FC = () => {
   }, []);
 
   return (
-    <div className="p-6 max-w-7xl mx-auto bg-gray-50">
+    <div className="p-6 max-w-7xl mx-auto bg-slate-50">
       {/* Header with Time Range Selector */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Analytics</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-2xl font-bold text-slate-900">Analytics</h1>
+          <p className="text-slate-600 mt-1">
             Monitor your chatbot's performance and user engagement
           </p>
         </div>
@@ -113,8 +113,8 @@ const Analytics: React.FC = () => {
               onClick={() => setTimeRange(range)}
               className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
                 timeRange === range
-                  ? 'bg-blue-100 text-blue-600'
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                  ? 'bg-indigo-100 text-indigo-600'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               {range}
@@ -127,8 +127,8 @@ const Analytics: React.FC = () => {
         {/* Conversation Trends */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Conversation Trends</h2>
-            <div className="flex gap-2 bg-gray-50 p-1 rounded-lg">
+            <h2 className="text-lg font-semibold text-slate-900">Conversation Trends</h2>
+            <div className="flex gap-2 bg-slate-50 p-1 rounded-lg">
               {[
                 { key: 'total', label: 'Total', color: COLORS.gray },
                 { key: 'automated', label: 'Automated', color: COLORS.blue },
@@ -194,7 +194,7 @@ const Analytics: React.FC = () => {
 
         {/* Channel Performance */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-lg font-semibold mb-4 text-gray-900">Channel Performance</h2>
+          <h2 className="text-lg font-semibold mb-4 text-slate-900">Channel Performance</h2>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
@@ -237,7 +237,7 @@ const Analytics: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Response Time Distribution */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-lg font-semibold mb-4 text-gray-900">Response Time Distribution</h2>
+          <h2 className="text-lg font-semibold mb-4 text-slate-900">Response Time Distribution</h2>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
@@ -268,7 +268,7 @@ const Analytics: React.FC = () => {
 
         {/* Resolution Rate */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-lg font-semibold mb-4 text-gray-900">Resolution Rate</h2>
+          <h2 className="text-lg font-semibold mb-4 text-slate-900">Resolution Rate</h2>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart margin={{ top: 20, right: 50, left: 20, bottom: 20 }}>
@@ -329,7 +329,7 @@ const Analytics: React.FC = () => {
 
         {/* Session Duration */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-lg font-semibold mb-4 text-gray-900">Session Duration</h2>
+          <h2 className="text-lg font-semibold mb-4 text-slate-900">Session Duration</h2>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
@@ -362,17 +362,17 @@ const Analytics: React.FC = () => {
         <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-4">Key Metrics</h2>
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 bg-blue-50 rounded-lg hover:shadow-md transition-shadow cursor-pointer">
-              <h3 className="text-sm font-medium text-gray-500">Total Conversations</h3>
-              <p className="text-2xl font-bold text-blue-600 mt-1">
+            <div className="p-4 bg-indigo-50 rounded-lg hover:shadow-md transition-shadow cursor-pointer">
+              <h3 className="text-sm font-medium text-slate-500">Total Conversations</h3>
+              <p className="text-2xl font-bold text-indigo-600 mt-1">
                 {trends.reduce((sum, t) => sum + t.total, 0)}
               </p>
-              <p className="text-sm text-blue-600 mt-1">
+              <p className="text-sm text-indigo-600 mt-1">
                 +{Math.round((trends[trends.length - 1].total - trends[0].total) / trends[0].total * 100)}% vs previous
               </p>
             </div>
             <div className="p-4 bg-green-50 rounded-lg hover:shadow-md transition-shadow cursor-pointer">
-              <h3 className="text-sm font-medium text-gray-500">Automation Rate</h3>
+              <h3 className="text-sm font-medium text-slate-500">Automation Rate</h3>
               <p className="text-2xl font-bold text-green-600 mt-1">
                 {Math.round(trends.reduce((sum, t) => sum + t.automated, 0) / trends.reduce((sum, t) => sum + t.total, 0) * 100)}%
               </p>
@@ -381,14 +381,14 @@ const Analytics: React.FC = () => {
               </p>
             </div>
             <div className="p-4 bg-yellow-50 rounded-lg hover:shadow-md transition-shadow cursor-pointer">
-              <h3 className="text-sm font-medium text-gray-500">Avg Response Time</h3>
+              <h3 className="text-sm font-medium text-slate-500">Avg Response Time</h3>
               <p className="text-2xl font-bold text-yellow-600 mt-1">1.8s</p>
               <p className="text-sm text-yellow-600 mt-1">
                 -0.3s vs previous
               </p>
             </div>
             <div className="p-4 bg-purple-50 rounded-lg hover:shadow-md transition-shadow cursor-pointer">
-              <h3 className="text-sm font-medium text-gray-500">User Satisfaction</h3>
+              <h3 className="text-sm font-medium text-slate-500">User Satisfaction</h3>
               <p className="text-2xl font-bold text-purple-600 mt-1">4.5/5</p>
               <p className="text-sm text-purple-600 mt-1">
                 +0.2 vs previous

@@ -324,7 +324,7 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
       case 'easy': return 'bg-green-100 text-green-800';
       case 'medium': return 'bg-yellow-100 text-yellow-800';
       case 'hard': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      default: return 'bg-slate-100 text-slate-800';
     }
   };
 
@@ -383,8 +383,8 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
       content: (
         <div className="space-y-6">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Integration Documentation</h3>
-            <p className="text-gray-700 leading-relaxed">
+            <h3 className="text-lg font-semibold text-slate-900 mb-3">Integration Documentation</h3>
+            <p className="text-slate-700 leading-relaxed">
               This documentation covers all aspects of integrating your AI Orchestrator chatbot with various platforms.
               Our chatbot system features real-time customization, improved widget functionality, and streamlined
               integration processes.
@@ -392,12 +392,12 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
               <div className="flex items-center space-x-2 mb-2">
-                <CheckCircle className="w-5 h-5 text-blue-600" />
-                <h4 className="font-semibold text-blue-900">Latest Updates</h4>
+                <CheckCircle className="w-5 h-5 text-indigo-600" />
+                <h4 className="font-semibold text-indigo-900">Latest Updates</h4>
               </div>
-              <ul className="text-sm text-blue-800 space-y-1">
+              <ul className="text-sm text-indigo-800 space-y-1">
                 <li>• Fixed preview layout and positioning issues</li>
                 <li>• Corrected send button arrow direction</li>
                 <li>• Improved avatar rendering and proportions</li>
@@ -446,42 +446,42 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
       content: (
         <div className="space-y-6">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Universal Website Widget</h3>
-            <p className="text-gray-700 mb-4">
+            <h3 className="text-lg font-semibold text-slate-900 mb-3">Universal Website Widget</h3>
+            <p className="text-slate-700 mb-4">
               Embed your chatbot on any website using our lightweight, customizable widget. The widget automatically
               adapts to your design preferences and works on all devices.
             </p>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-4">
+          <div className="bg-slate-50 rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
-              <h4 className="font-semibold text-gray-900">Widget Installation Code</h4>
+              <h4 className="font-semibold text-slate-900">Widget Installation Code</h4>
               <button
                 onClick={() => copyToClipboard(widgetCode, 'widget')}
-                className="flex items-center space-x-2 px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
+                className="flex items-center space-x-2 px-3 py-1 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700"
               >
                 <Copy className="w-4 h-4" />
                 <span>{copiedCode === 'widget' ? 'Copied!' : 'Copy'}</span>
               </button>
             </div>
-            <pre className="bg-gray-800 text-green-400 p-4 rounded-lg text-sm overflow-x-auto">
+            <pre className="bg-slate-800 text-green-400 p-4 rounded-lg text-sm overflow-x-auto">
               <code>{widgetCode}</code>
             </pre>
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900">Configuration Options</h4>
+            <h4 className="font-semibold text-slate-900">Configuration Options</h4>
             
             <div className="overflow-x-auto">
-              <table className="min-w-full border border-gray-200 rounded-lg">
-                <thead className="bg-gray-50">
+              <table className="min-w-full border border-slate-200 rounded-lg">
+                <thead className="bg-slate-50">
                   <tr>
-                    <th className="px-4 py-2 text-left text-sm font-medium text-gray-900">Property</th>
-                    <th className="px-4 py-2 text-left text-sm font-medium text-gray-900">Type</th>
-                    <th className="px-4 py-2 text-left text-sm font-medium text-gray-900">Description</th>
+                    <th className="px-4 py-2 text-left text-sm font-medium text-slate-900">Property</th>
+                    <th className="px-4 py-2 text-left text-sm font-medium text-slate-900">Type</th>
+                    <th className="px-4 py-2 text-left text-sm font-medium text-slate-900">Description</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-slate-200">
                   <tr>
                     <td className="px-4 py-2 text-sm font-mono">chatbotId</td>
                     <td className="px-4 py-2 text-sm">string</td>
@@ -522,9 +522,9 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
             </div>
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="font-semibold text-blue-900 mb-2">Features</h4>
-            <ul className="text-sm text-blue-800 space-y-1">
+          <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+            <h4 className="font-semibold text-indigo-900 mb-2">Features</h4>
+            <ul className="text-sm text-indigo-800 space-y-1">
               <li>• Responsive design that works on all devices</li>
               <li>• Real-time customization updates</li>
               <li>• Analytics tracking built-in</li>
@@ -543,8 +543,8 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
       content: (
         <div className="space-y-6">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Shopify Store Integration</h3>
-            <p className="text-gray-700 mb-4">
+            <h3 className="text-lg font-semibold text-slate-900 mb-3">Shopify Store Integration</h3>
+            <p className="text-slate-700 mb-4">
               Add our AI chatbot widget to your Shopify store to provide instant customer support, 
               product recommendations, and order assistance. The widget integrates seamlessly with 
               your store design and works on all devices.
@@ -563,66 +563,66 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900">Step-by-Step Installation</h4>
+            <h4 className="font-semibold text-slate-900">Step-by-Step Installation</h4>
             
             <div className="space-y-3">
-              <div className="border border-gray-200 rounded-lg p-4">
+              <div className="border border-slate-200 rounded-lg p-4">
                 <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">1</div>
+                  <div className="w-6 h-6 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">1</div>
                   <div>
-                    <h5 className="font-medium text-gray-900">Access Shopify Admin</h5>
-                    <p className="text-sm text-gray-600 mt-1">Log into your Shopify admin panel at yourstore.myshopify.com/admin</p>
+                    <h5 className="font-medium text-slate-900">Access Shopify Admin</h5>
+                    <p className="text-sm text-slate-600 mt-1">Log into your Shopify admin panel at yourstore.myshopify.com/admin</p>
                   </div>
                 </div>
               </div>
 
-              <div className="border border-gray-200 rounded-lg p-4">
+              <div className="border border-slate-200 rounded-lg p-4">
                 <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">2</div>
+                  <div className="w-6 h-6 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">2</div>
                   <div>
-                    <h5 className="font-medium text-gray-900">Navigate to Themes</h5>
-                    <p className="text-sm text-gray-600 mt-1">Go to Online Store → Themes in the left sidebar</p>
+                    <h5 className="font-medium text-slate-900">Navigate to Themes</h5>
+                    <p className="text-sm text-slate-600 mt-1">Go to Online Store → Themes in the left sidebar</p>
                   </div>
                 </div>
               </div>
 
-              <div className="border border-gray-200 rounded-lg p-4">
+              <div className="border border-slate-200 rounded-lg p-4">
                 <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">3</div>
+                  <div className="w-6 h-6 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">3</div>
                   <div>
-                    <h5 className="font-medium text-gray-900">Edit Theme Code</h5>
-                    <p className="text-sm text-gray-600 mt-1">Click "Actions" → "Edit code" on your active theme</p>
+                    <h5 className="font-medium text-slate-900">Edit Theme Code</h5>
+                    <p className="text-sm text-slate-600 mt-1">Click "Actions" → "Edit code" on your active theme</p>
                   </div>
                 </div>
               </div>
 
-              <div className="border border-gray-200 rounded-lg p-4">
+              <div className="border border-slate-200 rounded-lg p-4">
                 <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">4</div>
+                  <div className="w-6 h-6 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">4</div>
                   <div>
-                    <h5 className="font-medium text-gray-900">Open theme.liquid</h5>
-                    <p className="text-sm text-gray-600 mt-1">In the Layout section, click on "theme.liquid"</p>
+                    <h5 className="font-medium text-slate-900">Open theme.liquid</h5>
+                    <p className="text-sm text-slate-600 mt-1">In the Layout section, click on "theme.liquid"</p>
                   </div>
                 </div>
               </div>
 
-              <div className="border border-gray-200 rounded-lg p-4">
+              <div className="border border-slate-200 rounded-lg p-4">
                 <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">5</div>
+                  <div className="w-6 h-6 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">5</div>
                   <div>
-                    <h5 className="font-medium text-gray-900">Get Widget Code</h5>
-                    <p className="text-sm text-gray-600 mt-1">Go to the Integrations tab, click "Install Widget" for Shopify, and copy the generated code</p>
+                    <h5 className="font-medium text-slate-900">Get Widget Code</h5>
+                    <p className="text-sm text-slate-600 mt-1">Go to the Integrations tab, click "Install Widget" for Shopify, and copy the generated code</p>
                   </div>
                 </div>
               </div>
 
-              <div className="border border-gray-200 rounded-lg p-4">
+              <div className="border border-slate-200 rounded-lg p-4">
                 <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">6</div>
+                  <div className="w-6 h-6 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">6</div>
                   <div>
-                    <h5 className="font-medium text-gray-900">Insert Widget Code</h5>
-                    <p className="text-sm text-gray-600 mt-1 mb-2">Paste the widget code just before the closing &lt;/body&gt; tag</p>
-                    <div className="bg-gray-900 rounded p-3 text-xs">
+                    <h5 className="font-medium text-slate-900">Insert Widget Code</h5>
+                    <p className="text-sm text-slate-600 mt-1 mb-2">Paste the widget code just before the closing &lt;/body&gt; tag</p>
+                    <div className="bg-slate-900 rounded p-3 text-xs">
                       <pre className="text-green-400 whitespace-pre-wrap">{`<!-- AI Orchestrator Chatbot Widget -->
 <script>
   window.aiOrchestratorConfig = {
@@ -638,12 +638,12 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
                 </div>
               </div>
 
-              <div className="border border-gray-200 rounded-lg p-4">
+              <div className="border border-slate-200 rounded-lg p-4">
                 <div className="flex items-start space-x-3">
                   <div className="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">7</div>
                   <div>
-                    <h5 className="font-medium text-gray-900">Save & Test</h5>
-                    <p className="text-sm text-gray-600 mt-1">Save the file and visit your store to test the widget</p>
+                    <h5 className="font-medium text-slate-900">Save & Test</h5>
+                    <p className="text-sm text-slate-600 mt-1">Save the file and visit your store to test the widget</p>
                   </div>
                 </div>
               </div>
@@ -670,9 +670,9 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
             </div>
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="font-semibold text-blue-900 mb-2">Widget Features for Shopify</h4>
-            <ul className="text-sm text-blue-800 space-y-1">
+          <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+            <h4 className="font-semibold text-indigo-900 mb-2">Widget Features for Shopify</h4>
+            <ul className="text-sm text-indigo-800 space-y-1">
               <li>• Product recommendations based on customer queries</li>
               <li>• Order status checking and updates</li>
               <li>• Cart abandonment recovery assistance</li>
@@ -692,20 +692,20 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
       content: (
         <div className="space-y-6">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Testing Your Integration</h3>
-            <p className="text-gray-700 mb-4">
+            <h3 className="text-lg font-semibold text-slate-900 mb-3">Testing Your Integration</h3>
+            <p className="text-slate-700 mb-4">
               The improved testing system now includes device-specific previews and comprehensive functionality tests.
               Use the Test tab to verify your chatbot works correctly across all devices.
             </p>
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900">Test Checklist</h4>
+            <h4 className="font-semibold text-slate-900">Test Checklist</h4>
             
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <h5 className="font-medium text-gray-900">Visual Tests</h5>
-                <ul className="text-sm text-gray-700 space-y-1">
+                <h5 className="font-medium text-slate-900">Visual Tests</h5>
+                <ul className="text-sm text-slate-700 space-y-1">
                   <li className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-green-500" />
                     <span>Preview loads correctly</span>
@@ -730,8 +730,8 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
               </div>
               
               <div className="space-y-2">
-                <h5 className="font-medium text-gray-900">Functional Tests</h5>
-                <ul className="text-sm text-gray-700 space-y-1">
+                <h5 className="font-medium text-slate-900">Functional Tests</h5>
+                <ul className="text-sm text-slate-700 space-y-1">
                   <li className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-green-500" />
                     <span>Widget opens and closes</span>
@@ -758,15 +758,15 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900">Common Issues & Solutions</h4>
+            <h4 className="font-semibold text-slate-900">Common Issues & Solutions</h4>
             
             <div className="space-y-3">
-              <div className="border border-gray-200 rounded-lg p-4">
-                <h5 className="font-medium text-gray-900 mb-2">Widget not appearing</h5>
-                <p className="text-sm text-gray-700 mb-2">
+              <div className="border border-slate-200 rounded-lg p-4">
+                <h5 className="font-medium text-slate-900 mb-2">Widget not appearing</h5>
+                <p className="text-sm text-slate-700 mb-2">
                   If the widget doesn't show up on your website:
                 </p>
-                <ul className="text-sm text-gray-600 space-y-1 ml-4">
+                <ul className="text-sm text-slate-600 space-y-1 ml-4">
                   <li>• Check that the script is placed before &lt;/body&gt;</li>
                   <li>• Verify the chatbot ID is correct</li>
                   <li>• Check browser console for JavaScript errors</li>
@@ -774,12 +774,12 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
                 </ul>
               </div>
 
-              <div className="border border-gray-200 rounded-lg p-4">
-                <h5 className="font-medium text-gray-900 mb-2">Styling issues</h5>
-                <p className="text-sm text-gray-700 mb-2">
+              <div className="border border-slate-200 rounded-lg p-4">
+                <h5 className="font-medium text-slate-900 mb-2">Styling issues</h5>
+                <p className="text-sm text-slate-700 mb-2">
                   If the widget appearance is incorrect:
                 </p>
-                <ul className="text-sm text-gray-600 space-y-1 ml-4">
+                <ul className="text-sm text-slate-600 space-y-1 ml-4">
                   <li>• Check that font changes are saved and published</li>
                   <li>• Verify gradient colors are properly set</li>
                   <li>• Clear browser cache and reload</li>
@@ -787,12 +787,12 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
                 </ul>
               </div>
 
-              <div className="border border-gray-200 rounded-lg p-4">
-                <h5 className="font-medium text-gray-900 mb-2">Avatar distortion</h5>
-                <p className="text-sm text-gray-700 mb-2">
+              <div className="border border-slate-200 rounded-lg p-4">
+                <h5 className="font-medium text-slate-900 mb-2">Avatar distortion</h5>
+                <p className="text-sm text-slate-700 mb-2">
                   If the avatar appears stretched or distorted:
                 </p>
-                <ul className="text-sm text-gray-600 space-y-1 ml-4">
+                <ul className="text-sm text-slate-600 space-y-1 ml-4">
                   <li>• Use square images (1:1 aspect ratio) for best results</li>
                   <li>• Recommended size: 256x256 pixels or larger</li>
                   <li>• Supported formats: JPG, PNG, WebP</li>
@@ -802,12 +802,12 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
             </div>
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="font-semibold text-blue-900 mb-2">Need Help?</h4>
-            <p className="text-sm text-blue-800 mb-2">
+          <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+            <h4 className="font-semibold text-indigo-900 mb-2">Need Help?</h4>
+            <p className="text-sm text-indigo-800 mb-2">
               If you're still experiencing issues, try these resources:
             </p>
-            <ul className="text-sm text-blue-800 space-y-1">
+            <ul className="text-sm text-indigo-800 space-y-1">
               <li>• Use the Test tab to run automated diagnostics</li>
               <li>• Check the browser console for error messages</li>
               <li>• Contact support with your chatbot ID and error details</li>
@@ -823,9 +823,9 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
     return (
       <div className="flex items-center justify-center p-8">
         <div className="text-center">
-          <div className="text-gray-400 text-6xl mb-4">📚</div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">Documentation Not Found</h3>
-          <p className="text-gray-500">The requested integration documentation could not be found.</p>
+          <div className="text-slate-400 text-6xl mb-4">📚</div>
+          <h3 className="text-lg font-medium text-slate-900 mb-2">Documentation Not Found</h3>
+          <p className="text-slate-500">The requested integration documentation could not be found.</p>
         </div>
       </div>
     );
@@ -838,8 +838,8 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
         <div className="flex items-center space-x-3 mb-4">
           <span className="text-3xl">{currentDoc.icon}</span>
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900">{currentDoc.name} Integration</h2>
-            <p className="text-gray-600">{currentDoc.description}</p>
+            <h2 className="text-2xl font-semibold text-slate-900">{currentDoc.name} Integration</h2>
+            <p className="text-slate-600">{currentDoc.description}</p>
           </div>
         </div>
         
@@ -847,7 +847,7 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
           <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(currentDoc.difficulty)}`}>
             {getDifficultyText(currentDoc.difficulty)}
           </span>
-          <span className="text-gray-500">⏱️ {currentDoc.timeRequired}</span>
+          <span className="text-slate-500">⏱️ {currentDoc.timeRequired}</span>
         </div>
       </div>
 
@@ -855,7 +855,7 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
         {/* Sidebar */}
         <div className="lg:col-span-1">
           <div className="bg-white rounded-lg shadow-sm p-4">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Integrations</h3>
+            <h3 className="text-lg font-medium text-slate-900 mb-4">Integrations</h3>
             <nav className="space-y-2">
               {docs.map((doc) => (
                 <button
@@ -863,8 +863,8 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
                   onClick={() => setSelectedDoc(doc.id)}
                   className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     selectedDoc === doc.id
-                      ? 'bg-blue-100 text-blue-700'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                      ? 'bg-indigo-100 text-indigo-700'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                   }`}
                 >
                   <div className="flex items-center space-x-2">
@@ -881,12 +881,12 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
         <div className="lg:col-span-3 space-y-6">
           {/* Prerequisites */}
           <div className="bg-white rounded-lg shadow-sm p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Prerequisites</h3>
+            <h3 className="text-lg font-medium text-slate-900 mb-4">Prerequisites</h3>
             <ul className="space-y-2">
               {currentDoc.prerequisites.map((prerequisite, index) => (
                 <li key={index} className="flex items-start space-x-2">
-                  <span className="text-blue-600 mt-1">•</span>
-                  <span className="text-gray-700">{prerequisite}</span>
+                  <span className="text-indigo-600 mt-1">•</span>
+                  <span className="text-slate-700">{prerequisite}</span>
                 </li>
               ))}
             </ul>
@@ -894,22 +894,22 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
 
           {/* Steps */}
           <div className="bg-white rounded-lg shadow-sm p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Setup Steps</h3>
+            <h3 className="text-lg font-medium text-slate-900 mb-4">Setup Steps</h3>
             <div className="space-y-4">
               {currentDoc.steps.map((step, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg">
+                <div key={index} className="border border-slate-200 rounded-lg">
                   <button
                     onClick={() => toggleStep(index)}
-                    className="w-full text-left p-4 flex items-center justify-between hover:bg-gray-50"
+                    className="w-full text-left p-4 flex items-center justify-between hover:bg-slate-50"
                   >
                     <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium">
+                      <div className="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-sm font-medium">
                         {index + 1}
                       </div>
-                      <span className="font-medium text-gray-900">{step.title}</span>
+                      <span className="font-medium text-slate-900">{step.title}</span>
                     </div>
                     <svg
-                      className={`w-5 h-5 text-gray-400 transform transition-transform ${
+                      className={`w-5 h-5 text-slate-400 transform transition-transform ${
                         expandedSteps.has(index) ? 'rotate-180' : ''
                       }`}
                       fill="none"
@@ -922,15 +922,15 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
                   
                   {expandedSteps.has(index) && (
                     <div className="px-4 pb-4">
-                      <p className="text-gray-600 mb-3">{step.description}</p>
+                      <p className="text-slate-600 mb-3">{step.description}</p>
                       {step.code && (
                         <div className="relative">
-                          <pre className="bg-gray-900 text-green-400 p-3 rounded text-sm overflow-x-auto">
+                          <pre className="bg-slate-900 text-green-400 p-3 rounded text-sm overflow-x-auto">
                             <code>{step.code}</code>
                           </pre>
                           <button
                             onClick={() => navigator.clipboard.writeText(step.code || '')}
-                            className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                            className="absolute top-2 right-2 text-slate-400 hover:text-white"
                           >
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -947,28 +947,28 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
 
           {/* Troubleshooting */}
           <div className="bg-white rounded-lg shadow-sm p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Troubleshooting</h3>
+            <h3 className="text-lg font-medium text-slate-900 mb-4">Troubleshooting</h3>
             <div className="space-y-4">
               {currentDoc.troubleshooting.map((item, index) => (
                 <div key={index} className="border-l-4 border-yellow-400 pl-4">
-                  <h4 className="font-medium text-gray-900 mb-1">{item.problem}</h4>
-                  <p className="text-gray-600">{item.solution}</p>
+                  <h4 className="font-medium text-slate-900 mb-1">{item.problem}</h4>
+                  <p className="text-slate-600">{item.solution}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Help Section */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-6">
             <div className="flex items-start space-x-3">
               <div className="flex-shrink-0">
-                <svg className="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-6 w-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
               <div>
-                <h3 className="text-sm font-medium text-blue-800">Need Help?</h3>
-                <div className="mt-2 text-sm text-blue-700">
+                <h3 className="text-sm font-medium text-indigo-800">Need Help?</h3>
+                <div className="mt-2 text-sm text-indigo-700">
                   <p>
                     If you encounter any issues during the integration process, please contact our support team. 
                     We're here to help you get your chatbot up and running!
@@ -981,7 +981,7 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-slate-200">
         <nav className="-mb-px flex space-x-8 overflow-x-auto">
           {Object.entries(sections).map(([key, section]) => (
             <button
@@ -989,8 +989,8 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
               onClick={() => setActiveSection(key)}
               className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap flex items-center space-x-2 ${
                 activeSection === key
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-indigo-500 text-indigo-600'
+                  : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
               }`}
             >
               {section.icon}
@@ -1006,23 +1006,23 @@ const IntegrationDocs: React.FC<IntegrationDocsProps> = ({ chatbotId }) => {
       </div>
 
       {/* Footer */}
-      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+      <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-slate-700">
               <strong>Documentation last updated:</strong> {new Date().toLocaleDateString()}
             </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               All integrations have been tested and verified to work correctly.
             </p>
           </div>
           <div className="flex items-center space-x-2">
-            <ExternalLink className="w-4 h-4 text-gray-400" />
+            <ExternalLink className="w-4 h-4 text-slate-400" />
             <a
               href="https://docs.ai-orchestrator.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-blue-600 hover:text-blue-800"
+              className="text-sm text-indigo-600 hover:text-indigo-800"
             >
               View Full Documentation
             </a>

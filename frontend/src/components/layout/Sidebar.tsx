@@ -50,8 +50,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
           to={item.href}
           className={cn(
             'flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors',
-            'hover:bg-gray-100 hover:text-gray-900',
-            isActive && 'bg-blue-50 text-blue-700 border-r-2 border-blue-700',
+            'hover:bg-slate-100 hover:text-slate-900',
+            isActive && 'bg-indigo-50 text-indigo-700 border-r-2 border-indigo-700',
             item.disabled && 'opacity-50 cursor-not-allowed',
             level > 0 && 'ml-4',
             collapsed && 'justify-center'
@@ -68,7 +68,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <>
               <span className="flex-1">{item.label}</span>
               {item.badge && (
-                <span className="ml-auto inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                <span className="ml-auto inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
                   {item.badge}
                 </span>
               )}
@@ -116,7 +116,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Sidebar */}
       <div
         className={cn(
-          'bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ease-in-out',
+          'bg-white border-r border-slate-200 flex flex-col transition-all duration-300 ease-in-out',
           // Mobile: fixed positioning
           'fixed lg:relative inset-y-0 left-0 z-50 lg:z-auto',
           // Responsive width
@@ -127,19 +127,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
         )}
       >
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200">
+      <div className="flex items-center justify-between p-4 border-b border-slate-200">
         {!collapsed && (
           <div className="flex items-center">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">AI</span>
             </div>
-            <span className="ml-2 text-lg font-semibold text-gray-900">Menu</span>
+            <span className="ml-2 text-lg font-semibold text-slate-900">Menu</span>
           </div>
         )}
         
         <button
           onClick={() => onToggle?.(!collapsed)}
-          className="p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+          className="p-1 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -153,9 +153,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </nav>
 
       {/* Footer */}
-      <div className="p-4 border-t border-gray-200">
+      <div className="p-4 border-t border-slate-200">
         {!collapsed && (
-          <div className="text-xs text-gray-500 text-center">
+          <div className="text-xs text-slate-500 text-center">
             AI Orchestrator v2.0
           </div>
         )}

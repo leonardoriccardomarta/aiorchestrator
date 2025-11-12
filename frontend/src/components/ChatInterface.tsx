@@ -41,8 +41,8 @@ export const ChatInterface: React.FC = () => {
               <div
                 className={`max-w-[70%] p-3 rounded-lg ${
                   message.sender === 'user'
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100 text-gray-900'
+                    ? 'bg-indigo-500 text-white'
+                    : 'bg-slate-100 text-slate-900'
                 }`}
               >
                 <Text>{message.content}</Text>

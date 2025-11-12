@@ -336,7 +336,7 @@ const NotificationCenter: React.FC = () => {
                             {notification.priority}
                           </Badge>
                         </div>
-                        <Text className="text-gray-500 mt-1">{notification.message}</Text>
+                        <Text className="text-slate-500 mt-1">{notification.message}</Text>
                         {notification.actions && (
                           <div className="mt-2 space-x-2">
                             {notification.actions.map((action, index) => (
@@ -353,7 +353,7 @@ const NotificationCenter: React.FC = () => {
                         )}
                       </div>
                       <div className="flex-shrink-0 space-y-2">
-                        <Text className="text-sm text-gray-500">
+                        <Text className="text-sm text-slate-500">
                           {format(notification.timestamp, 'MMM d, HH:mm')}
                         </Text>
                         <Button
@@ -394,7 +394,7 @@ const NotificationCenter: React.FC = () => {
                         <Badge color="gray">{notification.group}</Badge>
                       )}
                     </div>
-                    <Text className="text-gray-500 mt-1">{notification.message}</Text>
+                    <Text className="text-slate-500 mt-1">{notification.message}</Text>
                     {notification.actions && (
                       <div className="mt-2 space-x-2">
                         {notification.actions.map((action, index) => (
@@ -411,7 +411,7 @@ const NotificationCenter: React.FC = () => {
                     )}
                   </div>
                   <div className="flex-shrink-0 space-y-2 text-right">
-                    <Text className="text-sm text-gray-500">
+                    <Text className="text-sm text-slate-500">
                       {format(notification.timestamp, 'MMM d, HH:mm')}
                     </Text>
                     <div className="space-x-2">

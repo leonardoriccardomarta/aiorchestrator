@@ -100,28 +100,28 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
       {/* Billing Details */}
       <div className="space-y-3">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-700 mb-1">
             Full Name *
           </label>
           <input
             type="text"
             value={billingDetails.name}
             onChange={(e) => setBillingDetails({...billingDetails, name: e.target.value})}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             placeholder="John Doe"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-700 mb-1">
             Email *
           </label>
           <input
             type="email"
             value={billingDetails.email}
             onChange={(e) => setBillingDetails({...billingDetails, email: e.target.value})}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             placeholder="john@example.com"
             required
             title="Please enter a valid email address"
@@ -135,53 +135,53 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-700 mb-1">
             Address
           </label>
           <input
             type="text"
             value={billingDetails.address}
             onChange={(e) => setBillingDetails({...billingDetails, address: e.target.value})}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
             placeholder="123 Main Street"
           />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-slate-700 mb-1">
               City
             </label>
             <input
               type="text"
               value={billingDetails.city}
               onChange={(e) => setBillingDetails({...billingDetails, city: e.target.value})}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
               placeholder="New York"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-slate-700 mb-1">
               Postal Code
             </label>
             <input
               type="text"
               value={billingDetails.postalCode}
               onChange={(e) => setBillingDetails({...billingDetails, postalCode: e.target.value})}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
               placeholder="10001"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-700 mb-1">
             Country
           </label>
           <select
             value={billingDetails.country}
             onChange={(e) => setBillingDetails({...billingDetails, country: e.target.value})}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
           >
             <option value="">Select Country</option>
             <option value="US">United States</option>
@@ -246,10 +246,10 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
 
       {/* Card Details */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-slate-700 mb-2">
           Card Details *
         </label>
-        <div className="border border-gray-300 rounded-lg p-3">
+        <div className="border border-slate-300 rounded-lg p-3">
           <CardElement
             options={{
               style: {
@@ -276,7 +276,7 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
         <button
           type="button"
           onClick={onClose}
-          className="flex-1 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          className="flex-1 px-4 py-3 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
           disabled={loading}
         >
           Cancel
@@ -284,7 +284,7 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
         <button
           type="submit"
           disabled={!stripe || loading}
-          className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 px-4 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? (
             <>
@@ -297,7 +297,7 @@ const StripePaymentForm: React.FC<{ plan: PaymentModalProps['plan']; onSuccess: 
         </button>
       </div>
 
-      <p className="text-xs text-center text-gray-500">
+      <p className="text-xs text-center text-slate-500">
         Invoices will be sent to your email after each payment
       </p>
     </form>
@@ -313,33 +313,33 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSuccess,
       <div className="bg-white rounded-2xl max-w-md w-full p-6 relative max-h-[90vh] overflow-y-auto">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
         >
           <X className="w-5 h-5" />
         </button>
 
         <div className="text-center mb-6">
-          <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CreditCard className="w-6 h-6 text-blue-600" />
+          <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <CreditCard className="w-6 h-6 text-indigo-600" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900">
+          <h2 className="text-2xl font-bold text-slate-900">
             Subscribe to {plan.name}
           </h2>
-          <p className="text-gray-600 mt-2">
+          <p className="text-slate-600 mt-2">
             €{plan.price}/month - Billed monthly
           </p>
         </div>
 
         <div className="mb-6">
-          <h3 className="font-semibold text-gray-900 mb-3">Included features:</h3>
+          <h3 className="font-semibold text-slate-900 mb-3">Included features:</h3>
           <ul className="space-y-2">
             {plan.features && Array.isArray(plan.features) ? plan.features.map((feature, index) => (
-              <li key={index} className="flex items-start text-sm text-gray-600">
+              <li key={index} className="flex items-start text-sm text-slate-600">
                 <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
                 <span>{feature}</span>
               </li>
             )) : (
-              <li className="text-sm text-gray-500">No features listed</li>
+              <li className="text-sm text-slate-500">No features listed</li>
             )}
           </ul>
         </div>
@@ -372,7 +372,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, onSuccess,
           <StripePaymentForm plan={plan} onSuccess={onSuccess} onClose={onClose} />
         </Elements>
 
-        <p className="text-xs text-center text-gray-500 mt-4">
+        <p className="text-xs text-center text-slate-500 mt-4">
               Invoices will be sent to your email after each payment
         </p>
       </div>

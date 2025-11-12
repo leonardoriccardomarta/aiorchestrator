@@ -77,7 +77,7 @@ export const PricingDashboard: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card>
             <Title>Suggested Price</Title>
-            <div className="mt-4 text-3xl font-bold text-blue-600">
+            <div className="mt-4 text-3xl font-bold text-indigo-600">
               {formatPrice(currentOptimization.suggestedPrice)}
             </div>
           </Card>
@@ -130,10 +130,10 @@ export const PricingDashboard: React.FC = () => {
           {rules.map((rule) => (
             <div
               key={rule.id}
-              className="p-4 bg-gray-50 rounded-lg"
+              className="p-4 bg-slate-50 rounded-lg"
             >
               <div className="font-medium">{rule.name}</div>
-              <div className="text-sm text-gray-500">
+              <div className="text-sm text-slate-500">
                 Priority: {rule.priority}
               </div>
               <div className="mt-2 text-sm">
@@ -160,13 +160,13 @@ export const PricingDashboard: React.FC = () => {
             {currentOptimization.factors.map((factor, index) => (
               <div
                 key={index}
-                className="p-4 bg-gray-50 rounded-lg"
+                className="p-4 bg-slate-50 rounded-lg"
               >
                 <div className="font-medium">{factor.name}</div>
-                <div className="text-sm text-blue-600">
+                <div className="text-sm text-indigo-600">
                   Impact: {factor.impact.toFixed(1)}%
                 </div>
-                <div className="mt-2 text-sm text-gray-600">
+                <div className="mt-2 text-sm text-slate-600">
                   {factor.explanation}
                 </div>
               </div>

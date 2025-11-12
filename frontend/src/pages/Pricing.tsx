@@ -76,17 +76,17 @@ const Pricing: React.FC = () => {
   // Get button style based on user status
   const getButtonStyle = (planId: string) => {
     if (!user) {
-      return 'w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700';
+      return 'w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700';
     }
 
     const userPlan = user.planId;
     const isCurrentPlan = userPlan === planId;
     
     if (isCurrentPlan) {
-      return 'w-full bg-gray-100 text-gray-600 cursor-not-allowed';
+      return 'w-full bg-slate-100 text-slate-600 cursor-not-allowed';
     }
 
-    return 'w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700';
+    return 'w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700';
   };
 
   // Check if button should be disabled
@@ -98,16 +98,16 @@ const Pricing: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="relative">
-            <div className="animate-spin rounded-full h-20 w-20 border-4 border-blue-600 border-t-transparent mx-auto"></div>
+            <div className="animate-spin rounded-full h-20 w-20 border-4 border-indigo-600 border-t-transparent mx-auto"></div>
             <div className="absolute inset-0 flex items-center justify-center">
-              <DollarSign className="w-8 h-8 text-blue-600 animate-pulse" />
+              <DollarSign className="w-8 h-8 text-indigo-600 animate-pulse" />
             </div>
           </div>
-          <p className="mt-6 text-gray-600 text-xl font-medium">Loading pricing...</p>
-          <p className="mt-2 text-gray-500">Preparing your plans</p>
+          <p className="mt-6 text-slate-600 text-xl font-medium">Loading pricing...</p>
+          <p className="mt-2 text-slate-500">Preparing your plans</p>
         </div>
       </div>
     );
@@ -117,8 +117,8 @@ const Pricing: React.FC = () => {
     <div className="p-2 sm:p-4 lg:p-6">
       {/* Header */}
       <div className="mb-6 lg:mb-8">
-        <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Pricing Plans</h1>
-        <p className="text-sm lg:text-base text-gray-600">Choose the plan that's right for your business</p>
+        <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">Pricing Plans</h1>
+        <p className="text-sm lg:text-base text-slate-600">Choose the plan that's right for your business</p>
       </div>
 
       {/* Billing + Alerts */}
@@ -131,10 +131,10 @@ const Pricing: React.FC = () => {
                 <AlertCircle className="w-5 h-5 lg:w-6 lg:h-6 text-red-600" />
                 <span className="font-bold text-lg lg:text-xl text-red-600">Your Free Trial Has Expired</span>
               </div>
-              <p className="text-gray-700 text-center mb-3 lg:mb-4 text-sm lg:text-lg">
+              <p className="text-slate-700 text-center mb-3 lg:mb-4 text-sm lg:text-lg">
                 To continue using AI Orchestrator and access your chatbots, please select a plan below.
               </p>
-              <p className="text-gray-600 text-center text-xs lg:text-sm">
+              <p className="text-slate-600 text-center text-xs lg:text-sm">
                 <strong>Choose from Starter ($29/mo), Professional ($99/mo), or Business ($299/mo)</strong>
               </p>
             </div>
@@ -142,12 +142,12 @@ const Pricing: React.FC = () => {
 
           {/* Billing Toggle */}
           <div className="flex items-center justify-center space-x-3 lg:space-x-4 mb-6 lg:mb-8">
-            <span className={`text-xs lg:text-sm font-medium ${billingCycle === 'monthly' ? 'text-gray-900' : 'text-gray-500'}`}>
+            <span className={`text-xs lg:text-sm font-medium ${billingCycle === 'monthly' ? 'text-slate-900' : 'text-slate-500'}`}>
               Monthly
             </span>
             <button
               onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
-              className="relative inline-flex h-5 w-9 lg:h-6 lg:w-11 items-center rounded-full bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="relative inline-flex h-5 w-9 lg:h-6 lg:w-11 items-center rounded-full bg-slate-200 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               <span
                 className={`inline-block h-3 w-3 lg:h-4 lg:w-4 transform rounded-full bg-white transition-transform ${
@@ -155,7 +155,7 @@ const Pricing: React.FC = () => {
                 }`}
               />
             </button>
-            <span className={`text-xs lg:text-sm font-medium ${billingCycle === 'yearly' ? 'text-gray-900' : 'text-gray-500'}`}>
+            <span className={`text-xs lg:text-sm font-medium ${billingCycle === 'yearly' ? 'text-slate-900' : 'text-slate-500'}`}>
               Yearly
             </span>
             {billingCycle === 'yearly' && <Badge className="bg-green-100 text-green-800 text-xs">Save 17%</Badge>}
@@ -173,21 +173,21 @@ const Pricing: React.FC = () => {
               </div>
             )}
             <CardHeader className="p-3 sm:p-4 lg:p-6">
-              <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Starter</CardTitle>
+              <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900">Starter</CardTitle>
               <div className="flex flex-col">
                 <div className="flex items-baseline space-x-1">
-                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
+                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900">
                     ${billingCycle === 'yearly' ? '24' : '29'}
                   </span>
-                  <span className="text-xs sm:text-sm lg:text-base text-gray-600">/month</span>
+                  <span className="text-xs sm:text-sm lg:text-base text-slate-600">/month</span>
                 </div>
                 {billingCycle === 'yearly' && (
-                  <div className="text-xs text-gray-500 mt-1">
+                  <div className="text-xs text-slate-500 mt-1">
                     Billed annually: ${24 * 12}
                   </div>
                 )}
               </div>
-              <p className="text-xs sm:text-sm lg:text-base text-gray-600 mt-2">Perfect for small businesses getting started</p>
+              <p className="text-xs sm:text-sm lg:text-base text-slate-600 mt-2">Perfect for small businesses getting started</p>
             </CardHeader>
             <CardContent className="p-3 sm:p-4 lg:p-6">
               <ul className="space-y-2 lg:space-y-3 mb-4 lg:mb-6">
@@ -231,10 +231,10 @@ const Pricing: React.FC = () => {
           </Card>
 
           {/* Professional Plan */}
-          <Card className="relative border-blue-500">
+          <Card className="relative border-indigo-500">
             {user?.planId !== 'professional' && (
               <div className="absolute -top-2 lg:-top-3 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-blue-600 text-white px-3 lg:px-4 py-1 text-xs">Most Popular</Badge>
+                <Badge className="bg-indigo-600 text-white px-3 lg:px-4 py-1 text-xs">Most Popular</Badge>
                   </div>
               )}
               {user?.planId === 'professional' && !isTrialExpired && (
@@ -243,21 +243,21 @@ const Pricing: React.FC = () => {
                   </div>
             )}
             <CardHeader className="p-3 sm:p-4 lg:p-6">
-              <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Professional</CardTitle>
+              <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900">Professional</CardTitle>
               <div className="flex flex-col">
                 <div className="flex items-baseline space-x-1">
-                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
+                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900">
                     ${billingCycle === 'yearly' ? '82' : '99'}
                   </span>
-                  <span className="text-xs sm:text-sm lg:text-base text-gray-600">/month</span>
+                  <span className="text-xs sm:text-sm lg:text-base text-slate-600">/month</span>
                 </div>
                 {billingCycle === 'yearly' && (
-                  <div className="text-xs text-gray-500 mt-1">
+                  <div className="text-xs text-slate-500 mt-1">
                     Billed annually: ${82 * 12}
                   </div>
                 )}
               </div>
-              <p className="text-xs sm:text-sm lg:text-base text-gray-600 mt-2">For growing businesses that need more power</p>
+              <p className="text-xs sm:text-sm lg:text-base text-slate-600 mt-2">For growing businesses that need more power</p>
             </CardHeader>
             <CardContent className="p-3 sm:p-4 lg:p-6">
               <ul className="space-y-2 lg:space-y-3 mb-4 lg:mb-6">
@@ -328,21 +328,21 @@ const Pricing: React.FC = () => {
               </div>
             )}
             <CardHeader className="p-3 sm:p-4 lg:p-6">
-              <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Business</CardTitle>
+              <CardTitle className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900">Business</CardTitle>
               <div className="flex flex-col">
                 <div className="flex items-baseline space-x-1">
-                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
+                  <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900">
                   ${billingCycle === 'yearly' ? '249' : '299'}
                   </span>
-                  <span className="text-xs sm:text-sm lg:text-base text-gray-600">/month</span>
+                  <span className="text-xs sm:text-sm lg:text-base text-slate-600">/month</span>
                 </div>
                 {billingCycle === 'yearly' && (
-                  <div className="text-xs text-gray-500 mt-1">
+                  <div className="text-xs text-slate-500 mt-1">
                     Billed annually: ${249 * 12}
                   </div>
                 )}
               </div>
-              <p className="text-xs sm:text-sm lg:text-base text-gray-600 mt-2">Full e-commerce automation for serious businesses</p>
+              <p className="text-xs sm:text-sm lg:text-base text-slate-600 mt-2">Full e-commerce automation for serious businesses</p>
             </CardHeader>
             <CardContent className="p-3 sm:p-4 lg:p-6">
               <ul className="space-y-2 lg:space-y-3 mb-4 lg:mb-6">
@@ -409,39 +409,39 @@ const Pricing: React.FC = () => {
         {/* Features Comparison */}
         <div className="bg-white rounded-2xl shadow-lg p-4 lg:p-8 mb-12 lg:mb-16">
           <div className="text-center mb-6 lg:mb-8">
-            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3 lg:mb-4">
+            <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-3 lg:mb-4">
               Compare All Features
             </h2>
-            <p className="text-sm lg:text-xl text-gray-600">
+            <p className="text-sm lg:text-xl text-slate-600">
               See exactly what's included in each plan
             </p>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-slate-50">
                 <tr>
-                  <th className="px-3 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold text-gray-900">Features</th>
-                  <th className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm font-semibold text-gray-900">Starter</th>
-                  <th className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm font-semibold text-gray-900">Professional</th>
-                  <th className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm font-semibold text-gray-900">Business</th>
+                  <th className="px-3 lg:px-6 py-3 lg:py-4 text-left text-xs lg:text-sm font-semibold text-slate-900">Features</th>
+                  <th className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm font-semibold text-slate-900">Starter</th>
+                  <th className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm font-semibold text-slate-900">Professional</th>
+                  <th className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm font-semibold text-slate-900">Business</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
-                <tr className="hover:bg-gray-50">
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-gray-900">AI Chatbots</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">1</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">2</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">3</td>
+              <tbody className="divide-y divide-slate-200">
+                <tr className="hover:bg-slate-50">
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-slate-900">AI Chatbots</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">1</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">2</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">3</td>
                 </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-gray-900">Messages per Month</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">5,000</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">25,000</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">100,000</td>
+                <tr className="hover:bg-slate-50">
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-slate-900">Messages per Month</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">5,000</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">25,000</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">100,000</td>
                 </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-gray-900">Languages Support</td>
+                <tr className="hover:bg-slate-50">
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-slate-900">Languages Support</td>
                   <td className="px-6 py-4 text-center">
                     <Check className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
@@ -452,16 +452,16 @@ const Pricing: React.FC = () => {
                     <Check className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                 </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-gray-900">Analytics</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">Basic</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">Advanced</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">Enterprise</td>
+                <tr className="hover:bg-slate-50">
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-slate-900">Analytics</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">Basic</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">Advanced</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">Enterprise</td>
                 </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-gray-900">API Access</td>
+                <tr className="hover:bg-slate-50">
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-slate-900">API Access</td>
                   <td className="px-6 py-4 text-center">
-                    <X className="w-5 h-5 text-gray-400 mx-auto" />
+                    <X className="w-5 h-5 text-slate-400 mx-auto" />
                   </td>
                   <td className="px-6 py-4 text-center">
                     <Check className="w-5 h-5 text-green-600 mx-auto" />
@@ -470,10 +470,10 @@ const Pricing: React.FC = () => {
                     <Check className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                 </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-gray-900">Custom Branding</td>
+                <tr className="hover:bg-slate-50">
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-slate-900">Custom Branding</td>
                   <td className="px-6 py-4 text-center">
-                    <X className="w-5 h-5 text-gray-400 mx-auto" />
+                    <X className="w-5 h-5 text-slate-400 mx-auto" />
                   </td>
                   <td className="px-6 py-4 text-center">
                     <Check className="w-5 h-5 text-green-600 mx-auto" />
@@ -482,61 +482,61 @@ const Pricing: React.FC = () => {
                     <Check className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                 </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-gray-900">White-label Solution</td>
+                <tr className="hover:bg-slate-50">
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-slate-900">White-label Solution</td>
                   <td className="px-6 py-4 text-center">
-                    <X className="w-5 h-5 text-gray-400 mx-auto" />
+                    <X className="w-5 h-5 text-slate-400 mx-auto" />
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <X className="w-5 h-5 text-gray-400 mx-auto" />
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <Check className="w-5 h-5 text-green-600 mx-auto" />
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-gray-900">Store Connections</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">Basic</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">Advanced</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">Full</td>
-                </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-gray-900">Add to Cart & Checkout</td>
-                  <td className="px-6 py-4 text-center">
-                    <X className="w-5 h-5 text-gray-400 mx-auto" />
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <Check className="w-5 h-5 text-green-600 mx-auto" />
+                    <X className="w-5 h-5 text-slate-400 mx-auto" />
                   </td>
                   <td className="px-6 py-4 text-center">
                     <Check className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                 </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-gray-900">ML Personalization</td>
-                  <td className="px-6 py-4 text-center">
-                    <X className="w-5 h-5 text-gray-400 mx-auto" />
-                  </td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">5 segments</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">Full Suite</td>
+                <tr className="hover:bg-slate-50">
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-slate-900">Store Connections</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">Basic</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">Advanced</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">Full</td>
                 </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-gray-900">Stripe Payments</td>
+                <tr className="hover:bg-slate-50">
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-slate-900">Add to Cart & Checkout</td>
                   <td className="px-6 py-4 text-center">
-                    <X className="w-5 h-5 text-gray-400 mx-auto" />
+                    <X className="w-5 h-5 text-slate-400 mx-auto" />
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <X className="w-5 h-5 text-gray-400 mx-auto" />
+                    <Check className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                   <td className="px-6 py-4 text-center">
                     <Check className="w-5 h-5 text-green-600 mx-auto" />
                   </td>
                 </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-gray-900">Dedicated Support</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">Email</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">Priority</td>
-                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-gray-600">24/7 Dedicated</td>
+                <tr className="hover:bg-slate-50">
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-slate-900">ML Personalization</td>
+                  <td className="px-6 py-4 text-center">
+                    <X className="w-5 h-5 text-slate-400 mx-auto" />
+                  </td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">5 segments</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">Full Suite</td>
+                </tr>
+                <tr className="hover:bg-slate-50">
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-slate-900">Stripe Payments</td>
+                  <td className="px-6 py-4 text-center">
+                    <X className="w-5 h-5 text-slate-400 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <X className="w-5 h-5 text-slate-400 mx-auto" />
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <Check className="w-5 h-5 text-green-600 mx-auto" />
+                  </td>
+                </tr>
+                <tr className="hover:bg-slate-50">
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-xs lg:text-sm font-medium text-slate-900">Dedicated Support</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">Email</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">Priority</td>
+                  <td className="px-3 lg:px-6 py-3 lg:py-4 text-center text-xs lg:text-sm text-slate-600">24/7 Dedicated</td>
                 </tr>
               </tbody>
             </table>

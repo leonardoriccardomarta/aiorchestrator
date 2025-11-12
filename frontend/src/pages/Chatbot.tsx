@@ -470,12 +470,12 @@ const Chatbot: React.FC = () => {
   // Theme palette (mirror of widget preview)
   const themeColors = {
     blue:   { 
-      primary: 'from-blue-600 to-blue-700', 
-      secondary: 'from-blue-50 to-blue-100', 
-      text: 'text-blue-900', 
-      border: 'border-blue-200',
-      userMsg: 'bg-blue-600', 
-      send: 'bg-blue-600' 
+      primary: 'from-indigo-600 to-indigo-700', 
+      secondary: 'from-indigo-50 to-indigo-100', 
+      text: 'text-indigo-900', 
+      border: 'border-indigo-200',
+      userMsg: 'bg-indigo-600', 
+      send: 'bg-indigo-600' 
     },
     purple: { 
       primary: 'from-purple-600 to-purple-700', 
@@ -994,30 +994,30 @@ const Chatbot: React.FC = () => {
 
   if (pageLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center">
         <div className="text-center">
           <div className="relative">
-            <div className="animate-spin rounded-full h-20 w-20 border-4 border-blue-600 border-t-transparent mx-auto"></div>
+            <div className="animate-spin rounded-full h-20 w-20 border-4 border-indigo-600 border-t-transparent mx-auto"></div>
             <div className="absolute inset-0 flex items-center justify-center">
-              <Bot className="w-8 h-8 text-blue-600 animate-pulse" />
+              <Bot className="w-8 h-8 text-indigo-600 animate-pulse" />
             </div>
           </div>
-          <p className="mt-6 text-gray-600 text-xl font-medium">Loading chatbot...</p>
-          <p className="mt-2 text-gray-500">Preparing your AI assistant</p>
+          <p className="mt-6 text-slate-600 text-xl font-medium">Loading chatbot...</p>
+          <p className="mt-2 text-slate-500">Preparing your AI assistant</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 overflow-x-hidden">
       {/* Header */}
-      <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-gray-200 sticky top-0 z-40">
+      <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-slate-200 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 w-full">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center py-3 sm:py-4 lg:py-6 space-y-3 lg:space-y-0">
             <div>
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-1 lg:mb-2" data-tour="chatbot-header">My AI Chatbot</h1>
-              <p className="text-gray-600 text-xs sm:text-sm lg:text-lg hidden sm:block">Manage and test your AI assistant</p>
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-1 lg:mb-2" data-tour="chatbot-header">My AI Chatbot</h1>
+              <p className="text-slate-600 text-xs sm:text-sm lg:text-lg hidden sm:block">Manage and test your AI assistant</p>
             </div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-2 lg:space-x-4 w-full lg:w-auto">
               <div className="w-full sm:w-auto">
@@ -1025,7 +1025,7 @@ const Chatbot: React.FC = () => {
               </div>
               <button
                 onClick={() => loadChatbot()}
-                className="flex items-center justify-center gap-2 px-3 lg:px-4 py-1.5 sm:py-2 text-gray-700 bg-white border border-gray-300 rounded-md lg:rounded-lg hover:bg-gray-50 active:bg-gray-100 transition-colors text-sm lg:text-base touch-manipulation min-h-[44px]"
+                className="flex items-center justify-center gap-2 px-3 lg:px-4 py-1.5 sm:py-2 text-slate-700 bg-white border border-slate-300 rounded-md lg:rounded-lg hover:bg-slate-50 active:bg-slate-100 transition-colors text-sm lg:text-base touch-manipulation min-h-[44px]"
               >
                 <RefreshCw className="w-3 h-3 lg:w-4 lg:h-4" />
                 <span>Refresh</span>
@@ -1044,14 +1044,14 @@ const Chatbot: React.FC = () => {
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 lg:py-8 w-full">
         {/* Tabs */}
         <div className="mb-3 sm:mb-4 lg:mb-8" data-tour="tour-welcome">
-          <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
+          <div className="flex space-x-1 bg-slate-100 rounded-lg p-1">
             <button
               onClick={() => setActiveTab('chat')}
               data-tour="tour-test-chat"
               className={`flex-1 px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 lg:py-3 rounded-md text-xs sm:text-sm lg:text-sm font-medium transition-colors touch-manipulation min-h-[44px] ${
                 activeTab === 'chat' 
-                  ? 'bg-white text-gray-900 shadow-sm' 
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-white text-slate-900 shadow-sm' 
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <MessageSquare className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
@@ -1062,8 +1062,8 @@ const Chatbot: React.FC = () => {
               data-tour="tour-embed"
               className={`flex-1 px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 lg:py-3 rounded-md text-xs sm:text-sm lg:text-sm font-medium transition-colors touch-manipulation min-h-[44px] ${
                 activeTab === 'embed' 
-                  ? 'bg-white text-gray-900 shadow-sm' 
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-white text-slate-900 shadow-sm' 
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <Code className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
@@ -1074,8 +1074,8 @@ const Chatbot: React.FC = () => {
               data-tour="tour-manage"
               className={`flex-1 px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 lg:py-3 rounded-md text-xs sm:text-sm lg:text-sm font-medium transition-colors touch-manipulation min-h-[44px] ${
                 activeTab === 'manage' 
-                  ? 'bg-white text-gray-900 shadow-sm' 
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-white text-slate-900 shadow-sm' 
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <Bot className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
@@ -1086,7 +1086,7 @@ const Chatbot: React.FC = () => {
 
         {/* Tab Content */}
         {activeTab === 'chat' && (
-          <div key={widgetTheme} className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 overflow-hidden w-full max-w-full" data-tour="chat-interface">
+          <div key={widgetTheme} className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-slate-200 overflow-hidden w-full max-w-full" data-tour="chat-interface">
             {/* Chat Header */}
             <div className={`bg-gradient-to-br ${tc.secondary} border-b-2 ${tc.border} p-3 lg:p-4`}>
               <div className="flex items-center justify-between">
@@ -1098,21 +1098,21 @@ const Chatbot: React.FC = () => {
                   </div>
                   <div>
                     <div className={`font-bold text-sm lg:text-base ${tc.text}`}>{widgetTitle}</div>
-                    <div className="text-xs text-gray-600 flex items-center gap-1 lg:gap-2">
+                    <div className="text-xs text-slate-600 flex items-center gap-1 lg:gap-2">
                       <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-green-500 rounded-full"></div>
                       <span className="hidden sm:inline">Online 24/7</span>
                       <span className="sm:hidden">Online</span>
                       {primaryLanguage && primaryLanguage !== 'auto' && (
-                        <span className="px-1.5 lg:px-2 py-0.5 text-[9px] lg:text-[10px] rounded bg-gray-100 text-gray-700">{primaryLanguage.toUpperCase()}</span>
+                        <span className="px-1.5 lg:px-2 py-0.5 text-[9px] lg:text-[10px] rounded bg-slate-100 text-slate-700">{primaryLanguage.toUpperCase()}</span>
                       )}
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center space-x-1 lg:space-x-2">
-                  <button className="text-gray-600 hover:bg-gray-200 rounded-lg p-1.5 lg:p-2 transition-colors" title="Minimize">
+                  <button className="text-slate-600 hover:bg-slate-200 rounded-lg p-1.5 lg:p-2 transition-colors" title="Minimize">
                     <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path></svg>
                   </button>
-                  <button className="text-gray-600 hover:bg-gray-200 rounded-lg p-1.5 lg:p-2 transition-colors" title="Close">
+                  <button className="text-slate-600 hover:bg-slate-200 rounded-lg p-1.5 lg:p-2 transition-colors" title="Close">
                     <svg className="w-3 h-3 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                   </button>
                 </div>
@@ -1120,7 +1120,7 @@ const Chatbot: React.FC = () => {
             </div>
 
             {/* Messages */}
-            <div className="h-80 lg:h-96 overflow-y-auto p-3 lg:p-4 space-y-3 lg:space-y-4 bg-gray-50">
+            <div className="h-80 lg:h-96 overflow-y-auto p-3 lg:p-4 space-y-3 lg:space-y-4 bg-slate-50">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -1130,12 +1130,12 @@ const Chatbot: React.FC = () => {
                     className={`max-w-xs lg:max-w-md px-3 lg:px-4 py-2 lg:py-3 rounded-xl lg:rounded-2xl ${
                       message.isUser
                         ? `${tc.userMsg} text-white shadow-sm`
-                        : 'bg-white text-gray-900 border border-gray-200 shadow-sm'
+                        : 'bg-white text-slate-900 border border-slate-200 shadow-sm'
                     }`}
                   >
-                    <p className={`text-xs lg:text-sm whitespace-pre-wrap font-medium ${message.isUser ? 'text-white' : 'text-gray-900'}`}>{message.text}</p>
+                    <p className={`text-xs lg:text-sm whitespace-pre-wrap font-medium ${message.isUser ? 'text-white' : 'text-slate-900'}`}>{message.text}</p>
                     <p className={`text-[10px] lg:text-xs mt-1 ${
-                      message.isUser ? 'text-white/70' : 'text-gray-500'
+                      message.isUser ? 'text-white/70' : 'text-slate-500'
                     }`}>
                       {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
                     </p>
@@ -1145,7 +1145,7 @@ const Chatbot: React.FC = () => {
               
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-white px-3 lg:px-4 py-2 lg:py-3 rounded-xl lg:rounded-2xl border border-gray-200 shadow-sm">
+                  <div className="bg-white px-3 lg:px-4 py-2 lg:py-3 rounded-xl lg:rounded-2xl border border-slate-200 shadow-sm">
                     <div className="flex items-center space-x-1">
                       <Loader2 className="w-3 h-3 lg:w-4 lg:h-4 animate-spin" />
                       <span className="text-xs lg:text-sm">Typing...</span>
@@ -1158,7 +1158,7 @@ const Chatbot: React.FC = () => {
             </div>
 
             {/* Input */}
-            <div className="p-3 sm:p-4 lg:p-4 bg-white border-t border-gray-200">
+            <div className="p-3 sm:p-4 lg:p-4 bg-white border-t border-slate-200">
               <div className="flex space-x-2">
                 <input
                   type="text"
@@ -1166,7 +1166,7 @@ const Chatbot: React.FC = () => {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder={widgetPlaceholder}
-                  className="flex-1 px-3 sm:px-4 lg:px-4 py-2 sm:py-2.5 lg:py-3 border border-gray-300 rounded-lg lg:rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm lg:text-base bg-white text-gray-900"
+                  className="flex-1 px-3 sm:px-4 lg:px-4 py-2 sm:py-2.5 lg:py-3 border border-slate-300 rounded-lg lg:rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm lg:text-base bg-white text-slate-900"
                   disabled={isLoading}
                 />
                 <button
@@ -1189,54 +1189,54 @@ const Chatbot: React.FC = () => {
         {activeTab === 'manage' && (
           <div className="space-y-3 sm:space-y-4 lg:space-y-6" data-tour="chatbot-management">
             {/* Plan Status */}
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg sm:rounded-xl lg:rounded-xl p-3 sm:p-4 lg:p-6 border border-blue-200 w-full max-w-full">
+            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg sm:rounded-xl lg:rounded-xl p-3 sm:p-4 lg:p-6 border border-indigo-200 w-full max-w-full">
               <div className="flex items-center justify-between mb-2 sm:mb-3 lg:mb-4">
-                <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900">Your Plan Status</h3>
-                <span className="px-2 lg:px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs lg:text-sm font-medium">
+                <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-slate-900">Your Plan Status</h3>
+                <span className="px-2 lg:px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs lg:text-sm font-medium">
                   {user?.planId === 'starter' ? 'Starter' : user?.planId === 'professional' ? 'Professional' : 'Business'}
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
                 <div className="text-center">
-                  <div className="text-xl lg:text-2xl font-bold text-blue-600 mb-1">
+                  <div className="text-xl lg:text-2xl font-bold text-indigo-600 mb-1">
                     {currentChatbotId ? (
                       user?.planId === 'starter' ? '1/1' : user?.planId === 'professional' ? '1/2' : user?.planId === 'business' ? '1/3' : '1/1'
                     ) : (
                       user?.planId === 'starter' ? '0/1' : user?.planId === 'professional' ? '0/2' : user?.planId === 'business' ? '0/3' : '0/1'
                     )}
                   </div>
-                  <div className="text-xs lg:text-sm text-gray-600">Chatbots Used</div>
+                  <div className="text-xs lg:text-sm text-slate-600">Chatbots Used</div>
                 </div>
                 <div className="text-center">
                   <div className="text-xl lg:text-2xl font-bold text-green-600 mb-1">
                     {user?.planId === 'starter' ? '5K' : user?.planId === 'professional' ? '25K' : user?.planId === 'business' ? '100K' : '5K'}
                   </div>
-                  <div className="text-xs lg:text-sm text-gray-600">Messages/Month</div>
+                  <div className="text-xs lg:text-sm text-slate-600">Messages/Month</div>
                 </div>
                 <div className="text-center">
                   <div className="text-xl lg:text-2xl font-bold text-purple-600 mb-1">
                     {user?.planId === 'starter' ? '1' : user?.planId === 'professional' ? '2' : user?.planId === 'business' ? '3' : '1'}
                   </div>
-                  <div className="text-xs lg:text-sm text-gray-600">Websites</div>
+                  <div className="text-xs lg:text-sm text-slate-600">Websites</div>
                 </div>
               </div>
             </div>
 
             {/* Current Chatbot */}
-            <div className="bg-white rounded-lg sm:rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6 w-full max-w-full">
-              <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-900 mb-3 sm:mb-4 lg:mb-6">Your Chatbot</h3>
+            <div className="bg-white rounded-lg sm:rounded-xl lg:rounded-2xl shadow-sm border border-slate-200 p-3 sm:p-4 lg:p-6 w-full max-w-full">
+              <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-slate-900 mb-3 sm:mb-4 lg:mb-6">Your Chatbot</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
                 {/* Main Chatbot - Hide if deleted */}
                 {!chatbotDeleted && currentChatbotId && (
-                <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg sm:rounded-xl lg:rounded-xl p-3 sm:p-4 lg:p-6 border border-blue-200">
+                <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-lg sm:rounded-xl lg:rounded-xl p-3 sm:p-4 lg:p-6 border border-indigo-200">
                   <div className="flex items-center justify-between mb-2 sm:mb-3 lg:mb-4">
                     <div className="flex items-center space-x-2 lg:space-x-3">
-                      <div className="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
                         <Bot className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-white" />
                       </div>
                       <div>
-                        <h4 className="font-semibold text-xs sm:text-sm lg:text-base text-gray-900">{chatbotName}</h4>
-                        <p className="text-[10px] sm:text-xs lg:text-sm text-gray-600">Main chatbot</p>
+                        <h4 className="font-semibold text-xs sm:text-sm lg:text-base text-slate-900">{chatbotName}</h4>
+                        <p className="text-[10px] sm:text-xs lg:text-sm text-slate-600">Main chatbot</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-1 lg:space-x-2">
@@ -1245,19 +1245,19 @@ const Chatbot: React.FC = () => {
                     </div>
                   </div>
                   <div className="mb-2 sm:mb-3 lg:mb-4 p-2 lg:p-3 bg-white/50 rounded-lg">
-                    <p className="text-[10px] lg:text-xs text-gray-600 italic">{welcomeMessage}</p>
+                    <p className="text-[10px] lg:text-xs text-slate-600 italic">{welcomeMessage}</p>
                   </div>
                   <div className="flex space-x-1 lg:space-x-2">
                     <button 
                       onClick={() => setActiveTab('chat')}
-                      className="flex-1 px-2 lg:px-3 py-1.5 sm:py-2 lg:py-2 bg-blue-600 text-white rounded-md lg:rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors text-xs lg:text-sm touch-manipulation min-h-[40px]"
+                      className="flex-1 px-2 lg:px-3 py-1.5 sm:py-2 lg:py-2 bg-indigo-600 text-white rounded-md lg:rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors text-xs lg:text-sm touch-manipulation min-h-[40px]"
                     >
                       <MessageSquare className="w-3 h-3 lg:w-4 lg:h-4 mr-1 inline" />
                       Test
                     </button>
                     <button 
                       onClick={() => setActiveTab('embed')}
-                      className="flex-1 px-2 lg:px-3 py-1.5 sm:py-2 lg:py-2 bg-gray-100 text-gray-700 rounded-md lg:rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-colors text-xs lg:text-sm touch-manipulation min-h-[40px]"
+                      className="flex-1 px-2 lg:px-3 py-1.5 sm:py-2 lg:py-2 bg-slate-100 text-slate-700 rounded-md lg:rounded-lg hover:bg-slate-200 active:bg-slate-300 transition-colors text-xs lg:text-sm touch-manipulation min-h-[40px]"
                     >
                       <Settings className="w-3 h-3 lg:w-4 lg:h-4 mr-1 inline" />
                       Configure
@@ -1274,8 +1274,8 @@ const Chatbot: React.FC = () => {
                 {showDeleteConfirm && (
                   <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl p-6 w-full max-w-sm shadow-xl">
-                      <h4 className="text-lg font-semibold text-gray-900 mb-2">Delete chatbot?</h4>
-                      <p className="text-sm text-gray-600 mb-4">This action cannot be undone.</p>
+                      <h4 className="text-lg font-semibold text-slate-900 mb-2">Delete chatbot?</h4>
+                      <p className="text-sm text-slate-600 mb-4">This action cannot be undone.</p>
                       <div className="flex justify-end gap-2">
                         <button onClick={() => setShowDeleteConfirm(false)} className="px-3 py-2 text-sm rounded border">Cancel</button>
                         <button onClick={async () => { 
@@ -1314,15 +1314,15 @@ const Chatbot: React.FC = () => {
                       setShowAddChatbotModal(true);
                       setChatbotDeleted(false);
                     }}
-                    className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 lg:p-6 border-2 border-dashed border-blue-300 hover:border-blue-500 transition-colors cursor-pointer"
+                    className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-4 lg:p-6 border-2 border-dashed border-indigo-300 hover:border-indigo-500 transition-colors cursor-pointer"
                   >
                     <div className="text-center">
-                      <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-4">
+                      <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-3 lg:mb-4">
                         <Plus className="w-5 h-5 lg:w-6 lg:h-6 text-white" />
                       </div>
-                      <h4 className="font-semibold text-sm lg:text-base text-gray-900 mb-2">Create Your First Chatbot</h4>
-                      <p className="text-xs lg:text-sm text-gray-600 mb-3 lg:mb-4">Start building your AI assistant now</p>
-                      <div className="px-3 lg:px-4 py-1.5 lg:py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md lg:rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors text-xs lg:text-sm inline-block">
+                      <h4 className="font-semibold text-sm lg:text-base text-slate-900 mb-2">Create Your First Chatbot</h4>
+                      <p className="text-xs lg:text-sm text-slate-600 mb-3 lg:mb-4">Start building your AI assistant now</p>
+                      <div className="px-3 lg:px-4 py-1.5 lg:py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md lg:rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-colors text-xs lg:text-sm inline-block">
                         <Plus className="w-3 h-3 lg:w-4 lg:h-4 mr-1 inline" />
                         Create Chatbot
                       </div>
@@ -1337,15 +1337,15 @@ const Chatbot: React.FC = () => {
                       setIsFirstChatbot(false);
                       setShowAddChatbotModal(true);
                     }}
-                    className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-6 border-2 border-dashed border-blue-300 hover:border-blue-400 transition-all cursor-pointer group"
+                    className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-6 border-2 border-dashed border-indigo-300 hover:border-indigo-400 transition-all cursor-pointer group"
                   >
                     <div className="text-center">
-                      <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                      <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                         <Plus className="w-6 h-6 text-white" />
                       </div>
-                      <h4 className="font-semibold text-gray-900 mb-2">Create New Chatbot</h4>
-                      <p className="text-sm text-gray-600 mb-4">Add another AI assistant for different purposes</p>
-                      <div className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors text-sm inline-block">
+                      <h4 className="font-semibold text-slate-900 mb-2">Create New Chatbot</h4>
+                      <p className="text-sm text-slate-600 mb-4">Add another AI assistant for different purposes</p>
+                      <div className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-colors text-sm inline-block">
                         <Plus className="w-4 h-4 mr-1 inline" />
                         Create
                       </div>
@@ -1356,35 +1356,35 @@ const Chatbot: React.FC = () => {
             </div>
 
             {/* Integration Methods */}
-            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6 w-full max-w-full" data-tour="tour-integration">
-              <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Integration Methods</h3>
+            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-slate-200 p-4 lg:p-6 w-full max-w-full" data-tour="tour-integration">
+              <h3 className="text-lg lg:text-xl font-semibold text-slate-900 mb-4 lg:mb-6">Integration Methods</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
                 {/* Embedding Method */}
-                <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-4 lg:p-6 border border-blue-200">
+                <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-4 lg:p-6 border border-indigo-200">
                   <div className="flex items-center space-x-2 lg:space-x-3 mb-3 lg:mb-4">
-                    <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                    <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
                       <Code className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-sm lg:text-base text-gray-900">Embedding Code</h4>
-                      <p className="text-xs lg:text-sm text-gray-600">Add to any website</p>
+                      <h4 className="font-semibold text-sm lg:text-base text-slate-900">Embedding Code</h4>
+                      <p className="text-xs lg:text-sm text-slate-600">Add to any website</p>
                     </div>
                   </div>
-                  <p className="text-xs lg:text-sm text-gray-600 mb-3 lg:mb-4">
+                  <p className="text-xs lg:text-sm text-slate-600 mb-3 lg:mb-4">
                     Copy and paste our JavaScript code into your website. Works with any platform (WordPress, Wix, Squarespace, custom HTML, etc.).
                   </p>
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-2 lg:p-3 mb-3 lg:mb-4">
-                    <p className="text-[10px] lg:text-xs text-blue-800 font-medium mb-1">📝 How to install:</p>
-                    <ol className="text-[10px] lg:text-xs text-blue-700 space-y-1 list-decimal list-inside">
+                  <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-2 lg:p-3 mb-3 lg:mb-4">
+                    <p className="text-[10px] lg:text-xs text-indigo-800 font-medium mb-1">📝 How to install:</p>
+                    <ol className="text-[10px] lg:text-xs text-indigo-700 space-y-1 list-decimal list-inside">
                       <li>Click "Get Embed Code" below</li>
                       <li>Copy the code snippet</li>
-                      <li>Paste it before the <code className="bg-blue-100 px-1 rounded">&lt;/body&gt;</code> tag in your website</li>
+                      <li>Paste it before the <code className="bg-indigo-100 px-1 rounded">&lt;/body&gt;</code> tag in your website</li>
                       <li>Save and publish your website</li>
                     </ol>
                   </div>
                   <button 
                     onClick={() => setActiveTab('embed')}
-                    className="w-full px-3 lg:px-4 py-1.5 lg:py-2 bg-blue-600 text-white rounded-md lg:rounded-lg hover:bg-blue-700 transition-colors text-xs lg:text-sm"
+                    className="w-full px-3 lg:px-4 py-1.5 lg:py-2 bg-indigo-600 text-white rounded-md lg:rounded-lg hover:bg-indigo-700 transition-colors text-xs lg:text-sm"
                   >
                     <Code className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
                     Get Embed Code
@@ -1398,11 +1398,11 @@ const Chatbot: React.FC = () => {
                       <Globe className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-sm lg:text-base text-gray-900">Shopify Integration</h4>
-                      <p className="text-xs lg:text-sm text-gray-600">One-click setup</p>
+                      <h4 className="font-semibold text-sm lg:text-base text-slate-900">Shopify Integration</h4>
+                      <p className="text-xs lg:text-sm text-slate-600">One-click setup</p>
                     </div>
                   </div>
-                  <p className="text-xs lg:text-sm text-gray-600 mb-3 lg:mb-4">
+                  <p className="text-xs lg:text-sm text-slate-600 mb-3 lg:mb-4">
                     Connect directly to your Shopify store with one click for seamless product and order sync. Your chatbot will automatically access your product catalog, handle order inquiries, and provide real-time inventory information.
                   </p>
                   <div className="bg-green-50 rounded-lg p-3 mb-3 lg:mb-4">
@@ -1439,14 +1439,14 @@ const Chatbot: React.FC = () => {
         {activeTab === 'embed' && (
           <div className="space-y-4 lg:space-y-6">
             {/* Embed Options */}
-            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-gray-200 p-4 lg:p-6 w-full max-w-full">
-              <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Embed Your Chatbot</h3>
+            <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-slate-200 p-4 lg:p-6 w-full max-w-full">
+              <h3 className="text-lg lg:text-xl font-semibold text-slate-900 mb-4 lg:mb-6">Embed Your Chatbot</h3>
               
               {/* Quick Embed */}
-              <div className="bg-gray-50 rounded-lg p-3 lg:p-4 mb-4 lg:mb-6 w-full max-w-full">
-                <h4 className="font-medium text-sm lg:text-base text-gray-900 mb-2">Quick Embed</h4>
-                <p className="text-xs lg:text-sm text-gray-600 mb-3 lg:mb-4">Add this code to your website to embed your chatbot:</p>
-                <div className="bg-gray-900 rounded-lg p-3 lg:p-4 overflow-x-auto max-w-full w-full">
+              <div className="bg-slate-50 rounded-lg p-3 lg:p-4 mb-4 lg:mb-6 w-full max-w-full">
+                <h4 className="font-medium text-sm lg:text-base text-slate-900 mb-2">Quick Embed</h4>
+                <p className="text-xs lg:text-sm text-slate-600 mb-3 lg:mb-4">Add this code to your website to embed your chatbot:</p>
+                <div className="bg-slate-900 rounded-lg p-3 lg:p-4 overflow-x-auto max-w-full w-full">
                   <code className="text-green-400 text-xs lg:text-sm whitespace-pre break-all">
                     {generateEmbedCode()}
                   </code>
@@ -1460,7 +1460,7 @@ const Chatbot: React.FC = () => {
                     }).catch(() => {
                       setCopied(false);
                     });
-                  }} className="px-3 lg:px-4 py-1.5 lg:py-2 bg-blue-600 text-white rounded-md lg:rounded-lg hover:bg-blue-700 transition-colors text-xs lg:text-sm">
+                  }} className="px-3 lg:px-4 py-1.5 lg:py-2 bg-indigo-600 text-white rounded-md lg:rounded-lg hover:bg-indigo-700 transition-colors text-xs lg:text-sm">
                     <Copy className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2 inline" />
                     {copied ? 'Copied!' : 'Copy Code'}
                   </button>
@@ -1470,50 +1470,50 @@ const Chatbot: React.FC = () => {
               {/* Widget Customization */}
               <div className="mb-4 lg:mb-6">
                 <div className="flex items-center space-x-2 mb-4 lg:mb-6">
-                  <Settings className="w-5 h-5 lg:w-6 lg:h-6 text-blue-600" />
-                  <h4 className="text-sm lg:text-base font-semibold text-gray-900">Widget Customization</h4>
+                  <Settings className="w-5 h-5 lg:w-6 lg:h-6 text-indigo-600" />
+                  <h4 className="text-sm lg:text-base font-semibold text-slate-900">Widget Customization</h4>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
                   {/* Basic Settings */}
                   <div>
-                    <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Theme Color</label>
+                    <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1 lg:mb-2">Theme Color</label>
                     <div className="flex space-x-1 lg:space-x-2">
                       <div 
-                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-blue-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'blue' ? 'border-blue-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-indigo-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'blue' ? 'border-indigo-800' : 'border-transparent'} hover:border-slate-300`}
                         onClick={() => setWidgetTheme('blue')}
                       ></div>
                       <div 
-                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-purple-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'purple' ? 'border-purple-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-purple-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'purple' ? 'border-purple-800' : 'border-transparent'} hover:border-slate-300`}
                         onClick={() => setWidgetTheme('purple')}
                       ></div>
                       <div 
-                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-green-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'green' ? 'border-green-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-green-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'green' ? 'border-green-800' : 'border-transparent'} hover:border-slate-300`}
                         onClick={() => setWidgetTheme('green')}
                       ></div>
                       <div 
-                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-red-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'red' ? 'border-red-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-red-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'red' ? 'border-red-800' : 'border-transparent'} hover:border-slate-300`}
                         onClick={() => setWidgetTheme('red')}
                       ></div>
                       <div 
-                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-orange-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'orange' ? 'border-orange-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-orange-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'orange' ? 'border-orange-800' : 'border-transparent'} hover:border-slate-300`}
                         onClick={() => setWidgetTheme('orange')}
                       ></div>
                       <div 
-                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-pink-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'pink' ? 'border-pink-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-pink-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'pink' ? 'border-pink-800' : 'border-transparent'} hover:border-slate-300`}
                         onClick={() => setWidgetTheme('pink')}
                       ></div>
                       <div 
-                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-indigo-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'indigo' ? 'border-indigo-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-indigo-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'indigo' ? 'border-indigo-800' : 'border-transparent'} hover:border-slate-300`}
                         onClick={() => setWidgetTheme('indigo')}
                       ></div>
                       <div 
-                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-teal-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'teal' ? 'border-teal-800' : 'border-transparent'} hover:border-gray-300`}
+                        className={`w-6 h-6 lg:w-8 lg:h-8 bg-teal-600 rounded-full cursor-pointer border-2 ${widgetTheme === 'teal' ? 'border-teal-800' : 'border-transparent'} hover:border-slate-300`}
                         onClick={() => setWidgetTheme('teal')}
                       ></div>
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Widget Title</label>
+                    <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1 lg:mb-2">Widget Title</label>
                     <input
                       type="text"
                       value={widgetTitle}
@@ -1521,22 +1521,22 @@ const Chatbot: React.FC = () => {
                         setWidgetTitle(e.target.value);
                         setChatbotName(e.target.value);
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm lg:text-base"
                       placeholder="AI Support"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Input Placeholder</label>
+                    <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1 lg:mb-2">Input Placeholder</label>
                     <input
                       type="text"
                       value={widgetPlaceholder}
                       onChange={(e) => setWidgetPlaceholder(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm lg:text-base"
                       placeholder="Type your message..."
                     />
                   </div>
                   <div className="md:col-span-2 lg:col-span-1">
-                    <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Widget Message</label>
+                    <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1 lg:mb-2">Widget Message</label>
                     <textarea
                       value={widgetMessage}
                       onChange={(e) => {
@@ -1544,7 +1544,7 @@ const Chatbot: React.FC = () => {
                         setWelcomeMessage(e.target.value);
                       }}
                       rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base bg-white text-gray-900"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm lg:text-base bg-white text-slate-900"
                       placeholder="Hello! I'm your AI assistant. How can I help you today?"
                     />
                   </div>
@@ -1554,18 +1554,18 @@ const Chatbot: React.FC = () => {
                         id="showAvatar"
                         checked={showWidgetAvatar}
                         onChange={(e) => setShowWidgetAvatar(e.target.checked)}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded"
                       />
-                      <label htmlFor="showAvatar" className="ml-2 block text-xs lg:text-sm text-gray-700">
+                      <label htmlFor="showAvatar" className="ml-2 block text-xs lg:text-sm text-slate-700">
                         Show Avatar
                       </label>
                   </div>
                   <div>
-                    <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-1 lg:mb-2">Primary Language</label>
+                    <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-1 lg:mb-2">Primary Language</label>
                     <select
                       value={primaryLanguage}
                       onChange={(e) => setPrimaryLanguage(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base bg-white text-gray-900 touch-manipulation min-h-[44px]"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm lg:text-base bg-white text-slate-900 touch-manipulation min-h-[44px]"
                     >
                       <option value="auto">Auto-detect</option>
                       <option value="en">English</option>
@@ -1586,16 +1586,16 @@ const Chatbot: React.FC = () => {
                 
                 {/* Custom Branding Section (Professional+ plans) */}
                 {(user?.planId === 'professional' || user?.planId === 'business') && (
-                  <div className="mt-6 lg:mt-8 pt-6 lg:pt-8 border-t border-gray-200">
+                  <div className="mt-6 lg:mt-8 pt-6 lg:pt-8 border-t border-slate-200">
                     <div className="flex items-center space-x-2 mb-4 lg:mb-6">
                       <Palette className="w-5 h-5 lg:w-6 lg:h-6 text-purple-600" />
-                      <h5 className="text-sm lg:text-base font-semibold text-gray-900">Custom Branding</h5>
+                      <h5 className="text-sm lg:text-base font-semibold text-slate-900">Custom Branding</h5>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
                       {/* Logo */}
                       <div>
-                        <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Logo</label>
-                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 lg:p-6 text-center hover:border-gray-400 transition-colors">
+                        <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-2">Logo</label>
+                        <div className="border-2 border-dashed border-slate-300 rounded-lg p-4 lg:p-6 text-center hover:border-slate-400 transition-colors">
                           {customBranding.logo ? (
                             <div className="space-y-2">
                               <img src={customBranding.logo} alt="Logo preview" className="w-16 h-16 lg:w-20 lg:h-20 rounded mx-auto object-contain" />
@@ -1608,9 +1608,9 @@ const Chatbot: React.FC = () => {
                             </div>
                           ) : (
                             <>
-                              <Upload className="w-6 h-6 lg:w-8 lg:h-8 text-gray-400 mx-auto mb-2" />
-                              <p className="text-xs lg:text-sm text-gray-600 mb-2">Upload your logo</p>
-                              <p className="text-[10px] lg:text-xs text-gray-500 mb-3">PNG, JPG up to 2MB</p>
+                              <Upload className="w-6 h-6 lg:w-8 lg:h-8 text-slate-400 mx-auto mb-2" />
+                              <p className="text-xs lg:text-sm text-slate-600 mb-2">Upload your logo</p>
+                              <p className="text-[10px] lg:text-xs text-slate-500 mb-3">PNG, JPG up to 2MB</p>
                               <input
                                 type="file"
                                 accept="image/*"
@@ -1631,7 +1631,7 @@ const Chatbot: React.FC = () => {
                               />
                               <label
                                 htmlFor="logo-upload-grid"
-                                className="inline-block bg-blue-600 text-white px-3 lg:px-4 py-1.5 lg:py-2 rounded-lg text-xs lg:text-sm font-medium hover:bg-blue-700 cursor-pointer"
+                                className="inline-block bg-indigo-600 text-white px-3 lg:px-4 py-1.5 lg:py-2 rounded-lg text-xs lg:text-sm font-medium hover:bg-indigo-700 cursor-pointer"
                               >
                                 Choose File
                               </label>
@@ -1641,11 +1641,11 @@ const Chatbot: React.FC = () => {
                       </div>
                       {/* Font Family */}
                       <div>
-                        <label className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">Font Family</label>
+                        <label className="block text-xs lg:text-sm font-medium text-slate-700 mb-2">Font Family</label>
                         <select
                           value={customBranding.fontFamily}
                           onChange={(e) => updateCustomBranding({ fontFamily: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
+                          className="w-full px-3 py-2 border border-slate-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm lg:text-base"
                         >
                           <option value="Inter">Inter</option>
                           <option value="Roboto">Roboto</option>
@@ -1653,7 +1653,7 @@ const Chatbot: React.FC = () => {
                           <option value="Lato">Lato</option>
                           <option value="Poppins">Poppins</option>
                         </select>
-                        <p className="text-[10px] lg:text-xs text-gray-500 mt-2">Choose a font that matches your brand identity</p>
+                        <p className="text-[10px] lg:text-xs text-slate-500 mt-2">Choose a font that matches your brand identity</p>
                       </div>
                     </div>
                             </div>
@@ -1661,10 +1661,10 @@ const Chatbot: React.FC = () => {
 
                 {/* White-Label Section (Business only) */}
                 {user?.planId === 'business' && (
-                  <div className="mt-6 lg:mt-8 pt-6 lg:pt-8 border-t border-gray-200">
+                  <div className="mt-6 lg:mt-8 pt-6 lg:pt-8 border-t border-slate-200">
                     <div className="flex items-center space-x-2 mb-4 lg:mb-6">
                       <Globe className="w-5 h-5 lg:w-6 lg:h-6 text-indigo-600" />
-                      <h5 className="text-sm lg:text-base font-semibold text-gray-900">White-Label Solution</h5>
+                      <h5 className="text-sm lg:text-base font-semibold text-slate-900">White-Label Solution</h5>
                         </div>
                     <div className="bg-indigo-50 rounded-lg p-4 lg:p-6 border border-indigo-200 space-y-4">
                       <div className="flex items-start space-x-3">
@@ -1690,13 +1690,13 @@ const Chatbot: React.FC = () => {
                               });
                             }
                           }}
-                          className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded mt-0.5"
+                          className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded mt-0.5"
                         />
                         <div className="flex-1">
-                          <label htmlFor="remove-branding-embed" className="block text-sm lg:text-base font-medium text-gray-900 cursor-pointer">
+                          <label htmlFor="remove-branding-embed" className="block text-sm lg:text-base font-medium text-slate-900 cursor-pointer">
                             Remove "Powered by AI Orchestrator" branding
                           </label>
-                          <p className="text-xs lg:text-sm text-gray-600 mt-1">
+                          <p className="text-xs lg:text-sm text-slate-600 mt-1">
                             When enabled, you can customize or remove the "Powered by" text at the bottom of your chatbot.
                           </p>
                       </div>
@@ -1704,7 +1704,7 @@ const Chatbot: React.FC = () => {
                       
                       {whiteLabelEnabled && (
                         <div>
-                          <label htmlFor="white-label-text" className="block text-xs lg:text-sm font-medium text-gray-700 mb-2">
+                          <label htmlFor="white-label-text" className="block text-xs lg:text-sm font-medium text-slate-700 mb-2">
                             Custom Footer Text (optional)
                           </label>
                           <input
@@ -1732,9 +1732,9 @@ const Chatbot: React.FC = () => {
                               }
                             }}
                             placeholder='e.g., "Powered by Your Company" or leave empty to hide'
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm lg:text-base bg-white text-gray-900"
+                            className="w-full px-3 py-2 border border-slate-300 rounded-md lg:rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm lg:text-base bg-white text-slate-900"
                           />
-                          <p className="text-[10px] lg:text-xs text-gray-500 mt-1">
+                          <p className="text-[10px] lg:text-xs text-slate-500 mt-1">
                             Leave empty to completely hide the footer text, or enter your own custom text.
                           </p>
                         </div>
@@ -1762,8 +1762,8 @@ const Chatbot: React.FC = () => {
                     disabled={isSaving}
                     className={`px-4 lg:px-6 py-1.5 lg:py-2 rounded-md lg:rounded-lg transition-colors flex items-center space-x-1 lg:space-x-2 ${
                       isSaving 
-                        ? 'bg-gray-400 cursor-not-allowed' 
-                        : 'bg-blue-600 hover:bg-blue-700'
+                        ? 'bg-slate-400 cursor-not-allowed' 
+                        : 'bg-indigo-600 hover:bg-indigo-700'
                     } text-white text-xs lg:text-sm`}
                   >
                     {isSaving ? (
@@ -1778,14 +1778,14 @@ const Chatbot: React.FC = () => {
 
               {/* Live Preview */}
               <div className="mb-4 lg:mb-6">
-                <h4 className="font-medium text-sm lg:text-base text-gray-900 mb-3 lg:mb-4">Chatbot Preview</h4>
-                <div className="border border-gray-200 rounded-lg overflow-hidden w-full max-w-full">
-                  <div className="bg-gray-100 px-3 lg:px-4 py-1.5 lg:py-2 border-b border-gray-200">
+                <h4 className="font-medium text-sm lg:text-base text-slate-900 mb-3 lg:mb-4">Chatbot Preview</h4>
+                <div className="border border-slate-200 rounded-lg overflow-hidden w-full max-w-full">
+                  <div className="bg-slate-100 px-3 lg:px-4 py-1.5 lg:py-2 border-b border-slate-200">
                     <div className="flex items-center space-x-1 lg:space-x-2">
                       <div className="w-2 h-2 lg:w-3 lg:h-3 bg-red-500 rounded-full"></div>
                       <div className="w-2 h-2 lg:w-3 lg:h-3 bg-yellow-500 rounded-full"></div>
                       <div className="w-2 h-2 lg:w-3 lg:h-3 bg-green-500 rounded-full"></div>
-                      <span className="ml-2 lg:ml-4 text-xs lg:text-sm text-gray-600">Live Preview</span>
+                      <span className="ml-2 lg:ml-4 text-xs lg:text-sm text-slate-600">Live Preview</span>
                     </div>
                   </div>
                   {/* Just the chatbot iframe, full size */}
@@ -1798,12 +1798,12 @@ const Chatbot: React.FC = () => {
                       onLoad={() => console.log('🖼️ iframe loaded, logo:', customBranding.logo ? customBranding.logo.substring(0, 100) : 'none', 'whiteLabel:', whiteLabelEnabled)}
                     />
                   ) : (
-                    <div className="w-full max-w-full h-[300px] lg:h-[600px] bg-gray-50 flex items-center justify-center">
+                    <div className="w-full max-w-full h-[300px] lg:h-[600px] bg-slate-50 flex items-center justify-center">
                       <div className="text-center">
-                        <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-2 lg:mb-3 animate-pulse">
+                        <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-2 lg:mb-3 animate-pulse">
                           <Bot className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
                         </div>
-                        <p className="text-gray-600 text-sm lg:text-base">Loading chatbot...</p>
+                        <p className="text-slate-600 text-sm lg:text-base">Loading chatbot...</p>
                       </div>
                     </div>
                   )}
@@ -1837,8 +1837,8 @@ const Chatbot: React.FC = () => {
               <CheckCircle className="w-6 h-6 text-white" />
             </div>
             <div>
-              <div className="font-bold text-gray-900 text-lg">Settings Saved!</div>
-              <div className="text-gray-600 text-sm">Your chatbot has been updated successfully</div>
+              <div className="font-bold text-slate-900 text-lg">Settings Saved!</div>
+              <div className="text-slate-600 text-sm">Your chatbot has been updated successfully</div>
             </div>
           </div>
         </div>
@@ -1851,8 +1851,8 @@ const Chatbot: React.FC = () => {
               <CheckCircle className="w-6 h-6 text-white" />
             </div>
             <div>
-              <div className="font-bold text-gray-900 text-lg">Chatbot Deleted!</div>
-              <div className="text-gray-600 text-sm">Your chatbot has been removed successfully</div>
+              <div className="font-bold text-slate-900 text-lg">Chatbot Deleted!</div>
+              <div className="text-slate-600 text-sm">Your chatbot has been removed successfully</div>
             </div>
           </div>
         </div>

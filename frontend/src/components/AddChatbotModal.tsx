@@ -69,24 +69,24 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose, isFi
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-6 border-b border-slate-200">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
               <Bot className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">
+              <h2 className="text-xl font-semibold text-slate-900">
                 {isFirstChatbot ? 'Create Your First Chatbot' : 'Create New Chatbot'}
               </h2>
-              <p className="text-sm text-gray-600">Quick setup - customize later in settings</p>
+              <p className="text-sm text-slate-600">Quick setup - customize later in settings</p>
             </div>
           </div>
           <button
             onClick={handleClose}
             disabled={isCreating}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50"
+            className="p-2 hover:bg-slate-100 rounded-lg transition-colors disabled:opacity-50"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-5 h-5 text-slate-500" />
           </button>
         </div>
 
@@ -109,7 +109,7 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose, isFi
             </div>
             <button
               onClick={handleClose}
-              className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors"
+              className="w-full px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-colors"
             >
               Close
             </button>
@@ -118,7 +118,7 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose, isFi
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-slate-700 mb-2">
               Chatbot Name *
             </label>
             <input
@@ -126,7 +126,7 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose, isFi
               value={formData.name}
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               placeholder="e.g., Customer Support Bot"
-              className="w-full px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors placeholder:text-gray-500"
+              className="w-full px-4 py-3 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors placeholder:text-slate-500"
               required
               disabled={isCreating}
             />
@@ -134,7 +134,7 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose, isFi
 
           {/* Welcome Message */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-slate-700 mb-2">
               Welcome Message *
             </label>
             <textarea
@@ -142,11 +142,11 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose, isFi
               onChange={(e) => setFormData(prev => ({ ...prev, welcomeMessage: e.target.value }))}
               placeholder="Hello! I'm your AI assistant. How can I help you today?"
               rows={3}
-              className="w-full px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none placeholder:text-gray-500"
+              className="w-full px-4 py-3 bg-white text-slate-900 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors resize-none placeholder:text-slate-500"
               required
               disabled={isCreating}
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               This message will be shown when users first interact with your chatbot
             </p>
           </div>
@@ -157,14 +157,14 @@ const AddChatbotModal: React.FC<AddChatbotModalProps> = ({ isOpen, onClose, isFi
               type="button"
               onClick={handleClose}
               disabled={isCreating}
-              className="flex-1 px-4 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50"
+              className="flex-1 px-4 py-3 text-slate-700 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={!formData.name.trim() || isCreating}
-              className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isCreating ? (
                 <>

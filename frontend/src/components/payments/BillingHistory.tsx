@@ -59,7 +59,7 @@ export const BillingHistory: React.FC<BillingHistoryProps> = ({
           <CardTitle>Billing History</CardTitle>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <Filter className="h-4 w-4 text-gray-500" />
+              <Filter className="h-4 w-4 text-slate-500" />
               <select
                 value={_statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as Invoice['status'] | 'all')}
@@ -89,17 +89,17 @@ export const BillingHistory: React.FC<BillingHistoryProps> = ({
               layout
             >
               <div
-                className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden"
+                className="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden"
               >
                 <div
-                  className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800"
+                  className="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800"
                   onClick={() => toggleInvoice(invoice.id)}
                 >
                   <div className="flex items-center space-x-4">
-                    <FileText className="h-5 w-5 text-gray-500" />
+                    <FileText className="h-5 w-5 text-slate-500" />
                     <div>
                       <div className="font-medium">Invoice #{invoice.id}</div>
-                      <div className="text-sm text-gray-500">{invoice.date}</div>
+                      <div className="text-sm text-slate-500">{invoice.date}</div>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
@@ -122,14 +122,14 @@ export const BillingHistory: React.FC<BillingHistoryProps> = ({
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    className="border-t border-gray-200 dark:border-gray-700"
+                    className="border-t border-slate-200 dark:border-slate-700"
                   >
                     <div className="p-4 space-y-4">
                       <div>
-                        <h4 className="text-sm font-medium text-gray-500 mb-2">Items</h4>
+                        <h4 className="text-sm font-medium text-slate-500 mb-2">Items</h4>
                         <table className="w-full text-sm">
                           <thead>
-                            <tr className="text-gray-500">
+                            <tr className="text-slate-500">
                               <th className="text-left font-medium py-2">Description</th>
                               <th className="text-right font-medium py-2">Quantity</th>
                               <th className="text-right font-medium py-2">Unit Price</th>
@@ -149,7 +149,7 @@ export const BillingHistory: React.FC<BillingHistoryProps> = ({
                             ))}
                           </tbody>
                           <tfoot>
-                            <tr className="border-t border-gray-200 dark:border-gray-700">
+                            <tr className="border-t border-slate-200 dark:border-slate-700">
                               <td colSpan={3} className="text-right py-2 font-medium">
                                 Total
                               </td>
@@ -180,7 +180,7 @@ export const BillingHistory: React.FC<BillingHistoryProps> = ({
           ))}
 
           {filteredInvoices.length === 0 && (
-            <div className="text-center py-6 text-gray-500">
+            <div className="text-center py-6 text-slate-500">
               No invoices found
             </div>
           )}

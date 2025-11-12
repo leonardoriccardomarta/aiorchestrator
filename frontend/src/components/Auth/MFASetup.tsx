@@ -116,8 +116,8 @@ const MFASetup: React.FC<MFASetupProps> = ({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">MFA is Enabled</h3>
-          <p className="text-sm text-gray-500 mb-6">
+          <h3 className="text-lg font-medium text-slate-900 mb-2">MFA is Enabled</h3>
+          <p className="text-sm text-slate-500 mb-6">
             Your account is protected with two-factor authentication
           </p>
           <button
@@ -143,12 +143,12 @@ const MFASetup: React.FC<MFASetupProps> = ({
 
       {step === 'setup' && (
         <div>
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Set Up Two-Factor Authentication</h3>
+          <h3 className="text-lg font-medium text-slate-900 mb-4">Set Up Two-Factor Authentication</h3>
           
           {isLoading ? (
             <div className="text-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto"></div>
-              <p className="mt-2 text-sm text-gray-500">Generating QR code...</p>
+              <p className="mt-2 text-sm text-slate-500">Generating QR code...</p>
             </div>
           ) : (
             <>
@@ -161,12 +161,12 @@ const MFASetup: React.FC<MFASetupProps> = ({
                     data-testid="qr-code"
                   />
                 )}
-                <p className="text-sm text-gray-600 mb-2">
+                <p className="text-sm text-slate-600 mb-2">
                   Scan this QR code with your authenticator app
                 </p>
                 {secret && (
-                  <div className="bg-gray-50 p-3 rounded-md">
-                    <p className="text-xs text-gray-500 mb-1">Manual entry key:</p>
+                  <div className="bg-slate-50 p-3 rounded-md">
+                    <p className="text-xs text-slate-500 mb-1">Manual entry key:</p>
                     <code className="text-sm font-mono break-all" data-testid="manual-key">
                       {secret}
                     </code>
@@ -176,7 +176,7 @@ const MFASetup: React.FC<MFASetupProps> = ({
 
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="verification-token" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="verification-token" className="block text-sm font-medium text-slate-700 mb-1">
                     Enter verification code
                   </label>
                   <input
@@ -188,7 +188,7 @@ const MFASetup: React.FC<MFASetupProps> = ({
                     onChange={(e) => setVerificationToken(e.target.value.replace(/\D/g, ''))}
                     placeholder="000000"
                     data-testid="verification-token-input"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-center text-lg font-mono tracking-widest focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-md text-center text-lg font-mono tracking-widest focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
 
@@ -196,13 +196,13 @@ const MFASetup: React.FC<MFASetupProps> = ({
                   onClick={() => setStep('verify')}
                   disabled={verificationToken.length !== 6}
                   data-testid="verify-token-button"
-                  className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-white py-2 px-4 rounded-md text-sm font-medium transition-colors"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-400 text-white py-2 px-4 rounded-md text-sm font-medium transition-colors"
                 >
                   Verify and Enable MFA
                 </button>
               </div>
 
-              <div className="mt-4 text-xs text-gray-500">
+              <div className="mt-4 text-xs text-slate-500">
                 <p className="mb-2">Recommended authenticator apps:</p>
                 <ul className="list-disc list-inside space-y-1">
                   <li>Google Authenticator</li>
@@ -218,7 +218,7 @@ const MFASetup: React.FC<MFASetupProps> = ({
 
       {step === 'verify' && (
         <div>
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Verify Setup</h3>
+          <h3 className="text-lg font-medium text-slate-900 mb-4">Verify Setup</h3>
           <div className="text-center">
             <div className="mb-6">
               <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 mb-4">
@@ -226,10 +226,10 @@ const MFASetup: React.FC<MFASetupProps> = ({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
                 </svg>
               </div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-slate-600">
                 Please confirm the 6-digit code from your authenticator app:
               </p>
-              <p className="text-2xl font-mono font-bold text-gray-900 mt-2">
+              <p className="text-2xl font-mono font-bold text-slate-900 mt-2">
                 {verificationToken}
               </p>
             </div>
@@ -246,7 +246,7 @@ const MFASetup: React.FC<MFASetupProps> = ({
 
               <button
                 onClick={() => setStep('setup')}
-                className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-md text-sm font-medium transition-colors"
+                className="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 py-2 px-4 rounded-md text-sm font-medium transition-colors"
               >
                 Back to Setup
               </button>
@@ -263,8 +263,8 @@ const MFASetup: React.FC<MFASetupProps> = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">MFA Successfully Enabled!</h3>
-            <p className="text-sm text-gray-500 mb-6">
+            <h3 className="text-lg font-medium text-slate-900 mb-2">MFA Successfully Enabled!</h3>
+            <p className="text-sm text-slate-500 mb-6">
               Your account is now protected with two-factor authentication
             </p>
 

@@ -6,16 +6,16 @@ const TestPricingCalculator: React.FC = () => {
   return (
     <div className="bg-white rounded-xl shadow-lg p-8">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2"> Pricing Calculator</h2>
-        <p className="text-gray-600">Calculate your monthly cost based on your usage</p>
+        <h2 className="text-3xl font-bold text-slate-900 mb-2"> Pricing Calculator</h2>
+        <p className="text-slate-600">Calculate your monthly cost based on your usage</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="space-y-6">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Your Usage</h3>
+          <h3 className="text-xl font-semibold text-slate-900 mb-4">Your Usage</h3>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-slate-700 mb-2">
               Messages per month: {messages.toLocaleString()}
             </label>
             <input
@@ -25,27 +25,27 @@ const TestPricingCalculator: React.FC = () => {
               step="1000"
               value={messages}
               onChange={(e) => setMessages(parseInt(e.target.value))}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer"
             />
           </div>
         </div>
 
         <div className="space-y-6">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Recommended Plan</h3>
+          <h3 className="text-xl font-semibold text-slate-900 mb-4">Recommended Plan</h3>
           
-          <div className="border-2 border-blue-500 bg-blue-50 rounded-lg p-6">
+          <div className="border-2 border-indigo-500 bg-indigo-50 rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h4 className="text-lg font-semibold text-gray-900">Pro Plan</h4>
-                <span className="inline-block bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
+                <h4 className="text-lg font-semibold text-slate-900">Pro Plan</h4>
+                <span className="inline-block bg-indigo-600 text-white text-xs px-2 py-1 rounded-full">
                   Recommended
                 </span>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-gray-900">
+                <div className="text-2xl font-bold text-slate-900">
                   ${messages > 25000 ? 99 : 79}
                 </div>
-                <div className="text-sm text-gray-600">per month</div>
+                <div className="text-sm text-slate-600">per month</div>
               </div>
             </div>
 
@@ -54,23 +54,23 @@ const TestPricingCalculator: React.FC = () => {
                 <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-sm text-gray-600">25,000 messages per month</span>
+                <span className="text-sm text-slate-600">25,000 messages per month</span>
               </div>
               <div className="flex items-center space-x-2">
                 <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-sm text-gray-600">15 AI chatbots</span>
+                <span className="text-sm text-slate-600">15 AI chatbots</span>
               </div>
               <div className="flex items-center space-x-2">
                 <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-sm text-gray-600">Multi-channel integrations</span>
+                <span className="text-sm text-slate-600">Multi-channel integrations</span>
               </div>
             </div>
 
-            <button className="w-full mt-4 py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+            <button className="w-full mt-4 py-2 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
               Start Free Trial
             </button>
           </div>

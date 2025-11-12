@@ -372,20 +372,20 @@ export default {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50">
+        <div className="px-6 py-4 border-b border-slate-200 bg-gradient-to-r from-indigo-50 to-purple-50">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center">
                 <Code className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-gray-900">Embed Code Generator</h3>
-                <p className="text-sm text-gray-600">Generate code to embed your chatbot</p>
+                <h3 className="text-xl font-semibold text-slate-900">Embed Code Generator</h3>
+                <p className="text-sm text-slate-600">Generate code to embed your chatbot</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors"
+              className="text-slate-400 hover:text-slate-600 transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
@@ -394,16 +394,16 @@ export default {
 
         <div className="flex h-[calc(90vh-120px)]">
           {/* Configuration Panel */}
-          <div className="w-1/3 border-r border-gray-200 overflow-y-auto">
+          <div className="w-1/3 border-r border-slate-200 overflow-y-auto">
             <div className="p-6">
               {/* Tabs */}
-              <div className="flex space-x-1 mb-6 bg-gray-100 rounded-lg p-1">
+              <div className="flex space-x-1 mb-6 bg-slate-100 rounded-lg p-1">
                 <button
                   onClick={() => setActiveTab('basic')}
                   className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     activeTab === 'basic' 
-                      ? 'bg-white text-gray-900 shadow-sm' 
-                      : 'text-gray-600 hover:text-gray-900'
+                      ? 'bg-white text-slate-900 shadow-sm' 
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   Basic
@@ -412,8 +412,8 @@ export default {
                   onClick={() => setActiveTab('advanced')}
                   className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     activeTab === 'advanced' 
-                      ? 'bg-white text-gray-900 shadow-sm' 
-                      : 'text-gray-600 hover:text-gray-900'
+                      ? 'bg-white text-slate-900 shadow-sm' 
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   Advanced
@@ -422,8 +422,8 @@ export default {
                   onClick={() => setActiveTab('shopify')}
                   className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     activeTab === 'shopify' 
-                      ? 'bg-white text-gray-900 shadow-sm' 
-                      : 'text-gray-600 hover:text-gray-900'
+                      ? 'bg-white text-slate-900 shadow-sm' 
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   Shopify
@@ -432,8 +432,8 @@ export default {
                   onClick={() => setActiveTab('preview')}
                   className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     activeTab === 'preview' 
-                      ? 'bg-white text-gray-900 shadow-sm' 
-                      : 'text-gray-600 hover:text-gray-900'
+                      ? 'bg-white text-slate-900 shadow-sm' 
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   Preview
@@ -444,11 +444,11 @@ export default {
               {activeTab === 'basic' && (
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Position</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Position</label>
                     <select
                       value={config.position}
                       onChange={(e) => setConfig({ ...config, position: e.target.value })}
-                      className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     >
                       <option value="bottom-right">Bottom Right</option>
                       <option value="bottom-left">Bottom Left</option>
@@ -458,11 +458,11 @@ export default {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Theme</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Theme</label>
                     <select
                       value={config.theme}
                       onChange={(e) => setConfig({ ...config, theme: e.target.value })}
-                      className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     >
                       <option value="light">Light</option>
                       <option value="dark">Dark</option>
@@ -472,11 +472,11 @@ export default {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Language</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Language</label>
                     <select
                       value={config.language}
                       onChange={(e) => setConfig({ ...config, language: e.target.value })}
-                      className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     >
                       <option value="auto">Auto Detect</option>
                       <option value="en">English</option>
@@ -488,22 +488,22 @@ export default {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Welcome Message</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Welcome Message</label>
                     <textarea
                       value={config.welcomeMessage}
                       onChange={(e) => setConfig({ ...config, welcomeMessage: e.target.value })}
                       rows={3}
-                      className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-500"
+                      className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-slate-500"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Placeholder Text</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Placeholder Text</label>
                     <input
                       type="text"
                       value={config.placeholder}
                       onChange={(e) => setConfig({ ...config, placeholder: e.target.value })}
-                      className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-500"
+                      className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-slate-500"
                     />
                   </div>
 
@@ -513,18 +513,18 @@ export default {
                         type="checkbox"
                         checked={config.showAvatar}
                         onChange={(e) => setConfig({ ...config, showAvatar: e.target.checked })}
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
                       />
-                      <span className="ml-2 text-sm text-gray-700">Show Avatar</span>
+                      <span className="ml-2 text-sm text-slate-700">Show Avatar</span>
                     </label>
                     <label className="flex items-center">
                       <input
                         type="checkbox"
                         checked={config.showPoweredBy}
                         onChange={(e) => setConfig({ ...config, showPoweredBy: e.target.checked })}
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
                       />
-                      <span className="ml-2 text-sm text-gray-700">Show "Powered by"</span>
+                      <span className="ml-2 text-sm text-slate-700">Show "Powered by"</span>
                     </label>
                   </div>
                 </div>
@@ -534,42 +534,42 @@ export default {
               {activeTab === 'advanced' && (
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Border Radius</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Border Radius</label>
                     <input
                       type="text"
                       value={config.borderRadius}
                       onChange={(e) => setConfig({ ...config, borderRadius: e.target.value })}
-                      className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-500"
+                      className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-slate-500"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Font Size</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Font Size</label>
                     <input
                       type="text"
                       value={config.fontSize}
                       onChange={(e) => setConfig({ ...config, fontSize: e.target.value })}
-                      className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-500"
+                      className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-slate-500"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Width</label>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">Width</label>
                       <input
                         type="text"
                         value={config.width}
                         onChange={(e) => setConfig({ ...config, width: e.target.value })}
-                        className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-500"
+                        className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-slate-500"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Height</label>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">Height</label>
                       <input
                         type="text"
                         value={config.height}
                         onChange={(e) => setConfig({ ...config, height: e.target.value })}
-                        className="w-full px-3 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-500"
+                        className="w-full px-3 py-2 bg-white text-slate-900 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-slate-500"
                       />
                     </div>
                   </div>
@@ -580,11 +580,11 @@ export default {
               {activeTab === 'shopify' && (
                 <div className="space-y-6">
                   <div className="text-center">
-                    <div className="w-16 h-16 bg-gradient-to-r from-green-100 to-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <div className="w-16 h-16 bg-gradient-to-r from-green-100 to-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
                       <Globe className="w-8 h-8 text-green-600" />
                     </div>
-                    <h4 className="text-lg font-semibold text-gray-900 mb-2">Shopify Integration</h4>
-                    <p className="text-sm text-gray-600">
+                    <h4 className="text-lg font-semibold text-slate-900 mb-2">Shopify Integration</h4>
+                    <p className="text-sm text-slate-600">
                       {!user?.isPaid 
                         ? 'Basic widget for Starter plan - no custom branding'
                         : 'Advanced widget with custom branding for Professional+ plans'
@@ -592,9 +592,9 @@ export default {
                     </p>
                   </div>
                   
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <h5 className="text-sm font-medium text-gray-700 mb-3">Installation Steps</h5>
-                    <ol className="text-sm text-gray-600 space-y-2">
+                  <div className="bg-slate-50 rounded-lg p-4">
+                    <h5 className="text-sm font-medium text-slate-700 mb-3">Installation Steps</h5>
+                    <ol className="text-sm text-slate-600 space-y-2">
                       <li>1. Go to your Shopify Admin → Online Store → Themes</li>
                       <li>2. Click "Actions" → "Edit code" on your active theme</li>
                       <li>3. Open the "theme.liquid" file</li>
@@ -610,17 +610,17 @@ export default {
               {activeTab === 'preview' && (
                 <div className="space-y-6">
                   <div className="text-center">
-                    <div className="w-16 h-16 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <Eye className="w-8 h-8 text-blue-600" />
+                    <div className="w-16 h-16 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <Eye className="w-8 h-8 text-indigo-600" />
                     </div>
-                    <h4 className="text-lg font-semibold text-gray-900 mb-2">Live Preview</h4>
-                    <p className="text-sm text-gray-600">Preview your chatbot widget configuration</p>
+                    <h4 className="text-lg font-semibold text-slate-900 mb-2">Live Preview</h4>
+                    <p className="text-sm text-slate-600">Preview your chatbot widget configuration</p>
                   </div>
                   
-                  <div className="bg-gray-50 rounded-lg p-4 text-center">
-                    <div className="text-sm text-gray-500 mb-2">Preview will appear here</div>
-                    <div className="w-12 h-12 bg-gray-200 rounded-full mx-auto flex items-center justify-center">
-                      <MessageCircle className="w-6 h-6 text-gray-400" />
+                  <div className="bg-slate-50 rounded-lg p-4 text-center">
+                    <div className="text-sm text-slate-500 mb-2">Preview will appear here</div>
+                    <div className="w-12 h-12 bg-slate-200 rounded-full mx-auto flex items-center justify-center">
+                      <MessageCircle className="w-6 h-6 text-slate-400" />
                     </div>
                   </div>
                 </div>
@@ -630,10 +630,10 @@ export default {
 
           {/* Code Output */}
           <div className="flex-1 flex flex-col">
-            <div className="p-6 border-b border-gray-200">
+            <div className="p-6 border-b border-slate-200">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <h4 className="text-lg font-semibold text-gray-900">
+                  <h4 className="text-lg font-semibold text-slate-900">
                     {activeTab === 'basic' && 'HTML Embed Code'}
                     {activeTab === 'advanced' && 'Advanced HTML Code'}
                     {activeTab === 'shopify' && 'Shopify Integration Code'}
@@ -654,7 +654,7 @@ export default {
                                   generateEmbedCode();
                       copyToClipboard(code);
                     }}
-                    className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                    className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
                   >
                     {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
                     {copied ? 'Copied!' : 'Copy Code'}
@@ -669,7 +669,7 @@ export default {
                                      'chatbot-embed.html';
                       downloadCode(code, filename);
                     }}
-                    className="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+                    className="flex items-center px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition-colors text-sm font-medium"
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Download
@@ -682,19 +682,19 @@ export default {
               <div className="p-6">
                 {activeTab === 'preview' ? (
                   <div className="text-center py-12">
-                    <div className="w-16 h-16 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <Eye className="w-8 h-8 text-blue-600" />
+                    <div className="w-16 h-16 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <Eye className="w-8 h-8 text-indigo-600" />
                     </div>
-                    <h4 className="text-lg font-semibold text-gray-900 mb-2">Live Preview</h4>
-                    <p className="text-sm text-gray-600 mb-4">Preview your chatbot widget configuration</p>
-                    <div className="bg-gray-50 rounded-lg p-4 max-w-md mx-auto">
-                      <div className="text-sm text-gray-600">
+                    <h4 className="text-lg font-semibold text-slate-900 mb-2">Live Preview</h4>
+                    <p className="text-sm text-slate-600 mb-4">Preview your chatbot widget configuration</p>
+                    <div className="bg-slate-50 rounded-lg p-4 max-w-md mx-auto">
+                      <div className="text-sm text-slate-600">
                         Preview feature coming soon! You'll be able to see how your chatbot looks with these settings.
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                  <div className="bg-slate-900 rounded-lg p-4 overflow-x-auto">
                     <pre className="text-green-400 text-sm">
                       <code>
                         {activeTab === 'shopify' ? generateShopifyCode() : 

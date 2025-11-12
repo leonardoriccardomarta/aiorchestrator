@@ -174,7 +174,7 @@ const EnhancedChatbotPreview: React.FC<EnhancedChatbotPreviewProps> = ({
       <div className="relative">
         {/* Desktop/Tablet Preview */}
         <div className="hidden md:block">
-          <div className="bg-gray-100 rounded-lg p-8 min-h-[500px] relative overflow-hidden">
+          <div className="bg-slate-100 rounded-lg p-8 min-h-[500px] relative overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-5">
               <div className="absolute inset-0" style={{
@@ -186,20 +186,20 @@ const EnhancedChatbotPreview: React.FC<EnhancedChatbotPreviewProps> = ({
             <div className="relative z-10 mb-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Live Preview</h3>
-                  <p className="text-sm text-gray-600">
+                  <h3 className="text-lg font-semibold text-slate-900">Live Preview</h3>
+                  <p className="text-sm text-slate-600">
                     This is exactly how your chatbot will appear on your website
                   </p>
                 </div>
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={resetChat}
-                    className="p-2 text-gray-500 hover:text-gray-700 hover:bg-white rounded-lg transition-colors"
+                    className="p-2 text-slate-500 hover:text-slate-700 hover:bg-white rounded-lg transition-colors"
                     title="Reset Chat"
                   >
                     <RefreshCw className="w-4 h-4" />
                   </button>
-                  <div className="flex items-center space-x-1 text-xs text-gray-500">
+                  <div className="flex items-center space-x-1 text-xs text-slate-500">
                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                     <span>Live Preview</span>
                   </div>
@@ -208,26 +208,26 @@ const EnhancedChatbotPreview: React.FC<EnhancedChatbotPreviewProps> = ({
             </div>
 
             {/* Website Mockup */}
-            <div className="relative bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+            <div className="relative bg-white rounded-lg shadow-lg overflow-hidden border border-slate-200">
               {/* Browser Bar */}
-              <div className="bg-gray-100 px-4 py-3 border-b border-gray-200">
+              <div className="bg-slate-100 px-4 py-3 border-b border-slate-200">
                 <div className="flex items-center space-x-2">
                   <div className="flex space-x-1">
                     <div className="w-3 h-3 bg-red-400 rounded-full"></div>
                     <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                     <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                   </div>
-                  <div className="flex-1 bg-white rounded-md px-3 py-1 text-xs text-gray-600">
+                  <div className="flex-1 bg-white rounded-md px-3 py-1 text-xs text-slate-600">
                     https://yourwebsite.com
                   </div>
                 </div>
               </div>
 
               {/* Website Content */}
-              <div className="p-8 h-96 bg-gradient-to-br from-blue-50 to-indigo-100 relative">
+              <div className="p-8 h-96 bg-gradient-to-br from-indigo-50 to-indigo-100 relative">
                 <div className="text-center">
-                  <h1 className="text-2xl font-bold text-gray-900 mb-4">Your Website</h1>
-                  <p className="text-gray-600 mb-8">Your chatbot will appear here for visitors to interact with.</p>
+                  <h1 className="text-2xl font-bold text-slate-900 mb-4">Your Website</h1>
+                  <p className="text-slate-600 mb-8">Your chatbot will appear here for visitors to interact with.</p>
                   <div className="space-y-2 text-left max-w-md mx-auto">
                     <div className="bg-white/50 h-4 rounded animate-pulse"></div>
                     <div className="bg-white/50 h-4 rounded animate-pulse w-3/4"></div>
@@ -243,7 +243,7 @@ const EnhancedChatbotPreview: React.FC<EnhancedChatbotPreviewProps> = ({
                         initial={{ opacity: 0, scale: 0.8, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                        className={`${sizeClasses.window} bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden mb-4`}
+                        className={`${sizeClasses.window} bg-white rounded-lg shadow-xl border border-slate-200 overflow-hidden mb-4`}
                         style={{ fontFamily: config.fontFamily }}
                       >
                         {/* Header */}
@@ -289,7 +289,7 @@ const EnhancedChatbotPreview: React.FC<EnhancedChatbotPreviewProps> = ({
                         </div>
 
                         {/* Messages */}
-                        <div className={`flex-1 overflow-y-auto p-4 space-y-3 ${getFontSizeClass()} bg-gray-50`} style={{ height: '280px' }}>
+                        <div className={`flex-1 overflow-y-auto p-4 space-y-3 ${getFontSizeClass()} bg-slate-50`} style={{ height: '280px' }}>
                           {messages.map((message) => (
                             <motion.div
                               key={message.id}
@@ -301,7 +301,7 @@ const EnhancedChatbotPreview: React.FC<EnhancedChatbotPreviewProps> = ({
                                 className={`max-w-xs px-3 py-2 ${getBubbleShapeClass()} ${getFontSizeClass()} ${
                                   message.isUser
                                     ? 'text-white ml-auto'
-                                    : 'bg-white text-gray-900 border border-gray-200'
+                                    : 'bg-white text-slate-900 border border-slate-200'
                                 }`}
                                 style={{
                                   backgroundColor: message.isUser 
@@ -320,11 +320,11 @@ const EnhancedChatbotPreview: React.FC<EnhancedChatbotPreviewProps> = ({
                               animate={{ opacity: 1, y: 0 }}
                               className="flex justify-start"
                             >
-                              <div className={`max-w-xs px-3 py-2 ${getBubbleShapeClass()} bg-white text-gray-900 border border-gray-200`}>
+                              <div className={`max-w-xs px-3 py-2 ${getBubbleShapeClass()} bg-white text-slate-900 border border-slate-200`}>
                                 <div className="flex space-x-1">
-                                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                                  <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                                 </div>
                               </div>
                             </motion.div>
@@ -333,7 +333,7 @@ const EnhancedChatbotPreview: React.FC<EnhancedChatbotPreviewProps> = ({
                         </div>
 
                         {/* Input */}
-                        <div className="p-4 border-t border-gray-200 bg-white">
+                        <div className="p-4 border-t border-slate-200 bg-white">
                           <div className="flex space-x-2">
                             <input
                               type="text"
@@ -341,7 +341,7 @@ const EnhancedChatbotPreview: React.FC<EnhancedChatbotPreviewProps> = ({
                               onChange={(e) => setInputMessage(e.target.value)}
                               onKeyPress={handleKeyPress}
                               placeholder="Type a message..."
-                              className={`flex-1 px-3 py-2 border border-gray-300 ${getBubbleShapeClass()} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${getFontSizeClass()}`}
+                              className={`flex-1 px-3 py-2 border border-slate-300 ${getBubbleShapeClass()} focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${getFontSizeClass()}`}
                             />
                             <button
                               onClick={handleSendMessage}
@@ -353,7 +353,7 @@ const EnhancedChatbotPreview: React.FC<EnhancedChatbotPreviewProps> = ({
                             </button>
                           </div>
                           {config.showBranding && (
-                            <div className="text-xs text-gray-500 text-center mt-2">
+                            <div className="text-xs text-slate-500 text-center mt-2">
                               Powered by AI Orchestrator
                             </div>
                           )}
@@ -366,7 +366,7 @@ const EnhancedChatbotPreview: React.FC<EnhancedChatbotPreviewProps> = ({
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
-                        className="bg-white rounded-lg shadow-lg p-3 mb-4 border border-gray-200 cursor-pointer"
+                        className="bg-white rounded-lg shadow-lg p-3 mb-4 border border-slate-200 cursor-pointer"
                         onClick={() => setIsMinimized(false)}
                         style={{
                           background: config.gradient 
@@ -439,19 +439,19 @@ const EnhancedChatbotPreview: React.FC<EnhancedChatbotPreviewProps> = ({
 
         {/* Mobile Preview */}
         <div className="md:hidden">
-          <div className="bg-gray-100 rounded-lg p-4">
+          <div className="bg-slate-100 rounded-lg p-4">
             <div className="text-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Mobile Preview</h3>
-              <p className="text-sm text-gray-600">Tap the button to test your chatbot</p>
+              <h3 className="text-lg font-semibold text-slate-900">Mobile Preview</h3>
+              <p className="text-sm text-slate-600">Tap the button to test your chatbot</p>
             </div>
             
-            <div className="relative bg-gray-800 rounded-2xl p-2 mx-auto max-w-sm">
+            <div className="relative bg-slate-800 rounded-2xl p-2 mx-auto max-w-sm">
               <div className="bg-white rounded-xl h-96 p-4 relative overflow-hidden">
                 {/* Mobile content simulation */}
                 <div className="text-center space-y-4">
-                  <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                  <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4 mx-auto"></div>
-                  <div className="h-4 bg-gray-200 rounded animate-pulse w-1/2 mx-auto"></div>
+                  <div className="h-4 bg-slate-200 rounded animate-pulse"></div>
+                  <div className="h-4 bg-slate-200 rounded animate-pulse w-3/4 mx-auto"></div>
+                  <div className="h-4 bg-slate-200 rounded animate-pulse w-1/2 mx-auto"></div>
                 </div>
 
                 {/* Mobile Chatbot Widget */}
@@ -475,13 +475,13 @@ const EnhancedChatbotPreview: React.FC<EnhancedChatbotPreviewProps> = ({
         <div className="mt-4 flex flex-wrap gap-2 justify-center">
           <button
             onClick={() => setIsOpen(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm"
           >
             Open Chat
           </button>
           <button
             onClick={resetChat}
-            className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm"
+            className="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors text-sm"
           >
             Reset Chat
           </button>
@@ -490,7 +490,7 @@ const EnhancedChatbotPreview: React.FC<EnhancedChatbotPreviewProps> = ({
             className={`px-4 py-2 rounded-lg transition-colors text-sm ${
               config.autoOpen 
                 ? 'bg-green-600 text-white hover:bg-green-700' 
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
             }`}
           >
             Auto-open: {config.autoOpen ? 'ON' : 'OFF'}

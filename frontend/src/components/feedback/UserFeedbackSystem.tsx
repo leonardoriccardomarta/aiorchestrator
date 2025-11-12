@@ -269,13 +269,13 @@ const UserFeedbackSystem: React.FC = () => {
                           size="xs"
                           variant="secondary"
                           onClick={() => handleVote(item.id)}
-                          className="hover:bg-blue-50"
+                          className="hover:bg-indigo-50"
                         >
                           👍 {item.votes}
                         </Button>
                       </div>
-                      <Text className="text-gray-600">{item.description}</Text>
-                      <div className="flex justify-between items-center text-sm text-gray-500">
+                      <Text className="text-slate-600">{item.description}</Text>
+                      <div className="flex justify-between items-center text-sm text-slate-500">
                         <span>Submitted by {item.submittedBy}</span>
                         <span>
                           {new Date(item.submittedAt).toLocaleDateString(undefined, {

@@ -65,47 +65,47 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
     const themes = {
       light: {
         primary: 'bg-white',
-        secondary: 'bg-gray-50',
-        text: 'text-gray-900',
-        textSecondary: 'text-gray-600',
-        border: 'border-gray-200',
-        button: 'bg-blue-600 hover:bg-blue-700',
-        input: 'bg-white border-gray-300 focus:border-blue-500',
-        messageUser: 'bg-blue-600 text-white',
-        messageBot: 'bg-gray-100 text-gray-900'
+        secondary: 'bg-slate-50',
+        text: 'text-slate-900',
+        textSecondary: 'text-slate-600',
+        border: 'border-slate-200',
+        button: 'bg-indigo-600 hover:bg-indigo-700',
+        input: 'bg-white border-slate-300 focus:border-indigo-500',
+        messageUser: 'bg-indigo-600 text-white',
+        messageBot: 'bg-slate-100 text-slate-900'
       },
       dark: {
-        primary: 'bg-gray-900',
-        secondary: 'bg-gray-800',
+        primary: 'bg-slate-900',
+        secondary: 'bg-slate-800',
         text: 'text-white',
-        textSecondary: 'text-gray-300',
-        border: 'border-gray-700',
-        button: 'bg-blue-600 hover:bg-blue-700',
-        input: 'bg-gray-800 border-gray-600 focus:border-blue-500 text-white',
-        messageUser: 'bg-blue-600 text-white',
-        messageBot: 'bg-gray-700 text-white'
+        textSecondary: 'text-slate-300',
+        border: 'border-slate-700',
+        button: 'bg-indigo-600 hover:bg-indigo-700',
+        input: 'bg-slate-800 border-slate-600 focus:border-indigo-500 text-white',
+        messageUser: 'bg-indigo-600 text-white',
+        messageBot: 'bg-slate-700 text-white'
       },
       blue: {
-        primary: 'bg-gradient-to-br from-blue-50 to-blue-100',
-        secondary: 'bg-blue-50',
-        text: 'text-gray-900',
-        textSecondary: 'text-gray-600',
-        border: 'border-blue-200',
-        button: 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800',
-        input: 'bg-white border-blue-300 focus:border-blue-500',
-        messageUser: 'bg-gradient-to-r from-blue-600 to-blue-700 text-white',
-        messageBot: 'bg-white text-gray-900 border border-blue-200'
+        primary: 'bg-gradient-to-br from-indigo-50 to-indigo-100',
+        secondary: 'bg-indigo-50',
+        text: 'text-slate-900',
+        textSecondary: 'text-slate-600',
+        border: 'border-indigo-200',
+        button: 'bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800',
+        input: 'bg-white border-indigo-300 focus:border-indigo-500',
+        messageUser: 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white',
+        messageBot: 'bg-white text-slate-900 border border-indigo-200'
       },
       purple: {
         primary: 'bg-gradient-to-br from-purple-50 to-purple-100',
         secondary: 'bg-purple-50',
-        text: 'text-gray-900',
-        textSecondary: 'text-gray-600',
+        text: 'text-slate-900',
+        textSecondary: 'text-slate-600',
         border: 'border-purple-200',
         button: 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800',
         input: 'bg-white border-purple-300 focus:border-purple-500',
         messageUser: 'bg-gradient-to-r from-purple-600 to-purple-700 text-white',
-        messageBot: 'bg-white text-gray-900 border border-purple-200'
+        messageBot: 'bg-white text-slate-900 border border-purple-200'
       }
     };
     return themes[theme];
@@ -228,7 +228,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
           <div className={`${themeClasses.secondary} px-4 py-3 border-b ${themeClasses.border} flex items-center justify-between`}>
             <div className="flex items-center space-x-3">
               {showAvatar && (
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
                   <Bot className="w-4 h-4 text-white" />
                 </div>
               )}
@@ -314,7 +314,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder={placeholder}
-                    className={`flex-1 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${themeClasses.input}`}
+                    className={`flex-1 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${themeClasses.input}`}
                     disabled={isLoading}
                   />
                   <button
@@ -420,47 +420,47 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
     const themes = {
       light: {
         primary: 'bg-white',
-        secondary: 'bg-gray-50',
-        text: 'text-gray-900',
-        textSecondary: 'text-gray-600',
-        border: 'border-gray-200',
-        button: 'bg-blue-600 hover:bg-blue-700',
-        input: 'bg-white border-gray-300 focus:border-blue-500',
-        messageUser: 'bg-blue-600 text-white',
-        messageBot: 'bg-gray-100 text-gray-900'
+        secondary: 'bg-slate-50',
+        text: 'text-slate-900',
+        textSecondary: 'text-slate-600',
+        border: 'border-slate-200',
+        button: 'bg-indigo-600 hover:bg-indigo-700',
+        input: 'bg-white border-slate-300 focus:border-indigo-500',
+        messageUser: 'bg-indigo-600 text-white',
+        messageBot: 'bg-slate-100 text-slate-900'
       },
       dark: {
-        primary: 'bg-gray-900',
-        secondary: 'bg-gray-800',
+        primary: 'bg-slate-900',
+        secondary: 'bg-slate-800',
         text: 'text-white',
-        textSecondary: 'text-gray-300',
-        border: 'border-gray-700',
-        button: 'bg-blue-600 hover:bg-blue-700',
-        input: 'bg-gray-800 border-gray-600 focus:border-blue-500 text-white',
-        messageUser: 'bg-blue-600 text-white',
-        messageBot: 'bg-gray-700 text-white'
+        textSecondary: 'text-slate-300',
+        border: 'border-slate-700',
+        button: 'bg-indigo-600 hover:bg-indigo-700',
+        input: 'bg-slate-800 border-slate-600 focus:border-indigo-500 text-white',
+        messageUser: 'bg-indigo-600 text-white',
+        messageBot: 'bg-slate-700 text-white'
       },
       blue: {
-        primary: 'bg-gradient-to-br from-blue-50 to-blue-100',
-        secondary: 'bg-blue-50',
-        text: 'text-gray-900',
-        textSecondary: 'text-gray-600',
-        border: 'border-blue-200',
-        button: 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800',
-        input: 'bg-white border-blue-300 focus:border-blue-500',
-        messageUser: 'bg-gradient-to-r from-blue-600 to-blue-700 text-white',
-        messageBot: 'bg-white text-gray-900 border border-blue-200'
+        primary: 'bg-gradient-to-br from-indigo-50 to-indigo-100',
+        secondary: 'bg-indigo-50',
+        text: 'text-slate-900',
+        textSecondary: 'text-slate-600',
+        border: 'border-indigo-200',
+        button: 'bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800',
+        input: 'bg-white border-indigo-300 focus:border-indigo-500',
+        messageUser: 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white',
+        messageBot: 'bg-white text-slate-900 border border-indigo-200'
       },
       purple: {
         primary: 'bg-gradient-to-br from-purple-50 to-purple-100',
         secondary: 'bg-purple-50',
-        text: 'text-gray-900',
-        textSecondary: 'text-gray-600',
+        text: 'text-slate-900',
+        textSecondary: 'text-slate-600',
         border: 'border-purple-200',
         button: 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800',
         input: 'bg-white border-purple-300 focus:border-purple-500',
         messageUser: 'bg-gradient-to-r from-purple-600 to-purple-700 text-white',
-        messageBot: 'bg-white text-gray-900 border border-purple-200'
+        messageBot: 'bg-white text-slate-900 border border-purple-200'
       }
     };
     return themes[theme];
@@ -583,7 +583,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
           <div className={`${themeClasses.secondary} px-4 py-3 border-b ${themeClasses.border} flex items-center justify-between`}>
             <div className="flex items-center space-x-3">
               {showAvatar && (
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
                   <Bot className="w-4 h-4 text-white" />
                 </div>
               )}
@@ -669,7 +669,7 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder={placeholder}
-                    className={`flex-1 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${themeClasses.input}`}
+                    className={`flex-1 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${themeClasses.input}`}
                     disabled={isLoading}
                   />
                   <button

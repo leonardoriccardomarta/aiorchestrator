@@ -85,7 +85,7 @@ export const FakeTestimonials: React.FC<{ className?: string }> = ({ className }
     return Array.from({ length: 5 }, (_, i) => (
       <span
         key={i}
-        className={`text-lg ${i < rating ? 'text-yellow-400' : 'text-gray-300'}`}
+        className={`text-lg ${i < rating ? 'text-yellow-400' : 'text-slate-300'}`}
       >
         ★
       </span>
@@ -95,12 +95,12 @@ export const FakeTestimonials: React.FC<{ className?: string }> = ({ className }
   return (
     <div className={`bg-white rounded-xl shadow-lg p-6 ${className}`}>
       <div className="text-center mb-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-2">
+        <h3 className="text-xl font-bold text-slate-900 mb-2">
           Trusted by 10,000+ Businesses
         </h3>
         <div className="flex items-center justify-center space-x-1">
           {renderStars(5)}
-          <span className="ml-2 text-sm text-gray-600">4.9/5 from 2,847 reviews</span>
+          <span className="ml-2 text-sm text-slate-600">4.9/5 from 2,847 reviews</span>
         </div>
       </div>
 
@@ -120,22 +120,22 @@ export const FakeTestimonials: React.FC<{ className?: string }> = ({ className }
               className="w-16 h-16 rounded-full object-cover border-4 border-white shadow-lg"
             />
             {testimonials[currentTestimonial].verified && (
-              <div className="ml-2 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+              <div className="ml-2 w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center">
                 <span className="text-white text-xs">✓</span>
               </div>
             )}
           </div>
 
-          <blockquote className="text-gray-700 text-lg mb-4 italic">
+          <blockquote className="text-slate-700 text-lg mb-4 italic">
             "{testimonials[currentTestimonial].content}"
           </blockquote>
 
           <div className="flex items-center justify-center space-x-3">
             <div>
-              <div className="font-semibold text-gray-900">
+              <div className="font-semibold text-slate-900">
                 {testimonials[currentTestimonial].name}
               </div>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-slate-600">
                 {testimonials[currentTestimonial].role}, {testimonials[currentTestimonial].company}
               </div>
             </div>
@@ -154,22 +154,22 @@ export const FakeTestimonials: React.FC<{ className?: string }> = ({ className }
             key={index}
             onClick={() => setCurrentTestimonial(index)}
             className={`w-2 h-2 rounded-full transition-colors ${
-              index === currentTestimonial ? 'bg-blue-600' : 'bg-gray-300'
+              index === currentTestimonial ? 'bg-indigo-600' : 'bg-slate-300'
             }`}
           />
         ))}
       </div>
 
       {/* Trust badges */}
-      <div className="mt-6 pt-6 border-t border-gray-200">
-        <div className="text-center text-sm text-gray-500 mb-3">
+      <div className="mt-6 pt-6 border-t border-slate-200">
+        <div className="text-center text-sm text-slate-500 mb-3">
           Trusted by leading companies
         </div>
         <div className="flex items-center justify-center space-x-6 opacity-60">
-          <div className="text-lg font-bold text-gray-400">SHOPIFY</div>
-          <div className="text-lg font-bold text-gray-400">STRIPE</div>
-          <div className="text-lg font-bold text-gray-400">NOTION</div>
-          <div className="text-lg font-bold text-gray-400">ZAPIER</div>
+          <div className="text-lg font-bold text-slate-400">SHOPIFY</div>
+          <div className="text-lg font-bold text-slate-400">STRIPE</div>
+          <div className="text-lg font-bold text-slate-400">NOTION</div>
+          <div className="text-lg font-bold text-slate-400">ZAPIER</div>
         </div>
       </div>
     </div>

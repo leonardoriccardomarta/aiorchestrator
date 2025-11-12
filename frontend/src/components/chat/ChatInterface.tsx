@@ -75,10 +75,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isOpen, onClose }) => {
         >
           {/* Header */}
           <div className="p-4 border-b flex justify-between items-center bg-primary rounded-t-lg">
-            <h3 className="text-lg font-semibold text-gray-900">Chat Support</h3>
+            <h3 className="text-lg font-semibold text-slate-900">Chat Support</h3>
             <button
               onClick={onClose}
-              className="text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-slate-600 hover:text-slate-900 transition-colors"
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -99,7 +99,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isOpen, onClose }) => {
                   className={`max-w-[80%] p-3 rounded-lg ${
                     message.sender === 'user'
                       ? 'bg-secondary text-white rounded-br-none'
-                      : 'bg-gray-100 text-gray-900 rounded-bl-none'
+                      : 'bg-slate-100 text-slate-900 rounded-bl-none'
                   }`}
                 >
                   <p className="text-sm">{message.text}</p>
@@ -115,11 +115,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isOpen, onClose }) => {
                 animate={{ opacity: 1 }}
                 className="flex justify-start"
               >
-                <div className="bg-gray-100 p-3 rounded-lg rounded-bl-none">
+                <div className="bg-slate-100 p-3 rounded-lg rounded-bl-none">
                   <div className="flex space-x-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100" />
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200" />
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" />
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-100" />
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-200" />
                   </div>
                 </div>
               </motion.div>

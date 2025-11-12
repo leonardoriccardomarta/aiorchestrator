@@ -60,13 +60,13 @@ const EmailVerification: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center px-4">
       <div className="max-w-md w-full">
         <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
           {/* Icon */}
           <div className="flex justify-center mb-6">
             {verificationStatus === 'loading' && (
-              <Loader2 className="w-16 h-16 text-blue-600 animate-spin" />
+              <Loader2 className="w-16 h-16 text-indigo-600 animate-spin" />
             )}
             {verificationStatus === 'success' && (
               <CheckCircle className="w-16 h-16 text-green-600" />
@@ -77,14 +77,14 @@ const EmailVerification: React.FC = () => {
           </div>
 
           {/* Title */}
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          <h1 className="text-2xl font-bold text-slate-900 mb-4">
             {verificationStatus === 'loading' && 'Verifica in corso...'}
             {verificationStatus === 'success' && 'Account Verificato! 🎉'}
             {verificationStatus === 'error' && 'Verifica Fallita'}
           </h1>
 
           {/* Message */}
-          <p className="text-gray-600 mb-6">
+          <p className="text-slate-600 mb-6">
             {message}
           </p>
 
@@ -103,7 +103,7 @@ const EmailVerification: React.FC = () => {
               
               <button
                 onClick={handleGoToDashboard}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 flex items-center justify-center space-x-2"
               >
                 <span>Vai al Dashboard</span>
                 <ArrowRight className="w-5 h-5" />
@@ -127,13 +127,13 @@ const EmailVerification: React.FC = () => {
               <div className="flex space-x-3">
                 <button
                   onClick={handleGoToLogin}
-                  className="flex-1 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200"
+                  className="flex-1 bg-slate-100 text-slate-700 px-6 py-3 rounded-lg font-semibold hover:bg-slate-200 transition-all duration-200"
                 >
                   Torna al Login
                 </button>
                 <button
                   onClick={() => window.location.reload()}
-                  className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-200"
+                  className="flex-1 bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-all duration-200"
                 >
                   Riprova
                 </button>
@@ -144,12 +144,12 @@ const EmailVerification: React.FC = () => {
           {/* Loading State */}
           {verificationStatus === 'loading' && (
             <div className="space-y-4">
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <div className="flex items-center justify-center space-x-2 text-blue-800">
+              <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+                <div className="flex items-center justify-center space-x-2 text-indigo-800">
                   <Loader2 className="w-5 h-5 animate-spin" />
                   <span className="font-medium">Verifica in corso...</span>
                 </div>
-                <p className="text-sm text-blue-700 mt-2">
+                <p className="text-sm text-indigo-700 mt-2">
                   Stiamo verificando il tuo account, attendi un momento...
                 </p>
               </div>
@@ -159,7 +159,7 @@ const EmailVerification: React.FC = () => {
 
         {/* Footer */}
         <div className="text-center mt-8">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-slate-500">
             © 2025 AI Orchestrator. Tutti i diritti riservati.
           </p>
         </div>

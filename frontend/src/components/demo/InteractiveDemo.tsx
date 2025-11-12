@@ -121,13 +121,13 @@ const InteractiveDemo: React.FC = () => {
                 <MessageCircle className="w-8 h-8 text-white" />
               </div>
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
               Try Our AI Chatbot Demo
             </h3>
-            <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4">
+            <p className="text-sm sm:text-base text-slate-600 mb-3 sm:mb-4">
               Experience intelligent conversations - our AI automatically detects and responds in any language
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-4 sm:mb-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-xs sm:text-sm text-slate-500 mb-4 sm:mb-6">
               <div className="flex items-center gap-1.5 sm:gap-2">
                 <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-600" />
                 <span>Powered by Advanced AI</span>
@@ -146,34 +146,34 @@ const InteractiveDemo: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-            <div className="bg-white p-4 rounded-lg border border-gray-200">
+            <div className="bg-white p-4 rounded-lg border border-slate-200">
               <div className="text-3xl mb-2">🌍</div>
-              <div className="font-semibold text-gray-900">100+ Languages</div>
-              <div className="text-sm text-gray-600">Automatic detection</div>
+              <div className="font-semibold text-slate-900">100+ Languages</div>
+              <div className="text-sm text-slate-600">Automatic detection</div>
             </div>
-            <div className="bg-white p-4 rounded-lg border border-gray-200">
+            <div className="bg-white p-4 rounded-lg border border-slate-200">
               <div className="text-3xl mb-2">⚡</div>
-              <div className="font-semibold text-gray-900">Lightning Fast</div>
-              <div className="text-sm text-gray-600">AI-powered</div>
+              <div className="font-semibold text-slate-900">Lightning Fast</div>
+              <div className="text-sm text-slate-600">AI-powered</div>
             </div>
-            <div className="bg-white p-4 rounded-lg border border-gray-200">
+            <div className="bg-white p-4 rounded-lg border border-slate-200">
               <div className="text-3xl mb-2">🧠</div>
-              <div className="font-semibold text-gray-900">AI-Powered</div>
-              <div className="text-sm text-gray-600">Sentiment & Intent</div>
+              <div className="font-semibold text-slate-900">AI-Powered</div>
+              <div className="text-sm text-slate-600">Sentiment & Intent</div>
             </div>
           </div>
         </div>
       ) : (
         <>
           <div
-            className="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden"
+            className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden"
             style={{
               boxShadow: '0 20px 60px rgba(15, 23, 42, 0.12)'
             }}
           >
             {/* Chat Header */}
             <div
-              className="p-5 text-gray-900"
+              className="p-5 text-slate-900"
               style={{
                 background: `linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(79, 70, 229, 0.12))`,
                 borderBottom: `3px solid ${primaryColor}`
@@ -190,15 +190,15 @@ const InteractiveDemo: React.FC = () => {
                     <MessageCircle className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <div className="font-bold text-gray-900">AI Orchestrator Bot</div>
-                    <div className="text-xs text-gray-600 flex items-center gap-2">
+                    <div className="font-bold text-slate-900">AI Orchestrator Bot</div>
+                    <div className="text-xs text-slate-600 flex items-center gap-2">
                       <span>100+ languages • Universal Support</span>
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-xs text-gray-600">Online 24/7</span>
+                  <span className="text-xs text-slate-600">Online 24/7</span>
                   <button 
                     onClick={() => {
                       setIsDemoActive(false);
@@ -209,7 +209,7 @@ const InteractiveDemo: React.FC = () => {
                         timestamp: new Date()
                       }]);
                     }}
-                    className="text-gray-500 hover:text-gray-700 text-sm ml-2 transition-colors"
+                    className="text-slate-500 hover:text-slate-700 text-sm ml-2 transition-colors"
                   >
                     Reset
                   </button>
@@ -218,14 +218,14 @@ const InteractiveDemo: React.FC = () => {
             </div>
 
             {/* Quick Examples */}
-            <div className="bg-white p-3 border-b border-gray-200">
-              <div className="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Quick examples</div>
+            <div className="bg-white p-3 border-b border-slate-200">
+              <div className="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">Quick examples</div>
               <div className="flex gap-2 overflow-x-auto pb-2">
                 {quickExamples.map((example, idx) => (
                   <button
                     key={idx}
                     onClick={() => handleQuickExample(example.text)}
-                    className="text-xs px-3 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50 transition-colors whitespace-nowrap shadow-sm"
+                    className="text-xs px-3 py-2 rounded-lg border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50 transition-colors whitespace-nowrap shadow-sm"
                     disabled={isTyping}
                     style={{ fontFamily }}
                   >
@@ -246,7 +246,7 @@ const InteractiveDemo: React.FC = () => {
                     className={`max-w-xs lg:max-w-md px-4 py-2.5 rounded-3xl ${
                       message.type === 'user'
                         ? 'text-white shadow-lg'
-                        : 'bg-white text-gray-900 border border-gray-200 shadow-sm'
+                        : 'bg-white text-slate-900 border border-slate-200 shadow-sm'
                     }`}
                     style={{
                       backgroundColor: message.type === 'user'
@@ -258,12 +258,12 @@ const InteractiveDemo: React.FC = () => {
                   >
                     <p
                       className={`text-sm whitespace-pre-wrap font-medium ${
-                        message.type === 'user' ? 'text-white' : 'text-gray-900'
+                        message.type === 'user' ? 'text-white' : 'text-slate-900'
                       }`}
                     >
                       {message.content}
                     </p>
-                    <div className={`text-xs mt-2 ${message.type === 'user' ? 'text-white/70' : 'text-gray-400'}`}>
+                    <div className={`text-xs mt-2 ${message.type === 'user' ? 'text-white/70' : 'text-slate-400'}`}>
                       {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </div>
@@ -272,11 +272,11 @@ const InteractiveDemo: React.FC = () => {
               
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-white px-4 py-3 rounded-2xl border border-gray-200 shadow-sm">
+                  <div className="bg-white px-4 py-3 rounded-2xl border border-slate-200 shadow-sm">
                     <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                      <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                      <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                     </div>
                   </div>
                 </div>
@@ -284,7 +284,7 @@ const InteractiveDemo: React.FC = () => {
             </div>
 
             {/* Input */}
-            <div className="p-4 bg-white border-t border-gray-200">
+            <div className="p-4 bg-white border-t border-slate-200">
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -292,7 +292,7 @@ const InteractiveDemo: React.FC = () => {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Type in any language..."
-                  className="flex-1 px-4 py-3 bg-white text-gray-900 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent placeholder:text-gray-400"
+                  className="flex-1 px-4 py-3 bg-white text-slate-900 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:border-transparent placeholder:text-slate-400"
                   style={{
                     fontFamily,
                     '--tw-ring-color': primaryColor
@@ -315,7 +315,7 @@ const InteractiveDemo: React.FC = () => {
                   )}
                 </button>
               </div>
-              <p className="text-xs text-gray-500 mt-2 text-center" style={{ fontFamily }}>
+              <p className="text-xs text-slate-500 mt-2 text-center" style={{ fontFamily }}>
                 Powered by Advanced AI • Multi-language • Smart Analytics
               </p>
             </div>

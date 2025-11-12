@@ -25,7 +25,7 @@ const StatCard: React.FC<StatCardProps> = ({
 }) => {
   return (
     <div className={cn(
-      'card card-hover p-6 hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 border border-transparent hover:border-blue-200',
+      'card card-hover p-6 hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 border border-transparent hover:border-indigo-200',
       className
     )}>
       <div className="flex items-center justify-between">
@@ -57,10 +57,10 @@ const StatCard: React.FC<StatCardProps> = ({
 
       {/* Value */}
       <div className="mt-4">
-        <p className="text-2xl font-bold text-gray-900">
+        <p className="text-2xl font-bold text-slate-900">
           {typeof value === 'number' ? value.toLocaleString() : value}
         </p>
-        <p className="text-sm font-medium text-gray-600 mt-1">
+        <p className="text-sm font-medium text-slate-600 mt-1">
           {title}
         </p>
       </div>
@@ -79,7 +79,7 @@ const StatCard: React.FC<StatCardProps> = ({
             </span>
           )}
           {period && (
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-slate-500">
               {period}
             </span>
           )}
@@ -88,7 +88,7 @@ const StatCard: React.FC<StatCardProps> = ({
 
       {/* Progress Bar */}
       <div className="mt-3">
-        <div className="w-full bg-gray-200 rounded-full h-1">
+        <div className="w-full bg-slate-200 rounded-full h-1">
           <div
             className={cn(
               'h-1 rounded-full transition-all duration-300',

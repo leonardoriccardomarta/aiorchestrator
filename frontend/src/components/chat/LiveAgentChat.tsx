@@ -200,7 +200,7 @@ const LiveAgentChat: React.FC<LiveAgentChatProps> = ({
   return (
     <div className="fixed bottom-4 right-4 w-96 h-[600px] bg-white rounded-lg shadow-2xl flex flex-col overflow-hidden z-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4">
+      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             {status === 'active' || status === 'assigned' ? (
@@ -231,7 +231,7 @@ const LiveAgentChat: React.FC<LiveAgentChatProps> = ({
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+      <div className="flex-1 overflow-y-auto p-4 bg-slate-50">
         {messages.map((msg) => (
           <div
             key={msg.id}
@@ -240,23 +240,23 @@ const LiveAgentChat: React.FC<LiveAgentChatProps> = ({
             <div className={`max-w-[80%] ${msg.sender === 'visitor' ? 'order-2' : ''}`}>
               <div className="flex items-center gap-2 mb-1">
                 {msg.sender === 'visitor' ? (
-                  <User className="w-4 h-4 text-gray-500" />
+                  <User className="w-4 h-4 text-slate-500" />
                 ) : msg.sender === 'agent' ? (
                   <UserCheck className="w-4 h-4 text-green-500" />
                 ) : (
-                  <Bot className="w-4 h-4 text-blue-500" />
+                  <Bot className="w-4 h-4 text-indigo-500" />
                 )}
-                <span className="text-xs text-gray-500 font-medium">
+                <span className="text-xs text-slate-500 font-medium">
                   {msg.senderName || msg.sender}
                 </span>
               </div>
               <div
                 className={`px-4 py-2 rounded-lg ${
                   msg.sender === 'visitor'
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-indigo-600 text-white'
                     : msg.sender === 'agent'
-                    ? 'bg-green-100 text-gray-900'
-                    : 'bg-white text-gray-900'
+                    ? 'bg-green-100 text-slate-900'
+                    : 'bg-white text-slate-900'
                 }`}
               >
                 <p className="text-sm">{msg.message}</p>
@@ -266,7 +266,7 @@ const LiveAgentChat: React.FC<LiveAgentChatProps> = ({
         ))}
         
         {isTyping && (
-          <div className="flex items-center gap-2 text-gray-500">
+          <div className="flex items-center gap-2 text-slate-500">
             <Bot className="w-4 h-4" />
             <span className="text-sm">Typing...</span>
           </div>
@@ -289,7 +289,7 @@ const LiveAgentChat: React.FC<LiveAgentChatProps> = ({
       )}
 
       {/* Input */}
-      <div className="p-4 bg-white border-t border-gray-200">
+      <div className="p-4 bg-white border-t border-slate-200">
         <div className="flex gap-2">
           <input
             type="text"
@@ -302,12 +302,12 @@ const LiveAgentChat: React.FC<LiveAgentChatProps> = ({
               'Type your message...'
             }
             disabled={status === 'waiting'}
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+            className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-slate-100"
           />
           <button
             onClick={handleSendMessage}
             disabled={isTyping || !inputValue.trim() || status === 'waiting'}
-            className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="bg-indigo-600 text-white p-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
             <Send className="w-5 h-5" />
           </button>
