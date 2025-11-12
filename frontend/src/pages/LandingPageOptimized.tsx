@@ -577,7 +577,7 @@ const LandingPageOptimized: React.FC = () => {
                 {/* Badge */}
                 <div className="inline-flex items-center flex-wrap justify-center gap-1 sm:gap-2 px-3.5 py-1.5 sm:px-5 sm:py-2 bg-white/80 backdrop-blur rounded-full text-xs sm:text-sm font-semibold text-slate-600 mb-5 sm:mb-7 border border-slate-200 shadow-sm">
                   <Zap className="w-3 h-3 sm:w-4 sm:h-4 text-indigo-600 flex-shrink-0" />
-                  <span className="hidden sm:inline tracking-wide uppercase">Multilingual AI in 50+ languages • Live in days, not months</span>
+                  <span className="hidden sm:inline tracking-wide uppercase">Multilingual AI in 50+ languages • Live in minutes, not days</span>
                   <span className="sm:hidden uppercase tracking-wide">AI • 50+ languages</span>
                 </div>
                 
@@ -944,7 +944,7 @@ const LandingPageOptimized: React.FC = () => {
       {/* Footer */}
       <footer className="bg-slate-950 text-white py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-8 lg:gap-12">
             <div>
               <div className="flex items-center space-x-2 mb-3 sm:mb-4">
                 <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-indigo-600 to-indigo-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
@@ -957,26 +957,27 @@ const LandingPageOptimized: React.FC = () => {
               </p>
             </div>
             
-            <div>
-              <h3 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4">Product</h3>
-              <ul className="space-y-1.5 sm:space-y-2">
-                <li><a href="#features" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Features</a></li>
-                <li><a href="#pricing" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Pricing</a></li>
-                <li><a href="#demo" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Demo</a></li>
-                <li><a href="#testimonials" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Reviews</a></li>
-              </ul>
+            <div className="flex flex-col sm:flex-row gap-6 sm:gap-10">
+              <div>
+                <h3 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4">Product</h3>
+                <ul className="space-y-1.5 sm:space-y-2">
+                  <li><a href="#features" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Features</a></li>
+                  <li><a href="#pricing" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Pricing</a></li>
+                  <li><a href="#demo" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Demo</a></li>
+                  <li><a href="#testimonials" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Reviews</a></li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4">Support</h3>
+                <ul className="space-y-1.5 sm:space-y-2">
+                  <li><a href="/contact" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Contact</a></li>
+                  <li><a href="/support" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Help Center</a></li>
+                  <li><a href="/privacy" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Privacy Policy</a></li>
+                  <li><a href="/terms" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Terms of Service</a></li>
+                </ul>
+              </div>
             </div>
-            
-            <div>
-              <h3 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4">Support</h3>
-              <ul className="space-y-1.5 sm:space-y-2">
-                <li><a href="/contact" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Contact</a></li>
-                <li><a href="/privacy" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Privacy Policy</a></li>
-                <li><a href="/terms" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Terms of Service</a></li>
-              </ul>
-            </div>
-            
-            {/* Legal links temporarily removed to avoid 404s until pages are live */}
           </div>
           
           <div className="border-t border-slate-800 mt-8 pt-8 text-center text-slate-500">

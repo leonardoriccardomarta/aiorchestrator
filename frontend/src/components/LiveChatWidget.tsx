@@ -49,21 +49,21 @@ const LiveChatWidget: React.FC = () => {
       indigo: { primary: '#6366F1', secondary: '#4F46E5' },
       teal: { primary: '#14B8A6', secondary: '#0D9488' }
     };
-    return themeColors[theme as keyof typeof themeColors] || themeColors.blue;
+    return themeColors[theme as keyof typeof themeColors] || themeColors.indigo;
   };
 
   // Listen for global widget configuration updates
   useEffect(() => {
     const handleConfigUpdate = () => {
       if (window.AIOrchestratorConfig) {
-        const themeColors = getThemeColors(window.AIOrchestratorConfig.theme || 'indigo');
+        const themeColors = getThemeColors('indigo');
         setWidgetConfig(prev => ({
           ...prev,
           title: window.AIOrchestratorConfig.title || 'AI Support',
           placeholder: window.AIOrchestratorConfig.placeholder || 'Type your message...',
           welcomeMessage: window.AIOrchestratorConfig.welcomeMessage || 'Hi! I\'m your AI support assistant. How can I help you today? 👋',
-          primaryColor: window.AIOrchestratorConfig.primaryColor || themeColors.primary,
-          secondaryColor: window.AIOrchestratorConfig.accentColor || themeColors.secondary,
+          primaryColor: themeColors.primary,
+          secondaryColor: themeColors.secondary,
           fontFamily: window.AIOrchestratorConfig.fontFamily || 'Inter',
           logo: window.AIOrchestratorConfig.logo || ''
         }));
@@ -166,9 +166,9 @@ const LiveChatWidget: React.FC = () => {
       <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
         {/* Header */}
         <div 
-          className="border-b-2 p-4"
+          className="border-b-2 p-4 text-gray-900"
           style={{
-            background: `linear-gradient(135deg, ${widgetConfig.primaryColor}, ${widgetConfig.secondaryColor})`,
+            background: `linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(79, 70, 229, 0.12))`,
             borderColor: widgetConfig.primaryColor
           }}
         >
@@ -201,7 +201,7 @@ const LiveChatWidget: React.FC = () => {
                   className="text-xs text-gray-600 flex items-center gap-1"
                   style={{ fontFamily: widgetConfig.fontFamily }}
                 >
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   Online 24/7
                 </div>
               </div>
@@ -209,13 +209,13 @@ const LiveChatWidget: React.FC = () => {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsMinimized(!isMinimized)}
-                className="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors"
+                className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg p-2 transition-colors"
               >
                 <Minimize2 className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-gray-600 hover:bg-gray-200 rounded-lg p-2 transition-colors"
+                className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg p-2 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -226,56 +226,58 @@ const LiveChatWidget: React.FC = () => {
         {/* Messages */}
         {!isMinimized && (
           <>
-            <div className="h-96 overflow-y-auto p-4 bg-gray-50">
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`mb-4 flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
-                >
+            <div className={`${isMinimized ? 'hidden' : 'block'}`}>
+              <div className="p-4 space-y-3 h-80 overflow-y-auto bg-white">
+                {messages.map((message) => (
                   <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                      message.isUser
-                        ? 'text-white'
-                        : 'bg-white text-gray-900 border border-gray-200'
-                    }`}
-                    style={message.isUser ? {
-                      background: `linear-gradient(135deg, ${widgetConfig.primaryColor}, ${widgetConfig.secondaryColor})`,
-                      fontFamily: widgetConfig.fontFamily
-                    } : {
-                      fontFamily: widgetConfig.fontFamily
-                    }}
+                    key={message.id}
+                    className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
                   >
-                    <div className="text-sm">{message.text}</div>
-                    <div className={`text-xs mt-1 ${message.isUser ? 'text-white/80' : 'text-gray-500'}`}>
-                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    <div
+                      className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                        message.isUser
+                          ? 'text-white'
+                          : 'bg-white text-gray-900 border border-gray-200 shadow-sm'
+                      }`}
+                      style={message.isUser ? {
+                        backgroundColor: widgetConfig.primaryColor,
+                        fontFamily: widgetConfig.fontFamily
+                      } : {
+                        fontFamily: widgetConfig.fontFamily
+                      }}
+                    >
+                      <div className="text-sm">{message.text}</div>
+                      <div className={`text-xs mt-1 ${message.isUser ? 'opacity-70' : 'text-gray-400'}`}>
+                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-              {isLoading && (
-                <div className="flex justify-start mb-4">
-                  <div className="bg-white border border-gray-200 rounded-2xl px-4 py-3">
-                    <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                ))}
+                {isLoading && (
+                  <div className="flex justify-start mb-4">
+                    <div className="bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm">
+                      <div className="flex gap-1">
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
+                )}
+                <div ref={messagesEndRef} />
+              </div>
             </div>
 
             {/* Input */}
             <div className="p-4 bg-white border-t border-gray-200">
-              <div className="flex gap-2">
+              <div className="flex gap-2 items-center">
                 <input
                   type="text"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder={widgetConfig.placeholder}
-                  className="flex-1 px-4 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent placeholder:text-gray-500"
+                  className="flex-1 px-4 py-2 bg-white text-gray-900 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-gray-500"
                   style={{
                     fontFamily: widgetConfig.fontFamily,
                     '--tw-ring-color': widgetConfig.primaryColor
@@ -285,10 +287,7 @@ const LiveChatWidget: React.FC = () => {
                 <button
                   onClick={sendMessage}
                   disabled={!inputValue.trim() || isLoading}
-                  className="text-white px-4 py-2 rounded-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                  style={{
-                    backgroundColor: widgetConfig.primaryColor
-                  }}
+                  className="text-white px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 hover:from-indigo-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-indigo-300/60"
                 >
                   <Send className="w-5 h-5" />
                 </button>
