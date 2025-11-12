@@ -944,8 +944,8 @@ const LandingPageOptimized: React.FC = () => {
       {/* Footer */}
       <footer className="bg-slate-950 text-white py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-8 lg:gap-12">
-            <div>
+          <div className="flex flex-col lg:flex-row lg:items-start lg:gap-16">
+            <div className="lg:max-w-sm">
               <div className="flex items-center space-x-2 mb-3 sm:mb-4">
                 <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-indigo-600 to-indigo-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
                   <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
@@ -956,8 +956,8 @@ const LandingPageOptimized: React.FC = () => {
                 The most powerful multilingual AI co-pilot for modern commerce teams.
               </p>
             </div>
-            
-            <div className="flex flex-col sm:flex-row gap-6 sm:gap-10">
+
+            <div className="mt-6 lg:mt-0 flex flex-col sm:flex-row sm:flex-wrap sm:gap-x-12 sm:gap-y-6">
               <div>
                 <h3 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4">Product</h3>
                 <ul className="space-y-1.5 sm:space-y-2">
@@ -971,10 +971,33 @@ const LandingPageOptimized: React.FC = () => {
               <div>
                 <h3 className="text-sm sm:text-base font-semibold text-white mb-3 sm:mb-4">Support</h3>
                 <ul className="space-y-1.5 sm:space-y-2">
-                  <li><a href="/contact" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Contact</a></li>
-                  <li><a href="/support" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Help Center</a></li>
-                  <li><a href="/privacy" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Privacy Policy</a></li>
-                  <li><a href="/terms" className="text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation block py-1">Terms of Service</a></li>
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => navigate('/contact')}
+                      className="text-left w-full text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation py-1"
+                    >
+                      Contact
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => navigate('/privacy')}
+                      className="text-left w-full text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation py-1"
+                    >
+                      Privacy Policy
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => navigate('/terms')}
+                      className="text-left w-full text-xs sm:text-sm text-slate-400 hover:text-white active:text-slate-100 transition-colors touch-manipulation py-1"
+                    >
+                      Terms of Service
+                    </button>
+                  </li>
                 </ul>
               </div>
             </div>
