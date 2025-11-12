@@ -385,7 +385,7 @@ const Analytics: React.FC = () => {
             ) : (
               <div className="space-y-3 lg:space-y-4">
                 {data?.messages?.byLanguage?.map((lang) => (
-                  <div key={lang.language} className="flex items-center justify-between">
+                  <div key={lang.language} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
                     <span className="font-medium text-slate-900 text-sm lg:text-base">{lang.language}</span>
                     <span className="text-xs lg:text-sm text-slate-600">{lang.percentage}%</span>
                   </div>
@@ -416,7 +416,7 @@ const Analytics: React.FC = () => {
               <Activity className="w-12 h-12 lg:w-16 lg:h-16 mx-auto mb-3 lg:mb-4 text-slate-300" />
               <h3 className="text-base lg:text-lg font-semibold text-slate-900 mb-2">Analytics Overview</h3>
               <p className="text-slate-600 mb-4 text-sm lg:text-base">Your chatbot analytics are being collected in real-time</p>
-              <div className="grid grid-cols-2 gap-3 lg:gap-4 text-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4 text-center">
                 <div className="bg-indigo-50 rounded-lg p-3">
                   <div className="text-lg lg:text-2xl font-bold text-indigo-600">{data?.overview?.totalMessages || 0}</div>
                   <div className="text-xs lg:text-sm text-indigo-600">Total Messages</div>
@@ -433,7 +433,7 @@ const Analytics: React.FC = () => {
 
         {/* Performance Trends - REAL DATA */}
         <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-slate-200 p-4 lg:p-6">
-          <div className="flex justify-between items-center mb-4 lg:mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 lg:mb-6">
             <h3 className="text-lg lg:text-xl font-semibold text-slate-900">Performance Trends</h3>
             {/* Export removed */}
           </div>

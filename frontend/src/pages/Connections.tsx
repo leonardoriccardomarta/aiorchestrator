@@ -502,7 +502,7 @@ const Connections: React.FC = () => {
                       
                       <p className="text-xs lg:text-sm text-slate-600 mb-3 lg:mb-4">{connection.domain}</p>
 
-                      <div className="grid grid-cols-3 gap-2 lg:gap-4 text-xs lg:text-sm">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 lg:gap-4 text-xs lg:text-sm">
                         <div>
                           <p className="text-slate-500">Products</p>
                           <p className="font-semibold">{connection.productsCount || 0}</p>
@@ -520,7 +520,7 @@ const Connections: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="flex gap-2 w-full lg:w-auto">
+                    <div className="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
                         <button
                          onClick={() => handleInstallWidget(connection)}
                          disabled={installingWidget === connection.id}
@@ -545,7 +545,7 @@ const Connections: React.FC = () => {
                       
                         <button
                         onClick={() => handleDeleteConnection(connection.id)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-md lg:rounded-lg"
+                        className="p-2 sm:px-3 sm:py-2 text-red-600 hover:bg-red-50 rounded-md lg:rounded-lg flex items-center justify-center w-full sm:w-auto"
                           title="Disconnect"
                         >
                         <Trash2 className="w-4 h-4 lg:w-5 lg:h-5" />
