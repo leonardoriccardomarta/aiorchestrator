@@ -1438,9 +1438,9 @@ const Chatbot: React.FC = () => {
 
         {activeTab === 'embed' && (
           <div className="space-y-4 lg:space-y-6 w-full">
-             <div className="flex flex-col lg:flex-row gap-3 lg:gap-4">
+             <div className="flex flex-col lg:flex-row gap-3 lg:gap-4 w-full">
               {/* Embed Options */}
-              <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-slate-200 p-4 lg:p-6 w-full max-w-full">
+              <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-slate-200 p-4 lg:p-6 w-full max-w-full flex-1">
                 <h3 className="text-lg lg:text-xl font-semibold text-slate-900 mb-4 lg:mb-6">Embed Your Chatbot</h3>
                 
                 {/* Quick Embed */}
@@ -1448,7 +1448,7 @@ const Chatbot: React.FC = () => {
                   <h4 className="font-medium text-sm lg:text-base text-slate-900 mb-2">Quick Embed</h4>
                   <p className="text-xs lg:text-sm text-slate-600 mb-3 lg:mb-4">Add this code to your website to embed your chatbot:</p>
                   <div className="bg-slate-900 rounded-lg p-3 lg:p-4 overflow-x-auto max-w-full w-full">
-                    <code className="text-green-400 text-xs lg:text-sm whitespace-pre break-all">
+                    <code className="block w-full text-green-400 text-xs lg:text-sm whitespace-pre break-all">
                       {generateEmbedCode()}
                     </code>
                   </div>
