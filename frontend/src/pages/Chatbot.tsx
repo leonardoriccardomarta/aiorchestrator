@@ -1013,7 +1013,7 @@ const Chatbot: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 overflow-x-hidden">
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-slate-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 w-full">
+        <div className="max-w-screen-2xl mx-auto px-3 sm:px-4 md:px-6 lg:px-10 xl:px-12 2xl:px-16 w-full">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center py-3 sm:py-4 lg:py-6 space-y-3 lg:space-y-0">
             <div>
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-1 lg:mb-2" data-tour="chatbot-header">My AI Chatbot</h1>
@@ -1041,7 +1041,7 @@ const Chatbot: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 lg:py-8 w-full">
+      <div className="max-w-screen-2xl mx-auto px-3 sm:px-4 md:px-6 lg:px-10 xl:px-12 2xl:px-16 py-3 sm:py-4 lg:py-8 w-full">
         {/* Tabs */}
         <div className="mb-3 sm:mb-4 lg:mb-8" data-tour="tour-welcome">
           <div className="flex space-x-1 bg-slate-100 rounded-lg p-1">
