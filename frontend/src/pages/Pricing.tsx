@@ -235,7 +235,7 @@ const Pricing: React.FC = () => {
           </Card>
 
           {/* Professional Plan */}
-          <Card className="relative overflow-hidden border-0 bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 text-white shadow-2xl">
+          <Card className="relative border-0 bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 text-white shadow-2xl">
             <div className="absolute inset-0 bg-white/10 pointer-events-none" />
             {user?.planId !== 'professional' && (
               <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 z-20">
