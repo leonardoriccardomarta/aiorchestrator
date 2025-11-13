@@ -1044,7 +1044,7 @@ const Chatbot: React.FC = () => {
       <div className="max-w-screen-2xl mx-auto px-3 sm:px-4 md:px-6 lg:px-10 xl:px-12 2xl:px-16 py-3 sm:py-4 lg:py-8 w-full">
         {/* Tabs */}
         <div className="mb-3 sm:mb-4 lg:mb-8" data-tour="tour-welcome">
-          <div className="flex space-x-1 bg-slate-100 rounded-lg p-1">
+          <div className="flex w-full space-x-1 bg-slate-100 rounded-lg p-1">
             <button
               onClick={() => setActiveTab('chat')}
               data-tour="tour-test-chat"
