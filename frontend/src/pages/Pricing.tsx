@@ -168,7 +168,7 @@ const Pricing: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto space-y-12 lg:space-y-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {/* Starter Plan */}
           <Card className="relative">
             {user?.planId === 'starter' && !isTrialExpired && (
