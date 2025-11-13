@@ -60,9 +60,9 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
               Your AI-powered assistant is ready to transform your customer experience. Let's set it up together in just <span className="font-semibold text-indigo-600">3 simple steps</span>.
             </p>
           </div>
-          <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-200">
+          <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-4 sm:p-6 border border-indigo-200">
             <p className="text-indigo-900 font-semibold text-lg mb-4">✨ What makes us special:</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 text-left">
               <div className="flex items-start space-x-3">
                 <div className="w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                   <span className="text-white text-xs">✓</span>
@@ -125,7 +125,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
           </div>
           
           <div className="text-center space-y-6">
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
               {[
                 { flag: '🇺🇸', name: 'English' },
                 { flag: '🇮🇹', name: 'Italiano' },
@@ -184,7 +184,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
             </p>
           </div>
           
-          <div className="bg-purple-50 rounded-lg p-6">
+          <div className="bg-purple-50 rounded-lg p-4 sm:p-6">
             <h4 className="font-semibold text-purple-900 mb-3">🤖 AI Configuration</h4>
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
@@ -238,7 +238,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
             </p>
           </div>
           
-          <div className="bg-orange-50 rounded-lg p-6">
+          <div className="bg-orange-50 rounded-lg p-4 sm:p-6">
             <h4 className="font-semibold text-orange-900 mb-3">📱 Easy Integration</h4>
             <div className="space-y-4">
               <div className="bg-white rounded-lg p-4 border border-orange-200">
@@ -262,7 +262,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
           
           <div className="bg-indigo-50 rounded-lg p-4">
             <h4 className="font-semibold text-indigo-900 mb-2">🎨 Customization Options</h4>
-            <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-indigo-500 rounded-full"></div>
                 <span className="text-indigo-800">Brand colors</span>
@@ -303,7 +303,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
             </p>
           </div>
 
-          <div className="bg-white border border-green-200 rounded-2xl p-6 shadow-sm">
+          <div className="bg-white border border-green-200 rounded-2xl p-4 sm:p-6 shadow-sm">
               <p className="flex items-center gap-2 text-sm font-semibold text-emerald-700">
                 <Info className="w-4 h-4" />
                 Launch the secure Shopify flow from the Connections page when you're ready.
@@ -369,7 +369,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
             </p>
           </div>
           
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="bg-white rounded-lg p-4 border border-slate-200">
               <div className="flex items-center space-x-2 mb-2">
                 <MessageSquare className="w-5 h-5 text-indigo-500" />
@@ -450,7 +450,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
             </p>
           </div>
           
-          <div className="bg-green-50 rounded-lg p-6">
+          <div className="bg-green-50 rounded-lg p-4 sm:p-6">
             <h4 className="font-semibold text-green-900 mb-3">What happens next?</h4>
             <div className="space-y-2 text-left">
               <div className="flex items-center space-x-2">
@@ -571,7 +571,7 @@ const OnboardingWizard: React.FC<OnboardingWizardProps> = ({ isOpen, onComplete,
         </div>
 
         {/* Content */}
-        <div className="p-6 max-h-[60vh] overflow-y-auto">
+        <div className="p-4 sm:p-6 max-h-[60vh] overflow-y-auto">
           <div className="flex items-center space-x-4 mb-6">
             <div className={`w-12 h-12 ${currentStepData.color} rounded-lg flex items-center justify-center`}>
               <currentStepData.icon className="w-6 h-6 text-white" />
