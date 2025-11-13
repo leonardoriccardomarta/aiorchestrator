@@ -74,7 +74,7 @@ export const Layout: React.FC<LayoutProps> = ({
             // Responsive padding with centering
             isMobile ? 'p-3' : isTablet ? 'p-4' : 'p-6',
             // Center content on desktop always
-            isDesktop && 'max-w-7xl mx-auto'
+            isDesktop && 'max-w-screen-2xl mx-auto'
           )}>
             {children}
           </div>
