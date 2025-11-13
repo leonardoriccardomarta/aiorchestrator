@@ -1437,7 +1437,7 @@ const Chatbot: React.FC = () => {
 
 
         {activeTab === 'embed' && (
-          <div className="space-y-4 lg:space-y-6">
+          <div className="space-y-4 lg:space-y-6 w-full grid grid-cols-1" style={{ maxWidth: '960px', margin: '0 auto' }}>
             {/* Embed Options */}
             <div className="bg-white rounded-xl lg:rounded-2xl shadow-sm border border-slate-200 p-4 lg:p-6 w-full max-w-full">
               <h3 className="text-lg lg:text-xl font-semibold text-slate-900 mb-4 lg:mb-6">Embed Your Chatbot</h3>
